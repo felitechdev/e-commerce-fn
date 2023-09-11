@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { logoLight } from "../../assets/images";
+import { logo } from "../../assets/images";
 
 const SignUp = () => {
   // ============= Initial State Start here =============
@@ -132,71 +132,12 @@ const SignUp = () => {
   return (
     <div className="w-full h-screen flex items-center justify-start">
       <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
-        <div className="w-[450px] h-full bg-primeColor px-10 flex flex-col gap-6 justify-center">
+        <div className="w-[450px] h-full px-10 flex flex-col gap-6 justify-center">
           <Link to="/">
-            <img src={logoLight} alt="logoImg" className="w-28" />
+            <img src={logo} alt="logoImg" className="w-28" />
           </Link>
-          <div className="flex flex-col gap-1 -mt-1">
-            <h1 className="font-titleFont text-xl font-medium">
-              Get started for free
-            </h1>
-            <p className="text-base">Create your account to access more</p>
-          </div>
-          <div className="w-[300px] flex items-start gap-3">
-            <span className="text-green-500 mt-1">
-              <BsCheckCircleFill />
-            </span>
-            <p className="text-base text-gray-300">
-              <span className="text-white font-semibold font-titleFont">
-                Get started fast with OREBI
-              </span>
-              <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
-            </p>
-          </div>
-          <div className="w-[300px] flex items-start gap-3">
-            <span className="text-green-500 mt-1">
-              <BsCheckCircleFill />
-            </span>
-            <p className="text-base text-gray-300">
-              <span className="text-white font-semibold font-titleFont">
-                Access all OREBI services
-              </span>
-              <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
-            </p>
-          </div>
-          <div className="w-[300px] flex items-start gap-3">
-            <span className="text-green-500 mt-1">
-              <BsCheckCircleFill />
-            </span>
-            <p className="text-base text-gray-300">
-              <span className="text-white font-semibold font-titleFont">
-                Trusted by online Shoppers
-              </span>
-              <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
-            </p>
-          </div>
-          <div className="flex items-center justify-between mt-10">
-            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
-              © OREBI
-            </p>
-            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
-              Terms
-            </p>
-            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
-              Privacy
-            </p>
-            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
-              Security
-            </p>
-          </div>
-        </div>
-      </div>
+         </div>
+         </div>
       <div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">
         {successMsg ? (
           <div className="w-[500px]">
@@ -375,20 +316,20 @@ const SignUp = () => {
                 <div className="flex items-start mdl:items-center gap-2">
                   <input
                     onChange={() => setChecked(!checked)}
-                    className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer"
+                    className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer bg-[#1D6F2B]"
                     type="checkbox"
                   />
                   <p className="text-sm text-primeColor">
                     I agree to the OREBI{" "}
-                    <span className="text-blue-500">Terms of Service </span>and{" "}
-                    <span className="text-blue-500">Privacy Policy</span>.
+                    <span className="text-[#1D6F2B]">Terms of Service </span>and{" "}
+                    <span className="text-[#1D6F2B]">Privacy Policy</span>.
                   </p>
                 </div>
                 <button
                   onClick={handleSignUp}
                   className={`${
                     checked
-                      ? "bg-primeColor hover:bg-black hover:text-white cursor-pointer"
+                      ? "bg-primeColor hover:bg-[#1D6F2B] hover:text-white cursor-pointer"
                       : "bg-gray-500 hover:bg-gray-500 hover:text-gray-200 cursor-none"
                   } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
                 >
@@ -397,7 +338,7 @@ const SignUp = () => {
                 <p className="text-sm text-center font-titleFont font-medium">
                   Don't have an Account?{" "}
                   <Link to="/signin">
-                    <span className="hover:text-blue-600 duration-300">
+                    <span className="hover:text-[#1D6F2B] duration-300">
                       Sign in
                     </span>
                   </Link>

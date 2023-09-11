@@ -1,8 +1,8 @@
 import logo from "./orebiLogo.png";
-import logoLight from "./logoLight.png";
-import bannerImgOne from "./banner/bannerImgOne.webp";
-import bannerImgTwo from "./banner/bannerImgTwo.webp";
-import bannerImgThree from "./banner/bannerImgThree.webp";
+import logoLight from "./logoLight.jpg";
+import bannerImgOne from "./banner/bannerImgOne.png";
+import bannerImgTwo from "./banner/bannerImgTwo.png";
+import bannerImgThree from "./banner/bannerImgThree.png";
 import saleImgOne from "./sale/saleImgOne.webp";
 import saleImgTwo from "./sale/saleImgTwo.webp";
 import saleImgThree from "./sale/saleImgThree.webp";
@@ -14,10 +14,10 @@ import newArrThree from "./products/newArrival/newArrThree.webp";
 import newArrFour from "./products/newArrival/newArrFour.webp";
 
 // Best Sellers
-import bestSellerOne from "./products/bestSeller/bestSellerOne.webp";
-import bestSellerTwo from "./products/bestSeller/bestSellerTwo.webp";
-import bestSellerThree from "./products/bestSeller/bestSellerThree.webp";
-import bestSellerFour from "./products/bestSeller/bestSellerFour.webp";
+import bestSellerOne from "./products/bestSeller/bestSellerOne.png";
+import bestSellerTwo from "./products/bestSeller/bestSellerTwo.png";
+import bestSellerThree from "./products/bestSeller/bestSellerThree.png";
+import bestSellerFour from "./products/bestSeller/bestSellerFour.png";
 
 // Special Offers
 import spfOne from "./products/specialOffer/spfOne.webp";
@@ -26,7 +26,7 @@ import spfThree from "./products/specialOffer/spfThree.webp";
 import spfFour from "./products/specialOffer/spfFour.webp";
 
 // Year Product
-import productOfTheYear from "./products/productOfTheYear.webp";
+import productOfTheYear from "./products/productOfTheYear.png";
 // ============== Products End here ======================
 import paymentCard from "./payment.png";
 import emptyCart from "../images/emptyCart.png";

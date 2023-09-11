@@ -48,7 +48,7 @@ const NewArrivals = () => {
   };
   return (
     <div className="w-full pb-16">
-      <Heading heading="New Arrivals" />
+      <Heading heading="" />
       <Slider {...settings}>
         <div className="px-2">
           <Product
@@ -56,7 +56,7 @@ const NewArrivals = () => {
             img={newArrOne}
             productName="Round Table Clock"
             price="44.00"
-            color="Black"
+            color="#1D6F2B"
             badge={true}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />

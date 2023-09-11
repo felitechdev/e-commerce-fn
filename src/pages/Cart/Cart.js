@@ -93,7 +93,7 @@ const Cart = () => {
               </div>
               <div className="flex justify-end">
                 <Link to="/paymentgateway">
-                  <button className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
+                  <button className="w-52 h-10 bg-[#1D6F2B] text-white hover:bg-black duration-300">
                     Proceed to Checkout
                   </button>
                 </Link>

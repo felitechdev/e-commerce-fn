@@ -9,10 +9,10 @@ const FooterBottom = () => {
           <span className="text-md mr-[1px] mt-[2px] md:mt-0 text-center hidden md:inline-flex">
             <AiOutlineCopyright />
           </span>
-          Copyright 2022 | Orebi shopping | All Rights Reserved |
+          Copyright 2022 | Feli Global Market | All Rights Reserved |
           <a href="https://reactbd.com/" target="_blank" rel="noreferrer">
-            <span className="ml-1 font-medium group-hover:text-primeColor">
-              Powered by ReactBD.com
+            <span className="ml-1 font-medium group-hover:text-[#1D6F2B]">
+              Powered by Felitechnology.com
             </span>
           </a>
         </p>

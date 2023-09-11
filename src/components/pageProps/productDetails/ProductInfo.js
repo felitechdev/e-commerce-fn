@@ -5,10 +5,10 @@ import { addToCart } from "../../../redux/orebiSlice";
 const ProductInfo = ({ productInfo }) => {
   const dispatch = useDispatch();
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 bg-[#1D6F2B]">
       <h2 className="text-4xl font-semibold">{productInfo.productName}</h2>
       <p className="text-xl font-semibold">${productInfo.price}</p>
-      <p className="text-base text-gray-600">{productInfo.des}</p>
+      <p className="text-base text-[#1D6F2B]">{productInfo.des}</p>
       <p className="text-sm">Be the first to leave a review.</p>
       <p className="font-medium text-lg">
         <span className="font-normal">Colors:</span> {productInfo.color}
@@ -27,7 +27,7 @@ const ProductInfo = ({ productInfo }) => {
             })
           )
         }
-        className="w-full py-4 bg-primeColor hover:bg-black duration-300 text-white text-lg font-titleFont"
+        className="w-full py-4 bg-primeColor hover:bg-[#1D6F2B] duration-300 text-white text-lg font-titleFont"
       >
         Add to Cart
       </button>
