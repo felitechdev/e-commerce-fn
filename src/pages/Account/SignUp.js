@@ -130,23 +130,21 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="w-full h-screen flex items-center justify-start">
-      <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
-        <div className="w-[450px] h-full px-10 flex flex-col gap-6 justify-center">
-          <Link to="/">
-            <img src={logo} alt="logoImg" className="w-28" />
-          </Link>
-         </div>
-         </div>
-      <div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">
+    <div className="w-full h-screen flex flex-col items-center justify-center">
+      <div className="w-[500px] bg-white px-6 py-4 flex flex-col gap-4 justify-center mt-28">
+        <Link to="/">
+          <div className="text-center">
+            <img src={logo} alt="logoImg" className="w-28 mx-auto" />
+          </div>
+        </Link>
         {successMsg ? (
-          <div className="w-[500px]">
+          <div className="w-full">
             <p className="w-full px-4 py-10 text-green-500 font-medium font-titleFont">
               {successMsg}
             </p>
             <Link to="/signin">
               <button
-                className="w-full h-10 bg-primeColor rounded-md text-gray-200 text-base font-titleFont font-semibold 
+                className="w-full h-10 bg-primeColor text-gray-200 rounded-md text-base font-titleFont font-semibold 
             tracking-wide hover:bg-black hover:text-white duration-300"
               >
                 Sign in
@@ -154,13 +152,13 @@ const SignUp = () => {
             </Link>
           </div>
         ) : (
-          <form className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
-            <div className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
-              <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
+          <form className="w-full">
+            <div className="px-6 py-4 w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
+              <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4 text-center">
                 Create your account
               </h1>
               <div className="flex flex-col gap-3">
-                {/* client name */}
+                {/* Client name */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
                     Full Name
@@ -321,8 +319,8 @@ const SignUp = () => {
                   />
                   <p className="text-sm text-primeColor">
                     I agree to the OREBI{" "}
-                    <span className="text-[#1D6F2B]">Terms of Service </span>and{" "}
-                    <span className="text-[#1D6F2B]">Privacy Policy</span>.
+                    <span className="text-[#1D6F2B]">Terms of Service </span>
+                    and <span className="text-[#1D6F2B]">Privacy Policy</span>.
                   </p>
                 </div>
                 <button
@@ -336,7 +334,7 @@ const SignUp = () => {
                   Create Account
                 </button>
                 <p className="text-sm text-center font-titleFont font-medium">
-                  Don't have an Account?{" "}
+                  Already have an account?{" "}
                   <Link to="/signin">
                     <span className="hover:text-[#1D6F2B] duration-300">
                       Sign in
@@ -351,5 +349,4 @@ const SignUp = () => {
     </div>
   );
 };
-
 export default SignUp;

@@ -56,7 +56,7 @@ const NewArrivals = () => {
             img={newArrOne}
             productName="Round Table Clock"
             price="44.00"
-            color="#1D6F2B"
+            color="Black"
             badge={true}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />

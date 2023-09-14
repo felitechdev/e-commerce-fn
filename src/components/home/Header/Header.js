@@ -28,13 +28,14 @@ const Header = () => {
 
   return (
     <div className="w-full h-100px bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
-      <nav className="h-full px-4 max-w-container mx-auto relative">
-        <Flex className="flex items-center justify-between h-full">
-          <Link to="/">
+      <nav className="h-full px-4 max-w-container mx-auto relative items-center justify-between flex">
+        <div>
+        <Link to="/">
             <div>
-              <Image className="w-20" imgSrc={logo} />
+              <Image className="w-24 " imgSrc={logo} />
             </div>
           </Link>
+          </div>
           <div>
             {showMenu && (
               <motion.ul
@@ -47,7 +48,7 @@ const Header = () => {
                   {navBarList.map(({ _id, title, link }) => (
                     <NavLink
                       key={_id}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#1D6F2B] md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
+                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-start px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#1D6F2B] md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
                       to={link}
                       state={{ data: location.pathname.split("/")[1] }}
                     >
@@ -56,7 +57,9 @@ const Header = () => {
                   ))}
                 </>
               </motion.ul>
+            
             )}
+           
             <HiMenuAlt2
               onClick={() => setSidenav(!sidenav)}
               className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
@@ -147,11 +150,11 @@ const Header = () => {
                 </motion.div>
               </div>
             )}
-          </div>
-        </Flex>
-      </nav>
-    </div>
-  );
-};
+ </div>
+            </nav>
+            </div>
+            )};
+
+
 
 export default Header;

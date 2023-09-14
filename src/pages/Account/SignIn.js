@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logo } from "../../assets/images";
+import { FaGoogle, FaFacebook } from 'react-icons/fa';
 
 const SignIn = () => {
   // ============= Initial State Start here =============
@@ -46,8 +47,8 @@ const SignIn = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center">
       
-        <div className="w-[500px] bg-white px-6 flex flex-col gap-4 pt-22">
-          <Link to="/" className=" ">
+        <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
+          <Link to="/">
             <img src={logo} alt="logoImg" className="w-32 mx-auto" />
           </Link>
           
@@ -69,8 +70,8 @@ const SignIn = () => {
             </Link>
           </div>
         ) : (
-          <form className="w-full lgl:w-[450px] h-screen flex items-center justify-center">
-            <div className="px-6 py-4 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin ">
+          <form className="w-full lgl:w-[450px] h-screen flex items-center justify-center ">
+            <div className="px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin ">
               <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4 ">
                 Sign in
               </h1>
@@ -117,7 +118,7 @@ const SignIn = () => {
 
                 <button
                   onClick={handleSignUp}
-                  className="bg-black hover:bg-[#1D6F2B] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
+                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
                 >
                   Sign In
                 </button>
@@ -129,6 +130,17 @@ const SignIn = () => {
                     </span>
                   </Link>
                 </p>
+                <button
+  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+>
+  <FaGoogle size={20} /> Login with Google
+</button>
+<button
+  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+>
+  <FaFacebook size={20} /> Login with Facebook
+</button>
+
               </div>
             </div>
           </form>

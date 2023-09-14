@@ -28,12 +28,12 @@ const Footer = () => {
     }
   };
   return (
-    <div className="w-full bg-[#F5F5F3] py-20">
+    <div className="w-full bg-[#1D6F2B] py-20">
       <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-6 px-4 gap-10">
-        <div className="col-span-2">
-          <FooterListTitle title=" More about Orebi Shop" />
+        <div className="col-span-2 text-[#fff]">
+          <FooterListTitle title=" More about FELI Global Shop" />
           <div className="flex flex-col gap-6">
-            <p className="text-base w-full xl:w-[80%]">
+            <p className="text-base w-full xl:w-[80%] text-[#fff]">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim sint
               ab ullam, numquam nesciunt in.
             </p>
@@ -77,50 +77,50 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div>
+        <div className="text-[#fff]"> 
           <FooterListTitle title="Shop" />
           <ul className="flex flex-col gap-2">
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Accesories
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Clothes
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Electronics
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Home appliances
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               New Arrivals
             </li>
           </ul>
         </div>
-        <div>
+        <div className="text-white">
           <FooterListTitle title="Your account" />
           <ul className="flex flex-col gap-2">
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Profile
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Orders
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Addresses
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Account Details
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-[#1D6F2B] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="font-titleFont text-base text-white hover:text-[#000] hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               Payment Options
             </li>
           </ul>
         </div>
-        <div className="col-span-2 flex flex-col items-center w-full px-4">
+        <div className="col-span-2 flex flex-col items-center w-full px-4 text-white">
           <FooterListTitle title="Subscribe to our newsletter." />
           <div className="w-full">
-            <p className="text-center mb-4">
+            <p className="text-center mb-4 text-white">
               A at pellentesque et mattis porta enim elementum.
             </p>
             {subscription ? (
@@ -138,7 +138,7 @@ const Footer = () => {
                   <input
                     onChange={(e) => setEmailInfo(e.target.value)}
                     value={emailInfo}
-                    className="w-full h-12 border-b border-gray-400 bg-transparent px-4 text-primeColor text-lg placeholder:text-base outline-none"
+                    className="w-full h-12 border-b border-gray-400 bg-transparent px-4 text-white text-lg placeholder:text-base outline-none"
                     type="text"
                     placeholder="Insert your email ...*"
                   />
@@ -150,7 +150,7 @@ const Footer = () => {
                 </div>
                 <button
                   onClick={handleSubscription}
-                  className="bg-white text-lightText w-[30%] h-10 hover:bg-[#1D6F2B] hover:text-white duration-300 text-base tracking-wide"
+                  className="bg-white text-[#1D6F2B] w-[30%] h-10 hover:bg-[#000] hover:text-white duration-300 text-base tracking-wide"
                 >
                   Subscribe
                 </button>
