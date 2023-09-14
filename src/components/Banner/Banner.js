@@ -27,6 +27,7 @@ const Banner = () => {
           top: "50%",
           left: "7%",
           transform: "translateY(-50%)",
+          
         }}
       >
         <ul style={{ margin: "0px" }}> {dots} </ul>
@@ -100,21 +101,25 @@ const Banner = () => {
     ],
   };
   return (
-    <div className="w-100px right-10 bg-white object-cover ">
-      <Slider {...settings}>
+    
+    <div className=" bg-white object-cover ">
+      <Slider {...settings} className="max-w-screen-xl mx-auto">
         <Link to="/offer">
-          <div>
-            <Image imgSrc={bannerImgOne} />
+          <div className="w-1408 h-1024 mx-auto">
+            <Image imgSrc={bannerImgOne}
+            className="w-full h-full object-cover" />
           </div>
         </Link>
         <Link to="/offer">
-          <div>
-            <Image imgSrc={bannerImgTwo} />
+          <div className="w-1432 h-1024 mx-auto">
+            <Image imgSrc={bannerImgTwo}
+            className="w-full h-full object-cover" />
           </div>
         </Link>
         <Link to="/offer">
-          <div>
-            <Image imgSrc={bannerImgThree} />
+          <div className="w-1408 h-1024 mx-auto">
+            <Image imgSrc={bannerImgThree}
+            className="w-full h-full object-cover" />
           </div>
         </Link>
       </Slider>
