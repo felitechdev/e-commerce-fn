@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logo } from "../../assets/images";
-import { FaGoogle, FaFacebook } from 'react-icons/fa';
+import { FaGoogle} from 'react-icons/fa';
 
 const SignIn = () => {
   // ============= Initial State Start here =============
@@ -128,13 +128,9 @@ const SignIn = () => {
                 <button
                   className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
                 >
-                  <FaGoogle size={20} /> Login with Google
+                  <FaGoogle size={20} /> Signin with Google
                 </button>
-                <button
-                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
-                >
-                  <FaFacebook size={20} /> Login with Facebook
-                </button>
+               
               </div>
             </div>
           </form>

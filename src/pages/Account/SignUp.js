@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logo } from "../../assets/images";
+import { FaGoogle} from 'react-icons/fa';
 
 const SignUp = () => {
   // ============= Initial State Start here =============
@@ -253,8 +254,8 @@ const SignUp = () => {
                   onClick={handleSignUp}
                   className={`${
                     checked
-                      ? "bg-primeColor hover:bg-[#1D6F2B] hover:text-white cursor-pointer"
-                      : "bg-gray-500 hover:bg-gray-500 hover:text-gray-200 cursor-none"
+                      ? "bg-[#1D6F2B] hover:bg-[#000] hover:text-white cursor-pointer"
+                      : "bg-[#1D6F2B] hover:bg-gray-500 hover:text-gray-200 cursor-none"
                   } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
                 >
                   Create Account
@@ -266,6 +267,11 @@ const SignUp = () => {
                       Sign in
                     </span>
                   </Link>
+                  <button
+                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+                >
+                  <FaGoogle size={20} /> Signup with Google
+                </button>
                 </p>
               </div>
             </div>
