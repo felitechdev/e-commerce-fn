@@ -45,16 +45,11 @@ const SignIn = () => {
     }
   };
   return (
-    <div className="w-full h-screen flex flex-col items-center">
-      
-        <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
-          <Link to="/">
-            <img src={logo} alt="logoImg" className="w-32 mx-auto" />
-          </Link>
-          
-        
-      </div>
-      <div className="w-[500px] bg-white px-6 flex flex-col gap-4 ">
+    <div className="w-full h-screen flex  items-center justify-center">
+      <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
+        <Link to="/">
+          <img src={logo} alt="logoImg" className="w-32 mx-auto" />
+        </Link>
         {successMsg ? (
           <div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">
             <p className="w-full px-4 py-10 text-green-500 font-medium font-titleFont">
@@ -63,23 +58,23 @@ const SignIn = () => {
             <Link to="/signup">
               <button
                 className="w-full h-10 bg-primeColor text-gray-200 rounded-md text-base font-titleFont font-semibold 
-            tracking-wide hover:bg-black hover:text-white duration-300"
+                tracking-wide hover:bg-black hover:text-white duration-300"
               >
                 Sign Up
               </button>
             </Link>
           </div>
         ) : (
-          <form className="w-full lgl:w-[450px] h-screen flex items-center justify-center ">
-            <div className="px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin ">
-              <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4 ">
+          <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">
+            <div className="px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin">
+              <h1 className="font-titleFont decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4">
                 Sign in
               </h1>
               <div className="flex flex-col gap-3">
                 {/* Email */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Work Email
+                    Email
                   </p>
                   <input
                     onChange={handleEmail}
@@ -118,7 +113,7 @@ const SignIn = () => {
 
                 <button
                   onClick={handleSignUp}
-                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
+                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300"
                 >
                   Sign In
                 </button>
@@ -131,16 +126,15 @@ const SignIn = () => {
                   </Link>
                 </p>
                 <button
-  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
->
-  <FaGoogle size={20} /> Login with Google
-</button>
-<button
-  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
->
-  <FaFacebook size={20} /> Login with Facebook
-</button>
-
+                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+                >
+                  <FaGoogle size={20} /> Login with Google
+                </button>
+                <button
+                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+                >
+                  <FaFacebook size={20} /> Login with Facebook
+                </button>
               </div>
             </div>
           </form>
