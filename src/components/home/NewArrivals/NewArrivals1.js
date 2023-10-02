@@ -42,8 +42,8 @@ const NewArrivals = () => {
     ],
   };
   return (
-    <div className="w-full pb-16 text-center">
-      <Heading heading="New Arrivals" />
+    <div className="w-full pb-16 ">
+      <Heading heading="" />
       <Slider {...settings}>
         {duplicatedData.map((product) => (
           <div key={product._id} className="px-2">

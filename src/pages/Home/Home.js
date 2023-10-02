@@ -1,11 +1,9 @@
 import React from "react";
 import Banner from "../../components/Banner/Banner";
-
 import BestSellers from "../../components/home/BestSellers/BestSellers";
 import NewArrivals from "../../components/home/NewArrivals/NewArrivals";
-
-
 import YearProduct from "../../components/home/YearProduct/YearProduct";
+import NewArrivals1 from "../../components/home/NewArrivals/NewArrivals1";
 
 const Home = () => {
   return (
@@ -14,10 +12,12 @@ const Home = () => {
       
       <div className="max-w-container mx-auto px-4">
         
-        <NewArrivals />
+        <NewArrivals1 />
+        <div style={{ backgroundColor: "#D9D9D9" }}>
+          <NewArrivals />
+        </div>
         <BestSellers />
         <YearProduct />
-   
       </div>
     </div>
   );
