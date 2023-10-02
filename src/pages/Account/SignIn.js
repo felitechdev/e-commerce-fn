@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logo } from "../../assets/images";
-import { FaGoogle} from 'react-icons/fa';
+import googelIcon from "../../assets/images/google-icon.jpg"
+import axios from "axios";
 
 const SignIn = () => {
   // ============= Initial State Start here =============
@@ -25,7 +26,7 @@ const SignIn = () => {
     setErrPassword("");
   };
   // ============= Event Handler End here ===============
-  const handleSignUp = (e) => {
+  const handleSignIn = (e) => {
     e.preventDefault();
 
     if (!email) {
@@ -33,15 +34,33 @@ const SignIn = () => {
     }
 
     if (!password) {
-      setErrPassword("Create a password");
+      setErrPassword("Enter your password");
     }
     // ============== Getting the value ==============
     if (email && password) {
-      setSuccessMsg(
-        `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-      );
+      // setSuccessMsg(
+      //   `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
+      // );
+      let userData = {
+        email: email,
+        password: password
+      };
+
+      axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/user/login`,
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          data: userData,
+      }).then((result) => { 
+      console.log(result.data);
+      // navigate("/", { replace: true })
       setEmail("");
       setPassword("");
+    }).catch(error => console.log(error.message))
+
+
     }
   };
   return (
@@ -112,23 +131,28 @@ const SignIn = () => {
                 </div>
 
                 <button
-                  onClick={handleSignUp}
-                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300"
+                  onClick={handleSignIn}
+                  className="bg-[#1D6F2B] hover:bg-[#437a4c] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300"
                 >
                   Sign In
                 </button>
-                <p className="text-sm text-center font-titleFont font-medium">
+                <p className="text-sm text-center font-titleFont font-medium -mt-2">
                   Don't have an Account?{" "}
                   <Link to="/signup">
-                    <span className="hover:text-[#1D6F2B] duration-300">
+                    <span className="text-[#1E61CC] duration-300">
                       Sign up
                     </span>
                   </Link>
                 </p>
+                <div className="ml-[5%]">
+                  <hr className="inline-block w-[40%] align-middle"></hr>
+                  <span className="inline-block mx-4">or</span>
+                  <hr className="inline-block w-[40%] align-middle"></hr>
+                </div>  
                 <button
-                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+                className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
                 >
-                  <FaGoogle size={20} /> Signin with Google
+                  <img src={googelIcon} className="w-[20px]" /> Sign in with Google
                 </button>
                
               </div>

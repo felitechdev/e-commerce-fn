@@ -1,133 +1,100 @@
 import React, { useState } from "react";
-import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logo } from "../../assets/images";
-import { FaGoogle} from 'react-icons/fa';
+import googelIcon from "../../assets/images/google-icon.jpg"
+import axios from "axios";
 
 const SignUp = () => {
-  // ============= Initial State Start here =============
-  const [clientName, setClientName] = useState("");
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [zip, setZip] = useState("");
+
   const [checked, setChecked] = useState(false);
-  // ============= Initial State End here ===============
-  // ============= Error Msg Start here =================
-  const [errClientName, setErrClientName] = useState("");
+
+  const [errFirstName, setErrFirstName] = useState("");
+  const [errLastName, setErrLastName] = useState("");
   const [errEmail, setErrEmail] = useState("");
-  const [errPhone, setErrPhone] = useState("");
   const [errPassword, setErrPassword] = useState("");
-  const [errAddress, setErrAddress] = useState("");
-  const [errCity, setErrCity] = useState("");
-  const [errCountry, setErrCountry] = useState("");
-  const [errZip, setErrZip] = useState("");
-  // ============= Error Msg End here ===================
-  const [successMsg, setSuccessMsg] = useState("");
-  // ============= Event Handler Start here =============
-  const handleName = (e) => {
-    setClientName(e.target.value);
-    setErrClientName("");
+
+  const handleFirstName = (e) => {
+    setFirstName(e.target.value);
+    setErrFirstName("");
+  };
+  const handleLastName = (e) => {
+    setLastName(e.target.value);
+    setErrLastName("");
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setErrEmail("");
   };
-  const handlePhone = (e) => {
-    setPhone(e.target.value);
-    setErrPhone("");
-  };
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setErrPassword("");
   };
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    setErrAddress("");
-  };
-  const handleCity = (e) => {
-    setCity(e.target.value);
-    setErrCity("");
-  };
-  const handleCountry = (e) => {
-    setCountry(e.target.value);
-    setErrCountry("");
-  };
-  const handleZip = (e) => {
-    setZip(e.target.value);
-    setErrZip("");
-  };
-  // ============= Event Handler End here ===============
-  // ================= Email Validation start here =============
+
   const EmailValidation = (email) => {
     return String(email)
       .toLowerCase()
       .match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   };
-  // ================= Email Validation End here ===============
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
+
     if (checked) {
-      if (!clientName) {
-        setErrClientName("Enter your name");
+      if (!firstName) {
+        setErrFirstName("Enter your first name");
+        return
+      }
+      if (!lastName) {
+        setErrLastName("Enter your last name");
+        return
       }
       if (!email) {
         setErrEmail("Enter your email");
+        return
       } else {
         if (!EmailValidation(email)) {
           setErrEmail("Enter a Valid email");
+          return
         }
-      }
-      if (!phone) {
-        setErrPhone("Enter your LastName");
       }
       if (!password) {
         setErrPassword("Create a password");
+        return
       } else {
         if (password.length < 6) {
           setErrPassword("Passwords must be at least 6 characters");
+          return
         }
       }
-      if (!address) {
-        setErrAddress("Enter your address");
-      }
-      if (!city) {
-        setErrCity("Enter your city name");
-      }
-      if (!country) {
-        setErrCountry("Enter the country you are residing");
-      }
-      if (!zip) {
-        setErrZip("Enter the zip code of your area");
-      }
-      // ============== Getting the value ==============
-      if (
-        clientName &&
-        email &&
-        EmailValidation(email) &&
-        password &&
-        password.length >= 6 &&
-        address &&
-        city &&
-        country &&
-        zip
-      ) {
-        setSuccessMsg(
-          `Hello dear ${clientName}, Welcome you to OREBI Admin panel. We received your Sign up request. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-        );
-        setClientName("");
+
+
+        let userData = {
+          firstname: firstName,
+          lastname: lastName,
+          email: email,
+          password: password
+      };
+      axios({
+          url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/user/register`,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: userData,
+        }).then((result) => { 
+        console.log(result.data);
+        // navigate("/", { replace: true })
+        setFirstName("");
+        setLastName("");
         setEmail("");
-        setPhone("");
         setPassword("");
-        setAddress("");
-        setCity("");
-        setCountry("");
-        setZip("");
-      }
+      }).catch(error => console.log(error.message))
+
     }
   };
   return (
@@ -135,46 +102,31 @@ const SignUp = () => {
       <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
         <Link to="/">
           <div className="text-center">
-            <img src={logo} alt="logoImg" className="w-32 mx-auto" />
+            <img src={logo} alt="logoImg" className="w-28 mx-auto" />
           </div>
         </Link>
-        {successMsg ? (
-          <div className="w-full">
-            <p className="w-full px-4 py-10 text-green-500 font-medium font-titleFont">
-              {successMsg}
-            </p>
-            <Link to="/signin">
-              <button
-                className="w-full h-10 bg-primeColor text-gray-200 rounded-md text-base font-titleFont font-semibold 
-            tracking-wide hover:bg-black hover:text-white duration-300"
-              >
-                Sign in
-              </button>
-            </Link>
-          </div>
-        ) : (
           <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">
             <div className="px-6 py-4 w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
               <h1 className="font-titleFont decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4 text-center">
                 Create your account
               </h1>
               <div className="flex flex-col gap-3">
-                {/* Client name */}
+                {/* First name */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
                     First Name
                   </p>
-                  <input
-                    onChange={handleName}
-                    value={clientName}
-                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-                    type="text"
-                    placeholder="eg.John"
+                  <input      
+                    onChange={handleFirstName}
+                    value={firstName}
+                      className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                      type="text"
+                      placeholder="eg.John"  
                   />
-                  {errClientName && (
+                  {errFirstName && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
                       <span className="font-bold italic mr-1">!</span>
-                      {errClientName}
+                      {errFirstName}
                     </p>
                   )}
                 </div>
@@ -184,16 +136,16 @@ const SignUp = () => {
                     Last Name
                   </p>
                   <input
-                    onChange={handlePhone}
-                    value={phone}
+                    onChange={handleLastName}
+                    value={lastName}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
-                    placeholder=" eg: Doe"
+                    placeholder=" eg: Doe" 
                   />
-                  {errPhone && (
+                  {errLastName && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
                       <span className="font-bold italic mr-1">!</span>
-                      {errPhone}
+                      {errLastName}
                     </p>
                   )}
                 </div>
@@ -207,7 +159,8 @@ const SignUp = () => {
                     value={email}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
-                    placeholder="john@workemail.com"
+                    placeholder="johndoe@example.com"
+                     
                   />
                   {errEmail && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -227,7 +180,7 @@ const SignUp = () => {
                     value={password}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="password"
-                    placeholder="Create password"
+                    placeholder="Your password" 
                   />
                   {errPassword && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -246,37 +199,42 @@ const SignUp = () => {
                   />
                   <p className="text-sm text-primeColor">
                     I agree to the OREBI{" "}
-                    <span className="text-[#1D6F2B]">Terms of Service </span>
-                    and <span className="text-[#1D6F2B]">Privacy Policy</span>.
+                    <a className="text-[#1E61CC]">Terms of Service </a>
+                    and <a className="text-[#1E61CC]">Privacy Policy</a>.
                   </p>
                 </div>
                 <button
                   onClick={handleSignUp}
                   className={`${
                     checked
-                      ? "bg-[#1D6F2B] hover:bg-[#000] hover:text-white cursor-pointer"
-                      : "bg-[#1D6F2B] hover:bg-gray-500 hover:text-gray-200 cursor-none"
-                  } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
+                      ? "bg-[#1D6F2B] hover:bg-[#437a4c] cursor-pointer"
+                      : "bg-[#81b48a] disabled "
+                  } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300 mt-3`}
                 >
                   Create Account
-                </button>
-                <p className="text-sm text-center font-titleFont font-medium">
-                  Already have an account?{" "}
-                  <Link to="/signin">
-                    <span className="hover:text-[#1D6F2B] duration-300">
-                      Sign in
-                    </span>
-                  </Link>
-                  <button
-                  className="bg-[#1D6F2B] hover:bg-[#000] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
-                >
-                  <FaGoogle size={20} /> Signup with Google
-                </button>
+              </button>
+              <div className="ml-[5%]">
+                <hr className="inline-block w-[40%] align-middle"></hr>
+                <span className="inline-block mx-4">or</span>
+                <hr className="inline-block w-[40%] align-middle"></hr>
+              </div>
+              
+              <button
+                className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+              >
+                <img src={googelIcon} className="w-[20px]" /> Signup with Google
+              </button>
+              <p className="text-sm text-center font-titleFont font-medium">
+                Already have an account?{" "}
+                <Link to="/signin">
+                <a className="text-[#1E61CC] Bduration-300">
+                  Sign in
+                </a>
+                </Link>
                 </p>
               </div>
             </div>
           </form>
-        )}
       </div>
     </div>
   );
