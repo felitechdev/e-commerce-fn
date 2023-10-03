@@ -198,7 +198,7 @@ const SignUp = () => {
                     type="checkbox"
                   />
                   <p className="text-sm text-primeColor">
-                    I agree to the OREBI{" "}
+                    I agree to the "company name" {" "}
                     <a className="text-[#1E61CC]">Terms of Service </a>
                     and <a className="text-[#1E61CC]">Privacy Policy</a>.
                   </p>
