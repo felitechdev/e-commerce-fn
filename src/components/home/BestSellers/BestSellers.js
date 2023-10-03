@@ -7,7 +7,7 @@ const BestSellers = () => {
 
   useEffect(() => {
     // Fetch data from the API
-    fetch("https://smiling-neckerchief-eel.cyclic.app/products")
+    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
       .then((response) => response.json())
       .then((data) => setProducts(data))
       .catch((error) => console.error("Error fetching data: ", error));

@@ -11,7 +11,7 @@ const NewArrivals = () => {
 
   useEffect(() => {
     // Fetch your API data here
-    fetch("https://smiling-neckerchief-eel.cyclic.app/products")
+    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
       .then((response) => response.json())
       .then((data) => {
         // Duplicate the API data
