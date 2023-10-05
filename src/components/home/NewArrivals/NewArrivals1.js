@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-import Heading from "../Products/Heading";
 import Product from "../Products/Product";
 import SampleNextArrow from "./SampleNextArrow";
 import SamplePrevArrow from "./SamplePrevArrow";
