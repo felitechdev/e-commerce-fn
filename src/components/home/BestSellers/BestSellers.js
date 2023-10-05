@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Heading from "../Products/Heading";
 import Product from "../Products/Product";
+import ProductsSection from "../Products/ProductsSection";
+import ProductsGridContainer from "../Products/ProductsGridContainer";
 
 const BestSellers = () => {
   const [products, setProducts] = useState([]);
@@ -17,22 +18,23 @@ const BestSellers = () => {
   const duplicatedProducts = [...products, ...products, ...products];
 
   return (
-    <div className="w-full pb-20v">
-      <Heading heading="Most Popular" />
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+    <ProductsSection heading="Most Popular">
+      <ProductsGridContainer>
         {duplicatedProducts.map((product, index) => (
-          <Product
-            key={product._id + index} // Ensure unique keys for each product
-            img={product.productImages.productThumbnail.url}
-            productName={product.name}
-            price={product.price}
-            color={product.colorName}
-            badge={true} // You can change this based on your data
-            des={product.description}
-          />
-        ))}
-      </div>
-    </div>
+            <Product
+              key={product._id + index} // Ensure unique keys for each product
+              img={product.productImages.productThumbnail.url}
+              productName={product.name}
+              price={product.price}
+              color={product.colorName}
+              badge={product.discountPercentage > 0} // You can change this based on your data
+              discountPercentage={product.discountPercentage}
+              discountedPrice={product.discountedPrice}
+              des={product.description}
+            />
+          ))}
+      </ProductsGridContainer>
+    </ProductsSection>
   );
 };
 
