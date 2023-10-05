@@ -103,7 +103,7 @@ const Banner = () => {
   return (
     
     <div className=" bg-white object-cover ">
-      <Slider {...settings} className="max-w-screen-xl mx-auto">
+      <Slider {...settings} className="max-w-container px-4 mx-auto">
         <Link to="/offer">
           <div className="w-1408 h-1024 mx-auto">
             <Image imgSrc={bannerImgOne}

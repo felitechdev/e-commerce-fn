@@ -14,33 +14,34 @@ import {
 } from "../assets/images/index";
 
 // =================== NavBarList Start here ====================
-export const navBarList = [
+export const leftNavBarList = [
   {
     _id: 1001,
-    title: "Home",
+    title: "HOME",
     link: "/",
   },
   {
     _id: 1002,
-    title: "Shop",
+    title: "SHOP",
     link: "/shop",
   },
   {
     _id: 1003,
-    title: "About",
+    title: "ABOUT",
     link: "/about",
   },
   {
     _id: 1004,
-    title: "Contact",
+    title: "CONTACT",
     link: "contact",
   },
   {
     _id: 1005,
-    title: "Journal",
+    title: "JOURNAL",
     link: "/journal",
   },
 ];
+
 // =================== NavBarList End here ======================
 // =================== Special Offer data Start here ============
 export const SplOfferData = [

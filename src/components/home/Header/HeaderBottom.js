@@ -15,7 +15,7 @@ const HeaderBottom = () => {
   const ref = useRef();
   useEffect(() => {
     document.body.addEventListener("click", (e) => {
-      if (ref.current.contains(e.target)) {
+      if (ref.current !== null && ref.current.contains(e.target)) {
         setShow(true);
       } else {
         setShow(false);
@@ -43,7 +43,9 @@ const HeaderBottom = () => {
       <div className="max-w-container mx-auto">
         <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
           <div
-            onClick={() => setShow(!show)}
+            onClick={() => {
+              setShow(!show)
+            }}
             ref={ref}
             className="flex h-14 cursor-pointer items-center gap-2 text-[#1D6F2B]"
           >
