@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { logo } from "../../assets/images";
+import { FeliTechLogo_transparent } from "../../assets/images";
 import googelIcon from "../../assets/images/google-icon.jpg"
 import axios from "axios";
 
@@ -102,7 +102,7 @@ const SignUp = () => {
       <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
         <Link to="/">
           <div className="text-center">
-            <img src={logo} alt="logoImg" className="w-28 mx-auto" />
+            <img src={FeliTechLogo_transparent} alt="logoImg" className="w-28 mx-auto" />
           </div>
         </Link>
           <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">

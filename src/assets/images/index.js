@@ -1,5 +1,5 @@
-import logo from "./orebiLogo.png";
-import logoLight from "./logoLight.jpg";
+import FeliTechLogo_transparent from "./FeliTechLogo_transparent.png";
+import FeliTechWhiteLogo from "./FeliTechWhiteLogo.jpg";
 import bannerImgOne from "./banner/bannerImgOne.png";
 import bannerImgTwo from "./banner/bannerImgTwo.png";
 import bannerImgThree from "./banner/bannerImgThree.png";
@@ -32,8 +32,8 @@ import paymentCard from "./payment.png";
 import emptyCart from "../images/emptyCart.png";
 
 export {
-  logo,
-  logoLight,
+  FeliTechLogo_transparent,
+  FeliTechWhiteLogo,
   bannerImgOne,
   bannerImgTwo,
   bannerImgThree,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { logo } from "../../assets/images";
+import { FeliTechLogo_transparent } from "../../assets/images";
 import googelIcon from "../../assets/images/google-icon.jpg"
 import axios from "axios";
 
@@ -67,7 +67,7 @@ const SignIn = () => {
     <div className="w-full h-screen flex  items-center justify-center">
       <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
         <Link to="/">
-          <img src={logo} alt="logoImg" className="w-32 mx-auto" />
+          <img src={FeliTechLogo_transparent} alt="logoImg" className="w-32 mx-auto" />
         </Link>
         {successMsg ? (
           <div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">

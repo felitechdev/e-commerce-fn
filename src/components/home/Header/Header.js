@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { motion } from "framer-motion";
-import { logo, logoLight } from "../../../assets/images";
+import { FeliTechLogo_transparent, FeliTechWhiteLogo } from "../../../assets/images";
 import Image from "../../designLayouts/Image";
 import { leftNavBarList } from "../../../constants";
 import { FiHeart } from "react-icons/fi";
@@ -111,7 +111,7 @@ const Header = () => {
                     <div className="w-full h-full bg-[#1D6F2B] p-6">
                       <img
                         className="w-28 mb-6"
-                        src={logoLight}
+                        src={FeliTechWhiteLogo}
                         alt="logoLight"
                       />
                       <ul className="text-gray-200 flex flex-col gap-2">
@@ -190,7 +190,7 @@ const Header = () => {
         <div>
           <Link to="/">
               <div>
-                <Image className="w-20 " imgSrc={logo} />
+                <Image className="w-20 " imgSrc={FeliTechLogo_transparent} />
               </div>
           </Link>
         </div>
@@ -217,7 +217,7 @@ const Header = () => {
                   >
                     <li>SIGN IN</li>
                   </NavLink>
-                  {"/"}
+                  <span className="hidden md:inline-block">/</span>
                   <NavLink
                     className={({ isActive }) => {
                       return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
@@ -277,7 +277,7 @@ const Header = () => {
                     <div className="w-full h-full bg-[#1D6F2B] p-6">
                       <img
                         className="w-28 mb-6"
-                        src={logoLight}
+                        src={FeliTechWhiteLogo}
                         alt="logoLight"
                       />
                       <ul className="text-gray-200 flex flex-col gap-2">
