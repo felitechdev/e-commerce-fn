@@ -4,6 +4,7 @@ import Heading from "../Products/Heading";
 import Product from "../Products/Product";
 import SampleNextArrow from "./SampleNextArrow";
 import SamplePrevArrow from "./SamplePrevArrow";
+import ProductsSection from "../Products/ProductsSection";
 
 const NewArrivals = () => {
   const [apiData, setApiData] = useState([]);
@@ -28,7 +29,7 @@ const NewArrivals = () => {
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 3, // Display three products on web view
+    slidesToShow: 6, // Display three products on web view
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -42,8 +43,7 @@ const NewArrivals = () => {
     ],
   };
   return (
-    <div className="w-full pb-16 ">
-      <Heading heading="" />
+    <ProductsSection>
       <Slider {...settings}>
         {duplicatedData.map((product) => (
           <div key={product._id} className="px-2">
@@ -62,12 +62,14 @@ const NewArrivals = () => {
                 product.colorImages[0].colorName
               }
               badge={product.discountPercentage > 0}
+              discountPercentage={product.discountPercentage}
+              discountedPrice={product.discountedPrice}
               des={product.description}
             />
           </div>
         ))}
       </Slider>
-    </div>
+    </ProductsSection>
   );
 };
 

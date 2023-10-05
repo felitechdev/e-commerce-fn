@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Product from "../../home/Products/Product";
+import ProductsGridContainer from "../../home/Products/ProductsGridContainer";
 
 const Pagination = ({ itemsPerPage, products }) => {
   const [itemOffset, setItemOffset] = useState(0);
@@ -18,8 +19,8 @@ const Pagination = ({ itemsPerPage, products }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mdl:gap-4 lg:gap-10">
-        {currentItems.map((item) => (
+      <ProductsGridContainer>
+      {currentItems.map((item) => (
           <div key={item._id} className="w-full">
             <Product
               _id={item._id}
@@ -27,12 +28,14 @@ const Pagination = ({ itemsPerPage, products }) => {
               productName={item.name}
               price={item.price}
               color={item.color}
-              badge={item.badge}
+              badge={item.percentageDiscount > 0}
+              discountedPrice={item.discountedPrice}
               des={item.description}
             />
           </div>
         ))}
-      </div>
+      </ProductsGridContainer>
+      
       <div className="flex flex-col mdl:flex-row justify-center mdl:justify-between items-center">
         <ReactPaginate
           nextLabel=""

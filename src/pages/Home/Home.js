@@ -9,13 +9,11 @@ const Home = () => {
   return (
     <div className="w-full mx-auto">
       <Banner />
-      
       <div className="max-w-container mx-auto px-4">
-        
         <NewArrivals1 />
-        <div style={{ backgroundColor: "#D9D9D9" }}>
-          <NewArrivals />
-        </div>
+      </div>  
+      <NewArrivals />
+      <div className="max-w-container mx-auto px-4">
         <BestSellers />
         <YearProduct />
       </div>
