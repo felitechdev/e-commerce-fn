@@ -46,7 +46,7 @@ const Header = () => {
                 state={{ data: location.pathname.split("/")[1] }}
                 end
               >
-                  <li>HOME</li>
+                  <li>Home</li>
               </NavLink>
               <NavLink
                 className={({ isActive }) => {
@@ -57,7 +57,7 @@ const Header = () => {
                 state={{ data: location.pathname.split("/")[1] }}
                 end
               >
-                  <li>SHOP</li>
+                  <li>Shop</li>
               </NavLink>
               <NavLink
                 className={({ isActive }) => {
@@ -68,7 +68,7 @@ const Header = () => {
                 state={{ data: location.pathname.split("/")[1] }}
                 end
               >
-                  <li>ABOUT</li>
+                  <li>About</li>
               </NavLink>
               <NavLink
                 className={({ isActive }) => {
@@ -79,7 +79,7 @@ const Header = () => {
                 state={{ data: location.pathname.split("/")[1] }}
                 end
               >
-                  <li>CONTACT</li>
+                  <li>Contact</li>
               </NavLink>
               <NavLink
                 className={({ isActive }) => {
@@ -90,7 +90,7 @@ const Header = () => {
                 state={{ data: location.pathname.split("/")[1] }}
                 end
               >
-                  <li>JOURNAL</li>
+                  <li>Journal</li>
               </NavLink>
             </ul>
               
@@ -205,28 +205,28 @@ const Header = () => {
                     to=""
                     state={{ data: location.pathname.split("/")[1] }}
                   >
-                    <li>{"RWF"}</li>
+                    <li>{"Rwf"}</li>
                   </NavLink>
                   <NavLink
                     className={({ isActive }) => {
-                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
+                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
                     }}
                     to="/signin"
                     state={{ data: location.pathname.split("/")[1] }}
                   >
-                    <li>SIGN IN</li>
+                    <li>Sign In</li>
                   </NavLink>
                   <span className="hidden md:inline-block">/</span>
                   <NavLink
                     className={({ isActive }) => {
-                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
+                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
                     }}
                     to="/signup"
                     state={{ data: location.pathname.split("/")[1] }}
                   >
-                    <li>SIGN UP</li>
+                    <li>Sign Up</li>
                   </NavLink>
                   <NavLink
                     className={({ isActive }) => {
@@ -246,15 +246,14 @@ const Header = () => {
                     to="/cart"
                     state={{ data: location.pathname.split("/")[1] }}
                   >
-                <li>
-                  
-                  <BsCart3 className={ cartProducts.length > 0 ?  `${headerIconStyles} -mb-5` : headerIconStyles } size={40} />
-                  {cartProducts.length > 0 && (
-                      <p className="-mt-5 ml-8 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
-                        {cartProducts.length}
-                      </p>
-                  )}
-                  </li>
+                    <li>                  
+                      <BsCart3 className={ cartProducts.length > 0 ?  `${headerIconStyles} -mb-5` : headerIconStyles } size={40} />
+                      {cartProducts.length > 0 && (
+                          <p className="-mt-5 ml-8 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
+                            {cartProducts.length}
+                          </p>
+                      )}
+                    </li>
                   
                   </NavLink>
                   
