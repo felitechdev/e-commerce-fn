@@ -1,20 +1,28 @@
 import React from "react";
 import SmallImagesContainer from "./SmallImagesContainer";
 
-const ProductInfo = ({ productInfo }) => {
-
+const ProductMainInfo = ({ productInfo }) => {
   return (
     <div className="flex flex-col  gap-5 ">
       <div>
-        <p className="w-full h-max-[65px] text-xl font-semibold block">{"productInfo.productName slkfjldsajflksajfdlk sjdaflkjdsalkfjsa lkdfj lksajfdl kjsa dflkjsal kdjf lksajdflkj sadl kfj slkd afjlkds afj"}</p>
+        <p className="w-full h-max-[65px] text-xl font-semibold block">{productInfo.productName}</p>
         <hr className="w-full h-0.5 border-0 bg-gray-200 my-3"></hr>
       </div>
       <div >
         <p className="text-lg mb-1 block font-semibold">Price:</p>
-        <p className="text-2xl text-[#1D6F2B] font-semibold">{productInfo.discountedPrice} RWF</p>
-        <p className="inline-block text-base text-[#00000080] font-normal line-through">{productInfo.price} RWF</p>
-        <p className="inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[2px] px-[5px] ml-3 rounded-2xl text-[#FF4747] font-semibold">
-          {productInfo.discountPercentage}% off</p>
+        <p className="text-2xl text-[#1D6F2B] font-semibold">{
+          (productInfo.discountPercentage > 0)
+            ? productInfo.discountedPrice : productInfo.price
+        } RWF</p>
+        {productInfo.discountPercentage > 0
+          ? <p className="inline-block text-base text-[#00000080] font-normal line-through">{productInfo.price} RWF</p> 
+          : ""
+        }
+        <p className={productInfo.discountPercentage > 0
+          ? "inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[2px] px-[5px] ml-3 rounded-2xl text-[#FF4747] font-semibold"
+          : "hidden"
+        }>
+          {productInfo.discountPercentage > 0 ? productInfo.discountPercentage + "% off" : ""}</p>
       </div>
       <div>
         <p className="text-lg mb-1 block font-semibold">Color:</p>
@@ -36,4 +44,4 @@ const ProductInfo = ({ productInfo }) => {
   );
 };
 
-export default ProductInfo;
+export default ProductMainInfo;
