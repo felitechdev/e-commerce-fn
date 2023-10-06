@@ -29,7 +29,7 @@ const Footer = () => {
   };
   return (
     <div className="w-full bg-[#1D6F2B] py-20">
-      <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-6 px-4 gap-10">
+      <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2  lgl:grid-cols-6 px-4 gap-10">
         <div className="col-span-2 text-[#fff]">
           <FooterListTitle title=" More about FELI Global Shop" />
           <div className="flex flex-col gap-6">

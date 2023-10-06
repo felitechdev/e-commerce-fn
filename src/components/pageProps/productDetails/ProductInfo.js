@@ -1,40 +1,37 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/orebiSlice";
+import SmallImagesContainer from "./SmallImagesContainer";
 
 const ProductInfo = ({ productInfo }) => {
-  const dispatch = useDispatch();
+
   return (
-    <div className="flex flex-col gap-5 bg-gray-100">
-      <h2 className="text-4xl font-semibold">{productInfo.productName}</h2>
-      <p className="text-xl font-semibold">${productInfo.price}</p>
-      <p className="text-base text-[#1D6F2B]">{productInfo.des}</p>
-      <p className="text-sm">Be the first to leave a review.</p>
-      <p className="font-medium text-lg">
-        <span className="font-normal">Colors:</span> {productInfo.color}
-      </p>
-      <button
-        onClick={() =>
-          dispatch(
-            addToCart({
-              _id: productInfo.id,
-              name: productInfo.productName,
-              quantity: 1,
-              image: productInfo.img,
-              badge: productInfo.badge,
-              price: productInfo.price,
-              colors: productInfo.color,
-            })
-          )
-        }
-        className="w-full py-4 bg-primeColor hover:bg-[#1D6F2B] duration-300 text-white text-lg font-titleFont"
-      >
-        Add to Cart
-      </button>
-      <p className="font-normal text-sm">
-        <span className="text-base font-medium"> Categories:</span> Spring
-        collection, Streetwear, Women Tags: featured SKU: N/A
-      </p>
+    <div className="flex flex-col  gap-5 ">
+      <div>
+        <p className="w-full h-max-[65px] text-xl font-semibold block">{"productInfo.productName slkfjldsajflksajfdlk sjdaflkjdsalkfjsa lkdfj lksajfdl kjsa dflkjsal kdjf lksajdflkj sadl kfj slkd afjlkds afj"}</p>
+        <hr className="w-full h-0.5 border-0 bg-gray-200 my-3"></hr>
+      </div>
+      <div >
+        <p className="text-lg mb-1 block font-semibold">Price:</p>
+        <p className="text-2xl text-[#1D6F2B] font-semibold">{productInfo.discountedPrice} RWF</p>
+        <p className="inline-block text-base text-[#00000080] font-normal line-through">{productInfo.price} RWF</p>
+        <p className="inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[2px] px-[5px] ml-3 rounded-2xl text-[#FF4747] font-semibold">
+          {productInfo.discountPercentage}% off</p>
+      </div>
+      <div>
+        <p className="text-lg mb-1 block font-semibold">Color:</p>
+        <SmallImagesContainer />
+      </div>
+      <div>
+        <p className="text-lg mb-1 block font-semibold">Size:</p>
+        <div className="flex flex-wrap gap-1">
+          <div className="text-sm border-[2px] rounded-lg py-1 px-2">0.5L Bottle</div>
+          <div className="text-sm border-[2px] rounded-lg py-1 px-2">1L Bottle</div>
+          <div className="text-sm border-[2px] rounded-lg py-1 px-2">1.5L Bottle</div>
+          <div className="text-sm border-[2px] rounded-lg py-1 px-2">2L Bottle</div>
+          <div className="text-sm border-[2px] rounded-lg py-1 px-2">3L Bottle</div>
+          <div className="text-sm border-[2px] rounded-lg py-1 px-2">4L Bottle</div>
+          <div className="text-sm border-[2px] rounded-lg py-1 px-2">1L Bottle</div>
+        </div>
+      </div>
     </div>
   );
 };
