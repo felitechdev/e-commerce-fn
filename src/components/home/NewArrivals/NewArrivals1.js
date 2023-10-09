@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
 import Product from "../Products/Product";
-import SampleNextArrow from "./SampleNextArrow";
-import SamplePrevArrow from "./SamplePrevArrow";
 import ProductsSection from "../Products/ProductsSection";
+import ProductsSliderContainer from "../Products/ProductsSliderContainer";
 
 const NewArrivals = () => {
   const [apiData, setApiData] = useState([]);
@@ -25,25 +23,9 @@ const NewArrivals = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 6, // Display three products on web view
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    responsive: [
-      {
-        breakpoint: 768, // Breakpoint for mobile view
-        settings: {
-          slidesToShow: 1, // Display one product on mobile view
-        },
-      },
-    ],
-  };
   return (
     <ProductsSection>
-      <Slider {...settings}>
+      <ProductsSliderContainer>
         {duplicatedData.map((product) => (
           <div key={product._id} className="px-2">
             <Product
@@ -67,7 +49,7 @@ const NewArrivals = () => {
             />
           </div>
         ))}
-      </Slider>
+      </ProductsSliderContainer>
     </ProductsSection>
   );
 };

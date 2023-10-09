@@ -33,10 +33,10 @@ const Header = () => {
   let headerIconStyles = "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
   return (
     <div className="w-full h-100px bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
-      <nav className="h-full px-4 max-w-container mx-auto relative items-center justify-between flex">
+      <nav className="h-full px-4 max-w-container mx-auto relative flex md:items-center md:justify-between">
         <div>
             {showMenu && (
-            <ul className="flex items-center w-auto z-50 p-0 gap-2" >
+            <ul className="flex items-center w-auto z-50 p-0 gap-3" >
               <NavLink
                 className={({ isActive }) => {
                     return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
@@ -146,7 +146,7 @@ const Header = () => {
                             className="text-sm flex flex-col gap-1"
                           >
                             <li className="headerSedenavLi">New Arrivals</li>
-                            <li className="headerSedenavLi">Gudgets</li>
+                            <li className="headerSedenavLi">Gadgets</li>
                             <li className="headerSedenavLi">Accessories</li>
                             <li className="headerSedenavLi">Electronics</li>
                             <li className="headerSedenavLi">Others</li>
@@ -169,7 +169,7 @@ const Header = () => {
                             className="text-sm flex flex-col gap-1"
                           >
                             <li className="headerSedenavLi">New Arrivals</li>
-                            <li className="headerSedenavLi">Gudgets</li>
+                            <li className="headerSedenavLi">Gadgets</li>
                             <li className="headerSedenavLi">Accessories</li>
                             <li className="headerSedenavLi">Electronics</li>
                             <li className="headerSedenavLi">Others</li>
@@ -196,7 +196,7 @@ const Header = () => {
         </div>
         <div>
               {showMenu && (
-                <ul className="flex items-center  mdl:w-[280px] lg:w-[400px] z-50 p-0 gap-2" >
+                <ul className="flex items-center md:w-[320px] lg:w-[400px] z-50 p-0 gap-2" >
                   <NavLink
                     className={({ isActive }) => {
                       return isActive ? "w-[70%] lg:w-full text-[#1D6F2B] hover:text-[#1D6F2B] font-semibold hidden md:inline-block lg:ml-4"
@@ -209,8 +209,8 @@ const Header = () => {
                   </NavLink>
                   <NavLink
                     className={({ isActive }) => {
-                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
+                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
                     }}
                     to="/signin"
                     state={{ data: location.pathname.split("/")[1] }}
@@ -220,8 +220,8 @@ const Header = () => {
                   <span className="hidden md:inline-block">/</span>
                   <NavLink
                     className={({ isActive }) => {
-                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 items-center"
+                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
                     }}
                     to="/signup"
                     state={{ data: location.pathname.split("/")[1] }}
@@ -280,7 +280,64 @@ const Header = () => {
                         alt="logoLight"
                       />
                       <ul className="text-gray-200 flex flex-col gap-2">
-                        {leftNavBarList.map((item) => (
+                          <li
+                            className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
+                          >
+                            <Link
+                              to="/"
+                              state={{ data: location.pathname.split("/")[1] }}
+                              onClick={() => setSidenav(false)}
+                            >
+                              {"Home"}
+                            </Link>
+                          </li>
+                          <li
+                            className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
+                          >
+                            <Link
+                              to="/shop"
+                              state={{ data: location.pathname.split("/")[1] }}
+                              onClick={() => setSidenav(false)}
+                            >
+                              {"Shop"}
+                            </Link>
+                          </li>
+                          <li
+                            className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
+                          >
+                            <Link
+                              to="/about"
+                              state={{ data: location.pathname.split("/")[1] }}
+                              onClick={() => setSidenav(false)}
+                            >
+                              {"About"}
+                            </Link>
+                          </li>
+                          <li
+                            className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
+                          >
+                            <Link
+                              to="/contact"
+                              state={{ data: location.pathname.split("/")[1] }}
+                              onClick={() => setSidenav(false)}
+                            >
+                              {"Contact"}
+                            </Link>
+                          </li>
+                          <li
+                            className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
+                          >
+                            <Link
+                              to="/journal"
+                              state={{ data: location.pathname.split("/")[1] }}
+                              onClick={() => setSidenav(false)}
+                            >
+                              {"Journal"}
+                            </Link>
+                          </li>
+                          
+                          
+                        {/* {leftNavBarList.map((item) => (
                           <li
                             className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
                             key={item._id}
@@ -293,7 +350,7 @@ const Header = () => {
                               {item.title}
                             </Link>
                           </li>
-                        ))}
+                        ))} */}
                       </ul>
                       <div className="mt-4 bg-[#1D6F2B]">
                         <h1
