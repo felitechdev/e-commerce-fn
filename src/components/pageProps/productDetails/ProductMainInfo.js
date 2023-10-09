@@ -3,7 +3,7 @@ import SmallImagesContainer from "./SmallImagesContainer";
 
 const ProductMainInfo = ({ productInfo }) => {
   return (
-    <div className="flex flex-col  gap-5 ">
+    <div className="flex flex-col w-container lg:max-w-[560px]  gap-5 ">
       <div>
         <p className="w-full h-max-[65px] text-xl font-semibold block">{productInfo.productName}</p>
         <hr className="w-full h-0.5 border-0 bg-gray-200 my-3"></hr>

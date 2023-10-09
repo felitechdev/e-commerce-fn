@@ -6,11 +6,8 @@ import ProductImages from "../../components/pageProps/productDetails/ProductImag
 import CheckoutDetails from "../../components/pageProps/productDetails/CheckoutDetails";
 import ProductSecondaryInfo from "../../components/pageProps/productDetails/ProductSecondaryInfo";
 import ProductsSection from "../../components/home/Products/ProductsSection";
-import Slider from "react-slick";
 import Product from "../../components/home/Products/Product";
-import SampleNextArrow from "../../components/home/NewArrivals/SampleNextArrow";
-import SamplePrevArrow from "../../components/home/NewArrivals/SamplePrevArrow";
-
+import ProductsSliderContainer from "../../components/home/Products/ProductsSliderContainer";
 
 const ProductDetails = () => {
   const location = useLocation();
@@ -24,7 +21,6 @@ const ProductDetails = () => {
     setProductInfo(location.state.item);
     setPrevLocation(location.pathname);
   }, [location, productInfo]);
-
 
   useEffect(() => {
     // Fetch your API data here
@@ -42,35 +38,15 @@ const ProductDetails = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 6, // Display three products on web view
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow /> ,
-    responsive: [
-      {
-        breakpoint: 768, // Breakpoint for mobile view
-        settings: {
-          slidesToShow: 1, // Display one product on mobile view
-        },
-      },
-    ],
-  };
-
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
-      <div className="max-w-container mx-auto px-4">
+      <div className="max-w-container mx-auto p-4">
         <div className="xl:-mt-10 -mt-7">
           <Breadcrumbs title="" prevLocation={prevLocation} />
         </div>
-        <div
-          className="w-full  h-full -mt-5 xl:-mt-8 pb-10 p-4"
-          
-        >
+        <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-14">
-            <div className="flex gap-12">
+            <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
               <ProductImages productInfo={productInfo} />
               <ProductMainInfo productInfo={productInfo} />
               <CheckoutDetails productInfo={productInfo} />
@@ -78,10 +54,8 @@ const ProductDetails = () => {
             <ProductSecondaryInfo productInfo={productInfo} />
           </div>
           {/* For testing similar products slider only */}
-          <ProductsSection
-            heading="Similar Products"
-          >
-            <Slider {...settings}>
+          <ProductsSection heading="Similar Products">
+            <ProductsSliderContainer>
               {duplicatedData.map((product) => (
                 <div key={product._id} className="px-2">
                   <Product
@@ -105,8 +79,11 @@ const ProductDetails = () => {
                   />
                 </div>
               ))}
-            </Slider>
-          </ProductsSection>          
+            </ProductsSliderContainer>
+            {/* <Slider {...settings}>
+              
+            </Slider> */}
+          </ProductsSection>
         </div>
       </div>
     </div>
