@@ -1,13 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  userInfo: [],
-  products: [],
-};
 
-export const orebiSlice = createSlice({
-  name: "orebi",
-  initialState,
+
+export const productsSlice = createSlice({
+  name: "products",
+  initialState: null,
   reducers: {
     addToCart: (state, action) => {
       const item = state.products.find(
@@ -54,5 +51,5 @@ export const {
   drecreaseQuantity,
   deleteItem,
   resetCart,
-} = orebiSlice.actions;
-export default orebiSlice.reducer;
+} = productsSlice.actions;
+export default productsSlice.reducer;
