@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/orebiSlice";
+import { addToCart } from "../../../redux/productsSlice";
 
 const CheckoutDetails = ({productInfo}) => { 
     const dispatch = useDispatch();
