@@ -11,10 +11,10 @@ import { BrowserRouter } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    {/* <PersistGate loading={null} persistor={persistor}> */}
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </PersistGate>
+    {/* </PersistGate> */}
   </Provider>
 );

@@ -2,13 +2,26 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const userSlice = createSlice({
     name: "userInfo",
-    initialState: null,
+    initialState: {
+        userInfo: {
+            profile: {},
+            whishlist: [],
+            cart: [],
+          },
+    },
     reducers: {
         updateUserInfo: (state, action) => { 
-            state.userInfo = action.payload
+            state.userInfo.profile = action.payload
+        },
+        addToUserCart: (state, action) => { 
+            state.userInfo.cart = action.payload
         },
         resetUserInfo: (state) => { 
-            state.userInfo = {}
+            state.userInfo = {
+                profile: {},
+                wishlist: [],
+                cart: []
+            }
         }
     }
 
@@ -16,6 +29,7 @@ const userSlice = createSlice({
 
 export const {
     updateUserInfo,
+    addToUserCart,
     resetUserInfo,
 } = userSlice.actions
 
