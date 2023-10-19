@@ -9,15 +9,32 @@ import { leftNavBarList } from "../../../constants";
 import { FiHeart } from "react-icons/fi";
 import { BsCart3 } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import UserAvatarDropdown from "./UserAvatarDropdown";
 
 
-const Header = () => {
+const Header = (props) => {
   const [showMenu, setShowMenu] = useState(true);
   const [sidenav, setSidenav] = useState(false);
   const [category, setCategory] = useState(false);
   const [brand, setBrand] = useState(false);
-  const cartProducts = useSelector((state) => state.orebiReducer.products);
+  const [displayDropdown, setDisplayDropdown] = useState(false)
+  
+  const productsCart = useSelector((state) => state.productsReducer.products);
+  const userCart = useSelector((state) => state.userReducer.userInfo.cart)
   const location = useLocation();
+
+  console.log(userCart);
+
+  const handleProfileClick = () => {
+    return setDisplayDropdown(!displayDropdown)
+  }
+  const resetDropdown = () => {
+    if (displayDropdown === true) { 
+      return setDisplayDropdown(false)
+    }
+  }
+
+  console.log(props.userInfo.profile);
   useEffect(() => {
     let ResponsiveMenu = () => {
       if (window.innerWidth < 667) {
@@ -32,66 +49,76 @@ const Header = () => {
 
   let headerIconStyles = "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
   return (
-    <div className="w-full h-100px bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
+    <div className="w-full h-100px bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200" onClick={resetDropdown}>
       <nav className="h-full px-4 max-w-container mx-auto relative flex md:items-center md:justify-between">
         <div>
             {showMenu && (
             <ul className="flex items-center w-auto z-50 p-0 gap-3" >
-              <NavLink
-                className={({ isActive }) => {
+              
+              <li >
+                <NavLink
+                  className={({ isActive }) => {
                     return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
                       : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                }}  
-                to="/"
-                state={{ data: location.pathname.split("/")[1] }}
-                end
-              >
-                  <li>Home</li>
-              </NavLink>
-              <NavLink
-                className={({ isActive }) => {
+                  }}  
+                  to=""
+                  state={{ data: location.pathname.split("/")[1] }}
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li >
+                <NavLink
+                  className={({ isActive }) => {
                     return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
                       : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                }}  
-                to="/shop"
-                state={{ data: location.pathname.split("/")[1] }}
-                end
-              >
-                  <li>Shop</li>
-              </NavLink>
-              <NavLink
-                className={({ isActive }) => {
-                  return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                }}  
-                to="/about"
-                state={{ data: location.pathname.split("/")[1] }}
-                end
-              >
-                  <li>About</li>
-              </NavLink>
-              <NavLink
-                className={({ isActive }) => {
-                  return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                }} 
-                to="/contact"
-                state={{ data: location.pathname.split("/")[1] }}
-                end
-              >
-                  <li>Contact</li>
-              </NavLink>
-              <NavLink
-                className={({ isActive }) => {
-                  return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                }}  
-                to="/journal"
-                state={{ data: location.pathname.split("/")[1] }}
-                end
-              >
-                  <li>Journal</li>
-              </NavLink>
+                  }}  
+                  to="shop"
+                  state={{ data: location.pathname.split("/")[1] }}
+                  end
+                >
+                  Shop
+                </NavLink>
+              </li>
+              <li >
+                <NavLink
+                  className={({ isActive }) => {
+                    return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                  }}  
+                  to="about"
+                  state={{ data: location.pathname.split("/")[1] }}
+                  end
+                >
+                    About
+                </NavLink>
+              </li>
+              <li >
+                <NavLink
+                  className={({ isActive }) => {
+                    return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                  }} 
+                  to="contact"
+                  state={{ data: location.pathname.split("/")[1] }}
+                  end
+                >
+                    Contact
+                </NavLink>
+              </li>
+              <li >
+                <NavLink
+                  className={({ isActive }) => {
+                    return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                  }}  
+                  to="journal"
+                  state={{ data: location.pathname.split("/")[1] }}
+                  end
+                >
+                  Journal
+                </NavLink>
+              </li>
             </ul>
               
               )}
@@ -189,75 +216,108 @@ const Header = () => {
         </div>
         <div>
           <Link to="/">
-              <div>
+              <div >
                 <Image className="w-20 " imgSrc={FeliTechLogo_transparent} />
               </div>
           </Link>
         </div>
         <div>
-              {showMenu && (
-                <ul className="flex items-center md:w-[320px] lg:w-[400px] z-50 p-0 gap-2" >
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive ? "w-[70%] lg:w-full text-[#1D6F2B] hover:text-[#1D6F2B] font-semibold hidden md:inline-block lg:ml-4"
-                        : "hover:text-[#1D6F2B] font-semibold hidden md:inline-block lg:ml-4 "
-                    }}
-                    to=""
-                    state={{ data: location.pathname.split("/")[1] }}
-                  >
-                    <li>{"Rwf"}</li>
-                  </NavLink>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
-                    }}
-                    to="/signin"
-                    state={{ data: location.pathname.split("/")[1] }}
-                  >
-                    <li>Sign In</li>
-                  </NavLink>
-                  <span className="hidden md:inline-block">/</span>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
-                    }}
-                    to="/signup"
-                    state={{ data: location.pathname.split("/")[1] }}
-                  >
-                    <li>Sign Up</li>
-                  </NavLink>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive ? "text-[#1D6F2B] font-semibold hidden md:inline-block align-middle"
-                        : "font-semibold hidden md:inline-block align-middle"
-                    }}
-                    to=""
-                    state={{ data: location.pathname.split("/")[1] }}
-                  >
-                    <li className="ml-2 lg:ml-6"><FiHeart className="lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5" size={40}/></li>
-                  </NavLink>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive ? "text-[#1D6F2B] hover:text-[#1D6F2B] font-semibold align-middle"
-                        : "hover:text-[#1D6F2B] font-semibold align-middle"
-                    }}
-                    to="/cart"
-                    state={{ data: location.pathname.split("/")[1] }}
-                  >
-                    <li>                  
-                      <BsCart3 className={ cartProducts.length > 0 ?  `${headerIconStyles} -mb-5` : headerIconStyles } size={40} />
-                      {cartProducts.length > 0 && (
-                          <p className="-mt-5 ml-8 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
-                            {cartProducts.length}
+          {showMenu && (
+            <>
+              <span  
+                className="text-[#1D6F2B] hover:text-[#1D6F2B] mr-12 font-semibold hidden md:inline-block">
+                {"Rwf"}
+              </span> 
+              <div className="inline-block">
+              <ul className="flex items-center md:max-w-[320px] lg:max-w-[400px] z-50 p-0 gap-2" >
+                  
+                  { 
+                    props.userInfo  ? 
+                      ""
+                  : <>
+                        <li>
+                          <NavLink
+                            className={({ isActive }) => {
+                              return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
+                                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
+                            }}
+                            to="/signin"
+                          >
+                              Sign in
+                          </NavLink>
+                        </li>
+                          <span className="hidden md:inline-block">/</span>
+                        <li>  
+                          <NavLink
+                              className={({ isActive }) => {
+                                return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
+                                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2 text-center"
+                              }}
+                              to="/signup"
+                          >
+                              Sign Up
+                          </NavLink>
+                        </li>
+                      </>
+                    }
+                    {
+                      props.userInfo  ? 
+                        <li className="ml-2 lg:ml-6" >
+                          <NavLink
+                            className={({ isActive }) => {
+                              return isActive ? "text-[#1D6F2B] font-semibold hidden md:inline-block align-middle"
+                                : "font-semibold hidden md:inline-block align-middle"
+                            }}
+                            to="/accounts/"
+                            state={{ data: location.pathname.split("/")[1] }}
+                          >
+                            <FiHeart className="lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5" size={40}/>
+                          </NavLink>
+                        </li> : ""
+                    }
+                    <li className="relative" >
+                      <NavLink
+                        className={({ isActive }) => {
+                          return isActive ? "text-[#1D6F2B] hover:text-[#1D6F2B] font-semibold align-middle"
+                            : "hover:text-[#1D6F2B] font-semibold align-middle"
+                        }}
+                        to="cart"
+                        state={{ data: location.pathname.split("/")[1] }}
+                      >
+                                          
+                          <BsCart3 
+                            className={ headerIconStyles } 
+                            size={40} 
+                            
+                          />
+                      {props.userInfo.profile ? (
+                        ( userCart && userCart.length > 0) && (
+                          <p className="absolute  -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
+                            {userCart.length}
                           </p>
-                      )}
+                        )
+                      ): ( productsCart.length > 0) && (
+                          <p className="absolute  -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
+                            {productsCart.length}
+                          </p>
+                        )
+                      }
+                      </NavLink>
                     </li>
-                  
-                  </NavLink>
-                  
+              
+                    { props.userInfo ? 
+                      <UserAvatarDropdown 
+                        userInfo={props.userInfo.profile}
+                        displayDropdown={displayDropdown}
+                        handleProfileClick={handleProfileClick}
+                        handleUserInfoChange={props.handleUserInfoChange} 
+                      />
+                      : "" }
                 </ul>
+              </div>
+
+            </>
+
               
               )}
             

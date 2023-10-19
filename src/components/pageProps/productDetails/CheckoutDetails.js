@@ -1,7 +1,37 @@
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/orebiSlice";
+import { addToDefaultCart } from "../../../redux/productsSlice";
+import { addToUserCart } from "../../../redux/userSlice";
 
-const CheckoutDetails = ({productInfo}) => { 
+const CheckoutDetails = ({ productInfo, userInfo }) => { 
+    const handleAddToCart = () => { 
+        if (Object.keys(userInfo.profile).length > 0) {
+           return dispatch(
+                addToUserCart({
+                    _id: productInfo._id,
+                    name: productInfo.productName,
+                    quantity: 1,
+                    image: productInfo.img,
+                    badge: productInfo.badge,
+                    price: productInfo.price,
+                    colors: productInfo.color,
+                })
+            )
+        } else { 
+          return  dispatch(
+                addToDefaultCart({
+                    _id: productInfo._id,
+                    name: productInfo.productName,
+                    quantity: 1,
+                    image: productInfo.img,
+                    badge: productInfo.badge,
+                    price: productInfo.price,
+                    colors: productInfo.color,
+                })
+            )
+        }
+    }
+
+
     const dispatch = useDispatch();
     return (
         <div className="flex flex-col min-w-[320px] h-[400px] gap-3 border-[2px] p-4 rounded-lg">
@@ -32,19 +62,7 @@ const CheckoutDetails = ({productInfo}) => {
             </div>
             <div className="flex flex-col gap-2 mt-8">
                 <button
-                    onClick={() =>
-                        dispatch(
-                            addToCart({
-                            _id: productInfo.id,
-                            name: productInfo.productName,
-                            quantity: 1,
-                            image: productInfo.img,
-                            badge: productInfo.badge,
-                            price: productInfo.price,
-                            colors: productInfo.color,
-                            })
-                        )
-                    }
+                    onClick={() => handleAddToCart()}
                     className="hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]"
                 >
                     Add to Cart
