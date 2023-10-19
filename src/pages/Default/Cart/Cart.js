@@ -2,24 +2,43 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import { resetCart } from "../../redux/productsSlice";
-import { emptyCart } from "../../assets/images/index";
+import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
+import { resetCart } from "../../../redux/productsSlice";
+import { emptyCart } from "../../../assets/images/index";
 import ItemCard from "./ItemCard";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.productsReducer.products);
+  const userInfo = useSelector(state => state.userReducer.userInfo)
+  const userCart = useSelector((state) => state.userReducer.userInfo.cart);
+  const productsCart = useSelector((state) => state.productsReducer.products)
+  const [cartItems, setCartItems] = useState(() => { 
+    if (userInfo && Object.keys(userInfo.profile).length > 0) {
+      return userCart
+    } else { 
+      return productsCart
+    }
+  });
+  
   const [totalAmt, setTotalAmt] = useState("");
   const [shippingCharge, setShippingCharge] = useState("");
   useEffect(() => {
+    
+    if (userInfo && Object.keys(userInfo.profile).length > 0) {
+      setCartItems(userCart)
+    } else { 
+      setCartItems(productsCart)
+    }
+  }, [userCart, productsCart, userInfo]);
+
+  useEffect(() => { 
     let price = 0;
-    products.map((item) => {
+    cartItems.map((item) => {
       price += item.price * item.quantity;
       return price;
     });
     setTotalAmt(price);
-  }, [products]);
+  }, [cartItems])
   useEffect(() => {
     if (totalAmt <= 200) {
       setShippingCharge(30);
@@ -32,7 +51,7 @@ const Cart = () => {
   return (
     <div className="max-w-container mx-auto px-4">
       <Breadcrumbs title="Cart" />
-      {products.length > 0 ? (
+      {cartItems && cartItems.length > 0 ? (
         <div className="pb-20">
           <div className="w-full h-20 bg-[#F5F7F7] text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
             <h2 className="col-span-2">Product</h2>
@@ -41,7 +60,7 @@ const Cart = () => {
             <h2>Sub Total</h2>
           </div>
           <div className="mt-5">
-            {products.map((item) => (
+            {cartItems.map((item) => (
               <div key={item._id}>
                 <ItemCard item={item} />
               </div>

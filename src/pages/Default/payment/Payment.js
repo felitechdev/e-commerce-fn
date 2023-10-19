@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
 
 const Payment = () => {
   return (

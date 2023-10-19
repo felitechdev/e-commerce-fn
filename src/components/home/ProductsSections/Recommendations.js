@@ -3,7 +3,7 @@ import Product from "../Products/Product";
 import ProductsSection from "../Products/ProductsSection";
 import ProductsSliderContainer from "../Products/ProductsSliderContainer";
 
-const NewArrivals = () => {
+const Recommendations = () => {
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
 
@@ -24,7 +24,9 @@ const NewArrivals = () => {
   }, []);
 
   return (
-    <ProductsSection>
+    <ProductsSection
+      heading="Recommended Products"
+    >
       <ProductsSliderContainer>
         {duplicatedData.map((product) => (
           <div key={product._id} className="px-2">
@@ -54,4 +56,4 @@ const NewArrivals = () => {
   );
 };
 
-export default NewArrivals;
+export default Recommendations;

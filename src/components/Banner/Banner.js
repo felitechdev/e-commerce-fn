@@ -102,24 +102,24 @@ const Banner = () => {
   };
   return (
     
-    <div className=" bg-white object-cover ">
+    <div className=" bg-white object-cover pt-5">
       <Slider {...settings} className="max-w-container px-4 mx-auto">
-        <Link to="/offer">
-          <div className="w-1408 h-1024 mx-auto">
+        <Link to="offer">
+          <div className="w-1408 h-1024 mx-auto rounded-md">
             <Image imgSrc={bannerImgOne}
-            className="w-full h-full object-cover" />
+            className="w-full h-full object-cover rounded-md" />
           </div>
         </Link>
-        <Link to="/offer">
-          <div className="w-1432 h-1024 mx-auto">
+        <Link to="offer">
+          <div className="w-1432 h-1024 mx-auto rounded-md">
             <Image imgSrc={bannerImgTwo}
-            className="w-full h-full object-cover" />
+            className="w-full h-full object-cover rounded-md" />
           </div>
         </Link>
-        <Link to="/offer">
-          <div className="w-1408 h-1024 mx-auto">
+        <Link to="offer">
+          <div className="w-1408 h-1024 mx-auto rounded-md">
             <Image imgSrc={bannerImgThree}
-            className="w-full h-full object-cover" />
+            className="w-full h-full object-cover rounded-md" />
           </div>
         </Link>
       </Slider>

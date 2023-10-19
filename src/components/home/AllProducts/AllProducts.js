@@ -3,7 +3,7 @@ import Product from "../Products/Product";
 import ProductsSection from "../Products/ProductsSection";
 import ProductsGridContainer from "../Products/ProductsGridContainer";
 
-const BestSellers = () => {
+const AllProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const BestSellers = () => {
   const duplicatedProducts = [...products, ...products, ...products];
 
   return (
-    <ProductsSection heading="Most Popular">
+    <ProductsSection heading="Our products">
       <ProductsGridContainer>
         {duplicatedProducts.map((product, index) => (
             <Product
@@ -38,4 +38,4 @@ const BestSellers = () => {
   );
 };
 
-export default BestSellers;
+export default AllProducts;

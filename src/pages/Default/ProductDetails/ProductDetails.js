@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import ProductMainInfo from "../../components/pageProps/productDetails/ProductMainInfo";
-import ProductImages from "../../components/pageProps/productDetails/ProductImages";
-import CheckoutDetails from "../../components/pageProps/productDetails/CheckoutDetails";
-import ProductSecondaryInfo from "../../components/pageProps/productDetails/ProductSecondaryInfo";
-import ProductsSection from "../../components/home/Products/ProductsSection";
-import Product from "../../components/home/Products/Product";
-import ProductsSliderContainer from "../../components/home/Products/ProductsSliderContainer";
+import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
+import ProductMainInfo from "../../../components/pageProps/productDetails/ProductMainInfo";
+import ProductImages from "../../../components/pageProps/productDetails/ProductImages";
+import CheckoutDetails from "../../../components/pageProps/productDetails/CheckoutDetails";
+import ProductSecondaryInfo from "../../../components/pageProps/productDetails/ProductSecondaryInfo";
+import ProductsSection from "../../../components/home/Products/ProductsSection";
+import Product from "../../../components/home/Products/Product";
+import ProductsSliderContainer from "../../../components/home/Products/ProductsSliderContainer";
+import { useSelector } from "react-redux";
 
 const ProductDetails = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const ProductDetails = () => {
   // For similar products testing only
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
+  const userInfo = useSelector((state) => state.userReducer.userInfo)
 
   useEffect(() => {
     setProductInfo(location.state.item);
@@ -49,7 +51,7 @@ const ProductDetails = () => {
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
               <ProductImages productInfo={productInfo} />
               <ProductMainInfo productInfo={productInfo} />
-              <CheckoutDetails productInfo={productInfo} />
+              <CheckoutDetails productInfo={productInfo} userInfo={userInfo} />
             </div>
             <ProductSecondaryInfo productInfo={productInfo} />
           </div>

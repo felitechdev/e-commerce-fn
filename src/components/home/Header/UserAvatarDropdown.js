@@ -1,15 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { resetUserInfo } from "../../../redux/userSlice"
+import { useRef } from "react"
 
 const UserAvatarDropdown = (props) => { 
     const Dispatch = useDispatch()
     const navigate = useNavigate()
+    const ref = useRef()
 
     const handleSignOut = () => {
         Dispatch(resetUserInfo())
         navigate("/", { replace: true })
     }
+
+
 
     return (
         <>
@@ -25,6 +29,7 @@ const UserAvatarDropdown = (props) => {
                         <li
                             className="absolute w-[90%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
                             onClick={handleSignOut}
+                            ref={ref}
                         >Sign out</li>
                     </ul>
                 </div>

@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { FeliTechLogo_transparent } from "../../assets/images";
 import googelIcon from "../../assets/images/google-icon.jpg"
 import axios from "axios";
+import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg"
+import { updateUserInfo } from "../../redux/userSlice"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
 
@@ -17,7 +21,10 @@ const SignUp = () => {
   const [errLastName, setErrLastName] = useState("");
   const [errEmail, setErrEmail] = useState("");
   const [errPassword, setErrPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+  const Dispatch = useDispatch()
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
     setErrFirstName("");
@@ -72,7 +79,7 @@ const SignUp = () => {
         }
       }
 
-
+        setLoading(true)
         let userData = {
           firstname: firstName,
           lastname: lastName,
@@ -86,15 +93,23 @@ const SignUp = () => {
                 "Content-Type": "application/json"
             },
             data: userData,
-        }).then((result) => { 
-        console.log(result.data);
-        // navigate("/", { replace: true })
+      }).then((result) => { 
+        setLoading(false)  
+        Dispatch(updateUserInfo(result.data.user))
+        navigate("/accounts/", { replace: true })
         setFirstName("");
         setLastName("");
         setEmail("");
         setPassword("");
-      }).catch(error => console.log(error.message))
-
+        }).catch(error => { 
+          const errorObject = {
+            error: {
+              message: error.response.data.message,
+              statusCode: error.response.status,
+            }
+          }
+          // console.log(errorObject);
+        })
     }
   };
   return (
@@ -204,14 +219,21 @@ const SignUp = () => {
                   </p>
                 </div>
                 <button
+                  type="button"
                   onClick={handleSignUp}
                   className={`${
                     checked
                       ? "bg-[#1D6F2B] hover:bg-[#437a4c] cursor-pointer"
                       : "bg-[#81b48a] disabled "
                   } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300 mt-3`}
-                >
-                  Create Account
+              >
+                {loading ?
+                  <>
+                    <Spinner className="inline-block mr-3" />
+                    Creating your account
+                  </>
+                  : "Create Account"}
+                  
               </button>
               <div className="ml-[5%]">
                 <hr className="inline-block w-[40%] align-middle"></hr>

@@ -5,10 +5,9 @@ import { addToUserCart } from "../../../redux/userSlice";
 const CheckoutDetails = ({ productInfo, userInfo }) => { 
     const handleAddToCart = () => { 
         if (Object.keys(userInfo.profile).length > 0) {
-            console.log(productInfo.id, userInfo.profile);
            return dispatch(
                 addToUserCart({
-                    _id: productInfo.id,
+                    _id: productInfo._id,
                     name: productInfo.productName,
                     quantity: 1,
                     image: productInfo.img,
@@ -18,10 +17,9 @@ const CheckoutDetails = ({ productInfo, userInfo }) => {
                 })
             )
         } else { 
-            console.log(productInfo.id, userInfo.profile);
           return  dispatch(
                 addToDefaultCart({
-                    _id: productInfo.id,
+                    _id: productInfo._id,
                     name: productInfo.productName,
                     quantity: 1,
                     image: productInfo.img,

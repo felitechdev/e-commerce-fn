@@ -14,7 +14,15 @@ const userSlice = createSlice({
             state.userInfo.profile = action.payload
         },
         addToUserCart: (state, action) => { 
-            state.userInfo.cart = action.payload
+            const item = state.userInfo.cart.find(
+                (item) => item._id === action.payload._id
+              );
+              if (item) {
+                item.quantity += action.payload.quantity;
+              } else {
+                state.userInfo.cart.push(action.payload)
+              }
+            
         },
         resetUserInfo: (state) => { 
             state.userInfo = {

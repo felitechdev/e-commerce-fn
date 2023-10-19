@@ -1,6 +1,6 @@
 import Slider from "react-slick";
-import SampleNextArrow from "../NewArrivals/SampleNextArrow";
-import SamplePrevArrow from "../NewArrivals/SamplePrevArrow";
+import SampleNextArrow from "../ProductsSections/SampleNextArrow";
+import SamplePrevArrow from "../ProductsSections/SamplePrevArrow";
 
 const ProductsSliderContainer = (props) => {
     const settings = {

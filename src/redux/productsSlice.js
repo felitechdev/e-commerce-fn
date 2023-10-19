@@ -9,7 +9,6 @@ export const productsSlice = createSlice({
   },
   reducers: {
     addToDefaultCart: (state, action) => {
-      // if (state.products !== undefined) {
         const item = state.products.find(
           (item) => item._id === action.payload._id
         );
@@ -18,7 +17,6 @@ export const productsSlice = createSlice({
         } else {
           state.products.push(action.payload);
         }
-      // }
       
     },
     increaseQuantity: (state, action) => {
