@@ -16,14 +16,10 @@ const IndexLayout = () => {
         "Access-Control-Allow-Credentials":true,
       }
     }).then((result) => { 
-      
-      console.log(result.data);
-      
+      console.log(result.data, "message");
     }).catch(error => {
       // console.log(error.message);
     })
-
-
   }
 
   getUserGoogleAccountInfo()
