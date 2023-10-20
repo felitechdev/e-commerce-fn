@@ -54,20 +54,23 @@ const SignIn = () => {
               "Content-Type": "application/json"
           },
           data: userData,
-      }).then((result) => { 
-        sessionStorage.setItem("token", result.data.token)
-        Dispatch(updateUserInfo(result.data.user))
-
-        setEmail("");
-        setPassword("");
-        setLoading(false)
-        navigate("/accounts/", { replace: true })
-        
+      }).then((result) => {        
+        if (result.status === 200) {
+          setEmail("");
+          setPassword("");
+          setLoading(false)
+          sessionStorage.setItem("token", result.data.token)
+          Dispatch(updateUserInfo(result.data.user))
+          navigate("/accounts/", { replace: true })
+        } 
       }).catch(error => {
-        // console.log(error.message);
+        const response = { 
+          statusCode: error.response.status,
+          message: error.response.data.message,
+        }
+
+        console.log(response);
       })
-
-
     }
   };
 
