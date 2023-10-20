@@ -13,7 +13,6 @@ const IndexLayout = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials":true,
       }
     }).then((result) => { 
       console.log(result.data, "message");
