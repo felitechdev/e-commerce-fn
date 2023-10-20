@@ -23,8 +23,6 @@ const Header = (props) => {
   const userCart = useSelector((state) => state.userReducer.userInfo.cart)
   const location = useLocation();
 
-  console.log(userCart);
-
   const handleProfileClick = () => {
     return setDisplayDropdown(!displayDropdown)
   }
@@ -34,7 +32,6 @@ const Header = (props) => {
     }
   }
 
-  console.log(props.userInfo.profile);
   useEffect(() => {
     let ResponsiveMenu = () => {
       if (window.innerWidth < 667) {
