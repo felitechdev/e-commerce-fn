@@ -7,19 +7,13 @@ import axios from "axios";
 
 const IndexLayout = () => {
 
-  const getUserGoogleAccountInfo = async() => { 
-    axios({
-      url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`,
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials":true,
+  const getUserGoogleAccountInfo = async () => { 
+    const userInfo = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`)
+    if (userInfo) {
+      console.log(userInfo.data, "message");
       }
-    }).then((result) => { 
-      console.log(result.data, "message");
-    }).catch(error => {
-      // console.log(error.message);
-    })
+      
+
   }
 
   getUserGoogleAccountInfo()
