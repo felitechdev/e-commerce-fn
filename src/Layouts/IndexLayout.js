@@ -7,15 +7,14 @@ import axios from "axios";
 
 const IndexLayout = () => {
 
-  const getUserGoogleAccountInfo = () => { 
-    axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`)
-      .then((res) => {
-        console.log(res, "message");
-       })
+  const getUserGoogleAccountInfo = async () => { 
+    const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
       .catch((error) => { 
-        console.log(error, "error");
+        console.log(error, "message");
       })
-
+    if (response && response.data) { 
+      console.log(response.data);
+    }
 
     // console.log(userInfo);
     // if (userInfo) {
