@@ -10,8 +10,10 @@ const IndexLayout = () => {
   const getUserGoogleAccountInfo = async () => { 
     const userInfo = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`)
     if (userInfo) {
+      typeof(userInfo)
       console.log(userInfo.data, "message");
-      }
+      console.log(userInfo.response, "message");
+    }
       
 
   }
