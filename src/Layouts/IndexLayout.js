@@ -13,7 +13,7 @@ const IndexLayout = () => {
         console.log(res, "message");
        })
       .catch((error) => { 
-        console.log(error, "message");
+        console.log(error, "error");
       })
 
 
