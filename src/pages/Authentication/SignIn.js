@@ -64,12 +64,12 @@ const SignIn = () => {
           navigate("/accounts/", { replace: true })
         } 
       }).catch(error => {
-        const response = { 
+        const errorResponse = { 
           statusCode: error.response.status,
           message: error.response.data.message,
         }
 
-        console.log(response);
+        console.log(errorResponse);
       })
     }
   };
