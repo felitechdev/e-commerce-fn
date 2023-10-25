@@ -17,6 +17,7 @@ const IndexLayout = () => {
       .catch((error) => { 
         console.log(error.message);
       })
+    console.log(userInfo);
     if (response && response.data) { 
       sessionStorage.setItem("token", response.data.token)
       console.log(userInfo);
