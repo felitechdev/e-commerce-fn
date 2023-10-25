@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateUserInfo } from "../redux/userSlice";
+import { logIn, updateUserInfo } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const IndexLayout = () => {
@@ -23,7 +23,7 @@ const IndexLayout = () => {
       if (response && response.data) {
         sessionStorage.setItem("token", response.data.token)
 
-        Dispatch(updateUserInfo(response.data.user))
+        Dispatch(logIn({profile: response.data.user, logInType: "ByGoogle"}))
         Navigate("/accounts/")
       } 
     }
