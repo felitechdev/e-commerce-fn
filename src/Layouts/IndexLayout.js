@@ -12,12 +12,12 @@ const IndexLayout = () => {
   const [userInfo, setUserInfo] = useState("")
   const Dispatch = useDispatch()
   console.log(userInfo);
+  
   useEffect(async() => { 
     const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
       .catch((error) => { 
         console.log(error.message);
       })
-    
     if (response && response.data) { 
       sessionStorage.setItem("token", response.data.token)
       console.log(userInfo);

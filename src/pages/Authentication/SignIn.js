@@ -77,7 +77,7 @@ const SignIn = () => {
   const handleGoogleSignIn = (e) => { 
     e.preventDefault();
     return window.open(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/google/callback`,
       "_self"
     )
   }
