@@ -47,7 +47,7 @@ const UserAvatarDropdown = (props) => {
                     <ul>
                         <li
                             className="absolute w-[90%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
-                            onClick={handleSignOut}
+                            onClick={() => handleSignOut}
                             ref={ref}
                         >Sign out</li>
                     </ul>
