@@ -4,33 +4,30 @@ import Footer from "../components/home/Footer/Footer";
 import FooterBottom from "../components/home/Footer/FooterBottom";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateUserInfo } from "../redux/userSlice";
 
 const IndexLayout = () => {
+  const [userInfo, setUserInfo] = useState("")
+  const Dispatch = useDispatch()
 
-  const getUserGoogleAccountInfo = async () => { 
+  useEffect(async() => { 
     const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
       .catch((error) => { 
-        console.log(error, "message");
+        console.log(error.message);
       })
     if (response && response.data) { 
-      console.log(response.data);
-    }
+      sessionStorage.setItem("token", response.data.token)
+      setUserInfo(response.data.user)
+      Dispatch(updateUserInfo(response.data.user))
+    } 
+  },[])
 
-    // console.log(userInfo);
-    // if (userInfo) {
-    //   console.log(typeof(userInfo)); 
-    //   console.log(userInfo.data, "message");
-    //   console.log(userInfo.response, "message");
-    // }
-      
-
-  }
-
-  getUserGoogleAccountInfo()
   return (
     <div>
       <Header
-        userInfo={false}
+        userInfo={userInfo ? userInfo : false}
       />
       <HeaderBottom />
       <Outlet />
