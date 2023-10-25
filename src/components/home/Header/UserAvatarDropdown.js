@@ -11,6 +11,7 @@ const UserAvatarDropdown = (props) => {
 
     const handleSignOut = async () => {
         console.log(props.userInfo.logInType, "message");
+
         if (props.userInfo.logInType === "ByGoogle") {
             axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
                 Dispatch(resetUserInfo())
@@ -47,7 +48,7 @@ const UserAvatarDropdown = (props) => {
                     <ul>
                         <li
                             className="absolute w-[90%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
-                            onClick={handleSignOut}
+                            onClick={() => handleSignOut}
                             ref={ref}
                         >Sign out</li>
                     </ul>
