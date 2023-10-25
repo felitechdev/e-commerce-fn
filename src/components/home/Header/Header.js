@@ -304,7 +304,7 @@ const Header = (props) => {
               
                     { props.userInfo ? 
                       <UserAvatarDropdown 
-                        userInfo={props.userInfo.profile}
+                        userInfo={props.userInfo}
                         displayDropdown={displayDropdown}
                         handleProfileClick={handleProfileClick}
                         handleUserInfoChange={props.handleUserInfoChange} 
