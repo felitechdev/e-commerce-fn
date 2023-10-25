@@ -29,7 +29,7 @@ const SignIn = () => {
     setPassword(e.target.value);
     setErrPassword("");
   };
-  // let loggedInUser = useSelector((state) => state.userInfo)
+  
   const handleSignIn = (e) => {
     e.preventDefault();
     setLoading(true)
@@ -64,12 +64,12 @@ const SignIn = () => {
           navigate("/accounts/", { replace: true })
         } 
       }).catch(error => {
-        const response = { 
+        const errorResponse = { 
           statusCode: error.response.status,
           message: error.response.data.message,
         }
 
-        console.log(response);
+        console.log(errorResponse);
       })
     }
   };
