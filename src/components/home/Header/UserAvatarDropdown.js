@@ -28,7 +28,6 @@ const UserAvatarDropdown = (props) => {
                 "_self"
             )
         }
-
         
     }
 
