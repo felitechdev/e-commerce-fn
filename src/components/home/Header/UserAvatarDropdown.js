@@ -2,15 +2,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { resetUserInfo } from "../../../redux/userSlice"
 import { useRef } from "react"
+import axios from "axios";
 
 const UserAvatarDropdown = (props) => { 
     const Dispatch = useDispatch()
     const navigate = useNavigate()
     const ref = useRef()
 
-    const handleSignOut = () => {
+    const handleSignOut = async () => {
+        await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).catch((error) => { 
+            console.log(error.message);
+        })
         Dispatch(resetUserInfo())
-        navigate("/", { replace: true })
     }
 
 
