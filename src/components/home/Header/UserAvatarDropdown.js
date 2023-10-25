@@ -41,17 +41,17 @@ const UserAvatarDropdown = (props) => {
             >
                 <img className="inline-block w-[40px] rounded-full" src={props.userInfo.profile.profileImageUrl} alt={`${props.userInfo.profile.firstname}'s account settings`}/>
             </li>
-            {props.displayDropdown && (
+            {props.displayDropdown ? (
                 <div className="absolute top-[75px] right-2 w-40 rounded-md h-56 py-2 px-2 border-2 bg-white">
                     <ul>
                         <li
                             className="absolute w-[90%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
                             onClick={() => handleSignOut}
-                            // ref={ref}
+                            ref={ref}
                         >Sign out</li>
                     </ul>
                 </div>
-            )}
+            ) : ""}
         </>
     )
 }
