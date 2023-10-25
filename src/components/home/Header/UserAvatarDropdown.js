@@ -9,9 +9,8 @@ const UserAvatarDropdown = (props) => {
     const navigate = useNavigate()
     const ref = useRef()
 
-    const handleSignOut = async () => {
+    const handleSignOut = () => {
         console.log(props.userInfo.logInType, "message");
-
         if (props.userInfo.logInType === "ByGoogle") {
             axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
                 Dispatch(resetUserInfo())
