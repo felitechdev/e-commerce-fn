@@ -29,7 +29,7 @@ const SignIn = () => {
     setPassword(e.target.value);
     setErrPassword("");
   };
-  // let loggedInUser = useSelector((state) => state.userInfo)
+  
   const handleSignIn = (e) => {
     e.preventDefault();
     setLoading(true)
