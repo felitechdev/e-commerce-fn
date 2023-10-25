@@ -7,11 +7,16 @@ const userSlice = createSlice({
             profile: {},
             whishlist: [],
             cart: [],
+            logInType: ""
           },
     },
     reducers: {
         updateUserInfo: (state, action) => { 
             state.userInfo.profile = action.payload
+        },
+        logIn: (state, action) => { 
+            state.userInfo.profile = action.payload.profile
+            state.userInfo.logInType = action.payload.logInType
         },
         addToUserCart: (state, action) => { 
             const item = state.userInfo.cart.find(
@@ -39,6 +44,7 @@ export const {
     updateUserInfo,
     addToUserCart,
     resetUserInfo,
+    logIn,
 } = userSlice.actions
 
 export default userSlice.reducer
