@@ -11,23 +11,24 @@ const UserAvatarDropdown = (props) => {
 
     const handleSignOut = () => {
         console.log(props.userInfo.logInType, "message");
-        if (props.userInfo.logInType === "ByGoogle") {
-            axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
-                Dispatch(resetUserInfo())
-                window.open(
-                    `${process.env.REACT_APP_INDEX_PAGE_URL}`,
-                    "_self"
-                )
-            }).catch((error) => {
-                console.log(error.message);
-            })
-        } else if (props.userInfo.logInType === "ByEmail") { 
-            Dispatch(resetUserInfo())
-            window.open(
-                `${process.env.REACT_APP_INDEX_PAGE_URL}`,
-                "_self"
-            )
-        }
+        // if (props.userInfo.logInType === "ByGoogle") {
+        //     axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
+        //         Dispatch(resetUserInfo())
+        //         window.open(
+        //             `${process.env.REACT_APP_INDEX_PAGE_URL}`,
+        //             "_self"
+        //         )
+        //     }).catch((error) => {
+        //         console.log(error.message);
+        //     })
+        // } else if (props.userInfo.logInType === "ByEmail") { 
+        //     Dispatch(resetUserInfo())
+        //     window.open(
+        //         `${process.env.REACT_APP_INDEX_PAGE_URL}`,
+        //         "_self"
+        //     )
+        // }
+
         
     }
 
