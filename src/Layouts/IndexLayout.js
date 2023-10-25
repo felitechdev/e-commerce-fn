@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { updateUserInfo } from "../redux/userSlice";
 
 const IndexLayout = () => {
-  const [userInfo, setUserInfo] = useState("")
+  const [userInfo, setUserInfo] = useState(false)
   const Dispatch = useDispatch()
   console.log(userInfo);
   
@@ -18,7 +18,8 @@ const IndexLayout = () => {
       .catch((error) => { 
         console.log(error.message);
       })
-    if (response && response.data) { 
+
+    if (response && response.data) {
       sessionStorage.setItem("token", response.data.token)
       console.log(userInfo);
       setUserInfo(response.data.user)
@@ -29,7 +30,8 @@ const IndexLayout = () => {
   return (
     <div>
       <Header
-        userInfo={userInfo ? userInfo : false}
+
+        userInfo={userInfo}
       />
       <HeaderBottom />
       <Outlet />
