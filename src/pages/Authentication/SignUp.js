@@ -112,6 +112,15 @@ const SignUp = () => {
         })
     }
   };
+
+  const handleGoogleSignUp = (e) => { 
+    e.preventDefault();
+    return window.open(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
+      "_self"
+    )
+  }
+
   return (
     <div className="w-full h-screen flex  items-center justify-center">
       <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
@@ -243,6 +252,7 @@ const SignUp = () => {
               
               <button
                 className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+                onClick={handleGoogleSignUp}
               >
                 <img src={googelIcon} className="w-[20px]" /> Signup with Google
               </button>
