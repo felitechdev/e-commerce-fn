@@ -30,7 +30,8 @@ const IndexLayout = () => {
   return (
     <div>
       <Header
-        userInfo={false}
+
+        userInfo={userInfo}
       />
       <HeaderBottom />
       <Outlet />
