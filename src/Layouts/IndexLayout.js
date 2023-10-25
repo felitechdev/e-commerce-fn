@@ -31,7 +31,7 @@ const IndexLayout = () => {
     <div>
       <Header
 
-        userInfo={userInfo}
+        userInfo={false}
       />
       <HeaderBottom />
       <Outlet />
