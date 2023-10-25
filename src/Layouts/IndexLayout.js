@@ -14,6 +14,7 @@ const IndexLayout = () => {
   const Navigate = useNavigate()
 
   console.log(userInfo);
+
   useEffect(async() => { 
     const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
       .catch((error) => { 
@@ -32,7 +33,8 @@ const IndexLayout = () => {
   return (
     <div>
       <Header
-        userInfo={false}
+
+        userInfo={userInfo}
       />
       <HeaderBottom />
       <Outlet />
