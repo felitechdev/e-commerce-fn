@@ -29,7 +29,6 @@ const UserAvatarDropdown = (props) => {
             )
         }
         
-        
     }
 
 
@@ -48,7 +47,7 @@ const UserAvatarDropdown = (props) => {
                         <li
                             className="absolute w-[90%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
                             onClick={() => handleSignOut}
-                            ref={ref}
+                            // ref={ref}
                         >Sign out</li>
                     </ul>
                 </div>
