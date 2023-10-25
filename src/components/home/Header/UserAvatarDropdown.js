@@ -9,11 +9,27 @@ const UserAvatarDropdown = (props) => {
     const navigate = useNavigate()
     const ref = useRef()
 
-    const handleSignOut = async () => {
-        await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).catch((error) => { 
-            console.log(error.message);
-        })
-        Dispatch(resetUserInfo())
+    const handleSignOut = () => {
+        console.log(props.userInfo.logInType, "message");
+        if (props.userInfo.logInType === "ByGoogle") {
+            axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
+                Dispatch(resetUserInfo())
+                window.open(
+                    `${process.env.REACT_APP_INDEX_PAGE_URL}`,
+                    "_self"
+                )
+            }).catch((error) => {
+                console.log(error.message);
+            })
+        } else if (props.userInfo.logInType === "ByEmail") { 
+            Dispatch(resetUserInfo())
+            window.open(
+                `${process.env.REACT_APP_INDEX_PAGE_URL}`,
+                "_self"
+            )
+        }
+
+        
     }
 
 
@@ -24,19 +40,19 @@ const UserAvatarDropdown = (props) => {
                 className="hidden rounded-full border-2 border-white hover:border-slate-300  md:inline-block align-middle w-[40px] md:ml-4 cursor-pointer"
                 onClick={props.handleProfileClick}
             >
-                <img className="inline-block w-[40px] rounded-full" src={props.userInfo.profileImageUrl} alt={`${props.userInfo.firstname}'s account settings`}/>
+                <img className="inline-block w-[40px] rounded-full" src={props.userInfo.profile.profileImageUrl} alt={`${props.userInfo.profile.firstname}'s account settings`}/>
             </li>
-            {props.displayDropdown && (
+            {props.displayDropdown ? (
                 <div className="absolute top-[75px] right-2 w-40 rounded-md h-56 py-2 px-2 border-2 bg-white">
                     <ul>
                         <li
                             className="absolute w-[90%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
-                            onClick={handleSignOut}
+                            onClick={() => handleSignOut}
                             ref={ref}
                         >Sign out</li>
                     </ul>
                 </div>
-            )}
+            ) : ""}
         </>
     )
 }
