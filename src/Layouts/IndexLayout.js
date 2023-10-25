@@ -19,6 +19,7 @@ const IndexLayout = () => {
       })
     if (response && response.data) { 
       sessionStorage.setItem("token", response.data.token)
+      console.log(userInfo);
       setUserInfo(response.data.user)
       Dispatch(updateUserInfo(response.data.user))
     } 
