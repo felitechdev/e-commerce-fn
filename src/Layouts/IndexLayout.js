@@ -27,7 +27,7 @@ const IndexLayout = () => {
   return (
     <div>
       <Header
-        userInfo={userInfo || false}
+        userInfo={userInfo ? userInfo : false}
       />
       <HeaderBottom />
       <Outlet />
