@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FeliTechLogo_transparent } from "../../assets/images";
 import googelIcon from "../../assets/images/google-icon.jpg"
 import axios from "axios";
-import { updateUserInfo } from "../../redux/userSlice"
+import { logIn } from "../../redux/userSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg"
@@ -60,7 +60,10 @@ const SignIn = () => {
           setPassword("");
           setLoading(false)
           sessionStorage.setItem("token", result.data.token)
-          Dispatch(updateUserInfo(result.data.user))
+          Dispatch(logIn({
+            profile: result.data.user,
+            loginType: "ByEmail",
+          }))
           navigate("/accounts/", { replace: true })
         } 
       }).catch(error => {
