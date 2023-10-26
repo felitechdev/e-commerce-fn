@@ -34,6 +34,7 @@ const UserAvatarDropdown = (props) => {
                     `${process.env.REACT_APP_INDEX_PAGE_URL}`,
                     "_self"
                 )
+
             }).catch((error) => {
                 console.log(error.message);
             })
