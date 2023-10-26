@@ -59,7 +59,7 @@ const SignIn = () => {
           setEmail("");
           setPassword("");
           setLoading(false)
-          sessionStorage.setItem("token", result.data.token)
+          sessionStorage.setItem("userToken", result.data.token)
           Dispatch(logIn({
             profile: result.data.user,
             logInType: "ByEmail",

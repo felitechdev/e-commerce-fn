@@ -28,8 +28,9 @@ const UserAvatarDropdown = (props) => {
         e.preventDefault()
 
         if (props.userInfo.logInType === "ByGoogle") {
-            axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
+            axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
                 Dispatch(resetUserInfo())
+                sessionStorage.removeItem("userToken")
                 window.open(
                     `${process.env.REACT_APP_INDEX_PAGE_URL}`,
                     "_self"
@@ -39,12 +40,13 @@ const UserAvatarDropdown = (props) => {
                 console.log(error.message);
             })
         } else if (props.userInfo.logInType === "ByEmail") { 
-            Dispatch(resetUserInfo())
             navigate("/")
-            // window.open(
-            //     `${process.env.REACT_APP_INDEX_PAGE_URL}`,
-            //     "_self"
-            // )
+            Dispatch(resetUserInfo())
+            sessionStorage.removeItem("userToken")
+            window.open(
+                `${process.env.REACT_APP_INDEX_PAGE_URL}`,
+                "_self"
+            )
         }
 
         
