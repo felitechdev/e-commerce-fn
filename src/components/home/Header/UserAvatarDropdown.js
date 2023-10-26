@@ -30,10 +30,11 @@ const UserAvatarDropdown = (props) => {
         if (props.userInfo.logInType === "ByGoogle") {
             axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`).then(() => {
                 Dispatch(resetUserInfo())
-                // window.open(
-                //     `${process.env.REACT_APP_INDEX_PAGE_URL}`,
-                //     "_self"
-                // )
+                window.open(
+                    `${process.env.REACT_APP_INDEX_PAGE_URL}`,
+                    "_self"
+                )
+
             }).catch((error) => {
                 console.log(error.message);
             })
