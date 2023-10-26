@@ -62,7 +62,7 @@ const SignIn = () => {
           sessionStorage.setItem("token", result.data.token)
           Dispatch(logIn({
             profile: result.data.user,
-            loginType: "ByEmail",
+            logInType: "ByEmail",
           }))
           navigate("/accounts/", { replace: true })
         } 

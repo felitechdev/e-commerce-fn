@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logIn, updateUserInfo } from "../redux/userSlice";
+import { logIn } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const IndexLayout = () => {
