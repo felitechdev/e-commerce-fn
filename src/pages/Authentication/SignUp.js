@@ -4,7 +4,7 @@ import { FeliTechLogo_transparent } from "../../assets/images";
 import googelIcon from "../../assets/images/google-icon.jpg"
 import axios from "axios";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg"
-import { updateUserInfo } from "../../redux/userSlice"
+import { logIn } from "../../redux/userSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 
@@ -94,13 +94,18 @@ const SignUp = () => {
             },
             data: userData,
       }).then((result) => { 
-        setLoading(false)  
-        Dispatch(updateUserInfo(result.data.user))
+        setLoading(false) 
+        sessionStorage.setItem("userToken", result.data.token)
+        Dispatch(logIn({
+          profile: result.data.user,
+          logInType: "ByEmail",
+        }))
         navigate("/accounts/", { replace: true })
         setFirstName("");
         setLastName("");
         setEmail("");
         setPassword("");
+
         }).catch(error => { 
           const errorObject = {
             error: {
@@ -108,7 +113,7 @@ const SignUp = () => {
               statusCode: error.response.status,
             }
           }
-          // console.log(errorObject);
+          console.log(errorObject);
         })
     }
   };

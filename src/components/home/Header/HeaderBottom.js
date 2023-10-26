@@ -60,7 +60,7 @@ const HeaderBottom = () => {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="absolute top-14  z-50 bg-[#FFF] min-w-[200px] text-[#1D6F2B] h-auto p-4 pb-6 border-[2px] rounded-md"
+                className="absolute top-14 z-50 bg-[#FFF] min-w-[200px] text-[#1D6F2B] h-auto p-4 pb-6 border-[2px] rounded-md"
               >
                 <li className="text-[#000] px-4 py-1 border-b-[1px] border-b-[#fff] hover:border-b-[#1D6F2B] hover:text-[#000] duration-300 cursor-pointer">
                   Accessories

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
@@ -17,20 +17,12 @@ const Header = (props) => {
   const [sidenav, setSidenav] = useState(false);
   const [category, setCategory] = useState(false);
   const [brand, setBrand] = useState(false);
-  const [displayDropdown, setDisplayDropdown] = useState(false)
   
   const productsCart = useSelector((state) => state.productsReducer.products);
   const userCart = useSelector((state) => state.userReducer.userInfo.cart)
   const location = useLocation();
 
-  const handleProfileClick = () => {
-    return setDisplayDropdown(!displayDropdown)
-  }
-  const resetDropdown = () => {
-    if (displayDropdown === true) { 
-      return setDisplayDropdown(false)
-    }
-  }
+
 
   useEffect(() => {
     let ResponsiveMenu = () => {
@@ -46,7 +38,7 @@ const Header = (props) => {
 
   let headerIconStyles = "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
   return (
-    <div className="w-full h-100px bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200" onClick={resetDropdown}>
+    <div className="w-full h-100px bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
       <nav className="h-full px-4 max-w-container mx-auto relative flex md:items-center md:justify-between">
         <div>
             {showMenu && (
@@ -305,9 +297,6 @@ const Header = (props) => {
                     { props.userInfo ? 
                       <UserAvatarDropdown 
                         userInfo={props.userInfo}
-                        displayDropdown={displayDropdown}
-                        handleProfileClick={handleProfileClick}
-                        handleUserInfoChange={props.handleUserInfoChange} 
                       />
                       : "" }
                 </ul>
