@@ -22,7 +22,7 @@ const IndexLayout = () => {
     
       if (response && response.data) {
         sessionStorage.setItem("token", response.data.token)
-
+        console.log("yes");
         Dispatch(logIn({profile: response.data.user, logInType: "ByGoogle"}))
         Navigate("/accounts/")
       } 
