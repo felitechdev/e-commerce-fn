@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FeliTechLogo_transparent } from "../../assets/images";
 import googelIcon from "../../assets/images/google-icon.jpg"
@@ -7,6 +7,7 @@ import { logIn } from "../../redux/userSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg"
+import  AlertComponent  from "../../components/designLayouts/AlertComponent.js";
 
 
 const SignIn = () => {
@@ -17,6 +18,8 @@ const SignIn = () => {
   const [errPassword, setErrPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [errorAlert, setErrorAlert] = useState({ status: false, message: "" });
+  const [signInError, setSignInError] = useState("");
   const Dispatch = useDispatch();
   
   const navigate = useNavigate();
@@ -24,66 +27,96 @@ const SignIn = () => {
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setErrEmail("");
+    setSignInError("")
   };
+
+  const EmailValidation = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  };
+
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setErrPassword("");
+    setSignInError("")
   };
   
   const handleSignIn = (e) => {
     e.preventDefault();
-    setLoading(true)
-    if (!email) {
-      setErrEmail("Enter your email");
-    }
+    
+      if (!email) {
+        setErrEmail("Enter your email");
+        return
+      } else if (!EmailValidation(email)) {
+          setErrEmail("Enter a Valid email");
+          return
+      } else if (!password) {
+        setErrPassword("Enter your password");
+        return
+      } else if (password.length < 6) {
+          setErrPassword("Passwords must be at least 6 characters");
+          return
+      } else { 
+        setLoading(true)
+        let userData = {
+          email: email,
+          password: password
+        };
 
-    if (!password) {
-      setErrPassword("Enter your password");
-    }
-    if (email && password) {
+        axios({
+          url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/user/login`,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: userData,
+        }).then((result) => {        
+          if (result.status === 200) {
+            setEmail("");
+            setPassword("");
+            setLoading(false)
+            sessionStorage.setItem("userToken", result.data.token)
+            Dispatch(logIn({
+              profile: result.data.user,
+              logInType: "ByEmail",
+            }))
+            navigate("/accounts/", { replace: true })
+          } 
+        }).catch(err => {
+          const error = { 
+            statusCode: err.response.status,
+            message: err.response.data.message,
+          }
 
-      let userData = {
-        email: email,
-        password: password
-      };
-
-      axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/user/login`,
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          data: userData,
-      }).then((result) => {        
-        if (result.status === 200) {
-          setEmail("");
-          setPassword("");
+          if (error.statusCode === 422 ||
+            error.statusCode === 409 ||
+            error.statusCode === 401) {
+            setSignInError(error.message)
+          } else { 
+            setSignInError("Unable to sign you in! Try again later.")
+          }
           setLoading(false)
-          sessionStorage.setItem("userToken", result.data.token)
-          Dispatch(logIn({
-            profile: result.data.user,
-            logInType: "ByEmail",
-          }))
-          navigate("/accounts/", { replace: true })
-        } 
-      }).catch(error => {
-        const errorResponse = { 
-          statusCode: error.response.status,
-          message: error.response.data.message,
-        }
-
-        console.log(errorResponse);
-      })
-    }
+          console.log(error);
+        })
+      }
   };
 
   const handleGoogleSignIn = (e) => { 
-    e.preventDefault();
-    return window.open(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/google/callback`,
-      "_self"
-    )
+    // e.preventDefault();
+    // return window.open(
+    //   `${process.env.REACT_APP_BACKEND_SERVER_URL}/google/callback`,
+    //   "_self"
+    // )
   }
+
+  useEffect(() => {
+    if (signInError !== "") {
+      setErrorAlert({ status: true, message: signInError })
+    } else { 
+      setErrorAlert({ status: false, message: "" })
+    }
+  }, [signInError])
 
   return (
     <div className="w-full h-screen flex  items-center justify-center">
@@ -91,8 +124,14 @@ const SignIn = () => {
         <Link to="/">
           <img src={FeliTechLogo_transparent} alt="logoImg" className="w-32 mx-auto" />
         </Link>
-          <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">
+          <form className="w-full lgl:w-[450px] h-auto flex flex-col gap-4 items-center">
             <div className="px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin">
+            {errorAlert.status && (
+              <AlertComponent
+                color="failure"
+                type="Error!"
+                message={errorAlert.message} />
+              )}
               <h1 className="font-titleFont decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4">
                 Sign in
               </h1>
@@ -105,7 +144,8 @@ const SignIn = () => {
                   <input
                     onChange={handleEmail}
                     value={email}
-                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium 
+                    placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
                     placeholder="john@example.com"
                   />
@@ -125,7 +165,8 @@ const SignIn = () => {
                   <input
                     onChange={handlePassword}
                     value={password}
-                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium 
+                    placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="password"
                     placeholder="Create password"
                   />
@@ -138,9 +179,10 @@ const SignIn = () => {
                 </div>
 
                 <button
-                  type="button"
-                  onClick={handleSignIn}
-                  className="bg-[#1D6F2B] hover:bg-[#437a4c] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300"
+                type="button"
+                onClick={handleSignIn}
+                className={loading ? "bg-[#81b48a] text-gray-200 hover:text-white w-full text-base font-medium h-10 rounded-md duration-300 disabled" : 
+                  "bg-[#1D6F2B] hover:bg-[#437a4c] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300"}
                 >
                 {loading ?
                   <>
@@ -164,7 +206,8 @@ const SignIn = () => {
                   <hr className="inline-block w-[40%] align-middle"></hr>
                 </div>  
                 <button
-                  className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
+                  className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base 
+                  font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
                   onClick={ handleGoogleSignIn}
                 >
                   <img src={googelIcon} className="w-[20px]" /> Sign in with Google
