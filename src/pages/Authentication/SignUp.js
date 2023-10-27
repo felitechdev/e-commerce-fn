@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FeliTechLogo_transparent } from "../../assets/images";
 import googelIcon from "../../assets/images/google-icon.jpg"
@@ -7,6 +7,7 @@ import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg"
 import { logIn } from "../../redux/userSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
+import  AlertComponent  from "../../components/designLayouts/AlertComponent.js";
 
 const SignUp = () => {
 
@@ -22,24 +23,30 @@ const SignUp = () => {
   const [errEmail, setErrEmail] = useState("");
   const [errPassword, setErrPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorAlert, setErrorAlert] = useState({ status: false, message: "" });
+  const [signInError, setSignInError] = useState("");
 
   const navigate = useNavigate();
   const Dispatch = useDispatch()
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
     setErrFirstName("");
+    setSignInError("")
   };
   const handleLastName = (e) => {
     setLastName(e.target.value);
     setErrLastName("");
+    setSignInError("")
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setErrEmail("");
+    setSignInError("")
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setErrPassword("");
+    setSignInError("")
   };
 
   const EmailValidation = (email) => {
@@ -106,25 +113,41 @@ const SignUp = () => {
         setEmail("");
         setPassword("");
 
-        }).catch(error => { 
-          const errorObject = {
-            error: {
-              message: error.response.data.message,
-              statusCode: error.response.status,
-            }
+        }).catch(err => { 
+
+          const error = { 
+            statusCode: err.response.status,
+            message: err.response.data.message,
           }
-          console.log(errorObject);
+  
+          if (error.statusCode === 422 ||
+            error.statusCode === 409 ||
+            error.statusCode === 401) {
+            setSignInError(error.message)
+          } else { 
+            setSignInError("Unable to sign you in! Try again later.")
+          }
+          setLoading(false)
+          console.log(error);
         })
     }
   };
 
   const handleGoogleSignUp = (e) => { 
-    e.preventDefault();
-    return window.open(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
-      "_self"
-    )
+    // e.preventDefault();
+    // return window.open(
+    //   `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
+    //   "_self"
+    // )
   }
+
+  useEffect(() => {
+    if (signInError !== "") {
+      setErrorAlert({ status: true, message: signInError })
+    } else { 
+      setErrorAlert({ status: false, message: "" })
+    }
+  }, [signInError])
 
   return (
     <div className="w-full h-screen flex  items-center justify-center">
@@ -136,6 +159,12 @@ const SignUp = () => {
         </Link>
           <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">
             <div className="px-6 py-4 w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
+              {errorAlert.status && (
+                <AlertComponent
+                  color="failure"
+                  type="Error!"
+                  message={errorAlert.message} />
+              )}
               <h1 className="font-titleFont decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4 text-center">
                 Create your account
               </h1>
@@ -223,7 +252,7 @@ const SignUp = () => {
                 <div className="flex items-start mdl:items-center gap-2">
                   <input
                     onChange={() => setChecked(!checked)}
-                    className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer bg-[#1D6F2B]"
+                    className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer bg-[#fff]"
                     type="checkbox"
                   />
                   <p className="text-sm text-primeColor">
