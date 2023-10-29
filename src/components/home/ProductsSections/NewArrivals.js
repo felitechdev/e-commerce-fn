@@ -13,11 +13,7 @@ const NewArrivals = () => {
     axios(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
       .then((data) => {
         // Duplicate the API data
-        const duplicated = Array.from({ length: 10 }, (_, index) => ({
-          ...data.data[index % data.data.length],
-          _id: `new-id-${index}`,
-        }));
-        setDuplicatedData(duplicated);
+        setDuplicatedData([...data.data, ...data.data, ...data.data]);
 
         setApiData(data.data);
       })
@@ -32,17 +28,11 @@ const NewArrivals = () => {
         styles="bg-[#F5F5F3] px-4"
       >
         <ProductsSliderContainer>
-          {duplicatedData.map((product) => (
-            <div key={product._id} className="px-2">
+          {duplicatedData.map((product, index) => (
+            <div key={product._id + index} className="px-2">
               <Product
-                _id={product._id}
-                img={product.productImages.productThumbnail.url}
-                productName={product.name}
-                price={product.price}
-                badge={product.discountPercentage > 0}
-                discountPercentage={product.discountPercentage}
-                discountedPrice={product.discountedPrice}
-                des={product.description}
+                key={product._id + index}
+                productInfo={product}
               />
             </div>
           ))}

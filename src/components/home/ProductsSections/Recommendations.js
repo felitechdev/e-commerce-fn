@@ -28,29 +28,11 @@ const Recommendations = () => {
       heading="Recommended Products"
     >
       <ProductsSliderContainer>
-        {duplicatedData.map((product) => (
-          <div key={product._id} className="px-2">
-            <Product
-              _id={product._id}
-              img={
-                product.productImages &&
-                product.productImages.productThumbnail &&
-                product.productImages.productThumbnail.url
-              }
-              productName={product.name}
-              price={product.price}
-              color={
-                product.colorImages &&
-                product.colorImages[0] &&
-                product.colorImages[0].colorName
-              }
-              badge={product.discountPercentage > 0}
-              discountPercentage={product.discountPercentage}
-              discountedPrice={product.discountedPrice}
-              des={product.description}
-            />
+        {duplicatedData.map((product, index) => {
+          <div key={product._id + index} className="px-2">
+            <Product productInfo={product} />
           </div>
-        ))}
+        })}
       </ProductsSliderContainer>
     </ProductsSection>
   );

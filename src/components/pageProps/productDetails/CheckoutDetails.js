@@ -6,27 +6,11 @@ const CheckoutDetails = ({ productInfo, userInfo }) => {
     const handleAddToCart = () => { 
         if (Object.keys(userInfo.profile).length > 0) {
            return dispatch(
-                addToUserCart({
-                    _id: productInfo._id,
-                    name: productInfo.productName,
-                    quantity: 1,
-                    image: productInfo.img,
-                    badge: productInfo.badge,
-                    price: productInfo.price,
-                    colors: productInfo.color,
-                })
+                addToUserCart(productInfo)
             )
         } else { 
           return  dispatch(
-                addToDefaultCart({
-                    _id: productInfo._id,
-                    name: productInfo.productName,
-                    quantity: 1,
-                    image: productInfo.img,
-                    badge: productInfo.badge,
-                    price: productInfo.price,
-                    colors: productInfo.color,
-                })
+                addToDefaultCart(productInfo)
             )
         }
     }
@@ -34,7 +18,7 @@ const CheckoutDetails = ({ productInfo, userInfo }) => {
 
     const dispatch = useDispatch();
     return (
-        <div className="flex flex-col min-w-[320px] h-[400px] gap-3 border-[2px] p-4 rounded-lg">
+        <div className="flex flex-col sml:min-w-[300px] lg:w-[20%] sml:max-h-[400px] gap-3 border-[2px] p-4 rounded-lg">
             <div>
                 <p className="text-base mb-1 block font-semibold">Delivery</p> 
                 

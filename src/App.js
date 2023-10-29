@@ -9,7 +9,7 @@ import Cart from "./pages/Default/Cart/Cart";
 import Contact from "./pages/Default/Contact/Contact";
 import Home from "./pages/Default/Home/Home";
 import Journal from "./pages/Default/Journal/Journal";
-import Offer from "./pages/Default/Offer/Offer";
+// import Offer from "./pages/Default/Offer/Offer";
 import Payment from "./pages/Default/payment/Payment";
 import ProductDetails from "./pages/Default/ProductDetails/ProductDetails";
 import Shop from "./pages/Default/Shop/Shop";
@@ -28,7 +28,7 @@ const App = () => {
         <Route path="contact" element={<Contact />}></Route>
         <Route path="journal" element={<Journal />}></Route>
         {/* ==================== Header Navlink End here ===================== */}
-        <Route path="offer" element={<Offer />}></Route>
+        {/* <Route path="offer" element={<Offer />}></Route> */}
         <Route path="product/:_id" element={<ProductDetails />}></Route>
         <Route path="cart" element={<Cart />}></Route>
         <Route path="paymentgateway" element={<Payment />}></Route>
@@ -40,7 +40,7 @@ const App = () => {
         <Route path="contact" element={<Contact />}></Route>
         <Route path="journal" element={<Journal />}></Route>
         {/* ==================== Header Navlink End here ===================== */}
-        <Route path="offer" element={<Offer />}></Route>
+        {/* <Route path="offer" element={<Offer />}></Route> */}
         <Route path="product/:_id" element={<ProductDetails />}></Route>
         <Route path="cart" element={<Cart />}></Route>
         <Route path="paymentgateway" element={<Payment />}></Route>

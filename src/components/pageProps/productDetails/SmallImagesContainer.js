@@ -1,14 +1,9 @@
-import productImg from "../../../assets/images/test_product_img.jpg"
-
-const SmallImagesContainer = () => { 
+const SmallImagesContainer = ({images}) => { 
     return (
         <div className="flex flex-row gap-1">
-            <img className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer" src={productImg} />
-            <img className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer" src={productImg} />
-            <img className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer" src={productImg} />
-            <img className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer" src={productImg} />
-            <img className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer" src={productImg} />
-            <img className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer" src={productImg} />
+            {images.map((imageInfo) => { 
+                return <img key={imageInfo._id} className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer" src={imageInfo.url} imageid={imageInfo._id} />
+            })}
         </div>
     )
 }

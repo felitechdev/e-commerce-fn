@@ -23,14 +23,7 @@ const Pagination = ({ itemsPerPage, products }) => {
       {currentItems.map((item) => (
           <div key={item._id} className="w-full">
             <Product
-              _id={item._id}
-              img={item.productImages.productThumbnail.url}
-              productName={item.name}
-              price={item.price}
-              color={item.color}
-              badge={item.percentageDiscount > 0}
-              discountedPrice={item.discountedPrice}
-              des={item.description}
+              productInfo={item}
             />
           </div>
         ))}
