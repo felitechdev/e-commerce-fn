@@ -2,31 +2,15 @@ import { useDispatch } from "react-redux";
 import { addToDefaultCart } from "../../../redux/productsSlice";
 import { addToUserCart } from "../../../redux/userSlice";
 
-const CheckoutDetails = ({ productInfo, userInfo }) => { 
+const CheckoutDetails = ({ DBProductInfo, userInfo }) => { 
     const handleAddToCart = () => { 
         if (Object.keys(userInfo.profile).length > 0) {
            return dispatch(
-                addToUserCart({
-                    _id: productInfo._id,
-                    name: productInfo.productName,
-                    quantity: 1,
-                    image: productInfo.img,
-                    badge: productInfo.badge,
-                    price: productInfo.price,
-                    colors: productInfo.color,
-                })
+                addToUserCart(DBProductInfo)
             )
         } else { 
           return  dispatch(
-                addToDefaultCart({
-                    _id: productInfo._id,
-                    name: productInfo.productName,
-                    quantity: 1,
-                    image: productInfo.img,
-                    badge: productInfo.badge,
-                    price: productInfo.price,
-                    colors: productInfo.color,
-                })
+                addToDefaultCart(DBProductInfo)
             )
         }
     }
@@ -34,7 +18,7 @@ const CheckoutDetails = ({ productInfo, userInfo }) => {
 
     const dispatch = useDispatch();
     return (
-        <div className="flex flex-col min-w-[320px] h-[400px] gap-3 border-[2px] p-4 rounded-lg">
+        <div className="flex flex-col sml:min-w-[300px] lg:w-[20%] sml:max-h-[400px] gap-3 border-[2px] p-4 rounded-lg">
             <div>
                 <p className="text-base mb-1 block font-semibold">Delivery</p> 
                 
@@ -53,10 +37,10 @@ const CheckoutDetails = ({ productInfo, userInfo }) => {
             </div>
             <div>
                 <p className="text-base mb-2 block font-semibold">Quantity</p> 
-                <div className="flex flex-row mb-1 gap-2 items-center text-center ">
-                    <button className="bg-[#E5E5E5] w-[24px] h-[24px] rounded-full px-[8px]">-</button>
+                <div className="flex flex-row mb-1 gap-2 items-center text-center">
+                    <span className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full">-</span>
                     <p className="text-sm font-semibold">1</p>
-                    <button className="bg-[#E5E5E5] w-[24px] h-[24px] rounded-full px-[8px]">+</button>
+                    <span className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full">+</span>
                 </div>
                 <p className="text-xs text-[#00000080] ">65 bottles available</p>
             </div>

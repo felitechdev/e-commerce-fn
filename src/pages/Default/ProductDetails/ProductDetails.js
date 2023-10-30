@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
 import ProductMainInfo from "../../../components/pageProps/productDetails/ProductMainInfo";
 import ProductImages from "../../../components/pageProps/productDetails/ProductImages";
 import CheckoutDetails from "../../../components/pageProps/productDetails/CheckoutDetails";
@@ -12,17 +11,20 @@ import { useSelector } from "react-redux";
 
 const ProductDetails = () => {
   const location = useLocation();
-  const [prevLocation, setPrevLocation] = useState("");
-  const [productInfo, setProductInfo] = useState([]);
+  const [DBProductInfo, setDBProductInfo] = useState(location.state.item);
+  const [cartItemInfo, setCartItemInfo] = useState({
+    imagePreview: location.state.item.productImages.productThumbnail.url,
+    
+  })
   // For similar products testing only
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
+
   const userInfo = useSelector((state) => state.userReducer.userInfo)
 
   useEffect(() => {
-    setProductInfo(location.state.item);
-    setPrevLocation(location.pathname);
-  }, [location, productInfo]);
+    setDBProductInfo(location.state.item);
+  }, [location.state.item]);
 
   useEffect(() => {
     // Fetch your API data here
@@ -30,11 +32,7 @@ const ProductDetails = () => {
       .then((response) => response.json())
       .then((data) => {
         // Duplicate the API data
-        const duplicated = Array.from({ length: 10 }, (_, index) => ({
-          ...data[index % data.length],
-          _id: `new-id-${index}`,
-        }));
-        setDuplicatedData(duplicated);
+        setDuplicatedData([...data, ...data, ...data]);
         setApiData(data);
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -42,49 +40,39 @@ const ProductDetails = () => {
 
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
-      <div className="max-w-container mx-auto p-4">
-        <div className="xl:-mt-10 -mt-7">
-          <Breadcrumbs title="" prevLocation={prevLocation} />
-        </div>
+      <div className="max-w-container mx-auto p-4 mt-10">
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-14">
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
-              <ProductImages productInfo={productInfo} />
-              <ProductMainInfo productInfo={productInfo} />
-              <CheckoutDetails productInfo={productInfo} userInfo={userInfo} />
+              <ProductImages
+                DBProductInfo={DBProductInfo}
+                cartItemInfo={cartItemInfo}
+                setCartItemInfo={setCartItemInfo} />
+              <ProductMainInfo
+                DBProductInfo={DBProductInfo}
+                cartItemInfo={cartItemInfo}
+                setCartItemInfo={setCartItemInfo}
+              />
+              <CheckoutDetails
+                DBProductInfo={DBProductInfo}
+                userInfo={userInfo}
+                cartItemInfo={cartItemInfo}
+                setCartItemInfo={setCartItemInfo}
+              />
             </div>
-            <ProductSecondaryInfo productInfo={productInfo} />
+            <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
           </div>
           {/* For testing similar products slider only */}
           <ProductsSection heading="Similar Products">
             <ProductsSliderContainer>
-              {duplicatedData.map((product) => (
-                <div key={product._id} className="px-2">
+              {duplicatedData.map((product, productIndex) => (
+                <div key={product._id + productIndex} className="px-2">
                   <Product
-                    _id={product._id}
-                    img={
-                      product.productImages &&
-                      product.productImages.productThumbnail &&
-                      product.productImages.productThumbnail.url
-                    }
-                    productName={product.name}
-                    price={product.price}
-                    color={
-                      product.colorImages &&
-                      product.colorImages[0] &&
-                      product.colorImages[0].colorName
-                    }
-                    badge={product.discountPercentage > 0}
-                    discountPercentage={product.discountPercentage}
-                    discountedPrice={product.discountedPrice}
-                    des={product.description}
+                    productInfo={product}
                   />
                 </div>
               ))}
             </ProductsSliderContainer>
-            {/* <Slider {...settings}>
-              
-            </Slider> */}
           </ProductsSection>
         </div>
       </div>
