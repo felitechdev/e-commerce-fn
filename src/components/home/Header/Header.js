@@ -286,7 +286,7 @@ const Header = (props) => {
                           </p>
                         )
                       ): ( productsCart.length > 0) && (
-                          <p className="absolute  -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
+                          <p className="absolute -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
                             {productsCart.length}
                           </p>
                         )

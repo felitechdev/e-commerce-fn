@@ -1,4 +1,4 @@
-const ProductSecondaryInfo = ({productInfo}) => { 
+const ProductSecondaryInfo = ({DBProductInfo}) => { 
     return (
         <div className="w-container lgl:w-[70%] flex flex-col ">
             <div className="border-b-2 h-8">
@@ -10,7 +10,7 @@ const ProductSecondaryInfo = ({productInfo}) => {
             <div className="border-2 border-t-0 rounded-bl-md rounded-br-md py-3 px-4">
                 {"description"}
                 {"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"}
-                <img src={productInfo.productImages.productThumbnail.url}/>
+                <img src={DBProductInfo.productImages.productThumbnail.url}/>
             </div>
         </div>
     )

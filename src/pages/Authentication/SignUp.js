@@ -134,11 +134,11 @@ const SignUp = () => {
   };
 
   const handleGoogleSignUp = (e) => { 
-    // e.preventDefault();
-    // return window.open(
-    //   `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
-    //   "_self"
-    // )
+    e.preventDefault();
+    return window.open(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
+      "_self"
+    )
   }
 
   useEffect(() => {
