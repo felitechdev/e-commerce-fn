@@ -2,15 +2,15 @@ import { useDispatch } from "react-redux";
 import { addToDefaultCart } from "../../../redux/productsSlice";
 import { addToUserCart } from "../../../redux/userSlice";
 
-const CheckoutDetails = ({ productInfo, userInfo }) => { 
+const CheckoutDetails = ({ DBProductInfo, userInfo }) => { 
     const handleAddToCart = () => { 
         if (Object.keys(userInfo.profile).length > 0) {
            return dispatch(
-                addToUserCart(productInfo)
+                addToUserCart(DBProductInfo)
             )
         } else { 
           return  dispatch(
-                addToDefaultCart(productInfo)
+                addToDefaultCart(DBProductInfo)
             )
         }
     }
@@ -37,10 +37,10 @@ const CheckoutDetails = ({ productInfo, userInfo }) => {
             </div>
             <div>
                 <p className="text-base mb-2 block font-semibold">Quantity</p> 
-                <div className="flex flex-row mb-1 gap-2 items-center text-center ">
-                    <button className="bg-[#E5E5E5] w-[24px] h-[24px] rounded-full px-[8px]">-</button>
+                <div className="flex flex-row mb-1 gap-2 items-center text-center">
+                    <span className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full">-</span>
                     <p className="text-sm font-semibold">1</p>
-                    <button className="bg-[#E5E5E5] w-[24px] h-[24px] rounded-full px-[8px]">+</button>
+                    <span className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full">+</span>
                 </div>
                 <p className="text-xs text-[#00000080] ">65 bottles available</p>
             </div>

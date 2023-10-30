@@ -11,14 +11,19 @@ import { useSelector } from "react-redux";
 
 const ProductDetails = () => {
   const location = useLocation();
-  const [productInfo, setProductInfo] = useState(location.state.item);
+  const [DBProductInfo, setDBProductInfo] = useState(location.state.item);
+  const [cartItemInfo, setCartItemInfo] = useState({
+    imagePreview: location.state.item.productImages.productThumbnail.url,
+    
+  })
   // For similar products testing only
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
+
   const userInfo = useSelector((state) => state.userReducer.userInfo)
 
   useEffect(() => {
-    setProductInfo(location.state.item);
+    setDBProductInfo(location.state.item);
   }, [location.state.item]);
 
   useEffect(() => {
@@ -39,11 +44,23 @@ const ProductDetails = () => {
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-14">
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
-              <ProductImages productInfo={productInfo} />
-              <ProductMainInfo productInfo={productInfo} />
-              <CheckoutDetails productInfo={productInfo} userInfo={userInfo} />
+              <ProductImages
+                DBProductInfo={DBProductInfo}
+                cartItemInfo={cartItemInfo}
+                setCartItemInfo={setCartItemInfo} />
+              <ProductMainInfo
+                DBProductInfo={DBProductInfo}
+                cartItemInfo={cartItemInfo}
+                setCartItemInfo={setCartItemInfo}
+              />
+              <CheckoutDetails
+                DBProductInfo={DBProductInfo}
+                userInfo={userInfo}
+                cartItemInfo={cartItemInfo}
+                setCartItemInfo={setCartItemInfo}
+              />
             </div>
-            <ProductSecondaryInfo productInfo={productInfo} />
+            <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
           </div>
           {/* For testing similar products slider only */}
           <ProductsSection heading="Similar Products">
