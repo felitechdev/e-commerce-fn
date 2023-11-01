@@ -1,16 +1,17 @@
 import { useDispatch } from "react-redux";
 import { addToDefaultCart } from "../../../redux/productsSlice";
 import { addToUserCart } from "../../../redux/userSlice";
+import SelectorsContainer from "./SelectorsContainer";
 
-const CheckoutDetails = ({ DBProductInfo, userInfo }) => { 
+const CheckoutDetails = (props) => { 
     const handleAddToCart = () => { 
-        if (Object.keys(userInfo.profile).length > 0) {
+        if (Object.keys(props.userInfo.profile).length > 0) {
            return dispatch(
-                addToUserCart(DBProductInfo)
+                addToUserCart(props.DBProductInfo)
             )
         } else { 
           return  dispatch(
-                addToDefaultCart(DBProductInfo)
+                addToDefaultCart(props.DBProductInfo)
             )
         }
     }
@@ -24,10 +25,13 @@ const CheckoutDetails = ({ DBProductInfo, userInfo }) => {
                 
                 <div className="mb-3">
                     <p className="text-sm mb-1 block font-normal">Delivery Fee: </p>
-                    <div className="flex flex-wrap gap-1">
-                        <div className="text-xs border-[2px] rounded-lg py-1 px-2">1000 RWF Kigali</div>
-                        <div className="text-xs border-[2px] rounded-lg py-1 px-2">3000 RWF outside Kigali</div>
-                    </div>
+                    <SelectorsContainer 
+                        cartItemInfo={props.cartItemInfo}
+                        setCartItemInfo={props.setCartItemInfo}
+                        values={["1000 RWF Kigali", "3000 RWF outside Kigali"]}
+                        itemType="deliveryFee"
+                        size="small"
+                    />
                 </div> 
                 <div className="mb-3">
                     <p className="text-sm inline-block font-normal">Estimated derivery: </p>

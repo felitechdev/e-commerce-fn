@@ -1,4 +1,5 @@
 import { FiHeart } from "react-icons/fi";
+import SmallImagesContainer from "./SmallImagesContainer";
 
 const ProductImages = (props) => {
 
@@ -22,16 +23,12 @@ const ProductImages = (props) => {
                         src={props.DBProductInfo.productImages.productThumbnail.url}
                         onClick={handleImageClick}
                     />
-                    { props.DBProductInfo.productImages.otherImages.map((imageInfo) => { 
-                        return (<img
-                            key={imageInfo._id}
-                            className="w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer"
-                            src={imageInfo.url}
-                            imageid={imageInfo._id}
-                            onClick={handleImageClick}
-                            />);
-                        })
-                    }
+                    <SmallImagesContainer
+                        imagesInfo={props.DBProductInfo.productImages.otherImages}
+                        cartItemInfo={props.cartItemInfo}
+                        setCartItemInfo={props.setCartItemInfo}
+                        imageCategory={"other-images"}
+                    />
                 </div>
             </div>
         </div>
