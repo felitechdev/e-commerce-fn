@@ -16,9 +16,12 @@ import Shop from "./pages/Default/Shop/Shop";
 import UserLayout from "./Layouts/UserLayout";
 import IndexLayout from "./Layouts/IndexLayout";
 import UserHome from "./pages/Account/Home/UserHome";
+import Loader from "./components/loader/Loader";
 
 const App = () => {
   return (
+    <>
+    <Loader />
     <Routes>
       <Route path="/" element={<IndexLayout />}>
         {/* ==================== Header Navlink Start here =================== */}
@@ -48,6 +51,7 @@ const App = () => {
       <Route path="signup" element={<SignUp />}></Route>
       <Route path="signin" element={<SignIn />}></Route>
     </Routes>
+    </>
   );
 };
 
