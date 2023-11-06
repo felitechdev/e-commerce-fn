@@ -8,7 +8,7 @@ const SelectorsContainer = (props) => {
         setSelectedItem({ itemname, itemstype })
         props.setCartItemInfo({
             ...props.cartItemInfo,
-            [`$itemstype`]: e.target.innerHTML,
+            [`${itemstype}`]: e.target.innerHTML,
         })
     }
 

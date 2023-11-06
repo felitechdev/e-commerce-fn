@@ -5,16 +5,18 @@ import SelectorsContainer from "./SelectorsContainer";
 
 const CheckoutDetails = (props) => { 
     const handleAddToCart = () => { 
-        if (Object.keys(props.userInfo.profile).length > 0) {
-           return dispatch(
-                addToUserCart(props.DBProductInfo)
-            )
-        } else { 
-          return  dispatch(
-                addToDefaultCart(props.DBProductInfo)
-            )
-        }
+        // if (Object.keys(props.userInfo.profile).length > 0) {
+        //    return dispatch(
+        //         addToUserCart(props.DBProductInfo)
+        //     )
+        // } else { 
+        //   return  dispatch(
+        //         addToDefaultCart(props.DBProductInfo)
+        //     )
+        // }
+        console.log(props.cartItemInfo);
     }
+
 
 
     const dispatch = useDispatch();
@@ -42,11 +44,31 @@ const CheckoutDetails = (props) => {
             <div>
                 <p className="text-base mb-2 block font-semibold">Quantity</p> 
                 <div className="flex flex-row mb-1 gap-2 items-center text-center">
-                    <span className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full">-</span>
-                    <p className="text-sm font-semibold">1</p>
-                    <span className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full">+</span>
+                    <button
+                        className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]"
+                        onClick={() => props.setCartItemInfo(
+                            (props.cartItemInfo.selectedQuantity > 0) ? {
+                                ...props.cartItemInfo,
+                                selectedQuantity: props.cartItemInfo.selectedQuantity - 1,
+                            } : {
+                                ...props.cartItemInfo,
+                                selectedQuantity: props.cartItemInfo.selectedQuantity,
+                            })}
+                    >-</button>
+                    <p className="text-sm font-semibold" pattern="[0-9]*" >{props.cartItemInfo.selectedQuantity}</p>
+                    <button
+                        className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]"
+                        onClick={() => props.setCartItemInfo(
+                            (props.cartItemInfo.selectedQuantity < props.DBProductInfo.stockQuantity) ? {
+                                ...props.cartItemInfo,
+                                selectedQuantity: props.cartItemInfo.selectedQuantity + 1,
+                            } : {
+                                ...props.cartItemInfo,
+                                selectedQuantity: props.cartItemInfo.selectedQuantity,
+                            })}
+                    >+</button>
                 </div>
-                <p className="text-xs text-[#00000080] ">65 bottles available</p>
+                <p className="text-xs text-[#00000080] ">{props.DBProductInfo.stockQuantity} {props.DBProductInfo.quantityParameter} available</p>
             </div>
             <div className="flex flex-col gap-2 mt-8">
                 <button
