@@ -14,7 +14,8 @@ const ProductDetails = () => {
   const [DBProductInfo, setDBProductInfo] = useState(location.state.item);
   const [cartItemInfo, setCartItemInfo] = useState({
     imagePreview: location.state.item.productImages.productThumbnail.url,
-    
+    productDBId: location.state.item._id,
+    selectedQuantity: 0, 
   })
   // For similar products testing only
   const [apiData, setApiData] = useState([]);
@@ -46,6 +47,7 @@ const ProductDetails = () => {
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
               <ProductImages
                 DBProductInfo={DBProductInfo}
+                userInfo={userInfo}
                 cartItemInfo={cartItemInfo}
                 setCartItemInfo={setCartItemInfo} />
               <ProductMainInfo

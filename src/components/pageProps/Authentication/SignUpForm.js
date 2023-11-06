@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FeliTechLogo_transparent } from "../../assets/images";
-import googelIcon from "../../assets/images/google-icon.jpg"
+import { FeliTechLogo_transparent } from "../../../assets/images";
+import googelIcon from "../../../assets/images/google-icon.jpg"
 import axios from "axios";
-import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg"
-import { logIn } from "../../redux/userSlice"
+import { ReactComponent as Spinner } from "../../../assets/images/Spinner.svg"
+import { logIn } from "../../../redux/userSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
-import  AlertComponent  from "../../components/designLayouts/AlertComponent.js";
+import  AlertComponent  from "../../../components/designLayouts/AlertComponent.js";
 
-const SignUp = () => {
+const SignUpForm = (props) => {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -150,7 +150,6 @@ const SignUp = () => {
   }, [signInError])
 
   return (
-    <div className="w-full h-screen flex  items-center justify-center">
       <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
         <Link to="/">
           <div className="text-center">
@@ -292,17 +291,17 @@ const SignUp = () => {
               </button>
               <p className="text-sm text-center font-titleFont font-medium">
                 Already have an account?{" "}
-                <Link to="/signin">
-                <a className="text-[#1E61CC] Bduration-300">
+                <a 
+                    className="text-[#1E61CC] Bduration-300 cursor-pointer"
+                    onClick={() => props.setOpenForm({signin: true, signup: false})}
+                >
                   Sign in
                 </a>
-                </Link>
                 </p>
               </div>
             </div>
           </form>
       </div>
-    </div>
   );
 };
-export default SignUp;
+export default SignUpForm;

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FeliTechLogo_transparent } from "../../assets/images";
-import googelIcon from "../../assets/images/google-icon.jpg"
+import { FeliTechLogo_transparent } from "../../../assets/images";
+import googelIcon from "../../../assets/images/google-icon.jpg"
 import axios from "axios";
-import { logIn } from "../../redux/userSlice"
+import { logIn } from "../../../redux/userSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg"
-import  AlertComponent  from "../../components/designLayouts/AlertComponent.js";
+import { ReactComponent as Spinner } from "../../../assets/images/Spinner.svg"
+import  AlertComponent  from "../../../components/designLayouts/AlertComponent.js";
 
 
-const SignIn = () => {
+const SignInForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -119,8 +119,7 @@ const SignIn = () => {
   }, [signInError])
 
   return (
-    <div className="w-full h-screen flex  items-center justify-center">
-      <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
+      <div className="w-full bg-white flex flex-col gap-4">
         <Link to="/">
           <img src={FeliTechLogo_transparent} alt="logoImg" className="w-32 mx-auto" />
         </Link>
@@ -194,16 +193,17 @@ const SignIn = () => {
                 </button>
                 <p className="text-sm text-center font-titleFont font-medium -mt-2">
                   Don't have an Account?{" "}
-                  <Link to="/signup">
-                    <span className="text-[#1E61CC] duration-300">
+                    <span 
+                        className="text-[#1E61CC] duration-300 cursor-pointer"
+                        onClick={() => props.setOpenForm({signin: false, signup: true})}
+                    >
                       Sign up
                     </span>
-                  </Link>
                 </p>
-                <div className="ml-[5%]">
-                  <hr className="inline-block w-[40%] align-middle"></hr>
+                <div className="ml-[5%] text-center">
+                  <hr className="inline-block w-[30%] align-middle"></hr>
                   <span className="inline-block mx-4">or</span>
-                  <hr className="inline-block w-[40%] align-middle"></hr>
+                  <hr className="inline-block w-[30%] align-middle"></hr>
                 </div>  
                 <button
                   className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base 
@@ -218,8 +218,7 @@ const SignIn = () => {
           </form>
         
       </div>
-    </div>
   );
 };
 
-export default SignIn;
+export default SignInForm;

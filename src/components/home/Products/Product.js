@@ -1,14 +1,17 @@
 import React from "react";
 import Image from "../../designLayouts/Image";
 import Badge from "./Badge";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Product = ({productInfo}) => {
   const rootId = productInfo._id;
-
   const navigate = useNavigate();
+  const location = useLocation()
+
+  const currentPathName = location.pathname
+  
   const handleProductDetails = () => {
-    navigate(`/product/${rootId}`, {
+    navigate(`${currentPathName}product/${rootId}`, {
       state: {
         item: productInfo,
       },
