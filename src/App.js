@@ -15,9 +15,12 @@ import UserLayout from "./Layouts/UserLayout";
 import IndexLayout from "./Layouts/IndexLayout";
 import UserHome from "./pages/Account/Home/UserHome";
 import Authentication from "./pages/Authentication";
+import Loader from "./components/loader/Loader";
 
 const App = () => {
   return (
+    <>
+    <Loader />
     <Routes>
       <Route path="/" element={<IndexLayout />}>
         {/* ==================== Header Navlink Start here =================== */}
@@ -47,6 +50,7 @@ const App = () => {
       <Route path="signup" element={<Authentication openForm={{signin: false, signup: true}}/>}></Route>
       <Route path="signin" element={<Authentication openForm={{signin: true, signup: false}}/>}></Route>
     </Routes>
+    </>
   );
 };
 

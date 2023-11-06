@@ -1,0 +1,14 @@
+.loader {
+    height: 15px;
+    background-color: #ccc;
+    z-index: 100;
+    padding: 0 .4rem;
+  }
+  
+  .loader-progress {
+    height: 8px;
+    margin-top: 3.5px;
+    background-color: #1D6F2B;
+    transition: width 0.3s ease-in-out;
+  }
+  

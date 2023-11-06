@@ -3,11 +3,11 @@ import HeaderBottom from "../components/home/Header/HeaderBottom";
 import Footer from "../components/home/Footer/Footer";
 import FooterBottom from "../components/home/Footer/FooterBottom";
 import { Outlet } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logIn } from "../redux/userSlice";
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { logIn } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
 
 const IndexLayout = () => {
   const Dispatch = useDispatch()

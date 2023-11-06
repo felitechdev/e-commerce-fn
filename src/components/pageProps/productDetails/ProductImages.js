@@ -5,7 +5,7 @@ import Modal from "../../designLayouts/Modal";
 import SignInForm from "../Authentication/SignInForm";
 import SignUpForm from "../Authentication/SignUpForm";
 import { useSelector } from "react-redux";
-import ReactImageMagnify from "react-image-magnify";
+// import ReactImageMagnify from "react-image-magnify";
 
 const ProductImages = (props) => {
 
