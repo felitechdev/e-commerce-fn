@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import MenuIconWhite from "../../assets/images/menu-white.png"
 import {
   bannerImgOne,
   bannerImgTwo,
@@ -24,6 +25,55 @@ const Banner = () => {
     {
       title: 'Ad 3',
       image: 'https://ae04.alicdn.com/kf/Se810acbc45bb4153a2d05e7f60b52c22C.jpg_480x480.jpg_.webp',
+    },
+  ];
+  var category = [
+    {
+      text: 'women’s Fashion',
+      showSubList: false,
+      subItems: [
+        { text: 'Dresses' },
+        { text: 'Pants' },
+        { text: 'Shoes' },
+      ],
+    },
+    {
+      text: 'men’s Fashion',
+      showSubList: false,
+      subItems: [
+        { text: 'Sub-Item 3' },
+        { text: 'Sub-Item 4' },
+      ],
+    },
+    {
+      text: 'Phone & telecommunications ',
+      showSubList: false,
+      subItems: [],
+    },
+    {
+        text: 'Computer, office & security ',
+        showSubList: false,
+        subItems: [],
+    },
+    {
+        text: 'Jewelry & Watch',
+        showSubList: false,
+        subItems: [],
+    },
+    {
+        text: 'Bags & shoes',
+        showSubList: false,
+        subItems: [],
+    },
+    {
+        text: 'Tools & Home improvement',
+        showSubList: false,
+        subItems: [],
+    },
+    {
+        text: 'Beauty, Health & hair ',
+        showSubList: false,
+        subItems: [],
     },
   ];
   const settings = {
@@ -119,18 +169,18 @@ const Banner = () => {
   return (
     
     <div className=" bg-white w-full flex justify-center">
-      <div className="container">
-        <div class="w-full flex gap-4 pt-2">
-          <div className="w-[20%]">
+      <div className="w-full md:container md:mx-auto">
+        <div class="w-full flex gap-1 pt-2">
+          <div className="hidden lg:w-[20%] lg:block">
             <div class="relative text-white bg-[#D9D9D970]  border-box cursor-pointer items-center gap-2">
-              <div class="flex bg-[#1D6F2B] p-2 items-center gap-2 rounded-md">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAC8+AAAvPgGfNCOsAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAQ9JREFUeJzt2EFSwkAQRuGHBwCWooULvYOw0RNwauEWgEvdegGVRSi29qR6yCDvq5rdVNI9lWQyP0iSJEm6RqMe8x+BaYVaMnwB78BvjYsvgf3x4i2P3bHWVFPgs4HmouMDmEQauwkuwCtwG5zbghnwEpkYXYCf/rUMJvU7MKF7rIZ+tEtegXHmAgAsgG0Dzf01tsBztKnSbRDgiba3wf3QRUiSpMtgHlDAPKCB5koOQ+YBkYnmAUHmAZgHnJgHSJKkf6HPj1CmO7qDS5aqeUCmB2BDnV/hKnlAtlrNF+cBQ7jnPIeiVaSYaB6Q6ftM92n6O7Cm/iuQngdkmgNvXGgekGlGtxVmMQ+QJEmSFHIAUwTltEc0kbgAAAAASUVORK5CYII=" class="w-5 h-5" />
+              <div class="flex bg-[#1D6F2B] p-2 py-3 items-center gap-2 rounded-md">
+                <img src={MenuIconWhite} class="w-5 h-5" />
                 <p class="text-[14px] font-semibold">Categories</p>
               </div>
-              <NestedList />
+              <NestedList props={category} />
             </div>
           </div>
-          <div className="w-[60%]">
+          <div className="w-full lg:w-[60%]">
           <Slider {...settings} className="px-4 w-full">
               <div className="w-1408 h-[15rem] mx-auto rounded-md">
                 <Image imgSrc={bannerImgOne}
@@ -146,7 +196,7 @@ const Banner = () => {
               </div>
           </Slider>
           </div>
-          <div className="w-[20%]">
+          <div className="hidden lg:w-[20%] lg:block">
             <ImageSlider ads={ads} />
           </div>
         </div>
