@@ -49,13 +49,13 @@ const HeaderBottom = () => {
             ref={ref}
             className={"relative  border-box cursor-pointer items-center gap-2 text-[#1D6F2B]"}
           >
-            <div className={`flex py-2 px-6 items-center gap-2 rounded-md ${ showCategories ? `bg-[#1D6F2B] text-white` : ""}`}>
+            {/* <div className={`flex py-2 px-6 items-center gap-2 rounded-md ${ showCategories ? `bg-[#1D6F2B] text-white` : ""}`}>
               <img src={showCategories ? MenuIconWhite : MenuIcon } className="w-5 h-5" />
               <p className="text-[14px] font-semibold">Categories</p>
-            </div>
+            </div> */}
             
 
-            {showCategories && (
+            {/* {showCategories && (
               <motion.ul
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -81,7 +81,7 @@ const HeaderBottom = () => {
                   Home appliances
                 </li>
               </motion.ul>
-            )}
+            )} */}
           </div>
           <div className="relative w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl border-[2px]">
             <input
