@@ -1,5 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from "swiper/modules";
 import 'swiper/swiper-bundle.css';
 import './ImageSlider.css';
 
@@ -9,6 +10,13 @@ const ImageSlider = ({ ads }) => {
       slidesPerView={1}
       spaceBetween={30}
       loop={true}
+      autoplay={{
+        delay: 5500,
+        disableOnInteraction: true,
+        waitForTransition: false,
+        reverseDirection: false,
+      }}
+      modules={[Autoplay]}
       className="image-slider h-full"
     >
       {ads.map((ad, index) => (
