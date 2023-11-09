@@ -45,7 +45,7 @@ const ProductMainInfo = (props) => {
             <SelectorsContainer 
               cartItemInfo={props.cartItemInfo}
               setCartItemInfo={props.setCartItemInfo}
-              values={props.DBProductInfo.availableSizes}
+              displayedValues={props.DBProductInfo.availableSizes}
               itemType="size"
               size="large"
             />

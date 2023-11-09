@@ -13,23 +13,22 @@ const SelectorsContainer = (props) => {
     }
 
     return (
-        <div className="flex flex-wrap gap-1">{props.values.map((size, index) => { 
+        <div className="flex flex-wrap gap-1">{props.displayedValues.map((value, index) => { 
             return <div
                 key={index}
                 className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer ${
                     (props.size === 'large') ? 'text-sm': 'text-xs'
                 } ${
                     selectedItem && 
-                    selectedItem.itemname === size && 
+                    selectedItem.itemname === value && 
                     selectedItem.itemstype === props.itemType
                         ? 'item-selected'
                         : ''
                 }`}
-                data-itemname={size}
                 data-itemstype={props.itemType}
                 onClick={handleItemClick}
             >
-                {size}
+                {value}
             </div>
           })} 
           </div>

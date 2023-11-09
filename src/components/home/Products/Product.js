@@ -8,12 +8,12 @@ const Product = ({productInfo}) => {
   const navigate = useNavigate();
   const location = useLocation()
 
-  const currentPathName = location.pathname
+  // const currentPathName = location.pathname
   
   const handleProductDetails = () => {
-    navigate(`${currentPathName}product/${rootId}`, {
+    navigate(`product/${rootId}`, {
       state: {
-        item: productInfo,
+        productId: productInfo._id,
       },
       replace: true,
     });

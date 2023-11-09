@@ -150,14 +150,8 @@ const SignUpForm = (props) => {
   }, [signInError])
 
   return (
-      <div className="w-[500px] bg-white px-6 flex flex-col gap-4">
-        <Link to="/">
-          <div className="text-center">
-            <img src={FeliTechLogo_transparent} alt="logoImg" className="w-28 mx-auto" />
-          </div>
-        </Link>
           <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">
-            <div className="px-6 py-4 w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
+            <div className="px-6  w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
               {errorAlert.status && (
                 <AlertComponent
                   color="failure"
@@ -168,44 +162,47 @@ const SignUpForm = (props) => {
                 Create your account
               </h1>
               <div className="flex flex-col gap-3">
-                {/* First name */}
-                <div className="flex flex-col gap-.5">
-                  <p className="font-titleFont text-base font-semibold text-gray-600">
-                    First Name
-                  </p>
-                  <input      
-                    onChange={handleFirstName}
-                    value={firstName}
+                <div className="flex flex-row gap-3">
+                    {/* First name */}
+                  <div className="flex flex-col gap-.5">
+                    <p className="font-titleFont text-base font-semibold text-gray-600">
+                      First Name
+                    </p>
+                    <input      
+                      onChange={handleFirstName}
+                      value={firstName}
+                        className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                        type="text"
+                        placeholder="eg.John"  
+                    />
+                    {errFirstName && (
+                      <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                        <span className="font-bold italic mr-1">!</span>
+                        {errFirstName}
+                      </p>
+                    )}
+                  </div>
+                  {/* Last name */}
+                  <div className="flex flex-col gap-.5">
+                    <p className="font-titleFont text-base font-semibold text-gray-600">
+                      Last Name
+                    </p>
+                    <input
+                      onChange={handleLastName}
+                      value={lastName}
                       className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                       type="text"
-                      placeholder="eg.John"  
-                  />
-                  {errFirstName && (
-                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                      <span className="font-bold italic mr-1">!</span>
-                      {errFirstName}
-                    </p>
-                  )}
+                      placeholder=" eg: Doe" 
+                    />
+                    {errLastName && (
+                      <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                        <span className="font-bold italic mr-1">!</span>
+                        {errLastName}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                 {/* Last name */}
-                 <div className="flex flex-col gap-.5">
-                  <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Last Name
-                  </p>
-                  <input
-                    onChange={handleLastName}
-                    value={lastName}
-                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-                    type="text"
-                    placeholder=" eg: Doe" 
-                  />
-                  {errLastName && (
-                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                      <span className="font-bold italic mr-1">!</span>
-                      {errLastName}
-                    </p>
-                  )}
-                </div>
+                
                 {/* Email */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
@@ -301,7 +298,6 @@ const SignUpForm = (props) => {
               </div>
             </div>
           </form>
-      </div>
   );
 };
 export default SignUpForm;
