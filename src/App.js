@@ -3,8 +3,6 @@ import {
   Route,
 } from "react-router-dom";
 import About from "./pages/Default/About/About";
-import SignIn from "./pages/Authentication/SignIn";
-import SignUp from "./pages/Authentication/SignUp";
 import Cart from "./pages/Default/Cart/Cart";
 import Contact from "./pages/Default/Contact/Contact";
 import Home from "./pages/Default/Home/Home";
@@ -16,6 +14,7 @@ import Shop from "./pages/Default/Shop/Shop";
 import UserLayout from "./Layouts/UserLayout";
 import IndexLayout from "./Layouts/IndexLayout";
 import UserHome from "./pages/Account/Home/UserHome";
+import Authentication from "./pages/Authentication";
 import Loader from "./components/loader/Loader";
 
 const App = () => {
@@ -48,8 +47,8 @@ const App = () => {
         <Route path="cart" element={<Cart />}></Route>
         <Route path="paymentgateway" element={<Payment />}></Route>
       </Route>
-      <Route path="signup" element={<SignUp />}></Route>
-      <Route path="signin" element={<SignIn />}></Route>
+      <Route path="signup" element={<Authentication openForm={{signin: false, signup: true}}/>}></Route>
+      <Route path="signin" element={<Authentication openForm={{signin: true, signup: false}}/>}></Route>
     </Routes>
     </>
   );

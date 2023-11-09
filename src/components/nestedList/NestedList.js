@@ -40,7 +40,7 @@ const NestedList = () => {
     <ul className="space-y-2 h-[12rem] overflow-scroll mt-2 scrollbar-hide px-2">
       {items.map((item, index) => (
         <li className="hover:text-[#1D6F2B]" key={index}>
-          <span onClick={() => handleCategoryClick(index)}>{item.text}</span>
+          <span className='text-black' onClick={() => handleCategoryClick(index)}>{item.text}</span>
           {item.showSubList && item.subItems.length > 0 && (
             <div className={`absolute top-0 left-[17.5rem] flex w-[20rem] ${item.showSubList ? 'fade-in' : 'fade-out'}`}>
               <div className="w-full">

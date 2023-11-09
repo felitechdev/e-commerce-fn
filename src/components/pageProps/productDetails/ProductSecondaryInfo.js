@@ -4,7 +4,7 @@ const ProductSecondaryInfo = ({DBProductInfo}) => {
             <div className="border-b-2 h-8">
                 <ul className="font-semibold">
                     <li className="inline-block cursor-pointer  bg-[#E5E5E5] py-[4px] px-[18px]">Description</li>
-                    <li className="inline-block mr-6 cursor-pointer  hover:text-[#1D6F2B] py-[4px] px-[18px]">Reviews</li> 
+                    {/* <li className="inline-block mr-6 cursor-pointer  hover:text-[#1D6F2B] py-[4px] px-[18px]">Reviews</li>  */}
                 </ul>
             </div>
             <div className="border-2 border-t-0 rounded-bl-md rounded-br-md py-3 px-4">
