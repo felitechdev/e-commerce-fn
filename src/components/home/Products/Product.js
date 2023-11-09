@@ -20,7 +20,7 @@ const Product = ({productInfo}) => {
   };
   return (
     <div
-      className="w-full h-64 relative group border-2 border-gray-200 rounded-md cursor-pointer"
+      className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
       onClick={handleProductDetails}
     >
       <div className="max-w-80 h-[70%] relative overflow-y-hidden ">
