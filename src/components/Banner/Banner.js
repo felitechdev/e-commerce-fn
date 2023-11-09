@@ -120,8 +120,8 @@ const Banner = () => {
     
     <div className=" bg-white w-full flex justify-center">
       <div className="container">
-        <div class="w-full flex gap-4 pt-2">
-          <div className="w-[20%]">
+        <div class="relative w-full flex gap-4 pt-2">
+          <div className="z-10 w-[20%]">
             <div class="relative text-white bg-[#D9D9D970]  border-box cursor-pointer items-center gap-2">
               <div class="flex bg-[#1D6F2B] p-2 items-center gap-2 rounded-md">
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAC8+AAAvPgGfNCOsAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAQ9JREFUeJzt2EFSwkAQRuGHBwCWooULvYOw0RNwauEWgEvdegGVRSi29qR6yCDvq5rdVNI9lWQyP0iSJEm6RqMe8x+BaYVaMnwB78BvjYsvgf3x4i2P3bHWVFPgs4HmouMDmEQauwkuwCtwG5zbghnwEpkYXYCf/rUMJvU7MKF7rIZ+tEtegXHmAgAsgG0Dzf01tsBztKnSbRDgiba3wf3QRUiSpMtgHlDAPKCB5koOQ+YBkYnmAUHmAZgHnJgHSJKkf6HPj1CmO7qDS5aqeUCmB2BDnV/hKnlAtlrNF+cBQ7jnPIeiVaSYaB6Q6ftM92n6O7Cm/iuQngdkmgNvXGgekGlGtxVmMQ+QJEmSFHIAUwTltEc0kbgAAAAASUVORK5CYII=" class="w-5 h-5" />
