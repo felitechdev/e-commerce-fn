@@ -8,13 +8,14 @@ import ProductsSection from "../../../components/home/Products/ProductsSection";
 import Product from "../../../components/home/Products/Product";
 import ProductsSliderContainer from "../../../components/home/Products/ProductsSliderContainer";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const ProductDetails = () => {
   const location = useLocation();
-  const [DBProductInfo, setDBProductInfo] = useState(location.state.item);
+  const [DBProductInfo, setDBProductInfo] = useState({});
   const [cartItemInfo, setCartItemInfo] = useState({
-    imagePreview: location.state.item.productImages.productThumbnail.url,
-    productDBId: location.state.item._id,
+    // imagePreview: location.state.item.productImages.productThumbnail.url,
+    productDBId: location.state.productId,
     selectedQuantity: 0, 
   })
   // For similar products testing only
@@ -24,14 +25,26 @@ const ProductDetails = () => {
   const userInfo = useSelector((state) => state.userReducer.userInfo)
 
   useEffect(() => {
-    setDBProductInfo(location.state.item);
-  }, [location.state.item]);
+    const fetchProductInfo = async () => { 
+      const productInfo = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/product/${location.state.productId}`)
+      setDBProductInfo(productInfo.data);
+      setCartItemInfo({
+        ...cartItemInfo,
+        imagePreview: productInfo.data.productImages.productThumbnail.url,
+      })
+    }
+    fetchProductInfo()
+    // console.log(location.state.productId);
+  }, [location.state.productId]);
 
-  useEffect(() => {
+  useEffect( () => {
+
+
     // Fetch your API data here
     fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         // Duplicate the API data
         setDuplicatedData([...data, ...data, ...data]);
         setApiData(data);
@@ -45,24 +58,29 @@ const ProductDetails = () => {
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-14">
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
-              <ProductImages
-                DBProductInfo={DBProductInfo}
-                userInfo={userInfo}
-                cartItemInfo={cartItemInfo}
-                setCartItemInfo={setCartItemInfo} />
-              <ProductMainInfo
-                DBProductInfo={DBProductInfo}
-                cartItemInfo={cartItemInfo}
-                setCartItemInfo={setCartItemInfo}
-              />
-              <CheckoutDetails
-                DBProductInfo={DBProductInfo}
-                userInfo={userInfo}
-                cartItemInfo={cartItemInfo}
-                setCartItemInfo={setCartItemInfo}
-              />
+              {Object.keys(DBProductInfo).length > 0 ? <>
+                {console.log(DBProductInfo)}
+                
+                <ProductImages
+                  DBProductInfo={DBProductInfo}
+                  userInfo={userInfo}
+                  cartItemInfo={cartItemInfo}
+                  setCartItemInfo={setCartItemInfo} />
+                <ProductMainInfo
+                  DBProductInfo={DBProductInfo}
+                  cartItemInfo={cartItemInfo}
+                  setCartItemInfo={setCartItemInfo}
+                />
+                <CheckoutDetails
+                  DBProductInfo={DBProductInfo}
+                  userInfo={userInfo}
+                  cartItemInfo={cartItemInfo}
+                  setCartItemInfo={setCartItemInfo}
+                />
+                <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
+              </> : ""}
             </div>
-            <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
+            
           </div>
           {/* For testing similar products slider only */}
           <ProductsSection heading="Similar Products">
