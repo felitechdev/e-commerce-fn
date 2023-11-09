@@ -47,14 +47,13 @@ const HeaderBottom = () => {
           <div
             onClick={() => handleCategoriesMenuClick()}
             ref={ref}
-            className={"relative  border-box cursor-pointer items-center gap-2 text-[#1D6F2B]"}
+            className={"relative  border-box cursor-pointer items-center gap-2 text-[#1D6F2B] "}
           >
-            <div className={`flex py-2 px-6 items-center gap-2 rounded-md ${ showCategories ? `bg-[#1D6F2B] text-white` : ""}`}>
+            <div className={`lg:hidden flex py-2 px-6 items-center gap-2 rounded-md ${ showCategories ? `bg-[#1D6F2B] text-white` : ""}`}>
               <img src={showCategories ? MenuIconWhite : MenuIcon } className="w-5 h-5" />
               <p className="text-[14px] font-semibold">Categories</p>
             </div>
             
-
             {showCategories && (
               <motion.ul
                 initial={{ y: 30, opacity: 0 }}
