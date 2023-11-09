@@ -119,10 +119,6 @@ const SignInForm = (props) => {
   }, [signInError])
 
   return (
-      <div className="w-full bg-white flex flex-col gap-4">
-        <Link to="/">
-          <img src={FeliTechLogo_transparent} alt="logoImg" className="w-32 mx-auto" />
-        </Link>
           <form className="w-full lgl:w-[450px] h-auto flex flex-col gap-4 items-center">
             <div className="px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin">
             {errorAlert.status && (
@@ -216,8 +212,6 @@ const SignInForm = (props) => {
               </div>
             </div>
           </form>
-        
-      </div>
   );
 };
 

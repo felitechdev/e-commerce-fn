@@ -14,7 +14,6 @@ const ProductDetails = () => {
   const location = useLocation();
   const [DBProductInfo, setDBProductInfo] = useState({});
   const [cartItemInfo, setCartItemInfo] = useState({
-    // imagePreview: location.state.item.productImages.productThumbnail.url,
     productDBId: location.state.productId,
     selectedQuantity: 0, 
   })
