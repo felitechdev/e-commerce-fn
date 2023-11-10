@@ -41,15 +41,15 @@ const HeaderBottom = () => {
   }, [searchQuery]);
 
   return (
-    <div className="w-full bg-[#F5F5F3] relative">
+    <div className="hidden md:block w-full bg-[#F5F5F3] relative">
       <div className="max-w-container mx-auto">
-        <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
+        <Flex className="flex pt-5 items-center lg:flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
           <div
             onClick={() => handleCategoriesMenuClick()}
             ref={ref}
             className={"relative  border-box cursor-pointer items-center gap-2 text-[#1D6F2B] "}
           >
-            <div className={`lg:hidden flex py-2 px-6 items-center gap-2 rounded-md ${ showCategories ? `bg-[#1D6F2B] text-white` : ""}`}>
+            <div className={`lg:hidden flex py-4 px-6 items-center gap-2 rounded-md ${ showCategories ? `bg-[#1D6F2B] text-white` : ""}`}>
               <img src={showCategories ? MenuIconWhite : MenuIcon } className="w-5 h-5" />
               <p className="text-[14px] font-semibold">Categories</p>
             </div>
