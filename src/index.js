@@ -7,14 +7,18 @@ import { store, persistor } from "./redux/store";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+import { CurrencyProvider } from "./components/Currency/CurrencyProvider/CurrencyProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
+  <CurrencyProvider>
+
     {/* <PersistGate loading={null} persistor={persistor}> */}
       <BrowserRouter>
         <App />
       </BrowserRouter>
     {/* </PersistGate> */}
+    </CurrencyProvider>
   </Provider>
 );
