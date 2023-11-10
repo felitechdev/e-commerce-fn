@@ -5,7 +5,7 @@ import FooterBottom from "../components/home/Footer/FooterBottom";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const UserLayout = () => {
+const UserLayout = (props) => {
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo)
 
   return (

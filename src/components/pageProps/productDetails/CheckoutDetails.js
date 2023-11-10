@@ -30,8 +30,8 @@ const CheckoutDetails = (props) => {
                     <SelectorsContainer 
                         cartItemInfo={props.cartItemInfo}
                         setCartItemInfo={props.setCartItemInfo}
-                        values={["1000 RWF Kigali", "3000 RWF outside Kigali"]}
-                        itemType="deliveryFee"
+                        displayedValues={["1000 RWF Kigali", "3000 RWF outside Kigali"]}
+                        itemType="deliveryType"
                         size="small"
                     />
                 </div> 

@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 // import ReactImageMagnify from "react-image-magnify";
 
 const ProductImages = (props) => {
-
+    console.log(props.DBProductInfo);
     const [openModal, setOpenModal] = useState(false);
     const [openForm, setOpenForm] = useState({ signin: true, signup: false })
     
@@ -82,7 +82,7 @@ const ProductImages = (props) => {
             <Modal
                 openModal={openModal}
                 setOpenModal={setOpenModal}
-                styles="p-0 py-8 mdl:mx-7 lgl:mx-auto overflow-y-hidden"
+                styles="p-0 mb-4 mdl:mx-7 lgl:mx-auto overflow-y-hidden"
             >   
                 { openForm.signin === true ? <SignInForm setOpenForm={setOpenForm} />: ""}
                 { openForm.signup === true ? <SignUpForm setOpenForm={setOpenForm}/>: ""}
