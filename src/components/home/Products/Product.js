@@ -2,11 +2,19 @@ import React from "react";
 import Image from "../../designLayouts/Image";
 import Badge from "./Badge";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useCurrency } from "../../Currency/CurrencyProvider/CurrencyProvider";
+import DisplayCurrency from "../../Currency/DisplayCurrency/DisplayCurrency";
 
 const Product = ({productInfo}) => {
   const rootId = productInfo._id;
   const navigate = useNavigate();
   const location = useLocation()
+
+  const {
+    fromCurrency,
+    toCurrency,
+    getConvertedAmount,
+  } = useCurrency();
 
   const currentPathName = location.pathname
   
@@ -41,10 +49,10 @@ const Product = ({productInfo}) => {
           </h2>
           <div className="text-sm">
             <p className="text-[#1D6F2B] font-semibold">
-              {productInfo.discountPercentage > 0 ? productInfo.discountedPrice : productInfo.price} RWF
+              <DisplayCurrency amount={productInfo.discountPercentage > 0 ? productInfo.discountedPrice : productInfo.price} currencyCode={toCurrency} />
             </p>
             {productInfo.discountPercentage > 0 && (
-              <p className="text-[#00000080] line-through">{productInfo.price} RWF</p>
+              <p className="text-[#00000080] line-through"><DisplayCurrency amount={productInfo.price} currencyCode={toCurrency} /></p>
             )}
           </div>
         </div>
