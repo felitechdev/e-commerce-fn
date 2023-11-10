@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import UserAvatarDropdown from "./UserAvatarDropdown";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { Search } from "../../Search/Search";
+import { useCurrency } from "../../Currency/CurrencyProvider/CurrencyProvider";
+
 
 
 const Header = (props) => {
@@ -25,7 +27,22 @@ const Header = (props) => {
   const userCart = useSelector((state) => state.userReducer.userInfo.cart)
   const location = useLocation();
 
+  const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD','RWF'];
 
+  const { fromCurrency, toCurrency, setFromCurrency, setToCurrency } = useCurrency();
+
+  const handleCurrencyChange = (e) => {
+    const selectedCurrency = e.target.value;
+
+    // Assuming you want to toggle between "From" and "To" currencies
+    if (fromCurrency === selectedCurrency) {
+      setFromCurrency(toCurrency);
+      setToCurrency(selectedCurrency);
+    } else {
+      setToCurrency(selectedCurrency);
+      setFromCurrency(fromCurrency);
+    }
+  };
 
   useEffect(() => {
     let ResponsiveMenu = () => {
@@ -230,7 +247,17 @@ const Header = (props) => {
             <>
               <span  
                 className="text-[#1D6F2B] hover:text-[#1D6F2B] mr-12 font-semibold hidden md:inline-block">
-                {"Rwf"}
+                  <select
+                    value={toCurrency}
+                    onChange={handleCurrencyChange}
+                    className="p-2 bg-gray-100 text-black rounded"
+                  >
+                    {currencies.map((currency) => (
+                      <option key={currency} value={currency}>
+                        {currency}
+                      </option>
+                    ))}
+                  </select>
               </span> 
               <div className="inline-block">
               <ul className="flex items-center md:max-w-[320px] lg:max-w-[400px] z-50 p-0 gap-2" >
