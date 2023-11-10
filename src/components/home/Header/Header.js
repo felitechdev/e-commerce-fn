@@ -10,6 +10,8 @@ import { FiHeart } from "react-icons/fi";
 import { BsCart3 } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import UserAvatarDropdown from "./UserAvatarDropdown";
+import { FaSearch, FaTimes } from "react-icons/fa";
+import { Search } from "../../Search/Search";
 
 
 const Header = (props) => {
@@ -17,6 +19,7 @@ const Header = (props) => {
   const [sidenav, setSidenav] = useState(false);
   const [category, setCategory] = useState(false);
   const [brand, setBrand] = useState(false);
+  const [search,setSearch] = useState(false);
   
   const productsCart = useSelector((state) => state.productsReducer.products);
   const userCart = useSelector((state) => state.userReducer.userInfo.cart)
@@ -38,7 +41,7 @@ const Header = (props) => {
 
   let headerIconStyles = "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
   return (
-    <div className="w-full h-100px bg-white sticky top-0 z-40 border-b-[1px] border-b-gray-200">
+    <div className="relative w-full h-100px bg-white sticky top-0 z-40 border-b-[1px] border-b-gray-200">
       <nav className="h-full px-4 max-w-container mx-auto relative flex md:items-center md:justify-between">
         <div>
             {showMenu && (
@@ -111,7 +114,19 @@ const Header = (props) => {
             </ul>
               
               )}
-            
+              {search && (
+                <div className="absolute top-0 w-full h-screen bg-[#000000a3] p-3 z-20 flex gap-2">
+                  <Search />
+                  <FaTimes
+                    className="w-[3rem] h-[3rem] cursor-pointer bg-white rounded-full border border-gray p-2"
+                    onClick={() => setSearch(false)}
+                  />
+                </div>
+              )}
+
+              <div className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-10">
+                <FaSearch onClick={() => setSearch(true)} className="w-5 h-5" />
+              </div>
               <HiMenuAlt2
                 onClick={() => setSidenav(!sidenav)}
                 className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
@@ -306,7 +321,6 @@ const Header = (props) => {
 
               
               )}
-            
               <HiMenuAlt2
                 onClick={() => setSidenav(!sidenav)}
                 className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
