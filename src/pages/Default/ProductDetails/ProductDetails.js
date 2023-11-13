@@ -15,9 +15,11 @@ const ProductDetails = () => {
   const [DBProductInfo, setDBProductInfo] = useState({});
   const [cartItemInfo, setCartItemInfo] = useState({
     productDBId: location.state.productId,
-    selectedQuantity: 0, 
+    selectedQuantity: 0,
+    itemColorId: "",
+    size: "",
   })
-  // For similar products testing only
+
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
 
@@ -33,7 +35,6 @@ const ProductDetails = () => {
       })
     }
     fetchProductInfo()
-    // console.log(location.state.productId);
   }, [location.state.productId]);
 
   useEffect( () => {
@@ -43,13 +44,12 @@ const ProductDetails = () => {
     fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         // Duplicate the API data
         setDuplicatedData([...data, ...data, ...data]);
         setApiData(data);
       })
       .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  });
 
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
@@ -58,8 +58,6 @@ const ProductDetails = () => {
           <div className="flex flex-col gap-14">
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
               {Object.keys(DBProductInfo).length > 0 ? <>
-                {console.log(DBProductInfo)}
-                
                 <ProductImages
                   DBProductInfo={DBProductInfo}
                   userInfo={userInfo}
