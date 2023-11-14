@@ -19,11 +19,10 @@ const userSlice = createSlice({
             state.userInfo.logInType = action.payload.logInType
         },
         addToUserCart: (state, action) => { 
-            const item = state.userInfo.cart.find(
-                (item) => item._id === action.payload._id
-              );
-              if (item) {
-                item.quantity += action.payload.quantity;
+            let item = state.userInfo.cart.find(
+                (item) => (item._id === action.payload._id));
+            if (item) {
+                item = action.payload
               } else {
                 state.userInfo.cart.push(action.payload)
               }

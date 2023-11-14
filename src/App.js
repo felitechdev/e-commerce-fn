@@ -26,7 +26,6 @@ const App = () => {
   
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo.profile)
   useEffect(() => { 
-    console.log(storeUserInfo.profile);
     const checkForGoogleUserInfo = async () => {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
       .catch((error) => { 

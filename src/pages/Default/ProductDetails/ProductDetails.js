@@ -15,8 +15,8 @@ const ProductDetails = () => {
   const [DBProductInfo, setDBProductInfo] = useState({});
   const [cartItemInfo, setCartItemInfo] = useState({
     productDBId: location.state.productId,
-    selectedQuantity: 0,
-    itemColorId: "",
+    quantity: 0,
+    colorId: "",
     size: "",
   })
 

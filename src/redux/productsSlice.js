@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
+const checkForSimilarCartItem = (item, action) => { 
+  return (item.productDBId === action.payload.productDBId &&
+    item.colorId === action.payload.colorId &&
+    item.size === action.payload.size &&
+    item.deliveryFee === action.payload.deliveryFee);
+}
 
 export const productsSlice = createSlice({
   name: "products",
@@ -10,7 +15,9 @@ export const productsSlice = createSlice({
   reducers: {
     addToDefaultCart: (state, action) => {
         const item = state.products.find(
-          (item) => item._id === action.payload._id
+          (item) => { 
+            return checkForSimilarCartItem(item, action);
+          }
         );
         if (item) {
           item.quantity += action.payload.quantity;
@@ -21,7 +28,9 @@ export const productsSlice = createSlice({
     },
     increaseQuantity: (state, action) => {
       const item = state.products.find(
-        (item) => item._id === action.payload._id
+        (item) => {
+          return checkForSimilarCartItem(item, action)
+        }
       );
       if (item) {
         item.quantity++;
@@ -29,7 +38,9 @@ export const productsSlice = createSlice({
     },
     drecreaseQuantity: (state, action) => {
       const item = state.products.find(
-        (item) => item._id === action.payload._id
+        (item) => {
+          return checkForSimilarCartItem(item, action)
+        }
       );
       if (item.quantity === 1) {
         item.quantity = 1;
@@ -39,7 +50,7 @@ export const productsSlice = createSlice({
     },
     deleteItem: (state, action) => {
       state.products = state.products.filter(
-        (item) => item._id !== action.payload
+        (item) => item.productDBId !== action.payload
       );
     },
     resetCart: (state) => {

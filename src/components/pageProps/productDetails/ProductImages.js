@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 // import ReactImageMagnify from "react-image-magnify";
 
 const ProductImages = (props) => {
-    console.log(props.DBProductInfo);
     const [openModal, setOpenModal] = useState(false);
     const [openForm, setOpenForm] = useState({ signin: true, signup: false })
     
