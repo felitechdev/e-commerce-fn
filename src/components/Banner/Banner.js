@@ -170,12 +170,12 @@ const Banner = () => {
     
     <div className=" bg-white w-full flex justify-center">
       <div className="w-full md:container md:mx-auto">
-        <div class="w-full flex gap-1 pt-2">
+        <div className="w-full flex gap-1 pt-2">
           <div className="hidden lg:w-[20%] lg:block">
-            <div class="relative text-white bg-[#D9D9D970]  border-box cursor-pointer items-center gap-2">
-              <div class="flex bg-[#1D6F2B] p-2 py-3 items-center gap-2 rounded-md">
-                <img src={MenuIconWhite} class="w-5 h-5" />
-                <p class="text-[14px] font-semibold">Categories</p>
+            <div className="relative text-white bg-[#D9D9D970]  border-box cursor-pointer items-center gap-2">
+              <div className="flex bg-[#1D6F2B] p-2 py-3 items-center gap-2 rounded-md">
+                <img src={MenuIconWhite} className="w-5 h-5" />
+                <p className="text-[14px] font-semibold">Categories</p>
               </div>
               <NestedList props={category} />
             </div>

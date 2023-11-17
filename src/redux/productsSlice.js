@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const checkForSimilarCartItem = (item, action) => { 
-  return (item.productDBId === action.payload.productDBId &&
+  return (item._id === action.payload._id &&
     item.colorId === action.payload.colorId &&
     item.size === action.payload.size &&
     item.deliveryFee === action.payload.deliveryFee);
@@ -50,7 +50,7 @@ export const productsSlice = createSlice({
     },
     deleteItem: (state, action) => {
       state.products = state.products.filter(
-        (item) => item.productDBId !== action.payload
+        (item) => item._id !== action.payload
       );
     },
     resetCart: (state) => {

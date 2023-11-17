@@ -1,25 +1,116 @@
 import { useDispatch } from "react-redux";
 import { addToDefaultCart } from "../../../redux/productsSlice";
-import { addToUserCart } from "../../../redux/userSlice";
-import SelectorsContainer from "./SelectorsContainer";
+import { addSingleCartItem } from "../../../redux/userSlice";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const CheckoutDetails = (props) => { 
-    const handleAddToCart = () => { 
-        // if (Object.keys(props.userInfo.profile).length > 0) {
-        //    return dispatch(
-        //         addToUserCart(props.DBProductInfo)
-        //     )
-        // } else { 
-        //   return  dispatch(
-        //         addToDefaultCart(props.DBProductInfo)
-        //     )
-        // }
-        console.log(props.cartItemInfo);
-    }
-
-
+    const [selectedDelivery, setSelectedDelivery] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("")
+    const defaultCart = useSelector((state) => state.productsReducer.products)
 
     const dispatch = useDispatch();
+    
+    const handleDeliveryChoice = (e) => { 
+        const { itemvalue, itemlabel } = e.currentTarget.dataset;
+        setSelectedDelivery({ itemvalue, itemlabel })
+        props.setCartItemInfo({
+            ...props.cartItemInfo,
+            deliveryFee: parseInt(itemvalue),
+        })
+    }
+    const ValidateCartInfo = () => { 
+        if (props.cartItemInfo.colorId === "") {
+            setErrorMessage("Please select a product color before proceeding.")
+            return errorMessage;
+        } else if (props.cartItemInfo.deliveryFee === undefined) {
+            setErrorMessage("Please select a delivery option before proceeding.")
+            return errorMessage;
+        } else if (props.cartItemInfo.size === "") {
+            setErrorMessage("Please select a size option before proceeding.")
+            return errorMessage;
+        } else if (props.cartItemInfo.quantity === 0) {
+            setErrorMessage("Please select the quantity before proceeding.")
+            return errorMessage;
+        } else { 
+            return true;
+        }
+    }
+
+ 
+    const handleAddToCart = () => { 
+        
+        
+        const validateCart = ValidateCartInfo()
+
+        if (validateCart === true) { // proceed adding to cart
+            if (Object.keys(props.userInfo.profile).length > 0) {
+                const cartItemData = {
+                    product: props.cartItemInfo.productDBId,
+                    colorId: props.cartItemInfo.colorId,
+                    size: props.cartItemInfo.size,
+                    deliveryFee: props.cartItemInfo.deliveryFee,
+                    quantity: props.cartItemInfo.quantity,
+                }
+                
+                axios({
+                    url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/cartitem/create`,
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
+                    },
+                    data: cartItemData,
+                }).then(res => { 
+                    dispatch(addSingleCartItem({
+                        _id: res.data._id,
+                        selectedProductImage: res.data.selectedProductImage,
+                        itemName: res.data.product.name,
+                        selectedProductColor: res.data.selectedProductColor,
+                        size: res.data.size,
+                        quantity: res.data.quantity,
+                        price: res.data.price,
+                        productTotalCost: res.data.productTotalCost,
+                        deliveryFee: res.data.deliveryFee,
+                        availableUnits: res.data.availableUnits,
+                        quantityParameter: res.data.quantityParameter
+                      }))
+                }).catch(error => console.log(error))
+            } else { 
+                const newId = defaultCart && defaultCart.length > 0
+                    ? defaultCart[defaultCart.length - 1]._id + 1 : 0;
+                const selectedColorArray = props.DBProductInfo.productImages.colorImages
+                    .filter(colorProperties => colorProperties._id === props.cartItemInfo.colorId)
+                const selectedProductImage = selectedColorArray[0].url
+                const selectedProductColor = selectedColorArray[0].colorName
+                const price = props.DBProductInfo.discountedPrice > 0
+                    ? props.DBProductInfo.discountedPrice : props.DBProductInfo.price 
+                const productTotalCost = (props.cartItemInfo.quantity * price) + props.cartItemInfo.deliveryFee
+
+                return  dispatch(
+                   addToDefaultCart({
+                       _id: newId,
+                       selectedProductImage,
+                       itemName: props.DBProductInfo.name,
+                       selectedProductColor,
+                       size: props.cartItemInfo.size,
+                       quantity: props.cartItemInfo.quantity,
+                       price,
+                       productTotalCost,
+                       deliveryFee: props.cartItemInfo.deliveryFee,
+                       availableUnits: props.DBProductInfo.stockQuantity,
+                       quantityParameter: props.DBProductInfo.quantityParameter,
+                    })
+                )
+            }
+        }
+    }
+
+    useEffect(() => { 
+        setErrorMessage("")
+    }, [props.cartItemInfo])
+
     return (
         <div className="flex flex-col sml:min-w-[300px] lg:w-[20%] sml:max-h-[400px] gap-3 border-[2px] p-4 rounded-lg">
             <div>
@@ -27,13 +118,25 @@ const CheckoutDetails = (props) => {
                 
                 <div className="mb-3">
                     <p className="text-sm mb-1 block font-normal">Delivery Fee: </p>
-                    <SelectorsContainer 
-                        cartItemInfo={props.cartItemInfo}
-                        setCartItemInfo={props.setCartItemInfo}
-                        displayedValues={["1000 RWF Kigali", "3000 RWF outside Kigali"]}
-                        itemType="deliveryType"
-                        size="small"
-                    />
+                    <div className="flex flex-wrap gap-1">
+                        {props.DBProductInfo.deliveryInfo.map((deliveryInfo, index) => {
+                            return <div
+                                key={index}
+                                className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer text-xs ${selectedDelivery &&
+                                        selectedDelivery.itemvalue === deliveryInfo.deliveryFee &&
+                                        selectedDelivery.itemlabel === 'deliveryFee'
+                                        ? 'item-selected'
+                                        : 'border-gray-200'
+                                    }`}
+                                data-itemvalue={deliveryInfo.deliveryFee}
+                                data-itemlabel="deliveryFee"
+                                onClick={handleDeliveryChoice}
+                            >
+                                {`${deliveryInfo.deliveryFee} RWF ${deliveryInfo.deliveryType}`}
+                            </div>
+                        })}
+                    </div>    
+
                 </div> 
                 <div className="mb-3">
                     <p className="text-sm inline-block font-normal">Estimated derivery: </p>
@@ -47,30 +150,31 @@ const CheckoutDetails = (props) => {
                     <button
                         className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]"
                         onClick={() => props.setCartItemInfo(
-                            (props.cartItemInfo.selectedQuantity > 0) ? {
+                            (props.cartItemInfo.quantity > 0) ? {
                                 ...props.cartItemInfo,
-                                selectedQuantity: props.cartItemInfo.selectedQuantity - 1,
+                                quantity: props.cartItemInfo.quantity - 1,
                             } : {
                                 ...props.cartItemInfo,
-                                selectedQuantity: props.cartItemInfo.selectedQuantity,
+                                quantity: props.cartItemInfo.quantity,
                             })}
                     >-</button>
-                    <p className="text-sm font-semibold" pattern="[0-9]*" >{props.cartItemInfo.selectedQuantity}</p>
+                    <p className="text-sm font-semibold" pattern="[0-9]*" >{props.cartItemInfo.quantity}</p>
                     <button
                         className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]"
                         onClick={() => props.setCartItemInfo(
-                            (props.cartItemInfo.selectedQuantity < props.DBProductInfo.stockQuantity) ? {
+                            (props.cartItemInfo.quantity < props.DBProductInfo.stockQuantity) ? {
                                 ...props.cartItemInfo,
-                                selectedQuantity: props.cartItemInfo.selectedQuantity + 1,
+                                quantity: props.cartItemInfo.quantity + 1,
                             } : {
                                 ...props.cartItemInfo,
-                                selectedQuantity: props.cartItemInfo.selectedQuantity,
+                                quantity: props.cartItemInfo.quantity,
                             })}
                     >+</button>
                 </div>
                 <p className="text-xs text-[#00000080] ">{props.DBProductInfo.stockQuantity} {props.DBProductInfo.quantityParameter} available</p>
             </div>
             <div className="flex flex-col gap-2 mt-8">
+            {errorMessage && <p className="text-red-600 text-xs">{errorMessage}</p>}
                 <button
                     onClick={() => handleAddToCart()}
                     className="hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]"

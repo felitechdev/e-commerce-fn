@@ -18,7 +18,7 @@ const userSlice = createSlice({
             state.userInfo.profile = action.payload.profile
             state.userInfo.logInType = action.payload.logInType
         },
-        addToUserCart: (state, action) => { 
+        addSingleCartItem: (state, action) => { 
             let item = state.userInfo.cart.find(
                 (item) => (item._id === action.payload._id));
             if (item) {
@@ -34,6 +34,17 @@ const userSlice = createSlice({
                 wishlist: [],
                 cart: []
             }
+        },
+        updateUserCart: (state, action) => { 
+            state.userInfo.cart = action.payload
+        },
+        deleteCartItem: (state, action) => { 
+            state.userInfo.cart = state.userInfo.cart.filter(
+                (item) => item._id !== action.payload
+            );
+        },
+        reset_userCart: (state) => { 
+            state.userInfo.cart = []
         }
     }
 
@@ -41,9 +52,12 @@ const userSlice = createSlice({
 
 export const {
     updateUserInfo,
-    addToUserCart,
+    addSingleCartItem,
     resetUserInfo,
     logIn,
+    updateUserCart,
+    deleteCartItem,
+    reset_userCart,
 } = userSlice.actions
 
 export default userSlice.reducer

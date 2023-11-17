@@ -1,10 +1,19 @@
 import React from "react";
 import SmallImagesContainer from "./SmallImagesContainer";
-import SelectorsContainer from "./SelectorsContainer";
+import { useState } from "react";
 
 
 const ProductMainInfo = (props) => {
-
+  const [selectedSize, setSelectedSize] = useState(null);
+    
+  const handleSizeClick = (e) => { 
+      const { itemvalue, itemlabel } = e.currentTarget.dataset;
+      setSelectedSize({ itemvalue, itemlabel })
+      props.setCartItemInfo({
+          ...props.cartItemInfo,
+          [`${itemlabel}`]: itemvalue,
+      })
+  }
 
   return (
     <div className="flex flex-col w-container lg:min-w-[25%] xl:w-[30%] gap-5 ">
@@ -36,19 +45,30 @@ const ProductMainInfo = (props) => {
             cartItemInfo={props.cartItemInfo}
             setCartItemInfo={ props.setCartItemInfo}
             imageCategory="color-images"
-          />{ /** array of images passed **/}
+          />{ /** pass an array of color images **/}
         </div>)}
 
       {props.DBProductInfo.availableSizes.length > 0 && (
           <div>
             <p className="text-lg mb-1 block font-semibold">Size:</p>
-            <SelectorsContainer 
-              cartItemInfo={props.cartItemInfo}
-              setCartItemInfo={props.setCartItemInfo}
-              displayedValues={props.DBProductInfo.availableSizes}
-              itemType="size"
-              size="large"
-            />
+            <div className="flex flex-wrap gap-1">{props.DBProductInfo.availableSizes.map((size, index) => { 
+              return <div
+                  key={index}
+                  className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer text-sm ${
+                      selectedSize && 
+                      selectedSize.itemvalue === size && 
+                      selectedSize.itemlabel === 'size'
+                          ? 'item-selected'
+                          : ''
+                  }`}
+                  data-itemvalue={size}
+                  data-itemlabel="size"
+                  onClick={handleSizeClick}
+              >
+                {size}
+            </div>
+          })} 
+          </div>
           </div>
       )}
     </div>
