@@ -45,6 +45,14 @@ const userSlice = createSlice({
         },
         reset_userCart: (state) => { 
             state.userInfo.cart = []
+        },
+        updateCartItem: (state, action) => { 
+            let item = state.userInfo.cart.find(
+                (item) => (item._id === action.payload._id));
+            if (item) {
+                item = {...item, ...action.payload}
+                
+            } 
         }
     }
 
@@ -58,6 +66,7 @@ export const {
     updateUserCart,
     deleteCartItem,
     reset_userCart,
+    updateCartItem
 } = userSlice.actions
 
 export default userSlice.reducer

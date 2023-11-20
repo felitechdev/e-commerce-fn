@@ -1,16 +1,17 @@
 import React from "react";
 import { ImCross } from "react-icons/im";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItem,
   drecreaseQuantity,
   increaseQuantity,
 } from "../../../redux/productsSlice";
 import axios from "axios";
-import { deleteCartItem } from "../../../redux/userSlice";
+import { deleteCartItem, updateCartItem } from "../../../redux/userSlice";
 
-const ItemCard = ({ itemInfo, userInfo }) => {
+const ItemCard = ({ itemInfo, userInfo, userCart }) => {
   const dispatch = useDispatch();
+  // const userCart = useSelector(state => state.)
   const removeCartItem = (id) => {
     if (userInfo && Object.keys(userInfo.profile).length > 0) {
       axios({
@@ -26,6 +27,55 @@ const ItemCard = ({ itemInfo, userInfo }) => {
       })
     } else { 
       dispatch(deleteItem(id))
+    }
+    
+  }
+  const increaseQuantity = (id) => { 
+    if (userInfo && Object.keys(userInfo.profile).length > 0) {
+      const existingItem = userCart.find(item => item._id === id)
+      if (existingItem) { 
+        axios({
+          url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/edit/cartitem/${id}`,
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
+          },
+          data: {quantity: existingItem.quantity + 1}
+        })
+          .then(res => {
+            console.log(res.data.data);
+            dispatch(updateCartItem({
+              _id: res.data.data._id,
+              selectedProductImage: res.data.data.selectedProductImage,
+              itemName: res.data.data.product.name,
+              selectedProductColor: res.data.data.selectedProductColor,
+              size: res.data.data.size,
+              quantity: res.data.data.quantity,
+              price: res.data.data.price,
+              productTotalCost: res.data.data.productTotalCost,
+              deliveryFee: res.data.data.deliveryFee,
+              availableUnits: res.data.data.availableUnits,
+              quantityParameter: res.data.data.quantityParameter,
+            }))
+
+            // _id: newId,
+            //productId:  props.DBProductInfo._id,
+            // selectedProductImage,
+            //itemName: props.DBProductInfo.name,
+            // selectedProductColor,
+            //size: props.cartItemInfo.size,
+            //            quantity: props.cartItemInfo.quantity,
+            //            price,
+            //            productTotalCost,
+            //            deliveryFee: props.cartItemInfo.deliveryFee,
+            //            availableUnits: props.DBProductInfo.stockQuantity,
+            //            quantityParameter: props.DBProductInfo.quantityParameter,
+
+       
+
+          })
+      }
+      
     }
     
   }
@@ -58,7 +108,7 @@ const ItemCard = ({ itemInfo, userInfo }) => {
           </span>
           <p>{itemInfo.quantity}</p>
           <span
-            onClick={() => dispatch(increaseQuantity({ _id: itemInfo._id }))}
+            onClick={() => increaseQuantity(itemInfo._id)}
             className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             +

@@ -62,17 +62,18 @@ const CheckoutDetails = (props) => {
                         Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
                     },
                     data: cartItemData,
-                }).then(res => { 
+                }).then(res => {
                     dispatch(addSingleCartItem({
-                        _id: res.data._id,
+                        _id: res.data._doc._id,
+                        productId: res.data._doc.product._id, 
                         selectedProductImage: res.data.selectedProductImage,
-                        itemName: res.data.product.name,
+                        itemName: res.data._doc.product.name,
                         selectedProductColor: res.data.selectedProductColor,
-                        size: res.data.size,
-                        quantity: res.data.quantity,
+                        size: res.data._doc.size,
+                        quantity: res.data._doc.quantity,
                         price: res.data.price,
                         productTotalCost: res.data.productTotalCost,
-                        deliveryFee: res.data.deliveryFee,
+                        deliveryFee: res.data._doc.deliveryFee,
                         availableUnits: res.data.availableUnits,
                         quantityParameter: res.data.quantityParameter
                       }))
@@ -91,6 +92,7 @@ const CheckoutDetails = (props) => {
                 return  dispatch(
                    addToDefaultCart({
                        _id: newId,
+                       productId:  props.DBProductInfo._id,
                        selectedProductImage,
                        itemName: props.DBProductInfo.name,
                        selectedProductColor,

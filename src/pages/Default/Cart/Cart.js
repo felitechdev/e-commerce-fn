@@ -11,7 +11,7 @@ import { reset_userCart, updateUserCart } from "../../../redux/userSlice";
 const Cart = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.userReducer.userInfo)
-  const userCart = useSelector((state) => state.userReducer.userInfo.cart);
+  const userCart = userInfo.cart
   const productsCart = useSelector((state) => state.productsReducer.products)
   const [cartItems, setCartItems] = useState(() => { 
     if (userInfo && Object.keys(userInfo.profile).length > 0) {
@@ -107,7 +107,13 @@ const Cart = () => {
           <div className="mt-5">
             {cartItems.map((item) => (
               <div key={item._id}>
-                <ItemCard itemInfo={item} userInfo={userInfo} totalAmounts={totalAmounts} setTotalAmounts={setTotalAmounts} />
+                <ItemCard
+                  itemInfo={item}
+                  userInfo={userInfo}
+                  totalAmounts={totalAmounts}
+                  setTotalAmounts={setTotalAmounts}
+                  userCart={userCart}
+                />
               </div>
             ))}
           </div>
