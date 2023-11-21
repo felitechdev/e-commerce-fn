@@ -12,8 +12,8 @@ const SmallImagesContainer = (props) => {
             props.setCartItemInfo({
                 ...props.cartItemInfo,
                 imagePreview: e.target.src,
-                itemColorId: imageid,
-                itemColorName: imagecolorname,
+                colorId: imageid,
+                colorName: imagecolorname,
             })
         } else { 
             props.setCartItemInfo({

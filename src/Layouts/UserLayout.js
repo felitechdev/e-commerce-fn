@@ -4,10 +4,45 @@ import Footer from "../components/home/Footer/Footer";
 import FooterBottom from "../components/home/Footer/FooterBottom";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updateUserCart } from "../redux/userSlice";
 
-const UserLayout = (props) => {
+const UserLayout = () => {
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo)
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (storeUserInfo && Object.keys(storeUserInfo.profile).length > 0) {
+      axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/cartitems`,
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
+        }
+      }).then((data) => {
+        dispatch(dispatch(updateUserCart(data.data.map(item => { 
+          return {
+            _id: item._id,
+            selectedProductImage: item.selectedProductImage,
+            itemName: item.product.name,
+            selectedProductColor: item.selectedProductColor,
+            size: item.size,
+            quantity: item.quantity,
+            price: item.price,
+            productTotalCost: item.productTotalCost,
+            deliveryFee: item.deliveryFee,
+            availableUnits: item.availableUnits,
+            quantityParameter: item.quantityParameter
+          }
+        }))) )
+      }).catch((error) => { 
+        console.log(error.response.data.message);
+      })
+    }
+  }, [])
   return (
     <div>
       <Header
