@@ -3,8 +3,8 @@ import { ImCross } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItem,
-  drecreaseQuantity,
-  increaseQuantity,
+  drecreaseItemQuantity,
+  increaseItemQuantity,
 } from "../../../redux/productsSlice";
 import axios from "axios";
 import { deleteCartItem, updateCartItem } from "../../../redux/userSlice";
@@ -33,51 +33,59 @@ const ItemCard = ({ itemInfo, userInfo, userCart }) => {
   const increaseQuantity = (id) => { 
     if (userInfo && Object.keys(userInfo.profile).length > 0) {
       const existingItem = userCart.find(item => item._id === id)
-      if (existingItem) { 
+      if (existingItem && (existingItem.availableUnits > existingItem.quantity)) {
         axios({
           url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/edit/cartitem/${id}`,
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
           },
-          data: {quantity: existingItem.quantity + 1}
+          data: { quantity: existingItem.quantity + 1 }
         })
           .then(res => {
-            console.log(res.data.data);
             dispatch(updateCartItem({
               _id: res.data.data._id,
-              selectedProductImage: res.data.data.selectedProductImage,
-              itemName: res.data.data.product.name,
-              selectedProductColor: res.data.data.selectedProductColor,
-              size: res.data.data.size,
               quantity: res.data.data.quantity,
               price: res.data.data.price,
               productTotalCost: res.data.data.productTotalCost,
-              deliveryFee: res.data.data.deliveryFee,
-              availableUnits: res.data.data.availableUnits,
-              quantityParameter: res.data.data.quantityParameter,
             }))
-
-            // _id: newId,
-            //productId:  props.DBProductInfo._id,
-            // selectedProductImage,
-            //itemName: props.DBProductInfo.name,
-            // selectedProductColor,
-            //size: props.cartItemInfo.size,
-            //            quantity: props.cartItemInfo.quantity,
-            //            price,
-            //            productTotalCost,
-            //            deliveryFee: props.cartItemInfo.deliveryFee,
-            //            availableUnits: props.DBProductInfo.stockQuantity,
-            //            quantityParameter: props.DBProductInfo.quantityParameter,
-
-       
-
-          })
+          }).catch(error => console.log(error))
       }
       
+    } else { 
+      if (itemInfo.availableUnits > itemInfo.quantity) {
+        dispatch(increaseItemQuantity(id))
+      }
     }
     
+  }
+  const drecreaseQuantity = (id) => { 
+    if (userInfo && Object.keys(userInfo.profile).length > 0) {
+      const existingItem = userCart.find(item => item._id === id)
+      if (existingItem && existingItem.quantity > 1) {
+        axios({
+          url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/edit/cartitem/${id}`,
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
+          },
+          data: { quantity: existingItem.quantity - 1 }
+        })
+          .then(res => {
+            dispatch(updateCartItem({
+              _id: res.data.data._id,
+              quantity: res.data.data.quantity,
+              price: res.data.data.price,
+              productTotalCost: res.data.data.productTotalCost,
+            }))
+          }).catch(error => console.log(error))
+      }
+      
+    } else { 
+      if (itemInfo.quantity > 1) {
+        dispatch(drecreaseItemQuantity(id))
+      }
+    }
   }
 
   return (
@@ -101,7 +109,7 @@ const ItemCard = ({ itemInfo, userInfo, userCart }) => {
         </div>
         <div className="w-1/3 flex items-center gap-6 text-lg">
           <span
-            onClick={() => dispatch(drecreaseQuantity({ _id: itemInfo._id }))}
+            onClick={() => drecreaseQuantity(itemInfo._id)}
             className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             -

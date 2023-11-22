@@ -24,7 +24,6 @@ const NewArrivals = () => {
     <div className="w-full mx-auto">
       <ProductsSection
         heading="New Arrivals"
-        subheading="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an "
         styles="bg-[#F5F5F3] px-4"
       >
         <ProductsSliderContainer>

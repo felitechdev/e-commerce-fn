@@ -27,26 +27,28 @@ export const productsSlice = createSlice({
       }
       
     },
-    increaseQuantity: (state, action) => {
+    increaseItemQuantity: (state, action) => {
       const item = state.products.find(
         (item) => {
-          return checkForSimilarCartItem(item, action)
+          return item._id === action.payload
         }
       );
       if (item) {
         item.quantity++;
+        item.productTotalCost = (item.quantity * item.price) + item.deliveryFee
       }
     },
-    drecreaseQuantity: (state, action) => {
+    drecreaseItemQuantity: (state, action) => {
       const item = state.products.find(
         (item) => {
-          return checkForSimilarCartItem(item, action)
+          return item._id === action.payload
         }
       );
       if (item.quantity === 1) {
         item.quantity = 1;
       } else {
         item.quantity--;
+        item.productTotalCost = (item.quantity * item.price) + item.deliveryFee
       }
     },
     deleteItem: (state, action) => {
@@ -62,8 +64,8 @@ export const productsSlice = createSlice({
 
 export const {
   addToDefaultCart,
-  increaseQuantity,
-  drecreaseQuantity,
+  increaseItemQuantity,
+  drecreaseItemQuantity,
   deleteItem,
   resetCart,
 } = productsSlice.actions;
