@@ -50,8 +50,9 @@ const userSlice = createSlice({
             let item = state.userInfo.cart.find(
                 (item) => (item._id === action.payload._id));
             if (item) {
-                item = {...item, ...action.payload}
-                
+                item.quantity = action.payload.quantity
+                item.price = action.payload.price
+                item.productTotalCost = action.payload.productTotalCost
             } 
         }
     }
