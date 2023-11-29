@@ -54,7 +54,7 @@ const App = () => {
               <Route path="journal" element={<Journal />}></Route>
               {/* ==================== Header Navlink End here ===================== */}
               {/* <Route path="offer" element={<Offer />}></Route> */}
-              <Route path="product/:_id" element={<ProductDetails />}></Route>
+              <Route path="product" element={<ProductDetails />}></Route>
               <Route path="cart" element={<Cart />}></Route>
               <Route path="paymentgateway" element={<Payment />}></Route>
             </Route>
@@ -70,7 +70,7 @@ const App = () => {
                 <Route path="journal" element={<Journal />}></Route>
                 {/* ==================== Header Navlink End here ===================== */}
                 {/* <Route path="offer" element={<Offer />}></Route> */}
-                <Route path="product/:_id" element={<ProductDetails />}></Route>
+                <Route path="product" element={<ProductDetails />}></Route>
                 <Route path="cart" element={<Cart />}></Route>
                 <Route path="paymentgateway" element={<Payment />}></Route>
               </Route>
