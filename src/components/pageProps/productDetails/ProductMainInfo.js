@@ -16,7 +16,7 @@ const ProductMainInfo = (props) => {
   }
 
   return (
-    <div className="flex flex-col w-container lg:min-w-[25%] xl:w-[30%] gap-5 ">
+    <div className="flex flex-col w-container lg:max-w-[30%] xl:w-[30%] gap-5 ">
       <div>
         <p className="w-full h-max-[65px] text-xl font-semibold block">{props.DBProductInfo.name}</p>
         <hr className="w-full h-0.5 border-0 bg-gray-200 my-3"></hr>

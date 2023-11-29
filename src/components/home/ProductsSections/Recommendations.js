@@ -13,6 +13,7 @@ const Recommendations = () => {
       .then((response) => response.json())
       .then((data) => {
         // Duplicate the API data
+        console.log(data);
         const duplicated = Array.from({ length: 10 }, (_, index) => ({
           ...data[index % data.length],
           _id: `new-id-${index}`,

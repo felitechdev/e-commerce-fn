@@ -4,6 +4,7 @@ import Badge from "./Badge";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCurrency } from "../../Currency/CurrencyProvider/CurrencyProvider";
 import DisplayCurrency from "../../Currency/DisplayCurrency/DisplayCurrency";
+import { current } from "@reduxjs/toolkit";
 
 const Product = ({productInfo}) => {
   const rootId = productInfo._id;
@@ -19,12 +20,39 @@ const Product = ({productInfo}) => {
   const currentPathName = location.pathname
   
   const handleProductDetails = () => {
-    navigate(`product/${rootId}`, {
-      state: {
-        productId: productInfo._id,
-      },
-      replace: true,
-    });
+    const separatedRoute = currentPathName.split("/")
+    if (separatedRoute[1] === "accounts") {
+      navigate("/accounts/product", {
+        state: {
+          productId: productInfo._id,
+        }
+      });
+    } else { 
+      navigate("/product", {
+        state: {
+          productId: productInfo._id,
+        }
+      });
+    }
+    // if (currentPathName === '/' || currentPathName === '/accounts') {
+    //   navigate("product", {
+    //     state: {
+    //       productId: productInfo._id,
+    //     }
+    //   });
+    // } else { 
+    //   const separatedRoute = currentPathName.split("/")
+      
+        
+    //     // setTimeout(() => {
+    //     //   navigate(`/${currentPathName}/product`, {
+    //     //     state: {
+    //     //       productId: productInfo._id,
+    //     //     }
+    //     //   });
+    //     // }, 5);
+    //     }
+    
   };
   return (
     <div
@@ -34,7 +62,7 @@ const Product = ({productInfo}) => {
       <div className="max-w-80 h-[70%] relative overflow-y-hidden ">
         <div>
           <Image
-            className="w-full h-full rounded-tl-md rounded-tr-md"
+            className="min-w-full min-h-[100px] rounded-tl-md rounded-tr-md"
             imgSrc={productInfo.productImages.productThumbnail.url}
           />
         </div>
@@ -48,9 +76,9 @@ const Product = ({productInfo}) => {
             {productInfo.name}
           </h2>
           <div className="text-sm">
-            <p className="text-[#1D6F2B] font-semibold">
+            <div className="text-[#1D6F2B] font-semibold">
               <DisplayCurrency amount={productInfo.discountPercentage > 0 ? productInfo.discountedPrice : productInfo.price} currencyCode={toCurrency} />
-            </p>
+            </div>
             {productInfo.discountPercentage > 0 && (
               <p className="text-[#00000080] line-through"><DisplayCurrency amount={productInfo.price} currencyCode={toCurrency} /></p>
             )}

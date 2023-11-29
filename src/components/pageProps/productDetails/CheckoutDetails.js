@@ -6,20 +6,33 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const CheckoutDetails = (props) => { 
-    const [selectedDelivery, setSelectedDelivery] = useState(null);
+    const [selectedDelivery, setSelectedDelivery] = useState({ itemvalue: null, itemlabel: null});
     const [errorMessage, setErrorMessage] = useState("")
+    const [eventDataset, setEventDataset] = useState("")
     const defaultCart = useSelector((state) => state.productsReducer.products)
 
     const dispatch = useDispatch();
     
     const handleDeliveryChoice = (e) => { 
         const { itemvalue, itemlabel } = e.currentTarget.dataset;
-        setSelectedDelivery({ itemvalue, itemlabel })
-        props.setCartItemInfo({
-            ...props.cartItemInfo,
-            deliveryFee: parseInt(itemvalue),
-        })
+        setSelectedDelivery(prevState => ({
+            ...prevState,
+            itemvalue,
+            itemlabel
+        }));
     }
+
+    useEffect(() => {
+
+        if (selectedDelivery.itemvalue !== null && selectedDelivery.itemlabel !== null) { 
+            props.setCartItemInfo({
+                ...props.cartItemInfo,
+                deliveryFee: parseInt(selectedDelivery.itemvalue),
+            });
+        }
+
+    }, [selectedDelivery]);
+
     const ValidateCartInfo = () => { 
         if (props.cartItemInfo.colorId === "") {
             setErrorMessage("Please select a product color before proceeding.")
@@ -40,7 +53,7 @@ const CheckoutDetails = (props) => {
 
  
     const handleAddToCart = () => { 
-        
+        console.log(props.DBProductInfo);
         
         const validateCart = ValidateCartInfo()
 
@@ -114,32 +127,36 @@ const CheckoutDetails = (props) => {
     }, [props.cartItemInfo])
 
     return (
-        <div className="flex flex-col sml:min-w-[300px] lg:w-[20%] sml:max-h-[400px] gap-3 border-[2px] p-4 rounded-lg">
+        <div className="flex flex-col sml:min-w-[300px] mdl:w-[20%] sml:max-h-[400px] gap-3 border-[2px] p-4 rounded-lg">
             <div>
                 <p className="text-base mb-1 block font-semibold">Delivery</p> 
                 
-                <div className="mb-3">
-                    <p className="text-sm mb-1 block font-normal">Delivery Fee: </p>
-                    <div className="flex flex-wrap gap-1">
-                        {props.DBProductInfo.deliveryInfo.map((deliveryInfo, index) => {
-                            return <div
-                                key={index}
-                                className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer text-xs ${selectedDelivery &&
-                                        selectedDelivery.itemvalue === deliveryInfo.deliveryFee &&
-                                        selectedDelivery.itemlabel === 'deliveryFee'
-                                        ? 'item-selected'
-                                        : 'border-gray-200'
-                                    }`}
-                                data-itemvalue={deliveryInfo.deliveryFee}
-                                data-itemlabel="deliveryFee"
-                                onClick={handleDeliveryChoice}
-                            >
-                                {`${deliveryInfo.deliveryFee} RWF ${deliveryInfo.deliveryType}`}
-                            </div>
-                        })}
-                    </div>    
+                {props.DBProductInfo.deliveryInfo.length > 0 && (
+                    <div className="mb-3">
+                        <p className="text-sm mb-1 block font-normal">Delivery Fee: </p>
+                        <div className="flex flex-wrap gap-1">
+                            {props.DBProductInfo.deliveryInfo.map((deliveryInfo, index) => {
+                                return <div
+                                    key={index}
+                                    className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer text-xs ${selectedDelivery &&
+                                            selectedDelivery.itemvalue === deliveryInfo.deliveryFee &&
+                                            selectedDelivery.itemlabel === deliveryInfo.deliveryType
+                                            ? 'item-selected'
+                                            : 'border-gray-200'
+                                     }
+                                        }`}
+                                    data-itemvalue={deliveryInfo.deliveryFee}
+                                    data-itemlabel="deliveryFee"
+                                    onClick={ handleDeliveryChoice }
+                                    
+                                >
+                                    {`${deliveryInfo.deliveryFee} RWF ${deliveryInfo.deliveryType}`}
+                                </div>
+                            })}
+                        </div>    
 
-                </div> 
+                    </div> 
+                )}
                 <div className="mb-3">
                     <p className="text-sm inline-block font-normal">Estimated derivery: </p>
                     <span className="text-sm ml-2">30 - 60 minutes </span>
