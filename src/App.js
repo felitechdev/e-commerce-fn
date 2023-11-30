@@ -7,7 +7,6 @@ import Cart from "./pages/Default/Cart/Cart";
 import Contact from "./pages/Default/Contact/Contact";
 import Home from "./pages/Default/Home/Home";
 import Journal from "./pages/Default/Journal/Journal";
-// import Offer from "./pages/Default/Offer/Offer";
 import Payment from "./pages/Default/payment/Payment";
 import ProductDetails from "./pages/Default/ProductDetails/ProductDetails";
 import Shop from "./pages/Default/Shop/Shop";
