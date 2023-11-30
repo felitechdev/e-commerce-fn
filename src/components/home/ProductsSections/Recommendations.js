@@ -8,12 +8,9 @@ const Recommendations = () => {
   const [duplicatedData, setDuplicatedData] = useState([]);
 
   useEffect(() => {
-    // Fetch your API data here
     fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
       .then((response) => response.json())
       .then((data) => {
-        // Duplicate the API data
-        console.log(data);
         const duplicated = Array.from({ length: 10 }, (_, index) => ({
           ...data[index % data.length],
           _id: `new-id-${index}`,
@@ -30,9 +27,9 @@ const Recommendations = () => {
     >
       <ProductsSliderContainer>
         {duplicatedData.map((product, index) => {
-          <div key={product._id + index} className="px-2">
+          return (<div key={product._id + index} className="px-2">
             <Product productInfo={product} />
-          </div>
+          </div>)
         })}
       </ProductsSliderContainer>
     </ProductsSection>
