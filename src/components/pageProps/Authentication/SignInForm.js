@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FeliTechLogo_transparent } from "../../../assets/images";
 import googelIcon from "../../../assets/images/google-icon.jpg"
 import axios from "axios";
 import { logIn } from "../../../redux/userSlice"
@@ -42,9 +40,7 @@ const SignInForm = (props) => {
     setSignInError("")
   };
   
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    
+  const handleSignIn = () => {
       if (!email) {
         setErrEmail("Enter your email");
         return
@@ -119,7 +115,9 @@ const SignInForm = (props) => {
   }, [signInError])
 
   return (
-          <form className="w-full lgl:w-[450px] h-auto flex flex-col gap-4 items-center">
+          <form className="w-full lgl:w-[450px] h-auto flex flex-col gap-4 items-center" onKeyDown={(e) => {
+            if (e.key === "Enter") return handleSignIn()
+          }}>
             <div className="px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin">
             {errorAlert.status && (
               <AlertComponent

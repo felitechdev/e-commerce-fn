@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FeliTechLogo_transparent } from "../../../assets/images";
 import googelIcon from "../../../assets/images/google-icon.jpg"
 import axios from "axios";
 import { ReactComponent as Spinner } from "../../../assets/images/Spinner.svg"

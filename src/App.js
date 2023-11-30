@@ -26,19 +26,17 @@ const App = () => {
   
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo.profile)
   useEffect(() => { 
-    const checkForGoogleUserInfo = async () => {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
-      .catch((error) => { 
-        console.log({ error: error.message });
-      })
-    
-      if (response && response.data) {
-        sessionStorage.setItem("token", response.data.token)
+    // const checkForGoogleUserInfo = () => {
+      axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true }).then((data) => {
+        sessionStorage.setItem("token", data.token)
         console.log("yes");
-        Dispatch(logIn({profile: response.data.user, logInType: "ByGoogle"}))
-      } 
-    }
-    checkForGoogleUserInfo()
+        Dispatch(logIn({profile: data.user, logInType: "ByGoogle"}))
+      }).catch((error) => { 
+        console.log({ error: error });
+      })
+
+    // }
+    // checkForGoogleUserInfo()
   },[])
   
   return ( 
