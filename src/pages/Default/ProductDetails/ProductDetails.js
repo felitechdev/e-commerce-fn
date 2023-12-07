@@ -26,30 +26,34 @@ const ProductDetails = () => {
   const userInfo = useSelector((state) => state.userReducer.userInfo)
 
   useEffect(() => {
-    const fetchProductInfo = async () => { 
-      const productInfo = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/product/${location.state.productId}`)
-      setDBProductInfo(productInfo.data);
-      setCartItemInfo({
-        ...cartItemInfo,
-        imagePreview: productInfo.data.productImages.productThumbnail.url,
-      })
+
+    const fetchProductInfo = async () => {
+      try {
+        const productInfo = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/product/${location.state.productId}`)
+        setDBProductInfo(productInfo.data);
+        setCartItemInfo({
+          ...cartItemInfo,
+          imagePreview: productInfo.data.productImages.productThumbnail.url,
+        })
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      } 
     }
+
+    const fetchRelatedProducts = async () => { 
+      try {
+        const products = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
+        setDuplicatedData([...products.data, ...products.data, ...products.data]);
+        setApiData(products.data);
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      }
+      
+    } 
+
     fetchProductInfo()
+    fetchRelatedProducts()
   }, [location.state.productId]);
-
-  useEffect( () => {
-
-
-    // Fetch your API data here
-    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Duplicate the API data
-        setDuplicatedData([...data, ...data, ...data]);
-        setApiData(data);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  });
 
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
