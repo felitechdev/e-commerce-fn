@@ -29,7 +29,7 @@ const App = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, {
         method: 'GET',
-        credentials: 'include',
+        credentials: true,
       });
       const data = await response.json();
       
