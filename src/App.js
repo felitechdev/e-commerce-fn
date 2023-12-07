@@ -21,22 +21,23 @@ import { logIn } from "./redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
+  axios.defaults.withCredentials = true
   const Dispatch = useDispatch()
-  
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo.profile)
-  useEffect(() => { 
-    const checkForGoogleUserInfo = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
-        sessionStorage.setItem("token", response.token)
-        console.log("yes");
-        Dispatch(logIn({profile: response.user, logInType: "ByGoogle"}))
-      } catch (error) {
-        console.log({ error: error });
-      }
+
+  const checkForGoogleUserInfo = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`)
+      sessionStorage.setItem("token", response.token)
+      
+      Dispatch(logIn({profile: response.user, logInType: "ByGoogle"}))
+    } catch (error) {
+      console.log({ error: error });
     }
+  }
+  useEffect(() => { 
     checkForGoogleUserInfo()
-  },[Dispatch])
+  },[])
   
   return ( 
     <>
