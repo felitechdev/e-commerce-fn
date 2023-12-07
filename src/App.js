@@ -25,21 +25,19 @@ const App = () => {
   const Dispatch = useDispatch()
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo.profile)
 
-  const checkForGoogleUserInfo = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, {
+  const checkForGoogleUserInfo = () => {
+    
+      fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, {
         method: 'GET',
-        credentials: true,
-      });
-      const data = await response.json();
+        credentials: "same-origin",
+      }).then(data => data.json())
+      .then(data => { 
+        sessionStorage.setItem("token", data.token)
       
-      // const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
-      sessionStorage.setItem("token", data.token)
-      
-      Dispatch(logIn({profile: data.user, logInType: "ByGoogle"}))
-    } catch (error) {
-      console.log({ error: error });
-    }
+        Dispatch(logIn({profile: data.user, logInType: "ByGoogle"}))
+      }).catch((error) => {
+        console.log({ error: error });
+      }) 
   }
   useEffect(() => { 
     checkForGoogleUserInfo()
@@ -47,7 +45,7 @@ const App = () => {
   
   return ( 
     <>
-      <Loader />
+      {/* <Loader /> */}
       <Routes>
         {storeUserInfo && Object.keys(storeUserInfo).length > 0 ? (
             <Route path="/accounts/" element={<UserLayout />}>
