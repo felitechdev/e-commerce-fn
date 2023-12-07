@@ -22,11 +22,12 @@ import { useDispatch, useSelector } from "react-redux";
 import cookiejar from 'axios-cookiejar-support';
 
 const App = () => {
-  axios.interceptors.request.use((config) => {
-    config.withCredentials = true;
-    config.jar = cookiejar.jar();
-    return config;
-  });
+  // axios.interceptors.request.use((config) => {
+  //   config.withCredentials = true;
+  //   config.jar = cookiejar.jar();
+  //   return config;
+  // });
+  axios.defaults.withCredentials = true;
 
   const Dispatch = useDispatch()
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo.profile)
