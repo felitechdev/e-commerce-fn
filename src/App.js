@@ -29,7 +29,7 @@ const App = () => {
     
       fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, {
         method: 'GET',
-        credentials: true,
+        credentials: "same-origin",
       }).then(data => data.json())
       .then(data => { 
         sessionStorage.setItem("token", data.token)
@@ -45,7 +45,7 @@ const App = () => {
   
   return ( 
     <>
-      <Loader />
+      {/* <Loader /> */}
       <Routes>
         {storeUserInfo && Object.keys(storeUserInfo).length > 0 ? (
             <Route path="/accounts/" element={<UserLayout />}>
