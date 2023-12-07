@@ -27,7 +27,11 @@ const App = () => {
   //   config.jar = cookiejar.jar();
   //   return config;
   // });
-  axios.defaults.withCredentials = true;
+  axios.interceptors.request.use((config) => {
+    config.withCredentials = true;
+    return config;
+  });
+  // axios.defaults.withCredentials = true;
 
   const Dispatch = useDispatch()
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo.profile)
