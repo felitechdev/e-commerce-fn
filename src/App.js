@@ -27,7 +27,7 @@ const App = () => {
 
   const checkForGoogleUserInfo = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`)
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`, { withCredentials: true })
       sessionStorage.setItem("token", response.token)
       
       Dispatch(logIn({profile: response.user, logInType: "ByGoogle"}))
