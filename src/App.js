@@ -19,9 +19,15 @@ import { useEffect } from "react";
 import axios from "axios";
 import { logIn } from "./redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import cookiejar from 'axios-cookiejar-support';
 
 const App = () => {
-  axios.defaults.withCredentials = true
+  axios.interceptors.request.use((config) => {
+    config.withCredentials = true;
+    config.jar = cookiejar.jar();
+    return config;
+  });
+
   const Dispatch = useDispatch()
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo.profile)
 
