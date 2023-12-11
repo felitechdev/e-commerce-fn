@@ -38,7 +38,7 @@ const UserHome = () => {
         {selectedCategory.category.categoryId || selectedCategory.subcategory.subcategoryId ? (
         <div className="max-w-container mx-auto px-4">
             <CategoryFilteredProducts selectedCategory={selectedCategory} />
-          </div>  
+        </div>  
         ) : (
             <>
               <div className="max-w-container mx-auto px-4">
@@ -56,39 +56,3 @@ const UserHome = () => {
 };
 
 export default UserHome;
-
-
-
-// import React, { useState } from "react";
-// import Banner from "../../../components/Banner/Banner";
-// import AllProducts from "../../../components/home/AllProducts/AllProducts";
-// import NewArrivals from "../../../components/home/ProductsSections/NewArrivals";
-// import YearProduct from "../../../components/home/YearProduct/YearProduct";
-// import CategoryFilteredProducts from "../../../components/home/AllProducts/CategoryFilteredProducts";
-
-// const Home = () => {
-
-
-  
-//   return (
-//     <div className="w-full mx-auto">
-//       <Banner onCategorySelect={handleCategorySelect}/>
-//       {selectedCategory.category.categoryId || selectedCategory.subcategory.subcategoryId ? (
-//         <div className="max-w-container mx-auto px-4">
-//           <CategoryFilteredProducts selectedCategory={selectedCategory} />
-//         </div>  
-//         ) : (
-//             <>
-//               <NewArrivals />
-//               <div className="max-w-container mx-auto px-4">
-//                 <AllProducts />
-//                 <YearProduct />
-//               </div>
-//             </>
-//           )}
-//     </div>
-//   );
-// };
-
-// export default Home;
-
