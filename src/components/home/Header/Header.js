@@ -66,6 +66,7 @@ const Header = (props) => {
               
               <li >
                 <NavLink
+                  reloadDocument
                   className={({ isActive }) => {
                     return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
                       : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
@@ -113,19 +114,6 @@ const Header = (props) => {
                   end
                 >
                     Contact
-                </NavLink>
-              </li>
-              <li >
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                  }}  
-                  to="journal"
-                  state={{ data: location.pathname.split("/")[1] }}
-                  end
-                >
-                  Journal
                 </NavLink>
               </li>
             </ul>
