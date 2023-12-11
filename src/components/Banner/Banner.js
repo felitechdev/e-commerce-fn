@@ -11,7 +11,7 @@ import Image from "../designLayouts/Image";
 import NestedList from "../nestedList/NestedList";
 import ImageSlider from "../imageslider/ImageSlider";
 
-const Banner = () => {
+const Banner = (props) => {
   const [dotActive, setDocActive] = useState(0);
   const ads = [
     {
@@ -27,55 +27,7 @@ const Banner = () => {
       image: 'https://ae04.alicdn.com/kf/Se810acbc45bb4153a2d05e7f60b52c22C.jpg_480x480.jpg_.webp',
     },
   ];
-  var category = [
-    {
-      text: 'women’s Fashion',
-      showSubList: false,
-      subItems: [
-        { text: 'Dresses' },
-        { text: 'Pants' },
-        { text: 'Shoes' },
-      ],
-    },
-    {
-      text: 'men’s Fashion',
-      showSubList: false,
-      subItems: [
-        { text: 'Sub-Item 3' },
-        { text: 'Sub-Item 4' },
-      ],
-    },
-    {
-      text: 'Phone & telecommunications ',
-      showSubList: false,
-      subItems: [],
-    },
-    {
-        text: 'Computer, office & security ',
-        showSubList: false,
-        subItems: [],
-    },
-    {
-        text: 'Jewelry & Watch',
-        showSubList: false,
-        subItems: [],
-    },
-    {
-        text: 'Bags & shoes',
-        showSubList: false,
-        subItems: [],
-    },
-    {
-        text: 'Tools & Home improvement',
-        showSubList: false,
-        subItems: [],
-    },
-    {
-        text: 'Beauty, Health & hair ',
-        showSubList: false,
-        subItems: [],
-    },
-  ];
+
   const settings = {
     dots: true,
     infinite: true,
@@ -177,7 +129,7 @@ const Banner = () => {
                 <img src={MenuIconWhite} className="w-5 h-5" />
                 <p className="text-[14px] font-semibold">Categories</p>
               </div>
-              <NestedList props={category} />
+              <NestedList onCategorySelect={props.onCategorySelect} />
             </div>
           </div>
           <div className="w-full lg:w-[60%]">
