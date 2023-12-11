@@ -8,8 +8,10 @@ const ProductSecondaryInfo = ({DBProductInfo}) => {
                 </ul>
             </div>
             <div className="border-2 border-t-0 rounded-bl-md rounded-br-md py-3 px-4">
-                {"description"}
-                {"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"}
+                { /* This section should receive the description from the database 
+                which contains html tags passed from the text editor embedded for 
+                inputting the description in product uploading */}
+                {DBProductInfo.description}
                 <img src={DBProductInfo.productImages.productThumbnail.url}/>
             </div>
         </div>
