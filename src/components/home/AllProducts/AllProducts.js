@@ -15,12 +15,13 @@ const AllProducts = () => {
   }, []);
 
   // Duplicating the products (e.g., repeat 3 times)
-  const duplicatedProducts = [...products, ...products, ...products];
+  const duplicatedProducts = products.length > 0 ? [...products, ...products, ...products]
+    : [];
 
   return (
     <ProductsSection heading="Our products">
       <ProductsGridContainer>
-        {duplicatedProducts.map((product, index) => (
+        {duplicatedProducts.length > 0 && duplicatedProducts.map((product, index) => (
             <Product
               key={product._id + index} // Ensured unique keys for each product
               productInfo={product}

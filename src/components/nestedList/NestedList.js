@@ -29,6 +29,8 @@ const NestedList = ({ onCategorySelect }) => {
         }
       })
       setCategories(categories)
+    }).catch((error) => {
+      console.log(error);
     })
   }, [])
 
