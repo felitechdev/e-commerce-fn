@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import googelIcon from "../../../assets/images/google-icon.jpg"
 import axios from "axios";
 import { ReactComponent as Spinner } from "../../../assets/images/Spinner.svg"
@@ -19,10 +19,16 @@ const SignUpForm = (props) => {
   const [errFirstName, setErrFirstName] = useState("");
   const [errLastName, setErrLastName] = useState("");
   const [errEmail, setErrEmail] = useState("");
+  const [errType,setErrType]=useState("");
   const [errPassword, setErrPassword] = useState("");
+  const [confirmPassword,setConfirmPassword]=useState("");
   const [loading, setLoading] = useState(false);
   const [errorAlert, setErrorAlert] = useState({ status: false, message: "" });
+ const [successAlert ,setSuccessAlert]=useState({status: false, message:""}); 
   const [signInError, setSignInError] = useState("");
+  const [signinSuccess,setSigninSuccess]=useState("")
+  const [selectedRole, setSelectedRole] = useState(""); 
+  const roleSelectRef = useRef(null);
 
   const navigate = useNavigate();
   const Dispatch = useDispatch()
@@ -47,6 +53,15 @@ const SignUpForm = (props) => {
     setSignInError("")
   };
 
+  const handleconfirmPassword=(e)=>{
+    setConfirmPassword(e.target.value);
+    setErrPassword("");
+    setSignInError("")
+  }
+
+
+ 
+
   const EmailValidation = (email) => {
     return String(email)
       .toLowerCase()
@@ -54,6 +69,7 @@ const SignUpForm = (props) => {
   };
 
   const handleSignUp = async (e) => {
+    
     e.preventDefault();
 
     if (checked) {
@@ -78,19 +94,37 @@ const SignUpForm = (props) => {
         setErrPassword("Create a password");
         return
       } else {
-        if (password.length < 6) {
-          setErrPassword("Passwords must be at least 6 characters");
+        if (password.length < 8) {
+          setErrPassword("Passwords must be at least 8 characters");
           return
         }
       }
+      
+
+      if(confirmPassword != password) {
+   
+        setErrPassword("Passwords not match");
+      }
+
+      const selectedRole = roleSelectRef.current.value;
+
+      if (selectedRole=='') {
+        setErrType("Account Type not selected");
+        
+      }
+
 
         setLoading(true)
         let userData = {
-          firstname: firstName,
-          lastname: lastName,
+          firstName: firstName,
+          lastName: lastName,
           email: email,
-          password: password
+          password: password,
+          role:selectedRole,
+          confirmPassword:confirmPassword
       };
+
+      
       axios({
           url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/user/register`,
             method: "POST",
@@ -99,17 +133,22 @@ const SignUpForm = (props) => {
             },
             data: userData,
       }).then((result) => { 
-        setLoading(false) 
-        sessionStorage.setItem("userToken", result.data.token)
-        Dispatch(logIn({
-          profile: result.data.user,
-          logInType: "ByEmail",
-        }))
-        navigate("/accounts/", { replace: true })
+        if (result.status === 201 || result.data.status ==="success") {
+          setSignInError("")
+          setErrType("")
+          const success = { 
+            statusCode: result.status,
+            message: result.data.data,
+          }
+          setSigninSuccess(success.message);
+        }
+     
         setFirstName("");
         setLastName("");
         setEmail("");
         setPassword("");
+        setConfirmPassword("");
+        setLoading(false)
 
         }).catch(err => { 
 
@@ -117,16 +156,19 @@ const SignUpForm = (props) => {
             statusCode: err.response.status,
             message: err.response.data.message,
           }
+          setSigninSuccess("")
   
           if (error.statusCode === 422 ||
             error.statusCode === 409 ||
-            error.statusCode === 401) {
+            error.statusCode === 401||
+            error.statusCode === 400)
+             {
             setSignInError(error.message)
           } else { 
             setSignInError("Unable to sign you in! Try again later.")
           }
           setLoading(false)
-          console.log(error);
+        
         })
     }
   };
@@ -147,6 +189,22 @@ const SignUpForm = (props) => {
     }
   }, [signInError])
 
+  useEffect(()=>{
+    if (signinSuccess !== "") {
+     setSuccessAlert({ status: true, message: signinSuccess })
+    } else { 
+     setSuccessAlert({ status: false, message: "" })
+    }
+    
+  },[signinSuccess]);
+
+  useEffect(() => {
+    // Reset selectedRole to empty after successful dispatch
+    if (signinSuccess) {
+      setSelectedRole("");
+    }
+  }, [signinSuccess]);
+
   return (
           <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">
             <div className="px-6  w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
@@ -155,6 +213,12 @@ const SignUpForm = (props) => {
                   color="failure"
                   type="Error!"
                   message={errorAlert.message} />
+              )}
+              {successAlert.status && (
+                <AlertComponent
+                  color="success"
+                  type="Success"
+                  message={successAlert.message} />
               )}
               <h1 className="font-titleFont decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4 text-center">
                 Create your account
@@ -241,6 +305,56 @@ const SignUpForm = (props) => {
                     </p>
                   )}
                 </div>
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                  confirmPassword
+                  </p>
+                  <input
+                    onChange={handleconfirmPassword}
+                    value={confirmPassword}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="password"
+                    placeholder="Your  confirmPassword" 
+                  />
+                  {errPassword && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errPassword}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                Select Account Type
+                  </p>
+                  {/* <select name="role" ref={roleSelectRef}  className="w-full align-middle h-10 placeholder:text-sm placeholder:tracking-wide px-4 py-2 text-sm font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none">
+                 
+  <option value="customer" className="text-sm" >Customer</option>
+  <option value="seller" className="text-sm">Seller</option>
+</select> */}
+<select
+        name="role"
+        ref={roleSelectRef}
+        value={selectedRole} // Set the selected value
+        onChange={(e) => setSelectedRole(e.target.value)}
+        className="w-full align-middle h-10 placeholder:text-sm placeholder:tracking-wide px-4 py-2 text-sm font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+      >
+        <option value="" disabled selected hidden>
+          Select an account type
+        </option>
+        <option value="customer" className="text-sm">Customer</option>
+        <option value="seller" className="text-sm">Seller</option>
+      </select>
+                  {errType && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errType}
+                    </p>
+                  )}
+                  
+                </div>
+               
                
                 {/* Checkbox */}
                 <div className="flex items-start mdl:items-center gap-2">
@@ -257,6 +371,7 @@ const SignUpForm = (props) => {
                 </div>
                 <button
                   type="button"
+                  disabled={loading}
                   onClick={handleSignUp}
                   className={`${
                     checked

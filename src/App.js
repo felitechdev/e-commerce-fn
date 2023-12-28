@@ -20,6 +20,7 @@ import axios from "axios";
 import { logIn } from "./redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import cookiejar from 'axios-cookiejar-support';
+import ActivateAccount from "./pages/ActivateAccount";
 
 const App = () => {
   // axios.interceptors.request.use((config) => {
@@ -78,10 +79,12 @@ const App = () => {
               <Route path="/" element={<IndexLayout />}>
                 {/* ==================== Header Navlink Start here =================== */}
                 <Route index element={<Home />}></Route>
+           
                 <Route path="shop" element={<Shop />}></Route>
                 <Route path="about" element={<About />}></Route>
                 <Route path="contact" element={<Contact />}></Route>
                 <Route path="journal" element={<Journal />}></Route>
+                
                 {/* ==================== Header Navlink End here ===================== */}
                 {/* <Route path="offer" element={<Offer />}></Route> */}
                 <Route path="product" element={<ProductDetails />}></Route>
@@ -89,7 +92,9 @@ const App = () => {
                 <Route path="paymentgateway" element={<Payment />}></Route>
               </Route>
           </>
-        )}    
+
+        )}   
+             <Route path="/user/verify-account/" element={<ActivateAccount />}></Route> 
         <Route path="signup" element={<Authentication openForm={{signin: false, signup: true}}/>}></Route>
         <Route path="signin" element={<Authentication openForm={{signin: true, signup: false}}/>}></Route>
       </Routes>
