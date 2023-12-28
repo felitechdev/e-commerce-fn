@@ -67,7 +67,8 @@ const SignInForm = (props) => {
                 "Content-Type": "application/json"
             },
             data: userData,
-        }).then((result) => {        
+        }).then((result) => {    
+          console.log("login result ",result);    
           if (result.status === 200) {
             setEmail("");
             setPassword("");
@@ -80,6 +81,7 @@ const SignInForm = (props) => {
             navigate("/accounts/", { replace: true })
           } 
         }).catch(err => {
+          console.log("error on login ",err)
           const error = { 
             statusCode: err.response.status,
             message: err.response.data.message,
