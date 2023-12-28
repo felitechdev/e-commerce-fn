@@ -1,21 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.362e4d32.css",
-    "main.js": "/static/js/main.2a05aa95.js",
-    "static/media/bannerImgTwo.webp": "/static/media/bannerImgTwo.d93152138c5c9da3de58.webp",
-    "static/media/bannerImgThree.webp": "/static/media/bannerImgThree.cdd63ff84acf53a73a0d.webp",
+    "main.css": "/static/css/main.915c18b1.css",
+    "main.js": "/static/js/main.348e7b85.js",
+    "static/media/bannerImgOne.png": "/static/media/bannerImgOne.5e025132bfdfd3de57f2.png",
+    "static/media/bannerImgThree.png": "/static/media/bannerImgThree.5e025132bfdfd3de57f2.png",
+    "static/media/bannerImgTwo.png": "/static/media/bannerImgTwo.5e025132bfdfd3de57f2.png",
+    "static/media/productOfTheYear.png": "/static/media/productOfTheYear.5e025132bfdfd3de57f2.png",
+    "static/media/bestSellerFour.png": "/static/media/bestSellerFour.d070c3898e40de8afa35.png",
+    "static/media/FeliTechWhiteLogo.jpg": "/static/media/FeliTechWhiteLogo.347405bc6a399d463ec2.jpg",
     "static/media/saleImgTwo.webp": "/static/media/saleImgTwo.ecb733524e878406c281.webp",
-    "static/media/bannerImgOne.webp": "/static/media/bannerImgOne.cc70f00d1512cb1f97f6.webp",
+    "static/media/bestSellerOne.png": "/static/media/bestSellerOne.16662c1934834911a1f2.png",
+    "static/media/bestSellerTwo.png": "/static/media/bestSellerTwo.dc8fa27beac4d13abf8d.png",
     "static/media/newArrThree.webp": "/static/media/newArrThree.137dcefaee781098fd8a.webp",
     "static/media/payment.png": "/static/media/payment.3e00cc601c9e7fc1e7d3.png",
-    "static/media/productOfTheYear.webp": "/static/media/productOfTheYear.2c30f10b51873bab4630.webp",
+    "static/media/FeliTechLogo_transparent.png": "/static/media/FeliTechLogo_transparent.77052c0498f371bbe522.png",
     "static/media/saleImgOne.webp": "/static/media/saleImgOne.5fd9a91421b8b3d52f04.webp",
-    "static/media/bestSellerThree.webp": "/static/media/bestSellerThree.8caffcd1cd1c67b4a340.webp",
+    "static/media/bestSellerThree.png": "/static/media/bestSellerThree.365aa94fa4986f524927.png",
     "static/media/saleImgThree.webp": "/static/media/saleImgThree.7f55d28e41e547163b6c.webp",
     "static/media/newArrFour.webp": "/static/media/newArrFour.b8a5fda6839f2f0b1eaa.webp",
-    "static/media/bestSellerTwo.webp": "/static/media/bestSellerTwo.c2641a76c189fcc71670.webp",
-    "static/media/bestSellerFour.webp": "/static/media/bestSellerFour.0b34fdc5232f2dcf997b.webp",
-    "static/media/bestSellerOne.webp": "/static/media/bestSellerOne.988208d74cc332fccc11.webp",
     "static/media/emptyCart.png": "/static/media/emptyCart.230e4848b62fb3cab325.png",
     "static/media/spfThree.webp": "/static/media/spfThree.226da6ea085a91db0352.webp",
     "static/media/spfOne.webp": "/static/media/spfOne.af2c5aa8d8015ffcccf4.webp",
@@ -24,11 +26,12 @@
     "static/media/newArrTwo.webp": "/static/media/newArrTwo.bdc7d9372116bdf40cc4.webp",
     "static/media/newArrOne.webp": "/static/media/newArrOne.5982a995e5c312914fe6.webp",
     "index.html": "/index.html",
-    "main.362e4d32.css.map": "/static/css/main.362e4d32.css.map",
-    "main.2a05aa95.js.map": "/static/js/main.2a05aa95.js.map"
+    "static/media/Spinner.svg": "/static/media/Spinner.7416b98ff64c9605afd53129d106e07c.svg",
+    "main.915c18b1.css.map": "/static/css/main.915c18b1.css.map",
+    "main.348e7b85.js.map": "/static/js/main.348e7b85.js.map"
   },
   "entrypoints": [
-    "static/css/main.362e4d32.css",
-    "static/js/main.2a05aa95.js"
+    "static/css/main.915c18b1.css",
+    "static/js/main.348e7b85.js"
   ]
 }
