@@ -17,7 +17,10 @@ import axios from "axios";
 import { logIn } from "./redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import cookiejar from "axios-cookiejar-support";
+
 import ActivateAccount from "./pages/ActivateAccount";
+import SellerProfile from "./pages/Account/Profile/SellerProfile";
+import ProfileLayout from "./Layouts/ProfileLayout";
 
 const App = () => {
   // axios.interceptors.request.use((config) => {
@@ -35,7 +38,7 @@ const App = () => {
   const storeUserInfo = useSelector(
     (state) => state.userReducer.userInfo.profile
   );
-
+  console.log("storeUserInfo homepage", storeUserInfo);
   const checkForGoogleUserInfo = async () => {
     try {
       const response = await axios.get(
@@ -74,6 +77,11 @@ const App = () => {
             <Route path="product" element={<ProductDetails />}></Route>
             <Route path="cart" element={<Cart />}></Route>
             <Route path="paymentgateway" element={<Payment />}></Route>
+
+            {/* <Route path="profile" element={<SellerProfile />}></Route> */}
+            <Route path="myAccount" element={<ProfileLayout />}>
+              <Route path="profile" element={<SellerProfile />}></Route>
+            </Route>
           </Route>
         ) : (
           <>

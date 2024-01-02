@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { resetUserInfo } from "../../../redux/userSlice";
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +10,8 @@ const UserAvatarDropdown = (props) => {
   const dropDownRef = useRef();
   const avatarRef = useRef();
   const [displayDropdown, setDisplayDropdown] = useState(false);
+
+  const location = useLocation();
 
   useEffect(() => {
     document.body.addEventListener("click", (e) => {
@@ -56,17 +58,34 @@ const UserAvatarDropdown = (props) => {
         <img
           className="inline-block w-[40px] rounded-full"
           src={props.userInfo.profile.profileImageUrl}
-          alt={`${props.userInfo.profile.firstname}'s account settings`}
+          alt={`${props.userInfo.profile.firstName}'s account settings`}
         />
       </li>
       {displayDropdown && (
         <div
-          className="absolute top-[75px] right-2 w-40 rounded-md h-56 py-2 px-2 border-2 bg-white"
+          className="absolute top-[75px] right-2 w-40 rounded-md  py-2 px-2 border-2 bg-[#1D6F2B]"
           ref={dropDownRef}
         >
-          <ul>
+          <ul className="  text-center">
+            {props.userInfo.profile ? (
+              <li className="w-[100%] text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer ">
+                <NavLink
+                  className={({ isActive }) => {
+                    return isActive
+                      ? "text-[#1D6F2B] font-semibold hidden md:inline-block align-middle"
+                      : "font-semibold hidden md:inline-block align-middle";
+                  }}
+                  to="myAccount"
+                  // state={{ data: location.pathname.split("/")[1] }}
+                >
+                  Account Settings
+                </NavLink>
+              </li>
+            ) : (
+              ""
+            )}
             <li
-              className="absolute w-[90%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
+              className="w-[100%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
               onClick={handleSignOut}
             >
               Sign out

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import googelIcon from "../../../assets/images/google-icon.jpg";
 import axios from "axios";
 import { logIn } from "../../../redux/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../../assets/images/Spinner.svg";
 import AlertComponent from "../../../components/designLayouts/AlertComponent.js";
@@ -20,6 +20,10 @@ const SignInForm = (props) => {
   const Dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const storeUserInfo = useSelector(
+    (state) => state.userReducer.userInfo.profile
+  );
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -73,13 +77,14 @@ const SignInForm = (props) => {
             setEmail("");
             setPassword("");
             setLoading(false);
-            sessionStorage.setItem("userToken", result.data.token);
+            sessionStorage.setItem("userToken", result?.data?.token);
             Dispatch(
               logIn({
-                profile: result.data.user,
+                profile: result?.data?.data?.user,
                 logInType: "ByEmail",
               })
             );
+
             navigate("/accounts/", { replace: true });
           }
         })

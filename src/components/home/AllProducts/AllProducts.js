@@ -28,17 +28,12 @@ const AllProducts = () => {
     <ProductsSection heading="Our products">
       <ProductsGridContainer>
         {products?.products?.length > 0 &&
-          products?.products?.map(
-            (product, index) => (
-              console.log("product  display", product),
-              (
-                <Product
-                  key={product.id + index} // Ensured unique keys for each product
-                  productInfo={product}
-                />
-              )
-            )
-          )}
+          products?.products?.map((product, index) => (
+            <Product
+              key={product.id + index} // Ensured unique keys for each product
+              productInfo={product}
+            />
+          ))}
       </ProductsGridContainer>
     </ProductsSection>
   );
