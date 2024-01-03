@@ -38,7 +38,7 @@ const App = () => {
   const storeUserInfo = useSelector(
     (state) => state.userReducer.userInfo.profile
   );
-  console.log("storeUserInfo homepage", storeUserInfo);
+
   const checkForGoogleUserInfo = async () => {
     try {
       const response = await axios.get(

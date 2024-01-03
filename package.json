@@ -10,6 +10,8 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "antd": "^5.12.7",
+    "antd-phone-input": "^0.3.4",
     "axios": "^1.6.2",
     "axios-cookiejar-support": "^4.0.7",
     "chokidar": "^3.5.3",
