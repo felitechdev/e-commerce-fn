@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -10,7 +11,7 @@ const ProfileLayout = () => {
   const [user, setUser] = useState();
   const [userprofile, setUserprofile] = useState();
 
-  const token = sessionStorage.getItem("userToken");
+  const token = Cookies.get("token");
   const { profile, loadprofile, errprofile } = useSelector(
     (state) => state.userprofile
   );
@@ -20,34 +21,34 @@ const ProfileLayout = () => {
   //   dispatch(GetMyprofile(token));
   // }, [token]);
   // implement redux
-  useEffect(() => {
-    if (loadprofile == true) {
-      dispatch(GetMyprofile(token))
-        .unwrap()
-        .then((data) => {
-          console.log("data", data);
-          if (data?.data && data.status == "success") {
-            setUser(data?.data?.user);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [loadprofile, dispatch, token]);
+  // useEffect(() => {
+  //   if (loadprofile == true) {
+  //     dispatch(GetMyprofile(token))
+  //       .unwrap()
+  //       .then((data) => {
+  //         console.log("data", data);
+  //         if (data?.data && data.status == "success") {
+  //           setUser(data?.data?.user);
+  //         }
+  //       })
+  //       .catch((error) => {});
+  //   }
+  // }, [loadprofile, dispatch, token]);
 
-  // Fetch user only when the component mounts
-  useEffect(() => {
-    if (user == null || user == undefined) {
-      dispatch(GetMyprofile(token))
-        .unwrap()
-        .then((data) => {
-          console.log("data", data);
-          if (data?.data && data.status == "success") {
-            setUser(data?.data?.user);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [dispatch, user, token]);
+  // // Fetch user only when the component mounts
+  // useEffect(() => {
+  //   if (user == null || user == undefined) {
+  //     dispatch(GetMyprofile(token))
+  //       .unwrap()
+  //       .then((data) => {
+  //         console.log("data", data);
+  //         if (data?.data && data.status == "success") {
+  //           setUser(data?.data?.user);
+  //         }
+  //       })
+  //       .catch((error) => {});
+  //   }
+  // }, [dispatch, user, token]);
 
   useEffect(() => {
     if (profile?.data?.user) {

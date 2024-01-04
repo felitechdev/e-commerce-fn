@@ -37,6 +37,7 @@ nav .active li {
   border-color: #5d636f;
 }
 
-.ant-modal-footer {
+/* disable ant model footeer */
+/* .ant-modal-footer {
   display: none;
-}
+} */

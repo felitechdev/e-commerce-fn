@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../../assets/images/Spinner.svg";
 import AlertComponent from "../../../components/designLayouts/AlertComponent.js";
+import Cookies from "js-cookie";
 
 const SignInForm = (props) => {
   const [email, setEmail] = useState("");
@@ -77,6 +78,7 @@ const SignInForm = (props) => {
             setEmail("");
             setPassword("");
             setLoading(false);
+            Cookies.set("token", result?.data?.token);
             sessionStorage.setItem("userToken", result?.data?.token);
             Dispatch(
               logIn({
