@@ -92,10 +92,12 @@ const SignInForm = (props) => {
         })
         .catch((err) => {
           console.log("error on login ", err);
-          const error = {
-            statusCode: err.response.status,
-            message: err.response.data.message,
-          };
+          let error = "";
+          if (err.status)
+            error = {
+              statusCode: err.response.status,
+              message: err.response.data.message,
+            };
 
           if (
             error.statusCode === 422 ||

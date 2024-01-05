@@ -13,7 +13,10 @@ import storage from "redux-persist/lib/storage";
 import productsReducer from "./productsSlice";
 import userReducer from "./userSlice";
 
-import { getProfileReducer } from "./Reducers/userReducers";
+import {
+  getProfileReducer,
+  updateprofileReducer,
+} from "./Reducers/userReducers";
 
 // const persistProductsConfig = {
 //   key: "root",
@@ -45,6 +48,7 @@ const rootReducer = {
   productsReducer,
   userReducer,
   userprofile: getProfileReducer,
+  profileupdate: updateprofileReducer,
 };
 
 export const store = configureStore({

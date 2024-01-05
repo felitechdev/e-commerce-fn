@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { resetUserInfo } from "../../../redux/userSlice";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const UserAvatarDropdown = (props) => {
   const Dispatch = useDispatch();
@@ -44,6 +45,7 @@ const UserAvatarDropdown = (props) => {
       navigate("/");
       Dispatch(resetUserInfo());
       sessionStorage.removeItem("userToken");
+      Cookies.removeItem("token");
       window.open(`${process.env.REACT_APP_INDEX_PAGE_URL}`, "_self");
     }
   };
@@ -57,8 +59,9 @@ const UserAvatarDropdown = (props) => {
       >
         <img
           className="inline-block w-[40px] rounded-full"
-          src={props.userInfo.profile.profileImageUrl}
-          alt={`${props.userInfo.profile.firstName}'s account settings`}
+          // src={props.userInfo.profile.profileImageUrl}
+          src={props.userInfo.photo}
+          alt={`${props.userInfo.firstName}'s account settings`}
         />
       </li>
       {displayDropdown && (
@@ -67,7 +70,7 @@ const UserAvatarDropdown = (props) => {
           ref={dropDownRef}
         >
           <ul className="  text-center">
-            {props.userInfo.profile ? (
+            {props.userInfo.firstName ? (
               <li className="w-[100%] text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer ">
                 <NavLink
                   className={({ isActive }) => {

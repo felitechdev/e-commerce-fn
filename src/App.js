@@ -101,10 +101,12 @@ const App = () => {
     <>
       {/* <Loader /> */}
       {loadprofile ? (
-        <img className="w-28 mb-6" src={FeliTechWhiteLogo} alt="logoLight" />
+        <div className="flex items-center justify-center h-screen">
+          <img className="w-28 mb-6" src={FeliTechWhiteLogo} alt="logoLight" />
+        </div>
       ) : (
         <Routes>
-          {storeUserInfo && Object.keys(storeUserInfo).length > 0 ? (
+          {user ? (
             <Route path="/accounts/" element={<UserLayout />}>
               <Route path="" element={<UserHome />}></Route>
               <Route path="shop" element={<Shop />}></Route>
@@ -116,7 +118,6 @@ const App = () => {
               <Route path="product" element={<ProductDetails />}></Route>
               <Route path="cart" element={<Cart />}></Route>
               <Route path="paymentgateway" element={<Payment />}></Route>
-
               {/* <Route path="profile" element={<SellerProfile />}></Route> */}
               <Route path="myAccount" element={<ProfileLayout />}>
                 <Route path="profile" element={<SellerProfile />}></Route>

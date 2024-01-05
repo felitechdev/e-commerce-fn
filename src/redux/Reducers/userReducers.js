@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GetMyprofile } from "../../APIs/UserAPIs";
+import { Updateprofile } from "../../APIs/UserAPIs";
 
 const initialState = {
   profile: null,
@@ -27,4 +28,29 @@ const getprofile = createSlice({
   },
 });
 
+const updateprofile = createSlice({
+  name: "updateprofile",
+  initialState: {
+    profileupdate: null,
+    loadprofileupdate: false,
+    errprofileupdate: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(Updateprofile.pending, (state, action) => {
+        state.loadprofileupdate = true;
+      })
+      .addCase(Updateprofile.fulfilled, (state, action) => {
+        state.loadprofileupdate = false;
+        state.profileupdate = action.payload;
+      })
+      .addCase(Updateprofile.rejected, (state, action) => {
+        state.loadprofileupdate = false;
+        state.errprofileupdate = action.error;
+      });
+  },
+});
+
+export const updateprofileReducer = updateprofile.reducer;
 export const getProfileReducer = getprofile.reducer;

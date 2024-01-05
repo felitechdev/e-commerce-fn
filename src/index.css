@@ -38,6 +38,6 @@ nav .active li {
 }
 
 /* disable ant model footeer */
-/* .ant-modal-footer {
+.ant-modal-footer {
   display: none;
-} */
+}

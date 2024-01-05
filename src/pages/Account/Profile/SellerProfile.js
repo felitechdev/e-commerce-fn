@@ -21,10 +21,10 @@ const SellerProfile = () => {
   );
 
   const showModal = () => {
-    console.log("show modal", isModalOpen);
     setIsModalOpen(true);
   };
   const handleCancel = () => {
+    console.log("model is closed", isModalOpen);
     setIsModalOpen(false);
   };
 
@@ -71,8 +71,6 @@ const SellerProfile = () => {
               <h1>Add Seller Info</h1>
             </div>
           )}
-
-          <CompanyModel isModalOpen={isModalOpen} handleCancel={handleCancel} />
         </div>
         {userprofile != null && (
           <div className=" pl-10 mt-10 ">
@@ -81,6 +79,8 @@ const SellerProfile = () => {
             <h1>lastName : {userprofile.lastName}</h1>
           </div>
         )}
+
+        <CompanyModel isModalOpen={isModalOpen} handleCancel={handleCancel} />
       </div>
     </>
   );

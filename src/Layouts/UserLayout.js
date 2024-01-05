@@ -12,7 +12,7 @@ import Cookies from "js-cookie";
 
 const UserLayout = (props) => {
   const [userprofile, setUserprofile] = useState();
-
+  const [user, setUser] = useState();
   const storeUserInfo = useSelector((state) => state.userReducer.userInfo);
   const token = Cookies.get("token");
   const { profile, loadprofile, errprofile } = useSelector(
@@ -59,9 +59,25 @@ const UserLayout = (props) => {
         });
     }
   }, []);
+
+  useEffect(() => {
+    if (storeUserInfo) {
+      setUser(storeUserInfo);
+    }
+  }, [storeUserInfo]);
+
+  useEffect(() => {
+    if (profile?.data?.user) {
+      setUserprofile(profile?.data?.user);
+    }
+  }, [profile]);
+
+  console.log("storeUserInfo homepage", userprofile, storeUserInfo);
+
   return (
     <div>
-      <Header userInfo={storeUserInfo} account={props.account} />
+      {/* <Header userInfo={storeUserInfo} account={props.account} /> */}
+      <Header userInfo={userprofile} />
       <HeaderBottom />
       <Outlet />
       <Footer />

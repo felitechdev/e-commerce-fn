@@ -36,7 +36,7 @@ const Header = (props) => {
   const { fromCurrency, toCurrency, setFromCurrency, setToCurrency } =
     useCurrency();
 
-  console.log("props", props.account, props.userInfo);
+  // console.log("props", props.account, props.userInfo);
   const handleCurrencyChange = (e) => {
     const selectedCurrency = e.target.value;
 
@@ -79,18 +79,50 @@ const Header = (props) => {
           {showMenu && (
             <ul className="flex items-center w-auto z-50 p-0 gap-3">
               <li>
-                <NavLink
-                  reloadDocument
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
-                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2";
-                  }}
-                  to=""
-                  state={{ data: location.pathname.split("/")[1] }}
-                >
-                  Home
-                </NavLink>
+                {props.userInfo ? (
+                  <NavLink
+                    // reloadDocument
+                    className={({ isActive }) => {
+                      return isActive
+                        ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2";
+                    }}
+                    to="/accounts/"
+                    state={{ data: location.pathname.split("/")[1] }}
+                  >
+                    Home
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    className={({ isActive }) => {
+                      return isActive
+                        ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2"
+                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2";
+                    }}
+                    to=""
+                    state={{ data: location.pathname.split("/")[1] }}
+                  >
+                    Home
+                  </NavLink>
+                )}
+
+                {/* {props.userInfo ? (
+                  <Link
+                    to="/accounts/"
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={() => setSidenav(false)}
+                  >
+                    {"Home"}
+                  </Link>
+                ) : (
+                  <Link
+                    to="/"
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={() => setSidenav(false)}
+                  >
+                    {"Home"}
+                  </Link>
+                )} */}
               </li>
               <li>
                 <NavLink
@@ -301,7 +333,7 @@ const Header = (props) => {
                       <NavLink
                         className={({ isActive }) => {
                           return isActive
-                            ? "text-[#1D6F2B] font-semibold hidden md:inline-block align-middle"
+                            ? "text-[#1D6F2B] bg-secondary font-semibold hidden md:inline-block align-middle"
                             : "font-semibold hidden md:inline-block align-middle";
                         }}
                         to="/accounts/"
@@ -327,19 +359,26 @@ const Header = (props) => {
                       state={{ data: location.pathname.split("/")[1] }}
                     >
                       <BsCart3 className={headerIconStyles} size={40} />
-                      {props.userInfo.profile
-                        ? userCart &&
-                          userCart.length > 0 && (
-                            <p className="absolute  -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
-                              {userCart.length}
-                            </p>
-                          )
-                        : productsCart.length > 0 && (
-                            <p className="absolute -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
-                              {productsCart.length}
-                            </p>
-                          )}
+                      {
+                        // props.userInfo.profile
+                        props.userInfo
+                          ? userCart &&
+                            userCart.length > 0 && (
+                              <p className="absolute  -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
+                                {userCart.length}
+                              </p>
+                            )
+                          : productsCart.length > 0 && (
+                              <p className="absolute -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
+                                {productsCart.length}
+                              </p>
+                            )
+                      }
                     </NavLink>
+                  </li>
+
+                  <li className="relative">
+                    <Link to={"profile"}>profile</Link>
                   </li>
 
                   {props.userInfo ? (
@@ -371,13 +410,23 @@ const Header = (props) => {
                   />
                   <ul className="text-gray-200 flex flex-col gap-2">
                     <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
-                      <Link
-                        to="/"
-                        state={{ data: location.pathname.split("/")[1] }}
-                        onClick={() => setSidenav(false)}
-                      >
-                        {"Home"}
-                      </Link>
+                      {props.userInfo ? (
+                        <Link
+                          to="/accounts/"
+                          state={{ data: location.pathname.split("/")[1] }}
+                          onClick={() => setSidenav(false)}
+                        >
+                          {"Home"}
+                        </Link>
+                      ) : (
+                        <Link
+                          to="/"
+                          state={{ data: location.pathname.split("/")[1] }}
+                          onClick={() => setSidenav(false)}
+                        >
+                          {"Home"}
+                        </Link>
+                      )}
                     </li>
                     <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
                       <Link
