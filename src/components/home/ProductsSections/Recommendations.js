@@ -18,18 +18,20 @@ const Recommendations = () => {
         setDuplicatedData(duplicated);
         setApiData(data);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) =>
+        console.error("Error fetching data: on recommended prodduct", error)
+      );
   }, []);
 
   return (
-    <ProductsSection
-      heading="Recommended Products"
-    >
+    <ProductsSection heading="Recommended Products">
       <ProductsSliderContainer>
         {duplicatedData.map((product, index) => {
-          return (<div key={product._id + index} className="px-2">
-            <Product productInfo={product} />
-          </div>)
+          return (
+            <div key={product._id + index} className="px-2">
+              <Product productInfo={product} />
+            </div>
+          );
         })}
       </ProductsSliderContainer>
     </ProductsSection>

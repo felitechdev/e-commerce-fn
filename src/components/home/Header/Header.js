@@ -377,10 +377,6 @@ const Header = (props) => {
                     </NavLink>
                   </li>
 
-                  <li className="relative">
-                    <Link to={"profile"}>profile</Link>
-                  </li>
-
                   {props.userInfo ? (
                     <UserAvatarDropdown userInfo={props.userInfo} />
                   ) : (

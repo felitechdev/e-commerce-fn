@@ -124,17 +124,16 @@ const App = () => {
               </Route>
             </Route>
           ) : (
-            <>
-              <Route path="/" element={<IndexLayout />}>
-                {/* ==================== Header Navlink Start here =================== */}
-                <Route index element={<Home />}></Route>
+            <Route path="/" element={<IndexLayout />}>
+              {/* ==================== Header Navlink Start here =================== */}
+              <Route index element={<Home />}></Route>
 
-                <Route path="shop" element={<Shop />}></Route>
-                <Route path="about" element={<About />}></Route>
-                <Route path="contact" element={<Contact />}></Route>
-                <Route path="journal" element={<Journal />}></Route>
+              <Route path="shop" element={<Shop />}></Route>
+              <Route path="about" element={<About />}></Route>
+              <Route path="contact" element={<Contact />}></Route>
+              <Route path="journal" element={<Journal />}></Route>
 
-                {/* <Route
+              {/* <Route
                 path="shop"
                 element={() => {
                   if (false) return Navigate("/login");
@@ -143,13 +142,12 @@ const App = () => {
                 }}
               ></Route> */}
 
-                {/* ==================== Header Navlink End here ===================== */}
-                {/* <Route path="offer" element={<Offer />}></Route> */}
-                <Route path="product" element={<ProductDetails />}></Route>
-                <Route path="cart" element={<Cart />}></Route>
-                <Route path="paymentgateway" element={<Payment />}></Route>
-              </Route>
-            </>
+              {/* ==================== Header Navlink End here ===================== */}
+              {/* <Route path="offer" element={<Offer />}></Route> */}
+              <Route path="product" element={<ProductDetails />}></Route>
+              <Route path="cart" element={<Cart />}></Route>
+              <Route path="paymentgateway" element={<Payment />}></Route>
+            </Route>
           )}
           <Route
             path="/user/verify-account/:token"

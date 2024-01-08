@@ -16,6 +16,7 @@ import userReducer from "./userSlice";
 import {
   getProfileReducer,
   updateprofileReducer,
+  ViewprofileReducer,
 } from "./Reducers/userReducers";
 
 // const persistProductsConfig = {
@@ -49,6 +50,7 @@ const rootReducer = {
   userReducer,
   userprofile: getProfileReducer,
   profileupdate: updateprofileReducer,
+  viewprofile: ViewprofileReducer,
 };
 
 export const store = configureStore({

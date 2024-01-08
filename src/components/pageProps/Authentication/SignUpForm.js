@@ -109,6 +109,7 @@ const SignUpForm = (props) => {
       }
 
       setLoading(true);
+
       let userData = {
         firstName: firstName,
         lastName: lastName,
@@ -145,26 +146,35 @@ const SignUpForm = (props) => {
           setLoading(false);
         })
         .catch((err) => {
-          const error = {
-            statusCode: err.response.status,
-            message: err.response.data.message,
-          };
-          setSigninSuccess("");
-
-          if (
-            error.statusCode === 422 ||
-            error.statusCode === 409 ||
-            error.statusCode === 401 ||
-            error.statusCode === 400
-          ) {
-            setSignInError(error.message);
-          } else {
-            setSignInError("Unable to sign you in! Try again later.");
-          }
           setLoading(false);
+          console.log("error on register", err);
+          // const error = {
+          //   statusCode: err.response.status,
+          //   message: err.response.data.message,
+          // };
+          setSigninSuccess("");
+          if (err.message) {
+            setSignInError(err.message);
+          }
+
+          if (err.response) {
+            if (
+              err.response.status === 422 ||
+              err.response.status === 409 ||
+              err.response.status === 401 ||
+              err.response.status === 400
+            ) {
+              setSignInError(err.response.data.message);
+            } else {
+              setSignInError("Unable to sign you in! Try again later.");
+            }
+          } else {
+            setSignInError("An error occurred. Please try again.");
+          }
         });
     }
   };
+  console.log("Loading", loading);
 
   const handleGoogleSignUp = (e) => {
     e.preventDefault();

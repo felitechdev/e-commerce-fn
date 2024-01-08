@@ -187,7 +187,9 @@ const CompanyModel = (props) => {
       .unwrap()
       .then((res) => {
         if (res.status === "success") {
-          console.log(res?.data?.profile);
+          console.log(res?.data?.profile, "sucesss updartee");
+          // close model
+          props.handleCancel();
           setUpdateError("");
           setUpdateSuccess(res?.data?.profile);
         }
@@ -220,6 +222,8 @@ const CompanyModel = (props) => {
       setUserprofile(profile?.data?.user);
     }
   }, [profile]);
+
+  console.log("Recommended Products", updateSuccess);
 
   return (
     <>

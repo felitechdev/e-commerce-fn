@@ -36,11 +36,11 @@ const ProductDetails = () => {
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+  console.log("duplicateData", duplicatedData);
 
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
       <div className="max-w-container mx-auto p-4">
-
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-14">
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
@@ -54,10 +54,8 @@ const ProductDetails = () => {
           <ProductsSection heading="Similar Products">
             <ProductsSliderContainer>
               {duplicatedData.map((product, productIndex) => (
-                <div key={product._id + productIndex} className="px-2">
-                  <Product
-                    productInfo={product}
-                  />
+                <div key={product._id + productIndex} className="px-2 bg-black">
+                  <Product productInfo={product} />
                 </div>
               ))}
             </ProductsSliderContainer>

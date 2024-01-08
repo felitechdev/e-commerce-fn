@@ -28,6 +28,9 @@ module.exports = {
         secondary: "#EEEEEE",
         primeColor: "#262626",
         lightText: "#6D6D6D",
+        icon1: "#f4a535",
+        icon2: "#1a65ed",
+        icon3: "#d13931",
       },
       boxShadow: {
         testShadow: "0px 0px 54px -13px rgba(0,0,0,0.7)",
