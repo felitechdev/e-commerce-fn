@@ -74,21 +74,45 @@ const ProfileLayout = () => {
                 }}
                 to={`profile`}
               >
-                OverView
+                Profile OverView
               </NavLink>
             </li>
             {user?.role == "seller" || userprofile?.role == "seller" ? (
               ""
             ) : (
               <li>
+                className=
+                {({ isActive }) => {
+                  return isActive
+                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1"
+                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 ";
+                }}
                 <NavLink to={`orders`}>My Orders</NavLink>
               </li>
             )}
             <li>
-              <NavLink to={`password-reset`}>Password Reset</NavLink>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive
+                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1"
+                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 ";
+                }}
+                to={`password-reset`}
+              >
+                Password Reset
+              </NavLink>
             </li>
             <li>
-              <NavLink to={`signout`}>Logout</NavLink>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive
+                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1"
+                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 ";
+                }}
+                to={`signout`}
+              >
+                Logout
+              </NavLink>
             </li>
           </ul>
         </div>

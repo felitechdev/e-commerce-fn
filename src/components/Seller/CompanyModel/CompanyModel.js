@@ -20,17 +20,30 @@ const CompanyModel = (props) => {
   const [userdata, setUserdata] = useState();
   const [updateError, setUpdateError] = useState("");
   const [updateSuccess, setUpdateSuccess] = useState("");
+
   const [errorAlert, setErrorAlert] = useState({ status: false, message: "" });
   const [successAlert, setSuccessAlert] = useState({
     status: false,
     message: "",
   });
+  // const {
+  //   register,
+  //   control,
+  //   formState: { errors },
+  //   handleSubmit,
+  // } = useForm();
+
+  // const  profileview={props.profileview}
+
   const {
     register,
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+    setValue, // Add setValue from useForm
+  } = useForm({
+    defaultValues: props.profileview, // Set default values from profileview
+  });
 
   const {
     profile,
@@ -46,78 +59,9 @@ const CompanyModel = (props) => {
 
   const onErrors = (errors) => console.log("errors on form creation", errors);
 
-  console.log("storeUserInfo homepage", userprofile);
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  // const onFinish = async (values) => {
-  //   // const formData = new FormData();
-  //   const data = {};
-  //   const fields = [
-  //     "firstName",
-  //     "lastName",
-  //     "email",
-  //     "companyName",
-  //     "companyEmail",
-  //     "website",
-  //     "locations",
-  //     "bank",
-  //     "accountName",
-  //     "accountHolderName",
-  //     "accountNumber",
-  //     "cardNumber",
-  //   ];
-
-  //   // fields.forEach((field) => {
-  //   //   if (values[field]) {
-  //   //     formData.append(field, values[field]);
-  //   //   }
-  //   // });
-  //   fields.forEach((field) => {
-  //     if (values[field]) {
-  //       data[field] = values[field];
-  //     }
-  //   });
-
-  //   // Append phone number
-  //   if (values.phoneNumber) {
-  //     const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
-  //     const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
-  //     // formData.append("phoneNumber", fullPhoneNumber);
-  //   }
-
-  //   // Append image file
-  //   if (logoFile) {
-  //     // formData.append("logo", logoFile);
-  //   }
-
-  //   // for (var pair of formData.entries()) {
-  //   //   console.log("form data", pair[0] + ": " + pair[1]);
-  //   // }
-
-  //   console.log("Data:", data);
-
-  //   dispatch(Updateprofile({ data: "", token: token }))
-  //     .unwrap()
-  //     .then((res) => {
-  //       if (res.status === "success") {
-  //         console.log(res?.data?.profile);
-  //         setUpdateError("");
-  //         setUpdateSuccess(res?.data?.profile);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       // const error = {
-  //       //   statusCode: err.response.status,
-  //       //   message: err.response.data.message,
-  //       // };
-  //       setUpdateError("update Error");
-  //       setUpdateSuccess("");
-  //       console.log("update  error response", err);
-  //     });
-  // };
 
   const onFinish = async (values) => {
     const payload = {};
@@ -147,6 +91,7 @@ const CompanyModel = (props) => {
       "companyName",
       "companyEmail",
       "website",
+      "cardNumber",
     ];
 
     fields.forEach((field) => {
@@ -181,13 +126,15 @@ const CompanyModel = (props) => {
       payload["logo"] = logoFile;
     }
 
-    console.log("Payload:", payload);
-
     dispatch(Updateprofile({ data: payload, token: token }))
       .unwrap()
       .then((res) => {
         if (res.status === "success") {
           console.log(res?.data?.profile, "sucesss updartee");
+
+          // handleupdatestateProfile
+          props.andleupdatestateProfile(payload);
+
           // close model
           props.handleCancel();
           setUpdateError("");
@@ -223,7 +170,36 @@ const CompanyModel = (props) => {
     }
   }, [profile]);
 
-  console.log("Recommended Products", updateSuccess);
+  console.log(
+    "userprofile",
+    userprofile,
+    "props.profileview",
+    props.profileview
+  );
+
+  useEffect(() => {
+    // Update form values if profileview changes
+    setValue("firstName", userprofile?.firstName || "");
+    setValue("lastName", userprofile?.lastName || "");
+    setValue("email", userprofile?.email || "");
+    setValue("companyName", props.profileview?.companyName || "");
+    setValue("phoneNumber", props.profileview?.phoneNumber || "");
+    setValue("companyEmail", props.profileview?.companyEmail || "");
+    setValue("website", props.profileview?.website || "");
+    setValue("logo", props.profileview?.logo || ""); // Assuming logo is a URL or file path
+    setValue("locations", props.profileview?.locations || ""); // Assuming locations is a string
+    setValue("bank", props.profileview?.bankAccount?.bank || "");
+    setValue("accountName", props.profileview?.bankAccount?.accountName || "");
+    setValue(
+      "accountHolderName",
+      props.profileview?.bankAccount?.accountHolderName || ""
+    );
+    setValue(
+      "accountNumber",
+      props.profileview?.bankAccount?.accountNumber || ""
+    );
+    setValue("cardNumber", props.profileview?.cardNumber || ""); // Assuming cardNumber is a string
+  }, [props.profileview, setValue]);
 
   return (
     <>

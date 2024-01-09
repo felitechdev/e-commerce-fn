@@ -28,6 +28,7 @@ module.exports = {
         secondary: "#EEEEEE",
         primeColor: "#262626",
         lightText: "#6D6D6D",
+        border: "#7c7c7b",
         icon1: "#f4a535",
         icon2: "#1a65ed",
         icon3: "#d13931",

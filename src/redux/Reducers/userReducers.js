@@ -11,7 +11,11 @@ const initialState = {
 
 const viewprofile = createSlice({
   name: "viewprofile",
-  initialState,
+  initialState: {
+    viewprofile: null,
+    loadviewprofile: false,
+    errviewprofile: null,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -31,11 +35,7 @@ const viewprofile = createSlice({
 
 const getprofile = createSlice({
   name: "profile",
-  initialState: {
-    viewprofile: null,
-    loadviewprofile: false,
-    errviewprofile: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder

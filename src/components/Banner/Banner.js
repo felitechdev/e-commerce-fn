@@ -11,6 +11,7 @@ import Image from "../designLayouts/Image";
 import NestedList from "../nestedList/NestedList";
 import ImageSlider from "../imageslider/ImageSlider";
 
+// change i made
 const Banner = (props) => {
   const [dotActive, setDocActive] = useState(0);
   const ads = [
@@ -120,6 +121,7 @@ const Banner = (props) => {
       },
     ],
   };
+
   return (
     <div className=" bg-white w-full flex justify-center">
       <div className="w-full lg:container">
@@ -128,7 +130,7 @@ const Banner = (props) => {
             <div className="relative text-white bg-[#D9D9D970] rounded-md  border-box cursor-pointer items-center ">
               <div className="flex bg-[#1D6F2B] p-2 py-3 items-center gap-2 rounded-md">
                 <img src={MenuIconWhite} className="w-5 h-5" />
-                <p className="text-[14px] font-semibold">Categories</p>
+                <p className="text-[14px] font-semibold">Categories ggg</p>
               </div>
               <NestedList onCategorySelect={props.onCategorySelect} />
             </div>

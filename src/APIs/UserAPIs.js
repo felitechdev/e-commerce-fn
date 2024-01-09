@@ -40,13 +40,12 @@ export const GetMyprofile = createAsyncThunk(
 export const Updateprofile = createAsyncThunk(
   "profile/updateprofile",
   async ({ data, token }, { rejectWithValue }) => {
-    console.log("data to update", data, "token", token);
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/profiles`,
         method: "PATCH",
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
           "content-type": "application/json",
         },
         data: data,
@@ -85,7 +84,8 @@ export const GetMyprofilebyId = createAsyncThunk(
         config
       );
 
-      console.log("response on get profile", response);
+      console.log("profile", response);
+
       if (response?.data && response.status == 200) {
         return response?.data;
       } else {

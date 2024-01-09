@@ -29,6 +29,9 @@ const UserAvatarDropdown = (props) => {
 
   const handleSignOut = (e) => {
     e.preventDefault();
+    sessionStorage.removeItem("userToken");
+    Cookies.remove("token");
+    navigate("/");
 
     if (props.userInfo.logInType === "ByGoogle") {
       axios
@@ -45,7 +48,7 @@ const UserAvatarDropdown = (props) => {
       navigate("/");
       Dispatch(resetUserInfo());
       sessionStorage.removeItem("userToken");
-      Cookies.removeItem("token");
+      Cookies.remove("token");
       window.open(`${process.env.REACT_APP_INDEX_PAGE_URL}`, "_self");
     }
   };

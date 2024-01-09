@@ -4,8 +4,10 @@ import Badge from "./Badge";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCurrency } from "../../Currency/CurrencyProvider/CurrencyProvider";
 import DisplayCurrency from "../../Currency/DisplayCurrency/DisplayCurrency";
+import { BsCart3 } from "react-icons/bs";
 import { current } from "@reduxjs/toolkit";
 
+// change i made
 const Product = ({ productInfo }) => {
   const rootId = productInfo.id;
   const navigate = useNavigate();
@@ -33,6 +35,15 @@ const Product = ({ productInfo }) => {
       });
     }
   };
+
+  const handleAddCart = (event) => {
+    //  prevents the click event from propagating to the parent div
+    event.stopPropagation();
+    console.log("add to cart");
+  };
+
+  let headerIconStyles =
+    "  ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
   return (
     <div
       className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
@@ -58,25 +69,33 @@ const Product = ({ productInfo }) => {
               <h2 className="text-xs text-primeColor font-[500] text-ellipsis overflow-hidden hover:underline">
                 {productInfo.name}
               </h2>
-              <div className="text-sm">
-                <div className="text-[#1D6F2B] font-semibold">
-                  <DisplayCurrency
-                    amount={
-                      productInfo.discountPercentage > 0
-                        ? productInfo.discountedPrice
-                        : productInfo.price
-                    }
-                    currencyCode={toCurrency}
-                  />
-                </div>
-                {productInfo.discountPercentage > 0 && (
-                  <p className="text-[#00000080] line-through">
+              <div className="text-sm flex justify-between ">
+                <div>
+                  <div className="text-[#1D6F2B] font-semibold">
                     <DisplayCurrency
-                      amount={productInfo.price}
+                      amount={
+                        productInfo.discountPercentage > 0
+                          ? productInfo.discountedPrice
+                          : productInfo.price
+                      }
                       currencyCode={toCurrency}
                     />
-                  </p>
-                )}
+                  </div>
+                  {productInfo.discountPercentage > 0 && (
+                    <p className="text-[#00000080] line-through">
+                      <DisplayCurrency
+                        amount={productInfo.price}
+                        currencyCode={toCurrency}
+                      />
+                    </p>
+                  )}
+                </div>
+
+                <BsCart3
+                  className={headerIconStyles}
+                  onClick={(event) => handleAddCart(event)}
+                  size={40}
+                />
               </div>
             </div>
           </div>
