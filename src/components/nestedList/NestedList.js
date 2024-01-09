@@ -16,10 +16,9 @@ const NestedList = ({ onCategorySelect }) => {
         return { ...item, showSubList: false };
       }
     });
-    console.log("updatedCategories", updatedCategories);
     setCategories(updatedCategories);
   };
-  console.log("onCategorySelect", onCategorySelect);
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/categories`)

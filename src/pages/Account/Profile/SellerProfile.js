@@ -99,8 +99,14 @@ const SellerProfile = () => {
           <div className="flex space-x-2">
             {userprofile != null ? (
               <>
-                <img src={userprofile?.photo} />
-                <h1>{userprofile?.firstName}</h1>
+                {userprofile?.photo ? (
+                  <h1 className="bg-primary text-white font-bold px-1 text-2xl">
+                    {userprofile?.firstName[0]}
+                  </h1>
+                ) : (
+                  <img src={userprofile?.photo} />
+                )}
+                <h1 className="font-bold text-xl">{userprofile?.firstName}</h1>
               </>
             ) : (
               <>
@@ -152,13 +158,13 @@ const SellerProfile = () => {
                 </h1>
               </div>
 
-              <div className="w-[15%]">
+              <div className="w-[10%]">
                 {userprofile && profileview && profileview.logo && (
-                  <div className="border-4 border-primary z-10  relative">
+                  <div className="border-4 border-primary z-0  relative">
                     <img
                       src={profileview.logo}
-                      className="w-full h-full z-20"
-                      style={{ marginLeft: "-30px" }}
+                      className="w-full h-full z-30 bg-white"
+                      style={{ marginLeft: "-20px" }}
                     />
                   </div>
                 )}

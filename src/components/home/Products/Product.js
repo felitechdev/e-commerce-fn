@@ -5,17 +5,29 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useCurrency } from "../../Currency/CurrencyProvider/CurrencyProvider";
 import DisplayCurrency from "../../Currency/DisplayCurrency/DisplayCurrency";
 import { BsCart3 } from "react-icons/bs";
-import { current } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { addToCart, removeToCart } from "../../../redux/Reducers/cartRecuder";
+import { useSelector } from "react-redux";
+import { BiPlus } from "react-icons/bi";
+import { BiMinus } from "react-icons/bi";
 
 // change i made
 const Product = ({ productInfo }) => {
   const rootId = productInfo.id;
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log("productInfo", productInfo);
+  const dispatch = useDispatch();
 
   const { fromCurrency, toCurrency, getConvertedAmount } = useCurrency();
+  const cart = useSelector((state) => state.cart);
+
+  const cartTotal = cart.reduce((total, product) => total + product.items, 0);
+
+  console.log("cartTotal:", cartTotal, cart);
+
+  // check if product is in cart
+  const productInCart = cart.find((product) => product.id === rootId);
+  console.log("productInCart:", productInCart);
 
   const currentPathName = location.pathname;
 
@@ -37,9 +49,43 @@ const Product = ({ productInfo }) => {
   };
 
   const handleAddCart = (event) => {
-    //  prevents the click event from propagating to the parent div
     event.stopPropagation();
-    console.log("add to cart");
+
+    let cart = JSON.parse(localStorage.getItem("cart"));
+
+    if (!cart) {
+      cart = [];
+    }
+
+    let existingProduct = cart.find((product) => product.id === productInfo.id);
+
+    if (!existingProduct) {
+      return;
+    } else if (existingProduct.items > 0) {
+      existingProduct.items -= 1;
+    } else {
+      existingProduct = {
+        id: productInfo.id,
+        name: productInfo.name,
+        price: productInfo.price,
+        productThumbnail: productInfo.productImages.productThumbnail,
+        items: 1,
+      };
+      cart.push(existingProduct);
+    }
+
+    // Dispatch the addToCart action to update the Redux state
+    dispatch(addToCart(existingProduct));
+
+    // Update localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+  };
+
+  const handleRemoveCart = (event) => {
+    event.stopPropagation();
+    dispatch(removeToCart(productInfo));
+
+    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   let headerIconStyles =
@@ -91,11 +137,31 @@ const Product = ({ productInfo }) => {
                   )}
                 </div>
 
-                <BsCart3
-                  className={headerIconStyles}
-                  onClick={(event) => handleAddCart(event)}
-                  size={40}
-                />
+                {!productInCart ? (
+                  <BsCart3
+                    className={headerIconStyles}
+                    onClick={(event) => handleAddCart(event)}
+                    size={40}
+                  />
+                ) : (
+                  <>
+                    <BiMinus
+                      className="text-[red] font-bold ml-2    hover:bg-[#E5E5E5] hover:rounded-full"
+                      size={20}
+                      onClick={(event) => handleRemoveCart(event)}
+                    />
+
+                    <p className=" mx-0 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
+                      {productInCart && productInCart.items}
+                    </p>
+
+                    <BiPlus
+                      size={20}
+                      className="text-primary font-bold  hover:bg-[#E5E5E5] ml-0 hover:rounded-full"
+                      onClick={(event) => handleAddCart(event)}
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>

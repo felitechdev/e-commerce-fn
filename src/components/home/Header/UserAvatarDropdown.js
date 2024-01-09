@@ -4,6 +4,7 @@ import { resetUserInfo } from "../../../redux/userSlice";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { BiDownArrow } from "react-icons/bi";
 
 const UserAvatarDropdown = (props) => {
   const Dispatch = useDispatch();
@@ -56,16 +57,24 @@ const UserAvatarDropdown = (props) => {
   return (
     <>
       <li
-        className="hidden rounded-full border-2 border-white hover:border-slate-300  md:inline-block align-middle w-[40px] md:ml-4 cursor-pointer"
+        className="hidden  rounded-full border-2 border-white hover:border-slate-300  md:inline-block align-middle w-[40px] md:ml-4 cursor-pointer"
         onClick={() => setDisplayDropdown(!displayDropdown)}
         ref={avatarRef}
       >
-        <img
+        {/* <img
           className="inline-block w-[40px] rounded-full"
           // src={props.userInfo.profile.profileImageUrl}
           src={props.userInfo.photo}
           alt={`${props.userInfo.firstName}'s account settings`}
-        />
+        /> */}
+        {/* <div className="flex"> */}
+        {props.userInfo.firstName && (
+          <h1 className="bg-primary rounded-full text-white font-bold px-1 py-1 text-2xl text-center">
+            {props.userInfo?.firstName[0]}
+          </h1>
+        )}
+        {/* <BiDownArrow />
+        </div> */}
       </li>
       {displayDropdown && (
         <div

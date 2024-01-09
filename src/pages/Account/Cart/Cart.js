@@ -33,6 +33,7 @@ const Cart = () => {
       setShippingCharge(20);
     }
   }, [totalAmt]);
+  // console.log("usercat", userCart);
   return (
     <div className="max-w-container mx-auto px-4">
       <Breadcrumbs title="Cart" />
