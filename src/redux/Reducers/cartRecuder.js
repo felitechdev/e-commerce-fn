@@ -16,13 +16,15 @@ export const cartSlice = createSlice({
       }
     },
     removeToCart: (state, action) => {
+      console.log("action", action);
       const existingProduct = state.find(
         (product) => product.id === action.payload.id
       );
-      if (existingProduct) {
+      if (existingProduct && existingProduct.items > 0) {
         existingProduct.items -= 1;
       } else {
-        state.push({ ...action.payload, items: 1 });
+        return;
+        // state.push({ ...action.payload, items: 1 });
       }
     },
   },

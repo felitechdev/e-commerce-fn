@@ -14,6 +14,10 @@ const Cart = () => {
       ? state.userReducer.userInfo.cart
       : [];
   });
+
+  const cart = useSelector((state) => state.cart);
+  const cartTotal = cart.reduce((total, product) => total + product.items, 0);
+
   const [totalAmt, setTotalAmt] = useState("");
   const [shippingCharge, setShippingCharge] = useState("");
   useEffect(() => {

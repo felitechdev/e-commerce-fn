@@ -23,11 +23,8 @@ const Product = ({ productInfo }) => {
 
   const cartTotal = cart.reduce((total, product) => total + product.items, 0);
 
-  console.log("cartTotal:", cartTotal, cart);
-
   // check if product is in cart
   const productInCart = cart.find((product) => product.id === rootId);
-  console.log("productInCart:", productInCart);
 
   const currentPathName = location.pathname;
 
@@ -60,10 +57,6 @@ const Product = ({ productInfo }) => {
     let existingProduct = cart.find((product) => product.id === productInfo.id);
 
     if (!existingProduct) {
-      return;
-    } else if (existingProduct.items > 0) {
-      existingProduct.items -= 1;
-    } else {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
@@ -72,6 +65,8 @@ const Product = ({ productInfo }) => {
         items: 1,
       };
       cart.push(existingProduct);
+    } else {
+      existingProduct.items += 1;
     }
 
     // Dispatch the addToCart action to update the Redux state
@@ -83,10 +78,13 @@ const Product = ({ productInfo }) => {
 
   const handleRemoveCart = (event) => {
     event.stopPropagation();
+
     dispatch(removeToCart(productInfo));
 
     localStorage.setItem("cart", JSON.stringify(cart));
   };
+
+  console.log(productInCart);
 
   let headerIconStyles =
     "  ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
@@ -137,7 +135,7 @@ const Product = ({ productInfo }) => {
                   )}
                 </div>
 
-                {!productInCart ? (
+                {!productInCart || productInCart.items == 0 ? (
                   <BsCart3
                     className={headerIconStyles}
                     onClick={(event) => handleAddCart(event)}
