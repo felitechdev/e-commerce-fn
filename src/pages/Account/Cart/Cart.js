@@ -9,8 +9,10 @@ import ItemCard from "./ItemCard";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const userCart = useSelector((state) => { 
-    (state.userReducer.userInfo !== undefined) ? state.userReducer.userInfo.cart : []
+  const userCart = useSelector((state) => {
+    state.userReducer.userInfo !== undefined
+      ? state.userReducer.userInfo.cart
+      : [];
   });
   const [totalAmt, setTotalAmt] = useState("");
   const [shippingCharge, setShippingCharge] = useState("");

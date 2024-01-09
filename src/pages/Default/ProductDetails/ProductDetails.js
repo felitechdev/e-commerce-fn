@@ -9,7 +9,7 @@ import Product from "../../../components/home/Products/Product";
 import ProductsSliderContainer from "../../../components/home/Products/ProductsSliderContainer";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+// change i made
 const ProductDetails = () => {
   const location = useLocation();
   const [DBProductInfo, setDBProductInfo] = useState({});
@@ -18,41 +18,64 @@ const ProductDetails = () => {
     quantity: 0,
     colorId: "",
     size: "",
-  })
+  });
 
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
 
-  const userInfo = useSelector((state) => state.userReducer.userInfo)
+  const userInfo = useSelector((state) => state.userReducer.userInfo);
+
+  console.log("location fffffff", location.state, duplicatedData);
 
   useEffect(() => {
-
     const fetchProductInfo = async () => {
       try {
-        const productInfo = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/product/${location.state.productId}`)
+        const productInfo = await axios.get(
+          `${process.env.REACT_APP_BACKEND_SERVER_URL}/products/${location.state.productId}`
+        );
         setDBProductInfo(productInfo.data);
+        console.log("productInfo.data", productInfo.data);
         setCartItemInfo({
           ...cartItemInfo,
           imagePreview: productInfo.data.productImages.productThumbnail.url,
-        })
+        });
       } catch (error) {
-        console.error("Error fetching data:", error)
-      } 
-    }
-
-    const fetchRelatedProducts = async () => { 
-      try {
-        const products = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
-        setDuplicatedData([...products.data, ...products.data, ...products.data]);
-        setApiData(products.data);
-      } catch (error) {
-        console.error("Error fetching data:", error)
+        console.error(
+          "Error fetching data product on product details :",
+          error
+        );
       }
-      
-    } 
+    };
 
-    fetchProductInfo()
-    fetchRelatedProducts()
+    const fetchRelatedProducts = async () => {
+      try {
+        const products = await axios.get(
+          `${process.env.REACT_APP_BACKEND_SERVER_URL}/products`
+        );
+        console.log(
+          "productInfo.data product ",
+          products?.data?.data?.products
+        );
+        if (products.status === 200) {
+          setDuplicatedData(products?.data?.data?.products);
+          setApiData(products?.data?.data?.products);
+        }
+        // setDuplicatedData([
+        //   ...products.data,
+        //   ...products.data,
+        //   ...products.data,
+        // ]);
+        // setApiData(products.data);
+      } catch (error) {
+        console.error(
+          "Error fetching data product on product details :",
+          error
+        );
+      }
+    };
+
+    fetchProductInfo();
+    fetchRelatedProducts();
   }, [location.state.productId]);
 
   return (
@@ -61,36 +84,38 @@ const ProductDetails = () => {
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-14">
             <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
-              {Object.keys(DBProductInfo).length > 0 ? <>
-                <ProductImages
-                  DBProductInfo={DBProductInfo}
-                  userInfo={userInfo}
-                  cartItemInfo={cartItemInfo}
-                  setCartItemInfo={setCartItemInfo} />
-                <ProductMainInfo
-                  DBProductInfo={DBProductInfo}
-                  cartItemInfo={cartItemInfo}
-                  setCartItemInfo={setCartItemInfo}
-                />
-                <CheckoutDetails
-                  DBProductInfo={DBProductInfo}
-                  userInfo={userInfo}
-                  cartItemInfo={cartItemInfo}
-                  setCartItemInfo={setCartItemInfo}
-                />
-                <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
-              </> : ""}
+              {Object.keys(DBProductInfo).length > 0 ? (
+                <>
+                  <ProductImages
+                    DBProductInfo={DBProductInfo}
+                    userInfo={userInfo}
+                    cartItemInfo={cartItemInfo}
+                    setCartItemInfo={setCartItemInfo}
+                  />
+                  <ProductMainInfo
+                    DBProductInfo={DBProductInfo}
+                    cartItemInfo={cartItemInfo}
+                    setCartItemInfo={setCartItemInfo}
+                  />
+                  <CheckoutDetails
+                    DBProductInfo={DBProductInfo}
+                    userInfo={userInfo}
+                    cartItemInfo={cartItemInfo}
+                    setCartItemInfo={setCartItemInfo}
+                  />
+                  <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
+                </>
+              ) : (
+                ""
+              )}
             </div>
-            
           </div>
           {/* For testing similar products slider only */}
           <ProductsSection heading="Similar Products">
             <ProductsSliderContainer>
               {duplicatedData.map((product, productIndex) => (
                 <div key={product._id + productIndex} className="px-2">
-                  <Product
-                    productInfo={product}
-                  />
+                  <Product productInfo={product} />
                 </div>
               ))}
             </ProductsSliderContainer>

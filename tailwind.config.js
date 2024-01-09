@@ -2,7 +2,7 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}"
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
@@ -24,16 +24,19 @@ module.exports = {
         titleFont: ["Poppins", "sans-serif"],
       },
       colors: {
+        primary: "#1D6F2B",
+        secondary: "#EEEEEE",
         primeColor: "#262626",
         lightText: "#6D6D6D",
+        border: "#7c7c7b",
+        icon1: "#f4a535",
+        icon2: "#1a65ed",
+        icon3: "#d13931",
       },
       boxShadow: {
         testShadow: "0px 0px 54px -13px rgba(0,0,0,0.7)",
       },
     },
   },
-  plugins: [
-    require("tailwind-scrollbar"),
-    require('flowbite/plugin')
-  ],
+  plugins: [require("tailwind-scrollbar"), require("flowbite/plugin")],
 };
