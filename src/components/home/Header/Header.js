@@ -44,7 +44,7 @@ const Header = (props) => {
 
   // const cartTotal =
   //   (cart && cart.map((items) => items.items).reduce((x, y) => x + y, 0)) || 0;
-  console.log("cart", cartTotal);
+
   // console.log("props", props.account, props.userInfo);
   const handleCurrencyChange = (e) => {
     const selectedCurrency = e.target.value;
@@ -76,8 +76,6 @@ const Header = (props) => {
       setAccount(profile?.data?.user);
     }
   }, [profile]);
-
-  console.log("account", account);
 
   let headerIconStyles =
     "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";

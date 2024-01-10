@@ -79,12 +79,24 @@ const Product = ({ productInfo }) => {
   const handleRemoveCart = (event) => {
     event.stopPropagation();
 
-    dispatch(removeToCart(productInfo));
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+    let existingProduct = existingCart.find(
+      (product) => product.id === productInfo.id
+    );
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    // Dispatch the removeToCart action to update the Redux state
+    dispatch(removeToCart(existingProduct));
+
+    // Update localStorage
+    if (existingProduct.items > 1) {
+      existingProduct.items -= 1;
+    } else {
+      existingCart = existingCart.filter(
+        (product) => product.id !== existingProduct.id
+      );
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
-
-  console.log(productInCart);
 
   let headerIconStyles =
     "  ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
