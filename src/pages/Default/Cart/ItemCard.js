@@ -2,16 +2,18 @@ import React from "react";
 import { ImCross } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  deleteItem,
-  drecreaseItemQuantity,
-  increaseItemQuantity,
-} from "../../../redux/productsSlice";
 import axios from "axios";
 import { deleteCartItem, updateCartItem } from "../../../redux/userSlice";
-import { FiDelete } from "react-icons/fi";
 
-const ItemCard = ({ itemInfo, userInfo, userCart }) => {
+import { FiTrash2 } from "react-icons/fi";
+
+const ItemCard = ({
+  itemInfo,
+  userInfo,
+  userCart,
+  handleAddCart,
+  handleRemoveCart,
+}) => {
   const dispatch = useDispatch();
 
   console.log("item", itemInfo);
@@ -40,21 +42,21 @@ const ItemCard = ({ itemInfo, userInfo, userCart }) => {
         </div>
         <div className="w-1/3 flex items-center gap-0 text-lg ">
           <span
-            // onClick={() => drecreaseQuantity(itemInfo._id)}
-            className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
+            onClick={(event) => handleRemoveCart(event, itemInfo.id)}
+            className="w-6 h-6 text-[red] font-semibold bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             -
           </span>
           <p className="border px-2 h-6 ">{itemInfo.items}</p>
           <span
-            // onClick={() => increaseQuantity(itemInfo._id)}
-            className="w-6 h-6  bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
+            onClick={(event) => handleAddCart(event, itemInfo.id)}
+            className="w-6 h-6 text-primary font-semibold bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             +
           </span>
 
-          <span>
-            <FiDelete />
+          <span className="ml-2 text-[red]">
+            <FiTrash2 />
           </span>
         </div>
         <div className="w-1/3 flex flex-col font-titleFont">

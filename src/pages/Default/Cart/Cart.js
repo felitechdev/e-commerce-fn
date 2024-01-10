@@ -6,7 +6,7 @@ import { resetCart } from "../../../redux/productsSlice";
 import { emptyCart } from "../../../assets/images/index";
 import ItemCard from "./ItemCard";
 import axios from "axios";
-import { reset_userCart, updateUserCart } from "../../../redux/userSlice";
+import { addToCart, removeToCart } from "../../../redux/Reducers/cartRecuder";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,58 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const cartTotal = cart.reduce((total, product) => total + product.price, 0);
 
-  console.log("cart", cart);
+  const handleAddCart = (event, productId) => {
+    event.stopPropagation();
+
+    let cart = JSON.parse(localStorage.getItem("cart"));
+
+    if (!cart) {
+      cart = [];
+    }
+
+    let existingProduct = cart.find((product) => product.id === productId);
+
+    if (existingProduct) {
+      existingProduct.items += 1;
+    }
+
+    // Dispatch the addToCart action to update the Redux state
+    dispatch(addToCart(existingProduct));
+
+    // Update localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+  };
+
+  const handleRemoveCart = (event, productId) => {
+    event.stopPropagation();
+
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+    let existingProduct = existingCart.find(
+      (product) => product.id === productId
+    );
+
+    // Dispatch the removeToCart action to update the Redux state
+    dispatch(removeToCart(existingProduct));
+    // Update localStorage
+    if (existingProduct.items > 1) {
+      existingProduct.items -= 1;
+    } else {
+      existingCart = existingCart.filter(
+        (product) => product.id !== existingProduct.id
+      );
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
+
+  const handleclearCart = () => {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+    console.log(existingCart, "existingCart");
+    if (existingCart) {
+      existingCart = [];
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
+
   return (
     <div className="max-w-container mx-auto px-4 lg:py-32">
       {cart && cart.length > 0 ? (
@@ -49,13 +100,15 @@ const Cart = () => {
                   // totalAmounts={totalAmounts}
                   // setTotalAmounts={setTotalAmounts}
                   // userCart={userCart}
+                  handleAddCart={handleAddCart}
+                  handleRemoveCart={handleRemoveCart}
                 />
               </div>
             ))}
           </div>
 
           <button
-            // onClick={deleteAllCart}
+            onClick={handleclearCart}
             className="py-2 px-10 rounded-lg bg-red-500 text-white font-semibold mb-4 hover:bg-red-700 duration-300"
           >
             Reset cart
