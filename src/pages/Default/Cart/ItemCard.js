@@ -13,11 +13,8 @@ const ItemCard = ({
   userCart,
   handleAddCart,
   handleRemoveCart,
+  handleRemoveitemfromCart,
 }) => {
-  const dispatch = useDispatch();
-
-  console.log("item", itemInfo);
-
   return (
     <div className="w-full grid grid-cols-5 mb-4 border py-2 rounded-lg">
       <div className="flex-col col-span-5 mdl:col-span-2 items-center gap-4 ml-4">
@@ -55,12 +52,15 @@ const ItemCard = ({
             +
           </span>
 
-          <span className="ml-2 text-[red]">
+          <span
+            className="ml-2 text-[red] hover:bg-[#E5E5E5] hover:rounded-full py-1.5 px-1.5 "
+            onClick={() => handleRemoveitemfromCart(itemInfo.id)}
+          >
             <FiTrash2 />
           </span>
         </div>
         <div className="w-1/3 flex flex-col font-titleFont">
-          <p className="items-center font-bold text-lg">
+          <p className="items-center  font-semibold text-lg">
             {itemInfo.price * itemInfo.items} RWF
           </p>
           <p className="text-xs">

@@ -6,7 +6,12 @@ import { resetCart } from "../../../redux/productsSlice";
 import { emptyCart } from "../../../assets/images/index";
 import ItemCard from "./ItemCard";
 import axios from "axios";
-import { addToCart, removeToCart } from "../../../redux/Reducers/cartRecuder";
+import {
+  addToCart,
+  removeToCart,
+  clearCart,
+  clearitemCart,
+} from "../../../redux/Reducers/cartRecuder";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -74,9 +79,26 @@ const Cart = () => {
 
   const handleclearCart = () => {
     let existingCart = JSON.parse(localStorage.getItem("cart"));
-    console.log(existingCart, "existingCart");
+
+    dispatch(clearCart());
     if (existingCart) {
       existingCart = [];
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
+  const handleRemoveitemfromCart = (productId) => {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+
+    let existingProduct = existingCart.find(
+      (product) => product.id === productId
+    );
+
+    dispatch(clearitemCart(existingProduct));
+
+    if (existingProduct) {
+      existingCart = existingCart.filter(
+        (product) => product.id !== existingProduct.id
+      );
     }
     localStorage.setItem("cart", JSON.stringify(existingCart));
   };
@@ -102,6 +124,7 @@ const Cart = () => {
                   // userCart={userCart}
                   handleAddCart={handleAddCart}
                   handleRemoveCart={handleRemoveCart}
+                  handleRemoveitemfromCart={handleRemoveitemfromCart}
                 />
               </div>
             ))}

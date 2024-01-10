@@ -99,7 +99,7 @@ const Product = ({ productInfo }) => {
   };
 
   let headerIconStyles =
-    "  ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
+    "  ml-2  inline-block hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-full py-1.5 px-2.5";
   return (
     <div
       className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
