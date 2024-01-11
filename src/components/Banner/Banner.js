@@ -14,6 +14,9 @@ import ImageSlider from "../imageslider/ImageSlider";
 // change i made
 const Banner = (props) => {
   const [dotActive, setDocActive] = useState(0);
+  const handleViewAllClick = () => {
+    props.onViewAllClick();
+  };
   const ads = [
     {
       title: "Ad 1",
@@ -128,14 +131,26 @@ const Banner = (props) => {
         <div className="relative w-full flex gap-4 py-2">
           <div className="z-10 hidden lg:w-[20%] lg:block">
             <div className="relative text-white bg-[#D9D9D970] rounded-md  border-box cursor-pointer items-center ">
-              <div className="flex bg-[#1D6F2B] p-2 py-3 items-center gap-2 rounded-md">
+              <div className="flex bg-[#1D6F2B] p-2 py-3 items-center gap-2 rounded-md mb-2">
+                {/* <div className="flex bg-[red] p-2 py-3 items-center gap-2 rounded-md"> */}
                 <img src={MenuIconWhite} className="w-5 h-5" />
-                <p className="text-[14px] font-semibold">Categories ggg</p>
+                <p className="text-[14px] font-semibold">Categories</p>
               </div>
-              <NestedList onCategorySelect={props.onCategorySelect} />
+              {props.allcategory && (
+                <span
+                  onClick={handleViewAllClick}
+                  className="text-[black]   space-y-4 h-[12rem] overflow-scroll mt-4 scrollbar-hide px-2 hover:text-[#1D6F2B]  hover:rounded-md w-full"
+                >
+                  View All
+                </span>
+              )}
+              <NestedList
+                onCategorySelect={props.onCategorySelect}
+                subcategoryListClassName="absolute top-12 left-full mt-2 ml-1"
+              />
             </div>
           </div>
-          <div className="w-full lg:w-[60%]">
+          <div className="w-full lg:w-[60%]  ">
             <Slider {...settings} className="px-4 w-full">
               <div className="w-1408 h-[15rem] mx-auto rounded-md">
                 <Image

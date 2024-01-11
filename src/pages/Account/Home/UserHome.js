@@ -10,47 +10,71 @@ const UserHome = () => {
   const [selectedCategory, setSelectedCategory] = useState({
     category: {
       categoryname: null,
-      categoryId: null
+      categoryId: null,
     },
     subcategory: {
       subcategoryname: null,
-      subcategoryId: null
-    }
+      subcategoryId: null,
+    },
   });
 
   const handleCategorySelect = (category, subcategory) => {
     if (category.categoryId) {
       setSelectedCategory({
-        category: { categoryname: category.categoryname, categoryId: category.categoryId },
-        subcategory: { subcategoryname: null, subcategoryId: null }
-      })
+        category: {
+          categoryname: category.categoryname,
+          categoryId: category.categoryId,
+        },
+        subcategory: { subcategoryname: null, subcategoryId: null },
+      });
     } else if (subcategory.subcategoryId) {
       setSelectedCategory({
         category: { categoryname: null, categoryId: null },
-        subcategory: { subcategoryname: subcategory.subcategoryname, subcategoryId: subcategory.subcategoryId }
+        subcategory: {
+          subcategoryname: subcategory.subcategoryname,
+          subcategoryId: subcategory.subcategoryId,
+        },
       });
-    } 
+    }
+  };
+
+  const handleViewAllClick = () => {
+    setSelectedCategory({
+      category: {
+        categoryname: null,
+        categoryId: null,
+      },
+      subcategory: {
+        subcategoryname: null,
+        subcategoryId: null,
+      },
+    });
   };
 
   return (
-    <div className="w-full mx-auto">
-      <Banner onCategorySelect={handleCategorySelect}/>     
-        {selectedCategory.category.categoryId || selectedCategory.subcategory.subcategoryId ? (
+    <div className="w-full mx-auto ">
+      <Banner
+        onCategorySelect={handleCategorySelect}
+        allcategory={selectedCategory.category.categoryId}
+        onViewAllClick={handleViewAllClick}
+      />
+      {selectedCategory.category.categoryId ||
+      selectedCategory.subcategory.subcategoryId ? (
         <div className="max-w-container mx-auto px-4">
-            <CategoryFilteredProducts selectedCategory={selectedCategory} />
-        </div>  
-        ) : (
-            <>
-              <div className="max-w-container mx-auto px-4">
-                <Recommendations />
-              </div>
-              <NewArrivals />
-              <div className="max-w-container mx-auto px-4">
-                <AllProducts />
-                <YearProduct />
-              </div>
-            </>
-          )}
+          <CategoryFilteredProducts selectedCategory={selectedCategory} />
+        </div>
+      ) : (
+        <>
+          <div className="max-w-container mx-auto px-4">
+            <Recommendations />
+          </div>
+          <NewArrivals />
+          <div className="max-w-container mx-auto px-4">
+            <AllProducts />
+            <YearProduct />
+          </div>
+        </>
+      )}
     </div>
   );
 };

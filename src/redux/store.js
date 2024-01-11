@@ -19,6 +19,7 @@ import {
   ViewprofileReducer,
 } from "./Reducers/userReducers";
 import cartRecuder from "./Reducers/cartRecuder";
+import getproductSlice from "./Reducers/productReducers";
 
 // const persistProductsConfig = {
 //   key: "root",
@@ -53,6 +54,7 @@ const rootReducer = {
   profileupdate: updateprofileReducer,
   viewprofile: ViewprofileReducer,
   cart: cartRecuder,
+  product: getproductSlice,
 };
 
 export const store = configureStore({

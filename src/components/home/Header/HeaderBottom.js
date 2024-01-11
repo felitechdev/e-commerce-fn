@@ -39,9 +39,10 @@ const HeaderBottom = () => {
     );
     setFilteredProducts(filtered);
   }, [searchQuery]);
-
+  // change i made
   return (
-    <div className="hidden md:block w-full bg-[#F5F5F3] relative">
+    // <div className="hidden md:block w-full bg-[#F5F5F3] relative">
+    <div className="hidden md:block w-full relative">
       <div className="max-w-container mx-auto">
         <Flex className="flex pt-5  lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
           <div
@@ -53,7 +54,8 @@ const HeaderBottom = () => {
           >
             <div
               className={`lg:hidden flex py-4 px-6 items-center gap-2 rounded-md ${
-                showCategories ? `bg-[#1D6F2B] text-white` : ""
+                // showCategories ? `bg-[#1D6F2B] text-white` : ""
+                showCategories ? `bg-[black] text-white` : ""
               }`}
             >
               <img
