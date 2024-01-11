@@ -6,97 +6,106 @@ import { resetCart } from "../../../redux/productsSlice";
 import { emptyCart } from "../../../assets/images/index";
 import ItemCard from "./ItemCard";
 import axios from "axios";
-import { reset_userCart, updateUserCart } from "../../../redux/userSlice";
+import {
+  addToCart,
+  removeToCart,
+  clearCart,
+  clearitemCart,
+} from "../../../redux/Reducers/cartRecuder";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const userInfo = useSelector(state => state.userReducer.userInfo)
-  const userCart = userInfo.cart
-  const productsCart = useSelector((state) => state.productsReducer.products)
-  const [cartItems, setCartItems] = useState(() => { 
+  const userInfo = useSelector((state) => state.userReducer.userInfo);
+  const userCart = userInfo.cart;
+  const productsCart = useSelector((state) => state.productsReducer.products);
+  const [cartItems, setCartItems] = useState(() => {
     if (userInfo && Object.keys(userInfo.profile).length > 0) {
       return userCart;
-    } else { 
-      return productsCart
+    } else {
+      return productsCart;
     }
   });
-  const [totalAmounts, setTotalAmounts] = useState({subTotal: 0, totalDeliveryFee: 0, overallTotal: 0});
+  const [totalAmounts, setTotalAmounts] = useState({
+    subTotal: 0,
+    totalDeliveryFee: 0,
+    overallTotal: 0,
+  });
 
-  const deleteAllCart = () => { 
-    if (userInfo && Object.keys(userInfo.profile).length > 0) {
-      axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/cart/deleteall`,
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
-        }
-      }).then((data) => {
-        if (data.status === 200) {
-          dispatch(reset_userCart())
-        }
-      })
-    } else { 
-      dispatch(resetCart())
+  const cart = useSelector((state) => state.cart);
+  const cartTotal = cart.reduce((total, product) => total + product.price, 0);
+
+  const handleAddCart = (event, productId) => {
+    event.stopPropagation();
+
+    let cart = JSON.parse(localStorage.getItem("cart"));
+
+    if (!cart) {
+      cart = [];
     }
-    
-  }
 
-  useEffect(() => {
-    if (userInfo && Object.keys(userInfo.profile).length > 0) {
-      axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/cartitems`,
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
-        }
-      }).then((data) => {
-        dispatch(updateUserCart(data.data.map(item => { 
-          return {
-            _id: item._id,
-            selectedProductImage: item.selectedProductImage,
-            itemName: item.product.name,
-            selectedProductColor: item.selectedProductColor,
-            size: item.size,
-            quantity: item.quantity,
-            price: item.price,
-            productTotalCost: item.productTotalCost,
-            deliveryFee: item.deliveryFee,
-            availableUnits: item.availableUnits,
-            quantityParameter: item.quantityParameter
-          }
-        }))) 
-      }).catch((error) => { 
-        console.log(error);
-      })
+    let existingProduct = cart.find((product) => product.id === productId);
+
+    if (existingProduct) {
+      existingProduct.items += 1;
     }
-  }, [])
 
-  useEffect(() => {
-    
-    if (userInfo && Object.keys(userInfo.profile).length > 0) {
-      setCartItems(userCart)
-    } else { 
-      setCartItems(productsCart)
+    // Dispatch the addToCart action to update the Redux state
+    dispatch(addToCart(existingProduct));
+
+    // Update localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+  };
+
+  const handleRemoveCart = (event, productId) => {
+    event.stopPropagation();
+
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+    let existingProduct = existingCart.find(
+      (product) => product.id === productId
+    );
+
+    // Dispatch the removeToCart action to update the Redux state
+    dispatch(removeToCart(existingProduct));
+    // Update localStorage
+    if (existingProduct.items > 1) {
+      existingProduct.items -= 1;
+    } else {
+      existingCart = existingCart.filter(
+        (product) => product.id !== existingProduct.id
+      );
     }
-  }, [userCart, productsCart, userInfo]);
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
 
-  useEffect(() => {
-    let subTotal = 0
-    let totalDeliveryFee = 0
-    let overallTotal = 0
-    cartItems.forEach((item) => {
-      subTotal += (item.price * item.quantity)
-      totalDeliveryFee += item.deliveryFee
-      overallTotal += item.productTotalCost
-    });
+  const handleclearCart = () => {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
 
-    setTotalAmounts({ subTotal ,totalDeliveryFee ,overallTotal, })
-  }, [cartItems])
+    dispatch(clearCart());
+    if (existingCart) {
+      existingCart = [];
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
+  const handleRemoveitemfromCart = (productId) => {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+
+    let existingProduct = existingCart.find(
+      (product) => product.id === productId
+    );
+
+    dispatch(clearitemCart(existingProduct));
+
+    if (existingProduct) {
+      existingCart = existingCart.filter(
+        (product) => product.id !== existingProduct.id
+      );
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
 
   return (
     <div className="max-w-container mx-auto px-4 lg:py-32">
-      {cartItems && cartItems.length > 0 ? (
+      {cart && cart.length > 0 ? (
         <div className="pb-20">
           <div className="w-full h-20 bg-[#F5F7F7] rounded-lg text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
             <h2 className="col-span-2">Product</h2>
@@ -105,21 +114,24 @@ const Cart = () => {
             <h2>Product Cost</h2>
           </div>
           <div className="mt-5">
-            {cartItems.map((item) => (
-              <div key={item._id}>
+            {cart.map((item) => (
+              <div key={item.id}>
                 <ItemCard
                   itemInfo={item}
-                  userInfo={userInfo}
-                  totalAmounts={totalAmounts}
-                  setTotalAmounts={setTotalAmounts}
-                  userCart={userCart}
+                  // userInfo={userInfo}
+                  // totalAmounts={totalAmounts}
+                  // setTotalAmounts={setTotalAmounts}
+                  // userCart={userCart}
+                  handleAddCart={handleAddCart}
+                  handleRemoveCart={handleRemoveCart}
+                  handleRemoveitemfromCart={handleRemoveitemfromCart}
                 />
               </div>
             ))}
           </div>
 
           <button
-            onClick={deleteAllCart}
+            onClick={handleclearCart}
             className="py-2 px-10 rounded-lg bg-red-500 text-white font-semibold mb-4 hover:bg-red-700 duration-300"
           >
             Reset cart
@@ -131,19 +143,19 @@ const Cart = () => {
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
                   Subtotal
                   <span className="font-semibold tracking-wide font-titleFont">
-                    ${totalAmounts.subTotal}
+                    {/* ${totalAmounts.subTotal} */}
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
                   Total delivery fee
                   <span className="font-semibold tracking-wide font-titleFont">
-                    ${totalAmounts.totalDeliveryFee}
+                    {/* ${totalAmounts.totalDeliveryFee} */}
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                   Total
                   <span className="font-bold tracking-wide text-lg font-titleFont">
-                    ${totalAmounts.overallTotal}
+                    {/* ${totalAmounts.overallTotal} */}
                   </span>
                 </p>
               </div>

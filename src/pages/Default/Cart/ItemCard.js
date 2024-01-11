@@ -1,132 +1,73 @@
 import React from "react";
 import { ImCross } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteItem,
-  drecreaseItemQuantity,
-  increaseItemQuantity,
-} from "../../../redux/productsSlice";
+
 import axios from "axios";
 import { deleteCartItem, updateCartItem } from "../../../redux/userSlice";
 
-const ItemCard = ({ itemInfo, userInfo, userCart }) => {
-  const dispatch = useDispatch();
-  // const userCart = useSelector(state => state.)
-  const removeCartItem = (id) => {
-    if (userInfo && Object.keys(userInfo.profile).length > 0) {
-      axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/delete/cartitem/${id}`,
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
-        }
-      }).then((data) => {
-        if (data.status === 200) {
-          dispatch(deleteCartItem(id))
-        }
-      })
-    } else { 
-      dispatch(deleteItem(id))
-    }
-    
-  }
-  const increaseQuantity = (id) => { 
-    if (userInfo && Object.keys(userInfo.profile).length > 0) {
-      const existingItem = userCart.find(item => item._id === id)
-      if (existingItem && (existingItem.availableUnits > existingItem.quantity)) {
-        axios({
-          url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/edit/cartitem/${id}`,
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
-          },
-          data: { quantity: existingItem.quantity + 1 }
-        })
-          .then(res => {
-            dispatch(updateCartItem({
-              _id: res.data.data._id,
-              quantity: res.data.data.quantity,
-              price: res.data.data.price,
-              productTotalCost: res.data.data.productTotalCost,
-            }))
-          }).catch(error => console.log(error))
-      }
-      
-    } else { 
-      if (itemInfo.availableUnits > itemInfo.quantity) {
-        dispatch(increaseItemQuantity(id))
-      }
-    }
-    
-  }
-  const drecreaseQuantity = (id) => { 
-    if (userInfo && Object.keys(userInfo.profile).length > 0) {
-      const existingItem = userCart.find(item => item._id === id)
-      if (existingItem && existingItem.quantity > 1) {
-        axios({
-          url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/edit/cartitem/${id}`,
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
-          },
-          data: { quantity: existingItem.quantity - 1 }
-        })
-          .then(res => {
-            dispatch(updateCartItem({
-              _id: res.data.data._id,
-              quantity: res.data.data.quantity,
-              price: res.data.data.price,
-              productTotalCost: res.data.data.productTotalCost,
-            }))
-          }).catch(error => console.log(error))
-      }
-      
-    } else { 
-      if (itemInfo.quantity > 1) {
-        dispatch(drecreaseItemQuantity(id))
-      }
-    }
-  }
+import { FiTrash2 } from "react-icons/fi";
 
+const ItemCard = ({
+  itemInfo,
+  userInfo,
+  userCart,
+  handleAddCart,
+  handleRemoveCart,
+  handleRemoveitemfromCart,
+}) => {
   return (
     <div className="w-full grid grid-cols-5 mb-4 border py-2 rounded-lg">
-      <div className="flex col-span-5 mdl:col-span-2 items-center gap-4 ml-4">
-        <ImCross
-          onClick={() => removeCartItem(itemInfo._id)}
+      <div className="flex-col col-span-5 mdl:col-span-2 items-center gap-4 ml-4">
+        {/* <ImCross
+          // onClick={() => removeCartItem(itemInfo._id)}
           className="text-[#1D6F2B] hover:text-red-500 duration-300 cursor-pointer"
+        /> */}
+        <img
+          className="w-32 h-32"
+          src={itemInfo.productThumbnail.url}
+          alt="productImage"
         />
-        <img className="w-32 h-32" src={itemInfo.selectedProductImage} alt="productImage" />
         <div>
-          <h1 className="font-titleFont font-semibold">{itemInfo.itemName}</h1>
-          <h2 className="text-sm">Color: {itemInfo.selectedProductColor}</h2>
-          <h2 className="text-sm">Size: {itemInfo.size}</h2>
+          <h1 className="font-titleFont font-semibold mt-2">{itemInfo.name}</h1>
+          {/* <h2 className="text-sm">Color: {itemInfo.selectedProductColor}</h2>
+          <h2 className="text-sm">Size: {itemInfo.size}</h2> */}
         </div>
-        
       </div>
       <div className="col-span-5 mdl:col-span-3 flex items-center justify-between py-4 mdl:py-0 px-4 mdl:px-0 gap-6 mdl:gap-0">
         <div className="flex w-1/3 items-center text-lg font-semibold">
           {itemInfo.price} RWF
         </div>
-        <div className="w-1/3 flex items-center gap-6 text-lg">
+        <div className="w-1/3 flex items-center gap-0 text-lg ">
           <span
-            onClick={() => drecreaseQuantity(itemInfo._id)}
-            className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
+            onClick={(event) => handleRemoveCart(event, itemInfo.id)}
+            className="w-6 h-6 text-[red] font-semibold bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             -
           </span>
-          <p>{itemInfo.quantity}</p>
+          <p className="border px-2 h-6 ">{itemInfo.items}</p>
           <span
-            onClick={() => increaseQuantity(itemInfo._id)}
-            className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
+            onClick={(event) => handleAddCart(event, itemInfo.id)}
+            className="w-6 h-6 text-primary font-semibold bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             +
           </span>
+
+          <span
+            className="ml-2 text-[red] hover:bg-[#E5E5E5] hover:rounded-full py-1.5 px-1.5 "
+            onClick={() => handleRemoveitemfromCart(itemInfo.id)}
+          >
+            <FiTrash2 />
+          </span>
         </div>
         <div className="w-1/3 flex flex-col font-titleFont">
-          <p className="items-center font-bold text-lg">{itemInfo.productTotalCost} RWF</p>
-          <p className="text-xs">{itemInfo.deliveryFee > 0 ?
-            `Includes delivery fee of ${itemInfo.deliveryFee} RWF ` :
-            "Free delivery"}</p>
+          <p className="items-center  font-semibold text-lg">
+            {itemInfo.price * itemInfo.items} RWF
+          </p>
+          <p className="text-xs">
+            {/* {itemInfo.deliveryFee > 0
+              ? `Includes delivery fee of ${itemInfo.deliveryFee} RWF `
+              : "Free delivery"} */}
+          </p>
         </div>
       </div>
     </div>

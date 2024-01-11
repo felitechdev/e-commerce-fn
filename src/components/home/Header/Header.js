@@ -17,6 +17,8 @@ import { FaSearch, FaTimes } from "react-icons/fa";
 import { Search } from "../../Search/Search";
 import { useCurrency } from "../../Currency/CurrencyProvider/CurrencyProvider";
 
+// let cart = JSON.parse(localStorage.getItem("cart"));
+
 const Header = (props) => {
   const [account, setAccount] = useState();
   const [showMenu, setShowMenu] = useState(true);
@@ -35,6 +37,13 @@ const Header = (props) => {
 
   const { fromCurrency, toCurrency, setFromCurrency, setToCurrency } =
     useCurrency();
+
+  const cart = useSelector((state) => state.cart);
+
+  const cartTotal = cart.reduce((total, product) => total + product.items, 0);
+
+  // const cartTotal =
+  //   (cart && cart.map((items) => items.items).reduce((x, y) => x + y, 0)) || 0;
 
   // console.log("props", props.account, props.userInfo);
   const handleCurrencyChange = (e) => {
@@ -67,8 +76,6 @@ const Header = (props) => {
       setAccount(profile?.data?.user);
     }
   }, [profile]);
-
-  console.log("account", account);
 
   let headerIconStyles =
     "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
@@ -348,7 +355,7 @@ const Header = (props) => {
                   ) : (
                     ""
                   )}
-                  <li className="relative">
+                  <li className="relative  ">
                     <NavLink
                       className={({ isActive }) => {
                         return isActive
@@ -360,6 +367,11 @@ const Header = (props) => {
                     >
                       <BsCart3 className={headerIconStyles} size={40} />
                       {
+                        <p className="absolute -ml-4 mt-1 -top-1 -right-2 z-1 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
+                          {cartTotal}
+                        </p>
+                      }
+                      {/* {
                         // props.userInfo.profile
                         props.userInfo
                           ? userCart &&
@@ -373,7 +385,7 @@ const Header = (props) => {
                                 {productsCart.length}
                               </p>
                             )
-                      }
+                      } */}
                     </NavLink>
                   </li>
 

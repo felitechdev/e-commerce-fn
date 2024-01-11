@@ -18,6 +18,7 @@ import {
   updateprofileReducer,
   ViewprofileReducer,
 } from "./Reducers/userReducers";
+import cartRecuder from "./Reducers/cartRecuder";
 
 // const persistProductsConfig = {
 //   key: "root",
@@ -51,6 +52,7 @@ const rootReducer = {
   userprofile: getProfileReducer,
   profileupdate: updateprofileReducer,
   viewprofile: ViewprofileReducer,
+  cart: cartRecuder,
 };
 
 export const store = configureStore({

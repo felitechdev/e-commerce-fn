@@ -5,17 +5,26 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useCurrency } from "../../Currency/CurrencyProvider/CurrencyProvider";
 import DisplayCurrency from "../../Currency/DisplayCurrency/DisplayCurrency";
 import { BsCart3 } from "react-icons/bs";
-import { current } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { addToCart, removeToCart } from "../../../redux/Reducers/cartRecuder";
+import { useSelector } from "react-redux";
+import { BiPlus } from "react-icons/bi";
+import { BiMinus } from "react-icons/bi";
 
 // change i made
 const Product = ({ productInfo }) => {
   const rootId = productInfo.id;
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log("productInfo", productInfo);
+  const dispatch = useDispatch();
 
   const { fromCurrency, toCurrency, getConvertedAmount } = useCurrency();
+  const cart = useSelector((state) => state.cart);
+
+  const cartTotal = cart.reduce((total, product) => total + product.items, 0);
+
+  // check if product is in cart
+  const productInCart = cart.find((product) => product.id === rootId);
 
   const currentPathName = location.pathname;
 
@@ -37,13 +46,60 @@ const Product = ({ productInfo }) => {
   };
 
   const handleAddCart = (event) => {
-    //  prevents the click event from propagating to the parent div
     event.stopPropagation();
-    console.log("add to cart");
+
+    let cart = JSON.parse(localStorage.getItem("cart"));
+
+    if (!cart) {
+      cart = [];
+    }
+
+    let existingProduct = cart.find((product) => product.id === productInfo.id);
+
+    if (!existingProduct) {
+      existingProduct = {
+        id: productInfo.id,
+        name: productInfo.name,
+        price: productInfo.price,
+        productThumbnail: productInfo.productImages.productThumbnail,
+        items: 1,
+      };
+      cart.push(existingProduct);
+    } else {
+      existingProduct.items += 1;
+    }
+
+    // Dispatch the addToCart action to update the Redux state
+    dispatch(addToCart(existingProduct));
+
+    // Update localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+  };
+
+  const handleRemoveCart = (event) => {
+    event.stopPropagation();
+
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+    let existingProduct = existingCart.find(
+      (product) => product.id === productInfo.id
+    );
+
+    // Dispatch the removeToCart action to update the Redux state
+    dispatch(removeToCart(existingProduct));
+
+    // Update localStorage
+    if (existingProduct.items > 1) {
+      existingProduct.items -= 1;
+    } else {
+      existingCart = existingCart.filter(
+        (product) => product.id !== existingProduct.id
+      );
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
   let headerIconStyles =
-    "  ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
+    "  ml-2  inline-block hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-full py-1.5 px-2.5";
   return (
     <div
       className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
@@ -91,11 +147,31 @@ const Product = ({ productInfo }) => {
                   )}
                 </div>
 
-                <BsCart3
-                  className={headerIconStyles}
-                  onClick={(event) => handleAddCart(event)}
-                  size={40}
-                />
+                {!productInCart || productInCart.items == 0 ? (
+                  <BsCart3
+                    className={headerIconStyles}
+                    onClick={(event) => handleAddCart(event)}
+                    size={40}
+                  />
+                ) : (
+                  <>
+                    <BiMinus
+                      className="text-[red] font-bold ml-2    hover:bg-[#E5E5E5] hover:rounded-full"
+                      size={20}
+                      onClick={(event) => handleRemoveCart(event)}
+                    />
+
+                    <p className=" mx-0 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
+                      {productInCart && productInCart.items}
+                    </p>
+
+                    <BiPlus
+                      size={20}
+                      className="text-primary font-bold  hover:bg-[#E5E5E5] ml-0 hover:rounded-full"
+                      onClick={(event) => handleAddCart(event)}
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
