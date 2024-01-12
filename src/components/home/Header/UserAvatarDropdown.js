@@ -83,11 +83,11 @@ const UserAvatarDropdown = (props) => {
         >
           <ul className="  text-center">
             {props.userInfo.firstName ? (
-              <li className="w-[100%] text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer ">
+              <li className="w-[100%] text-center py-2 px-2 hover:bg-[#E5E5E5]   rounded-md cursor-pointer ">
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
-                      ? "text-[#1D6F2B] font-semibold hidden md:inline-block align-middle"
+                      ? "text-[#1D6F2B] w-[100%] bg-[#E5E5E5] font-semibold hidden py-1 px-2 rounded-md  md:inline-block align-middle"
                       : "font-semibold hidden md:inline-block align-middle";
                   }}
                   to="myAccount"
