@@ -120,7 +120,7 @@ const SignUpForm = (props) => {
       };
 
       axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/register`,
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/register`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -179,7 +179,7 @@ const SignUpForm = (props) => {
   const handleGoogleSignUp = (e) => {
     e.preventDefault();
     return window.open(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/google`,
       "_self"
     );
   };

@@ -31,7 +31,7 @@ const ProductDetails = () => {
     const fetchProductInfo = async () => {
       try {
         const productInfo = await axios.get(
-          `${process.env.REACT_APP_BACKEND_SERVER_URL}/products/${location.state.productId}`
+          `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${location.state.productId}`
         );
         setDBProductInfo(productInfo.data);
         console.log("productInfo.data", productInfo.data);
@@ -50,7 +50,7 @@ const ProductDetails = () => {
     const fetchRelatedProducts = async () => {
       try {
         const products = await axios.get(
-          `${process.env.REACT_APP_BACKEND_SERVER_URL}/products`
+          `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`
         );
         console.log(
           "productInfo.data product ",

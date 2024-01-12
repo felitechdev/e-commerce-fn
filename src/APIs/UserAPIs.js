@@ -15,7 +15,7 @@ export const GetMyprofile = createAsyncThunk(
         },
       };
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/get-me`,
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/get-me`,
         config
       );
       if (response?.data && response.status == 200) {
@@ -42,7 +42,40 @@ export const Updateprofile = createAsyncThunk(
   async ({ data, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/profiles`,
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/profiles`,
+        method: "PATCH",
+        headers: {
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          "content-type": "application/json",
+        },
+        data: data,
+      });
+      console.log("response on update", response);
+      if (response?.data && response.status == 200) {
+        return response?.data;
+      } else {
+        // Handle unexpected
+        return rejectWithValue({
+          status: response.status,
+          message: response?.data?.data,
+        });
+      }
+    } catch (err) {
+      console.log("error on update myprofile ", err);
+      return rejectWithValue({
+        status: err.response.status,
+        message: err.response?.data?.message,
+      });
+    }
+  }
+);
+
+export const UpdateprofileInage = createAsyncThunk(
+  "profile/updateprofile",
+  async ({ data, token }, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/update-photo`,
         method: "PATCH",
         headers: {
           Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
@@ -80,7 +113,7 @@ export const GetMyprofilebyId = createAsyncThunk(
         },
       };
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/profiles`,
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/profiles`,
         config
       );
 

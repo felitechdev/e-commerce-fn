@@ -22,7 +22,7 @@ const NestedList = ({ onCategorySelect, subcategoryListClassName }) => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/categories`)
+      .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`)
       .then((data) => {
         if (data.status == 200) {
           const categories = data?.data?.data?.categories.map((item) => {

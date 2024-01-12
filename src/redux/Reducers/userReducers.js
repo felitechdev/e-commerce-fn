@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { GetMyprofile } from "../../APIs/UserAPIs";
 import { Updateprofile } from "../../APIs/UserAPIs";
 import { GetMyprofilebyId } from "../../APIs/UserAPIs";
+import { UpdateprofileInage } from "../../APIs/UserAPIs";
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const initialState = {
   profile: null,
@@ -77,6 +80,31 @@ const updateprofile = createSlice({
   },
 });
 
+const updateprofileImage = createSlice({
+  name: "updateprofileimage",
+  initialState: {
+    pimage: null,
+    loadpimage: false,
+    errpimage: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(UpdateprofileInage.pending, (state, action) => {
+        state.loadpimage = true;
+      })
+      .addCase(UpdateprofileInage.fulfilled, (state, action) => {
+        state.loadpimage = false;
+        state.pimage = action.payload;
+      })
+      .addCase(UpdateprofileInage.rejected, (state, action) => {
+        state.loadpimage = false;
+        state.errpimage = action.error;
+      });
+  },
+});
+
+export const updateprofileImageReducer = updateprofileImage.reducer;
 export const ViewprofileReducer = viewprofile.reducer;
 export const updateprofileReducer = updateprofile.reducer;
 export const getProfileReducer = getprofile.reducer;

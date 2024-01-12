@@ -77,6 +77,8 @@ const Header = (props) => {
     }
   }, [profile]);
 
+  console.log("account", props.userInfo);
+
   let headerIconStyles =
     "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
   return (

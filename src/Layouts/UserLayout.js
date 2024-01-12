@@ -72,8 +72,6 @@ const UserLayout = (props) => {
     }
   }, [profile]);
 
-  console.log("storeUserInfo homepage", userprofile, storeUserInfo);
-
   return (
     <div>
       {/* <Header userInfo={storeUserInfo} account={props.account} /> */}

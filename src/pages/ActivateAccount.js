@@ -18,7 +18,7 @@ const ActivateAccount = () => {
     const activateAccount = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/activate-account/${token}`,
+          `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/activate-account/${token}`,
           {
             headers: {
               "Content-Type": "application/json",
