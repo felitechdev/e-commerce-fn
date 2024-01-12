@@ -20,9 +20,9 @@ const CategoryFilteredProducts = ({ selectedCategory }) => {
       selectedCategory.category.categoryId ||
       selectedCategory.subcategory.subcategoryId
         ? selectedCategory.category.categoryId
-          ? `${process.env.REACT_APP_BACKEND_SERVER_URL}/products/products/category/${selectedCategory.category.categoryId}`
-          : `${process.env.REACT_APP_BACKEND_SERVER_URL}/products/products/subcategory/${selectedCategory.subcategory.subcategoryId}`
-        : `${process.env.REACT_APP_BACKEND_SERVER_URL}/products`;
+          ? `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/category/${selectedCategory.category.categoryId}`
+          : `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/subcategory/${selectedCategory.subcategory.subcategoryId}`
+        : `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`;
 
     fetch(url)
       .then((response) => response.json())

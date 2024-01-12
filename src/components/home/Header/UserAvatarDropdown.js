@@ -36,7 +36,7 @@ const UserAvatarDropdown = (props) => {
 
     if (props.userInfo.logInType === "ByGoogle") {
       axios
-        .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/logout`)
+        .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/logout`)
         .then(() => {
           Dispatch(resetUserInfo());
           sessionStorage.removeItem("userToken");

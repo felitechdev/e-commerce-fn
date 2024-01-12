@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import PhoneInput from "antd-phone-input";
 import Cookies from "js-cookie";
 import { Updateprofile } from "../../../APIs/UserAPIs";
-import AlertComponent from "../../designLayouts/AlertComponent";
 
 const CompanyModel = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

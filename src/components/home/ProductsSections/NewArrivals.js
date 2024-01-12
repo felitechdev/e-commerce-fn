@@ -11,7 +11,7 @@ const NewArrivals = () => {
 
   useEffect(() => {
     // Fetch your API data here
-    axios(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
+    axios(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`)
       .then((data) => {
         console.log(
           "data newarrivals",

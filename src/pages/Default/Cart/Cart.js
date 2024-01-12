@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { resetCart } from "../../../redux/productsSlice";
 import { emptyCart } from "../../../assets/images/index";
@@ -12,6 +12,8 @@ import {
   clearCart,
   clearitemCart,
 } from "../../../redux/Reducers/cartRecuder";
+import Cookies from "js-cookie";
+import { LoaderComponent } from "../../../components/Loaders/Getloader";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -30,6 +32,9 @@ const Cart = () => {
     totalDeliveryFee: 0,
     overallTotal: 0,
   });
+  const [loading, setLoadng] = useState(false);
+
+  const token = Cookies.get("token");
 
   const cart = useSelector((state) => state.cart);
   const cartTotal = cart.reduce((total, product) => total + product.price, 0);
@@ -103,6 +108,77 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
+  let totalCost = cart.reduce((total, item) => {
+    return total + item.price * item.items;
+  }, 0);
+
+  const cartTotl = cart.map((item) => {
+    console.log("item", item);
+    let product = {
+      product: item.id,
+      quantity: item.items,
+      price: item.price,
+    };
+    return product;
+  });
+
+  let requestData = {
+    amount: totalCost,
+    currency: "RWF",
+    phoneNumber: "0786433232",
+    // items: [
+    //   {
+    //     product: "64ff27d5d22c0c62da1a0f7d",
+    //     quantity: 10,
+    //     price: 100,
+    //   },
+    //   {
+    //     product: "65007c7a03d8f7c7a7ed4dd5",
+    //     quantity: 2,
+    //     price: 1500,
+    //   },
+    // ],
+    items: cartTotl,
+    shippingAddress: {
+      country: "Rwanda",
+      city: "Kigali",
+      address: {
+        street: "kk089",
+        coordinates: [43, 54],
+      },
+    },
+  };
+
+  // useState(() => {
+  async function makepayment() {
+    setLoadng(true);
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments`,
+        requestData,
+        {
+          headers: {
+            Authorization: ` Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("response on payment", res);
+
+      if (res.data.status === "success") {
+        setLoadng(false);
+        handleclearCart();
+      }
+
+      window.open(res.data.data.link);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // });
+
   return (
     <div className="max-w-container mx-auto px-4 lg:py-32">
       {cart && cart.length > 0 ? (
@@ -155,16 +231,31 @@ const Cart = () => {
                 <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                   Total
                   <span className="font-bold tracking-wide text-lg font-titleFont">
-                    {/* ${totalAmounts.overallTotal} */}
+                    {totalCost} RWF
                   </span>
                 </p>
               </div>
               <div className="flex justify-end">
-                <Link to="/paymentgateway">
-                  <button className="w-52 h-10 rounded-lg bg-[#1D6F2B] text-white hover:bg-black duration-300">
-                    Proceed to Checkout
-                  </button>
-                </Link>
+                {/* <Link to="/paymentgateway"> */}
+                {/* <Link to=`payment` > */}
+                <button
+                  disabled={loading}
+                  onClick={makepayment}
+                  className="w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300"
+                >
+                  {loading ? "Processing..." : "Proceed to Checkout"}
+                </button>
+                {/* </Link> */}
+                {/* <NavLink
+                  className={({ isActive }) => {
+                    return isActive
+                      ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
+                      : "w-full hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md   font-semibold hidden md:inline-block py-1 ";
+                  }}
+                  to={`payment`}
+                >
+                  Proceed to Checkout
+                </NavLink> */}
               </div>
             </div>
           </div>

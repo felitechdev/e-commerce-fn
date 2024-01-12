@@ -65,7 +65,7 @@ const SignInForm = (props) => {
       };
 
       axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/login`,
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/login`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",

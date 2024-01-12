@@ -8,7 +8,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     // Fetching data from the API
-    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/products`)
+    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`)
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {

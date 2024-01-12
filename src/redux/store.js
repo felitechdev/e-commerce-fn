@@ -17,6 +17,7 @@ import {
   getProfileReducer,
   updateprofileReducer,
   ViewprofileReducer,
+  updateprofileImageReducer,
 } from "./Reducers/userReducers";
 import cartRecuder from "./Reducers/cartRecuder";
 import getproductSlice from "./Reducers/productReducers";
@@ -55,6 +56,7 @@ const rootReducer = {
   viewprofile: ViewprofileReducer,
   cart: cartRecuder,
   product: getproductSlice,
+  profileimage: updateprofileImageReducer,
 };
 
 export const store = configureStore({

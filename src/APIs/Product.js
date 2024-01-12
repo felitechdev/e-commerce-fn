@@ -9,7 +9,7 @@ export const fetchProducts = createAsyncThunk(
   "product/fetchProducts",
   async () => {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/products`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`
     );
 
     const sortedProducts = data?.data?.products.sort(

@@ -23,6 +23,8 @@ import SellerProfile from "./pages/Account/Profile/SellerProfile";
 import ProfileLayout from "./Layouts/ProfileLayout";
 import { GetMyprofile } from "./APIs/UserAPIs";
 import { FeliTechLogo_transparent, FeliTechWhiteLogo } from "./assets/images";
+import Paymentpage from "./pages/Payment/payment";
+import PaymentDone from "./pages/Payment/payment";
 
 const App = () => {
   const [user, setUser] = useState();
@@ -122,6 +124,7 @@ const App = () => {
               <Route path="myAccount" element={<ProfileLayout />}>
                 <Route path="profile" element={<SellerProfile />}></Route>
               </Route>
+              <Route path="payment" element={<PaymentDone />}></Route>
             </Route>
           ) : (
             <Route path="/" element={<IndexLayout />}>
