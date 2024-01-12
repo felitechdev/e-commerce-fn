@@ -32,7 +32,7 @@ const UserAvatarDropdown = (props) => {
     e.preventDefault();
     sessionStorage.removeItem("userToken");
     Cookies.remove("token");
-    navigate("/");
+    navigate("");
 
     if (props.userInfo.logInType === "ByGoogle") {
       axios
@@ -46,7 +46,7 @@ const UserAvatarDropdown = (props) => {
           console.log(error.message);
         });
     } else if (props.userInfo.logInType === "ByEmail") {
-      navigate("/");
+      navigate("");
       Dispatch(resetUserInfo());
       sessionStorage.removeItem("userToken");
       Cookies.remove("token");

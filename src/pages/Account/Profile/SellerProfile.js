@@ -10,6 +10,7 @@ import CompanyModel from "../../../components/Seller/CompanyModel/CompanyModel";
 import { GetMyprofilebyId } from "../../../APIs/UserAPIs";
 import Cookies from "js-cookie";
 import { LoaderComponent } from "../../../components/Loaders/Getloader";
+import { ImageUpload } from "../../../components/profile/photoupdate/Updateimage";
 
 const SellerProfile = () => {
   const [user, setUser] = useState();
@@ -17,6 +18,7 @@ const SellerProfile = () => {
   const [userprofile, setUserprofile] = useState();
   const [profileview, setProfileview] = useState();
   const [loading, setLoading] = useState(false);
+  const [openmodel, setOpenmodel] = useState(false);
 
   const { profile, loadprofile, errprofile } = useSelector(
     (state) => state.userprofile
@@ -60,6 +62,10 @@ const SellerProfile = () => {
     }));
   };
 
+  const handleupdateprofileModel = (state) => {
+    setOpenmodel(state);
+  };
+
   // view profile
   useEffect(() => {
     if (loadviewprofile == true) {
@@ -99,13 +105,29 @@ const SellerProfile = () => {
           <div className="flex space-x-2">
             {userprofile != null ? (
               <>
-                {userprofile?.photo ? (
-                  <h1 className="bg-primary text-white font-bold px-1 text-2xl">
-                    {userprofile?.firstName[0]}
+                <div>
+                  {userprofile?.photo == "default.jpg" ? (
+                    <h1 className="bg-primary rounded-md text-white text-center font-bold px-1 text-2xl">
+                      {userprofile?.firstName[0]}
+                    </h1>
+                  ) : (
+                    <img src={userprofile?.photo} />
+                  )}
+
+                  <h1
+                    onClick={() => handleupdateprofileModel(true)}
+                    className="flex font-normal text-sm mt-1 cursor-pointer"
+                  >
+                    {" "}
+                    <RiEdit2Fill size={15} />
+                    Edit{" "}
                   </h1>
-                ) : (
-                  <img src={userprofile?.photo} />
-                )}
+                  <hr className="bg-black text-black" />
+                  <ImageUpload
+                    openmodel={openmodel}
+                    handleupdateprofileModel={handleupdateprofileModel}
+                  />
+                </div>
                 <h1 className="font-bold text-xl">{userprofile?.firstName}</h1>
               </>
             ) : (

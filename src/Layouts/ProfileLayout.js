@@ -60,7 +60,7 @@ const ProfileLayout = () => {
     <>
       <div className="flex my-10 max-w-container mx-auto px-4 space-x-2">
         <div className=" w-[30%] bg-secondary rounded-md  h-fit ">
-          <div className="bg-primary rounded-t-md flex space-x-3  font-bold py-3 text-white px-2 text-xl">
+          <div className="bg-primary rounded-t-md flex space-x-3 font-semibold py-3 text-white px-2 text-xl">
             <FaUser size={25} />
             <h1>My Hill Global Market</h1>
           </div>
@@ -81,13 +81,16 @@ const ProfileLayout = () => {
               ""
             ) : (
               <li>
-                className=
-                {({ isActive }) => {
-                  return isActive
-                    ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
-                    : "w-full hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md   font-semibold hidden md:inline-block py-1 ";
-                }}
-                <NavLink to={`orders`}>My Orders</NavLink>
+                <NavLink
+                  className={({ isActive }) => {
+                    return isActive
+                      ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
+                      : "w-full hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md   font-semibold hidden md:inline-block py-1 ";
+                  }}
+                  to={`orders`}
+                >
+                  My Orders
+                </NavLink>
               </li>
             )}
             <li>
