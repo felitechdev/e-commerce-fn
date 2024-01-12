@@ -29,11 +29,12 @@ const Category = () => {
       title: "Others",
     },
   ];
+  // const items
   return (
     <div className="w-full">
       <NavTitle title="Shop by Category" icons={false} />
       <div>
-        <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+        <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676] bg-[red] ">
           {items.map(({ _id, title, icons }) => (
             <li
               key={_id}

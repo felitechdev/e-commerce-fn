@@ -5,13 +5,14 @@ import "./NestedList.css";
 import axios from "axios";
 
 // change i made
-const NestedList = ({ onCategorySelect }) => {
+const NestedList = ({ onCategorySelect, subcategoryListClassName }) => {
   const [categories, setCategories] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  const handleCategoryExpand = (index) => {
+  const handleCategoryExpand = (index, show) => {
     const updatedCategories = categories.map((item, i) => {
       if (i === index) {
-        return { ...item, showSubList: !item.showSubList };
+        return { ...item, showSubList: show };
       } else {
         return { ...item, showSubList: false };
       }
@@ -23,16 +24,17 @@ const NestedList = ({ onCategorySelect }) => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/categories`)
       .then((data) => {
-        const categories = data.data.map((item) => {
-          return {
-            categoryid: item._id,
-            categoryname: item.categoryname,
-            showSubList: false,
-            subcategories: item.subcategories,
-          };
-        });
-        console.log("categories", categories);
-        setCategories(categories);
+        if (data.status == 200) {
+          const categories = data?.data?.data?.categories.map((item) => {
+            return {
+              categoryid: item.id,
+              categoryname: item.name,
+              showSubList: false,
+              subcategories: item.subCategories,
+            };
+          });
+          setCategories(categories);
+        }
       })
       .catch((error) => {
         console.log("onCategorySelect  error", error);
@@ -40,13 +42,20 @@ const NestedList = ({ onCategorySelect }) => {
   }, []);
 
   return (
-    <ul className="space-y-2 h-[12rem] overflow-scroll mt-2 scrollbar-hide px-2">
+    <ul className="space-y-2 h-[12rem] overflow-scroll mt-2 scrollbar-hide px-2 ">
       {categories &&
         categories.map((item, index) => (
-          <li className="hover:text-[#1D6F2B]" key={index}>
+          <li
+            className={`hover:text-[#1D6F2B] ${
+              index === activeIndex ? "text-primary font-bold" : ""
+            }`}
+            key={index}
+          >
             <span
-              className="text-black"
+              className="text-black hover:text-[#1D6F2B]"
               onClick={() => {
+                setActiveIndex(index);
+                handleCategoryExpand(index, false);
                 onCategorySelect(
                   {
                     categoryname: item.categoryname,
@@ -63,14 +72,14 @@ const NestedList = ({ onCategorySelect }) => {
                 className="float-right h-3 mt-1"
                 icon={faAngleRight}
                 style={{ color: "#000000" }}
-                onClick={() => handleCategoryExpand(index)}
+                onClick={() => handleCategoryExpand(index, true)}
               />
             ) : (
               ""
             )}
             {item.showSubList && item.subcategories.length > 0 && (
               <div
-                className={`absolute top-0 left-[17.5rem]  flex w-[20rem] ${
+                className={` flex w-[20rem] ${subcategoryListClassName}  ${
                   item.showSubList ? "fade-in" : "fade-out"
                 }`}
               >
@@ -82,15 +91,18 @@ const NestedList = ({ onCategorySelect }) => {
                         key={subIndex}
                         onClick={() => {
                           onCategorySelect(
-                            { categoryname: null, categoryId: null },
                             {
-                              subcategoryname: subItem.subcategoryname,
-                              subcategoryId: subItem._id,
+                              categoryname: null,
+                              categoryId: subItem.category,
+                            },
+                            {
+                              subcategoryname: subItem.name,
+                              subcategoryId: subItem.id,
                             }
                           );
                         }}
                       >
-                        {subItem.subcategoryname}
+                        {subItem.name}
                       </li>
                     ))}
                   </ul>

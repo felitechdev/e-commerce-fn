@@ -69,8 +69,8 @@ const ProfileLayout = () => {
               <NavLink
                 className={({ isActive }) => {
                   return isActive
-                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 ";
+                    ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
+                    : "w-full hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md   font-semibold hidden md:inline-block py-1 ";
                 }}
                 to={`profile`}
               >
@@ -84,8 +84,8 @@ const ProfileLayout = () => {
                 className=
                 {({ isActive }) => {
                   return isActive
-                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 ";
+                    ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
+                    : "w-full hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md   font-semibold hidden md:inline-block py-1 ";
                 }}
                 <NavLink to={`orders`}>My Orders</NavLink>
               </li>
@@ -94,8 +94,8 @@ const ProfileLayout = () => {
               <NavLink
                 className={({ isActive }) => {
                   return isActive
-                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 ";
+                    ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
+                    : "w-full hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md   font-semibold hidden md:inline-block py-1 ";
                 }}
                 to={`password-reset`}
               >
@@ -106,8 +106,8 @@ const ProfileLayout = () => {
               <NavLink
                 className={({ isActive }) => {
                   return isActive
-                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 ";
+                    ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
+                    : "w-full hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md   font-semibold hidden md:inline-block py-1 ";
                 }}
                 to={`signout`}
               >
