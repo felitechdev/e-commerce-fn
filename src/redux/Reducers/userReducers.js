@@ -36,10 +36,14 @@ const viewprofile = createSlice({
   },
 });
 
-const getprofile = createSlice({
+export const getprofile = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    updateProfile: (state, action) => {
+      state.profile = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(GetMyprofile.pending, (state, action) => {

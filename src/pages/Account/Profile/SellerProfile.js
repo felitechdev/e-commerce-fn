@@ -8,6 +8,7 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { EyeFilled } from "@ant-design/icons";
 import CompanyModel from "./CompanyModel/CompanyModel";
 import { GetMyprofilebyId } from "../../../APIs/UserAPIs";
+import { ImageUpload } from "../../../components/profile/photoupdate/Updateimage";
 import Cookies from "js-cookie";
 import { LoaderComponent } from "../../../components/Loaders/Getloader";
 
@@ -17,6 +18,7 @@ const SellerProfile = () => {
   const [userprofile, setUserprofile] = useState();
   const [profileview, setProfileview] = useState();
   const [loading, setLoading] = useState(false);
+  const [openmodel, setOpenmodel] = useState(false);
 
   const { profile, loadprofile, errprofile } = useSelector(
     (state) => state.userprofile
@@ -39,6 +41,15 @@ const SellerProfile = () => {
     setIsModalOpen(false);
   };
 
+  const handleopenmodel = () => {
+    setOpenmodel(true);
+  };
+
+  const handleupdateprofileModel = (state) => {
+    console.log("state", state);
+    setOpenmodel(state);
+  };
+
   useEffect(() => {
     if (storeUserInfo) {
       setUser(storeUserInfo);
@@ -55,6 +66,14 @@ const SellerProfile = () => {
   const handleupdatestateProfile = (data) => {
     setLoading(true);
     setProfileview((prevProfileview) => ({
+      ...prevProfileview,
+      ...data,
+    }));
+  };
+
+  const handleupdatestate = (data) => {
+    setLoading(true);
+    setUserprofile((prevProfileview) => ({
       ...prevProfileview,
       ...data,
     }));
@@ -96,18 +115,36 @@ const SellerProfile = () => {
     <>
       <div className="bg-white border shadow-lg rounded-md w-full min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal pl-10  py-3  px-2 text-xl">
-          <div className="flex space-x-2">
+          <div className="flex flex-col   ">
             {userprofile != null ? (
               <>
-                {userprofile?.photo == "default.jpg" ? (
-                  <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
-                    {userprofile?.firstName[0]}
-                  </h1>
-                ) : (
-                  <img src={userprofile?.photo} />
-                )}
+                <div className="flex  space-x-2">
+                  {userprofile?.photo == "default.jpg" ? (
+                    <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
+                      {userprofile?.firstName[0]}
+                    </h1>
+                  ) : (
+                    <img src={userprofile?.photo} />
+                  )}
 
-                <h1 className="font-bold text-xl">{userprofile?.firstName}</h1>
+                  <h1 className="font-bold text-xl">
+                    {userprofile?.firstName}
+                  </h1>
+                </div>
+
+                <h1
+                  className="flex ml-0 mt-1 cursor-pointer "
+                  onClick={handleopenmodel}
+                >
+                  <RiEdit2Fill size={25} />
+                  Edit{" "}
+                </h1>
+                <ImageUpload
+                  openmodel={openmodel}
+                  handleupdateprofileModel={handleupdateprofileModel}
+                  handleupdatestate={handleupdatestate}
+                />
+                <hr />
               </>
             ) : (
               <>

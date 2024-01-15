@@ -79,7 +79,8 @@ export const UpdateprofileInage = createAsyncThunk(
         method: "PATCH",
         headers: {
           Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
-          "content-type": "application/json",
+          // "content-type": "application/json",
+          "content-type": "multipart/form-data",
         },
         data: data,
       });
