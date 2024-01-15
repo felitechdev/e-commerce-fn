@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import MenuIconWhite from "../../assets/images/menu-white.png";
@@ -14,6 +14,7 @@ import ImageSlider from "../imageslider/ImageSlider";
 // change i made
 const Banner = (props) => {
   const [dotActive, setDocActive] = useState(0);
+  const [isviewAllselected, setIsviewAllselected] = useState(false);
   const handleViewAllClick = () => {
     props.onViewAllClick();
   };
@@ -124,7 +125,18 @@ const Banner = (props) => {
       },
     ],
   };
-
+  useEffect(() => {
+    if (!props.allcategory) {
+      setIsviewAllselected(true);
+    } else {
+      setIsviewAllselected(false);
+    }
+  }, [props.allcategory]);
+  console.log(
+    "  setIsviewAllselected(!isviewAllselected);",
+    props.allcatesubcategory,
+    props.allcategory
+  );
   return (
     <div className=" bg-white w-full flex justify-center">
       <div className="w-full lg:container">
@@ -136,7 +148,7 @@ const Banner = (props) => {
                 <img src={MenuIconWhite} className="w-5 h-5" />
                 <p className="text-[14px] font-semibold">Categories</p>
               </div>
-              {props.allcategory && (
+              {(props.allcategory || props.allcatesubcategory) && (
                 <span
                   onClick={handleViewAllClick}
                   className="text-[black]   space-y-4 h-[12rem] overflow-scroll mt-4 scrollbar-hide px-2 hover:text-[#1D6F2B]  hover:rounded-md w-full"
@@ -146,6 +158,7 @@ const Banner = (props) => {
               )}
               <NestedList
                 onCategorySelect={props.onCategorySelect}
+                isviewAllselected={isviewAllselected}
                 subcategoryListClassName="absolute top-12 left-full mt-2 ml-1"
               />
             </div>

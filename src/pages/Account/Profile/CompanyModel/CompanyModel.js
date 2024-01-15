@@ -8,7 +8,7 @@ import { useEffect } from "react";
 // country input to check country phone number
 import PhoneInput from "antd-phone-input";
 import Cookies from "js-cookie";
-import { Updateprofile } from "../../../APIs/UserAPIs";
+import { Updateprofile } from "../../../../APIs/UserAPIs";
 
 const CompanyModel = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -168,13 +168,6 @@ const CompanyModel = (props) => {
       setUserprofile(profile?.data?.user);
     }
   }, [profile]);
-
-  console.log(
-    "userprofile",
-    userprofile,
-    "props.profileview",
-    props.profileview
-  );
 
   useEffect(() => {
     // Update form values if profileview changes

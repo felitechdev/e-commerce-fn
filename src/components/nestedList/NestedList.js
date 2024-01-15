@@ -5,56 +5,103 @@ import "./NestedList.css";
 import axios from "axios";
 
 // change i made
-const NestedList = ({ onCategorySelect, subcategoryListClassName }) => {
+const NestedList = ({
+  onCategorySelect,
+  subcategoryListClassName,
+  isviewAllselected,
+}) => {
   const [categories, setCategories] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [activeSubcategory, setActiveSubcategory] = useState(null);
+
+  // const handleCategoryExpand = (index, show) => {
+  //   const updatedCategories = categories.map((item, i) => {
+  //     if (i === index) {
+  //       return { ...item, showSubList: show };
+  //     } else {
+  //       return { ...item, showSubList: false };
+  //     }
+  //   });
+  //   setCategories(updatedCategories);
+  // };
 
   const handleCategoryExpand = (index, show) => {
-    const updatedCategories = categories.map((item, i) => {
-      if (i === index) {
-        return { ...item, showSubList: show };
-      } else {
-        return { ...item, showSubList: false };
-      }
-    });
-    setCategories(updatedCategories);
+    setCategories((prevCategories) =>
+      prevCategories.map((item, i) => ({
+        ...item,
+        showSubList: i === index ? show : false,
+      }))
+    );
   };
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`)
+  //     .then((data) => {
+  //       if (data.status == 200) {
+  //         const categories = data?.data?.data?.categories.map((item) => {
+  //           return {
+  //             categoryid: item.id,
+  //             categoryname: item.name,
+  //             showSubList: false,
+  //             subcategories: item.subCategories,
+  //           };
+  //         });
+  //         setCategories(categories);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log("onCategorySelect  error", error);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`)
-      .then((data) => {
-        if (data.status == 200) {
-          const categories = data?.data?.data?.categories.map((item) => {
-            return {
+    if (categories.length === 0) {
+      axios
+        .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`)
+        .then((data) => {
+          if (data.status === 200) {
+            const categories = data?.data?.data?.categories.map((item) => ({
               categoryid: item.id,
               categoryname: item.name,
               showSubList: false,
               subcategories: item.subCategories,
-            };
-          });
-          setCategories(categories);
-        }
-      })
-      .catch((error) => {
-        console.log("onCategorySelect  error", error);
-      });
+            }));
+            setCategories(categories);
+          }
+        })
+        .catch((error) => {
+          console.log("onCategorySelect error", error);
+        });
+    }
+  }, [categories]);
+
+  // disble active catecory style
+  useEffect(() => {
+    if (isviewAllselected) {
+      setActiveIndex(null);
+    }
   }, []);
+
+  console.log("isviewAllselected", isviewAllselected, activeIndex);
 
   return (
     <ul className="space-y-2 h-[12rem] overflow-scroll mt-2 scrollbar-hide px-2 ">
       {categories &&
         categories.map((item, index) => (
           <li
-            className={`hover:text-[#1D6F2B] ${
-              index === activeIndex ? "text-primary font-bold" : ""
+            className={`hover:text-white ${
+              index === activeIndex && !isviewAllselected
+                ? "text-[#1D6F2B] font-bold"
+                : "text-black "
             }`}
             key={index}
           >
             <span
-              className="text-black hover:text-[#1D6F2B]"
+              className=" hover:text-[#1D6F2B]"
               onClick={() => {
                 setActiveIndex(index);
+                setActiveSubcategory();
                 handleCategoryExpand(index, false);
                 onCategorySelect(
                   {
@@ -84,22 +131,26 @@ const NestedList = ({ onCategorySelect, subcategoryListClassName }) => {
                 }`}
               >
                 <div className="w-full">
-                  <ul className="w-full space-y-2 p-2 shadow bg-white rounded-md border border-gray-100">
+                  <ul className="w-full space-y-2 p-2 shadow bg-white font-semibold rounded-md border border-gray-100">
                     {item.subcategories.map((subItem, subIndex) => (
                       <li
-                        className="text-black hover:text-[#1D6F2B]"
+                        // className="text-black hover:text-[#1D6F2B]"
+                        className={`text-black hover:text-[#1D6F2B] ${
+                          subItem.id === activeSubcategory ? "text-primary" : ""
+                        }`}
                         key={subIndex}
                         onClick={() => {
                           onCategorySelect(
                             {
                               categoryname: null,
-                              categoryId: subItem.category,
+                              categoryId: null,
                             },
                             {
                               subcategoryname: subItem.name,
                               subcategoryId: subItem.id,
                             }
                           );
+                          setActiveSubcategory(subItem.id);
                         }}
                       >
                         {subItem.name}

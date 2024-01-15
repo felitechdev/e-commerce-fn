@@ -59,12 +59,20 @@ const CategoryFilteredProducts = ({ selectedCategory }) => {
     }
   }, [dispatch, productstate]);
 
-  const prod =
+  let prod =
     productstate &&
     productstate.length > 0 &&
     productstate.filter((item) => {
       return item?.category?.id == selectedCategory.category.categoryId;
     });
+
+  if (!selectedCategory.category.categoryId) {
+    prod = productstate.filter((item) => {
+      return (
+        item?.subcategory?.id == selectedCategory.subcategory.subcategoryId
+      );
+    });
+  }
 
   return (
     <ProductsSection
@@ -97,9 +105,7 @@ const CategoryFilteredProducts = ({ selectedCategory }) => {
           ))}
         </ProductsGridContainer>
       ) */
-        <p className=" text-center font-semibold">
-          There are no products in these category.
-        </p>
+        <p className=" text-center font-semibold">There are no products .</p>
       )}
     </ProductsSection>
   );

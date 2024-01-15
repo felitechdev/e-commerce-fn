@@ -19,6 +19,7 @@ const UserHome = () => {
   });
 
   const handleCategorySelect = (category, subcategory) => {
+    console.log("category", category, "subcategory", subcategory);
     if (category.categoryId) {
       setSelectedCategory({
         category: {
@@ -56,6 +57,7 @@ const UserHome = () => {
       <Banner
         onCategorySelect={handleCategorySelect}
         allcategory={selectedCategory.category.categoryId}
+        allcatesubcategory={selectedCategory.subcategory.subcategoryId}
         onViewAllClick={handleViewAllClick}
       />
       {selectedCategory.category.categoryId ||
