@@ -57,6 +57,7 @@ const UserHome = () => {
       <Banner
         onCategorySelect={handleCategorySelect}
         allcategory={selectedCategory.category.categoryId}
+        allcatesubcategory={selectedCategory.subcategory.subcategoryId}
         onViewAllClick={handleViewAllClick}
       />
       {selectedCategory.category.categoryId ||

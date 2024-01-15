@@ -5,7 +5,11 @@ import "./NestedList.css";
 import axios from "axios";
 
 // change i made
-const NestedList = ({ onCategorySelect, subcategoryListClassName }) => {
+const NestedList = ({
+  onCategorySelect,
+  subcategoryListClassName,
+  isviewAllselected,
+}) => {
   const [categories, setCategories] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
   const [activeSubcategory, setActiveSubcategory] = useState(null);
@@ -72,13 +76,24 @@ const NestedList = ({ onCategorySelect, subcategoryListClassName }) => {
     }
   }, [categories]);
 
+  // disble active catecory style
+  useEffect(() => {
+    if (isviewAllselected) {
+      setActiveIndex(null);
+    }
+  }, []);
+
+  console.log("isviewAllselected", isviewAllselected, activeIndex);
+
   return (
     <ul className="space-y-2 h-[12rem] overflow-scroll mt-2 scrollbar-hide px-2 ">
       {categories &&
         categories.map((item, index) => (
           <li
             className={`hover:text-white ${
-              index === activeIndex ? "text-[#1D6F2B] font-bold" : "text-black "
+              index === activeIndex && !isviewAllselected
+                ? "text-[#1D6F2B] font-bold"
+                : "text-black "
             }`}
             key={index}
           >
