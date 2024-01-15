@@ -20,10 +20,6 @@ const AllProducts = () => {
       .catch((error) => console.error("Error fetching data: ", error));
   }, []);
 
-  // Duplicating the products (e.g., repeat 3 times)
-  const duplicatedProducts =
-    products.length > 0 ? [...products, ...products, ...products] : [];
-
   return (
     <ProductsSection heading="Our products">
       <ProductsGridContainer>
