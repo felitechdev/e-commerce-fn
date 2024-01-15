@@ -68,11 +68,18 @@ const UserAvatarDropdown = (props) => {
           alt={`${props.userInfo.firstName}'s account settings`}
         /> */}
         {/* <div className="flex"> */}
-        {props.userInfo.firstName && (
+        {(!props?.userInfo?.photo && props.userInfo.firstName) ||
+        props?.userInfo?.photo == "default.jpg" ? (
           <h1 className="bg-primary rounded-full text-white font-bold px-1 py-1 text-2xl text-center">
             {props.userInfo?.firstName[0]}
           </h1>
+        ) : (
+          <img
+            src={props?.userInfo?.photo}
+            className=" w-12 h-12 rounded-full border-1 border-primary shadow"
+          />
         )}
+
         {/* <BiDownArrow />
         </div> */}
       </li>

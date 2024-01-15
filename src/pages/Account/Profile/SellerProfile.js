@@ -109,8 +109,6 @@ const SellerProfile = () => {
     }
   }, [dispatch, profileview, token]);
 
-  // console.log("profileview", profileview, loadviewprofile);
-
   return (
     <>
       <div className="bg-white border shadow-lg rounded-md w-full min-h-[500px] pb-3">
@@ -124,7 +122,10 @@ const SellerProfile = () => {
                       {userprofile?.firstName[0]}
                     </h1>
                   ) : (
-                    <img src={userprofile?.photo} />
+                    <img
+                      src={userprofile?.photo}
+                      className="w-10 h-10 rounded-full "
+                    />
                   )}
 
                   <h1 className="font-bold text-xl">
