@@ -7,6 +7,8 @@ const Recommendations = () => {
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
 
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`)
       .then((response) => response.json())
@@ -23,16 +25,37 @@ const Recommendations = () => {
       );
   }, []);
 
+  useEffect(() => {
+    // Fetching data from the API
+    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          setProducts(data?.data);
+        } else {
+          setProducts([]);
+        }
+      })
+      .catch((error) => console.error("Error fetching data: ", error));
+  }, []);
+
   return (
     <ProductsSection heading="Recommended Products">
       <ProductsSliderContainer>
-        {duplicatedData.map((product, index) => {
+        {/* {duplicatedData.map((product, index) => {
           return (
-            <div key={product._id + index} className="px-2">
+            <div key={product.id + index} className="px-2">
               <Product productInfo={product} />
             </div>
           );
-        })}
+        })} */}
+        {products?.products?.length > 0 &&
+          products?.products?.map((product, index) => (
+            <Product
+              key={product.id + index} // Ensured unique keys for each product
+              productInfo={product}
+            />
+          ))}
       </ProductsSliderContainer>
     </ProductsSection>
   );
