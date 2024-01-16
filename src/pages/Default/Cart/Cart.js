@@ -271,11 +271,11 @@ const Cart = () => {
 
           <button
             onClick={handleclearCart}
-            className="py-2 px-10 rounded-lg bg-red-500 text-white font-semibold mb-4 hover:bg-red-700 duration-300"
+            className="py-2 px-10 rounded-lg bg-primary text-white font-semibold mb-4 hover:text-white duration-300"
           >
-            Reset cart
+            Clear Shopping Cart
           </button>
-          <div className="max-w-7xl gap-4 flex justify-end mt-4">
+          <div className="max-w-7xl gap-4 flex justify-end mt-4 bg-secondary p-3">
             <div className="">
               <Form
                 layout={"vertical"}
@@ -285,6 +285,8 @@ const Cart = () => {
                   width: "100%",
                   backgroundColor: "#F5F7F7",
                   padding: "10px",
+                  borderRadius: "0.375rem",
+                  boxShadow: "0px 0px 24px -13px rgba(0,0,0,0.7)",
                   display: ` ${checkoutform ? "block" : "none"}`,
                 }}
               >

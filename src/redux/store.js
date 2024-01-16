@@ -21,6 +21,7 @@ import {
 } from "./Reducers/userReducers";
 import cartRecuder from "./Reducers/cartRecuder";
 import getproductSlice from "./Reducers/productReducers";
+import { getorderReducer } from "./Reducers/OrderReducer";
 
 // const persistProductsConfig = {
 //   key: "root",
@@ -57,6 +58,7 @@ const rootReducer = {
   cart: cartRecuder,
   product: getproductSlice,
   profileimage: updateprofileImageReducer,
+  orders: getorderReducer,
 };
 
 export const store = configureStore({

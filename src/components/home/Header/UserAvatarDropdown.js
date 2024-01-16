@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { BiDownArrow } from "react-icons/bi";
+import { LoaderComponent } from "../../Loaders/Getloader";
 
 const UserAvatarDropdown = (props) => {
   const Dispatch = useDispatch();
@@ -95,7 +96,7 @@ const UserAvatarDropdown = (props) => {
                   className={({ isActive }) => {
                     return isActive
                       ? "text-[#1D6F2B] w-[100%] bg-[#E5E5E5] font-semibold hidden py-1 px-2 rounded-md  md:inline-block align-middle"
-                      : "font-semibold hidden md:inline-block align-middle";
+                      : "font-semibold hidden md:inline-block align-middle font-semibold text-white";
                   }}
                   to="myAccount"
                   // state={{ data: location.pathname.split("/")[1] }}
@@ -107,7 +108,7 @@ const UserAvatarDropdown = (props) => {
               ""
             )}
             <li
-              className="w-[100%] bottom-2 text-center py-2 px-2 lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
+              className="w-[100%] bottom-2 text-center py-2 px-2 text-white font-semibold lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
               onClick={handleSignOut}
             >
               Sign out
