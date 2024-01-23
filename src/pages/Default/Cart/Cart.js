@@ -32,6 +32,8 @@ const Cart = () => {
       return productsCart;
     }
   });
+  const [ispaymentsucces, setIspaymentsucces] = useState(false);
+
   const [totalAmounts, setTotalAmounts] = useState({
     subTotal: 0,
     totalDeliveryFee: 0,
@@ -154,11 +156,10 @@ const Cart = () => {
         }
       );
 
-      console.log("response on payment", res);
-
       if (res.data.status === "success") {
         setLoadng(false);
         handleclearCart();
+        setIspaymentsucces(true);
       }
 
       window.open(res.data.data.link);
@@ -204,7 +205,7 @@ const Cart = () => {
 
     if (values) {
       await makepayment(requestData);
-      setCheckoutform(!checkoutform);
+      ispaymentsucces && setCheckoutform(!checkoutform);
     }
   };
   let requestData = {

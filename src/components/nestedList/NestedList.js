@@ -90,7 +90,7 @@ const NestedList = ({
       {categories &&
         categories.map((item, index) => (
           <li
-            className={`hover:text-white ${
+            className={`hover:text-primary hover:font-bold ${
               index === activeIndex && !isviewAllselected
                 ? "text-[#1D6F2B] font-bold"
                 : "text-black "

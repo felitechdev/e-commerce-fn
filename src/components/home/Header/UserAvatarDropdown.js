@@ -28,13 +28,13 @@ const UserAvatarDropdown = (props) => {
       }
     });
   }, []);
+  const separatedRoute = location.pathname.split("/")[0];
+  console.log("lovation", location, separatedRoute);
 
   const handleSignOut = (e) => {
-    e.preventDefault();
     sessionStorage.removeItem("userToken");
     Cookies.remove("token");
-    navigate("");
-
+    navigate("/", { replace: true });
     if (props.userInfo.logInType === "ByGoogle") {
       axios
         .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/logout`)
@@ -47,7 +47,7 @@ const UserAvatarDropdown = (props) => {
           console.log(error.message);
         });
     } else if (props.userInfo.logInType === "ByEmail") {
-      navigate("");
+      navigate("/"); // And this line
       Dispatch(resetUserInfo());
       sessionStorage.removeItem("userToken");
       Cookies.remove("token");
@@ -95,8 +95,8 @@ const UserAvatarDropdown = (props) => {
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
-                      ? "text-[#1D6F2B] w-[100%] bg-[#E5E5E5] font-semibold hidden py-1 px-2 rounded-md  md:inline-block align-middle"
-                      : "font-semibold hidden md:inline-block align-middle font-semibold text-white";
+                      ? "text-[#1D6F2B] w-[100%] bg-[#E5E5E5] font-semibold hidden py-1 px-1 rounded-md  md:inline-block "
+                      : "font-semibold hidden md:inline-block align-middle  text-white";
                   }}
                   to="myAccount"
                   // state={{ data: location.pathname.split("/")[1] }}
@@ -111,7 +111,9 @@ const UserAvatarDropdown = (props) => {
               className="w-[100%] bottom-2 text-center py-2 px-2 text-white font-semibold lg:hover:bg-[#E5E5E5] rounded-md cursor-pointer"
               onClick={handleSignOut}
             >
-              Sign out
+              <NavLink to="" state={{ data: location.pathname.split("/")[1] }}>
+                Sign out
+              </NavLink>
             </li>
           </ul>
         </div>

@@ -19,7 +19,6 @@ const UserHome = () => {
   });
 
   const handleCategorySelect = (category, subcategory) => {
-    console.log("category", category, "subcategory", subcategory);
     if (category.categoryId) {
       setSelectedCategory({
         category: {
