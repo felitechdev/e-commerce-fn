@@ -6,6 +6,11 @@ import { resetCart } from "../../../redux/productsSlice";
 import { emptyCart } from "../../../assets/images/index";
 import ItemCard from "./ItemCard";
 import axios from "axios";
+import { Button, DatePicker, Form, Input, Select, Modal, Tabs } from "antd";
+import { FaSave } from "react-icons/fa";
+import { Controller, useForm } from "react-hook-form";
+// country input to check country phone number
+import PhoneInput from "antd-phone-input";
 import {
   addToCart,
   removeToCart,
@@ -33,6 +38,7 @@ const Cart = () => {
     overallTotal: 0,
   });
   const [loading, setLoadng] = useState(false);
+  const [checkoutform, setCheckoutform] = useState(false);
 
   const token = Cookies.get("token");
 
@@ -122,6 +128,85 @@ const Cart = () => {
     return product;
   });
 
+  const {
+    register,
+    control,
+    formState: { errors },
+    handleSubmit,
+    setValue, // Add setValue from useForm
+  } = useForm({
+    defaultValues: "", // Set default values from profileview
+  });
+
+  const onErrors = (errors) => console.log("errors on form creation", errors);
+
+  async function makepayment(requestData) {
+    setLoadng(true);
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments`,
+        requestData,
+        {
+          headers: {
+            Authorization: ` Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("response on payment", res);
+
+      if (res.data.status === "success") {
+        setLoadng(false);
+        handleclearCart();
+      }
+
+      window.open(res.data.data.link);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const onFinish = async (values) => {
+    const payload = {};
+    if (values.phoneNumber) {
+      const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
+      const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
+      payload["phoneNumber"] = fullPhoneNumber;
+    }
+
+    let requestData = {
+      amount: totalCost,
+      currency: values.Currency,
+      phoneNumber: payload.phoneNumber,
+      // items: [
+      //   {
+      //     product: "64ff27d5d22c0c62da1a0f7d",
+      //     quantity: 10,
+      //     price: 100,
+      //   },
+      //   {
+      //     product: "65007c7a03d8f7c7a7ed4dd5",
+      //     quantity: 2,
+      //     price: 1500,
+      //   },
+      // ],
+      items: cartTotl,
+      shippingAddress: {
+        country: values.Country,
+        city: values.City,
+        address: {
+          street: values.street,
+          // coordinates: [43, 54],
+        },
+      },
+    };
+
+    if (values) {
+      await makepayment(requestData);
+      setCheckoutform(!checkoutform);
+    }
+  };
   let requestData = {
     amount: totalCost,
     currency: "RWF",
@@ -150,32 +235,10 @@ const Cart = () => {
   };
 
   // useState(() => {
-  async function makepayment() {
-    setLoadng(true);
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments`,
-        requestData,
-        {
-          headers: {
-            Authorization: ` Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
 
-      console.log("response on payment", res);
-
-      if (res.data.status === "success") {
-        setLoadng(false);
-        handleclearCart();
-      }
-
-      window.open(res.data.data.link);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const handleopencheckoutform = () => {
+    setCheckoutform(!checkoutform);
+  };
 
   // });
 
@@ -208,11 +271,163 @@ const Cart = () => {
 
           <button
             onClick={handleclearCart}
-            className="py-2 px-10 rounded-lg bg-red-500 text-white font-semibold mb-4 hover:bg-red-700 duration-300"
+            className="py-2 px-10 rounded-lg bg-primary text-white font-semibold mb-4 hover:text-white duration-300"
           >
-            Reset cart
+            Clear Shopping Cart
           </button>
-          <div className="max-w-7xl gap-4 flex justify-end mt-4">
+          <div className="max-w-7xl gap-4 flex justify-end mt-4 bg-secondary p-3">
+            <div className="">
+              <Form
+                layout={"vertical"}
+                onFinish={handleSubmit(onFinish, onErrors)}
+                // initialValues={userprofile}
+                style={{
+                  width: "100%",
+                  backgroundColor: "#F5F7F7",
+                  padding: "10px",
+                  borderRadius: "0.375rem",
+                  boxShadow: "0px 0px 24px -13px rgba(0,0,0,0.7)",
+                  display: ` ${checkoutform ? "block" : "none"}`,
+                }}
+              >
+                <div>
+                  <div className=" flex justify-between items-center space-x-2 w-fill ">
+                    <Controller
+                      control={control}
+                      name="Country"
+                      rules={{ required: "Country is required" }}
+                      defaultValue={""}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item label="Country" className="w-[48%]">
+                            <Input {...field} placeholder="Enter Last Name" />
+                            <p className="text-[red]">
+                              {errors?.Country?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+
+                    <Controller
+                      control={control}
+                      name="City"
+                      rules={{ required: "City is required" }}
+                      defaultValue={""}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item label="City" className="w-[48%]">
+                            <Input
+                              {...field}
+                              type="text"
+                              placeholder="Enter Email"
+                            />
+                            <p className="text-[red]">
+                              {errors?.City?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex justify-between space-x-2   ">
+                    <Controller
+                      control={control}
+                      name="street"
+                      rules={{ required: "Street is required" }}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item label="Street" className="w-[30%] h-8">
+                            <Input
+                              {...field}
+                              type="text"
+                              placeholder="Street"
+                            />
+                            <p className="text-[red]">
+                              {errors?.street?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="phoneNumber"
+                      rules={{}}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item
+                            label="Phone number"
+                            className="w-[68%] h-5"
+                          >
+                            <PhoneInput {...field} enableSearch />
+                            <p className="text-[red]">
+                              {errors?.phoneNumber?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+                  </div>
+                  <div className="mt-3 flex justify-between space-x-2  items-center">
+                    <Controller
+                      control={control}
+                      name="Currency"
+                      rules={{ required: "Currency is required" }}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item
+                            // label=" Currency"
+                            className=" mt-10 w-[50%]"
+                          >
+                            <Select
+                              {...field}
+                              label="Currency field"
+                              placeholder="Currency"
+                              options={[
+                                {
+                                  label: "RWF",
+                                  value: "RWF",
+                                },
+                                {
+                                  value: "USD",
+                                  label: "USD",
+                                },
+                              ]}
+                            />
+
+                            <p className="text-[red]">
+                              {errors?.Currency?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+
+                    <Button
+                      // onClick={props.onOk}
+                      htmlType="submit"
+                      style={{
+                        background: "#1D6F2B",
+                        color: "#FFFFFF",
+                        fontWeight: "bold",
+                        marginTop: "20px",
+                        display:
+                          "flex items-center justify-center mt-3  disabled:opacity-50 duration-300 ",
+                      }}
+                    >
+                      <span className="flex">
+                        <h2 className=" flex  items-center justify-center ">
+                          <FaSave className="  mr-2" />
+                          Checkout
+                        </h2>
+                      </span>
+                    </Button>
+                  </div>
+                </div>
+              </Form>
+            </div>
             <div className="w-96 flex flex-col gap-4">
               <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
               <div>
@@ -235,18 +450,20 @@ const Cart = () => {
                   </span>
                 </p>
               </div>
-              <div className="flex justify-end">
-                {/* <Link to="/paymentgateway"> */}
-                {/* <Link to=`payment` > */}
-                <button
-                  disabled={loading}
-                  onClick={makepayment}
-                  className="w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300"
-                >
-                  {loading ? "Processing..." : "Proceed to Checkout"}
-                </button>
-                {/* </Link> */}
-                {/* <NavLink
+              {!checkoutform && (
+                <div className="flex justify-end">
+                  {/* <Link to="/paymentgateway"> */}
+                  {/* <Link to=`payment` > */}
+                  <button
+                    disabled={loading}
+                    // onClick={makepayment}
+                    onClick={handleopencheckoutform}
+                    className="w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300"
+                  >
+                    {loading ? "Processing..." : "Proceed to Checkout"}
+                  </button>
+                  {/* </Link> */}
+                  {/* <NavLink
                   className={({ isActive }) => {
                     return isActive
                       ? "w-full text-[#1D6F2B] hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-md  font-semibold hidden md:inline-block py-1"
@@ -256,7 +473,8 @@ const Cart = () => {
                 >
                   Proceed to Checkout
                 </NavLink> */}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

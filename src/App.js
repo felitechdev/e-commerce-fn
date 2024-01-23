@@ -25,6 +25,7 @@ import { GetMyprofile } from "./APIs/UserAPIs";
 import { FeliTechLogo_transparent, FeliTechWhiteLogo } from "./assets/images";
 import Paymentpage from "./pages/Payment/payment";
 import PaymentDone from "./pages/Payment/payment";
+import CustomerOrders from "./pages/orders/orders";
 
 const App = () => {
   const [user, setUser] = useState();
@@ -123,6 +124,7 @@ const App = () => {
               {/* <Route path="profile" element={<SellerProfile />}></Route> */}
               <Route path="myAccount" element={<ProfileLayout />}>
                 <Route path="profile" element={<SellerProfile />}></Route>
+                <Route path="orders" element={<CustomerOrders />}></Route>
               </Route>
               <Route path="payment" element={<PaymentDone />}></Route>
             </Route>
