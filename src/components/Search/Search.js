@@ -2,11 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import { paginationItems } from "../../constants";
-
+import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../../APIs/Product";
 export const Search = () => {
   const [showCategories, setShowCategories] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
   const ref = useRef();
+  const { product, status, err } = useSelector((state) => state.product);
   useEffect(() => {
     document.body.addEventListener("click", (e) => {
       if (ref.current !== null && ref.current.contains(e.target) === false) {
@@ -16,8 +21,10 @@ export const Search = () => {
   }, []);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [productstate, setProductstate] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSearch = (e) => {
     const query = e.target.value.trim().toLowerCase();
@@ -31,9 +38,81 @@ export const Search = () => {
       const filtered = paginationItems.filter((item) =>
         item.productName.toLowerCase().includes(query)
       );
-      setFilteredProducts(filtered);
+      let prod =
+        (productstate &&
+          productstate.length > 0 &&
+          productstate.filter((item) =>
+            item.name.toLowerCase().includes(query)
+          )) ||
+        [];
+      setFilteredProducts(prod);
     }
   };
+
+  const currentPathName = location.pathname;
+
+  // move to product on search
+  const handleProductDetails = (id) => {
+    const separatedRoute = currentPathName.split("/");
+    if (separatedRoute[1] === "accounts") {
+      navigate("/accounts/product", {
+        state: {
+          productId: id,
+        },
+      });
+    } else {
+      navigate("/product", {
+        state: {
+          productId: id,
+        },
+      });
+    }
+  };
+
+  let prod =
+    (productstate &&
+      productstate.length > 0 &&
+      productstate.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )) ||
+    [];
+
+  useEffect(() => {
+    const filtered = paginationItems.filter((item) =>
+      item.productName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setFilteredProducts(prod);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchProducts())
+        .unwrap()
+        .then((data) => {
+          setProductstate(data);
+          if (data) {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {});
+    }
+  }, [status, dispatch]);
+
+  // Fetch user only when the component mounts
+  useEffect(() => {
+    if (!productstate.length) {
+      dispatch(fetchProducts())
+        .unwrap()
+        .then((data) => {
+          setProductstate(data);
+          if (data) {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {});
+    }
+  }, [dispatch, productstate]);
 
   return (
     <div className="relative w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl border-[2px]">
@@ -54,47 +133,53 @@ export const Search = () => {
             ? filteredProducts.map((item) => (
                 <div
                   onClick={() => {
-                    navigate(`/product/${item.productName.toLowerCase().split(" ").join("")}`, {
-                      state: {
-                        item: item,
-                      },
-                    });
+                    handleProductDetails(item.id);
                     setShowCategories(true);
                     setShowSearchBar(true);
                     setSearchQuery("");
                   }}
-                  key={item._id}
+                  key={item.id}
                   className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3"
                 >
-                  <img className="w-24" src={item.img} alt="productImg" />
+                  <img
+                    className="w-24"
+                    src={item?.productImages?.productThumbnail?.url}
+                    alt="productImg"
+                  />
                   <div className="flex flex-col gap-1">
-                    <p className="font-semibold text-lg">{item.productName}</p>
-                    <p className="text-xs">{item.des}</p>
+                    <p className="font-semibold text-lg">{item.name}</p>
+                    <p className="text-xs">{item.description}</p>
                     <p className="text-sm">
-                      Price: <span className="text-primeColor font-semibold">${item.price}</span>
+                      Price:{" "}
+                      <span className="text-primeColor font-semibold">
+                        ${item.price}
+                      </span>
                     </p>
                   </div>
                 </div>
               ))
-            : paginationItems.map((item) => (
+            : filteredProducts.map((item) => (
                 <div
                   onClick={() => {
-                    navigate(`/product/${item.productName.toLowerCase().split(" ").join("")}`, {
-                      state: {
-                        item: item,
-                      },
-                    });
+                    handleProductDetails(item.id);
                     setShowCategories(true);
                   }}
                   key={item._id}
                   className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3"
                 >
-                  <img className="w-24" src={item.img} alt="productImg" />
+                  <img
+                    className="w-24"
+                    src={item?.productImages?.productThumbnail?.url}
+                    alt="productImg"
+                  />
                   <div className="flex flex-col gap-1">
-                    <p className="font-semibold text-lg">{item.productName}</p>
-                    <p className="text-xs">{item.des}</p>
+                    <p className="font-semibold text-lg">{item.name}</p>
+                    <p className="text-xs">{item.description}</p>
                     <p className="text-sm">
-                      Price: <span className="text-primeColor font-semibold">${item.price}</span>
+                      Price:{" "}
+                      <span className="text-primeColor font-semibold">
+                        ${item.price}
+                      </span>
                     </p>
                   </div>
                 </div>

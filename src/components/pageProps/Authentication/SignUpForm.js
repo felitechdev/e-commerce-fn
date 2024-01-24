@@ -174,7 +174,6 @@ const SignUpForm = (props) => {
         });
     }
   };
-  console.log("Loading", loading);
 
   const handleGoogleSignUp = (e) => {
     e.preventDefault();
@@ -399,12 +398,12 @@ const SignUpForm = (props) => {
             <hr className="inline-block w-[40%] align-middle"></hr>
           </div>
 
-          <button
+          {/* <button
             className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
             onClick={handleGoogleSignUp}
           >
             <img src={googelIcon} className="w-[20px]" /> Signup with Google
-          </button>
+          </button> */}
           <p className="text-sm text-center font-titleFont font-medium">
             Already have an account?{" "}
             <a

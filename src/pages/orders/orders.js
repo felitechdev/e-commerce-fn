@@ -110,7 +110,7 @@ const CustomerOrders = () => {
     <>
       <div className="bg-white border shadow-lg rounded-md w-full min-h-[500px] pb-3">
         <div className="rounded-t-md flex justify-between space-x-3 font-normal pl-0  px-0 text-xl h-14">
-          <div className="flex justify-between w-full  h-full cursor-pointer">
+          <div className="flex justify-between w-full font-semibold text-base h-full cursor-pointer">
             <div
               className={`text-center flex items-center justify-center  flex-grow h-full ${
                 activeTab === "All"

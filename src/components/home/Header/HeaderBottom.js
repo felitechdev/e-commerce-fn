@@ -6,12 +6,15 @@ import MenuIconWhite from "../../../assets/images/menu-white.png";
 import { FaSearch } from "react-icons/fa";
 import Flex from "../../designLayouts/Flex";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { paginationItems } from "../../../constants";
+import { fetchProducts } from "../../../APIs/Product";
+import { useLocation } from "react-router-dom";
 
 const HeaderBottom = () => {
   const [showCategories, setShowCategories] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const ref = useRef();
   useEffect(() => {
     document.body.addEventListener("click", (e) => {
@@ -25,6 +28,43 @@ const HeaderBottom = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
+  const [products, setProducts] = useState([]);
+  const [productstate, setProductstate] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { product, status, err } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
+
+  const currentPathName = location.pathname;
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchProducts())
+        .unwrap()
+        .then((data) => {
+          setProductstate(data);
+          if (data) {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {});
+    }
+  }, [status, dispatch]);
+
+  // Fetch user only when the component mounts
+  useEffect(() => {
+    if (!productstate.length) {
+      dispatch(fetchProducts())
+        .unwrap()
+        .then((data) => {
+          setProductstate(data);
+          if (data) {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {});
+    }
+  }, [dispatch, productstate]);
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -33,16 +73,43 @@ const HeaderBottom = () => {
     return setShowCategories(!showCategories);
   };
 
+  // move to product on search
+  const handleProductDetails = (id) => {
+    const separatedRoute = currentPathName.split("/");
+    if (separatedRoute[1] === "accounts") {
+      navigate("/accounts/product", {
+        state: {
+          productId: id,
+        },
+      });
+    } else {
+      navigate("/product", {
+        state: {
+          productId: id,
+        },
+      });
+    }
+  };
+
+  let prod =
+    (productstate &&
+      productstate.length > 0 &&
+      productstate.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )) ||
+    [];
+
   useEffect(() => {
     const filtered = paginationItems.filter((item) =>
       item.productName.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredProducts(filtered);
+
+    setFilteredProducts(prod);
   }, [searchQuery]);
-  // change i made
+
   return (
     // <div className="hidden md:block w-full bg-[#F5F5F3] relative">
-    <div className="hidden md:block w-full relative">
+    <div className="hidden md:block w-full relative  ">
       <div className="max-w-container mx-auto">
         <Flex className="flex pt-5  lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
           <div
@@ -101,7 +168,7 @@ const HeaderBottom = () => {
               value={searchQuery}
               placeholder="Search your products here"
             />
-            <FaSearch className="w-5 h-5" />
+            <FaSearch className="w-5 h-5 " />
             {searchQuery && (
               <div
                 className={`w-full mx-auto h-96 bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}
@@ -110,33 +177,36 @@ const HeaderBottom = () => {
                   filteredProducts.map((item) => (
                     <div
                       onClick={() =>
-                        navigate(
-                          `/product/${item.productName
-                            .toLowerCase()
-                            .split(" ")
-                            .join("")}`,
-                          {
-                            state: {
-                              item: item,
-                            },
-                          }
-                        ) &
+                        // navigate(
+                        //   `/product/${item.id
+                        //     .toLowerCase()
+                        //     .split(" ")
+                        //     .join("")}`,
+                        //   {
+                        //     state: {
+                        //       item: item,
+                        //     },
+                        //   }
+                        // ) &
+                        handleProductDetails(item.id) &
                         setShowSearchBar(true) &
                         setSearchQuery("")
                       }
-                      key={item._id}
+                      key={item.id}
                       className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3"
                     >
-                      <img className="w-24" src={item.img} alt="productImg" />
+                      <img
+                        className="w-24"
+                        src={item?.productImages?.productThumbnail?.url}
+                        alt="productImg"
+                      />
                       <div className="flex flex-col gap-1">
-                        <p className="font-semibold text-lg">
-                          {item.productName}
-                        </p>
-                        <p className="text-xs">{item.des}</p>
+                        <p className="font-semibold text-lg">{item.name}</p>
+                        <p className="text-xs">{item.description}</p>
                         <p className="text-sm">
                           Price:{" "}
                           <span className="text-primeColor font-semibold">
-                            ${item.price}
+                            {/* ${item.price} */}
                           </span>
                         </p>
                       </div>

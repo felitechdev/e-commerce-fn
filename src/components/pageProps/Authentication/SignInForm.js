@@ -73,7 +73,6 @@ const SignInForm = (props) => {
         data: userData,
       })
         .then((result) => {
-          console.log("login result ", result);
           if (result.status === 200) {
             setEmail("");
             setPassword("");
@@ -91,7 +90,6 @@ const SignInForm = (props) => {
           }
         })
         .catch((err) => {
-          console.log("error on login ", err);
           let error = "";
           if (err.status)
             error = {
@@ -114,13 +112,13 @@ const SignInForm = (props) => {
     }
   };
 
-  const handleGoogleSignIn = (e) => {
-    e.preventDefault();
-    return window.open(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
-      "_self"
-    );
-  };
+  // const handleGoogleSignIn = (e) => {
+  //   e.preventDefault();
+  //   return window.open(
+  //     `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google`,
+  //     "_self"
+  //   );
+  // };
 
   useEffect(() => {
     if (signInError !== "") {
@@ -218,18 +216,18 @@ const SignInForm = (props) => {
               Sign up
             </span>
           </p>
-          <div className="ml-[5%] text-center">
+          {/* <div className="ml-[5%] text-center">
             <hr className="inline-block w-[30%] align-middle"></hr>
             <span className="inline-block mx-4">or</span>
             <hr className="inline-block w-[30%] align-middle"></hr>
-          </div>
-          <button
+          </div> */}
+          {/* <button
             className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base 
                   font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
             onClick={handleGoogleSignIn}
           >
             <img src={googelIcon} className="w-[20px]" /> Sign in with Google
-          </button>
+          </button> */}
         </div>
       </div>
     </form>

@@ -77,8 +77,6 @@ const Header = (props) => {
     }
   }, [profile]);
 
-  console.log("account", props.userInfo);
-
   let headerIconStyles =
     "ml-2  inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5";
   return (
@@ -178,10 +176,10 @@ const Header = (props) => {
             </ul>
           )}
           {search && (
-            <div className="absolute top-0 w-full h-screen bg-[#000000a3] p-3 z-20 flex gap-2">
+            <div className="absolute top-0 w-full h-screen  bg-[#000000a3] p-3 z-20 flex gap-2">
               <Search />
               <FaTimes
-                className="w-[3rem] h-[3rem] cursor-pointer bg-white rounded-full border border-gray p-2"
+                className="w-[3rem] h-[3rem] cursor-pointer   rounded-full border border-gray p-2"
                 onClick={() => setSearch(false)}
               />
             </div>

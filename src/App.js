@@ -51,27 +51,27 @@ const App = () => {
     (state) => state.userReducer.userInfo.profile
   );
 
-  const checkForGoogleUserInfo = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      sessionStorage.setItem("token", response.data.token);
+  // const checkForGoogleUserInfo = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${process.env.REACT_APP_BACKEND_SERVER_URL}/auth/google/success`,
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     sessionStorage.setItem("token", response.data.token);
 
-      Dispatch(logIn({ profile: response.data.user, logInType: "ByGoogle" }));
-    } catch (error) {
-      console.log({ error: error });
-    }
-  };
-  useEffect(() => {
-    checkForGoogleUserInfo();
-  }, []);
+  //     Dispatch(logIn({ profile: response.data.user, logInType: "ByGoogle" }));
+  //   } catch (error) {
+  //     console.log({ error: error });
+  //   }
+  // };
+  // useEffect(() => {
+  //   checkForGoogleUserInfo();
+  // }, []);
 
   useEffect(() => {
     if (loadprofile == true) {
