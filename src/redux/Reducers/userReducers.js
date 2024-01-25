@@ -3,7 +3,7 @@ import { GetMyprofile } from "../../APIs/UserAPIs";
 import { Updateprofile } from "../../APIs/UserAPIs";
 import { GetMyprofilebyId } from "../../APIs/UserAPIs";
 import { UpdateprofileInage } from "../../APIs/UserAPIs";
-
+import { Updateprofilenames } from "../../APIs/UserAPIs";
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const initialState = {
@@ -108,7 +108,32 @@ const updateprofileImage = createSlice({
   },
 });
 
+const updateprofilenames = createSlice({
+  name: "updateuserinfo",
+  initialState: {
+    userenameupdate: null,
+    loadusername: false,
+    errusername: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(Updateprofilenames.pending, (state, action) => {
+        state.loadusername = true;
+      })
+      .addCase(Updateprofilenames.fulfilled, (state, action) => {
+        state.loadusername = false;
+        state.userenameupdate = action.payload;
+      })
+      .addCase(Updateprofilenames.rejected, (state, action) => {
+        state.loadusername = false;
+        state.errusername = action.error;
+      });
+  },
+});
+
 export const updateprofileImageReducer = updateprofileImage.reducer;
 export const ViewprofileReducer = viewprofile.reducer;
 export const updateprofileReducer = updateprofile.reducer;
 export const getProfileReducer = getprofile.reducer;
+export const updateprofilenamesReducer = updateprofilenames.reducer;

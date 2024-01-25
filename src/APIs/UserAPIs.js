@@ -70,6 +70,38 @@ export const Updateprofile = createAsyncThunk(
   }
 );
 
+export const Updateprofilenames = createAsyncThunk(
+  "profile/updateinfo",
+  async ({ data, token }, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/profile-data`,
+        method: "PATCH",
+        headers: {
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          "content-type": "application/json",
+        },
+        data: data,
+      });
+      console.log("response on update", response);
+      if (response?.data && response.status == 201) {
+        return response?.data;
+      } else {
+        // Handle unexpected
+        return rejectWithValue({
+          status: response.status,
+          message: response?.data?.data,
+        });
+      }
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response.status,
+        message: err.response?.data?.message,
+      });
+    }
+  }
+);
+
 export const UpdateprofileInage = createAsyncThunk(
   "profile/updateprofile",
   async ({ data, token }, { rejectWithValue }) => {

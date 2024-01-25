@@ -25,6 +25,7 @@ const Cart = () => {
   const userInfo = useSelector((state) => state.userReducer.userInfo);
   const userCart = userInfo.cart;
   const productsCart = useSelector((state) => state.productsReducer.products);
+
   const [cartItems, setCartItems] = useState(() => {
     if (userInfo && Object.keys(userInfo.profile).length > 0) {
       return userCart;
@@ -155,13 +156,11 @@ const Cart = () => {
           },
         }
       );
-
       if (res.data.status === "success") {
         setLoadng(false);
         handleclearCart();
         setIspaymentsucces(true);
       }
-
       window.open(res.data.data.link);
     } catch (error) {
       console.log(error);
@@ -301,7 +300,7 @@ const Cart = () => {
                       render={({ field }) => (
                         <>
                           <Form.Item label="Country" className="w-[48%]">
-                            <Input {...field} placeholder="Enter Last Name" />
+                            <Input {...field} placeholder="Country" />
                             <p className="text-[red]">
                               {errors?.Country?.message}
                             </p>
@@ -318,11 +317,7 @@ const Cart = () => {
                       render={({ field }) => (
                         <>
                           <Form.Item label="City" className="w-[48%]">
-                            <Input
-                              {...field}
-                              type="text"
-                              placeholder="Enter Email"
-                            />
+                            <Input {...field} type="text" placeholder="City" />
                             <p className="text-[red]">
                               {errors?.City?.message}
                             </p>
@@ -408,9 +403,11 @@ const Cart = () => {
 
                     <Button
                       // onClick={props.onOk}
+                      disabled={loading}
                       htmlType="submit"
                       style={{
-                        background: "#1D6F2B",
+                        opcity: { loading } ? "0.2" : "",
+                        backgroundColor: "#1D6F2B",
                         color: "#FFFFFF",
                         fontWeight: "bold",
                         marginTop: "20px",
@@ -421,7 +418,8 @@ const Cart = () => {
                       <span className="flex">
                         <h2 className=" flex  items-center justify-center ">
                           <FaSave className="  mr-2" />
-                          Checkout
+
+                          {loading ? "Processing..." : " Checkout"}
                         </h2>
                       </span>
                     </Button>
