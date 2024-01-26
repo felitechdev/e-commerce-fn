@@ -83,15 +83,7 @@ const CompanyModel = (props) => {
       payload.bankAccount.accountHolderName = values.accountHolderName;
     }
 
-    const fields = [
-      "firstName",
-      "lastName",
-      "email",
-      "companyName",
-      "companyEmail",
-      "website",
-      "cardNumber",
-    ];
+    const fields = ["companyName", "companyEmail", "website", "cardNumber"];
 
     fields.forEach((field) => {
       if (values[field]) {
@@ -171,9 +163,6 @@ const CompanyModel = (props) => {
 
   useEffect(() => {
     // Update form values if profileview changes
-    setValue("firstName", userprofile?.firstName || "");
-    setValue("lastName", userprofile?.lastName || "");
-    setValue("email", userprofile?.email || "");
     setValue("companyName", props.profileview?.companyName || "");
     setValue("phoneNumber", props.profileview?.phoneNumber || "");
     setValue("companyEmail", props.profileview?.companyEmail || "");
@@ -225,51 +214,6 @@ const CompanyModel = (props) => {
           onFinish={handleSubmit(onFinish, onErrors)}
           initialValues={userprofile}
         >
-          <div className="flex justify-between space-x-2 ">
-            <Controller
-              control={control}
-              name="firstName"
-              rules={{ required: "First Name is required" }}
-              defaultValue={userprofile?.firstName || ""}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="First Name" className="w-[48%] ">
-                    <Input {...field} placeholder="Enter First Name" />
-                    <p className="text-[red]">{errors?.firstName?.message}</p>
-                  </Form.Item>
-                </>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="lastName"
-              rules={{ required: "Last Name is required" }}
-              defaultValue={userprofile?.lastName || ""}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Last Name" className="w-[48%]">
-                    <Input {...field} placeholder="Enter Last Name" />
-                    <p className="text-[red]">{errors?.lastName?.message}</p>
-                  </Form.Item>
-                </>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="email"
-              rules={{}}
-              defaultValue={profile ? userprofile?.email : ""}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Personal Email" className="w-[48%]">
-                    <Input {...field} type="text" placeholder="Enter Email" />
-                  </Form.Item>
-                </>
-              )}
-            />
-          </div>
           <h1 className=" font-bold">Business Info</h1> <hr className="h-2 " />
           <div className="flex justify-between space-x-2 ">
             <Controller

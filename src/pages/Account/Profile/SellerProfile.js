@@ -11,14 +11,17 @@ import { GetMyprofilebyId } from "../../../APIs/UserAPIs";
 import { ImageUpload } from "../../../components/profile/photoupdate/Updateimage";
 import Cookies from "js-cookie";
 import { LoaderComponent } from "../../../components/Loaders/Getloader";
+import PersonalInfoModel from "./userinfo";
 
 const SellerProfile = () => {
   const [user, setUser] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userprofile, setUserprofile] = useState();
   const [profileview, setProfileview] = useState();
+
   const [loading, setLoading] = useState(false);
   const [openmodel, setOpenmodel] = useState(false);
+  const [usenameopenmodel, setUsernameopenmodel] = useState(false);
 
   const { profile, loadprofile, errprofile } = useSelector(
     (state) => state.userprofile
@@ -34,10 +37,8 @@ const SellerProfile = () => {
     (state) => state.viewprofile
   );
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
   const handleCancel = () => {
+    setUsernameopenmodel(false);
     setIsModalOpen(false);
   };
 
@@ -45,8 +46,15 @@ const SellerProfile = () => {
     setOpenmodel(true);
   };
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const showusernamemodel = () => {
+    setUsernameopenmodel(true);
+  };
+
   const handleupdateprofileModel = (state) => {
-    console.log("state", state);
     setOpenmodel(state);
   };
 
@@ -66,6 +74,11 @@ const SellerProfile = () => {
   const handleupdatestateProfile = (data) => {
     setLoading(true);
     setProfileview((prevProfileview) => ({
+      ...prevProfileview,
+      ...data,
+    }));
+
+    setUserprofile((prevProfileview) => ({
       ...prevProfileview,
       ...data,
     }));
@@ -156,10 +169,29 @@ const SellerProfile = () => {
           </div>
 
           {userprofile != null && userprofile.role == "customer" ? (
-            <div className="flex space-x-2 cursor-pointer font-bold  text-primary ">
-              <RiEdit2Fill size={25} />
-              <h1>Edit My Profile</h1>
-            </div>
+            <>
+              {/* <CompanyModel
+                isModalOpen={isModalOpen}
+                handleCancel={handleCancel}
+                profileview={profileview}
+                andleupdatestateProfile={handleupdatestateProfile}
+              /> */}
+
+              <PersonalInfoModel
+                isModalOpen={usenameopenmodel}
+                handleCancel={handleCancel}
+                profileview={userprofile}
+                andleupdatestateProfile={handleupdatestateProfile}
+              />
+
+              <div
+                className="flex space-x-2 cursor-pointer font-bold  text-primary "
+                onClick={showusernamemodel}
+              >
+                <RiEdit2Fill size={25} />
+                <h1>Edit My Profile</h1>
+              </div>
+            </>
           ) : (
             <div
               className="flex space-x-2 cursor-pointer  text-primary font-bold"
@@ -195,6 +227,24 @@ const SellerProfile = () => {
                   </span>{" "}
                   {userprofile.lastName}
                 </h1>
+
+                {userprofile != null && userprofile.role !== "customer" && (
+                  <>
+                    <PersonalInfoModel
+                      isModalOpen={usenameopenmodel}
+                      handleCancel={handleCancel}
+                      profileview={userprofile}
+                      andleupdatestateProfile={handleupdatestateProfile}
+                    />
+                    <h1
+                      className="flex ml-0 mt-1 cursor-pointer "
+                      onClick={showusernamemodel}
+                    >
+                      <RiEdit2Fill size={25} />
+                      Edit{" "}
+                    </h1>
+                  </>
+                )}
               </div>
 
               <div className="w-[10%]">
@@ -211,118 +261,119 @@ const SellerProfile = () => {
             </div>
 
             <hr className=" mt-4" />
-            <div className=" pl-10 mt-1  ">
-              <h1 className=" font-bold text-2xl underline mb-3">
-                {" "}
-                <EyeFilled size={25} className="  mr-2 " /> View More
-                Information
-              </h1>
 
-              {profileview && (
-                <Row gutter={[16, 16]}>
-                  <Col span={8}>
-                    <span className="text-border font-bold text-xl">
-                      companyEmail:{" "}
-                    </span>
-                    <h1 className="font-bold">
-                      {profileview.companyEmail && profileview.companyEmail}
-                    </h1>
-                  </Col>
-                  <Col span={8}>
-                    <span className="text-border font-bold text-xl">
-                      companyName:{" "}
-                    </span>
-                    <h1 className="font-bold">
-                      {profileview.companyName && profileview.companyName}
-                    </h1>
-                  </Col>
-                  <Col span={8}>
-                    <span className="text-border font-bold text-xl">
-                      phoneNumber:{" "}
-                    </span>
-                    <h1 className="font-bold">
-                      {profileview.phoneNumber && profileview.phoneNumber}
-                    </h1>
-                  </Col>
-                  <Col span={8}>
-                    <span className="text-border font-bold text-xl">
-                      website:{" "}
-                    </span>
-                    <h1 className="font-bold  disabled:bg-black">
-                      <a
-                        className="bg-primary rounded-sm p-1 text-white"
-                        href={profileview.website && profileview.website}
-                      >
-                        {" "}
-                        visit website
-                      </a>
-                    </h1>
-                  </Col>
+            {userprofile != null && userprofile.role !== "customer" && (
+              <div className=" pl-10 mt-1  ">
+                <h1 className=" text-border font-bold text-2xl underline mb-3">
+                  More Information
+                </h1>
 
-                  {profileview.bankAccount && (
-                    <>
-                      <Col span={8}>
-                        <span className="text-border font-bold text-xl">
-                          bank:{" "}
-                        </span>
-                        <h1 className="font-bold">
-                          {profileview.bankAccount.bank &&
-                            profileview.bankAccount.bank}
-                        </h1>
-                      </Col>
-                      <Col span={8}>
-                        <span className="text-border font-bold text-xl">
-                          accountName:{" "}
-                        </span>
-                        <h1 className="font-bold">
-                          {profileview.bankAccount.accountName &&
-                            profileview.bankAccount.accountName}
-                        </h1>
-                      </Col>
-                      <Col span={8}>
-                        <span className="text-border font-bold text-xl">
-                          accountNumber:{" "}
-                        </span>
-                        <h1 className="font-bold">
-                          {profileview.bankAccount.accountNumber &&
-                            profileview.bankAccount.accountNumber}
-                        </h1>
-                      </Col>
-                      <Col span={8}>
-                        <span className="text-border font-bold text-xl">
-                          accountHolderName:{" "}
-                        </span>
-                        <h1 className="font-bold">
-                          {profileview.bankAccount.accountHolderName &&
-                            profileview.bankAccount.accountHolderName}
-                        </h1>
-                      </Col>
-                    </>
-                  )}
+                {profileview && (
+                  <Row gutter={[16, 16]}>
+                    <Col span={8}>
+                      <span className="text-border font-bold text-xl">
+                        companyEmail:{" "}
+                      </span>
+                      <h1 className="font-bold">
+                        {profileview.companyEmail && profileview.companyEmail}
+                      </h1>
+                    </Col>
+                    <Col span={8}>
+                      <span className="text-border font-bold text-xl">
+                        companyName:{" "}
+                      </span>
+                      <h1 className="font-bold">
+                        {profileview.companyName && profileview.companyName}
+                      </h1>
+                    </Col>
+                    <Col span={8}>
+                      <span className="text-border font-bold text-xl">
+                        phoneNumber:{" "}
+                      </span>
+                      <h1 className="font-bold">
+                        {profileview.phoneNumber && profileview.phoneNumber}
+                      </h1>
+                    </Col>
+                    <Col span={8}>
+                      <span className="text-border font-bold text-xl">
+                        website:{" "}
+                      </span>
+                      <h1 className="font-bold  disabled:bg-black">
+                        <a
+                          className="bg-primary rounded-sm p-1 text-white"
+                          href={profileview.website && profileview.website}
+                        >
+                          {" "}
+                          visit website
+                        </a>
+                      </h1>
+                    </Col>
 
-                  <Col span={8}>
-                    <span className="text-border font-bold text-xl">
-                      cardNumber:
-                    </span>
-                    <h1 className="font-bold">
-                      {profileview.cardNumber && profileview.cardNumber}
-                    </h1>
-                  </Col>
-
-                  {profileview.locations &&
-                    profileview.locations.length > 0 && (
-                      <Col span={24}>
-                        <span className="text-border font-bold text-xl">
-                          address:{" "}
-                        </span>
-                        <h1 className="font-bold">
-                          {profileview.locations[0].address}
-                        </h1>
-                      </Col>
+                    {profileview.bankAccount && (
+                      <>
+                        <Col span={8}>
+                          <span className="text-border font-bold text-xl">
+                            bank:{" "}
+                          </span>
+                          <h1 className="font-bold">
+                            {profileview.bankAccount.bank &&
+                              profileview.bankAccount.bank}
+                          </h1>
+                        </Col>
+                        <Col span={8}>
+                          <span className="text-border font-bold text-xl">
+                            accountName:{" "}
+                          </span>
+                          <h1 className="font-bold">
+                            {profileview.bankAccount.accountName &&
+                              profileview.bankAccount.accountName}
+                          </h1>
+                        </Col>
+                        <Col span={8}>
+                          <span className="text-border font-bold text-xl">
+                            accountNumber:{" "}
+                          </span>
+                          <h1 className="font-bold">
+                            {profileview.bankAccount.accountNumber &&
+                              profileview.bankAccount.accountNumber}
+                          </h1>
+                        </Col>
+                        <Col span={8}>
+                          <span className="text-border font-bold text-xl">
+                            accountHolderName:{" "}
+                          </span>
+                          <h1 className="font-bold">
+                            {profileview.bankAccount.accountHolderName &&
+                              profileview.bankAccount.accountHolderName}
+                          </h1>
+                        </Col>
+                      </>
                     )}
-                </Row>
-              )}
-            </div>
+
+                    <Col span={8}>
+                      <span className="text-border font-bold text-xl">
+                        cardNumber:
+                      </span>
+                      <h1 className="font-bold">
+                        {profileview.cardNumber && profileview.cardNumber}
+                      </h1>
+                    </Col>
+
+                    {profileview.locations &&
+                      profileview.locations.length > 0 && (
+                        <Col span={24}>
+                          <span className="text-border font-bold text-xl">
+                            address:{" "}
+                          </span>
+                          <h1 className="font-bold">
+                            {profileview.locations[0].address}
+                          </h1>
+                        </Col>
+                      )}
+                  </Row>
+                )}
+              </div>
+            )}
           </>
         )}
 
