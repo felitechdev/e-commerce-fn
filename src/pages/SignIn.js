@@ -1,13 +1,16 @@
 import React from 'react';
 import SignInForm from '../components/Authentication/SignInForm';
-import AuthLayout from '../components/designLayouts/AuthLayout';
+import PageLayout from '../components/designLayouts/PageLayout';
+import CenterLayout from '../components/designLayouts/CenterLayout';
 
 export default function SignIn() {
   return (
     <>
-      <AuthLayout>
-        <SignInForm />
-      </AuthLayout>
+      <PageLayout>
+        <CenterLayout>
+          <SignInForm />
+        </CenterLayout>
+      </PageLayout>
     </>
   );
 }

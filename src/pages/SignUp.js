@@ -1,11 +1,14 @@
 import React from 'react';
 import SignUpForm from '../components/Authentication/SignUpForm';
-import AuthLayout from '../components/designLayouts/AuthLayout';
+import CenterLayout from '../components/designLayouts/CenterLayout';
+import PageLayout from '../components/designLayouts/PageLayout';
 
 export default function SignUp() {
   return (
-    <AuthLayout>
-      <SignUpForm />
-    </AuthLayout>
+    <PageLayout>
+      <CenterLayout>
+        <SignUpForm />
+      </CenterLayout>
+    </PageLayout>
   );
 }

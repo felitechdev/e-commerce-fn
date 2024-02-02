@@ -144,10 +144,10 @@ const SignInForm = (props) => {
             message={errorAlert.message}
           />
         )}
-        <h1 className='font-titleFont decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4'>
+        <h1 className='font-titleFont decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4 text-center'>
           Sign in
         </h1>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-4'>
           {/* Email */}
           <div className='flex flex-col gap-.5'>
             <p className='font-titleFont text-base font-semibold text-gray-600'>
@@ -170,7 +170,7 @@ const SignInForm = (props) => {
           </div>
 
           {/* Password */}
-          <div className='flex flex-col gap-.5'>
+          <div className='flex flex-col gap-.5 mb-4'>
             <p className='font-titleFont text-base font-semibold text-gray-600'>
               Password
             </p>
@@ -217,18 +217,6 @@ const SignInForm = (props) => {
               Sign up
             </span>
           </p>
-          {/* <div className="ml-[5%] text-center">
-            <hr className="inline-block w-[30%] align-middle"></hr>
-            <span className="inline-block mx-4">or</span>
-            <hr className="inline-block w-[30%] align-middle"></hr>
-          </div> */}
-          {/* <button
-            className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base 
-                  font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
-            onClick={handleGoogleSignIn}
-          >
-            <img src={googelIcon} className="w-[20px]" /> Sign in with Google
-          </button> */}
         </div>
       </div>
     </form>
