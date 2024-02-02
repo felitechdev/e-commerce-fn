@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import Banner from "../../../components/Banner/Banner";
-import NewArrivals from "../../../components/home/ProductsSections/NewArrivals";
-import YearProduct from "../../../components/home/YearProduct/YearProduct";
-import Recommendations from "../../../components/home/ProductsSections/Recommendations";
-import AllProducts from "../../../components/home/AllProducts/AllProducts";
-import CategoryFilteredProducts from "../../../components/home/AllProducts/CategoryFilteredProducts";
+import React, { useState } from 'react';
+import Banner from './Banner/Banner';
+import NewArrivals from './home/ProductsSections/NewArrivals';
+import YearProduct from './home/YearProduct/YearProduct';
+import Recommendations from './home/ProductsSections/Recommendations';
+import AllProducts from './home/AllProducts/AllProducts';
+import CategoryFilteredProducts from './home/AllProducts/CategoryFilteredProducts';
 
-const UserHome = () => {
+const ProductsCategories = () => {
   const [selectedCategory, setSelectedCategory] = useState({
     category: {
       categoryname: null,
@@ -52,7 +52,7 @@ const UserHome = () => {
   };
 
   return (
-    <div className="w-full mx-auto ">
+    <div className='w-full mx-auto '>
       <Banner
         onCategorySelect={handleCategorySelect}
         allcategory={selectedCategory.category.categoryId}
@@ -61,16 +61,16 @@ const UserHome = () => {
       />
       {selectedCategory.category.categoryId ||
       selectedCategory.subcategory.subcategoryId ? (
-        <div className="max-w-container mx-auto px-4">
+        <div className='max-w-container mx-auto px-4'>
           <CategoryFilteredProducts selectedCategory={selectedCategory} />
         </div>
       ) : (
         <>
-          <div className="max-w-container mx-auto px-4">
+          <div className='max-w-container mx-auto px-4'>
             <Recommendations />
           </div>
           <NewArrivals />
-          <div className="max-w-container mx-auto px-4">
+          <div className='max-w-container mx-auto px-4'>
             <AllProducts />
             <YearProduct />
           </div>
@@ -80,4 +80,4 @@ const UserHome = () => {
   );
 };
 
-export default UserHome;
+export default ProductsCategories;
