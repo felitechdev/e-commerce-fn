@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 // import About from './pages/Default/About/About';
 // import Contact from './pages/Default/Contact/Contact';
 import Home from './pages/Home';
@@ -110,6 +110,19 @@ const App = () => {
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/cart' element={<Cart />} />
+        <Route
+          path='user'
+          element={
+            <div>
+              <h1>Header</h1>
+              <Outlet />
+            </div>
+          }
+        >
+          <Route index element={<Navigate replace to='dashboard' />} />
+          <Route path='dashboard' element={<h1>dashboard</h1>} />
+          <Route path='products' element={<h1>Products</h1>} />
+        </Route>
       </Routes>
     </>
   );
