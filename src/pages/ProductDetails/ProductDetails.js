@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import ProductMainInfo from "../../components/pageProps/productDetails/ProductMainInfo";
-import ProductImages from "../../components/pageProps/productDetails/ProductImages";
-import CheckoutDetails from "../../components/pageProps/productDetails/CheckoutDetails";
-import ProductSecondaryInfo from "../../components/pageProps/productDetails/ProductSecondaryInfo";
-import ProductsSection from "../../components/home/Products/ProductsSection";
-import Product from "../../components/home/Products/Product";
-import ProductsSliderContainer from "../../components/home/Products/ProductsSliderContainer";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import CheckoutDetails from './CheckoutDetails';
+import ProductMainInfo from './ProductMainInfo';
+import Product from '../../components/home/Products/Product';
+import ProductsSliderContainer from '../../components/home/Products/ProductsSliderContainer';
+
+import ProductImages from './ProductImages';
+import ProductsSection from '../../components/home/Products/ProductsSection';
+import ProductSecondaryInfo from './ProductSecondaryInfo';
 
 const ProductDetails = () => {
   const location = useLocation();
-  const [prevLocation, setPrevLocation] = useState("");
+  console.log(location);
+  const [prevLocation, setPrevLocation] = useState('');
   const [productInfo, setProductInfo] = useState({});
   // For similar products testing only
   const [apiData, setApiData] = useState([]);
@@ -34,27 +37,27 @@ const ProductDetails = () => {
         setDuplicatedData(duplicated);
         setApiData(data);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error('Error fetching data:', error));
   }, []);
-  console.log("duplicateData", duplicatedData);
+  console.log('duplicateData', duplicatedData);
 
   return (
-    <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
-      <div className="max-w-container mx-auto p-4">
-        <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
-          <div className="flex flex-col gap-14">
-            <div className="flex flex-col mdl:flex-row mdl:flex-wrap gap-12">
+    <div className='w-full mx-auto border-b-[1px] border-b-gray-300'>
+      <div className='max-w-container mx-auto p-4'>
+        <div className='w-full  h-full -mt-5 xl:-mt-8 pb-10'>
+          <div className='flex flex-col gap-14'>
+            <div className='flex flex-col mdl:flex-row mdl:flex-wrap gap-12'>
               <ProductImages productInfo={productInfo} />
               <ProductMainInfo productInfo={productInfo} />
-              <CheckoutDetails productInfo={productInfo} />
+              {/* <CheckoutDetails productInfo={productInfo} /> */}
             </div>
             <ProductSecondaryInfo productInfo={productInfo} />
           </div>
           {/* For testing similar products slider only */}
-          <ProductsSection heading="Similar Products">
+          <ProductsSection heading='Similar Products'>
             <ProductsSliderContainer>
               {duplicatedData.map((product, productIndex) => (
-                <div key={product._id + productIndex} className="px-2 bg-black">
+                <div key={product._id + productIndex} className='px-2 bg-black'>
                   <Product productInfo={product} />
                 </div>
               ))}

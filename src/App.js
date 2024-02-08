@@ -29,6 +29,7 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Cart from './pages/Cart';
+import ProductDetails from './pages/ProductDetails/ProductDetails';
 
 const App = () => {
   // const [user, setUser] = useState();
@@ -110,6 +111,7 @@ const App = () => {
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='product' element={<ProductDetails />} />
         <Route
           path='user'
           element={
