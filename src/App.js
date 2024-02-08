@@ -1,7 +1,7 @@
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 // import About from './pages/Default/About/About';
 // import Contact from './pages/Default/Contact/Contact';
-import Home from './pages/Home';
+import Home from "./pages/Home";
 // import Journal from './pages/Default/Journal/Journal';
 // import Payment from './pages/Default/payment/Payment';
 // import ProductDetails from './pages/Default/ProductDetails/ProductDetails';
@@ -26,11 +26,22 @@ import Home from './pages/Home';
 // import PaymentDone from './pages/Payment/payment';
 // import CustomerOrders from './pages/orders/orders';
 // import SignInForm from './components/pageProps/Authentication/SignInForm';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import Cart from './pages/Cart';
-import ProductDetails from './pages/ProductDetails/Product';
-import Product from './pages/ProductDetails/Product';
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Cart from "./pages/Cart";
+
+import Product from "./pages/ProductDetails/Product";
+
+import { LayoutDesign } from "./dashboard/Layouts/LayoutDesign";
+
+import {
+  Category,
+  Company,
+  Contract,
+  Dashboard,
+  Product,
+  Retailer,
+} from "./dashboard/Components";
 
 const App = () => {
   // const [user, setUser] = useState();
@@ -108,23 +119,19 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='signin' element={<SignIn />} />
-        <Route path='signup' element={<SignUp />} />
-        <Route path='cart' element={<Cart />} />
-        <Route path='products/:id' element={<Product />} />
-        <Route
-          path='user'
-          element={
-            <div>
-              <h1>Header</h1>
-              <Outlet />
-            </div>
-          }
-        >
-          <Route index element={<Navigate replace to='dashboard' />} />
-          <Route path='dashboard' element={<h1>dashboard</h1>} />
-          <Route path='products' element={<h1>Products</h1>} />
+        <Route path="/" element={<Home />} />
+        <Route path="signin" element={<SignIn />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="products/:id" element={<Product />} />
+        <Route path="user" element={<LayoutDesign />}>
+          <Route index element={<Navigate replace to="dashboard" />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="company" element={<Company />} />
+          <Route path="contract" element={<Contract />} />
+          <Route path="product" element={<Product />} />
+          <Route path="retailer" element={<Retailer />} />
+          <Route path="category" element={<Category />} />
         </Route>
       </Routes>
     </>

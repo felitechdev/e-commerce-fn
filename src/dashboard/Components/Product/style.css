@@ -1,0 +1,28 @@
+/* set Editor height */
+.ck-content {
+  height: 7rem;
+}
+
+/* listproduct table row */
+.ant-table-tbody > tr > td {
+  border-bottom: solid 0px rgb(165, 38, 38) !important;
+  padding-left: 10px !important;
+  margin-left: 5px !important;
+}
+
+.gutter-box {
+  padding: 8px 5px;
+  background: #00a0e9;
+}
+
+/* filter product card  */
+.filterOption {
+  font-weight: bold;
+}
+
+.filterOption:hover {
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  background-color: green;
+}
