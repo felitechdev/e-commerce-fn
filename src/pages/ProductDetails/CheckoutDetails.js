@@ -1,17 +1,17 @@
-import { useDispatch } from "react-redux";
-import { addToDefaultCart } from "../../../redux/productsSlice";
-import { addSingleCartItem } from "../../../redux/userSlice";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { addToDefaultCart } from '../../redux/productsSlice';
+import { addSingleCartItem } from '../../redux/userSlice';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const CheckoutDetails = (props) => {
   const [selectedDelivery, setSelectedDelivery] = useState({
     itemvalue: null,
     itemlabel: null,
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [eventDataset, setEventDataset] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  const [eventDataset, setEventDataset] = useState('');
   const defaultCart = useSelector((state) => state.productsReducer.products);
 
   const dispatch = useDispatch();
@@ -38,17 +38,17 @@ const CheckoutDetails = (props) => {
   }, [selectedDelivery]);
 
   const ValidateCartInfo = () => {
-    if (props.cartItemInfo.colorId === "") {
-      setErrorMessage("Please select a product color before proceeding.");
+    if (props.cartItemInfo.colorId === '') {
+      setErrorMessage('Please select a product color before proceeding.');
       return errorMessage;
     } else if (props.cartItemInfo.deliveryFee === undefined) {
-      setErrorMessage("Please select a delivery option before proceeding.");
+      setErrorMessage('Please select a delivery option before proceeding.');
       return errorMessage;
-    } else if (props.cartItemInfo.size === "") {
-      setErrorMessage("Please select a size option before proceeding.");
+    } else if (props.cartItemInfo.size === '') {
+      setErrorMessage('Please select a size option before proceeding.');
       return errorMessage;
     } else if (props.cartItemInfo.quantity === 0) {
-      setErrorMessage("Please select the quantity before proceeding.");
+      setErrorMessage('Please select the quantity before proceeding.');
       return errorMessage;
     } else {
       return true;
@@ -73,10 +73,10 @@ const CheckoutDetails = (props) => {
 
         axios({
           url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/cartitem/create`,
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${sessionStorage.getItem('userToken')}`,
           },
           data: cartItemData,
         })
@@ -139,15 +139,15 @@ const CheckoutDetails = (props) => {
   };
 
   useEffect(() => {
-    setErrorMessage("");
+    setErrorMessage('');
   }, [props.cartItemInfo]);
 
-  console.log("props.DBProductInfo", props.DBProductInfo);
+  console.log('props.DBProductInfo', props.DBProductInfo);
   // change i made
   return (
-    <div className="flex flex-col sml:min-w-[300px] mdl:w-[20%] sml:max-h-[400px] gap-3 border-[2px] p-4 rounded-lg">
+    <div className='flex flex-col sml:min-w-[300px] mdl:w-[20%] sml:max-h-[400px] gap-3 border-[2px] p-4 rounded-lg'>
       <div>
-        <p className="text-base mb-1 block font-semibold">Delivery</p>
+        <p className='text-base mb-1 block font-semibold'>Delivery</p>
 
         {/* {props.DBProductInfo.deliveryInfo.length > 0 && (
           <div className="mb-3">
@@ -176,19 +176,19 @@ const CheckoutDetails = (props) => {
             </div>
           </div>
         )} */}
-        <div className="mb-3">
-          <p className="text-sm inline-block font-normal">
-            Estimated derivery:{" "}
+        <div className='mb-3'>
+          <p className='text-sm inline-block font-normal'>
+            Estimated derivery:{' '}
           </p>
-          <span className="text-sm ml-2">30 - 60 minutes </span>
+          <span className='text-sm ml-2'>30 - 60 minutes </span>
         </div>
-        <hr className="w-full h-[1px] border-0 bg-gray-200 mb-3"></hr>
+        <hr className='w-full h-[1px] border-0 bg-gray-200 mb-3'></hr>
       </div>
       <div>
-        <p className="text-base mb-2 block font-semibold">Quantity</p>
-        <div className="flex flex-row mb-1 gap-2 items-center text-center">
+        <p className='text-base mb-2 block font-semibold'>Quantity</p>
+        <div className='flex flex-row mb-1 gap-2 items-center text-center'>
           <button
-            className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]"
+            className='bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]'
             onClick={() =>
               props.setCartItemInfo(
                 props.cartItemInfo.quantity > 0
@@ -205,11 +205,11 @@ const CheckoutDetails = (props) => {
           >
             -
           </button>
-          <p className="text-sm font-semibold" pattern="[0-9]*">
+          <p className='text-sm font-semibold' pattern='[0-9]*'>
             {props.cartItemInfo.quantity}
           </p>
           <button
-            className="bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]"
+            className='bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]'
             onClick={() =>
               props.setCartItemInfo(
                 props.cartItemInfo.quantity < props.DBProductInfo.stockQuantity
@@ -227,20 +227,20 @@ const CheckoutDetails = (props) => {
             +
           </button>
         </div>
-        <p className="text-xs text-[#00000080] ">
-          {props.DBProductInfo.stockQuantity}{" "}
+        <p className='text-xs text-[#00000080] '>
+          {props.DBProductInfo.stockQuantity}{' '}
           {props.DBProductInfo.quantityParameter} available
         </p>
       </div>
-      <div className="flex flex-col gap-2 mt-8">
-        {errorMessage && <p className="text-red-600 text-xs">{errorMessage}</p>}
+      <div className='flex flex-col gap-2 mt-8'>
+        {errorMessage && <p className='text-red-600 text-xs'>{errorMessage}</p>}
         <button
           onClick={() => handleAddToCart()}
-          className="hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]"
+          className='hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]'
         >
           Add to Cart
         </button>
-        <button className="bg-[#1D6F2B] hover:bg-[#437a4c] text-white cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300">
+        <button className='bg-[#1D6F2B] hover:bg-[#437a4c] text-white cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300'>
           Buy Now
         </button>
       </div>

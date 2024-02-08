@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaYoutube, FaLinkedin, FaGithub } from 'react-icons/fa';
-import FooterListTitle from '../../Footer/FooterListTitle';
-import { paymentCard } from '../../../assets/images';
-import Image from '../../designLayouts/Image';
+
+import { paymentCard } from '../../assets/images';
+import Image from '../designLayouts/Image';
+import FooterListTitle from './FooterListTitle';
 
 const Footer = () => {
   const [emailInfo, setEmailInfo] = useState('');
