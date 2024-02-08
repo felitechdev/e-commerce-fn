@@ -6,13 +6,9 @@ const ProductSecondaryInfo = ({ DBProductInfo }) => {
           <li className='inline-block cursor-pointer  bg-[#E5E5E5] py-[4px] px-[18px]'>
             Description
           </li>
-          {/* <li className="inline-block mr-6 cursor-pointer  hover:text-[#1D6F2B] py-[4px] px-[18px]">Reviews</li>  */}
         </ul>
       </div>
       <div className='border-2 border-t-0 rounded-bl-md rounded-br-md py-3 px-4'>
-        {/* This section should receive the description from the database 
-                which contains html tags passed from the text editor embedded for 
-                inputting the description in product uploading */}
         {DBProductInfo?.description}
         <img src={DBProductInfo?.productImages?.productThumbnail?.url} />
       </div>
