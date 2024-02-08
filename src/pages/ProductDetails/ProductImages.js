@@ -7,11 +7,14 @@ import SignUpForm from '../../components/Authentication/SignUpForm';
 import SignInForm from '../../components/Authentication/SignInForm';
 
 const ProductImages = (props) => {
-  console.log(props);
+  const [activeImage, setActiveIMage] = useState(
+    props.DBProductInfo.productImages.productThumbnail.url
+  );
   const [openModal, setOpenModal] = useState(false);
   const [openForm, setOpenForm] = useState({ signin: true, signup: false });
 
   const handleImageClick = (e) => {
+    setActiveIMage(props.DBProductInfo.productImages.productThumbnail.url);
     props.setCartItemInfo({
       ...props.cartItemInfo,
       imagePreview: e.target.src,
@@ -25,6 +28,10 @@ const ProductImages = (props) => {
       return setOpenModal(true);
     }
   };
+
+  const handleOnSelectImage = (url) => {
+    setActiveIMage(url);
+  };
   return (
     <>
       <div className='mt-4 inline-block w-container lg:w-[35%]'>
@@ -36,22 +43,20 @@ const ProductImages = (props) => {
               onClick={handleAddingToWishlist}
             />
 
-            <img
-              src={props?.cartItemInfo?.imagePreview}
-              className='w-full rounded-md'
-            />
+            <img src={activeImage} className='w-full rounded-md' />
           </div>
           <div className='flex flex-row gap-1'>
             <img
               className='w-[45px] h-[45px] border-[2px] rounded-lg cursor-pointer'
-              src={props.DBProductInfo?.productImages?.productThumbnail.url}
+              src={props.DBProductInfo.productImages.productThumbnail.url}
               onClick={handleImageClick}
             />
             <SmallImagesContainer
-              imagesInfo={props.DBProductInfo?.productImages?.otherImages}
+              imagesInfo={props.DBProductInfo.productImages.otherImages}
               cartItemInfo={props.cartItemInfo}
               setCartItemInfo={props.setCartItemInfo}
               imageCategory={'other-images'}
+              onImageClick={(url) => handleOnSelectImage(url)}
             />
           </div>
         </div>

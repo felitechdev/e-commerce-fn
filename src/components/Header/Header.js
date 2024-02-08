@@ -139,7 +139,7 @@ const Header = (props) => {
                       ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2'
                       : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2';
                   }}
-                  to='shop'
+                  to='/shop'
                   state={{ data: location.pathname.split('/')[1] }}
                   end
                 >
@@ -153,7 +153,7 @@ const Header = (props) => {
                       ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2'
                       : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2';
                   }}
-                  to='about'
+                  to='/about'
                   state={{ data: location.pathname.split('/')[1] }}
                   end
                 >
@@ -363,7 +363,7 @@ const Header = (props) => {
                           ? 'text-[#1D6F2B] hover:text-[#1D6F2B] font-semibold align-middle'
                           : 'hover:text-[#1D6F2B] font-semibold align-middle';
                       }}
-                      to='cart'
+                      to='/cart'
                       state={{ data: location.pathname.split('/')[1] }}
                     >
                       <BsCart3 className={headerIconStyles} size={40} />
