@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Spinner } from '../../assets/images/Spinner.svg';
 
 import Cookies from 'js-cookie';
 import AlertComponent from '../designLayouts/AlertComponent';
-import { logIn } from '../../redux/userSlice';
+import { useUser } from '../../context/UserContex';
 
 const SignInForm = (props) => {
+  const { onLogin } = useUser();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,15 +17,9 @@ const SignInForm = (props) => {
   const [errPassword, setErrPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [errorAlert, setErrorAlert] = useState({ status: false, message: '' });
   const [signInError, setSignInError] = useState('');
-  const Dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  const storeUserInfo = useSelector(
-    (state) => state.userReducer.userInfo.profile
-  );
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -45,7 +39,7 @@ const SignInForm = (props) => {
     setSignInError('');
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (!email) {
       setErrEmail('Enter your email');
       return;
@@ -58,57 +52,45 @@ const SignInForm = (props) => {
     } else if (password.length < 6) {
       setErrPassword('Passwords must be at least 6 characters');
       return;
-    } else {
+    }
+
+    try {
       setLoading(true);
       let userData = {
         email: email,
         password: password,
       };
-
-      axios({
+      const result = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/login`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         data: userData,
-      })
-        .then((result) => {
-          if (result.status === 200) {
-            setEmail('');
-            setPassword('');
-            setLoading(false);
-            Cookies.set('token', result?.data?.token);
-            sessionStorage.setItem('userToken', result?.data?.token);
-            Dispatch(
-              logIn({
-                profile: result?.data?.data?.user,
-                logInType: 'ByEmail',
-              })
-            );
+      });
 
-            navigate('/user', { replace: true });
-          }
-        })
-        .catch((err) => {
-          if (err?.response?.data?.status === 'fail') {
-            setSignInError(err.response.data.message);
-          } else {
-            setSignInError('Unable to sign you in! Try again later.');
-          }
+      if (result.status === 200) {
+        setEmail('');
+        setPassword('');
+        setLoading(false);
+        Cookies.set('token', result?.data?.token);
 
-          setLoading(false);
+        onLogin({
+          ...result.data.data.user,
+          token: result.data.token,
         });
+        navigate('/user', { replace: true });
+      }
+    } catch (err) {
+      if (err?.response?.data?.status === 'fail') {
+        setSignInError(err.response.data.message);
+      } else {
+        setSignInError('Unable to sign you in! Try again later.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (signInError !== '') {
-      setErrorAlert({ status: true, message: signInError });
-    } else {
-      setErrorAlert({ status: false, message: '' });
-    }
-  }, [signInError]);
 
   return (
     <form
@@ -118,12 +100,8 @@ const SignInForm = (props) => {
       }}
     >
       <div className='px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin'>
-        {errorAlert.status && (
-          <AlertComponent
-            color='failure'
-            type='Error!'
-            message={errorAlert.message}
-          />
+        {signInError && (
+          <AlertComponent color='failure' type='Error!' message={signInError} />
         )}
         <h1 className='font-titleFont decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4 text-center'>
           Sign in
