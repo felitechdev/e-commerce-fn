@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/charts": "^1.4.2",
+    "@ant-design/cssinjs": "^1.18.0-alpha.0",
+    "@ckeditor/ckeditor5-build-classic": "^40.0.0",
+    "@ckeditor/ckeditor5-react": "^6.1.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -18,6 +22,7 @@
     "flowbite-react": "^0.6.4",
     "framer-motion": "^8.0.2",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
@@ -39,6 +44,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "engines": {
+    "node": ">=18.13.0"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -58,8 +66,11 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "autoprefixer": "^10.4.13",
+    "customize-cra": "^1.0.0",
     "postcss": "^8.4.20",
+    "react-app-rewired": "^2.2.1",
     "tailwindcss": "^3.2.4"
   }
 }
