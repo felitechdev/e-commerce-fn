@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import React, { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext();
@@ -10,6 +11,7 @@ function UserProvider({ children }) {
   }
 
   function onLogout() {
+    Cookies.remove('token');
     setUser(null);
   }
 
