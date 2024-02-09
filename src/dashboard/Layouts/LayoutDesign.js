@@ -10,13 +10,11 @@ import { useSelector } from "react-redux";
 import { Layout, Menu, Button, Dropdown, Space, Avatar } from "antd";
 import { MenuProps } from "antd";
 import { NavLink } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Menus } from "../Common";
 import Cookies from "js-cookie";
 
 const { Header, Sider, Content } = Layout;
-
-// Create a context to manage the dynamic title
 
 const TitleContext = React.createContext();
 
@@ -30,30 +28,49 @@ export const LayoutDesign = ({ userprofile }) => {
     (state) => state.userprofile
   );
 
+  console.log("fffffff", profile, errprofile);
+
   // State to hold the dynamic title
   const [dynamicTitle, setDynamicTitle] = React.useState("Dashboard");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (
+      errprofile &&
+      (errprofile.message === "jwt expired, Please login again" ||
+        errprofile.message === "jwt malformed, Please login again")
+    ) {
+      Cookies.remove("token");
+      navigate("/");
+    }
+  }, [errprofile, navigate]);
+  const titles = {
+    0: "Dashboard",
+    1: "Seller",
+    2: "Contract",
+    3: "Categories",
+    4: "Orders",
+    5: "Products",
+    6: "Profile",
+    7: "Logout",
+  };
   // Function to handle menu item click and update title
   const handleMenuClick = (menuItem) => {
-    const titles = {
-      0: "Dashboard",
-      1: "Company",
-      2: "Contract",
-      3: "Products",
-      4: "Retailers",
-    };
-
     // Update the dynamic title based on the selected menu item
     setDynamicTitle(titles[menuItem.key]);
+    localStorage.setItem("selectedKey", menuItem.key);
   };
 
-  const userRole = userprofile?.role || "other";
+  let selectedKey = localStorage.getItem("selectedKey");
+
+  const userRole = profile && profile?.data?.user?.role;
 
   const items = [
     {
       key: "1",
-      label: <Space className="pr-6 py-[.5rem]">Your Profile</Space>,
+      label: <Space className="pr-6 py-[.5rem]">view Profile</Space>,
       icon: <UserOutlined className="pl-4" />,
     },
     {
@@ -63,20 +80,20 @@ export const LayoutDesign = ({ userprofile }) => {
     },
   ];
 
-  // useEffect(() => {
-  //   if (
-  //     errprofile &&
-  //     (errprofile.message === "jwt expired, Please login again" ||
-  //       errprofile.message === "jwt malformed, Please login again")
-  //   ) {
-  //     Cookies.remove("token");
-  //     // Navigate to the login page
-  //     navigate("/");
-  //   }
-  // }, [errprofile, navigate]);
+  useEffect(() => {
+    if (
+      errprofile &&
+      (errprofile.message === "jwt expired, Please login again" ||
+        errprofile.message === "jwt malformed, Please login again")
+    ) {
+      Cookies.remove("token");
+
+      navigate("/");
+    }
+  }, [errprofile, navigate]);
 
   return (
-    <TitleContext.Provider value={dynamicTitle}>
+    <TitleContext.Provider value={titles[selectedKey]}>
       <Layout style={{ minHeight: "100vh", backgroundColor: "red" }}>
         <Sider
           // className="sticky top-0 h-screen bg-[#FFF]"
@@ -98,7 +115,7 @@ export const LayoutDesign = ({ userprofile }) => {
           <Menu
             theme="light"
             mode="inline"
-            defaultSelectedKeys={["0"]}
+            defaultSelectedKeys={[selectedKey]}
             onClick={handleMenuClick}
             className="font-bold text-primary"
           >
@@ -106,7 +123,7 @@ export const LayoutDesign = ({ userprofile }) => {
               return (
                 item.roles.includes(userRole) && (
                   <Menu.Item key={index} icon={item.icon}>
-                    <NavLink to={`/dashboard${item.link}`}>{item.name}</NavLink>
+                    <NavLink to={`/user/${item.link}`}>{item.name}</NavLink>
                   </Menu.Item>
                 )
               );
@@ -131,12 +148,12 @@ export const LayoutDesign = ({ userprofile }) => {
             </div>
             <Dropdown menu={{ items }} placement="bottomLeft" arrow>
               <Space wrap size={16}>
-                {userprofile?.photo == "default.jpg" ? (
+                {profile && profile?.data?.user?.photo == "default.jpg" ? (
                   <Avatar shape="square" size={50} icon={<UserOutlined />} />
                 ) : (
                   <>
                     <img
-                      src={`${userprofile?.photo}`}
+                      src={`${profile && profile?.data?.user?.photo}`}
                       className="h-14 w-14 rounded-full mt-1 mb-1 "
                       alt="admin"
                     />

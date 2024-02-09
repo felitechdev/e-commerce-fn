@@ -19,7 +19,7 @@ import { useState, useEffect, useRef } from "react";
 import { OrderTable } from "./OrdersTable";
 
 // import actions
-import { fetchProducts } from "../../Apis/Product";
+import { fetchadminproduct } from "../../Apis/Product";
 import { Loader } from "../Loader/LoadingSpin";
 
 import Cookies from "js-cookie";
@@ -45,7 +45,9 @@ export const Dashboard = () => {
 
   // redux
   const dispatch = useDispatch();
-  const { product, status, err } = useSelector((state) => state.adminProduct);
+  const { dashproduct, status, err } = useSelector(
+    (state) => state.adminProduct
+  );
   const { user, load } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
 
@@ -221,7 +223,7 @@ export const Dashboard = () => {
   // // implement redux
   // useEffect(() => {
   //   if (status == "idle") {
-  //     dispatch(fetchProducts())
+  //     dispatch(fetchadminproduct())
   //       .unwrap()
   //       .then((data) => {
   //         setProducts(data);
@@ -242,8 +244,8 @@ export const Dashboard = () => {
 
   // implement redux
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchProducts())
+    if (status) {
+      dispatch(fetchadminproduct())
         .unwrap()
         .then((data) => {
           setProducts(data);
@@ -254,7 +256,7 @@ export const Dashboard = () => {
   // Fetch products only when the component mounts
   useEffect(() => {
     if (!products.length) {
-      dispatch(fetchProducts())
+      dispatch(fetchadminproduct())
         .unwrap()
         .then((data) => {
           console.log("Products fetched", data);
@@ -266,7 +268,7 @@ export const Dashboard = () => {
   useEffect(() => {
     // Generate dataSource based on the current products state
     const newData = products.map((product) => ({
-      key: `${product._id}`,
+      key: `${product.id}`,
       name: [
         product.productImages.productThumbnail.url,
         product.name,
@@ -282,7 +284,7 @@ export const Dashboard = () => {
     setFilteredData(newData); // Update filteredData as well
 
     const sellerdata = products.map((product) => ({
-      key: `${product._id}`,
+      key: `${product.id}`,
       logo: product.productImages.productThumbnail.url,
       name: product.name,
       amount: product.price,

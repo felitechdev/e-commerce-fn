@@ -1,33 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProducts } from "../../Apis/Product";
+import { fetchadminproduct } from "../../Apis/Product";
 
 // set initial state
 const initialState = {
-  product: [],
-  status: "idle",
+  dashproduct: [],
+  loading: false,
   err: null,
 };
 
 // create slice hold reducer logic and actions
-export const getproductSlice = createSlice({
-  name: "product",
+export const getdashproductslice = createSlice({
+  name: "dashproduct",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProducts.pending, (state, action) => {
-        state.status = "loading";
+      .addCase(fetchadminproduct.pending, (state, action) => {
+        state.loading = true;
       })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = "success";
+      .addCase(fetchadminproduct.fulfilled, (state, action) => {
+        state.loading = false;
         // Add any fetched products to the array
-        state.product = state.product.concat(action.payload);
+        state.product = state.dashproduct.concat(action.payload);
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.status = "failed";
+      .addCase(fetchadminproduct.rejected, (state, action) => {
+        state.loading = false;
         state.err = action.error.message;
       });
   },
 });
 
-export default getproductSlice.reducer;
+export default getdashproductslice.reducer;

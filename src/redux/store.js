@@ -24,7 +24,7 @@ import cartRecuder from "./Reducers/cartRecuder";
 import getproductSlice from "./Reducers/productReducers";
 import { getorderReducer } from "./Reducers/OrderReducer";
 
-// import getproductSlice from "../dashboard/Redux/ReduxSlice/Slice";
+import getdashproductslice from "../dashboard/Redux/ReduxSlice/Slice";
 import creteproductSlice from "../dashboard/Redux/ReduxSlice/createProduct";
 import userLoginSlice from "../dashboard/Redux/ReduxSlice/LoginSlice";
 import getSlice from "../dashboard/Redux/ReduxSlice/getCompany";
@@ -40,27 +40,6 @@ import {
 import { getMyprofilereducer } from "../dashboard/Redux/ReduxSlice/userProfile";
 import { deleteProductReducer } from "../dashboard/Redux/ReduxSlice/createProduct";
 
-// export const store = configureStore({
-//   reducer: {
-//     adminProduct: getproductSlice,
-//     createproduct: creteproductSlice,
-//     userlogin: userLoginSlice,
-//     getcompany: getSlice,
-//     category: getCategory,
-//     subcategory: getsubcategory,
-//     createcategory: createCatReducer,
-//     createsubcategory: createSubCatReducer,
-//     deletecat: deleteCatReducer,
-//     updatecat: updateCatReducer,
-//     userprofile: getMyprofilereducer,
-//     deleteproduct: deleteProductReducer,
-//     orders: getorders,
-//   },
-// });
-
-// const persistedProductsReducer = persistReducer(persistProductsConfig, productsReducer);
-// const persistedUserReducer = persistReducer(persistUserConfig, userReducer);
-
 const rootReducer = {
   productsReducer,
   userReducer,
@@ -73,7 +52,7 @@ const rootReducer = {
   orders: getorderReducer,
   usernameupdate: updateprofilenamesReducer,
 
-  adminProduct: getproductSlice,
+  adminProduct: getdashproductslice,
   createproduct: creteproductSlice,
   userlogin: userLoginSlice,
   getcompany: getSlice,
@@ -90,13 +69,6 @@ const rootReducer = {
 
 export const store = configureStore({
   reducer: rootReducer,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: {
-  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-  //     },
-  //   }),
 });
 
-// export let persistor = persistStore(store);
 export default store;

@@ -1,11 +1,11 @@
-import React from 'react';
-import ProductsCategories from '../components/ProductsCategories';
-import PageLayout from '../components/designLayouts/PageLayout';
+import React from "react";
+import ProductsCategories from "../components/ProductsCategories";
+import PageLayout from "../components/designLayouts/PageLayout";
 
-export default function Home() {
+export default function Home(props) {
   return (
     <>
-      <PageLayout>
+      <PageLayout userInfo={props.user} showSearchBar={true}>
         <ProductsCategories />
       </PageLayout>
     </>

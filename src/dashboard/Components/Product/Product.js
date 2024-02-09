@@ -38,14 +38,14 @@ import { ActionButton } from "./ActionButton copy/ActionButton";
 import { CategoryList } from "../filterproducts/categorylist";
 import { useNavigate } from "react-router-dom";
 // import actions
-import { fetchProducts } from "../../Apis/Product";
+import { fetchadminproduct } from "../../Apis/Product";
 import { Loader } from "../Loader/LoadingSpin";
 import "./style.css";
 import { SellerList } from "../filterproducts/sellerlist";
 
 const { Title, Paragraph, Text } = Typography;
 
-export const Product = () => {
+export const DashProducts = () => {
   const [products, setProducts] = useState([]);
   const [src, setSrc] = useState("");
   const [prodName, setProdName] = useState("");
@@ -65,7 +65,9 @@ export const Product = () => {
   const [selectedlist, setSelectedlist] = useState(true);
   // redux
   const dispatch = useDispatch();
-  const { product, status, err } = useSelector((state) => state.adminProduct);
+  const { dashproduct, loading, err } = useSelector(
+    (state) => state.adminProduct
+  );
   const { user, load } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
 
@@ -84,7 +86,7 @@ export const Product = () => {
           .map((product) => ({
             key: `${product.id}`,
             name: [
-              product.productImages.productThumbnail.url,
+              product.productImages?.productThumbnail?.url,
               product.name,
               product.description,
             ],
@@ -338,7 +340,7 @@ export const Product = () => {
     const formattedFilteredProducts = filteredProducts.map((product) => ({
       key: `${product.id}`,
       name: [
-        product.productImages.productThumbnail.url,
+        product.productImages?.productThumbnail?.url,
         product.name,
         product.description,
       ],
@@ -370,7 +372,7 @@ export const Product = () => {
     const formattedFilteredProducts = filteredProducts.map((product) => ({
       key: `${product.id}`,
       name: [
-        product.productImages.productThumbnail.url,
+        product.productImages?.productThumbnail?.url,
         product.name,
         product.description,
       ],
@@ -388,19 +390,19 @@ export const Product = () => {
 
   // implement redux
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchProducts())
+    if (loading) {
+      dispatch(fetchadminproduct())
         .unwrap()
         .then((data) => {
           setProducts(data);
         });
     }
-  }, [status, dispatch]);
+  }, [loading, dispatch]);
 
   // Fetch products only when the component mounts
   useEffect(() => {
     if (!products.length) {
-      dispatch(fetchProducts())
+      dispatch(fetchadminproduct())
         .unwrap()
         .then((data) => {
           setProducts(data);
@@ -413,7 +415,7 @@ export const Product = () => {
     const newData = products.map((product) => ({
       key: `${product.id}`,
       name: [
-        product.productImages.productThumbnail.url,
+        product.productImages?.productThumbnail?.url,
         product.name,
         product.description,
       ],
@@ -428,6 +430,8 @@ export const Product = () => {
     setDataSource(newData);
     setFilteredData(newData); // Update filteredData as well
   }, [products]);
+
+  console.log("product", products);
 
   return (
     <Layout className="space-y-6 bg-[white]">
@@ -453,7 +457,7 @@ export const Product = () => {
 
       <div className="">
         {/* display loading spinner */}
-        {status == "loading" ? (
+        {loading ? (
           <>
             <Loader className=" text-primary flex items-center justify-center" />
             <span className=" text-primary flex items-center  justify-center">

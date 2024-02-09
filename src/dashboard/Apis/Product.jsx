@@ -5,14 +5,14 @@ import Cookies from "js-cookie";
 const Token = Cookies.get("token");
 
 // Async thunk for fetching products  to handle asynchronous
-export const fetchProducts = createAsyncThunk(
+export const fetchadminproduct = createAsyncThunk(
   "product/fetchProducts",
   async () => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`
       // `https://feli-globalmakert-pr-147.onrender.com/api/v1/products`
     );
-    console.log("product on fetch", data.status, data?.data?.products);
+
     const sortedProducts = data?.data?.products.sort(
       (a, b) => b.createdAt - a.createdAt
     );
@@ -59,6 +59,7 @@ export const createProduct = createAsyncThunk(
 export const deleteproduct = createAsyncThunk(
   "product/delete",
   async ({ id, token }, { rejectWithValue }) => {
+    alert("delete product");
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${id}`,

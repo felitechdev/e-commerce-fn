@@ -9,63 +9,57 @@ import {
 export const Menus = [
   {
     name: "Dashboard",
-    link: "/",
+    link: "dashboard",
     icon: <PieChartOutlined />,
     roles: ["admin"], // All roles can see
   },
   {
-    name: "Company",
-    link: "/company",
+    name: "Seller",
+    link: "seller",
     icon: <ApartmentOutlined />,
-    roles: ["admin", "seller", "other"], // All roles can see
+    roles: ["admin"], // All roles can see
   },
   {
     name: "Contract",
-    link: "/contract",
+    link: "contract",
     icon: <FileTextOutlined />,
-    roles: ["admin", "seller", "other"], // All roles can see
+    roles: ["admin", "seller"], // All roles can see
   },
-  {
-    name: "Retailers",
-    link: "/retailer",
-    icon: <TeamOutlined />,
-    roles: ["admin", "seller", "other"], // All roles can see
-  },
+  // {
+  //   name: "Retailers",
+  //   link: "retailer",
+  //   icon: <TeamOutlined />,
+  //   roles: ["admin", "seller"], // All roles can see
+  // },
   {
     name: "Categories",
-    link: "/category",
+    link: "category",
     icon: <AppstoreAddOutlined />,
     roles: ["admin"], // Only admin can see
   },
   {
     name: "Orders",
-    link: "/order",
+    link: "order",
     icon: <AppstoreAddOutlined />,
     roles: ["admin", "seller"], // Admin and Seller can see
   },
   {
     name: "Products",
-    link: "/product",
+    link: "dashproduct",
     icon: <ShoppingOutlined />,
     roles: ["admin", "seller"], // Admin and Seller can see
   },
   {
-    name: "Settings",
-    link: "/settings",
-    icon: <AppstoreAddOutlined />,
-    roles: ["admin"], // Only admin can see
-  },
-  {
     name: "Profile",
-    link: "/profile",
+    link: "profile",
     icon: <AppstoreAddOutlined />,
-    roles: ["admin"], // Only admin can see
+    roles: ["admin", "seller"], // Only admin can see
   },
   {
     name: "Logout",
-    link: "/logout",
+    link: "logout",
     icon: <AppstoreAddOutlined />,
-    roles: ["admin", "seller", "other"], // All roles can see
+    roles: ["admin", "seller"], // All roles can see
   },
 ];
 export const DataSource = [
