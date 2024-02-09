@@ -1,11 +1,11 @@
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
-// import About from './pages/Default/About/About';
-// import Contact from './pages/Default/Contact/Contact';
+import About from './pages/Default/About/About';
+import Contact from './pages/Default/Contact/Contact';
 import Home from './pages/Home';
 // import Journal from './pages/Default/Journal/Journal';
 // import Payment from './pages/Default/payment/Payment';
 // import ProductDetails from './pages/Default/ProductDetails/ProductDetails';
-// import Shop from './pages/Default/Shop/Shop';
+import Shop from './pages/Default/Shop/Shop';
 // import UserLayout from './Layouts/UserLayout';
 // import IndexLayout from './Layouts/IndexLayout';
 // import UserHome from './components/ProductsCategories';
@@ -45,6 +45,7 @@ import {
   Retailer,
   Orders,
 } from './dashboard/Components';
+import ShopNow from './components/designLayouts/buttons/ShopNow';
 
 const App = () => {
   const { isCheckingAuth, user } = useUser();
@@ -83,7 +84,6 @@ const App = () => {
   //   }
   // }, [dispatch, user, token]);
 
-  console.log(isCheckingAuth, user);
   return (
     <>
       {isCheckingAuth ? (
@@ -97,8 +97,10 @@ const App = () => {
           <Route path='signup' element={<SignUp />} />
           <Route path='cart' element={<Cart />} />
           <Route path='products/:id' element={<Product />} />
+          <Route path='shop' element={<Shop />} />
+          <Route path='about' element={<About />} />
+          <Route path='contact' element={<Contact />} />
           <Route path='user' element={<LayoutDesign />}>
-            {/* <Route index element={<Navigate replace to="dashboard" />} /> */}
             <Route
               index
               element={

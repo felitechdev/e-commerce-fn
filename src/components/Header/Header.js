@@ -91,32 +91,16 @@ const Header = (props) => {
           {showMenu && (
             <ul className='flex items-center w-auto z-50 p-0 gap-3'>
               <li>
-                {user ? (
-                  <NavLink
-                    // reloadDocument
-                    className={({ isActive }) => {
-                      return isActive
-                        ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2'
-                        : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2';
-                    }}
-                    to='/accounts/'
-                    state={{ data: location.pathname.split('/')[1] }}
-                  >
-                    Home
-                  </NavLink>
-                ) : (
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive
-                        ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2'
-                        : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2';
-                    }}
-                    to=''
-                    state={{ data: location.pathname.split('/')[1] }}
-                  >
-                    Home
-                  </NavLink>
-                )}
+                <NavLink
+                  to='/'
+                  className={({ isActive }) => {
+                    return isActive
+                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2'
+                      : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2';
+                  }}
+                >
+                  Home
+                </NavLink>
               </li>
               <li>
                 <NavLink
@@ -153,7 +137,7 @@ const Header = (props) => {
                       ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-semibold hidden md:inline-block lg:py-1 lg:px-2'
                       : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-semibold hidden md:inline-block lg:py-1 lg:px-2';
                   }}
-                  to='contact'
+                  to='/contact'
                   state={{ data: location.pathname.split('/')[1] }}
                   end
                 >
@@ -390,23 +374,9 @@ const Header = (props) => {
                   />
                   <ul className='text-gray-200 flex flex-col gap-2'>
                     <li className='font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0'>
-                      {user ? (
-                        <Link
-                          to='/accounts/'
-                          state={{ data: location.pathname.split('/')[1] }}
-                          onClick={() => setSidenav(false)}
-                        >
-                          {'Home'}
-                        </Link>
-                      ) : (
-                        <Link
-                          to='/'
-                          state={{ data: location.pathname.split('/')[1] }}
-                          onClick={() => setSidenav(false)}
-                        >
-                          {'Home'}
-                        </Link>
-                      )}
+                      <Link to='/' onClick={() => setSidenav(false)}>
+                        {'Home'}
+                      </Link>
                     </li>
                     <li className='font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0'>
                       <Link
@@ -444,21 +414,6 @@ const Header = (props) => {
                         {'Journal'}
                       </Link>
                     </li>
-
-                    {/* {leftNavBarList.map((item) => (
-                          <li
-                            className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
-                            key={item._id}
-                          >
-                            <Link
-                              to={item.link}
-                              state={{ data: location.pathname.split("/")[1] }}
-                              onClick={() => setSidenav(false)}
-                            >
-                              {item.title}
-                            </Link>
-                          </li>
-                        ))} */}
                   </ul>
                   <div className='mt-4 bg-[#1D6F2B]'>
                     <h1

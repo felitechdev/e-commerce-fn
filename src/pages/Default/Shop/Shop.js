@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
-import Pagination from "../../../components/pageProps/shopPage/Pagination";
-import ProductBanner from "../../../components/pageProps/shopPage/ProductBanner";
-import ShopSideNav from "../../../components/pageProps/shopPage/ShopSideNav";
+import React, { useState, useEffect } from 'react';
+import Breadcrumbs from '../../../components/pageProps/Breadcrumbs';
+import Pagination from '../../../components/pageProps/shopPage/Pagination';
+import ProductBanner from '../../../components/pageProps/shopPage/ProductBanner';
+import ShopSideNav from '../../../components/pageProps/shopPage/ShopSideNav';
+import PageLayout from '../../../components/designLayouts/PageLayout';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ const Shop = () => {
         setProducts(duplicatedData);
       })
       .catch((error) => {
-        console.error("Error fetching data from the API:", error);
+        console.error('Error fetching data from the API:', error);
       });
   }, []);
 
@@ -36,18 +37,20 @@ const Shop = () => {
   };
 
   return (
-    <div className="max-w-container mx-auto px-4">
-      <Breadcrumbs title="Products" />
-      <div className="w-full h-full flex pb-20 gap-10">
-        <div className="w-[20%] lgl:w-[25%] hidden mdl:inline-flex h-full">
-          <ShopSideNav />
-        </div>
-        <div className="w-full mdl:w-[80%] lgl:w-[75%] h-full flex flex-col gap-10">
-          <ProductBanner itemsPerPageFromBanner={itemsPerPageFromBanner} />
-          <Pagination itemsPerPage={itemsPerPage} products={products} />
+    <PageLayout showSearchBar={true} showFooter={true}>
+      <div className='max-w-container mx-auto px-4'>
+        <Breadcrumbs title='Products' />
+        <div className='w-full h-full flex pb-20 gap-10'>
+          <div className='w-[20%] lgl:w-[25%] hidden mdl:inline-flex h-full'>
+            <ShopSideNav />
+          </div>
+          <div className='w-full mdl:w-[80%] lgl:w-[75%] h-full flex flex-col gap-10'>
+            <ProductBanner itemsPerPageFromBanner={itemsPerPageFromBanner} />
+            <Pagination itemsPerPage={itemsPerPage} products={products} />
+          </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

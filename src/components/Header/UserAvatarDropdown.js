@@ -70,9 +70,9 @@ const UserAvatarDropdown = (props) => {
                       ? 'text-[#1D6F2B] w-[100%] bg-[#E5E5E5] font-semibold hidden py-1 px-1 rounded-md  md:inline-block '
                       : 'font-semibold hidden md:inline-block align-middle  text-white';
                   }}
-                  to='myAccount'
+                  to='user'
                 >
-                  Account Settings
+                  Settings
                 </NavLink>
               </li>
             ) : (
