@@ -1,14 +1,7 @@
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { resetUserInfo } from '../../redux/userSlice';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { BiDownArrow } from 'react-icons/bi';
-import { LoaderComponent } from '../Loaders/Getloader';
 
 const UserAvatarDropdown = (props) => {
-  const Dispatch = useDispatch();
   const navigate = useNavigate();
   const dropDownRef = useRef();
   const avatarRef = useRef();
@@ -28,31 +21,10 @@ const UserAvatarDropdown = (props) => {
       }
     });
   }, []);
-  const separatedRoute = location.pathname.split('/')[0];
-  console.log('lovation', location, separatedRoute);
 
-  const handleSignOut = (e) => {
-    sessionStorage.removeItem('userToken');
-    Cookies.remove('token');
+  const handleSignOut = () => {
+    props.logOut();
     navigate('/', { replace: true });
-    if (props.userInfo.logInType === 'ByGoogle') {
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/logout`)
-        .then(() => {
-          Dispatch(resetUserInfo());
-          sessionStorage.removeItem('userToken');
-          window.open(`${process.env.REACT_APP_INDEX_PAGE_URL}`, '_self');
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    } else if (props.userInfo.logInType === 'ByEmail') {
-      navigate('/'); // And this line
-      Dispatch(resetUserInfo());
-      sessionStorage.removeItem('userToken');
-      Cookies.remove('token');
-      window.open(`${process.env.REACT_APP_INDEX_PAGE_URL}`, '_self');
-    }
   };
 
   return (
@@ -99,7 +71,6 @@ const UserAvatarDropdown = (props) => {
                       : 'font-semibold hidden md:inline-block align-middle  text-white';
                   }}
                   to='myAccount'
-                  // state={{ data: location.pathname.split("/")[1] }}
                 >
                   Account Settings
                 </NavLink>

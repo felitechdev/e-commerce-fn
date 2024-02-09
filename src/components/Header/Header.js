@@ -17,10 +17,14 @@ import { FaSearch, FaTimes } from 'react-icons/fa';
 import { Search } from '../Search/Search';
 import { useCurrency } from '../Currency/CurrencyProvider/CurrencyProvider';
 import Image from '../designLayouts/Image';
+import { useUser } from '../../context/UserContex';
 
 // let cart = JSON.parse(localStorage.getItem("cart"));
 
 const Header = (props) => {
+  // Get Logged in user
+  const { user, onLogout } = useUser();
+
   const [account, setAccount] = useState();
   const [showMenu, setShowMenu] = useState(true);
   const [sidenav, setSidenav] = useState(false);
@@ -46,7 +50,7 @@ const Header = (props) => {
   // const cartTotal =
   //   (cart && cart.map((items) => items.items).reduce((x, y) => x + y, 0)) || 0;
 
-  // console.log("props", props.account, props.userInfo);
+  // console.log("props", props.account, user);
   const handleCurrencyChange = (e) => {
     const selectedCurrency = e.target.value;
 
@@ -87,7 +91,7 @@ const Header = (props) => {
           {showMenu && (
             <ul className='flex items-center w-auto z-50 p-0 gap-3'>
               <li>
-                {props.userInfo ? (
+                {user ? (
                   <NavLink
                     // reloadDocument
                     className={({ isActive }) => {
@@ -113,24 +117,6 @@ const Header = (props) => {
                     Home
                   </NavLink>
                 )}
-
-                {/* {props.userInfo ? (
-                  <Link
-                    to="/accounts/"
-                    state={{ data: location.pathname.split("/")[1] }}
-                    onClick={() => setSidenav(false)}
-                  >
-                    {"Home"}
-                  </Link>
-                ) : (
-                  <Link
-                    to="/"
-                    state={{ data: location.pathname.split("/")[1] }}
-                    onClick={() => setSidenav(false)}
-                  >
-                    {"Home"}
-                  </Link>
-                )} */}
               </li>
               <li>
                 <NavLink
@@ -305,7 +291,7 @@ const Header = (props) => {
               </span>
               <div className='inline-block'>
                 <ul className='flex items-center md:max-w-[320px] lg:max-w-[400px] z-50 p-0 gap-2'>
-                  {props.userInfo ? (
+                  {user ? (
                     ''
                   ) : (
                     <>
@@ -336,7 +322,7 @@ const Header = (props) => {
                       </li>
                     </>
                   )}
-                  {props.userInfo ? (
+                  {user ? (
                     <li className='ml-2 lg:ml-6'>
                       <NavLink
                         className={({ isActive }) => {
@@ -372,26 +358,11 @@ const Header = (props) => {
                           {cartTotal}
                         </p>
                       }
-                      {/* {
-                        // props.userInfo.profile
-                        props.userInfo
-                          ? userCart &&
-                            userCart.length > 0 && (
-                              <p className="absolute  -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
-                                {userCart.length}
-                              </p>
-                            )
-                          : productsCart.length > 0 && (
-                              <p className="absolute -ml-4 mt-1 z-1 bg-[#1D6F2B] text-white text-[10px] w-4 h-4 rounded-full text-center font-semibold inline-block align-top border-[0.5px] border-[#fff]">
-                                {productsCart.length}
-                              </p>
-                            )
-                      } */}
                     </NavLink>
                   </li>
 
-                  {props.userInfo ? (
-                    <UserAvatarDropdown userInfo={props.userInfo} />
+                  {user ? (
+                    <UserAvatarDropdown userInfo={user} logOut={onLogout} />
                   ) : (
                     ''
                   )}
@@ -419,7 +390,7 @@ const Header = (props) => {
                   />
                   <ul className='text-gray-200 flex flex-col gap-2'>
                     <li className='font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0'>
-                      {props.userInfo ? (
+                      {user ? (
                         <Link
                           to='/accounts/'
                           state={{ data: location.pathname.split('/')[1] }}
