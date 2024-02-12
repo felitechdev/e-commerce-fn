@@ -37,6 +37,7 @@ import { data } from "autoprefixer";
 import { useRef } from "react";
 import Item from "antd/lib/list/Item";
 import Alerts from "../../Notifications&Alert/Alert";
+import { useUser } from "../../../../context/UserContex";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -67,6 +68,8 @@ const ProductModel = (props) => {
   const [alertDescription, setAlertDescription] = useState("");
   const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
   const [isupdate, setIsupdate] = useState(false);
+  const { user, onLogout } = useUser();
+  const userRole = user.role;
 
   const [addnew, setAddnew] = useState(false);
   const [addnewsub, setAddnewsub] = useState(false);
@@ -128,7 +131,12 @@ const ProductModel = (props) => {
 
     const formData = new FormData();
     formData.append("name", data.name); // Replace 'seller_id' with the actual ID of the seller
-    formData.append("seller", data.seller); // Replace 'seller_id' with the actual ID of the seller
+
+    if (userRole == "seller") {
+      formData.append("seller", user.id);
+    } else {
+      formData.append("seller", data.seller);
+    }
 
     formData.append("category", data.category); // Replace 'category_id' with the actual ID of the category
     formData.append("subcategory", data.subcategory); // Replace 'subcategory_id' with the actual ID of the subcategory
@@ -219,6 +227,9 @@ const ProductModel = (props) => {
     formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("seller", data.seller);
+    if (userRole == "seller") {
+      formData.append("seller", data.seller);
+    }
     formData.append("brandName", data.brandName);
     formData.append("stockQuantity", data.stockQuantity);
     formData.append("price", data.price);
@@ -1066,51 +1077,55 @@ const ProductModel = (props) => {
               </Form.List>
             </div>
           </div>
-          availableSizes
+
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] border p-3 mt-3  rounded">
             <div className="flex justify-between space-x-2 w-[100%]">
-              <Controller
-                name="seller"
-                control={control}
-                defaultValue=""
-                rules={registerinput.seller}
-                render={({ field }) => (
-                  <>
-                    <Form.Item label="Select Seller" className=" w-[50%]">
-                      {/* <Select
+              {userRole == "seller" ? (
+                <div className=" flex justify-center items-center ">{`Seller : ${user?.firstName}`}</div>
+              ) : (
+                <Controller
+                  name="seller"
+                  control={control}
+                  defaultValue=""
+                  rules={registerinput.seller}
+                  render={({ field }) => (
+                    <>
+                      <Form.Item label="Select Seller" className=" w-[50%]">
+                        {/* <Select
                         options={selectOptions}
                         {...field}
                         label="Text field"
                       /> */}
-                      {loadcompany ? (
-                        <p>loading...</p>
-                      ) : (
-                        <Select
-                          {...field}
-                          showSearch
-                          label="Text field"
-                          onSearch={onSearch}
-                          filterOption={filterOption}
-                          options={selectOptions}
-                          // options={[
-                          //   {
-                          //     label: "Feli Technology Inv. Group",
-                          //     value: "64fb3d689851a4c86d6182de",
-                          //   },
-                          //   {
-                          //     value: "659310aa742a59c3314ef268",
-                          //     label: "Oliviertech",
-                          //   },
-                          // ]}
-                        />
-                      )}
+                        {loadcompany ? (
+                          <p>loading...</p>
+                        ) : (
+                          <Select
+                            {...field}
+                            showSearch
+                            label="Text field"
+                            onSearch={onSearch}
+                            filterOption={filterOption}
+                            options={selectOptions}
+                            // options={[
+                            //   {
+                            //     label: "Feli Technology Inv. Group",
+                            //     value: "64fb3d689851a4c86d6182de",
+                            //   },
+                            //   {
+                            //     value: "659310aa742a59c3314ef268",
+                            //     label: "Oliviertech",
+                            //   },
+                            // ]}
+                          />
+                        )}
 
-                      <p className="text-[red]">{errors?.seller?.message}</p>
-                    </Form.Item>
-                  </>
-                )}
-              />
+                        <p className="text-[red]">{errors?.seller?.message}</p>
+                      </Form.Item>
+                    </>
+                  )}
+                />
+              )}
 
               <Controller
                 name="brandName"

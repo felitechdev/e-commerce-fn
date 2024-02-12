@@ -41,7 +41,7 @@ export const Menus = [
     name: "Orders",
     link: "order",
     icon: <AppstoreAddOutlined />,
-    roles: ["admin", "seller"], // Admin and Seller can see
+    roles: ["admin", "seller", "customer"], // Admin and Seller can see
   },
   {
     name: "Products",
@@ -53,13 +53,13 @@ export const Menus = [
     name: "Profile",
     link: "profile",
     icon: <AppstoreAddOutlined />,
-    roles: ["admin", "seller"], // Only admin can see
+    roles: ["admin", "seller", "customer"], // Only admin can see
   },
   {
     name: "Logout",
     link: "logout",
     icon: <AppstoreAddOutlined />,
-    roles: ["admin", "seller"], // All roles can see
+    roles: ["admin", "seller", "customer"], // All roles can see
   },
 ];
 export const DataSource = [

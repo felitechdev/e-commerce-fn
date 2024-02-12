@@ -42,6 +42,7 @@ import { fetchadminproduct } from "../../Apis/Product";
 import { Loader } from "../Loader/LoadingSpin";
 import "./style.css";
 import { SellerList } from "../filterproducts/sellerlist";
+import { useUser } from "../../../context/UserContex";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -68,8 +69,11 @@ export const DashProducts = () => {
   const { dashproduct, loading, err } = useSelector(
     (state) => state.adminProduct
   );
-  const { user, load } = useSelector((state) => state.userlogin);
+  // const { user, load } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
+
+  const { user, onLogout } = useUser();
+  const userRole = user?.role;
 
   const FilterByNameInput = (
     <Input.Search
@@ -82,7 +86,11 @@ export const DashProducts = () => {
       onChange={(e) => {
         const currValue = e.target.value;
         setValue(currValue);
-        const newData = products
+        const newData = (
+          userRole == "seller"
+            ? products?.filter((product) => product?.seller?.id == user?.id)
+            : products
+        )
           .map((product) => ({
             key: `${product.id}`,
             name: [
@@ -337,7 +345,11 @@ export const DashProducts = () => {
       setIsViewAllChecked(true); // Check the checkbox
     }
 
-    const formattedFilteredProducts = filteredProducts.map((product) => ({
+    const formattedFilteredProducts = (
+      userRole == "seller"
+        ? filteredProducts?.filter((product) => product?.seller?.id == user?.id)
+        : filteredProducts
+    ).map((product) => ({
       key: `${product.id}`,
       name: [
         product.productImages?.productThumbnail?.url,
@@ -369,7 +381,11 @@ export const DashProducts = () => {
       setIsViewAllChecked(true); // Check the checkbox
     }
 
-    const formattedFilteredProducts = filteredProducts.map((product) => ({
+    const formattedFilteredProducts = (
+      userRole == "seller"
+        ? filteredProducts?.filter((product) => product?.seller == user?.id)
+        : filteredProducts
+    ).map((product) => ({
       key: `${product.id}`,
       name: [
         product.productImages?.productThumbnail?.url,
@@ -412,7 +428,11 @@ export const DashProducts = () => {
 
   useEffect(() => {
     // Generate dataSource based on the current products state
-    const newData = products.map((product) => ({
+    const newData = (
+      userRole == "seller"
+        ? products?.filter((product) => product?.seller?.id == user?.id)
+        : products
+    ).map((product) => ({
       key: `${product.id}`,
       name: [
         product.productImages?.productThumbnail?.url,
@@ -430,8 +450,6 @@ export const DashProducts = () => {
     setDataSource(newData);
     setFilteredData(newData); // Update filteredData as well
   }, [products]);
-
-  console.log("product", products);
 
   return (
     <Layout className="space-y-6 bg-[white]">
@@ -485,16 +503,21 @@ export const DashProducts = () => {
                     cursor: "pointer",
                   }}
                 >
-                  <h3
-                    className={`filterOption p-x-10 rounded-sm ${
-                      activeFilter === "Seller"
-                        ? "underline bg-primary text-[white] px-5"
-                        : ""
-                    }`}
-                    onClick={() => handleFilterClickactive("Seller")}
-                  >
-                    Seller
-                  </h3>
+                  <Checkbox onChange={handleViewAll} checked={isViewAllChecked}>
+                    View All
+                  </Checkbox>
+                  {userRole !== "seller" && (
+                    <h3
+                      className={`filterOption p-x-10 rounded-sm ${
+                        activeFilter === "Seller"
+                          ? "underline bg-primary text-[white] px-5"
+                          : ""
+                      }`}
+                      onClick={() => handleFilterClickactive("Seller")}
+                    >
+                      Seller
+                    </h3>
+                  )}
                   <h3
                     className={`filterOption p-x-10 rounded-sm ${
                       activeFilter === "Category"
@@ -521,9 +544,7 @@ export const DashProducts = () => {
                     New Arrivals
                   </h3>
                 </div>
-                <Checkbox onChange={handleViewAll} checked={isViewAllChecked}>
-                  View All
-                </Checkbox>
+
                 {activeFilter === "Category" && (
                   <CategoryList onCategorySelect={handleCategorySelect} />
                 )}

@@ -12,30 +12,21 @@ import { ImageUpload } from "../../../components/profile/photoupdate/Updateimage
 import Cookies from "js-cookie";
 import { LoaderComponent } from "../../../components/Loaders/Getloader";
 import PersonalInfoModel from "./userinfo";
+import { useUser } from "../../../context/UserContex";
+import axios from "axios";
 
 const SellerProfile = () => {
-  const [user, setUser] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userprofile, setUserprofile] = useState();
-  const [profileview, setProfileview] = useState();
+  const [isLoading, setLoading] = useState(true);
+  const token = Cookies.get("token");
+  // const [user, onSetProfile] = useUser();
 
-  const [loading, setLoading] = useState(false);
+  const user = useUser().user;
+  const setUser = useUser().setUser;
+  const onSetProfile = useUser().onSetProfile;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [openmodel, setOpenmodel] = useState(false);
   const [usenameopenmodel, setUsernameopenmodel] = useState(false);
-
-  const { profile, loadprofile, errprofile } = useSelector(
-    (state) => state.userprofile
-  );
-
-  const token = Cookies.get("token");
-
-  const dispatch = useDispatch();
-  const storeUserInfo = useSelector(
-    (state) => state.userReducer.userInfo.profile
-  );
-  const { viewprofile, loadviewprofile, errviewprofile } = useSelector(
-    (state) => state.viewprofile
-  );
 
   const handleCancel = () => {
     setUsernameopenmodel(false);
@@ -58,92 +49,61 @@ const SellerProfile = () => {
     setOpenmodel(state);
   };
 
-  useEffect(() => {
-    if (storeUserInfo) {
-      setUser(storeUserInfo);
-    }
-  }, [storeUserInfo]);
-
-  useEffect(() => {
-    if (profile?.data?.user) {
-      setUserprofile(profile?.data?.user);
-    }
-  }, [profile]);
-
+  console.log("on user profile", user);
   // update state on update profile
   const handleupdatestateProfile = (data) => {
-    setLoading(true);
-    setProfileview((prevProfileview) => ({
-      ...prevProfileview,
-      ...data,
-    }));
-
-    setUserprofile((prevProfileview) => ({
-      ...prevProfileview,
-      ...data,
-    }));
+    onSetProfile(data);
   };
 
   const handleupdatestate = (data) => {
-    setLoading(true);
-    setUserprofile((prevProfileview) => ({
-      ...prevProfileview,
-      ...data,
-    }));
+    onSetProfile(data);
   };
 
   // view profile
   useEffect(() => {
-    if (loadviewprofile == true) {
-      dispatch(GetMyprofilebyId(token))
-        .unwrap()
-        .then((data) => {
-          if (data?.data && data.status == "success") {
-            setProfileview(data?.data?.profile);
-            setLoading(false);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [loadviewprofile, dispatch, token]);
+    async function fetchProfile() {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
 
-  // Fetch user only when the component mounts
-  useEffect(() => {
-    if (!profileview) {
-      dispatch(GetMyprofilebyId(token))
-        .unwrap()
-        .then((data) => {
-          if (data?.data && data.status == "success") {
-            setProfileview(data?.data?.profile);
-            setLoading(false);
-          }
-        })
-        .catch((error) => {});
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/profiles`,
+          config
+        );
+        onSetProfile(response.data);
+      } catch (err) {
+        console.log("error on getting myprofile ", err.response?.data);
+      } finally {
+        setLoading(false);
+      }
     }
-  }, [dispatch, profileview, token]);
+
+    fetchProfile();
+  }, []);
 
   return (
     <>
       <div className="bg-white border shadow-lg rounded-md w-full min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
-            {userprofile != null ? (
+            {user != null ? (
               <>
-                <div className="flex  space-x-2">
-                  {userprofile?.photo == "default.jpg" ? (
+                <div className="flex  space-x-2 items-center">
+                  {user?.photo == "default.jpg" ? (
                     <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
-                      {userprofile?.firstName[0]}
+                      {user?.firstName[0]}
                     </h1>
                   ) : (
                     <img
-                      src={userprofile?.photo}
+                      src={user?.photo}
                       className="w-10 h-10 rounded-full "
                     />
                   )}
 
-                  <h1 className="font-bold text-xl">
-                    {userprofile?.firstName}
-                  </h1>
+                  <h1 className="font-bold text-xl">{user?.firstName}</h1>
                 </div>
 
                 <h1
@@ -168,20 +128,13 @@ const SellerProfile = () => {
             )}
           </div>
 
-          {userprofile != null && userprofile.role == "customer" ? (
+          {user != null && user?.role == "customer" ? (
             <>
-              {/* <CompanyModel
-                isModalOpen={isModalOpen}
-                handleCancel={handleCancel}
-                profileview={profileview}
-                andleupdatestateProfile={handleupdatestateProfile}
-              /> */}
-
               <PersonalInfoModel
                 isModalOpen={usenameopenmodel}
                 handleCancel={handleCancel}
-                profileview={userprofile}
-                andleupdatestateProfile={handleupdatestateProfile}
+                profileview={user}
+                handleupdatestateProfile={handleupdatestateProfile}
               />
 
               <div
@@ -202,7 +155,8 @@ const SellerProfile = () => {
             </div>
           )}
         </div>
-        {userprofile != null && (
+
+        {user != null && (
           <>
             <div className=" pl-10 mt-10  flex justify-between pr-2">
               <div className="">
@@ -211,30 +165,30 @@ const SellerProfile = () => {
                   <span className="text-border font-bold text-xl">
                     Email :{" "}
                   </span>{" "}
-                  {userprofile.email}
+                  {user.email}
                 </h1>
                 <h1>
                   {" "}
                   <span className="text-border font-bold text-xl">
                     firstName :{" "}
                   </span>{" "}
-                  {userprofile.firstName}
+                  {user.firstName}
                 </h1>
                 <h1>
                   {" "}
                   <span className="text-border font-bold text-xl">
                     lastName :{" "}
                   </span>{" "}
-                  {userprofile.lastName}
+                  {user.lastName}
                 </h1>
 
-                {userprofile != null && userprofile.role !== "customer" && (
+                {user != null && user?.role == "seller" && (
                   <>
                     <PersonalInfoModel
                       isModalOpen={usenameopenmodel}
                       handleCancel={handleCancel}
-                      profileview={userprofile}
-                      andleupdatestateProfile={handleupdatestateProfile}
+                      profileview={user}
+                      handleupdatestateProfile={handleupdatestateProfile}
                     />
                     <h1
                       className="flex ml-0 mt-1 cursor-pointer "
@@ -248,10 +202,10 @@ const SellerProfile = () => {
               </div>
 
               <div className="w-[10%]">
-                {userprofile && profileview && profileview.logo && (
+                {user && user?.data?.profile && user?.data?.profile.logo && (
                   <div className="border-4 border-primary z-0  relative">
                     <img
-                      src={profileview.logo}
+                      src={user?.data?.profile.logo}
                       className="w-full h-full z-30 bg-white"
                       style={{ marginLeft: "-20px" }}
                     />
@@ -262,20 +216,21 @@ const SellerProfile = () => {
 
             <hr className=" mt-4" />
 
-            {userprofile != null && userprofile.role !== "customer" && (
+            {user != null && user.role == "seller" && (
               <div className=" pl-10 mt-1  ">
                 <h1 className=" text-border font-bold text-2xl underline mb-3">
                   More Information
                 </h1>
 
-                {profileview && (
+                {user?.data?.profile && (
                   <Row gutter={[16, 16]}>
                     <Col span={8}>
                       <span className="text-border font-bold text-xl">
                         companyEmail:{" "}
                       </span>
                       <h1 className="font-bold">
-                        {profileview.companyEmail && profileview.companyEmail}
+                        {user?.data?.profile.companyEmail &&
+                          user?.data?.profile.companyEmail}
                       </h1>
                     </Col>
                     <Col span={8}>
@@ -283,7 +238,8 @@ const SellerProfile = () => {
                         companyName:{" "}
                       </span>
                       <h1 className="font-bold">
-                        {profileview.companyName && profileview.companyName}
+                        {user?.data?.profile.companyName &&
+                          user?.data?.profile.companyName}
                       </h1>
                     </Col>
                     <Col span={8}>
@@ -291,7 +247,8 @@ const SellerProfile = () => {
                         phoneNumber:{" "}
                       </span>
                       <h1 className="font-bold">
-                        {profileview.phoneNumber && profileview.phoneNumber}
+                        {user?.data?.profile.phoneNumber &&
+                          user?.data?.profile.phoneNumber}
                       </h1>
                     </Col>
                     <Col span={8}>
@@ -301,7 +258,11 @@ const SellerProfile = () => {
                       <h1 className="font-bold  disabled:bg-black">
                         <a
                           className="bg-primary rounded-sm p-1 text-white"
-                          href={profileview.website && profileview.website}
+                          target="_blank"
+                          href={
+                            user?.data?.profile.website &&
+                            user?.data?.profile.website
+                          }
                         >
                           {" "}
                           visit website
@@ -309,15 +270,15 @@ const SellerProfile = () => {
                       </h1>
                     </Col>
 
-                    {profileview.bankAccount && (
+                    {user?.data?.profile.bankAccount && (
                       <>
                         <Col span={8}>
                           <span className="text-border font-bold text-xl">
                             bank:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {profileview.bankAccount.bank &&
-                              profileview.bankAccount.bank}
+                            {user?.data?.profile.bankAccount.bank &&
+                              user?.data?.profile.bankAccount.bank}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -325,8 +286,8 @@ const SellerProfile = () => {
                             accountName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {profileview.bankAccount.accountName &&
-                              profileview.bankAccount.accountName}
+                            {user?.data?.profile.bankAccount.accountName &&
+                              user?.data?.profile.bankAccount.accountName}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -334,8 +295,8 @@ const SellerProfile = () => {
                             accountNumber:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {profileview.bankAccount.accountNumber &&
-                              profileview.bankAccount.accountNumber}
+                            {user?.data?.profile.bankAccount.accountNumber &&
+                              user?.data?.profile.bankAccount.accountNumber}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -343,8 +304,9 @@ const SellerProfile = () => {
                             accountHolderName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {profileview.bankAccount.accountHolderName &&
-                              profileview.bankAccount.accountHolderName}
+                            {user?.data?.profile.bankAccount
+                              .accountHolderName &&
+                              user?.data?.profile.bankAccount.accountHolderName}
                           </h1>
                         </Col>
                       </>
@@ -355,18 +317,19 @@ const SellerProfile = () => {
                         cardNumber:
                       </span>
                       <h1 className="font-bold">
-                        {profileview.cardNumber && profileview.cardNumber}
+                        {user?.data?.profile.cardNumber &&
+                          user?.data?.profile.cardNumber}
                       </h1>
                     </Col>
 
-                    {profileview.locations &&
-                      profileview.locations.length > 0 && (
+                    {user?.data?.profile.locations &&
+                      user?.data?.profile.locations.length > 0 && (
                         <Col span={24}>
                           <span className="text-border font-bold text-xl">
                             address:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {profileview.locations[0].address}
+                            {user?.data?.profile.locations[0].address}
                           </h1>
                         </Col>
                       )}
@@ -380,8 +343,8 @@ const SellerProfile = () => {
         <CompanyModel
           isModalOpen={isModalOpen}
           handleCancel={handleCancel}
-          profileview={profileview}
-          andleupdatestateProfile={handleupdatestateProfile}
+          profileview={user}
+          handleupdatestateProfile={handleupdatestateProfile}
         />
       </div>
     </>

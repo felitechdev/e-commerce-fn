@@ -1,6 +1,6 @@
-import Cookies from 'js-cookie';
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { checkAuthentication } from '../APIs/UserAPIs';
+import Cookies from "js-cookie";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { checkAuthentication } from "../APIs/UserAPIs";
 
 const UserContext = createContext();
 
@@ -13,14 +13,21 @@ function UserProvider({ children }) {
   }
 
   function onLogout() {
-    Cookies.remove('token');
+    Cookies.remove("token");
     setUser(null);
+  }
+
+  function onSetProfile(profile) {
+    setUser((prevUser) => ({
+      ...prevUser,
+      ...profile,
+    }));
   }
 
   useEffect(() => {
     async function checkAuth() {
       try {
-        const token = Cookies.get('token');
+        const token = Cookies.get("token");
         if (!token) return;
 
         const res = await checkAuthentication(token);
@@ -40,7 +47,9 @@ function UserProvider({ children }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, onLogin, onLogout, isCheckingAuth }}>
+    <UserContext.Provider
+      value={{ user, onLogin, onLogout, isCheckingAuth, onSetProfile }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -48,7 +57,7 @@ function UserProvider({ children }) {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) throw new Error('Context used outside boundary.');
+  if (!context) throw new Error("Context used outside boundary.");
   return context;
 };
 
