@@ -275,7 +275,7 @@ const Cart = () => {
             >
               Clear Shopping Cart
             </button>
-            <div className='max-w-7xl gap-4 flex justify-end mt-4 bg-secondary p-3'>
+            <div className='max-w-7xl gap-4 flex justify-end mt-4 p-3'>
               <div className=''>
                 <Form
                   layout={'vertical'}
