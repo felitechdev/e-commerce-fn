@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ReactComponent as Spinner } from '../../assets/images/Spinner.svg';
 
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AlertComponent from '../designLayouts/AlertComponent';
 
 const SignUpForm = (props) => {
@@ -146,11 +146,7 @@ const SignUpForm = (props) => {
         })
         .catch((err) => {
           setLoading(false);
-          console.log('error on register', err);
-          // const error = {
-          //   statusCode: err.response.status,
-          //   message: err.response.data.message,
-          // };
+
           setSigninSuccess('');
           if (err.message) {
             setSignInError(err.message);
@@ -308,7 +304,7 @@ const SignUpForm = (props) => {
           </div>
           <div className='flex flex-col gap-.5'>
             <p className='font-titleFont text-base font-semibold text-gray-600'>
-              confirmPassword
+              Reenter the password
             </p>
             <input
               onChange={handleconfirmPassword}
@@ -327,13 +323,9 @@ const SignUpForm = (props) => {
 
           <div className='flex flex-col gap-.5'>
             <p className='font-titleFont text-base font-semibold text-gray-600'>
-              Select Account Type
+              Sign up as
             </p>
-            {/* <select name="role" ref={roleSelectRef}  className="w-full align-middle h-10 placeholder:text-sm placeholder:tracking-wide px-4 py-2 text-sm font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none">
-                 
-  <option value="customer" className="text-sm" >Customer</option>
-  <option value="seller" className="text-sm">Seller</option>
-</select> */}
+
             <select
               name='role'
               ref={roleSelectRef}
@@ -397,20 +389,14 @@ const SignUpForm = (props) => {
             <hr className='inline-block w-[40%] align-middle'></hr>
           </div>
 
-          {/* <button
-            className="bg-[#fff] text-[#202124] border-2 border-gray-400 cursor-pointer w-full text-base font-medium h-10 rounded-md flex items-center justify-center gap-2 duration-300"
-            onClick={handleGoogleSignUp}
-          >
-            <img src={googelIcon} className="w-[20px]" /> Signup with Google
-          </button> */}
           <p className='text-sm text-center font-titleFont font-medium'>
             Already have an account?{' '}
-            <a
+            <Link
               className='text-[#1E61CC] Bduration-300 cursor-pointer'
-              onClick={() => props.setOpenForm({ signin: true, signup: false })}
+              to='/signin'
             >
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       </div>

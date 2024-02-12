@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Spinner } from '../../assets/images/Spinner.svg';
 
 import Cookies from 'js-cookie';
@@ -168,12 +168,12 @@ const SignInForm = (props) => {
           </button>
           <p className='text-sm text-center font-titleFont font-medium -mt-2'>
             Don't have an Account?{' '}
-            <span
+            <Link
               className='text-[#1E61CC] duration-300 cursor-pointer'
-              onClick={() => props.setOpenForm({ signin: false, signup: true })}
+              to='/signup'
             >
               Sign up
-            </span>
+            </Link>
           </p>
         </div>
       </div>

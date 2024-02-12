@@ -46,6 +46,7 @@ import {
   Orders,
 } from './dashboard/Components';
 import ShopNow from './components/designLayouts/buttons/ShopNow';
+import ActivateAccount from './pages/ActivateAccount';
 
 const App = () => {
   const { isCheckingAuth, user } = useUser();
@@ -100,6 +101,10 @@ const App = () => {
           <Route path='shop' element={<Shop />} />
           <Route path='about' element={<About />} />
           <Route path='contact' element={<Contact />} />
+          <Route
+            path='/activate-account/:token'
+            element={<ActivateAccount />}
+          />
           <Route path='user' element={<LayoutDesign />}>
             <Route
               index
