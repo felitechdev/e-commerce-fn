@@ -7,6 +7,8 @@ import { Controller, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import { Updateprofilenames } from "../../../../src/APIs/UserAPIs";
 
+import { useUser } from "../../../context/UserContex";
+
 const PersonalInfoModel = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -31,6 +33,8 @@ const PersonalInfoModel = (props) => {
   } = useForm({ defaultValues: props.profileview });
 
   const dispatch = useDispatch();
+
+  const { user, onLogout } = useUser();
 
   const { userenameupdate, loadusername, errusername } = useSelector(
     (state) => state.usernameupdate
@@ -65,7 +69,7 @@ const PersonalInfoModel = (props) => {
         if (res?.message) {
           console.log(res?.data?.profile, "sucesss updartee");
           // handleupdatestateProfile
-          props.andleupdatestateProfile(payload);
+          props.handleupdatestateProfile(payload);
 
           // close model
           props.handleCancel();
@@ -104,8 +108,8 @@ const PersonalInfoModel = (props) => {
 
   useEffect(() => {
     // Update form values if profileview changes
-    setValue("firstName", userprofile?.firstName || "");
-    setValue("lastName", userprofile?.lastName || "");
+    setValue("firstName", user?.firstName || "");
+    setValue("lastName", user?.lastName || "");
     // setValue("email", userprofile?.email || "");
   }, [props.profileview, setValue]);
 

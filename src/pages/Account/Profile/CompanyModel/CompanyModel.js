@@ -63,6 +63,7 @@ const CompanyModel = (props) => {
   };
 
   const onFinish = async (values) => {
+    console.log("values", values);
     const payload = {};
 
     payload.bankAccount = {};
@@ -135,7 +136,7 @@ const CompanyModel = (props) => {
       .catch((err) => {
         setUpdateError("Update Error");
         setUpdateSuccess("");
-        console.log("Update error response", err);
+        console.log("Update error response", err.message);
       });
   };
 
@@ -163,23 +164,29 @@ const CompanyModel = (props) => {
 
   useEffect(() => {
     // Update form values if profileview changes
-    setValue("companyName", props.profileview?.companyName || "");
-    setValue("phoneNumber", props.profileview?.phoneNumber || "");
-    setValue("companyEmail", props.profileview?.companyEmail || "");
-    setValue("website", props.profileview?.website || "");
-    setValue("logo", props.profileview?.logo || ""); // Assuming logo is a URL or file path
-    setValue("locations", props.profileview?.locations || ""); // Assuming locations is a string
-    setValue("bank", props.profileview?.bankAccount?.bank || "");
-    setValue("accountName", props.profileview?.bankAccount?.accountName || "");
+    setValue("companyName", props.profileview?.data?.profile.companyName || "");
+    setValue("phoneNumber", props.profileview?.data?.profile.phoneNumber || "");
+    setValue(
+      "companyEmail",
+      props.profileview?.data?.profile.companyEmail || ""
+    );
+    setValue("website", props.profileview?.data?.profile.website || "");
+    setValue("logo", props.profileview?.data?.profile.logo || ""); // Assuming logo is a URL or file path
+    setValue("locations", props.profileview?.data?.profile.locations || ""); // Assuming locations is a string
+    setValue("bank", props.profileview?.data?.profile.bankAccount?.bank || "");
+    setValue(
+      "accountName",
+      props.profileview?.data?.profile.bankAccount?.accountName || ""
+    );
     setValue(
       "accountHolderName",
-      props.profileview?.bankAccount?.accountHolderName || ""
+      props.profileview?.data?.profile.bankAccount?.accountHolderName || ""
     );
     setValue(
       "accountNumber",
-      props.profileview?.bankAccount?.accountNumber || ""
+      props.profileview?.data?.profile.bankAccount?.accountNumber || ""
     );
-    setValue("cardNumber", props.profileview?.cardNumber || ""); // Assuming cardNumber is a string
+    setValue("cardNumber", props.profileview?.data?.profile.cardNumber || ""); // Assuming cardNumber is a string
   }, [props.profileview, setValue]);
 
   return (
@@ -435,7 +442,3 @@ const CompanyModel = (props) => {
 };
 
 export default CompanyModel;
-
-// bankAccount: {
-
-// },

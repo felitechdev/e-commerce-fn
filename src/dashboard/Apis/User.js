@@ -61,7 +61,6 @@ export const GetMyprofile = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error on getting myprofile ", err.response?.data);
       return rejectWithValue({
         status: err.response?.data?.status,
         message: err.response?.data?.message,

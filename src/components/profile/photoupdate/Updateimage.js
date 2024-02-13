@@ -26,18 +26,16 @@ export const ImageUpload = ({
   const token = Cookies.get("token");
 
   const handleUpload = (data) => {
-    // console.log("dagggg", data.image[0]);
-    // console.log("dataffff", data.image);
     const formData = new FormData();
     formData.append("profilePicture", data.image);
 
     dispatch(UpdateprofileInage({ data: formData, token: token }))
       .unwrap()
       .then((res) => {
-        console.log("res", res);
         if (res.status === "success") {
           console.log(res?.data?.user, "success updated");
-          handleupdatestate(res?.data?.user);
+          // handleupdatestate(res?.data?.user);
+          handleupdatestate(res.data.user);
           reset({ image: "" });
           // handle success and close the modal
           handleupdateprofileModel(false);
