@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Product from "../Products/Product";
-import ProductsSection from "../Products/ProductsSection";
-import ProductsGridContainer from "../Products/ProductsGridContainer";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "../../../APIs/Product";
-import { LoaderComponent } from "../../Loaders/Getloader";
+import React, { useState, useEffect } from 'react';
+import Product from '../Products/Product';
+import ProductsSection from '../Products/ProductsSection';
+import ProductsGridContainer from '../Products/ProductsGridContainer';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchProducts } from '../../../APIs/Product';
+import { LoaderComponent } from '../../Loaders/Getloader';
 
 const CategoryFilteredProducts = ({ selectedCategory }) => {
   const [products, setProducts] = useState([]);
@@ -27,11 +27,11 @@ const CategoryFilteredProducts = ({ selectedCategory }) => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => setProducts(data))
-      .catch((error) => console.error("Error fetching data: ", error));
+      .catch((error) => console.error('Error fetching data: ', error));
   }, [selectedCategory]);
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === 'idle') {
       dispatch(fetchProducts())
         .unwrap()
         .then((data) => {
@@ -81,9 +81,9 @@ const CategoryFilteredProducts = ({ selectedCategory }) => {
         selectedCategory.subcategory.subcategoryname
       }
     >
-      {status === "loading" ? (
-        <di className="w-[100%] flex justify-center  items-center t">
-          <LoaderComponent className="text-primary" />
+      {status === 'loading' ? (
+        <di className='w-[100%] flex justify-center  items-center t'>
+          <LoaderComponent className='text-primary' />
         </di>
       ) : prod.length > 0 ? (
         <ProductsGridContainer>
@@ -95,17 +95,7 @@ const CategoryFilteredProducts = ({ selectedCategory }) => {
           ))}
         </ProductsGridContainer>
       ) : (
-        /* products.length > 0 ? (
-        <ProductsGridContainer>
-          {products.map((product, index) => (
-            <Product
-              key={product.id + index} // Ensured unique keys for each product
-              productInfo={product}
-            />
-          ))}
-        </ProductsGridContainer>
-      ) */
-        <p className=" text-center font-semibold">There are no products .</p>
+        <p className=' text-center font-semibold'>There are no products .</p>
       )}
     </ProductsSection>
   );

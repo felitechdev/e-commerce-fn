@@ -51,13 +51,6 @@ export default function ProductDetails() {
   // Fetch Similar Products
   useEffect(() => {
     // TODO: Fetch real similar products
-    // Fetch your API data here
-    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSmilarProducts(data.data.products);
-      })
-      .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
   return (
@@ -100,13 +93,14 @@ export default function ProductDetails() {
           {/* For testing similar products slider only */}
           <ProductsSection heading='Similar Products'>
             <ProductsSliderContainer>
-              {similarProducts.map((product) => {
-                return (
-                  <div key={product._id} className='px-2'>
-                    <ProductPreview productInfo={product} />
-                  </div>
-                );
-              })}
+              {similarProducts.length &&
+                similarProducts.map((product) => {
+                  return (
+                    <div key={product._id} className='px-2'>
+                      <ProductPreview productInfo={product} />
+                    </div>
+                  );
+                })}
             </ProductsSliderContainer>
           </ProductsSection>
         </div>

@@ -119,7 +119,7 @@ const ProductPreview = ({ productInfo }) => {
           </div>
           <div className='max-w-80 bg-white py-2 flex flex-col gap-1 rounded-bl-md rounded-br-md border-t-0 px-2'>
             <div className='flex flex-col  font-titleFont'>
-              <h2 className='text-xs text-primeColor font-[500] text-ellipsis overflow-hidden hover:underline'>
+              <h2 className='text-xs text-primeColor font-[500] text-ellipsis overflow-hidden hover:underline capitalize'>
                 {productInfo.name}
               </h2>
               <div className='text-sm flex justify-between '>
