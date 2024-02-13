@@ -1,39 +1,19 @@
-import React, { useState, useEffect } from 'react';
-
+import React from 'react';
 import ProductsSection from '../Products/ProductsSection';
 import ProductsGridContainer from '../Products/ProductsGridContainer';
 import ProductPreview from '../Products/Product';
 
-const AllProducts = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    // Fetching data from the API
-    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === 'success') {
-          setProducts(data?.data);
-        } else {
-          setProducts([]);
-        }
-      })
-      .catch((error) => console.error('Error fetching data: ', error));
-  }, []);
-
+function AllProducts({ products }) {
   return (
-    <ProductsSection heading='Our products'>
+    <ProductsSection heading='Our Products'>
       <ProductsGridContainer>
-        {products?.products?.length > 0 &&
-          products?.products?.map((product, index) => (
-            <ProductPreview
-              key={product.id + index} // Ensured unique keys for each product
-              productInfo={product}
-            />
+        {products?.length > 0 &&
+          products?.map((product, index) => (
+            <ProductPreview key={product.id + index} productInfo={product} />
           ))}
       </ProductsGridContainer>
     </ProductsSection>
   );
-};
+}
 
 export default AllProducts;

@@ -304,7 +304,7 @@ const SignUpForm = (props) => {
           </div>
           <div className='flex flex-col gap-.5'>
             <p className='font-titleFont text-base font-semibold text-gray-600'>
-              Reenter the password
+              Re-enter the password
             </p>
             <input
               onChange={handleconfirmPassword}

@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { HiOutlineMenuAlt4 } from 'react-icons/hi';
 import MenuIcon from '../../assets/images/menu.png';
 import MenuIconWhite from '../../assets/images/menu-white.png';
 import { FaSearch } from 'react-icons/fa';
 import Flex from '../designLayouts/Flex';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { paginationItems } from '../../constants';
-import { fetchProducts } from '../../APIs/Product';
 import { useLocation } from 'react-router-dom';
 
 const SearchBar = () => {
@@ -28,42 +26,7 @@ const SearchBar = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
-  const [products, setProducts] = useState([]);
-  const [productstate, setProductstate] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { product, status, err } = useSelector((state) => state.product);
-  const dispatch = useDispatch();
-
-  const currentPathName = location.pathname;
-
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchProducts())
-        .unwrap()
-        .then((data) => {
-          setProductstate(data);
-          if (data) {
-            setLoading(false);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [status, dispatch]);
-
-  // Fetch user only when the component mounts
-  useEffect(() => {
-    if (!productstate.length) {
-      dispatch(fetchProducts())
-        .unwrap()
-        .then((data) => {
-          setProductstate(data);
-          if (data) {
-            setLoading(false);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [dispatch, productstate]);
+  const { products } = useSelector((state) => state.product);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -73,28 +36,10 @@ const SearchBar = () => {
     return setShowCategories(!showCategories);
   };
 
-  // move to product on search
-  const handleProductDetails = (id) => {
-    const separatedRoute = currentPathName.split('/');
-    if (separatedRoute[1] === 'accounts') {
-      navigate('/accounts/product', {
-        state: {
-          productId: id,
-        },
-      });
-    } else {
-      navigate('/product', {
-        state: {
-          productId: id,
-        },
-      });
-    }
-  };
-
   let prod =
-    (productstate &&
-      productstate.length > 0 &&
-      productstate.filter((item) =>
+    (products &&
+      products.length > 0 &&
+      products.filter((item) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       )) ||
     [];
@@ -176,22 +121,12 @@ const SearchBar = () => {
                 {searchQuery &&
                   filteredProducts.map((item) => (
                     <div
-                      onClick={() =>
-                        // navigate(
-                        //   `/product/${item.id
-                        //     .toLowerCase()
-                        //     .split(" ")
-                        //     .join("")}`,
-                        //   {
-                        //     state: {
-                        //       item: item,
-                        //     },
-                        //   }
-                        // ) &
-                        handleProductDetails(item.id) &
-                        setShowSearchBar(true) &
-                        setSearchQuery('')
-                      }
+                      onClick={() => {
+                        navigate(`/products/${item.id}`);
+
+                        setShowSearchBar(true);
+                        setSearchQuery('');
+                      }}
                       key={item.id}
                       className='max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3'
                     >

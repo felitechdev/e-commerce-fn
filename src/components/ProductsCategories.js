@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Banner from './Banner/Banner';
-import NewArrivals from './home/ProductsSections/NewArrivals';
-import YearProduct from './home/YearProduct/YearProduct';
-import Recommendations from './home/ProductsSections/Recommendations';
 import AllProducts from './home/AllProducts/AllProducts';
 import CategoryFilteredProducts from './home/AllProducts/CategoryFilteredProducts';
+import { Loader } from '../dashboard/Components/Loader/LoadingSpin';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../APIs/Product';
 
-const ProductsCategories = () => {
+function ProductsCategories() {
+  const { status, products } = useSelector((state) => state.product);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   const [selectedCategory, setSelectedCategory] = useState({
     category: {
       categoryname: null,
@@ -59,25 +67,18 @@ const ProductsCategories = () => {
         allcatesubcategory={selectedCategory.subcategory.subcategoryId}
         onViewAllClick={handleViewAllClick}
       />
-      {selectedCategory.category.categoryId ||
-      selectedCategory.subcategory.subcategoryId ? (
-        <div className='max-w-container mx-auto px-4'>
-          <CategoryFilteredProducts selectedCategory={selectedCategory} />
-        </div>
-      ) : (
-        <>
-          <div className='max-w-container mx-auto px-4'>
-            <Recommendations />
+
+      <div className='max-w-container mx-auto px-4'>
+        {status === 'loading' && !products.length && (
+          <div className='flex justify-center p-16'>
+            <Loader />
           </div>
-          <NewArrivals />
-          <div className='max-w-container mx-auto px-4'>
-            <AllProducts />
-            <YearProduct />
-          </div>
-        </>
-      )}
+        )}
+
+        {products.length && <AllProducts products={products} />}
+      </div>
     </div>
   );
-};
+}
 
 export default ProductsCategories;
