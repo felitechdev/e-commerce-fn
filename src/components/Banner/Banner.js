@@ -13,7 +13,6 @@ import ImageSlider from '../imageslider/ImageSlider';
 
 // change i made
 const Banner = (props) => {
-  console.log('BANNNER', props);
   const [dotActive, setDocActive] = useState(0);
   const [isviewAllselected, setIsviewAllselected] = useState(false);
   const handleViewAllClick = () => {
