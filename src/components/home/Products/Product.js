@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { BiPlus } from 'react-icons/bi';
 import { BiMinus } from 'react-icons/bi';
 import Image from '../../designLayouts/Image';
+import discountedFinalPrice from '../../../util/discountedFinalPrice';
 
 // change i made
 const ProductPreview = ({ productInfo }) => {
@@ -128,19 +129,22 @@ const ProductPreview = ({ productInfo }) => {
                     <DisplayCurrency
                       amount={
                         productInfo.discountPercentage > 0
-                          ? productInfo.discountedPrice
+                          ? discountedFinalPrice(
+                              productInfo.price,
+                              productInfo.discountPercentage
+                            )
                           : productInfo.price
                       }
                       currencyCode={toCurrency}
                     />
                   </div>
                   {productInfo.discountPercentage > 0 && (
-                    <p className='text-[#00000080] line-through'>
+                    <div className='text-[#00000080] line-through'>
                       <DisplayCurrency
                         amount={productInfo.price}
                         currencyCode={toCurrency}
                       />
-                    </p>
+                    </div>
                   )}
                 </div>
 

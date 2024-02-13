@@ -75,7 +75,7 @@ function ProductsCategories() {
           </div>
         )}
 
-        {products.length && <AllProducts products={products} />}
+        {products.length > 0 && <AllProducts products={products} />}
       </div>
     </div>
   );
