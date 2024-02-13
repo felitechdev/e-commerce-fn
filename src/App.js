@@ -21,7 +21,6 @@ import Shop from './pages/Default/Shop/Shop';
 // import SellerProfile from './pages/Account/Profile/SellerProfile';
 // import ProfileLayout from './Layouts/ProfileLayout';
 // import { GetMyprofile } from './APIs/UserAPIs';
-import { FeliTechLogo_transparent, FeliTechWhiteLogo } from './assets/images';
 // import Paymentpage from './pages/Payment/payment';
 // import PaymentDone from './pages/Payment/payment';
 // import CustomerOrders from './pages/orders/orders';
@@ -31,9 +30,7 @@ import SignIn from './pages/SignIn';
 import SellerProfile from './pages/Account/Profile/SellerProfile';
 import SignUp from './pages/SignUp';
 import Cart from './pages/Cart';
-import ProductDetails from './pages/ProductDetails/Product';
 import Product from './pages/ProductDetails/Product';
-import PageLayout from './components/designLayouts/PageLayout';
 import { useUser } from './context/UserContex';
 import { LayoutDesign } from './dashboard/Layouts/LayoutDesign';
 import {
