@@ -41,6 +41,7 @@ export const LayoutDesign = ({ userprofile }) => {
         errprofile.message === "jwt malformed, Please login again")
     ) {
       Cookies.remove("token");
+      localStorage.removeItem("selectedKey");
       navigate("/");
     }
   }, [errprofile, navigate]);
@@ -61,10 +62,9 @@ export const LayoutDesign = ({ userprofile }) => {
     localStorage.setItem("selectedKey", menuItem.key);
   };
 
-  let selectedKey = localStorage.getItem("selectedKey");
+  let selectedKey = localStorage.getItem("selectedKey") || "0";
 
   const handleSignOut = () => {
-    localStorage.removeItem("selectedKey");
     onLogout();
     navigate("/", { replace: true });
   };
@@ -72,6 +72,7 @@ export const LayoutDesign = ({ userprofile }) => {
   const handleItemClick = (key) => {
     if (key === "1") {
       navigate("/user/profile");
+      localStorage.setItem("selectedKey", "6");
     } else if (key === "2") {
       handleSignOut();
       // onLogout();
@@ -121,7 +122,8 @@ export const LayoutDesign = ({ userprofile }) => {
           }}
         >
           <Avatar
-            className="w-auto mx-4 h-[8rem]"
+            onClick={() => navigate("/", { replace: true })}
+            className="w-20 mx-4 h-20"
             src="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
           />
 
@@ -163,6 +165,7 @@ export const LayoutDesign = ({ userprofile }) => {
                   width: 64,
                   height: 64,
                   fontWeight: "bold",
+                  color: "white",
                 }}
               />
               <TitleDisplay />
@@ -183,14 +186,14 @@ export const LayoutDesign = ({ userprofile }) => {
               }
             >
               <Space wrap size={16}>
-                {user && user?.photo == "default.jpg" ? (
+                {user && user?.profileImageUrl == "default.jpg" ? (
                   <Avatar shape="square" size={50} icon={<UserOutlined />} />
                 ) : (
                   <>
                     <img
                       src={`${user && user?.photo}`}
                       className="h-14 w-14 rounded-full mt-1 mb-1 "
-                      alt="admin"
+                      alt={user?.firstName}
                     />
                   </>
                 )}
@@ -218,7 +221,7 @@ const TitleDisplay = () => {
   const dynamicTitle = useTitleContext();
 
   return (
-    <h1 className="font-bold" style={{ marginLeft: "16px" }}>
+    <h1 className="font-bold text-white" style={{ marginLeft: "16px" }}>
       {dynamicTitle}
     </h1>
   );

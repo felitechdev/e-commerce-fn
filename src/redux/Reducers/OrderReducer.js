@@ -1,4 +1,4 @@
-import { GetMyOrders } from "../../APIs/Oreders";
+import { GetMyOrders, getorderDetail } from "../../APIs/Oreders";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const getorder = createSlice({
@@ -24,5 +24,31 @@ export const getorder = createSlice({
       });
   },
 });
+
+export const getorderdetail = createSlice({
+  name: "order",
+  initialState: {
+    order: null,
+    loadorder: false,
+    errororder: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getorderDetail.pending, (state, action) => {
+        state.loadorder = true;
+      })
+      .addCase(getorderDetail.fulfilled, (state, action) => {
+        state.loadorder = false;
+        state.order = action.payload;
+      })
+      .addCase(getorderDetail.rejected, (state, action) => {
+        state.loadorder = false;
+        state.errororder = action.error;
+      });
+  },
+});
+
+export const getSingleOrderReducer = getorderdetail.reducer;
 
 export const getorderReducer = getorder.reducer;

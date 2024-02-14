@@ -49,7 +49,6 @@ const SellerProfile = () => {
     setOpenmodel(state);
   };
 
-  console.log("on user profile", user);
   // update state on update profile
   const handleupdatestateProfile = (data) => {
     onSetProfile(data);
@@ -92,14 +91,14 @@ const SellerProfile = () => {
             {user != null ? (
               <>
                 <div className="flex  space-x-2 items-center">
-                  {user?.photo == "default.jpg" ? (
+                  {user?.photo || user?.profileImageUrl == "default.jpg" ? (
                     <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
                       {user?.firstName[0]}
                     </h1>
                   ) : (
                     <img
                       src={user?.photo}
-                      className="w-10 h-10 rounded-full "
+                      className=" w-14 h-14 rounded-full border-2 p-1 "
                     />
                   )}
 
@@ -107,10 +106,10 @@ const SellerProfile = () => {
                 </div>
 
                 <h1
-                  className="flex ml-0 mt-1 cursor-pointer "
+                  className="flex ml-0 mt-1 text-sm  cursor-pointer "
                   onClick={handleopenmodel}
                 >
-                  <RiEdit2Fill size={25} />
+                  <RiEdit2Fill size={15} />
                   Edit{" "}
                 </h1>
                 <ImageUpload
@@ -122,13 +121,14 @@ const SellerProfile = () => {
               </>
             ) : (
               <>
-                <FaUser size={25} />
-                <h1>My Hill Global Market</h1>
+                <FaUser size={15} />
+                <h1 className="text-sm">My Hill Global Market</h1>
               </>
             )}
           </div>
 
-          {user != null && user?.role == "customer" ? (
+          {(user != null && user?.role == "customer") ||
+          user.role == "admin" ? (
             <>
               <PersonalInfoModel
                 isModalOpen={usenameopenmodel}
@@ -141,17 +141,17 @@ const SellerProfile = () => {
                 className="flex space-x-2 cursor-pointer font-bold  text-primary "
                 onClick={showusernamemodel}
               >
-                <RiEdit2Fill size={25} />
-                <h1>Edit My Profile</h1>
+                <RiEdit2Fill size={20} />
+                <h1 className="text-sm">Edit My Profile</h1>
               </div>
             </>
           ) : (
             <div
-              className="flex space-x-2 cursor-pointer  text-primary font-bold"
+              className="flex space-x-2 cursor-pointer  text-primary text-md font-bold"
               onClick={showModal}
             >
-              <RiEdit2Fill size={25} />
-              <h1>Edit Seller Info</h1>
+              <RiEdit2Fill size={20} />
+              <h1 className="text-sm">Edit Seller Info</h1>
             </div>
           )}
         </div>
@@ -162,21 +162,21 @@ const SellerProfile = () => {
               <div className="">
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-xl">
+                  <span className="text-border font-bold text-md">
                     Email :{" "}
                   </span>{" "}
                   {user.email}
                 </h1>
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-xl">
+                  <span className="text-border font-bold text-md">
                     firstName :{" "}
                   </span>{" "}
                   {user.firstName}
                 </h1>
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-xl">
+                  <span className="text-border font-bold text-md">
                     lastName :{" "}
                   </span>{" "}
                   {user.lastName}
