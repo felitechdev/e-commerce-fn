@@ -39,6 +39,7 @@ import {
 } from "../dashboard/Redux/ReduxSlice/createCategory";
 import { getMyprofilereducer } from "../dashboard/Redux/ReduxSlice/userProfile";
 import { deleteProductReducer } from "../dashboard/Redux/ReduxSlice/createProduct";
+import { getSingleOrderReducer } from "../redux/Reducers/OrderReducer";
 
 const rootReducer = {
   productsReducer,
@@ -51,6 +52,7 @@ const rootReducer = {
   profileimage: updateprofileImageReducer,
   orders: getorderReducer,
   usernameupdate: updateprofilenamesReducer,
+  singleorder: getSingleOrderReducer,
 
   adminProduct: getdashproductslice,
   createproduct: creteproductSlice,

@@ -1,17 +1,11 @@
 import { Row, Space, Table, Image, Typography, Input } from "antd";
 
-import {
-  DownloadOutlined,
-  RotateLeftOutlined,
-  RotateRightOutlined,
-  SwapOutlined,
-  ZoomInOutlined,
-  ZoomOutOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { DeleteFilled, EyeFilled, EditFilled } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import { getorderDetail } from "../../../APIs/Oreders";
+import { useNavigate, Navigate } from "react-router-dom";
 
 import { Loader } from "../Loader/LoadingSpin";
 
@@ -25,6 +19,7 @@ export const OrderTable = (...props) => {
   const [filteredData, setFilteredData] = useState([]);
 
   const token = Cookies.get("token");
+  const navigate = useNavigate();
 
   const { orders, loadorders, errorders } = useSelector(
     (state) => state.orders
@@ -32,17 +27,17 @@ export const OrderTable = (...props) => {
   const dispatch = useDispatch();
   const columns = [
     {
-      title: "Customer",
+      title: "#",
       dataIndex: "customerId",
       key: "customerId",
       width: 100,
     },
-    {
-      title: "Order",
-      dataIndex: "orderId",
-      key: "orderId",
-      width: 100,
-    },
+    // {
+    //   title: "Order",
+    //   dataIndex: "orderId",
+    //   key: "orderId",
+    //   width: 100,
+    // },
     {
       title: "Amount",
       dataIndex: "amount",
@@ -70,13 +65,32 @@ export const OrderTable = (...props) => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: 100,
+      // width: 100,
     },
     {
       title: "Updated At",
       dataIndex: "updatedAt",
       key: "updatedAt",
       width: 100,
+    },
+    {
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
+      width: 100,
+      render: (_, record) => (
+        <>
+          {/* <EditFilled className=" text-icon2 mr-2" /> */}
+          <EyeFilled
+            className=" text-icon1 mr-2"
+            onClick={() => {
+              console.log("record", record);
+              navigate(`${record.key}`);
+            }}
+          />
+          {/* <DeleteFilled className=" text-icon3" /> */}
+        </>
+      ),
     },
   ];
 
@@ -109,13 +123,15 @@ export const OrderTable = (...props) => {
     }
   }, [dispatch, order, token]);
 
+  console.log("order", order);
+
   useEffect(() => {
     const newData = order?.map((orderItem, index) => ({
-      key: orderItem.id,
+      key: orderItem.id ? orderItem.id : orderItem._id,
       // customerId: orderItem.customer,
       // orderId: orderItem.id,
       customerId: index + 1,
-      orderId: index + 1,
+      // orderId: index + 1,
       amount: orderItem.amount,
       address: `${orderItem?.shippingAddress?.address?.street}, ${orderItem?.shippingAddress?.city}`,
       phoneNumber: orderItem.phoneNumber,

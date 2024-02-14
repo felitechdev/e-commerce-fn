@@ -14,6 +14,7 @@ function UserProvider({ children }) {
 
   function onLogout() {
     Cookies.remove("token");
+    localStorage.removeItem("selectedKey");
     setUser(null);
   }
 
