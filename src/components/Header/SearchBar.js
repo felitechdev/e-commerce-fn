@@ -53,10 +53,9 @@ const SearchBar = () => {
   }, [searchQuery]);
 
   return (
-    // <div className="hidden md:block w-full bg-[#F5F5F3] relative">
-    <div className='hidden md:block w-full relative  '>
+    <div className='hidden md:block w-[30%] relative  '>
       <div className='max-w-container mx-auto'>
-        <Flex className='flex pt-5  lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24'>
+        <Flex className='flex lg:flex-row items-start lg:items-center justify-between lg:pb-0 h-full lg:h-24'>
           <div
             onClick={() => handleCategoriesMenuClick()}
             ref={ref}

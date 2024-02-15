@@ -5,7 +5,7 @@ import PageLayout from '../components/designLayouts/PageLayout';
 export default function Home(props) {
   return (
     <>
-      <PageLayout showSearchBar={true} showFooter={true}>
+      <PageLayout showFooter={true}>
         <ProductsCategories />
       </PageLayout>
     </>
