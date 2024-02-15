@@ -37,7 +37,7 @@ const Shop = () => {
   };
 
   return (
-    <PageLayout showSearchBar={true} showFooter={true}>
+    <PageLayout showFooter={true}>
       <div className='max-w-container mx-auto px-4'>
         <Breadcrumbs title='Products' />
         <div className='w-full h-full flex pb-20 gap-10'>
