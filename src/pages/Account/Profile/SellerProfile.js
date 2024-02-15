@@ -51,6 +51,7 @@ const SellerProfile = () => {
 
   // update state on update profile
   const handleupdatestateProfile = (data) => {
+    console.log("data", data);
     onSetProfile(data);
   };
 
@@ -128,7 +129,7 @@ const SellerProfile = () => {
           </div>
 
           {(user != null && user?.role == "customer") ||
-          user.role == "admin" ? (
+          user?.role == "admin" ? (
             <>
               <PersonalInfoModel
                 isModalOpen={usenameopenmodel}
@@ -216,7 +217,7 @@ const SellerProfile = () => {
 
             <hr className=" mt-4" />
 
-            {user != null && user.role == "seller" && (
+            {user != null && user?.role == "seller" && (
               <div className=" pl-10 mt-1  ">
                 <h1 className=" text-border font-bold text-2xl underline mb-3">
                   More Information
@@ -276,9 +277,10 @@ const SellerProfile = () => {
                           <span className="text-border font-bold text-xl">
                             bank:{" "}
                           </span>
+
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount.bank &&
-                              user?.data?.profile.bankAccount.bank}
+                            {user?.data?.profile.bankAccount &&
+                              JSON.parse(user?.data?.profile.bankAccount).bank}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -286,8 +288,9 @@ const SellerProfile = () => {
                             accountName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount.accountName &&
-                              user?.data?.profile.bankAccount.accountName}
+                            {user?.data?.profile.bankAccount &&
+                              JSON.parse(user?.data?.profile.bankAccount)
+                                .accountName}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -295,8 +298,9 @@ const SellerProfile = () => {
                             accountNumber:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount.accountNumber &&
-                              user?.data?.profile.bankAccount.accountNumber}
+                            {user?.data?.profile.bankAccount &&
+                              JSON.parse(user?.data?.profile.bankAccount)
+                                .accountNumber}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -304,9 +308,9 @@ const SellerProfile = () => {
                             accountHolderName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount
-                              .accountHolderName &&
-                              user?.data?.profile.bankAccount.accountHolderName}
+                            {user?.data?.profile.bankAccount &&
+                              JSON.parse(user?.data?.profile.bankAccount)
+                                .accountHolderName}
                           </h1>
                         </Col>
                       </>

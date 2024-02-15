@@ -24,7 +24,7 @@ export const useTitleContext = () => React.useContext(TitleContext);
 export const LayoutDesign = ({ userprofile }) => {
   const [collapsed, setCollapsed] = React.useState(false);
   const { user, onLogout } = useUser();
-  const userRole = user.role;
+  const userRole = user?.role;
 
   const { profile, errprofile } = useSelector((state) => state.userprofile);
 

@@ -94,6 +94,14 @@ export const OrderTable = (...props) => {
     },
   ];
 
+  // 'awaits payment',
+  // 'pending',
+  // 'processing',
+  // 'shipped',
+  // 'delivered',
+  // 'cancelled',
+  // 'transaction failed',
+
   useEffect(() => {
     if (loadorders == true) {
       dispatch(fetchorders(token))

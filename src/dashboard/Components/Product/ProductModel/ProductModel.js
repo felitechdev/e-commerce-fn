@@ -69,7 +69,7 @@ const ProductModel = (props) => {
   const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
   const [isupdate, setIsupdate] = useState(false);
   const { user, onLogout } = useUser();
-  const userRole = user.role;
+  const userRole = user?.role;
 
   const [addnew, setAddnew] = useState(false);
   const [addnewsub, setAddnewsub] = useState(false);
