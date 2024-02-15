@@ -43,7 +43,9 @@ const ProductMainInfo = (props) => {
           </p>
         )}
       </div>
-      {props.DBProductInfo?.productImages.colorImages.length > 0 && (
+
+      {/* TODO  Product Colors */}
+      {/* {props.DBProductInfo?.productImages.colorImages.length > 0 && (
         <div>
           <p className='text-lg mb-1 block font-semibold'>
             Color: {props.cartItemInfo?.itemColorName}
@@ -54,9 +56,9 @@ const ProductMainInfo = (props) => {
             setCartItemInfo={props.setCartItemInfo}
             imageCategory='color-images'
           />
-          {/** pass an array of color images **/}
+          
         </div>
-      )}
+      )} */}
 
       {props.DBProductInfo?.availableSizes.length > 0 && (
         <div>
