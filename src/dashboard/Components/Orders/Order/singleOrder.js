@@ -3,6 +3,7 @@ import { useState, useEffect, Navigate } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { Tag } from "antd";
 
 import { Space, Image } from "antd";
 import { UserRole } from "../../../../common/checkusertole";
@@ -13,6 +14,7 @@ import Cookies from "js-cookie";
 import { useUser } from "../../../../context/UserContex";
 import { getorderDetail } from "../../../../APIs/Oreders";
 import axios from "axios";
+import { statusColors } from "../../../../common/statuscolor";
 
 const SingleOrder = () => {
   const [isLoading, setLoading] = useState(true);
@@ -52,43 +54,49 @@ const SingleOrder = () => {
     }
   }, []);
 
-  console.log("orders", orders, order);
   const duplicatedItems = orders?.items?.reduce((acc, item) => {
     return [...acc, { ...item }, { ...item }];
   }, []);
 
-  console.log("duplicatedItems", duplicatedItems);
-
   return (
     <>
-      <div className="bg-white border shadow-md rounded-md w-full min-h-[500px] pb-3">
+      <div className="bg-white border shadow-md rounded-md w-1/2 min-h-[500px] pb-3">
         <hr className="mt-0" />
 
         {orders && (
           <>
             <div className="flex justify-between p-4 border ">
               <div>
-                <h1 className="text-md font-bold">Order ID: {orders.id}</h1>
+                <h1 className="text-md font-bold">Order ID : {orders.id}</h1>
                 <p className="text-gray-400">
-                  Order Date:
+                  Order Date :
                   {new Date(`${orders.createdAt}`).toLocaleDateString()}
                 </p>
               </div>
               <div>
                 <h1 className="text-md font-bold">Total: {orders.amount}</h1>
-                <p className="text-gray-400">Payment Status: {orders.status}</p>
+                <p className="text-gray-400">
+                  {" "}
+                  Status:
+                  {/* {orders.status} */}
+                </p>
+                <Tag
+                  color={statusColors[orders.status]}
+                  style={{ color: "white", fontWeight: "bold" }}
+                  className="capitalize"
+                >
+                  {orders.status}
+                </Tag>
               </div>
             </div>
             <div className="flex justify-between p-4 border ">
               <div>
                 <h1 className="text-md font-bold">shippingAddress</h1>
                 <p className="text-gray-400">
-                  Street:
-                  {orders?.shippingAddress?.address?.street}
+                  Street : {orders?.shippingAddress?.address?.street}
                 </p>
                 <p className="text-gray-400">
-                  City:
-                  {orders?.shippingAddress?.city}
+                  City : {orders?.shippingAddress?.city}
                 </p>
               </div>
               <div>

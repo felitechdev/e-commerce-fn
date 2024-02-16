@@ -67,3 +67,36 @@ export const getorderDetail = createAsyncThunk(
     }
   }
 );
+
+export const UpdateOrder = createAsyncThunk(
+  "order/update",
+  async ({ token, id, status }, { rejectWithValue }) => {
+    console.log("data", status, "id", id, "token", token);
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders/${id}`,
+        method: "PATCH",
+        headers: {
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          "Content-Type": "application/json",
+        },
+        data: { status },
+      });
+      console.log("order update ", response);
+      if (response?.data && response.status == 200) {
+        return response?.data;
+      } else {
+        // Handle unexpected
+        return rejectWithValue({
+          status: response.status,
+          message: response?.data?.data,
+        });
+      }
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response.status,
+        message: err.response?.data?.message,
+      });
+    }
+  }
+);

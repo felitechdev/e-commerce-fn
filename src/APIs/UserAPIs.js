@@ -12,7 +12,7 @@ export const Updateprofile = createAsyncThunk(
         method: "PATCH",
         headers: {
           Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
-          "content-type": "application/json",
+          "content-type": "multipart/form-data",
         },
         data: data,
       });
@@ -27,7 +27,7 @@ export const Updateprofile = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error on update myprofile ", err.message);
+      console.log("error on update myprofile ", err);
       return rejectWithValue({
         status: err.response.status,
         message: err.response?.data?.message,

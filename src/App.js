@@ -45,7 +45,7 @@ import {
 import ShopNow from "./components/designLayouts/buttons/ShopNow";
 import ActivateAccount from "./pages/ActivateAccount";
 import Loader from "./components/loader/Loader";
-import SingleOrder from "./dashboard/Components/Orders/Order.js/singleOrder";
+import SingleOrder from "./dashboard/Components/Orders/Order/singleOrder";
 
 // localStorage.removeItem("selectedKey");
 

@@ -44,14 +44,13 @@ const CompanyModel = (props) => {
     defaultValues: props.profileview, // Set default values from profileview
   });
 
-  const {
-    profile,
-    loadprofile,
-    errprofile,
-    profileupdate,
-    loadprofileupdate,
-    errprofileupdate,
-  } = useSelector((state) => state.userprofile);
+  const { profile, loadprofile, errprofile } = useSelector(
+    (state) => state.userprofile
+  );
+
+  const { profileupdate, loadprofileupdate, errprofileupdate } = useSelector(
+    (state) => state.profileupdate
+  );
   const dispatch = useDispatch();
 
   const token = Cookies.get("token");
@@ -62,8 +61,11 @@ const CompanyModel = (props) => {
     setIsModalOpen(false);
   };
 
+  // console.log(JSON.parse(props.profileview?.data?.profile?.bankAccount));
+
   const onFinish = async (values) => {
-    console.log("values", values);
+    let formData = new FormData();
+
     const payload = {};
 
     payload.bankAccount = {};
@@ -106,26 +108,49 @@ const CompanyModel = (props) => {
     //   }));
     // }
 
+    // console.log(props.profileview?.data?.profile.locations);
+    // if (values.logo) {
+    //   payload["logo"] = logoFile;
+    // }
+
     // Append phone number
     if (values.phoneNumber) {
       const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
       const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
-      payload["phoneNumber"] = fullPhoneNumber;
+      if (
+        fullPhoneNumber.includes("null") ||
+        fullPhoneNumber.includes("undefined")
+      ) {
+      } else {
+        payload["phoneNumber"] = fullPhoneNumber;
+      }
+    }
+    // if (logoFile) {
+    //   payload.append("logo", logoFile);
+    // }
+    // Append other properties of payload to formData
+    for (let key in payload) {
+      if (payload[key] instanceof Object && payload[key] !== null) {
+        // If the property is an object, convert it to a string
+        formData.append(key, JSON.stringify(payload[key]));
+      } else {
+        formData.append(key, payload[key]);
+      }
     }
 
-    // Append image file (assuming logoFile is a file input)
+    // Append logo file to formData
     if (logoFile) {
-      payload["logo"] = logoFile;
+      formData.append("logo", logoFile);
     }
 
-    dispatch(Updateprofile({ data: payload, token: token }))
+    dispatch(Updateprofile({ data: formData, token: token }))
       .unwrap()
       .then((res) => {
         if (res.status === "success") {
           console.log(res?.data?.profile, "sucesss updartee");
 
           // handleupdatestateProfile
-          props.andleupdatestateProfile(payload);
+          props.handleupdatestateProfile(payload);
 
           // close model
           props.handleCancel();
@@ -136,7 +161,7 @@ const CompanyModel = (props) => {
       .catch((err) => {
         setUpdateError("Update Error");
         setUpdateSuccess("");
-        console.log("Update error response", err.message);
+        console.log("Update error response", err);
       });
   };
 
@@ -171,20 +196,38 @@ const CompanyModel = (props) => {
       props.profileview?.data?.profile.companyEmail || ""
     );
     setValue("website", props.profileview?.data?.profile.website || "");
-    setValue("logo", props.profileview?.data?.profile.logo || ""); // Assuming logo is a URL or file path
-    setValue("locations", props.profileview?.data?.profile.locations || ""); // Assuming locations is a string
-    setValue("bank", props.profileview?.data?.profile.bankAccount?.bank || "");
+
+    setValue(
+      "locations",
+      props.profileview?.data?.profile.locations?.address || ""
+    ); // Assuming locations is a string
+    setValue(
+      "bank",
+      (props.profileview?.data?.profile &&
+        JSON.parse(props.profileview?.data?.profile?.bankAccount).bank) ||
+        ""
+    );
     setValue(
       "accountName",
-      props.profileview?.data?.profile.bankAccount?.accountName || ""
+      (props.profileview?.data?.profile &&
+        JSON.parse(props.profileview?.data?.profile?.bankAccount)
+          .accountName) ||
+        ""
     );
     setValue(
       "accountHolderName",
-      props.profileview?.data?.profile.bankAccount?.accountHolderName || ""
+      (props.profileview?.data?.profile &&
+        JSON.parse(props.profileview?.data?.profile?.bankAccount)
+          ?.accountHolderName) ||
+        ""
     );
+    setValue("logo", props.profileview?.data?.profile.logo || "");
     setValue(
       "accountNumber",
-      props.profileview?.data?.profile.bankAccount?.accountNumber || ""
+      (props.profileview?.data?.profile &&
+        JSON.parse(props.profileview?.data?.profile?.bankAccount)
+          ?.accountNumber) ||
+        ""
     );
     setValue("cardNumber", props.profileview?.data?.profile.cardNumber || ""); // Assuming cardNumber is a string
   }, [props.profileview, setValue]);
@@ -275,6 +318,7 @@ const CompanyModel = (props) => {
                 </>
               )}
             />
+
             <Controller
               control={control}
               name="logo"
@@ -294,7 +338,6 @@ const CompanyModel = (props) => {
                 </>
               )}
             />
-
             <Controller
               control={control}
               name="locations"

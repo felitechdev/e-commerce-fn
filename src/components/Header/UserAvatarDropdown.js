@@ -30,7 +30,7 @@ const UserAvatarDropdown = (props) => {
   return (
     <>
       <li
-        className="hidden  rounded-full border-2 border-white hover:border-slate-300  md:inline-block align-middle w-[40px] md:ml-4 cursor-pointer"
+        className="hidden  rounded-full border-2 border-black hover:border-slate-300  md:inline-block align-middle w-[40px] md:ml-4 cursor-pointer"
         onClick={() => setDisplayDropdown(!displayDropdown)}
         ref={avatarRef}
       >
