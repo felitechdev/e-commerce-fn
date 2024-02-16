@@ -51,7 +51,6 @@ const SellerProfile = () => {
 
   // update state on update profile
   const handleupdatestateProfile = (data) => {
-    console.log("data", data);
     onSetProfile(data);
   };
 
@@ -84,9 +83,11 @@ const SellerProfile = () => {
     fetchProfile();
   }, []);
 
+  console.log(user);
+
   return (
     <>
-      <div className="bg-white border shadow-lg rounded-md w-full min-h-[500px] pb-3">
+      <div className="bg-white border  rounded-md w-full min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
             {user != null ? (
@@ -219,14 +220,14 @@ const SellerProfile = () => {
 
             {user != null && user?.role == "seller" && (
               <div className=" pl-10 mt-1  ">
-                <h1 className=" text-border font-bold text-2xl underline mb-3">
+                <h1 className=" text-border font-bold text-lg underline mb-3">
                   More Information
                 </h1>
 
                 {user?.data?.profile && (
                   <Row gutter={[16, 16]}>
                     <Col span={8}>
-                      <span className="text-border font-bold text-xl">
+                      <span className="text-border font-bold text-md">
                         companyEmail:{" "}
                       </span>
                       <h1 className="font-bold">
@@ -235,7 +236,7 @@ const SellerProfile = () => {
                       </h1>
                     </Col>
                     <Col span={8}>
-                      <span className="text-border font-bold text-xl">
+                      <span className="text-border font-bold text-md">
                         companyName:{" "}
                       </span>
                       <h1 className="font-bold">
@@ -244,7 +245,7 @@ const SellerProfile = () => {
                       </h1>
                     </Col>
                     <Col span={8}>
-                      <span className="text-border font-bold text-xl">
+                      <span className="text-border font-bold text-md">
                         phoneNumber:{" "}
                       </span>
                       <h1 className="font-bold">
@@ -253,7 +254,7 @@ const SellerProfile = () => {
                       </h1>
                     </Col>
                     <Col span={8}>
-                      <span className="text-border font-bold text-xl">
+                      <span className="text-border font-bold text-md">
                         website:{" "}
                       </span>
                       <h1 className="font-bold  disabled:bg-black">
@@ -274,7 +275,7 @@ const SellerProfile = () => {
                     {user?.data?.profile.bankAccount && (
                       <>
                         <Col span={8}>
-                          <span className="text-border font-bold text-xl">
+                          <span className="text-border font-bold text-md">
                             bank:{" "}
                           </span>
 
@@ -284,7 +285,7 @@ const SellerProfile = () => {
                           </h1>
                         </Col>
                         <Col span={8}>
-                          <span className="text-border font-bold text-xl">
+                          <span className="text-border font-bold text-md">
                             accountName:{" "}
                           </span>
                           <h1 className="font-bold">
@@ -294,7 +295,7 @@ const SellerProfile = () => {
                           </h1>
                         </Col>
                         <Col span={8}>
-                          <span className="text-border font-bold text-xl">
+                          <span className="text-border font-bold text-md">
                             accountNumber:{" "}
                           </span>
                           <h1 className="font-bold">
@@ -304,7 +305,7 @@ const SellerProfile = () => {
                           </h1>
                         </Col>
                         <Col span={8}>
-                          <span className="text-border font-bold text-xl">
+                          <span className="text-border font-bold text-md">
                             accountHolderName:{" "}
                           </span>
                           <h1 className="font-bold">
@@ -317,7 +318,7 @@ const SellerProfile = () => {
                     )}
 
                     <Col span={8}>
-                      <span className="text-border font-bold text-xl">
+                      <span className="text-border font-bold text-md">
                         cardNumber:
                       </span>
                       <h1 className="font-bold">
@@ -329,7 +330,7 @@ const SellerProfile = () => {
                     {user?.data?.profile.locations &&
                       user?.data?.profile.locations.length > 0 && (
                         <Col span={24}>
-                          <span className="text-border font-bold text-xl">
+                          <span className="text-border font-bold text-md">
                             address:{" "}
                           </span>
                           <h1 className="font-bold">

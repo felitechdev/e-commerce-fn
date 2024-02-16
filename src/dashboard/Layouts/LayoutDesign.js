@@ -111,7 +111,7 @@ export const LayoutDesign = ({ userprofile }) => {
       <Layout style={{ minHeight: "100vh", backgroundColor: "red" }}>
         <Sider
           // className="sticky top-0 h-screen bg-[#FFF]"
-          className="bg-[#FFF]"
+          className="bg-[#FFF] shadow-lg"
           trigger={null}
           collapsible
           collapsed={collapsed}
@@ -119,6 +119,8 @@ export const LayoutDesign = ({ userprofile }) => {
             // overflow: "auto",
             // minHeight: "100%",
             backgroundColor: "white",
+
+            // borderRight: "1px solid ",
           }}
         >
           <Avatar
@@ -186,8 +188,10 @@ export const LayoutDesign = ({ userprofile }) => {
               }
             >
               <Space wrap size={16}>
-                {user && user?.profileImageUrl == "default.jpg" ? (
-                  <Avatar shape="square" size={50} icon={<UserOutlined />} />
+                {user?.photo || user?.profileImageUrl == "default.jpg" ? (
+                  <>
+                    <Avatar shape="square" size={50} icon={<UserOutlined />} />
+                  </>
                 ) : (
                   <>
                     <img
@@ -205,8 +209,12 @@ export const LayoutDesign = ({ userprofile }) => {
               margin: "1rem 3px",
               padding: 2,
               background: "white",
+              textAlign: "center",
+              justifyContent: "center",
+              // alignItems: "center",
+              display: "flex",
             }}
-            className="h-full"
+            className="h-full  "
           >
             <Outlet />
           </Content>

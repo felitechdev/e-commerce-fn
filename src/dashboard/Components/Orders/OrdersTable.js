@@ -1,4 +1,4 @@
-import { Row, Space, Table, Image, Typography, Input } from "antd";
+import { Row, Space, Table, Image, Typography, Tag, Input } from "antd";
 
 import { DeleteFilled, EyeFilled, EditFilled } from "@ant-design/icons";
 import { useSelector } from "react-redux";
@@ -6,6 +6,10 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { getorderDetail } from "../../../APIs/Oreders";
 import { useNavigate, Navigate } from "react-router-dom";
+import { ActionButton } from "../Button/AvtionButton";
+import { UpdateOrderStatus } from "./Order/updateorderstatus";
+import { statusColors } from "../../../common/statuscolor";
+import { GetMyOrders } from "../../../APIs/Oreders";
 
 import { Loader } from "../Loader/LoadingSpin";
 
@@ -17,6 +21,13 @@ const { Title, Paragraph, Text } = Typography;
 export const OrderTable = (...props) => {
   const [order, setOrder] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [orderid, setOrderid] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = async (state, id) => {
+    setOrderid(id);
+    setIsModalOpen(state);
+  };
 
   const token = Cookies.get("token");
   const navigate = useNavigate();
@@ -25,6 +36,41 @@ export const OrderTable = (...props) => {
     (state) => state.orders
   );
   const dispatch = useDispatch();
+
+  const getItems = (record) => [
+    {
+      label: <span className="font-bold text-primary">View</span>,
+      key: "view",
+      icon: <EyeFilled className=" text-icon1 mr-2" />,
+      onClick: () => {
+        navigate(`${record.key}`);
+      },
+    },
+    {
+      label: <span className="font-bold text-primary">Update</span>,
+      key: "edit",
+      icon: <EditFilled className=" text-icon2 mr-2" />,
+      onClick: async () => {
+        await openModal(true, record);
+      },
+    },
+  ];
+
+  const handleupdatestate = async (id, status) => {
+    const updatedOrder =
+      (await orders) && orders.find((order) => order.id === id);
+    setFilteredData((prevData) =>
+      prevData.map((orderItem) => {
+        if (orderItem.key === id) {
+          return {
+            ...orderItem,
+            status: status,
+          };
+        }
+        return orderItem;
+      })
+    );
+  };
   const columns = [
     {
       title: "#",
@@ -66,6 +112,15 @@ export const OrderTable = (...props) => {
       dataIndex: "status",
       key: "status",
       // width: 100,
+      render: (status) => (
+        <Tag
+          color={statusColors[status]}
+          style={{ color: "white", fontWeight: "bold" }}
+          className="capitalize"
+        >
+          {status}
+        </Tag>
+      ),
     },
     {
       title: "Updated At",
@@ -80,35 +135,33 @@ export const OrderTable = (...props) => {
       width: 100,
       render: (_, record) => (
         <>
-          {/* <EditFilled className=" text-icon2 mr-2" /> */}
-          <EyeFilled
-            className=" text-icon1 mr-2"
+          {/* <span
+            className="flex"
             onClick={() => {
               console.log("record", record);
               navigate(`${record.key}`);
             }}
-          />
-          {/* <DeleteFilled className=" text-icon3" /> */}
+          >
+            <EditFilled className=" text-icon2 mr-2" />
+
+            <EyeFilled className=" text-icon1 mr-2" />
+            <h1 className="text-black">View</h1>
+          
+          </span> */}
+
+          <ActionButton items={getItems(record)} />
         </>
       ),
     },
   ];
 
-  // 'awaits payment',
-  // 'pending',
-  // 'processing',
-  // 'shipped',
-  // 'delivered',
-  // 'cancelled',
-  // 'transaction failed',
-
   useEffect(() => {
     if (loadorders == true) {
-      dispatch(fetchorders(token))
+      dispatch(GetMyOrders(token))
         .unwrap()
         .then((data) => {
           if (data?.data && data?.status == "success") {
-            setOrder(data?.data?.orders);
+            setOrder(data?.data?.orders.slice(0, 3));
           }
         })
         .catch((error) => {
@@ -120,38 +173,45 @@ export const OrderTable = (...props) => {
   // Fetch products only when the component mounts
   useEffect(() => {
     if (!order.length) {
-      dispatch(fetchorders(token))
+      dispatch(GetMyOrders(token))
         .unwrap()
         .then((data) => {
           if (data?.data && data?.status == "success") {
-            setOrder(data?.data?.orders);
+            setOrder(data?.data?.orders.slice(0, 3));
           }
         })
         .catch((error) => {});
     }
   }, [dispatch, order, token]);
 
-  console.log("order", order);
-
   useEffect(() => {
-    const newData = order?.map((orderItem, index) => ({
-      key: orderItem.id ? orderItem.id : orderItem._id,
-      // customerId: orderItem.customer,
-      // orderId: orderItem.id,
-      customerId: index + 1,
-      // orderId: index + 1,
-      amount: orderItem.amount,
-      address: `${orderItem?.shippingAddress?.address?.street}, ${orderItem?.shippingAddress?.city}`,
-      phoneNumber: orderItem.phoneNumber,
-      itemsCount: orderItem.items.length,
-      status: orderItem.status,
-      updatedAt: new Date(orderItem.updatedAt).toLocaleDateString(),
-    }));
+    const newData =
+      !loadorders &&
+      orders &&
+      orders?.map((orderItem, index) => ({
+        key: orderItem.id ? orderItem.id : orderItem._id,
+        // customerId: orderItem.customer,
+        // orderId: orderItem.id,
+        customerId: index + 1,
+        // orderId: index + 1,
+        amount: orderItem.amount,
+        address: `${orderItem?.shippingAddress?.address?.street}, ${orderItem?.shippingAddress?.city}`,
+        phoneNumber: orderItem.phoneNumber,
+        itemsCount: orderItem.items.length,
+        status: orderItem.status,
+        updatedAt: new Date(orderItem.updatedAt).toLocaleDateString(),
+      }));
 
     setFilteredData(newData);
-  }, [order]);
+  }, [order, loadorders]);
   return (
     <>
+      <UpdateOrderStatus
+        setModel={isModalOpen}
+        order={orderid}
+        openModal={openModal}
+        handleupdatestate={handleupdatestate}
+      />
       {loadorders ? (
         <>
           <Loader className=" text-primary flex items-center w-full justify-center" />
