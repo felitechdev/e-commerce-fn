@@ -201,34 +201,34 @@ const CompanyModel = (props) => {
       "locations",
       props.profileview?.data?.profile.locations?.address || ""
     ); // Assuming locations is a string
-    setValue(
-      "bank",
-      (props.profileview?.data?.profile &&
-        JSON.parse(props.profileview?.data?.profile?.bankAccount).bank) ||
-        ""
-    );
-    setValue(
-      "accountName",
-      (props.profileview?.data?.profile &&
-        JSON.parse(props.profileview?.data?.profile?.bankAccount)
-          .accountName) ||
-        ""
-    );
-    setValue(
-      "accountHolderName",
-      (props.profileview?.data?.profile &&
-        JSON.parse(props.profileview?.data?.profile?.bankAccount)
-          ?.accountHolderName) ||
-        ""
-    );
-    setValue("logo", props.profileview?.data?.profile.logo || "");
-    setValue(
-      "accountNumber",
-      (props.profileview?.data?.profile &&
-        JSON.parse(props.profileview?.data?.profile?.bankAccount)
-          ?.accountNumber) ||
-        ""
-    );
+    // setValue(
+    //   "bank",
+    //   (props.profileview?.data?.profile &&
+    //     JSON.parse(props.profileview?.data?.profile?.bankAccount).bank) ||
+    //     ""
+    // );
+    // setValue(
+    //   "accountName",
+    //   (props.profileview?.data?.profile &&
+    //     JSON.parse(props.profileview?.data?.profile?.bankAccount)
+    //       .accountName) ||
+    //     ""
+    // );
+    // setValue(
+    //   "accountHolderName",
+    //   (props.profileview?.data?.profile &&
+    //     JSON.parse(props.profileview?.data?.profile?.bankAccount)
+    //       ?.accountHolderName) ||
+    //     ""
+    // );
+    // setValue("logo", props.profileview?.data?.profile.logo || "");
+    // setValue(
+    //   "accountNumber",
+    //   (props.profileview?.data?.profile &&
+    //     JSON.parse(props.profileview?.data?.profile?.bankAccount)
+    //       ?.accountNumber) ||
+    //     ""
+    // );
     setValue("cardNumber", props.profileview?.data?.profile.cardNumber || ""); // Assuming cardNumber is a string
   }, [props.profileview, setValue]);
 

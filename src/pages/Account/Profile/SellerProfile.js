@@ -87,7 +87,7 @@ const SellerProfile = () => {
 
   return (
     <>
-      <div className="bg-white border  rounded-md w-full min-h-[500px] pb-3">
+      <div className="bg-white border   rounded-md w-full min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
             {user != null ? (
@@ -280,8 +280,15 @@ const SellerProfile = () => {
                           </span>
 
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
-                              JSON.parse(user?.data?.profile.bankAccount).bank}
+                            {/* {user?.data?.profile?.bankAccount &&
+                              JSON.parse(user?.data?.profile?.bankAccount).bank} */}
+
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "string"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .bank
+                                : user?.data?.profile?.bankAccount.bank)}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -289,9 +296,15 @@ const SellerProfile = () => {
                             accountName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
+                            {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
-                                .accountName}
+                                .accountName} */}
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "string"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .accountName
+                                : user?.data?.profile?.bankAccount.accountName)}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -299,9 +312,16 @@ const SellerProfile = () => {
                             accountNumber:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
+                            {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
-                                .accountNumber}
+                                .accountNumber} */}
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "number"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .accountNumber
+                                : user?.data?.profile?.bankAccount
+                                    .accountNumber)}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -309,15 +329,22 @@ const SellerProfile = () => {
                             accountHolderName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
+                            {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
-                                .accountHolderName}
+                                .accountHolderName} */}
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "string"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .accountHolderName
+                                : user?.data?.profile?.bankAccount
+                                    .accountHolderName)}
                           </h1>
                         </Col>
                       </>
                     )}
 
-                    <Col span={8}>
+                    {/* <Col span={8}>
                       <span className="text-border font-bold text-md">
                         cardNumber:
                       </span>
@@ -325,7 +352,7 @@ const SellerProfile = () => {
                         {user?.data?.profile.cardNumber &&
                           user?.data?.profile.cardNumber}
                       </h1>
-                    </Col>
+                    </Col> */}
 
                     {user?.data?.profile.locations &&
                       user?.data?.profile.locations.length > 0 && (
