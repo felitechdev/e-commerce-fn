@@ -51,10 +51,12 @@ const SellerProfile = () => {
 
   // update state on update profile
   const handleupdatestateProfile = (data) => {
+    console.log("data on haandle update", data);
     onSetProfile(data);
   };
 
   const handleupdatestate = (data) => {
+    console.log("data on haandle update", data);
     onSetProfile(data);
   };
 
@@ -83,17 +85,18 @@ const SellerProfile = () => {
     fetchProfile();
   }, []);
 
-  console.log(user);
+  console.log("user", user);
 
   return (
-    <>
+    <div className=" flex  justify-center  w-full h-min">
       <div className="bg-white border   rounded-md w-full min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
-            {user != null ? (
+            {user ? (
               <>
                 <div className="flex  space-x-2 items-center">
-                  {user?.photo || user?.profileImageUrl == "default.jpg" ? (
+                  {user?.photo == "default.jpg" ||
+                  user?.profileImageUrl == "default.jpg" ? (
                     <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
                       {user?.firstName[0]}
                     </h1>
@@ -317,7 +320,7 @@ const SellerProfile = () => {
                                 .accountNumber} */}
                             {user?.data?.profile?.bankAccount &&
                               (typeof user?.data?.profile?.bankAccount ===
-                              "number"
+                              "string"
                                 ? JSON.parse(user?.data?.profile?.bankAccount)
                                     .accountNumber
                                 : user?.data?.profile?.bankAccount
@@ -344,7 +347,7 @@ const SellerProfile = () => {
                       </>
                     )}
 
-                    {/* <Col span={8}>
+                    <Col span={8}>
                       <span className="text-border font-bold text-md">
                         cardNumber:
                       </span>
@@ -352,7 +355,7 @@ const SellerProfile = () => {
                         {user?.data?.profile.cardNumber &&
                           user?.data?.profile.cardNumber}
                       </h1>
-                    </Col> */}
+                    </Col>
 
                     {user?.data?.profile.locations &&
                       user?.data?.profile.locations.length > 0 && (
@@ -379,7 +382,7 @@ const SellerProfile = () => {
           handleupdatestateProfile={handleupdatestateProfile}
         />
       </div>
-    </>
+    </div>
   );
 };
 

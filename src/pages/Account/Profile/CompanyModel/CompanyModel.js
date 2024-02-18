@@ -8,6 +8,7 @@ import { useEffect } from "react";
 // country input to check country phone number
 import PhoneInput from "antd-phone-input";
 import Cookies from "js-cookie";
+import { useUser } from "../../../../context/UserContex";
 import { Updateprofile } from "../../../../APIs/UserAPIs";
 
 const CompanyModel = (props) => {
@@ -19,6 +20,7 @@ const CompanyModel = (props) => {
   const [userdata, setUserdata] = useState();
   const [updateError, setUpdateError] = useState("");
   const [updateSuccess, setUpdateSuccess] = useState("");
+  const user = useUser().user;
 
   const [errorAlert, setErrorAlert] = useState({ status: false, message: "" });
   const [successAlert, setSuccessAlert] = useState({
@@ -61,7 +63,44 @@ const CompanyModel = (props) => {
     setIsModalOpen(false);
   };
 
-  // console.log(JSON.parse(props.profileview?.data?.profile?.bankAccount));
+  const bank =
+    (user?.data?.profile?.bankAccount &&
+      (typeof user?.data?.profile?.bankAccount === "string"
+        ? JSON.parse(user?.data?.profile?.bankAccount).accountName
+        : user?.data?.profile?.bankAccount.accountName)) ||
+    "";
+  const accountHolderName =
+    (user?.data?.profile?.bankAccount &&
+      (typeof user?.data?.profile?.bankAccount === "string"
+        ? JSON.parse(user?.data?.profile?.bankAccount).accountHolderName
+        : user?.data?.profile?.bankAccount.accountHolderName)) ||
+    "";
+
+  const accountNumber =
+    parseInt(
+      user?.data?.profile?.bankAccount &&
+        (typeof user?.data?.profile?.bankAccount === "string"
+          ? JSON.parse(user?.data?.profile?.bankAccount).accountNumber
+          : user?.data?.profile?.bankAccount.accountNumber)
+    ) || "";
+
+  const accountName =
+    (user?.data?.profile?.bankAccount &&
+      (typeof user?.data?.profile?.bankAccount === "string"
+        ? JSON.parse(user?.data?.profile?.bankAccount).accountName
+        : user?.data?.profile?.bankAccount.accountName)) ||
+    "";
+
+  const location =
+    user?.data?.profile?.locations.map((location) => {
+      const { address, coordinates, id, _id } = location;
+      return {
+        address: address,
+        coordinate1: coordinates[0],
+        coordinate2: coordinates[1],
+        id: id,
+      };
+    }) || [];
 
   const onFinish = async (values) => {
     let formData = new FormData();
@@ -147,8 +186,6 @@ const CompanyModel = (props) => {
       .unwrap()
       .then((res) => {
         if (res.status === "success") {
-          console.log(res?.data?.profile, "sucesss updartee");
-
           // handleupdatestateProfile
           props.handleupdatestateProfile(payload);
 
@@ -196,39 +233,12 @@ const CompanyModel = (props) => {
       props.profileview?.data?.profile.companyEmail || ""
     );
     setValue("website", props.profileview?.data?.profile.website || "");
-
-    setValue(
-      "locations",
-      props.profileview?.data?.profile.locations?.address || ""
-    ); // Assuming locations is a string
-    // setValue(
-    //   "bank",
-    //   (props.profileview?.data?.profile &&
-    //     JSON.parse(props.profileview?.data?.profile?.bankAccount).bank) ||
-    //     ""
-    // );
-    // setValue(
-    //   "accountName",
-    //   (props.profileview?.data?.profile &&
-    //     JSON.parse(props.profileview?.data?.profile?.bankAccount)
-    //       .accountName) ||
-    //     ""
-    // );
-    // setValue(
-    //   "accountHolderName",
-    //   (props.profileview?.data?.profile &&
-    //     JSON.parse(props.profileview?.data?.profile?.bankAccount)
-    //       ?.accountHolderName) ||
-    //     ""
-    // );
-    // setValue("logo", props.profileview?.data?.profile.logo || "");
-    // setValue(
-    //   "accountNumber",
-    //   (props.profileview?.data?.profile &&
-    //     JSON.parse(props.profileview?.data?.profile?.bankAccount)
-    //       ?.accountNumber) ||
-    //     ""
-    // );
+    setValue("locations", location[0]?.address || "");
+    setValue("bank", bank);
+    setValue("accountName", accountName);
+    setValue("accountHolderName", accountHolderName);
+    setValue("logo", props.profileview?.data?.profile.logo || "");
+    setValue("accountNumber", accountNumber);
     setValue("cardNumber", props.profileview?.data?.profile.cardNumber || ""); // Assuming cardNumber is a string
   }, [props.profileview, setValue]);
 

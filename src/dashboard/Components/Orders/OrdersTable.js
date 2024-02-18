@@ -10,6 +10,7 @@ import { ActionButton } from "../Button/AvtionButton";
 import { UpdateOrderStatus } from "./Order/updateorderstatus";
 import { statusColors } from "../../../common/statuscolor";
 import { GetMyOrders } from "../../../APIs/Oreders";
+import { useUser } from "../../../context/UserContex";
 
 import { Loader } from "../Loader/LoadingSpin";
 
@@ -23,6 +24,8 @@ export const OrderTable = (...props) => {
   const [filteredData, setFilteredData] = useState([]);
   const [orderid, setOrderid] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const user = useUser().user;
+  const UserRole = user?.role;
 
   const openModal = async (state, id) => {
     setOrderid(id);
@@ -46,14 +49,15 @@ export const OrderTable = (...props) => {
         navigate(`${record.key}`);
       },
     },
-    {
-      label: <span className="font-bold text-primary">Update</span>,
-      key: "edit",
-      icon: <EditFilled className=" text-icon2 mr-2" />,
-      onClick: async () => {
-        await openModal(true, record);
-      },
-    },
+    user?.role == "admin" ||
+      (user?.role == "customer" && {
+        label: <span className="font-bold text-primary">Update</span>,
+        key: "edit",
+        icon: <EditFilled className=" text-icon2 mr-2" />,
+        onClick: async () => {
+          await openModal(true, record);
+        },
+      }),
   ];
 
   const handleupdatestate = async (id, status) => {
@@ -96,12 +100,7 @@ export const OrderTable = (...props) => {
       key: "address",
       width: 400,
     },
-    {
-      title: "Phone ",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      width: 200,
-    },
+
     {
       title: "Items",
       dataIndex: "itemsCount",
@@ -154,6 +153,15 @@ export const OrderTable = (...props) => {
       ),
     },
   ];
+
+  if (user?.role === "admin" || user?.role === "customer") {
+    columns.splice(3, 0, {
+      title: "Phone ",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      width: 200,
+    });
+  }
 
   useEffect(() => {
     if (loadorders == true) {

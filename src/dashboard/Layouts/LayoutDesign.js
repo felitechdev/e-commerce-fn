@@ -210,9 +210,9 @@ export const LayoutDesign = ({ userprofile }) => {
               padding: 2,
               background: "white",
               // textAlign: "center",
-              // justifyContent: "center",
-              // // alignItems: "center",
-              // display: "flex",
+              justifyContent: "center",
+              // alignItems: "center",
+              display: "flex",
             }}
             className="h-full  "
           >

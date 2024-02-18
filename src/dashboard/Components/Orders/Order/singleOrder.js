@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect, Navigate } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tag } from "antd";
+import { FaArrowCircleLeft } from "react-icons/fa";
 
 import { Space, Image } from "antd";
 import { UserRole } from "../../../../common/checkusertole";
@@ -60,7 +61,11 @@ const SingleOrder = () => {
 
   return (
     <>
-      <div className="bg-white border shadow-md rounded-md w-1/2 min-h-[500px] pb-3">
+      {/* min-h-[500px] */}
+      <div className="bg-white border shadow-md rounded-md w-full lg:w-1/2 h-min  pb-3">
+        <Button>
+          <FaArrowCircleLeft />
+        </Button>
         <hr className="mt-0" />
 
         {orders && (
@@ -100,11 +105,15 @@ const SingleOrder = () => {
                 </p>
               </div>
               <div>
-                <h1 className="text-md font-bold">
-                  {" "}
-                  {UserRole !== "customer" ? " Cutomer" : "My phone"}
-                </h1>
-                <p className="text-gray-400">Tel: {orders.phoneNumber}</p>
+                {UserRole !== "seller" && (
+                  <>
+                    <h1 className="text-md font-bold">
+                      {" "}
+                      {UserRole !== "customer" ? " Cutomer" : "My phone"}
+                    </h1>
+                    <p className="text-gray-400">Tel: {orders.phoneNumber}</p>
+                  </>
+                )}
               </div>
             </div>
 
@@ -139,6 +148,7 @@ const SingleOrder = () => {
                   <p className="text-gray-400 font-bold text-md">
                     quantity : {item.quantity}
                   </p>
+                  <p className="text-gray-400 font-bold text-md">color : {}</p>
                 </div>
               </div>
             ))}
