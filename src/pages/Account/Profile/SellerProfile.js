@@ -86,8 +86,6 @@ const SellerProfile = () => {
     fetchProfile();
   }, []);
 
-  console.log("user", user);
-
   return (
     <div className=" flex  justify-center  w-full h-min">
       <div className="bg-white border   rounded-md w-full min-h-[500px] pb-3">
@@ -230,7 +228,8 @@ const SellerProfile = () => {
 
                 {user?.data?.profile && (
                   <Row gutter={[16, 16]}>
-                    <Col span={8}>
+                    {/* <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}></Row> */}
+                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                       <span className="text-border font-bold text-md">
                         companyEmail:{" "}
                       </span>
@@ -239,7 +238,7 @@ const SellerProfile = () => {
                           user?.data?.profile.companyEmail}
                       </h1>
                     </Col>
-                    <Col span={8}>
+                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                       <span className="text-border font-bold text-md">
                         companyName:{" "}
                       </span>
@@ -248,7 +247,7 @@ const SellerProfile = () => {
                           user?.data?.profile.companyName}
                       </h1>
                     </Col>
-                    <Col span={8}>
+                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                       <span className="text-border font-bold text-md">
                         phoneNumber:{" "}
                       </span>
@@ -257,7 +256,7 @@ const SellerProfile = () => {
                           user?.data?.profile.phoneNumber}
                       </h1>
                     </Col>
-                    <Col span={8}>
+                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                       <span className="text-border font-bold text-md">
                         website:{" "}
                       </span>
@@ -278,7 +277,7 @@ const SellerProfile = () => {
 
                     {user?.data?.profile.bankAccount && (
                       <>
-                        <Col span={8}>
+                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                           <span className="text-border font-bold text-md">
                             bank:{" "}
                           </span>
@@ -295,7 +294,7 @@ const SellerProfile = () => {
                                 : user?.data?.profile?.bankAccount.bank)}
                           </h1>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                           <span className="text-border font-bold text-md">
                             accountName:{" "}
                           </span>
@@ -311,7 +310,7 @@ const SellerProfile = () => {
                                 : user?.data?.profile?.bankAccount.accountName)}
                           </h1>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                           <span className="text-border font-bold text-md">
                             accountNumber:{" "}
                           </span>
@@ -328,7 +327,7 @@ const SellerProfile = () => {
                                     .accountNumber)}
                           </h1>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                           <span className="text-border font-bold text-md">
                             accountHolderName:{" "}
                           </span>
@@ -348,7 +347,7 @@ const SellerProfile = () => {
                       </>
                     )}
 
-                    <Col span={8}>
+                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                       <span className="text-border font-bold text-md">
                         cardNumber:
                       </span>

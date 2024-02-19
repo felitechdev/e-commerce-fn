@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -22,7 +22,9 @@ const TitleContext = React.createContext();
 export const useTitleContext = () => React.useContext(TitleContext);
 
 export const LayoutDesign = ({ userprofile }) => {
-  const [collapsed, setCollapsed] = React.useState(false);
+  // const [collapsed, setCollapsed] = React.useState(false);
+  const [collapsed, setCollapsed] = useState(window.innerWidth <= 500);
+  const [showSidebar, setShowSidebar] = useState(window.innerWidth > 500);
   const { user, onLogout } = useUser();
   const userRole = user?.role;
 
@@ -106,62 +108,112 @@ export const LayoutDesign = ({ userprofile }) => {
     }
   }, [errprofile, navigate]);
 
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
+  useEffect(() => {
+    // const handleResize = () => {
+    //   if (window.innerWidth <= 500) {
+    //     setCollapsed(true);
+    //     setShowSidebar(false);
+    //   } else {
+    //     setShowSidebar(true);
+    //   }
+    // };
+
+    const handleResize = () => {
+      if (window.innerWidth <= 500) {
+        setCollapsed(true);
+        setShowSidebar(false);
+      } else {
+        setShowSidebar(true);
+        if (!collapsed) setCollapsed(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <TitleContext.Provider value={titles[selectedKey]}>
       <Layout style={{ minHeight: "100vh", backgroundColor: "red" }}>
-        <Sider
-          // className="sticky top-0 h-screen bg-[#FFF]"
-          className="bg-[#FFF] shadow-lg"
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-          style={{
-            // overflow: "auto",
-            // minHeight: "100%",
-            backgroundColor: "white",
+        {showSidebar && (
+          <Sider
+            collapsible
+            collapsed={collapsed}
+            style={
+              window.innerWidth > 500
+                ? { backgroundColor: "white", overflow: "auto" }
+                : {
+                    backgroundColor: "white",
+                    // overflow: "auto",
+                    zIndex: showSidebar ? 10 : -1,
+                    position: "fixed",
+                    top: 70,
+                    left: 0,
+                    bottom: 0,
+                    transition: "width 0.3s ease",
+                  }
+            }
+            // className="bg-[#FFF] shadow-lg sidebar "
+            // trigger={null}
+            // collapsible
+            // collapsed={collapsed}
+            // style={{
+            //   // overflow: "auto",
+            //   // minHeight: "100%",
+            //   backgroundColor: "white",
 
-            // borderRight: "1px solid ",
-          }}
-        >
-          <Avatar
-            onClick={() => navigate("/", { replace: true })}
-            className="w-20 mx-4 h-20"
-            src="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
-          />
-
-          <Menu
-            theme="light"
-            mode="inline"
-            defaultSelectedKeys={[selectedKey]}
-            onClick={handleMenuClick}
-            className="font-bold text-primary"
+            //   // borderRight: "1px solid ",
+            // }}
           >
-            {Menus.map((item, index) => {
-              return (
-                item.roles.includes(userRole) && (
-                  <Menu.Item
-                    key={index}
-                    icon={item.icon}
-                    onClick={() => {
-                      if (item.name === "Logout") {
-                        handleSignOut();
-                      }
-                    }}
-                  >
-                    <NavLink to={`/user/${item.link}`}>{item.name}</NavLink>
-                  </Menu.Item>
-                )
-              );
-            })}
-          </Menu>
-        </Sider>
+            <Avatar
+              onClick={() => navigate("/", { replace: true })}
+              className="w-20 mx-4 h-20"
+              src="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
+            />
+
+            <Menu
+              theme="light"
+              mode="inline"
+              defaultSelectedKeys={[selectedKey]}
+              onClick={handleMenuClick}
+              className="font-bold text-primary"
+            >
+              {Menus.map((item, index) => {
+                return (
+                  item.roles.includes(userRole) && (
+                    <Menu.Item
+                      key={index}
+                      icon={item.icon}
+                      onClick={() => {
+                        if (item.name === "Logout") {
+                          handleSignOut();
+                        }
+                      }}
+                    >
+                      <NavLink to={`/user/${item.link}`}>{item.name}</NavLink>
+                    </Menu.Item>
+                  )
+                );
+              })}
+            </Menu>
+          </Sider>
+        )}
         <Layout className="overflow-auto scrollbar-hidden bg-light">
           <Header className="sticky z-50 top-0 bg-primary flex justify-between px-0 pr-6">
             <div className="flex items-center ">
               <Button
                 type="text"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
+                onClick={() => {
+                  setCollapsed(!collapsed);
+                  toggleSidebar();
+                }}
                 style={{
                   fontSize: "26px",
                   width: 64,
