@@ -19,6 +19,7 @@ function UserProvider({ children }) {
   }
 
   function onSetProfile(profile) {
+    console.log("display on set profile", profile);
     setUser((prevUser) => ({
       ...prevUser,
       ...profile,

@@ -315,7 +315,7 @@ const ProductModel = (props) => {
     discountPercentage: {
       required: "discountPercentage is required",
       min: {
-        value: 0.0000000001,
+        value: 0,
         message: "discountPercentage must be greater than 0",
       },
       validate: {
@@ -745,7 +745,7 @@ const ProductModel = (props) => {
             </Col>
           </div>
           <span className=" font-bold">Add Images</span>
-          <div className="md:space-x-2 border  my-3 rounded  md:flex justify-between mt-3 p-3 ">
+          <div className="md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 ">
             <div className="w-full md:w-[40%] ">
               <span>Main product image</span>
               <p>Add product main image </p>
@@ -849,7 +849,7 @@ const ProductModel = (props) => {
             </div>
           </div>
           <span className="mt-2 font-bold ">Add Colors</span>
-          <div className="w-[100%] border my-3 p-3 rounded ">
+          <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
             <span>Add a color with it’s corresponding</span>
             <p>image </p>
             <div className="flex  w-[100%] p-5 flex-col justify-center items-center border  rounded ">
@@ -1015,7 +1015,8 @@ const ProductModel = (props) => {
                     ))}
                     <Form.Item>
                       <Button
-                        className="p-1 font-bold"
+                        style={{ width: "50px" }}
+                        className="p-1 font-bold w-[50px] "
                         type="primary"
                         onClick={() => add()}
                         block
@@ -1027,8 +1028,8 @@ const ProductModel = (props) => {
               </Form.List>
             </div>
           </div>
-          <span className="mt-2 font-bold ">AvailableSizes</span>
-          <div className="w-[100%] border my-3 p-3 rounded ">
+          <span className="mt-2 font-bold  ">AvailableSizes</span>
+          <div className="w-[100%] border my-3 p-3  border  border-[black] rounded ">
             <span>Product availableSizes</span>
             <div className="flex  w-[100%] p-5 flex-col justify-center items-center border  rounded ">
               <Form.List name="user">
@@ -1066,6 +1067,7 @@ const ProductModel = (props) => {
                     <Form.Item>
                       <Button
                         className="p-1 font-bold"
+                        style={{ width: "50px" }}
                         type="primary"
                         onClick={() => add()}
                         block
@@ -1079,7 +1081,7 @@ const ProductModel = (props) => {
           </div>
 
           <span className="my-5 font-bold">More info</span>
-          <div className="w-[100%] border p-3 mt-3  rounded">
+          <div className="w-[100%] border p-3 mt-3  border  border-[black] rounded">
             <div className="flex justify-between space-x-2 w-[100%]">
               {userRole == "seller" ? (
                 <div className=" flex justify-center items-center ">{`Seller : ${user?.firstName}`}</div>

@@ -12,6 +12,7 @@
 
 .gutter-box {
   padding: 8px 5px;
+  color: black;
   background: #00a0e9;
 }
 
@@ -26,3 +27,10 @@
   color: white;
   background-color: green;
 }
+
+/* .filterOption {
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  background-color: green;
+} */

@@ -25,6 +25,7 @@ export const fetchadminproduct = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   "product/createProduct",
   async ({ productData, token }, { rejectWithValue }) => {
+    console.log("productData", productData);
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`,

@@ -209,7 +209,7 @@ export const LayoutDesign = ({ userprofile }) => {
               margin: "1rem 3px",
               padding: 2,
               background: "white",
-              textAlign: "center",
+              // textAlign: "center",
               justifyContent: "center",
               // alignItems: "center",
               display: "flex",

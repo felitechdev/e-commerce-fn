@@ -14,6 +14,7 @@ import { LoaderComponent } from "../../../components/Loaders/Getloader";
 import PersonalInfoModel from "./userinfo";
 import { useUser } from "../../../context/UserContex";
 import axios from "axios";
+import Mymap from "./Googlemap/getLocation";
 
 const SellerProfile = () => {
   const [isLoading, setLoading] = useState(true);
@@ -51,10 +52,12 @@ const SellerProfile = () => {
 
   // update state on update profile
   const handleupdatestateProfile = (data) => {
+    console.log("data on haandle update", data);
     onSetProfile(data);
   };
 
   const handleupdatestate = (data) => {
+    console.log("data on haandle update", data);
     onSetProfile(data);
   };
 
@@ -83,17 +86,18 @@ const SellerProfile = () => {
     fetchProfile();
   }, []);
 
-  console.log(user);
+  console.log("user", user);
 
   return (
-    <>
-      <div className="bg-white border  rounded-md w-full min-h-[500px] pb-3">
+    <div className=" flex  justify-center  w-full h-min">
+      <div className="bg-white border   rounded-md w-full min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
-            {user != null ? (
+            {user ? (
               <>
                 <div className="flex  space-x-2 items-center">
-                  {user?.photo || user?.profileImageUrl == "default.jpg" ? (
+                  {user?.photo == "default.jpg" ||
+                  user?.profileImageUrl == "default.jpg" ? (
                     <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
                       {user?.firstName[0]}
                     </h1>
@@ -280,8 +284,15 @@ const SellerProfile = () => {
                           </span>
 
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
-                              JSON.parse(user?.data?.profile.bankAccount).bank}
+                            {/* {user?.data?.profile?.bankAccount &&
+                              JSON.parse(user?.data?.profile?.bankAccount).bank} */}
+
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "string"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .bank
+                                : user?.data?.profile?.bankAccount.bank)}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -289,9 +300,15 @@ const SellerProfile = () => {
                             accountName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
+                            {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
-                                .accountName}
+                                .accountName} */}
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "string"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .accountName
+                                : user?.data?.profile?.bankAccount.accountName)}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -299,9 +316,16 @@ const SellerProfile = () => {
                             accountNumber:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
+                            {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
-                                .accountNumber}
+                                .accountNumber} */}
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "string"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .accountNumber
+                                : user?.data?.profile?.bankAccount
+                                    .accountNumber)}
                           </h1>
                         </Col>
                         <Col span={8}>
@@ -309,9 +333,16 @@ const SellerProfile = () => {
                             accountHolderName:{" "}
                           </span>
                           <h1 className="font-bold">
-                            {user?.data?.profile.bankAccount &&
+                            {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
-                                .accountHolderName}
+                                .accountHolderName} */}
+                            {user?.data?.profile?.bankAccount &&
+                              (typeof user?.data?.profile?.bankAccount ===
+                              "string"
+                                ? JSON.parse(user?.data?.profile?.bankAccount)
+                                    .accountHolderName
+                                : user?.data?.profile?.bankAccount
+                                    .accountHolderName)}
                           </h1>
                         </Col>
                       </>
@@ -351,8 +382,9 @@ const SellerProfile = () => {
           profileview={user}
           handleupdatestateProfile={handleupdatestateProfile}
         />
+        {/* <Mymap /> */}
       </div>
-    </>
+    </div>
   );
 };
 
