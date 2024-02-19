@@ -69,6 +69,10 @@ export const DashProducts = () => {
   const { dashproduct, loading, err } = useSelector(
     (state) => state.adminProduct
   );
+
+  const { orders, loadorders, errorders } = useSelector(
+    (state) => state.orders
+  );
   // const { user, load } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
 
@@ -452,7 +456,7 @@ export const DashProducts = () => {
   }, [products]);
 
   return (
-    <Layout className="space-y-6 bg-[white]">
+    <Layout className="space-y-6  overflow-auto">
       <Space className="flex justify-between">
         <Title level={3}>All Products</Title>
         <div className="flex justify-center space-x-5">
@@ -581,15 +585,16 @@ export const DashProducts = () => {
                     md: 24,
                     lg: 32,
                   }}
+                  className="w-full "
                 >
                   {filteredData.map((product) => {
                     return (
                       <Col
-                        className="gutter-row text-center"
+                        className="gutter-row text-center "
                         key={product.key}
-                        span={4}
+                        // span={4}
                         md={6}
-                        sm={12}
+                        sml={12}
                         xsm={24}
                       >
                         <div

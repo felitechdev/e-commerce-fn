@@ -238,7 +238,14 @@ const SellerProfile = () => {
                           user?.data?.profile.companyEmail}
                       </h1>
                     </Col>
-                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                    <Col
+                      xs={24}
+                      sm={12}
+                      md={8}
+                      lg={8}
+                      xl={8}
+                      className=" flex sm:block "
+                    >
                       <span className="text-border font-bold text-md">
                         companyName:{" "}
                       </span>

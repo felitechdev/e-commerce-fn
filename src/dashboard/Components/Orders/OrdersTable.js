@@ -192,6 +192,8 @@ export const OrderTable = (...props) => {
     }
   }, [dispatch, order, token]);
 
+  console.log("order", order);
+
   useEffect(() => {
     const newData =
       !loadorders && order
