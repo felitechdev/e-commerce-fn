@@ -14,6 +14,7 @@ import { LoaderComponent } from "../../../components/Loaders/Getloader";
 import PersonalInfoModel from "./userinfo";
 import { useUser } from "../../../context/UserContex";
 import axios from "axios";
+import Mymap from "./Googlemap/getLocation";
 
 const SellerProfile = () => {
   const [isLoading, setLoading] = useState(true);
@@ -381,6 +382,7 @@ const SellerProfile = () => {
           profileview={user}
           handleupdatestateProfile={handleupdatestateProfile}
         />
+        {/* <Mymap /> */}
       </div>
     </div>
   );
