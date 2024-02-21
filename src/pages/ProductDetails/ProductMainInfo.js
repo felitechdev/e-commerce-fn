@@ -1,86 +1,142 @@
 import React from 'react';
 import SmallImagesContainer from './SmallImagesContainer';
-import { useState } from 'react';
+import discountedFinalPrice from '../../util/discountedFinalPrice';
 
-const ProductMainInfo = (props) => {
-  const [selectedSize, setSelectedSize] = useState(null);
+function removeDuplicateMeasurement(variations) {
+  const measuremts = variations.reduce((acc, variation) => {
+    const newMeasuremt = acc.find(
+      (measurement) =>
+        measurement.measurement === variation.measurementvalue
+    );
+
+    if (!newMeasuremt)
+      return [
+        ...acc,
+        {
+          measurement: variation.measurementvalue,
+          qunatity: variation.colorMeasurementVariationQuantity,
+          color: variation.colorImg.colorName,
+        },
+      ];
+    else return [...acc];
+  }, []);
+
+  return measuremts;
+}
+
+const ProductMainInfo = ({
+  product,
+  dispatch,
+  selectedMeasurement,
+  selectedColor,
+  activeImage,
+}) => {
+  const measurements = removeDuplicateMeasurement(
+    product.colorMeasurementVariations.variations
+  );
 
   const handleSizeClick = (e) => {
-    const { itemvalue, itemlabel } = e.currentTarget.dataset;
-    setSelectedSize({ itemvalue, itemlabel });
-    props.setCartItemInfo({
-      ...props.cartItemInfo,
-      [`${itemlabel}`]: itemvalue,
+    dispatch({
+      type: 'sizeSelected',
+      payload: e.target.textContent,
     });
+  };
+
+  const handleInsufficientQuantityHover = (e) => {
+    alert(
+      `${product.name}: ${selectedColor} : ${e.target.textContent} not available.`
+    );
   };
 
   return (
     <div className='flex flex-col w-container lg:max-w-[30%] xl:w-[30%] gap-5 '>
       <div>
-        <p className='w-full h-max-[65px] text-xl font-semibold block'>
-          {props.DBProductInfo?.name}
+        <p className='w-full h-max-[65px] text-xl font-semibold block capitalize'>
+          {product?.name}
         </p>
         <hr className='w-full h-0.5 border-0 bg-gray-200 my-3'></hr>
       </div>
       <div>
         <p className='text-lg mb-1 block font-semibold'>Price:</p>
         <p className='text-2xl text-[#1D6F2B] font-semibold'>
-          {props.DBProductInfo?.discountPercentage > 0
-            ? props.DBProductInfo?.discountedPrice
-            : props.DBProductInfo?.price}{' '}
+          {product?.discountPercentage > 0
+            ? discountedFinalPrice(
+                product.price,
+                product?.discountPercentage
+              )
+            : product?.price}{' '}
           RWF
         </p>
-        {props.DBProductInfo?.discountPercentage > 0 ? (
+        {product?.discountPercentage > 0 ? (
           <p className='inline-block text-base text-[#00000080] font-normal line-through'>
-            {props.DBProductInfo?.price} RWF
+            {product?.price} RWF
           </p>
         ) : (
           ''
         )}
-        {props.DBProductInfo?.discountPercentage > 0 && (
+        {product?.discountPercentage > 0 && (
           <p className='inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[4px] px-[10px] ml-3 rounded-2xl text-[#FF4747] font-bold'>
-            {props.DBProductInfo?.discountPercentage + '% off'}
+            {product?.discountPercentage + '% off'}
           </p>
         )}
       </div>
 
-      {/* TODO  Product Colors */}
-      {/* {props.DBProductInfo?.productImages.colorImages.length > 0 && (
-        <div>
-          <p className='text-lg mb-1 block font-semibold'>
-            Color: {props.cartItemInfo?.itemColorName}
-          </p>
-          <SmallImagesContainer
-            imagesInfo={props.DBProductInfo?.productImages.colorImages}
-            cartItemInfo={props.cartItemInfo}
-            setCartItemInfo={props.setCartItemInfo}
-            imageCategory='color-images'
-          />
-          
-        </div>
-      )} */}
+      {product.hasColors &&
+        product?.colorMeasurementVariations.variations.length > 0 && (
+          <div>
+            <p className='text-lg font-semibold flex items-center mb-4 capitalize'>
+              <span className='bg-[#1D6F2B] text-white text-base font-medium me-2 px-2.5 py-0.5 rounded'>
+                Color:
+              </span>
+              {selectedColor}
+            </p>
+            <SmallImagesContainer
+              images={[
+                ...product?.colorMeasurementVariations.variations.map(
+                  (variation) => variation.colorImg
+                ),
+              ]}
+              activeImage={activeImage}
+              dispatch={dispatch}
+              variations={
+                product?.colorMeasurementVariations.variations
+              }
+              feature='colorImages'
+              selectedMeasurement={selectedMeasurement}
+            />
+          </div>
+        )}
 
-      {props.DBProductInfo?.availableSizes.length > 0 && (
+      {product.hasMeasurements && measurements.length > 0 && (
         <div>
-          <p className='text-lg mb-1 block font-semibold'>Size:</p>
+          <p className='text-lg font-semibold flex items-center mb-4 capitalize'>
+            <span className='bg-[#1D6F2B] text-white text-base font-medium me-2 px-2.5 py-0.5 rounded'>
+              {product?.colorMeasurementVariations.measurementType}:
+            </span>
+            {selectedMeasurement}
+          </p>
+
           <div className='flex flex-wrap gap-1'>
-            {props.DBProductInfo?.availableSizes.map((size, index) => {
+            {measurements.map((measurement) => {
+              const colorMeasurementCombinationNotAvailable =
+                selectedColor === measurement.color &&
+                measurement.qunatity === 0;
               return (
-                <div
-                  key={index}
-                  className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer text-sm ${
-                    selectedSize &&
-                    selectedSize.itemvalue === size &&
-                    selectedSize.itemlabel === 'size'
-                      ? 'item-selected'
+                <button
+                  disabled={colorMeasurementCombinationNotAvailable}
+                  onMouseOver={(e) => {
+                    colorMeasurementCombinationNotAvailable &&
+                      handleInsufficientQuantityHover(e);
+                  }}
+                  key={measurement.measurement}
+                  className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer text-sm disabled:opacity-30 disabled:cursor-not-allowed ${
+                    selectedMeasurement === measurement.measurement
+                      ? 'border-dashed border-7 border-orange-400 shadow-orange-400 drop-shadow-xl'
                       : ''
                   }`}
-                  data-itemvalue={size}
-                  data-itemlabel='size'
-                  onClick={handleSizeClick}
-                >
-                  {size}
-                </div>
+                  onClick={handleSizeClick}>
+                  {measurement.measurement}
+                </button>
               );
             })}
           </div>

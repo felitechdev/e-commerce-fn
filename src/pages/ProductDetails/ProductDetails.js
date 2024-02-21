@@ -11,12 +11,11 @@ import ProductsSection from '../../components/home/Products/ProductsSection';
 import ProductSecondaryInfo from './ProductSecondaryInfo';
 import { useSelector } from 'react-redux';
 
-export default function ProductDetails() {
+export default function ProductDetails({ product, dispatch }) {
   const { id } = useParams();
   const userInfo = useSelector((state) => state.userReducer.userInfo);
   const [isLoading, setIsLoading] = useState(false);
   const [DBProductInfo, setDBProductInfo] = useState(null);
-  // // For similar products testing only
   const [similarProducts, setSmilarProducts] = useState([]);
 
   const [cartItemInfo, setCartItemInfo] = useState({
@@ -26,72 +25,35 @@ export default function ProductDetails() {
     size: '',
   });
 
-  // Fetch Product
-  useEffect(() => {
-    async function getProduct() {
-      try {
-        setIsLoading(true);
-        const DBProductInfo = await fetchProduct(id);
-
-        setDBProductInfo(DBProductInfo);
-        setCartItemInfo({
-          ...cartItemInfo,
-          imagePreview: DBProductInfo.productImages.productThumbnail.url,
-        });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    getProduct();
-  }, [id]);
-
-  // Fetch Similar Products
-  useEffect(() => {
-    // TODO: Fetch real similar products
-  }, []);
-
   return (
     <div className='w-full mx-auto border-b-[1px] border-b-gray-300'>
       <div className='max-w-container mx-auto p-4 mt-10'>
         <div className='w-full  h-full -mt-5 xl:-mt-8 pb-10'>
           <div className='flex flex-col gap-14'>
             <div className='flex flex-col mdl:flex-row mdl:flex-wrap gap-12 items-center'>
-              {isLoading && <SkeletonSpinner />}
+              <>
+                <ProductImages
+                  productImages={product.productDetails.productImages}
+                  activeImage={product.activeImage}
+                  dispatch={dispatch}
+                />
+                <ProductMainInfo
+                  product={product.productDetails}
+                  dispatch={dispatch}
+                  selectedMeasurement={product.selectedMeasurement}
+                  selectedColor={product.selectedColor}
+                  activeImage={product.activeImage}
+                />
+                <CheckoutDetails product={product} />
 
-              {!isLoading &&
-              DBProductInfo &&
-              Object.keys(DBProductInfo).length > 0 ? (
-                <>
-                  <ProductImages
-                    DBProductInfo={DBProductInfo}
-                    userInfo={userInfo}
-                    cartItemInfo={cartItemInfo}
-                    setCartItemInfo={setCartItemInfo}
-                  />
-                  <ProductMainInfo
-                    DBProductInfo={DBProductInfo}
-                    cartItemInfo={cartItemInfo}
-                    setCartItemInfo={setCartItemInfo}
-                  />
-                  <CheckoutDetails
-                    DBProductInfo={DBProductInfo}
-                    userInfo={userInfo}
-                    cartItemInfo={cartItemInfo}
-                    setCartItemInfo={setCartItemInfo}
-                  />
-
-                  <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
-                </>
-              ) : (
-                ''
-              )}
+                <ProductSecondaryInfo
+                  product={product.productDetails}
+                />
+              </>
             </div>
           </div>
           {/* For testing similar products slider only */}
-          <ProductsSection heading='Similar Products'>
+          {/* <ProductsSection heading='Similar Products'>
             <ProductsSliderContainer>
               {similarProducts.length &&
                 similarProducts.map((product) => {
@@ -102,7 +64,7 @@ export default function ProductDetails() {
                   );
                 })}
             </ProductsSliderContainer>
-          </ProductsSection>
+          </ProductsSection> */}
         </div>
       </div>
     </div>
