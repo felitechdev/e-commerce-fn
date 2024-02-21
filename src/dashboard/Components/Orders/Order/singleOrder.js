@@ -3,6 +3,7 @@ import { useState, useEffect, Navigate } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Button } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Tag } from "antd";
 import { FaArrowCircleLeft } from "react-icons/fa";
 
@@ -24,6 +25,7 @@ const SingleOrder = () => {
   const user = useUser().user;
   const dispatch = useDispatch();
   const setUser = useUser().setUser;
+  const navigate = useNavigate();
   const onSetProfile = useUser().onSetProfile;
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,7 +65,17 @@ const SingleOrder = () => {
     <>
       {/* min-h-[500px] */}
       <div className="bg-white border shadow-md rounded-md w-full lg:w-1/2 h-min  pb-3">
-        <Button>
+        <Button
+          onClick={async () => {
+            const current = localStorage.getItem("selectedKey");
+            if (current) {
+              localStorage.removeItem("selectedKey");
+            } else {
+              localStorage.setItem("selectedKey", "4");
+              return navigate("/user/order", { replace: true });
+            }
+          }}
+        >
           <FaArrowCircleLeft />
         </Button>
         <hr className="mt-0" />

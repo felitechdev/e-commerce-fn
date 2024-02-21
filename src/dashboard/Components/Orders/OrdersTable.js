@@ -49,15 +49,14 @@ export const OrderTable = (...props) => {
         navigate(`${record.key}`);
       },
     },
-    user?.role == "admin" ||
-      (user?.role == "customer" && {
-        label: <span className="font-bold text-primary">Update</span>,
-        key: "edit",
-        icon: <EditFilled className=" text-icon2 mr-2" />,
-        onClick: async () => {
-          await openModal(true, record);
-        },
-      }),
+    (user?.role == "admin" || user?.role == "customer") && {
+      label: <span className="font-bold text-primary">Update</span>,
+      key: "edit",
+      icon: <EditFilled className=" text-icon2 mr-2" />,
+      onClick: async () => {
+        await openModal(true, record);
+      },
+    },
   ];
 
   const handleupdatestate = async (id, status) => {
@@ -192,8 +191,6 @@ export const OrderTable = (...props) => {
     }
   }, [dispatch, order, token]);
 
-  console.log("order", order);
-
   useEffect(() => {
     const newData =
       !loadorders && order
@@ -235,7 +232,9 @@ export const OrderTable = (...props) => {
           tableLayout="fixed"
           bordered={false}
           className="w-full md:w-[90%]  custom-table   "
-          scroll={{ x: 500 }}
+          // scroll={{}}
+
+          scroll={{ x: 1500 }}
         />
       )}
     </>

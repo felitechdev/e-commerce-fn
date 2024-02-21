@@ -32,12 +32,6 @@ export const OrderTable = (...props) => {
   const dispatch = useDispatch();
   const columns = [
     {
-      title: "Customer",
-      dataIndex: "customerId",
-      key: "customerId",
-      width: 100,
-    },
-    {
       title: "Order",
       dataIndex: "orderId",
       key: "orderId",
@@ -114,10 +108,9 @@ export const OrderTable = (...props) => {
   useEffect(() => {
     const newData = order?.map((orderItem, index) => ({
       key: orderItem.id,
-      // customerId: orderItem.customer,
-      // orderId: orderItem.id,
+
       customerId: index + 1,
-      orderId: index + 1,
+      orderId: orderItem?.id,
       amount: orderItem.amount,
       address: `${orderItem?.shippingAddress?.address?.street}, ${orderItem?.shippingAddress?.city}`,
       phoneNumber: orderItem.phoneNumber,

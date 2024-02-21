@@ -85,7 +85,7 @@ export const DashProducts = () => {
       allowClear
       enterButton="Search"
       size="large"
-      className="w-[50%] my-2"
+      className="w-[80%] md:w-[50%] my-2"
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
@@ -191,6 +191,29 @@ export const DashProducts = () => {
     handleNewArrivals();
   }
 
+  // -calcurate order fo each product
+  const handlecountorders = (productId) => {
+    const itemId = productId; //- Item to calculate the total quantity
+    let totalQuantity = 0;
+
+    const ordered = orders?.map((order) => {
+      order.items.forEach((item) => {
+        // console.log("item", item.itemDetails?.id, item.quantity, item);
+        if (item.product === itemId) {
+          totalQuantity += item.quantity;
+        }
+      });
+
+      return {
+        ...order,
+        totalQuantity: totalQuantity,
+      };
+    });
+    console.log("ordered", ordered);
+    console.log("Total quantity for item", itemId, ":", totalQuantity);
+    return totalQuantity;
+  };
+
   const Columns = [
     {
       // title: `Product ${FilterByNameInput}`,
@@ -279,6 +302,15 @@ export const DashProducts = () => {
       dataIndex: "orders",
       key: "orders",
       width: 30,
+      render: (_, record) => {
+        const orders = handlecountorders(record.key);
+
+        return (
+          <div className="w-full text-center">
+            <span>total: {orders}</span>
+          </div>
+        );
+      },
     },
     {
       title: "Rating",
@@ -362,7 +394,7 @@ export const DashProducts = () => {
       ],
       price: product.price,
       stock: product.stockQuantity,
-      // orders: product.deliveryInfo.length,
+      orders: handlecountorders(product.id),
       published: new Date(`${product.updatedAt}`).toLocaleDateString(),
       address: product.brandName,
       category: product?.category?.id,
@@ -398,7 +430,7 @@ export const DashProducts = () => {
       ],
       price: product.price,
       stock: product.stockQuantity,
-      // orders: product.deliveryInfo.length,
+      orders: handlecountorders(product.id),
       published: new Date(`${product.updatedAt}`).toLocaleDateString(),
       address: product.brandName,
       category: product?.category?.id,
@@ -445,7 +477,7 @@ export const DashProducts = () => {
       ],
       price: product.price,
       stock: product.stockQuantity,
-      // orders: product.deliveryInfo.length,
+      orders: handlecountorders(product.id),
       published: new Date(`${product.updatedAt}`).toLocaleDateString(),
       address: product.brandName,
       category: product?.category?.id,
@@ -458,19 +490,19 @@ export const DashProducts = () => {
   return (
     <Layout className="space-y-6  overflow-auto">
       <Space className="flex justify-between">
-        <Title level={3}>All Products</Title>
+        <Title level={5}>All Products</Title>
         <div className="flex justify-center space-x-5">
           <UnorderedListOutlined
             onClick={handleDisplay}
             className={`${
               selectedlist ? "text-primary border-b-4 border-b-secondary" : ""
-            } text-2xl `}
+            }text-lg md:text-2xl `}
           />
           <AppstoreFilled
             onClick={handleDisplay}
             className={`${
               !selectedlist ? "text-primary border-b-4 border-b-secondary" : ""
-            } text-2xl `}
+            } text-lg md:text-2xl `}
           />
 
           <ProductModel handlecreateproduct={handlecreateproduct} />
@@ -488,9 +520,12 @@ export const DashProducts = () => {
           </>
         ) : (
           <>
-            <div className="flex  w-full justify-start space-x-5">
+            <div className="flex  w-full justify-start space-x-5 ">
               {FilterByNameInput}
-              <FilterFilled onClick={handleFilterClick} />
+              <FilterFilled
+                className="text-[green] text-2xl"
+                onClick={handleFilterClick}
+              />
             </div>
 
             {isFilterVisible && (
@@ -613,9 +648,9 @@ export const DashProducts = () => {
                           </div>
 
                           <div
-                            className="font-medium "
+                            className="font-medium  overflow-auto break-words px-5   "
                             dangerouslySetInnerHTML={{
-                              __html: product.name[1].slice(0, 50) + "...",
+                              __html: product?.name[2]?.slice(0, 150) + "...",
                             }}
                           />
                           <div className="font-bold text-primary text-lg">

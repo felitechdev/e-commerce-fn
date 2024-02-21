@@ -1,5 +1,17 @@
-import { Button, DatePicker, Dropdown, Form, Input, Modal, Upload } from "antd";
+import { useState, useEffect } from "react";
+import {
+  Button,
+  DatePicker,
+  Dropdown,
+  Form,
+  Input,
+  Modal,
+  Upload,
+  Image,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchProduct } from "../../../../APIs/Product";
+
 import Cookies from "js-cookie";
 import {
   ExclamationCircleFilled,
@@ -9,7 +21,8 @@ import {
   EditFilled,
   CloseOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { Loader } from "../../Loader/LoadingSpin";
+
 import { deleteproduct } from "../../../Apis/Product";
 
 const { confirm } = Modal;
@@ -75,6 +88,120 @@ const UpdateModel = ({ setModel }) => {
   );
 };
 
+const SingleproductModel = (props) => {
+  const [DBProductInfo, setDBProductInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [id, setId] = useState(null);
+
+  // Fetch Product
+  useEffect(() => {
+    async function getProduct() {
+      try {
+        const DBProductInfo = await fetchProduct(props.Id);
+        setDBProductInfo(DBProductInfo);
+      } catch (error) {
+        // setErr(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    getProduct();
+  }, [props.Id]);
+
+  return (
+    <Modal
+      title="Product"
+      width="50rem"
+      open={props.isModalOpen}
+      closeIcon={
+        <CloseOutlined
+          onClick={props.handleCancelUppdate}
+          className="text-[red]"
+        />
+      }
+    >
+      <>
+        {isLoading ? (
+          <Loader />
+        ) : DBProductInfo != null && Object.keys(DBProductInfo)?.length > 0 ? (
+          <div className="p-4 w-full overflow-auto  ">
+            <h1 className="text-xl font-bold">
+              {DBProductInfo ? DBProductInfo?.name : ""}
+            </h1>
+            <p className="text-gray-500">
+              Category: {DBProductInfo ? DBProductInfo?.category?.name : ""}
+            </p>
+            <p className="text-gray-500">
+              Price: {DBProductInfo ? DBProductInfo?.price : ""}{" "}
+              {DBProductInfo ? DBProductInfo?.currency : ""}
+            </p>
+            <p className="text-gray-500">
+              Description:
+              <div
+                className="w-full overflow-auto  "
+                dangerouslySetInnerHTML={{
+                  __html: DBProductInfo ? DBProductInfo.description : "",
+                }}
+              />
+            </p>
+            <p className="text-gray-500">
+              {/* Available Sizes: {DBProductInfo.availableSizes.join(", ")} */}
+            </p>
+            <p className="text-gray-500">
+              Stock Quantity: {DBProductInfo ? DBProductInfo.stockQuantity : ""}
+            </p>
+            <div>
+              <h2 className="text-lg font-semibold">Seller Information</h2>
+              <p className="text-gray-500">
+                Name: {DBProductInfo ? DBProductInfo?.seller?.name : ""}
+              </p>
+              <p className="text-gray-500">
+                Email: {DBProductInfo ? DBProductInfo?.seller?.email : ""}
+              </p>
+            </div>
+
+            {/* Product Thumbnail */}
+            <div className="flex justify-center mt-4">
+              <Image
+                src={DBProductInfo.productImages.productThumbnail.url}
+                alt="Product thumbnail"
+                width={200}
+              />
+            </div>
+
+            <div className="flex flex-wrap justify-around ">
+              {/* Color Images */}
+              {DBProductInfo.productImages.colorImages.map((image, index) => (
+                <div key={index} className="m-2">
+                  <Image
+                    src={image.url}
+                    alt={image.colorName}
+                    width={100}
+                    height={100}
+                  />
+                  <p className="text-center text-gray-500 mt-1">
+                    {image.colorName}
+                  </p>
+                </div>
+              ))}
+
+              {/* Other Images */}
+              {DBProductInfo.productImages.otherImages.map((image, index) => (
+                <div key={index} className="m-2">
+                  <Image src={image.url} alt="" width={100} height={100} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p>Product not found</p>
+        )}
+      </>
+    </Modal>
+  );
+};
+
 export const ActionButton = (props) => {
   const [showUpdateModel, setShowUpdateModel] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,6 +209,8 @@ export const ActionButton = (props) => {
   const [err, setErr] = useState(null);
   const [onSuccess, setOnSuccess] = useState(null);
   const [isupdate, setIsupdate] = useState(false);
+
+  const [productId, setProductId] = useState(null);
 
   // reducer state
   const { deletedCategory, loading, error } = useSelector(
@@ -92,6 +221,7 @@ export const ActionButton = (props) => {
 
   const handleEditClick = () => {
     setShowUpdateModel(true);
+
     console.log("Edit Action");
   };
   const handleClick = () => {
@@ -102,9 +232,11 @@ export const ActionButton = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleOpen = () => {
+
+  const handleOpen = (id) => {
     console.log("Action");
     setIsModalOpen(true);
+    setProductId(id);
   };
   const handleCancelUppdate = () => {
     setIsModalOpen(false);
@@ -161,25 +293,28 @@ export const ActionButton = (props) => {
 
   return (
     <>
-      <Modal
-        title="Product"
-        width="50rem"
-        open={isModalOpen}
-        closeIcon={
-          <CloseOutlined onClick={handleCancelUppdate} className="text-[red]" />
-        }
-      >
-        {/* <ProductCatery openUPdate={true} productId={props.productId} /> */}
-      </Modal>
-      <div div className="flex justify-center  space-x-5 text-xl items-center">
+      <div div className="flex   space-x-5 items-center  ">
         {/* <EditFilled className=" text-icon2 mr-2" onClick={() => handleOpen()} /> */}
         <DeleteFilled
           onClick={() => ShowDeleteConfirm(props.productId)}
           className=" text-icon3"
         />
         <EditFilled className=" text-icon2 mr-2" />
-        <EyeFilled className=" text-icon1 mr-2" />
-
+        <EyeFilled
+          className=" text-icon1 mr-2"
+          onClick={() => {
+            console.log("props.productId", props.productId, isModalOpen);
+            handleOpen(props.productId);
+          }}
+        />
+        {productId && (
+          <SingleproductModel
+            isModalOpen={isModalOpen}
+            handleCancelUppdate={handleCancelUppdate}
+            Id={productId}
+            setIsModalOpen={setIsModalOpen}
+          />
+        )}
         {/* <ActionButton /> */}
       </div>
     </>
