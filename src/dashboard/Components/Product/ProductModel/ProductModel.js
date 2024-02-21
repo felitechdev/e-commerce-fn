@@ -11,6 +11,7 @@ import {
   Select,
   Upload,
   Space,
+  Image,
 } from "antd";
 import "../style.css";
 import {
@@ -38,6 +39,8 @@ import { useRef } from "react";
 import Item from "antd/lib/list/Item";
 import Alerts from "../../Notifications&Alert/Alert";
 import { useUser } from "../../../../context/UserContex";
+// widget upload for cloudinary Image"
+import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -78,6 +81,24 @@ const ProductModel = (props) => {
   const [subcategorys, setSubcategorys] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const token = Cookies.get("token");
+
+  // ahndel ulpad images on frontend
+  const [mainImageUrl, setMainImageUrl] = useState("");
+  const [imageError, setImageError] = useState("");
+
+  /**
+   * handleOnUpload
+   * @description Handles the upload result and updates the main image URL state
+   */
+  function handleOnUpload(error, result, widget) {
+    if (error) {
+      setImageError(error);
+      widget.close({ quiet: true });
+      return;
+    }
+    // Assuming the main product image URL is stored in the secure_url property of the result object
+    setMainImageUrl(result?.info?.secure_url);
+  }
   // redux state handling
   const dispatch = useDispatch();
   const { product, load, err } = useSelector((state) => state.createproduct);
@@ -553,7 +574,7 @@ const ProductModel = (props) => {
       <Button onClick={showModal}>Add a product</Button>
 
       {/* open addnew category model */}
-      {addnew && (
+      {userRole == "admin" && addnew && (
         <Modal
           title="Add new Category"
           width="50rem"
@@ -569,7 +590,7 @@ const ProductModel = (props) => {
         </Modal>
       )}
       {/* open addnewsub category model */}
-      {addnewsub && (
+      {userRole == "admin" && addnewsub && (
         <Modal
           title="Add new Category"
           width="50rem"
@@ -659,12 +680,14 @@ const ProductModel = (props) => {
               className="border mb-3 border-[black] py-10 px-5 "
             >
               <div className="">
-                <button
-                  onClick={handleOpenNewModel}
-                  className="absolute right-5 font-bold  z-50 underline text-primary"
-                >
-                  Add New
-                </button>
+                {userRole == "admin" && (
+                  <button
+                    onClick={handleOpenNewModel}
+                    className="absolute right-5 font-bold  z-50 underline text-primary"
+                  >
+                    Add New
+                  </button>
+                )}
 
                 <Controller
                   name="category"
@@ -702,13 +725,15 @@ const ProductModel = (props) => {
               </div>
 
               <div className="">
-                <button
-                  type="button"
-                  onClick={handleOpenNewSubModel}
-                  className="absolute right-5 font-bold z-50 underline text-primary"
-                >
-                  Add New
-                </button>
+                {userRole == "admin" && (
+                  <button
+                    type="button"
+                    onClick={handleOpenNewSubModel}
+                    className="absolute right-5 font-bold z-50 underline text-primary"
+                  >
+                    Add New
+                  </button>
+                )}
 
                 <Controller
                   name="subcategory"
@@ -744,6 +769,34 @@ const ProductModel = (props) => {
               </div>
             </Col>
           </div>
+
+          <div>
+            <h1>Create Product Page</h1>
+            <divn className="bg-[red]  h-20  ">
+              <h2>Upload Main Product Image</h2>
+
+              <UploadWidget onUpload={handleOnUpload}>
+                {({ open }) => (
+                  <button className="" onClick={open}>
+                    Upload Main Image
+                  </button>
+                )}
+              </UploadWidget>
+              {imageError && <p>{imageError}</p>}
+              {mainImageUrl && (
+                <>
+                  <Image
+                    src={mainImageUrl}
+                    alt="Main Product"
+                    width={200}
+                    height={200}
+                  />
+                  {/* <p>Main Image URL: {mainImageUrl}</p>
+                  <img src={mainImageUrl} alt="Main Product" /> */}
+                </>
+              )}
+            </divn>
+          </div>
           <span className=" font-bold">Add Images</span>
           <div className="md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 ">
             <div className="w-full md:w-[40%] ">
@@ -771,7 +824,7 @@ const ProductModel = (props) => {
                       <Form.Item
                         label=""
                         valuePropName="fileList"
-                        getValueFromEvent={normFile}
+                        getValueFromEvent={mainImageUrl}
                         className=" text-center mt-2 "
                       >
                         <span className="">
@@ -779,17 +832,29 @@ const ProductModel = (props) => {
                         </span>
                         <Upload
                           // beforeUpload={beforeUpload}
-                          beforeUpload={handlebeforeThumbnail}
-                          listType="picture"
-                          maxCount={1}
-                          name={field.name}
-                          {...field}
+                          // beforeUpload={handlebeforeThumbnail}
+                          // listType="picture"
+                          // maxCount={0}
+                          // name={field.name}
+                          // {...field}
+
+                          disabled={true}
+                          beforeUpload={() => {
+                            /* update state here */
+                            return false;
+                          }}
                         >
                           <Button
                             className="bg-[red]"
                             icon={<FileImageOutlined />}
                           >
-                            Upload
+                            <UploadWidget onUpload={handleOnUpload}>
+                              {({ open }) => (
+                                <button className="" onClick={open}>
+                                  Upload
+                                </button>
+                              )}
+                            </UploadWidget>
                           </Button>
                         </Upload>
                         <p className="text-[red]">
