@@ -1,9 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import {
-  addToCart,
-  removeToCart,
-} from '../../redux/Reducers/cartRecuder';
+import { addToCart, removeToCart } from '../../redux/Reducers/cartRecuder';
 import { useNavigate } from 'react-router-dom';
 import AlertComponent from '../../components/designLayouts/AlertComponent';
 
@@ -20,14 +17,9 @@ const CheckoutDetails = ({ product }) => {
 
   const ValidateCartInfo = () => {
     if (productInTheCart?.items === 0) {
-      setErrorMessage(
-        'Please select the quantity before proceeding.'
-      );
+      setErrorMessage('Please select the quantity before proceeding.');
       return false;
-    } else if (
-      product.productDetails.hasColors &&
-      !product.selectedColor
-    ) {
+    } else if (product.productDetails.hasColors && !product.selectedColor) {
       setErrorMessage('Please select color.');
       return false;
     } else if (
@@ -59,8 +51,8 @@ const CheckoutDetails = ({ product }) => {
     );
 
     if (
-      existingProduct.items + 1 >
-      product.productDetails.stockQuantity
+      existingProduct &&
+      existingProduct.items + 1 > product.productDetails.stockQuantity
     ) {
       setErrorMessage(
         `Quantity cannot exceed ${product.productDetails.stockQuantity} availble`
@@ -87,8 +79,7 @@ const CheckoutDetails = ({ product }) => {
             }
           : null),
         price: product.productDetails.price,
-        productThumbnail:
-          product.productDetails.productImages.productThumbnail,
+        productThumbnail: product.productDetails.productImages.productThumbnail,
         items: 1,
       };
       cart.push(existingProduct);
@@ -136,7 +127,8 @@ const CheckoutDetails = ({ product }) => {
           <button
             disabled={!productInTheCart}
             className='bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca] disabled:opacity-50 disabled:cursor-not-allowed'
-            onClick={handleRemoveCart}>
+            onClick={handleRemoveCart}
+          >
             -
           </button>
           <p className='text-sm font-semibold' pattern='[0-9]*'>
@@ -144,7 +136,8 @@ const CheckoutDetails = ({ product }) => {
           </p>
           <button
             className='bg-[#E5E5E5] w-[20px] h-[20px] rounded-full text-sm font-bold cursor-pointer hover:bg-[#c8c9ca]'
-            onClick={handleAddToCart}>
+            onClick={handleAddToCart}
+          >
             +
           </button>
         </div>
@@ -164,14 +157,16 @@ const CheckoutDetails = ({ product }) => {
         {!productInTheCart && (
           <button
             onClick={() => handleAddToCart()}
-            className='hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]'>
+            className='hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]'
+          >
             Add to Cart
           </button>
         )}
 
         <button
           className='bg-[#1D6F2B] hover:bg-[#437a4c] text-white cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300'
-          onClick={() => navigate('/cart')}>
+          onClick={() => navigate('/cart')}
+        >
           Buy Now
         </button>
       </div>
