@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Banner from "./Banner/Banner";
-import AllProducts from "./home/AllProducts/AllProducts";
-import CategoryFilteredProducts from "./home/AllProducts/CategoryFilteredProducts";
-import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../APIs/Product";
-import App from "./CLOUDIMAGES/Button";
+import React, { useEffect, useState } from 'react';
+import Banner from './Banner/Banner';
+import AllProducts from './home/AllProducts/AllProducts';
+import CategoryFilteredProducts from './home/AllProducts/CategoryFilteredProducts';
+import { Loader } from '../dashboard/Components/Loader/LoadingSpin';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../APIs/Product';
 
 function ProductsCategories() {
   const { status, products } = useSelector((state) => state.product);
@@ -61,19 +60,19 @@ function ProductsCategories() {
   };
 
   return (
-    <div className="w-full mx-auto ">
+    <div className='w-full mx-auto '>
       <Banner
         onCategorySelect={handleCategorySelect}
         allcategory={selectedCategory.category.categoryId}
-        allcatesubcategory={selectedCategory.subcategory.subcategoryId}
+        allcatesubcategory={
+          selectedCategory.subcategory.subcategoryId
+        }
         onViewAllClick={handleViewAllClick}
       />
 
-      <App />
-
-      <div className="max-w-container mx-auto px-4">
-        {status === "loading" && !products.length && (
-          <div className="flex justify-center p-16">
+      <div className='max-w-container mx-auto px-4'>
+        {status === 'loading' && !products.length && (
+          <div className='flex justify-center p-16'>
             <Loader />
           </div>
         )}
