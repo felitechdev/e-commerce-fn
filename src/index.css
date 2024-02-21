@@ -139,3 +139,9 @@ nav .active li {
   background-color: black;
   display: none !important;
 } */
+
+.ant-layout-sider-trigger {
+  background-color: #1d6f2b !important;
+  color: white !important;
+  display: none !important;
+}

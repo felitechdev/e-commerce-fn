@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, DatePicker, Form, Input, Modal, Tabs } from "antd";
+import { Button, DatePicker, Form, Input, Modal, Tabs, Col, Row } from "antd";
 import { FaSave } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { Controller, useForm } from "react-hook-form";
@@ -275,177 +275,197 @@ const CompanyModel = (props) => {
           initialValues={userprofile}
         >
           <h1 className=" font-bold">Business Info</h1> <hr className="h-2 " />
-          <div className="flex justify-between space-x-2 ">
-            <Controller
-              control={control}
-              name="companyName"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Business Name" className="w-[48%]">
+          <Row
+            gutter={[16, 16]}
+            // className="flex justify-between space-x-2  "
+          >
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="companyName"
+                rules={{}}
+                render={({ field }) => (
+                  <Form.Item label="Business Name">
                     <Input {...field} type="text" placeholder="Business Name" />
                   </Form.Item>
-                </>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="phoneNumber"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Business Phone number" className="w-[48%]">
+                )}
+              />
+            </Col>
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="phoneNumber"
+                rules={{}}
+                render={({ field }) => (
+                  <Form.Item label="Business Phone number">
                     <PhoneInput {...field} enableSearch />
                   </Form.Item>
-                </>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="companyEmail"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Business Email" className="w-[48%]">
+                )}
+              />
+            </Col>
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="companyEmail"
+                rules={{}}
+                render={({ field }) => (
+                  <Form.Item label="Business Email">
                     <Input {...field} type="text" placeholder="Enter Email" />
                   </Form.Item>
-                </>
-              )}
-            />
-          </div>
-          <div className="flex justify-between space-x-2 ">
-            <Controller
-              control={control}
-              name="website"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="website Url" className="w-[48%]">
-                    <Input {...field} type="text" placeholder="enter url" />
-                  </Form.Item>
-                </>
-              )}
-            />
+                )}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="website"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="website Url">
+                      <Input {...field} type="text" placeholder="enter url" />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
 
-            <Controller
-              control={control}
-              name="logo"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Business logo" className="w-[48%]">
-                    <input
-                      type="file"
-                      onChange={(e) => setLogoFile(e.target.files[0])}
-                      // onChange={(value) => {
-                      //         field.onChange(value); // Update the form field value
-                      //         setSelectedCategory(value); // Update the selected category
-                      //       }}
-                    />
-                  </Form.Item>
-                </>
-              )}
-            />
-            <Controller
-              control={control}
-              name="locations"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Business locations" className="w-[48%]">
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Enter locations"
-                    />
-                  </Form.Item>
-                </>
-              )}
-            />
-          </div>
-          <div className=" flex justify-between space-x-2">
-            <Controller
-              control={control}
-              name="bank"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="bank name" className="w-[48%]">
-                    <Input {...field} type="text" placeholder="bank name" />
-                  </Form.Item>
-                </>
-              )}
-            />
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="logo"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Business logo">
+                      <input
+                        type="file"
+                        onChange={(e) => setLogoFile(e.target.files[0])}
+                        // onChange={(value) => {
+                        //         field.onChange(value); // Update the form field value
+                        //         setSelectedCategory(value); // Update the selected category
+                        //       }}
+                      />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
 
-            <Controller
-              control={control}
-              name="accountName"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Business accountName" className="w-[48%]">
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Enter accountName"
-                    />
-                  </Form.Item>
-                </>
-              )}
-            />
-            <Controller
-              control={control}
-              name="accountHolderName"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Account-holder Name " className="w-[48%]">
-                    <Input
-                      {...field}
-                      placeholder="Enter Account-holder Name "
-                    />
-                  </Form.Item>
-                </>
-              )}
-            />
-          </div>
-          <div className=" flex justify-between space-x-2">
-            <Controller
-              control={control}
-              name="accountNumber"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="Business accountNumber" className="w-[48%]">
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Enter accountNumber"
-                    />
-                  </Form.Item>
-                </>
-              )}
-            />
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="locations"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Business locations">
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Enter locations"
+                      />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+          </Row>
+          {/* <div className=" flex justify-between space-x-2"> */}
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="bank"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="bank name">
+                      <Input {...field} type="text" placeholder="bank name" />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
 
-            <Controller
-              control={control}
-              name="cardNumber"
-              rules={{}}
-              render={({ field }) => (
-                <>
-                  <Form.Item label="cardNumber" className="w-[48%]">
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Enter cardNumber"
-                    />
-                  </Form.Item>
-                </>
-              )}
-            />
-          </div>
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="accountName"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Business accountName">
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Enter accountName"
+                      />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="accountHolderName"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Account-holder Name ">
+                      <Input
+                        {...field}
+                        placeholder="Enter Account-holder Name "
+                      />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="accountNumber"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Business accountNumber">
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Enter accountNumber"
+                      />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+              <Controller
+                control={control}
+                name="cardNumber"
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="cardNumber">
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Enter cardNumber"
+                      />
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+          </Row>
           {/* <ModalFooter onCancel={handleCancel} onOk={handleOk} /> */}
           <div className="flex  justify-end space-x-2 pr-0 mt-2">
             <Button

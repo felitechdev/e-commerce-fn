@@ -15,6 +15,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect, useRef } from "react";
+import { handlecountorders } from "../../Common/handleOrderTotal";
 
 import { OrderTable } from "./OrdersTable";
 
@@ -171,8 +172,12 @@ export const Dashboard = () => {
               {record.name[1]}
             </Title>
             <Text className="w-full">
-              {record.name[2]}
-              {/* {record.name[2].slice(0, 20) + "...."} */}
+              {/* {record.name[2]} */}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: record.name[2].slice(0, 20) + "....",
+                }}
+              ></div>
             </Text>
           </div>
         </Space>
@@ -184,6 +189,7 @@ export const Dashboard = () => {
       title: "Stock",
       dataIndex: "stock",
       key: "stock",
+      alignItems: "center",
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
@@ -198,7 +204,18 @@ export const Dashboard = () => {
       title: "Orders",
       dataIndex: "orders",
       key: "orders",
+      alignItems: "center",
       width: 100,
+
+      render: (_, record) => {
+        const order = orders && handlecountorders(orders, record.key);
+
+        return (
+          <div className="w-full text-left ">
+            <span>total: {order}</span>
+          </div>
+        );
+      },
     },
     {
       title: "Published",
@@ -423,19 +440,6 @@ export const Dashboard = () => {
                       </div>
                     </Card>
                   ))}
-
-            {/* <CustomTable
-              data={seller}
-              style={{
-                position: "sticky",
-                bottom: 0,
-                top: 0,
-                left: 0,
-                zIndex: 1,
-                border: "0px solid #238383",
-                padding: "0px",
-              }}
-            /> */}
           </Card>
         )}
       </div>
@@ -449,9 +453,13 @@ export const Dashboard = () => {
             </span>
           </>
         ) : (
-          <div className="w-full flex flex-col-reverse md:flex-row   md:space-x-4  bg-[white]">
-            <Row className=" w-full md:w-[60%] p-0     ">
+          <div className="w-full flex flex-col-reverse lg:flex-row   md:space-x-4  bg-[white]">
+            <Row className=" w-full lg:w-[60%] p-0     ">
               {FilterByNameInput}
+
+              {/* <Space className="w-full p-4 mb-6 bg-tableborder rounded-md">
+                {FilterByNameInput}
+              </Space> */}
 
               <Table
                 rowClassName="even:bg-[#f1f5f9]  hover:cursor-pointer custom-table-row "
@@ -467,7 +475,7 @@ export const Dashboard = () => {
                   top: 0,
                   left: 0,
                   zIndex: 1,
-                  border: "2px solid #838383",
+                  // border: "2px solid #838383",
                   padding: "5px",
                 }}
                 dataSource={filteredData}
@@ -477,7 +485,7 @@ export const Dashboard = () => {
               />
             </Row>
 
-            <Row className=" w-full md:w-[40%] p-0   ">
+            <Row className=" w-full lg:w-[40%]  p-0   ">
               <OrderTable
                 style={{
                   position: "sticky",
