@@ -40,9 +40,7 @@ const Cart = () => {
       cart = [];
     }
 
-    let existingProduct = cart.find(
-      (product) => product.id === productId
-    );
+    let existingProduct = cart.find((product) => product.id === productId);
 
     if (existingProduct) {
       existingProduct.items += 1;
@@ -111,7 +109,10 @@ const Cart = () => {
       product: item.id,
       quantity: item.items,
       price: item.price,
+      productThumbail: item.productThumbnail,
+      ...(item.variations && { variation: { ...item.variations } }),
     };
+
     return product;
   });
 
@@ -123,8 +124,7 @@ const Cart = () => {
     defaultValues: '', // Set default values from profileview
   });
 
-  const onErrors = (errors) =>
-    console.log('errors on form creation', errors);
+  const onErrors = (errors) => console.log('errors on form creation', errors);
 
   async function makepayment(requestData) {
     setLoadng(true);
@@ -147,14 +147,15 @@ const Cart = () => {
       window.open(res.data.data.link);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadng(false);
     }
   }
 
   const onFinish = async (values) => {
     const payload = {};
     if (values.phoneNumber) {
-      const { countryCode, areaCode, phoneNumber } =
-        values.phoneNumber;
+      const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
       const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
       payload['phoneNumber'] = fullPhoneNumber;
     }
@@ -202,9 +203,7 @@ const Cart = () => {
                     itemInfo={item}
                     handleAddCart={handleAddCart}
                     handleRemoveCart={handleRemoveCart}
-                    handleRemoveitemfromCart={
-                      handleRemoveitemfromCart
-                    }
+                    handleRemoveitemfromCart={handleRemoveitemfromCart}
                   />
                 </div>
               ))}
@@ -212,7 +211,8 @@ const Cart = () => {
 
             <button
               onClick={handleclearCart}
-              className='py-2 px-10 rounded-lg bg-[#1D6F2B] text-white font-semibold mb-4 hover:text-white duration-300'>
+              className='py-2 px-10 rounded-lg bg-[#1D6F2B] text-white font-semibold mb-4 hover:text-white duration-300'
+            >
               Clear Shopping Cart
             </button>
             <div className='max-w-7xl gap-4 flex justify-end mt-4 p-3'>
@@ -228,7 +228,8 @@ const Cart = () => {
                     borderRadius: '0.375rem',
                     boxShadow: '0px 0px 24px -13px rgba(0,0,0,0.7)',
                     display: ` ${checkoutform ? 'block' : 'none'}`,
-                  }}>
+                  }}
+                >
                   <div>
                     <div className=' flex justify-between items-center space-x-2 w-fill '>
                       <Controller
@@ -238,13 +239,8 @@ const Cart = () => {
                         defaultValue={''}
                         render={({ field }) => (
                           <>
-                            <Form.Item
-                              label='Country'
-                              className='w-[48%]'>
-                              <Input
-                                {...field}
-                                placeholder='Country'
-                              />
+                            <Form.Item label='Country' className='w-[48%]'>
+                              <Input {...field} placeholder='Country' />
                               <p className='text-[red]'>
                                 {errors?.Country?.message}
                               </p>
@@ -260,9 +256,7 @@ const Cart = () => {
                         defaultValue={''}
                         render={({ field }) => (
                           <>
-                            <Form.Item
-                              label='City'
-                              className='w-[48%]'>
+                            <Form.Item label='City' className='w-[48%]'>
                               <Input
                                 {...field}
                                 type='text'
@@ -284,9 +278,7 @@ const Cart = () => {
                         rules={{ required: 'Street is required' }}
                         render={({ field }) => (
                           <>
-                            <Form.Item
-                              label='Street'
-                              className='w-[30%] h-8'>
+                            <Form.Item label='Street' className='w-[30%] h-8'>
                               <Input
                                 {...field}
                                 type='text'
@@ -307,7 +299,8 @@ const Cart = () => {
                           <>
                             <Form.Item
                               label='Phone number'
-                              className='w-[68%] h-5'>
+                              className='w-[68%] h-5'
+                            >
                               <PhoneInput {...field} enableSearch />
                               <p className='text-[red]'>
                                 {errors?.phoneNumber?.message}
@@ -326,7 +319,8 @@ const Cart = () => {
                           <>
                             <Form.Item
                               // label=" Currency"
-                              className=' mt-10 w-[50%]'>
+                              className=' mt-10 w-[50%]'
+                            >
                               <Select
                                 {...field}
                                 label='Currency field'
@@ -363,7 +357,8 @@ const Cart = () => {
                           marginTop: '20px',
                           display:
                             'flex items-center justify-center mt-3  disabled:opacity-50 duration-300 ',
-                        }}>
+                        }}
+                      >
                         <span className='flex'>
                           <h2 className=' flex  items-center justify-center '>
                             <FaSave className='  mr-2' />
@@ -408,10 +403,9 @@ const Cart = () => {
                       disabled={loading}
                       // onClick={makepayment}
                       onClick={handleopencheckoutform}
-                      className='w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300'>
-                      {loading
-                        ? 'Processing...'
-                        : 'Proceed to Checkout'}
+                      className='w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300'
+                    >
+                      {loading ? 'Processing...' : 'Proceed to Checkout'}
                     </button>
                     {/* </Link> */}
                     {/* <NavLink
@@ -434,7 +428,8 @@ const Cart = () => {
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className='flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20'>
+            className='flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20'
+          >
             <div>
               <img
                 className='w-80 rounded-lg p-4 mx-auto'
@@ -447,9 +442,8 @@ const Cart = () => {
                 Your Cart feels lonely.
               </h1>
               <p className='text-sm text-center px-10 -mt-2'>
-                Your Shopping cart lives to serve. Give it purpose -
-                fill it with books, electronics, videos, etc. and make
-                it happy.
+                Your Shopping cart lives to serve. Give it purpose - fill it
+                with books, electronics, videos, etc. and make it happy.
               </p>
               <Link to='/shop'>
                 <button className='bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300'>
