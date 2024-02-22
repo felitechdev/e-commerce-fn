@@ -193,7 +193,7 @@ export const OrderTable = (...props) => {
 
   useEffect(() => {
     const newData =
-      !loadorders && order
+      !loadorders && order.length > 0
         ? order?.map((orderItem, index) => ({
             key: orderItem.id ? orderItem.id : orderItem._id,
             // customerId: orderItem.customer,
@@ -211,6 +211,15 @@ export const OrderTable = (...props) => {
 
     setFilteredData(newData);
   }, [order, loadorders]);
+
+  console.log(
+    "filteredData",
+    filteredData,
+    "loadorders",
+    loadorders,
+    "order",
+    order
+  );
   return (
     <>
       <UpdateOrderStatus
