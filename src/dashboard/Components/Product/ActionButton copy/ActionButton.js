@@ -109,6 +109,8 @@ const SingleproductModel = (props) => {
     getProduct();
   }, [props.Id]);
 
+  console.log("DBProductInfo", DBProductInfo);
+
   return (
     <Modal
       title="Product"
@@ -172,19 +174,21 @@ const SingleproductModel = (props) => {
 
             <div className="flex flex-wrap justify-around ">
               {/* Color Images */}
-              {DBProductInfo.productImages.colorImages.map((image, index) => (
-                <div key={index} className="m-2">
-                  <Image
-                    src={image.url}
-                    alt={image.colorName}
-                    width={100}
-                    height={100}
-                  />
-                  <p className="text-center text-gray-500 mt-1">
-                    {image.colorName}
-                  </p>
-                </div>
-              ))}
+              {DBProductInfo?.colorMeasurementVariations?.variations?.map(
+                (image, index) => (
+                  <div key={index} className="m-2">
+                    <Image
+                      src={image?.colorImg?.url}
+                      alt={image?.colorImg?.colorName}
+                      width={100}
+                      height={100}
+                    />
+                    <p className="text-center text-gray-500 mt-1">
+                      {image?.colorImg?.colorName}
+                    </p>
+                  </div>
+                )
+              )}
 
               {/* Other Images */}
               {DBProductInfo.productImages.otherImages.map((image, index) => (
@@ -195,7 +199,9 @@ const SingleproductModel = (props) => {
             </div>
           </div>
         ) : (
-          <p>Product not found</p>
+          <div className="flex justify-center">
+            <Loader className="text-primary" />
+          </div>
         )}
       </>
     </Modal>

@@ -222,53 +222,62 @@ export const DashProducts = () => {
       key: "name",
       colSpan: "1",
       render: (_, record, index) => (
-        <Space size={12} className="" key={index}>
-          <Image
-            width={50}
-            className="rounded-md"
-            src={record.name[0]}
-            preview={{
-              toolbarRender: (
-                _,
-                {
-                  transform: { scale },
-                  actions: {
-                    onFlipY,
-                    onFlipX,
-                    onRotateLeft,
-                    onRotateRight,
-                    onZoomOut,
-                    onZoomIn,
-                  },
-                }
-              ) => (
-                <Space size={12} className="mx-w-full h-screen">
-                  <DownloadOutlined onClick={onDownload} />
-                  <SwapOutlined rotate={90} onClick={onFlipY} />
-                  <SwapOutlined onClick={onFlipX} />
-                  <RotateLeftOutlined onClick={onRotateLeft} />
-                  <RotateRightOutlined onClick={onRotateRight} />
-                  <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
-                  <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
-                </Space>
-              ),
-            }}
-          />
-          <div className=" overflow-auto ">
-            <Title level={5} className="w-full">
-              {record.name[1]}
-            </Title>
-
-            {/* display value as html */}
-            <div
-              className="w-full overflow-auto  "
-              dangerouslySetInnerHTML={{
-                __html: record.name[2].slice(0, 30) + "...",
+        console.log("recorddddd", record),
+        (
+          <Space size={12} className="" key={index}>
+            <Image
+              width={50}
+              className="rounded-md"
+              src={record.name[0]}
+              preview={{
+                toolbarRender: (
+                  _,
+                  {
+                    transform: { scale },
+                    actions: {
+                      onFlipY,
+                      onFlipX,
+                      onRotateLeft,
+                      onRotateRight,
+                      onZoomOut,
+                      onZoomIn,
+                    },
+                  }
+                ) => (
+                  <Space size={12} className="mx-w-full h-screen">
+                    <DownloadOutlined onClick={onDownload} />
+                    <SwapOutlined rotate={90} onClick={onFlipY} />
+                    <SwapOutlined onClick={onFlipX} />
+                    <RotateLeftOutlined onClick={onRotateLeft} />
+                    <RotateRightOutlined onClick={onRotateRight} />
+                    <ZoomOutOutlined
+                      disabled={scale === 1}
+                      onClick={onZoomOut}
+                    />
+                    <ZoomInOutlined
+                      disabled={scale === 50}
+                      onClick={onZoomIn}
+                    />
+                  </Space>
+                ),
               }}
             />
-            {/* {record.name[2].slice(0, 20) + "...."} */}
-          </div>
-        </Space>
+            <div className=" overflow-auto ">
+              <Title level={5} className="w-full">
+                {record.name[1]}
+              </Title>
+
+              {/* display value as html */}
+              <div
+                className="w-full overflow-auto  "
+                dangerouslySetInnerHTML={{
+                  __html: record.name[2].slice(0, 30) + "...",
+                }}
+              />
+              {/* {record.name[2].slice(0, 20) + "...."} */}
+            </div>
+          </Space>
+        )
       ),
 
       width: 200,
@@ -634,7 +643,7 @@ export const DashProducts = () => {
                       >
                         <div
                           style={{}}
-                          className=" rounded bg-light   shadow-md  pb-2 m-3"
+                          className=" rounded bg-red  object-fill   shadow-md  pb-2 m-3"
                         >
                           <Image
                             width="90%"

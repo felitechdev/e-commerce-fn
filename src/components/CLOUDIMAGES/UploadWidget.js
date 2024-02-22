@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 let cloudinary;
 
-const UploadWidget = ({ children, onUpload }) => {
+const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
   const widget = useRef();
   useEffect(() => {
     // Store the Cloudinary window instance to a ref when the page renders
@@ -54,8 +54,11 @@ const UploadWidget = ({ children, onUpload }) => {
       cloudName, // Ex: mycloudname
       uploadPreset, // Ex: myuploadpreset
       // croppingAspectRatio: 1,
-      cropping: true,
-      folder: "my-folder",
+      // cropping: true,
+      folder: "felitechnologyimages",
+      multiple: uploadmultiple,
+      maxFiles: uploadmultiple ? 6 : 1,
+      // cropping: true,
     };
 
     return cloudinary?.createUploadWidget(options, function (error, result) {

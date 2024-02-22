@@ -43,6 +43,7 @@ import { useUser } from "../../../../context/UserContex";
 import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 
 const normFile = (e) => {
+  console.log("eeeeeeeeeeeee", e);
   if (Array.isArray(e)) {
     return e;
   }
@@ -84,21 +85,11 @@ const ProductModel = (props) => {
 
   // ahndel ulpad images on frontend
   const [mainImageUrl, setMainImageUrl] = useState("");
+  const [otherImageUrls, setOtherImageUrls] = useState([]);
   const [imageError, setImageError] = useState("");
+  const [colorImageUrls, setColorImageUrls] = useState("");
+  // const [colorVariations, setColorVariations] = useState([]);
 
-  /**
-   * handleOnUpload
-   * @description Handles the upload result and updates the main image URL state
-   */
-  function handleOnUpload(error, result, widget) {
-    if (error) {
-      setImageError(error);
-      widget.close({ quiet: true });
-      return;
-    }
-    // Assuming the main product image URL is stored in the secure_url property of the result object
-    setMainImageUrl(result?.info?.secure_url);
-  }
   // redux state handling
   const dispatch = useDispatch();
   const { product, load, err } = useSelector((state) => state.createproduct);
@@ -136,22 +127,42 @@ const ProductModel = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  console.log("loading ", load);
 
   const handleSubmits = (data) => {
-    data.availableSizes = Array.isArray(data.availableSizes)
-      ? data.availableSizes
-      : [data.availableSizes];
-
-    setAvailableSizes(data.availableSizes);
     console.log(
-      "datasive",
-      availableSizes,
-      JSON.stringify(data.availableSizes)
+      "dataon submit ",
+      data,
+      mainImageUrl,
+      otherImageUrls,
+      "colorimages",
+      colorImageUrls
     );
 
+    if (!mainImageUrl) {
+      setImageError("Product main image is required");
+      return;
+    }
+
+    // Validate otherImageUrls
+    if (otherImageUrls.length === 0) {
+      setImageError("At least one product image is required");
+      return;
+    }
+
+    // data.availableSizes = Array.isArray(data.availableSizes)
+    //   ? data.availableSizes
+    //   : [data.availableSizes];
+
+    // setAvailableSizes(data.availableSizes);
+    // console.log(
+    //   "datasive",
+    //   availableSizes,
+    //   JSON.stringify(data.availableSizes)
+    // );
+
     const formData = new FormData();
-    formData.append("name", data.name); // Replace 'seller_id' with the actual ID of the seller
+    console.log("type", typeof data.name);
+    formData.append("name", JSON.stringify(data.name)); // Replace 'seller_id' with the actual ID of the seller
 
     if (userRole == "seller") {
       formData.append("seller", user.id);
@@ -161,31 +172,73 @@ const ProductModel = (props) => {
 
     formData.append("category", data.category); // Replace 'category_id' with the actual ID of the category
     formData.append("subcategory", data.subcategory); // Replace 'subcategory_id' with the actual ID of the subcategory
-    formData.append("description", data.description); // Replace 'subcategory_id' with the actual ID of the subcategory
+    formData.append("description", JSON.stringify(data.description)); // Replace 'subcategory_id' with the actual ID of the subcategory
     // formData.append("otherImages", otherImages);
     formData.append("price", Number(data.price));
-    formData.append("productThumbnail", data.productThumbnail.file);
+    // formData.append("productThumbnail", data.productThumbnail.file);
+    // formData.append("productThumbnail", mainImageUrl);
+
     formData.append("brandName", data.brandName);
     formData.append("stockQuantity", data.stockQuantity);
 
     formData.append("discountPercentage", data.discountPercentage);
     formData.append("quantityParameter", data.quantityParameter);
 
-    for (let i = 0; i < otherImages.length; i++) {
-      formData.append("otherImages", otherImages[i]);
-    }
+    // for (let i = 0; i < otherImages.length; i++) {
+    //   formData.append("otherImages", otherImages[i]);
+    // }
+    // for (let i = 0; i < otherImageUrls.length; i++) {
+    //   formData.append("otherImages", otherImageUrls[i]);
+    // }
 
-    data.availableSizes.forEach((size) => {
-      formData.append("availableSizes[]", size);
-    });
+    const colorMeasurementVariations = {
+      measurementType: "size",
+      variations: colorVariations.map((variation) => ({
+        measurementvalue: variation.availableSizes,
+        colorImg: {
+          url: variation.colorImageUrl,
+          // colorName:  variation.colorName  ,
+          colorName: "red",
+        },
+        colorMeasurementVariationQuantity: parseInt(variation.stock),
+      })),
+    };
 
-    for (let i = 0; i < colorImages.length; i++) {
-      formData.append("colorImages", colorImages[i]);
-    }
+    // Append productImages
+    const productImages = {
+      productThumbnail: {
+        public_id: "Feli Technology Inv. Group/",
+        url: mainImageUrl,
+      },
+      otherImages: otherImageUrls?.map((image) => {
+        return {
+          public_id: "Feli Technology Inv. Group/",
+          url: image,
+        };
+      }),
+    };
 
-    data.colorNames.forEach((size) => {
-      formData.append("colorNames[]", size);
-    });
+    console.log("productImagesString", JSON.stringify(productImages));
+
+    formData.append("productImages", JSON.stringify(productImages));
+
+    formData.append(
+      "colorMeasurementVariations",
+      JSON.stringify(colorMeasurementVariations)
+      // colorMeasurementVariations
+    );
+
+    // data?.availableSizes?.forEach((size) => {
+    //   formData.append("availableSizes[]", size);
+    // });
+
+    // for (let i = 0; i < colorImages.length; i++) {
+    //   formData.append("colorImages", colorImages[i]);
+    // }
+
+    // data?.colorNames?.forEach((size) => {
+    //   formData.append("colorNames[]", size);
+    // });
 
     for (var pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
@@ -216,83 +269,6 @@ const ProductModel = (props) => {
     setAlertIndex(null);
   };
 
-  const onFormSubmit = (data) => {
-    const formData = new FormData();
-    const {
-      productThumbnail,
-      colorImages,
-      availableSizes,
-      otherImages,
-      ...restData
-    } = data;
-
-    // Ensure otherImages is an array
-    data.otherImages = Array.isArray(data.otherImages.fileList)
-      ? data.otherImages.fileList.map((file) => file.originFileObj)
-      : [data.otherImages.file?.originFileObj];
-
-    data.colorImages = Array.isArray(data.colorImages.fileList)
-      ? data.colorImages.fileList.map((file) => file.originFileObj)
-      : [data.colorImages.file?.originFileObj];
-
-    data.availableSizes = Array.isArray(data.availableSizes)
-      ? data.availableSizes
-      : [data.availableSizes];
-
-    data.productImages = {
-      productThumbnail: data.productThumbnail,
-      colorImages: data.colorImages,
-      otherImages: data.otherImages,
-    };
-
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("seller", data.seller);
-    if (userRole == "seller") {
-      formData.append("seller", data.seller);
-    }
-    formData.append("brandName", data.brandName);
-    formData.append("stockQuantity", data.stockQuantity);
-    formData.append("price", data.price);
-    formData.append("category", data.category);
-    formData.append("subcategory", data.subcategory);
-    formData.append("discountPercentage", data.discountPercentage);
-    formData.append("quantityParameter", data.quantityParameter);
-    formData.append("colorNames", data.colorNames);
-    formData.append("availableSizes", data.availableSizes);
-    // Append files
-    formData.append(
-      "productThumbnail",
-      data.productThumbnail.fileList[0].originFileObj
-    );
-    data.colorImages.forEach((file, index) => {
-      console.log("color file", file);
-      formData.append(`colorImages[${index}]`, file);
-    });
-    data.otherImages.forEach((file, index) => {
-      formData.append(`otherImages[${index}]`, file);
-    });
-
-    const newData = {
-      ...restData,
-      availableSizes: data.availableSizes,
-
-      productThumbnail: data.productThumbnail.fileList[0].originFileObj,
-      colorImages: data.colorImages,
-      otherImages: data.otherImages,
-    };
-
-    console.log("newdata", newData);
-    dispatch(createProduct({ productData: newData, token: token }))
-      .unwrap()
-      .then((s) => {
-        console.log("success", s);
-      })
-      .catch((er) => {
-        setError(er.message);
-        console.log("error while creating product on product model", er);
-      });
-  };
   const onErrors = (errors) => console.error(errors);
 
   const registerinput = {
@@ -442,8 +418,6 @@ const ProductModel = (props) => {
       label: comp?.user?.firstName,
     }));
 
-  console.log("selectoption", selectOptions);
-
   const categorySelect =
     categorys &&
     categorys?.map((cat) => ({
@@ -569,6 +543,104 @@ const ProductModel = (props) => {
     }
   }, [dispatch, companys, token]);
 
+  function handleOnUpload(error, result, widget) {
+    if (error) {
+      setImageError(error);
+      widget.close({ quiet: true });
+      return;
+    }
+    // Assuming the main product image URL is stored in the secure_url property of the result object
+    setMainImageUrl(result?.info?.secure_url);
+  }
+
+  // function handleuploadcolorimage(
+  //   error,
+  //   result,
+  //   widget,
+  //   colorName,
+  //   availableSizes,
+  //   stock
+  // ) {
+  //   if (error) {
+  //     console.log("error  while uploadnif", error);
+  //     setImageError(error);
+  //     widget.close({ quiet: true });
+  //     return;
+  //   }
+
+  //   console.log(
+  //     "data to send on create color images",
+  //     widget,
+  //     colorName,
+  //     availableSizes,
+  //     stock
+  //   );
+  //   setColorVariations((prevVariations) => [
+  //     ...prevVariations,
+  //     {
+  //       measurementvalue: availableSizes,
+  //       colorImg: {
+  //         url: result?.info?.secure_url,
+  //         colorName: colorName,
+  //       },
+  //       colorMeasurementVariationQuantity: stock,
+  //     },
+  //   ]);
+  // }
+
+  const [colorVariations, setColorVariations] = useState([
+    // Initial color variation object
+    {
+      colorName: null,
+      availableSizes: null,
+      stock: 0,
+      colorImageUrl: null, // URL of the color image
+    },
+  ]);
+
+  const [index, setIndex] = useState(0);
+  const handleColorChange = (index, field, value) => {
+    setColorVariations((prevVariations) =>
+      prevVariations.map((variation, i) =>
+        i === index ? { ...variation, [field]: value } : variation
+      )
+    );
+  };
+
+  function handleuploadcolorimage(error, result, widget) {
+    if (error) {
+      console.log("error  while uploadnif", error);
+      setImageError(error);
+      widget.close({ quiet: true });
+      return;
+    }
+    console.log("result", result?.info?.secure_url);
+
+    {
+      /* Input for color image URL */
+    }
+    handleColorChange(index, "colorImageUrl", result?.info?.secure_url);
+    setColorImageUrls(result?.info?.secure_url);
+  }
+  function handleonuploadOtherImages(error, result, widget) {
+    if (error) {
+      console.log("error  while uploadnif", error);
+      setImageError(error);
+      widget.close({ quiet: true });
+      return;
+    }
+    console.log("result", result?.info?.secure_url);
+    // Limit the number of images to 6
+    // if (otherImageUrls.length < 6) {
+    setOtherImageUrls([...otherImageUrls, result?.info?.secure_url]);
+    // }
+  }
+
+  console.log(
+    "colorVariations ",
+
+    colorVariations
+  );
   return (
     <>
       <Button onClick={showModal}>Add a product</Button>
@@ -642,10 +714,13 @@ const ProductModel = (props) => {
                 control={control}
                 rules={registerinput.name}
                 render={({ field }) => (
-                  <Form.Item label="Product name">
-                    <Input {...field} placeholder="Enter product name" />
-                    <p className="text-[red]">{errors?.name?.message}</p>
-                  </Form.Item>
+                  console.log("product name ", field),
+                  (
+                    <Form.Item label="Product name">
+                      <Input {...field} placeholder="Enter product name" />
+                      <p className="text-[red]">{errors?.name?.message}</p>
+                    </Form.Item>
+                  )
                 )}
               />
 
@@ -770,100 +845,39 @@ const ProductModel = (props) => {
             </Col>
           </div>
 
-          <div>
-            <h1>Create Product Page</h1>
-            <divn className="bg-[red]  h-20  ">
-              <h2>Upload Main Product Image</h2>
-
-              <UploadWidget onUpload={handleOnUpload}>
-                {({ open }) => (
-                  <button className="" onClick={open}>
-                    Upload Main Image
-                  </button>
-                )}
-              </UploadWidget>
-              {imageError && <p>{imageError}</p>}
-              {mainImageUrl && (
-                <>
-                  <Image
-                    src={mainImageUrl}
-                    alt="Main Product"
-                    width={200}
-                    height={200}
-                  />
-                  {/* <p>Main Image URL: {mainImageUrl}</p>
-                  <img src={mainImageUrl} alt="Main Product" /> */}
-                </>
-              )}
-            </divn>
-          </div>
           <span className=" font-bold">Add Images</span>
           <div className="md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 ">
             <div className="w-full md:w-[40%] ">
               <span>Main product image</span>
               <p>Add product main image </p>
               <div className="flex flex-col justify-center items-center border rounded ">
-                {/* <input
-                  type="file"
-                  {...register("productThumbnail", { required: true })}
-                  placeholder="File"
-                /> */}
-
-                <Controller
-                  name="productThumbnail"
-                  control={control}
-                  rules={{
-                    required: "product main image is required",
-                    max: {
-                      value: 1,
-                      message: "only one image is allowed",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <>
-                      <Form.Item
-                        label=""
-                        valuePropName="fileList"
-                        getValueFromEvent={mainImageUrl}
-                        className=" text-center mt-2 "
-                      >
-                        <span className="">
-                          Drop a main image here or click to upload.
-                        </span>
-                        <Upload
-                          // beforeUpload={beforeUpload}
-                          // beforeUpload={handlebeforeThumbnail}
-                          // listType="picture"
-                          // maxCount={0}
-                          // name={field.name}
-                          // {...field}
-
-                          disabled={true}
-                          beforeUpload={() => {
-                            /* update state here */
-                            return false;
-                          }}
-                        >
-                          <Button
-                            className="bg-[red]"
-                            icon={<FileImageOutlined />}
-                          >
-                            <UploadWidget onUpload={handleOnUpload}>
-                              {({ open }) => (
-                                <button className="" onClick={open}>
-                                  Upload
-                                </button>
-                              )}
-                            </UploadWidget>
-                          </Button>
-                        </Upload>
-                        <p className="text-[red]">
-                          {errors?.productThumbnail?.message}
-                        </p>
-                      </Form.Item>
-                    </>
-                  )}
-                />
+                <>
+                  <Form.Item
+                    label=""
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                    className=" text-center mt-2 "
+                  >
+                    <span className="">
+                      Drop a main image here or click to upload.
+                    </span>
+                    <Image width={50} src={mainImageUrl} alt="Main" />
+                    <Upload disabled={true} beforeUpload={() => false}>
+                      <Button className="bg-[red]" icon={<FileImageOutlined />}>
+                        <UploadWidget onUpload={handleOnUpload}>
+                          {({ open }) => (
+                            <button className="" onClick={open}>
+                              Upload
+                            </button>
+                          )}
+                        </UploadWidget>
+                      </Button>
+                    </Upload>
+                    <p className="text-[red]">
+                      {/* {errors?.mainImageUrl?.message} */}
+                    </p>
+                  </Form.Item>
+                </>
               </div>
             </div>
 
@@ -872,15 +886,16 @@ const ProductModel = (props) => {
               <p>Add product images </p>
               <div className="flex  flex-col justify-center items-center border rounded ">
                 <Controller
-                  name="otherImages"
+                  name="otherImageUrls"
+                  defaultValue={otherImageUrls}
                   control={control}
-                  rules={{
-                    required: "product productsimages is required",
-                    max: {
-                      value: 6,
-                      message: "only one image is allowed",
-                    },
-                  }}
+                  // rules={{
+                  //   required: "product productsimages is required",
+                  //   max: {
+                  //     value: 6,
+                  //     message: "only one image is allowed",
+                  //   },
+                  // }}
                   render={({ field }) => (
                     <Form.Item
                       label=""
@@ -889,24 +904,43 @@ const ProductModel = (props) => {
                       className=" text-center mt-2   "
                     >
                       <span className=" py-10 ">
-                        Drop maximum of 6 images here or click to upload.
+                        Click to upload. maximum of 6 images
                       </span>
+                      {otherImageUrls.slice(0, 6).map((url, index) => {
+                        return (
+                          <Image
+                            key={index}
+                            width={50}
+                            height={50}
+                            src={url}
+                            alt="otherimages"
+                          />
+                        );
+                      })}
                       <br />
                       <Upload
-                        beforeUpload={beforeUpload}
-                        // listType="picture-card"
                         listType="picture"
-                        maxCount={6}
-                        {...field}
-                        name={field.name}
+                        disabled={true}
+                        beforeUpload={() => false}
+                        name="otherImageUrls"
                       >
-                        <Button className="" icon={<FileImageOutlined />}>
-                          Upload
+                        <Button
+                          className="bg-[red]"
+                          icon={<FileImageOutlined />}
+                        >
+                          <UploadWidget
+                            onUpload={handleonuploadOtherImages}
+                            uploadmultiple={true}
+                          >
+                            {({ open }) => (
+                              <button className="" onClick={open}>
+                                Upload
+                              </button>
+                            )}
+                          </UploadWidget>
                         </Button>
                       </Upload>
-                      <p className="text-[red]">
-                        {errors?.otherImages?.message}
-                      </p>
+                      <p className="text-[red]">{imageError}</p>
                     </Form.Item>
                   )}
                 />
@@ -915,120 +949,113 @@ const ProductModel = (props) => {
           </div>
           <span className="mt-2 font-bold ">Add Colors</span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
-            <span>Add a color with it’s corresponding</span>
+            <span>
+              Add a color or zize with it’s corresponding size and stockQuantity
+            </span>
             <p>image </p>
             <div className="flex  w-[100%] p-5 flex-col justify-center items-center border  rounded ">
-              {/* <Form.List name="users">
+              <Form.List name="colors">
                 {(fields, { add, remove }) => (
                   <>
-                    {fields.map(({ key, name, ...restField }) => (
+                    {fields.map(({ key, name, ...restField }, index) => (
                       <Space
                         key={key}
-                        style={{
-                          display: "flex",
-                          marginBottom: 2,
-                        }}
+                        style={{ display: "flex", marginBottom: 2 }}
                         align="baseline"
                       >
-                        <Form.Item {...restField} name={[name, "first"]}>
+                        {/* Input for color name */}
+                        <Form.Item
+                          {...restField}
+                          name={[name, "name"]}
+                          label="Color Name"
+                        >
                           <Input
-                            placeholder="Enter Image Name"
-                            name="colorNames"
+                            placeholder="Enter Color Name"
+                            onChange={(e) =>
+                              handleColorChange(
+                                index,
+                                "colorName",
+                                e.target.value
+                              )
+                            }
                           />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "last"]}>
-                          <Upload
-                            action="/upload.do"
-                            listType="picture"
-                            maxCount={7}
-                            name="colorImages"
+                        {/* Input for available sizes */}
+                        <Form.Item
+                          {...restField}
+                          name={[name, "availableSizes"]}
+                          label="Available Sizes"
+                        >
+                          <Input
+                            placeholder="Enter Available Sizes"
+                            onChange={(e) =>
+                              handleColorChange(
+                                index,
+                                "availableSizes",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </Form.Item>
+                        {/* Input for number available in stock */}
+                        <Form.Item
+                          {...restField}
+                          name={[name, "stock"]}
+                          label="Available Stock"
+                        >
+                          <Input
+                            placeholder="Enter Available Stock"
+                            type="number"
+                            onChange={(e) =>
+                              handleColorChange(index, "stock", e.target.value)
+                            }
+                          />
+                        </Form.Item>
+
+                        <Image src={colorImageUrls} width={50} height={50} />
+                        <Form.Item>
+                          <UploadWidget
+                            onUpload={handleuploadcolorimage}
+                            uploadmultiple={true}
                           >
-                            <Button icon={<UploadOutlined />}>Upload</Button>
-                          </Upload>
-                        </Form.Item>
-                        <MinusCircleOutlined
-                          className="text-[red]"
-                          onClick={() => remove(name)}
-                        />
-                      </Space>
-                    ))}
-                    <Form.Item>
-                      <Button
-                        className="p-1 font-bold"
-                        type="primary"
-                        onClick={() => add()}
-                        block
-                        icon={<PlusOutlined />}
-                      />
-                    </Form.Item>
-                  </>
-                )}
-              </Form.List> */}
-
-              {/* <Form.List name="users">
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{
-                          display: "flex",
-                          marginBottom: 2,
-                        }}
-                        align="baseline"
-                      >
-                        <Form.Item {...restField} name={[name, "first"]}>
-                          <Controller
-                            name="colorNames"
-                            control={control}
-                            render={({ field }) => (
-                              <Input
-                                {...field}
-                                placeholder="Enter Image Name"
-                                name={field.name}
-                              />
-                            )}
-                          />
-                        </Form.Item>
-                        <Form.Item {...restField} name={[name, "last"]}>
-                          <Controller
-                            name="colorImages"
-                            control={control}
-                            render={({ field }) => (
-                              <Upload
-                                listType="picture"
-                                beforeUpload={uploadColorImage}
-                                maxCount={7}
-                                name={field.name}
-                                {...field}
+                            {({ open }) => (
+                              <Button
+                                type="dashed"
+                                onClick={open}
+                                block
+                                icon={<PlusOutlined />}
                               >
-                                <Button icon={<UploadOutlined />}>
-                                  Upload
-                                </Button>
-                              </Upload>
+                                Add Color
+                              </Button>
                             )}
-                          />
+                          </UploadWidget>
                         </Form.Item>
-                        <MinusCircleOutlined
-                          className="text-[red]"
-                          onClick={() => remove(name)}
-                        />
+
+                        {/* Button to remove color entry */}
+                        <MinusCircleOutlined onClick={() => remove(name)} />
                       </Space>
                     ))}
+                    {/* Button to add new color entry */}
                     <Form.Item>
                       <Button
-                        className="p-1 font-bold"
-                        type="primary"
-                        onClick={() => add()}
+                        type="dashed"
+                        onClick={() => {
+                          add();
+                          setIndex(index);
+                        }}
                         block
                         icon={<PlusOutlined />}
-                      />
+                      >
+                        Add Color
+                      </Button>
                     </Form.Item>
                   </>
                 )}
-              </Form.List> */}
+              </Form.List>
+            </div>
+          </div>
 
-              <Form.List name="users">
+          {/* <Form.List name="users">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, ...restField }) => (
@@ -1053,25 +1080,33 @@ const ProductModel = (props) => {
                             )}
                           />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "last"]}>
+                        <Form.Item {...restField} name={[name, "first"]}>
                           <Controller
-                            name={`colorImages[${name}]`}
+                            name={`availableSizes[${name}]`}
                             control={control}
                             render={({ field }) => (
-                              <Upload
-                                listType="picture"
-                                beforeUpload={uploadColorImage}
-                                maxCount={7}
-                                name={field.name}
+                              <Input
                                 {...field}
-                              >
-                                <Button icon={<UploadOutlined />}>
-                                  Upload
-                                </Button>
-                              </Upload>
+                                placeholder="Enter AvailableSizes"
+                                name={field.name}
+                              />
                             )}
                           />
                         </Form.Item>
+                        <Form.Item {...restField} name={[name, "first"]}>
+                          <Controller
+                            name={`availableSizes[${name}]`}
+                            control={control}
+                            render={({ field }) => (
+                              <Input
+                                {...field}
+                                placeholder="number avaieable instock "
+                                name={field.name}
+                              />
+                            )}
+                          />
+                        </Form.Item>
+                      
                         <MinusCircleOutlined
                           className="text-[red]"
                           onClick={() => remove(name)}
@@ -1090,10 +1125,8 @@ const ProductModel = (props) => {
                     </Form.Item>
                   </>
                 )}
-              </Form.List>
-            </div>
-          </div>
-          <span className="mt-2 font-bold  ">AvailableSizes</span>
+              </Form.List> */}
+          {/* <span className="mt-2 font-bold  ">AvailableSizes</span>
           <div className="w-[100%] border my-3 p-3  border  border-[black] rounded ">
             <span>Product availableSizes</span>
             <div className="flex  w-[100%] p-5 flex-col justify-center items-center border  rounded ">
@@ -1143,7 +1176,7 @@ const ProductModel = (props) => {
                 )}
               </Form.List>
             </div>
-          </div>
+          </div> */}
 
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] border p-3 mt-3  border  border-[black] rounded">

@@ -10,7 +10,6 @@ export const fetchCompany = createAsyncThunk(
   "company/fetchcompany",
   async (token, { rejectWithValue }) => {
     try {
-      console.log("Fetching comapanys to handle", token);
       const config = {
         headers: {
           authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
@@ -21,8 +20,6 @@ export const fetchCompany = createAsyncThunk(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/sellers`,
         config
       );
-
-      console.log("response comapny", response.data, response.status);
 
       if (response?.data && response?.status == 201) {
         return response?.data;

@@ -32,7 +32,8 @@ export const createProduct = createAsyncThunk(
         method: "POST",
         headers: {
           Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
-          "content-type": "multipart/form-data",
+          // "content-type": "multipart/form-data",
+          "content-type": "application/json",
         },
         data: productData,
       });
