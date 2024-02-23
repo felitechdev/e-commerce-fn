@@ -96,7 +96,7 @@ const NestedList = ({
             >
               {item.categoryname}
             </span>
-            {item.subcategories && item.subcategories.length > 0 ? (
+            {/* {item.subcategories && item.subcategories.length > 0 ? (
               <FontAwesomeIcon
                 className='float-right h-3 mt-1'
                 icon={faAngleRight}
@@ -105,7 +105,7 @@ const NestedList = ({
               />
             ) : (
               ''
-            )}
+            )} */}
             {item.showSubList && item.subcategories.length > 0 && (
               <div
                 className={` flex w-[20rem] ${subcategoryListClassName}  ${

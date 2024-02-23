@@ -1,9 +1,9 @@
-import { Avatar, Button, Card, Col, Image, Layout } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Row, Space, Table, Typography, Input } from "antd";
-import { Chart } from "../Chart/Chart";
-import "./styles.css";
+import { Avatar, Button, Card, Col, Image, Layout } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Row, Space, Table, Typography, Input } from 'antd';
+import { Chart } from '../Chart/Chart';
+import './styles.css';
 // import type { ColumnsType, TableProps } from 'antd/es/table';
 import {
   DownloadOutlined,
@@ -13,28 +13,28 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
   SearchOutlined,
-} from "@ant-design/icons";
-import { useState, useEffect, useRef } from "react";
-import { handlecountorders } from "../../Common/handleOrderTotal";
+} from '@ant-design/icons';
+import { useState, useEffect, useRef } from 'react';
+import { handlecountorders } from '../../Common/handleOrderTotal';
 
-import { OrderTable } from "./OrdersTable";
+import { OrderTable } from './OrdersTable';
 
 // import actions
-import { fetchadminproduct } from "../../Apis/Product";
-import { Loader } from "../Loader/LoadingSpin";
+import { fetchadminproduct } from '../../Apis/Product';
+import { Loader } from '../Loader/LoadingSpin';
 
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
 const { Title, Paragraph, Text } = Typography;
 
 const src =
-  "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";
+  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
 
 export const Dashboard = () => {
   const [products, setProducts] = useState([]);
   const [viewallsellerproducts, setViewallsellerProducts] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [seller, setSeller] = useState([]);
 
@@ -60,10 +60,10 @@ export const Dashboard = () => {
   };
 
   const category = [
-    { name: "Orders", value: 1024 },
-    { name: "Earning", value: 1024 },
-    { name: "Customers", value: 1024 },
-    { name: "Total Earning", value: 1024 },
+    { name: 'Orders', value: 1024 },
+    { name: 'Earning', value: 1024 },
+    { name: 'Customers', value: 1024 },
+    { name: 'Total Earning', value: 1024 },
   ];
 
   const numberOfCards = 5;
@@ -73,9 +73,9 @@ export const Dashboard = () => {
       .then((response) => response.blob())
       .then((blob) => {
         const url = URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = url;
-        link.download = "image.png";
+        link.download = 'image.png';
         document.body.appendChild(link);
         link.click();
         URL.revokeObjectURL(url);
@@ -85,11 +85,11 @@ export const Dashboard = () => {
 
   const FilterByNameInput = (
     <Input.Search
-      placeholder="search product by name ......."
+      placeholder='search product by name .......'
       allowClear
-      enterButton="Search"
-      size="large"
-      className="w-[50%] my-0"
+      enterButton='Search'
+      size='large'
+      className='w-[50%] my-0'
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
@@ -121,16 +121,16 @@ export const Dashboard = () => {
   const Columns = [
     {
       // title: `Product ${FilterByNameInput}`,
-      title: "Product",
-      dataIndex: "name",
-      key: "name",
-      colSpan: "1",
+      title: 'Product',
+      dataIndex: 'name',
+      key: 'name',
+      colSpan: '1',
       render: (_, record, index) => (
-        <Space size={12} className="" key={index}>
-          <div className="image-preview-container">
+        <Space size={12} className='' key={index}>
+          <div className='image-preview-container'>
             <Image
               width={50}
-              className="rounded-md"
+              className='rounded-md'
               src={record.name[0]}
               // preview={{ getContainer: () => containerRef.current }}
               preview={{
@@ -148,7 +148,7 @@ export const Dashboard = () => {
                     },
                   }
                 ) => (
-                  <Space size={12} className="mx-w-full  h-screen">
+                  <Space size={12} className='mx-w-full  h-screen'>
                     <DownloadOutlined onClick={onDownload} />
                     <SwapOutlined rotate={90} onClick={onFlipY} />
                     <SwapOutlined onClick={onFlipX} />
@@ -167,15 +167,15 @@ export const Dashboard = () => {
               }}
             />
           </div>
-          <div className="  ">
-            <Title level={5} className="w-full">
+          <div className='  '>
+            <Title level={5} className='w-full'>
               {record.name[1]}
             </Title>
-            <Text className="w-full">
+            <Text className='w-full'>
               {/* {record.name[2]} */}
               <div
                 dangerouslySetInnerHTML={{
-                  __html: record.name[2].slice(0, 20) + "....",
+                  __html: record.name[2].slice(0, 20) + '....',
                 }}
               ></div>
             </Text>
@@ -186,55 +186,55 @@ export const Dashboard = () => {
       width: 200,
     },
     {
-      title: "Stock",
-      dataIndex: "stock",
-      key: "stock",
-      alignItems: "center",
+      title: 'Stock',
+      dataIndex: 'stock',
+      key: 'stock',
+      alignItems: 'center',
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
     {
-      title: "Orders",
-      dataIndex: "orders",
-      key: "orders",
-      alignItems: "center",
+      title: 'Orders',
+      dataIndex: 'orders',
+      key: 'orders',
+      alignItems: 'center',
       width: 100,
 
       render: (_, record) => {
         const order = orders && handlecountorders(orders, record.key);
 
         return (
-          <div className="w-full text-left ">
+          <div className='w-full text-left '>
             <span>total: {order}</span>
           </div>
         );
       },
     },
     {
-      title: "Published",
-      dataIndex: "published",
-      key: "published",
+      title: 'Published',
+      dataIndex: 'published',
+      key: 'published',
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
     {
-      title: "Brand Name",
-      dataIndex: "address",
-      key: "address",
+      title: 'Brand Name',
+      dataIndex: 'address',
+      key: 'address',
       filter: true,
       width: 100,
     },
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    console.log('params', pagination, filters, sorter, extra);
   };
 
   // // implement redux
@@ -276,7 +276,7 @@ export const Dashboard = () => {
       dispatch(fetchadminproduct())
         .unwrap()
         .then((data) => {
-          console.log("Products fetched", data);
+          console.log('Products fetched', data);
           setProducts(data);
         });
     }
@@ -312,13 +312,13 @@ export const Dashboard = () => {
   }, [products, dispatch]);
 
   return (
-    <Layout className="space-y-6  bg-light overflow-auto">
-      <div ref={containerRef} className=" border border-2-[red]"></div>
-      <div className="w-full flex flex-col md:flex-row   md:space-x-4 p-3 bg-[white]">
-        <Row className=" w-full md:w-[60%] p-3 bg-[#e2e8f0] ">
-          <Row className="w-full p-4 mb-6 bg-tableborder rounded-md">
+    <Layout className='space-y-6  bg-light overflow-auto'>
+      <div ref={containerRef} className=' border border-2-[red]'></div>
+      <div className='w-full flex flex-col md:flex-row   md:space-x-4 p-3 bg-[white]'>
+        <Row className=' w-full md:w-[60%] p-3 bg-[#e2e8f0] '>
+          <Row className='w-full p-4 mb-6 bg-tableborder rounded-md'>
             {category.map((items, index) => (
-              <Col className="text-center" span={6}>
+              <Col className='text-center' span={6}>
                 <Title level={5}>{items.value}</Title>
                 <Text>{items.name}</Text>
               </Col>
@@ -327,15 +327,15 @@ export const Dashboard = () => {
           <Chart />
         </Row>
         {/* display loading spinner */}
-        {status == "loading" ? (
-          <Loader className=" text-primary w-full  flex items-center justify-center" />
+        {status == 'loading' ? (
+          <Loader className=' text-primary w-full  flex items-center justify-center' />
         ) : (
           <Card
-            className="h-[26rem] w-full md:w-[40%]   overflow-auto"
-            title="Top Seller"
+            className='h-[26rem] w-full md:w-[40%]   overflow-auto'
+            title='Top Seller'
             extra={<Space>Report</Space>}
             style={{
-              border: "2px solid #838383",
+              border: '2px solid #838383',
             }}
             actions={[
               <Button
@@ -347,8 +347,8 @@ export const Dashboard = () => {
                 }
               >
                 {viewallsellerproducts
-                  ? " View Top Sellers"
-                  : "View All Sellers"}
+                  ? ' View Top Sellers'
+                  : 'View All Sellers'}
               </Button>,
             ]}
           >
@@ -356,36 +356,36 @@ export const Dashboard = () => {
               ? [...products]
                   .sort((a, b) => b.published - a.published)
                   .map((product) => (
-                    <Card type="inner" key={product._id}>
+                    <Card type='inner' key={product._id}>
                       <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
+                          display: 'flex',
+                          alignItems: 'center',
                           margin: 0,
-                          borderBottom: "2px solid #838383",
+                          borderBottom: '2px solid #838383',
                         }}
                       >
                         <Avatar
                           style={{
                             width: 50,
                             height: 50,
-                            backgroundColor: "#000",
-                            marginLeft: " 3px",
+                            backgroundColor: '#000',
+                            marginLeft: ' 3px',
                           }}
                           src={product.productImages.productThumbnail.url}
                         />
-                        <div className="ml-[2px] mt-0 flex-1 ">
-                          <div className="flex justify-between items-center">
-                            <Text className="  w-[30%]   font-bold text-center ">
+                        <div className='ml-[2px] mt-0 flex-1 '>
+                          <div className='flex justify-between items-center'>
+                            <Text className='  w-[30%]   font-bold text-center '>
                               {product.brandName}
                             </Text>
-                            <Col className=" w-[30%] text-start  h-10  ">
-                              <Text className="font-bold">delivery</Text>
+                            <Col className=' w-[30%] text-start  h-10  '>
+                              <Text className='font-bold'>delivery</Text>
                               {/* <Paragraph className="text-sm">
                                 {product.deliveryInfo.length}
                               </Paragraph> */}
                             </Col>
-                            <Row style={{ alignItems: "center" }}>
+                            <Row style={{ alignItems: 'center' }}>
                               <Col span={16}>{product.stockQuantity}</Col>
                               <Col span={16}>Stocks</Col>
                             </Row>
@@ -401,36 +401,36 @@ export const Dashboard = () => {
                   .sort((a, b) => b.published - a.published)
                   .slice(0, 5)
                   .map((product) => (
-                    <Card type="inner" key={product._id}>
+                    <Card type='inner' key={product._id}>
                       <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
+                          display: 'flex',
+                          alignItems: 'center',
                           margin: 0,
-                          borderBottom: "2px solid #838383",
+                          borderBottom: '2px solid #838383',
                         }}
                       >
                         <Avatar
                           style={{
                             width: 50,
                             height: 50,
-                            backgroundColor: "#000",
-                            marginLeft: " 3px",
+                            backgroundColor: '#000',
+                            marginLeft: ' 3px',
                           }}
                           src={product.productImages.productThumbnail.url}
                         />
-                        <div className="ml-[2px] mt-0 flex-1 ">
-                          <div className="flex justify-between items-center">
-                            <Text className="  w-[30%]   font-bold text-center ">
+                        <div className='ml-[2px] mt-0 flex-1 '>
+                          <div className='flex justify-between items-center'>
+                            <Text className='  w-[30%]   font-bold text-center '>
                               {product.brandName}
                             </Text>
-                            <Col className=" w-[30%] text-start  h-10  ">
-                              <Text className="font-bold">delivery</Text>
-                              <Paragraph className="text-sm">
+                            <Col className=' w-[30%] text-start  h-10  '>
+                              <Text className='font-bold'>delivery</Text>
+                              <Paragraph className='text-sm'>
                                 {/* {product.deliveryInfo.length} */}
                               </Paragraph>
                             </Col>
-                            <Row style={{ alignItems: "center" }}>
+                            <Row style={{ alignItems: 'center' }}>
                               <Col span={16}>{product.stockQuantity}</Col>
                               <Col span={16}>Stocks</Col>
                             </Row>
@@ -443,18 +443,18 @@ export const Dashboard = () => {
           </Card>
         )}
       </div>
-      <div className="w-full flex flex-col md:flex-row md:space-x-4 p-3 bg-[white]">
+      <div className='w-full flex flex-col md:flex-row md:space-x-4 p-3 bg-[white]'>
         {/* display loading spinner */}
-        {status == "loading" ? (
+        {status == 'loading' ? (
           <>
-            <Loader className=" text-primary flex items-center w-full justify-center" />
-            <span className=" text-primary flex items-center  justify-center">
+            <Loader className=' text-primary flex items-center w-full justify-center' />
+            <span className=' text-primary flex items-center  justify-center'>
               Loading....
             </span>
           </>
         ) : (
-          <div className="w-full flex flex-col-reverse lg:flex-row   md:space-x-4  bg-[white]">
-            <Row className=" w-full lg:w-[60%] p-0     ">
+          <div className='w-full flex flex-col-reverse lg:flex-row   md:space-x-4  bg-[white]'>
+            <Row className=' w-full lg:w-[60%] p-0     '>
               {FilterByNameInput}
 
               {/* <Space className="w-full p-4 mb-6 bg-tableborder rounded-md">
@@ -462,39 +462,39 @@ export const Dashboard = () => {
               </Space> */}
 
               <Table
-                rowClassName="even:bg-[#f1f5f9]  hover:cursor-pointer custom-table-row "
+                rowClassName='even:bg-[#f1f5f9]  hover:cursor-pointer custom-table-row '
                 // rowSelection={{
                 //   type: "checkbox",
                 // }}
-                size="small"
-                tableLayout="fixed"
+                size='small'
+                tableLayout='fixed'
                 bordered={false}
                 style={{
-                  position: "sticky",
+                  position: 'sticky',
                   bottom: 0,
                   top: 0,
                   left: 0,
                   zIndex: 1,
                   // border: "2px solid #838383",
-                  padding: "5px",
+                  padding: '5px',
                 }}
                 dataSource={filteredData}
                 columns={Columns}
                 scroll={{ x: 500 }}
-                className="w-full   "
+                className='w-full   '
               />
             </Row>
 
-            <Row className=" w-full lg:w-[40%]  p-0   ">
+            <Row className=' w-full lg:w-[40%]  p-0   '>
               <OrderTable
                 style={{
-                  position: "sticky",
+                  position: 'sticky',
                   bottom: 0,
                   top: 0,
                   left: 0,
                   zIndex: 1,
-                  border: "2px solid #838383",
-                  padding: "10px",
+                  border: '2px solid #838383',
+                  padding: '10px',
                 }}
               />
             </Row>

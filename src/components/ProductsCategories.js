@@ -26,6 +26,13 @@ function ProductsCategories() {
     },
   });
 
+  const displayProducts = selectedCategory.category.categoryname
+    ? products.filter(
+        (product) =>
+          product.category.name === selectedCategory.category.categoryname
+      )
+    : products;
+
   const handleCategorySelect = (category, subcategory) => {
     if (category.categoryId) {
       setSelectedCategory({
@@ -75,7 +82,7 @@ function ProductsCategories() {
           </div>
         )}
 
-        {products.length > 0 && <AllProducts products={products} />}
+        {products.length > 0 && <AllProducts products={displayProducts} />}
       </div>
     </div>
   );
