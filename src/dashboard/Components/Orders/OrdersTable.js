@@ -1,21 +1,21 @@
-import { Row, Space, Table, Image, Typography, Tag, Input } from 'antd';
+import { Row, Space, Table, Image, Typography, Tag, Input } from "antd";
 
-import { DeleteFilled, EyeFilled, EditFilled } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
-import { getorderDetail } from '../../../APIs/Oreders';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { ActionButton } from '../Button/AvtionButton';
-import { UpdateOrderStatus } from './Order/updateorderstatus';
-import { statusColors } from '../../../common/statuscolor';
-import { GetMyOrders } from '../../../APIs/Oreders';
-import { useUser } from '../../../context/UserContex';
+import { DeleteFilled, EyeFilled, EditFilled } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { getorderDetail } from "../../../APIs/Oreders";
+import { useNavigate, Navigate } from "react-router-dom";
+import { ActionButton } from "../Button/AvtionButton";
+import { UpdateOrderStatus } from "./Order/updateorderstatus";
+import { statusColors } from "../../../common/statuscolor";
+import { GetMyOrders } from "../../../APIs/Oreders";
+import { useUser } from "../../../context/UserContex";
 
-import { Loader } from '../Loader/LoadingSpin';
+import { Loader } from "../Loader/LoadingSpin";
 
-import Cookies from 'js-cookie';
-import { fetchorders } from '../../Apis/orders';
+import Cookies from "js-cookie";
+import { fetchorders } from "../../Apis/orders";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -32,7 +32,7 @@ export const OrderTable = (...props) => {
     setIsModalOpen(state);
   };
 
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const navigate = useNavigate();
 
   const { orders, loadorders, errorders } = useSelector(
@@ -42,17 +42,17 @@ export const OrderTable = (...props) => {
 
   const getItems = (record) => [
     {
-      label: <span className='font-bold text-primary'>View</span>,
-      key: 'view',
-      icon: <EyeFilled className=' text-icon1 mr-2' />,
+      label: <span className="font-bold text-primary">View</span>,
+      key: "view",
+      icon: <EyeFilled className=" text-icon1 mr-2" />,
       onClick: () => {
         navigate(`${record.key}`);
       },
     },
-    (user?.role == 'admin' || user?.role == 'customer') && {
-      label: <span className='font-bold text-primary'>Update</span>,
-      key: 'edit',
-      icon: <EditFilled className=' text-icon2 mr-2' />,
+    (user?.role == "admin" || user?.role == "customer") && {
+      label: <span className="font-bold text-primary">Update</span>,
+      key: "edit",
+      icon: <EditFilled className=" text-icon2 mr-2" />,
       onClick: async () => {
         await openModal(true, record);
       },
@@ -76,9 +76,9 @@ export const OrderTable = (...props) => {
   };
   const columns = [
     {
-      title: '#',
-      dataIndex: 'customerId',
-      key: 'customerId',
+      title: "#",
+      dataIndex: "customerId",
+      key: "customerId",
       width: 100,
     },
     // {
@@ -88,48 +88,48 @@ export const OrderTable = (...props) => {
     //   width: 100,
     // },
     {
-      title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
       width: 100,
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
       width: 400,
     },
 
     {
-      title: 'Items',
-      dataIndex: 'itemsCount',
-      key: 'itemsCount',
+      title: "Items",
+      dataIndex: "itemsCount",
+      key: "itemsCount",
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
       // width: 100,
       render: (status) => (
         <Tag
           color={statusColors[status]}
-          style={{ color: 'white', fontWeight: 'bold' }}
-          className='capitalize'
+          style={{ color: "white", fontWeight: "bold" }}
+          className="capitalize"
         >
           {status}
         </Tag>
       ),
     },
     {
-      title: 'Updated At',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
+      title: "Updated At",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
       width: 100,
     },
     {
-      title: 'Action',
-      dataIndex: 'Action',
-      key: 'Action',
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
       width: 100,
       render: (_, record) => (
         <>
@@ -153,11 +153,11 @@ export const OrderTable = (...props) => {
     },
   ];
 
-  if (user?.role === 'admin' || user?.role === 'customer') {
+  if (user?.role === "admin" || user?.role === "customer") {
     columns.splice(3, 0, {
-      title: 'Phone ',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      title: "Phone ",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
       width: 200,
     });
   }
@@ -167,12 +167,12 @@ export const OrderTable = (...props) => {
       dispatch(GetMyOrders(token))
         .unwrap()
         .then((data) => {
-          if (data?.data && data?.status == 'success') {
+          if (data?.data && data?.status == "success") {
             setOrder(data?.data?.orders);
           }
         })
         .catch((error) => {
-          console.log('error on sub orders page', error);
+          console.log("error on sub orders page", error);
         });
     }
   }, [loadorders, dispatch, token]);
@@ -183,7 +183,7 @@ export const OrderTable = (...props) => {
       dispatch(GetMyOrders(token))
         .unwrap()
         .then((data) => {
-          if (data?.data && data?.status == 'success') {
+          if (data?.data && data?.status == "success") {
             setOrder(data?.data?.orders);
           }
         })
@@ -205,6 +205,7 @@ export const OrderTable = (...props) => {
             phoneNumber: orderItem.phoneNumber,
             itemsCount: orderItem.items.length,
             status: orderItem.status,
+
             updatedAt: new Date(orderItem.updatedAt).toLocaleDateString(),
           }))
         : [];
@@ -213,11 +214,10 @@ export const OrderTable = (...props) => {
   }, [order, loadorders]);
 
   console.log(
-    'filteredData',
+    "filteredData",
     filteredData,
-    'loadorders',
-    loadorders,
-    'order',
+
+    "order",
     order
   );
   return (
@@ -230,17 +230,17 @@ export const OrderTable = (...props) => {
       />
       {loadorders ? (
         <>
-          <Loader className=' text-primary flex items-center w-full justify-center' />
+          <Loader className=" text-primary flex items-center w-full justify-center" />
         </>
       ) : (
         <Table
-          rowClassName='even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row '
+          rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
           columns={columns}
           dataSource={filteredData}
-          size='small'
-          tableLayout='fixed'
+          size="small"
+          tableLayout="fixed"
           bordered={false}
-          className='w-full md:w-[90%]  custom-table   '
+          className="w-full md:w-[90%]  custom-table   "
           // scroll={{}}
 
           scroll={{ x: 1500 }}

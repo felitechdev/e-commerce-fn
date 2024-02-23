@@ -15,6 +15,7 @@ import { EyeFilled } from "@ant-design/icons";
 import Cookies from "js-cookie";
 import { useUser } from "../../../../context/UserContex";
 import { getorderDetail } from "../../../../APIs/Oreders";
+import { GetMyOrders } from "../../../../APIs/Oreders";
 import axios from "axios";
 import { statusColors } from "../../../../common/statuscolor";
 
@@ -28,6 +29,7 @@ const SingleOrder = () => {
   const navigate = useNavigate();
   const onSetProfile = useUser().onSetProfile;
   const { id } = useParams();
+  const [ord, setOrd] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openmodel, setOpenmodel] = useState(false);
   const [orders, setOrders] = useState();
@@ -56,6 +58,31 @@ const SingleOrder = () => {
         .catch((error) => {});
     }
   }, []);
+
+  useEffect(() => {
+    if (!ord.length) {
+      dispatch(GetMyOrders(token))
+        .unwrap()
+        .then((data) => {
+          if (data?.data && data?.status == "success") {
+            setOrd(data?.data?.orders);
+          }
+        })
+        .catch((error) => {});
+    }
+  }, [dispatch, ord, token]);
+
+  const singleorder = ord.length > 0 ? ord : [];
+
+  console.log(
+    // singleorder.map((order) => {} order._id),
+    "single order",
+    singleorder.find((order) => {
+      // return order.id === id;
+      return order._id ? order._id === id : order.id === id;
+    }),
+    ord
+  );
 
   const duplicatedItems = orders?.items?.reduce((acc, item) => {
     return [...acc, { ...item }, { ...item }];
@@ -128,42 +155,64 @@ const SingleOrder = () => {
                 )}
               </div>
             </div>
+            {singleorder
+              .find((order) => {
+                return order._id ? order._id === id : order.id === id;
+              })
+              ?.items.map(
+                (item, index) => (
+                  console.log("itemDetails", item),
+                  (
+                    <div className="flex justify-between p-4 border ">
+                      <div className="flex">
+                        <Space size={12}>
+                          <Image
+                            width={100}
+                            className="rounded-md border"
+                            src={
+                              item?.itemDetails?.thumbnail
+                                ? item?.itemDetails?.thumbnail
+                                : "https://via.placeholder.com/150"
+                            }
+                          />
+                        </Space>
 
-            {duplicatedItems?.map((item, index) => (
-              <div className="flex justify-between p-4 border ">
-                <div className="flex">
-                  <Space size={12}>
-                    <Image
-                      width={100}
-                      className="rounded-md border"
-                      src={
-                        "http://res.cloudinary.com/hervebu/image/upload/v1702558866/Feli%20Technology%20Inv.%20Group/macbook%20pro/otherImages/ic1rdxfjwamklholwwyd.jpg"
-                      }
-                    />
-                  </Space>
-
-                  <div className="ml-2 ">
-                    <h1 className="text-md font-bold">{"Product Name"}</h1>
-                    <h1 className="text-md font-bold text-gray-400">
-                      price : {item.price}
-                    </h1>
-                    {/* <p className="text-gray-400 font-bold text-md">
+                        <div className="ml-2 ">
+                          <h1 className="text-md font-bold">
+                            {item?.itemDetails?.name}
+                          </h1>
+                          <h1 className="text-md font-bold text-gray-400">
+                            price :{" "}
+                            {!item?.itemDetails
+                              ? item?.price
+                              : item?.itemDetails?.price}
+                          </h1>
+                          {/* <p className="text-gray-400 font-bold text-md">
                       quantity : {item.quantity}
                     </p> */}
-                  </div>
-                </div>
-                <div>
-                  <h1 className="text-md font-bold">seller:{}</h1>
-                  {UserRole == "admin" && (
-                    <p className="text-gray-400 font-bold text-md">Tel : {}</p>
-                  )}
-                  <p className="text-gray-400 font-bold text-md">
-                    quantity : {item.quantity}
-                  </p>
-                  <p className="text-gray-400 font-bold text-md">color : {}</p>
-                </div>
-              </div>
-            ))}
+                        </div>
+                      </div>
+                      <div>
+                        <h1 className="text-md font-bold">seller:{}</h1>
+                        {UserRole == "admin" && (
+                          <p className="text-gray-400 font-bold text-md">
+                            Tel : {}
+                          </p>
+                        )}
+                        <p className="text-gray-400 font-bold text-md">
+                          quantity : {item.quantity}
+                        </p>
+                        <p className="text-gray-400 font-bold text-md">
+                          color : {item?.variation?.color}
+                        </p>
+                        <p className="text-gray-400 font-bold text-md">
+                          zize : {item?.variation?.size}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                )
+              )}
           </>
         )}
       </div>
