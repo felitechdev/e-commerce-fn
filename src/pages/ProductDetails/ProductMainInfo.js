@@ -1,12 +1,11 @@
-import React from 'react';
-import SmallImagesContainer from './SmallImagesContainer';
-import discountedFinalPrice from '../../util/discountedFinalPrice';
+import React from "react";
+import SmallImagesContainer from "./SmallImagesContainer";
+import discountedFinalPrice from "../../util/discountedFinalPrice";
 
 function removeDuplicateMeasurement(variations) {
   const measuremts = variations.reduce((acc, variation) => {
     const newMeasuremt = acc.find(
-      (measurement) =>
-        measurement.measurement === variation.measurementvalue
+      (measurement) => measurement.measurement === variation.measurementvalue
     );
 
     if (!newMeasuremt)
@@ -37,7 +36,7 @@ const ProductMainInfo = ({
 
   const handleSizeClick = (e) => {
     dispatch({
-      type: 'sizeSelected',
+      type: "sizeSelected",
       payload: e.target.textContent,
     });
   };
@@ -48,35 +47,33 @@ const ProductMainInfo = ({
     );
   };
 
+  console.log("product  ggggg", product);
   return (
-    <div className='flex flex-col w-container lg:max-w-[30%] xl:w-[30%] gap-5 '>
+    <div className="flex flex-col w-container lg:max-w-[30%] xl:w-[30%] gap-5 ">
       <div>
-        <p className='w-full h-max-[65px] text-xl font-semibold block capitalize'>
+        <p className="w-full h-max-[65px] text-xl font-semibold block capitalize">
           {product?.name}
         </p>
-        <hr className='w-full h-0.5 border-0 bg-gray-200 my-3'></hr>
+        <hr className="w-full h-0.5 border-0 bg-gray-200 my-3"></hr>
       </div>
       <div>
-        <p className='text-lg mb-1 block font-semibold'>Price:</p>
-        <p className='text-2xl text-[#1D6F2B] font-semibold'>
+        <p className="text-lg mb-1 block font-semibold">Price:</p>
+        <p className="text-2xl text-[#1D6F2B] font-semibold">
           {product?.discountPercentage > 0
-            ? discountedFinalPrice(
-                product.price,
-                product?.discountPercentage
-              )
-            : product?.price}{' '}
+            ? discountedFinalPrice(product.price, product?.discountPercentage)
+            : product?.price}{" "}
           RWF
         </p>
         {product?.discountPercentage > 0 ? (
-          <p className='inline-block text-base text-[#00000080] font-normal line-through'>
+          <p className="inline-block text-base text-[#00000080] font-normal line-through">
             {product?.price} RWF
           </p>
         ) : (
-          ''
+          ""
         )}
         {product?.discountPercentage > 0 && (
-          <p className='inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[4px] px-[10px] ml-3 rounded-2xl text-[#FF4747] font-bold'>
-            {product?.discountPercentage + '% off'}
+          <p className="inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[4px] px-[10px] ml-3 rounded-2xl text-[#FF4747] font-bold">
+            {product?.discountPercentage + "% off"}
           </p>
         )}
       </div>
@@ -84,8 +81,8 @@ const ProductMainInfo = ({
       {product.hasColors &&
         product?.colorMeasurementVariations.variations.length > 0 && (
           <div>
-            <p className='text-lg font-semibold flex items-center mb-4 capitalize'>
-              <span className='bg-[#1D6F2B] text-white text-base font-medium me-2 px-2.5 py-0.5 rounded'>
+            <p className="text-lg font-semibold flex items-center mb-4 capitalize">
+              <span className="bg-[#1D6F2B] text-white text-base font-medium me-2 px-2.5 py-0.5 rounded">
                 Color:
               </span>
               {selectedColor}
@@ -98,10 +95,8 @@ const ProductMainInfo = ({
               ]}
               activeImage={activeImage}
               dispatch={dispatch}
-              variations={
-                product?.colorMeasurementVariations.variations
-              }
-              feature='colorImages'
+              variations={product?.colorMeasurementVariations.variations}
+              feature="colorImages"
               selectedMeasurement={selectedMeasurement}
             />
           </div>
@@ -109,14 +104,14 @@ const ProductMainInfo = ({
 
       {product.hasMeasurements && measurements.length > 0 && (
         <div>
-          <p className='text-lg font-semibold flex items-center mb-4 capitalize'>
-            <span className='bg-[#1D6F2B] text-white text-base font-medium me-2 px-2.5 py-0.5 rounded'>
+          <p className="text-lg font-semibold flex items-center mb-4 capitalize">
+            <span className="bg-[#1D6F2B] text-white text-base font-medium me-2 px-2.5 py-0.5 rounded">
               {product?.colorMeasurementVariations.measurementType}:
             </span>
             {selectedMeasurement}
           </p>
 
-          <div className='flex flex-wrap gap-1'>
+          <div className="flex flex-wrap gap-1">
             {measurements.map((measurement) => {
               const colorMeasurementCombinationNotAvailable =
                 selectedColor === measurement.color &&
@@ -131,10 +126,11 @@ const ProductMainInfo = ({
                   key={measurement.measurement}
                   className={`border-[2px] rounded-lg py-1 px-2 cursor-pointer text-sm disabled:opacity-30 disabled:cursor-not-allowed ${
                     selectedMeasurement === measurement.measurement
-                      ? 'border-dashed border-7 border-orange-400 shadow-orange-400 drop-shadow-xl'
-                      : ''
+                      ? "border-dashed border-7 border-orange-400 shadow-orange-400 drop-shadow-xl"
+                      : ""
                   }`}
-                  onClick={handleSizeClick}>
+                  onClick={handleSizeClick}
+                >
                   {measurement.measurement}
                 </button>
               );

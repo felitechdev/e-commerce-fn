@@ -70,7 +70,8 @@ const UserAvatarDropdown = (props) => {
                       ? "text-[#1D6F2B] w-[100%] bg-[#E5E5E5] hover:text-[black]  font-semibold hidden py-1 px-1 rounded-md  md:inline-block "
                       : "font-semibold hidden md:inline-block align-middle hover:text-[#1D6F2B]   text-white";
                   }}
-                  to="user"
+                  to="/user"
+                  replace={true}
                 >
                   Settings
                 </NavLink>

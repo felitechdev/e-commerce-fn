@@ -11,6 +11,7 @@ import {
   Select,
   Upload,
   Space,
+  Image,
 } from "antd";
 import "../style.css";
 import {
@@ -32,12 +33,14 @@ import { createProduct } from "../../../Apis/Product";
 import { Loader } from "../../Loader/LoadingSpin";
 import { fetchCompany } from "../../../Apis/Company";
 import { fetchCategory, fetchSubCategory } from "../../../Apis/Categories";
-import Cookies from "js-cookie";
+import Cookies, { set } from "js-cookie";
 import { data } from "autoprefixer";
 import { useRef } from "react";
 import Item from "antd/lib/list/Item";
 import Alerts from "../../Notifications&Alert/Alert";
 import { useUser } from "../../../../context/UserContex";
+// widget upload for cloudinary Image"
+import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -78,6 +81,15 @@ const ProductModel = (props) => {
   const [subcategorys, setSubcategorys] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const token = Cookies.get("token");
+
+  // ahndel ulpad images on frontend
+  const [mainImageUrl, setMainImageUrl] = useState("");
+  const [otherImageUrls, setOtherImageUrls] = useState([]);
+  const [imageError, setImageError] = useState("");
+  const [otherimagesError, setOtherimagesError] = useState("");
+  const [colorImageUrls, setColorImageUrls] = useState("");
+  // const [colorVariations, setColorVariations] = useState([]);
+
   // redux state handling
   const dispatch = useDispatch();
   const { product, load, err } = useSelector((state) => state.createproduct);
@@ -101,6 +113,18 @@ const ProductModel = (props) => {
   const [products, setProducts] = useState();
   const [error, setError] = React.useState([]);
   const [success, setSuccess] = React.useState([]);
+
+  const [colorVariations, setColorVariations] = useState([
+    // Initial color variation object
+    {
+      colorName: null,
+      availableSizes: null,
+      stock: 0,
+      colorImageUrl: null, // URL of the color image
+    },
+  ]);
+
+  const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
   const {
     register,
@@ -115,62 +139,219 @@ const ProductModel = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  console.log("loading ", load);
+
+  let stockQuantity = colorVariations.reduce((acc, variation) => {
+    return acc + parseInt(variation.stock);
+  }, 0);
+
+  // const handleSubmits = (data) => {
+  //   if (!mainImageUrl) {
+  //     setImageError("Product main image is required");
+  //     return;
+  //   }
+
+  //   // Validate otherImageUrls
+  //   if (otherImageUrls.length === 0) {
+  //     setOtherimagesError("At least one product image is required");
+  //     return;
+  //   }
+
+  //   setOtherimagesError("");
+  //   setImageError("");
+
+  //   // data.availableSizes = Array.isArray(data.availableSizes)
+  //   //   ? data.availableSizes
+  //   //   : [data.availableSizes];
+
+  //   // setAvailableSizes(data.availableSizes);
+  //   // console.log(
+  //   //   "datasive",
+  //   //   availableSizes,
+  //   //   JSON.stringify(data.availableSizes)
+  //   // );
+
+  //   const formData = new FormData();
+  //   console.log("type", typeof data.name);
+  //   formData.append("name", JSON.stringify(data.name)); // Replace 'seller_id' with the actual ID of the seller
+
+  //   if (userRole == "seller") {
+  //     formData.append("seller", user.id);
+  //   } else {
+  //     formData.append("seller", data.seller);
+  //   }
+
+  //   formData.append("category", data.category); // Replace 'category_id' with the actual ID of the category
+  //   formData.append("subcategory", data.subcategory); // Replace 'subcategory_id' with the actual ID of the subcategory
+  //   formData.append("description", JSON.stringify(data.description)); // Replace 'subcategory_id' with the actual ID of the subcategory
+  //   // formData.append("otherImages", otherImages);
+  //   formData.append("price", Number(data.price));
+  //   // formData.append("productThumbnail", data.productThumbnail.file);
+  //   // formData.append("productThumbnail", mainImageUrl);
+
+  //   formData.append("brandName", data.brandName);
+
+  //   {
+  //     stockQuantity !== 0
+  //       ? formData.append("stockQuantity", stockQuantity)
+  //       : formData.append("stockQuantity", data.stockQuantity);
+  //   }
+
+  //   formData.append("discountPercentage", data.discountPercentage);
+  //   formData.append("quantityParameter", data.quantityParameter);
+
+  //   // for (let i = 0; i < otherImages.length; i++) {
+  //   //   formData.append("otherImages", otherImages[i]);
+  //   // }
+  //   // for (let i = 0; i < otherImageUrls.length; i++) {
+  //   //   formData.append("otherImages", otherImageUrls[i]);
+  //   // }
+
+  //   const colorMeasurementVariations = {
+  //     measurementType: "size",
+  //     variations: colorVariations.map((variation) => ({
+  //       measurementvalue: variation.availableSizes,
+  //       colorImg: {
+  //         url: variation.colorImageUrl,
+  //         // colorName:  variation.colorName  ,
+  //         colorName: "red",
+  //       },
+  //       colorMeasurementVariationQuantity: parseInt(variation.stock),
+  //     })),
+  //   };
+
+  //   // hasColors: {
+  //   //   type: Boolean,
+  //   // },
+
+  //   // hasMeasurements: {
+  //   //   type: Boolean,
+  //   // },
+
+  //   let hasColors = colorVariations[0].colorImageUrl !== null ? true : false;
+  //   let hasMeasurements =
+  //     colorVariations[0].availableSizes !== null ? true : false;
+
+  //   formData.append("hasColors", hasColors);
+  //   formData.append("hasMeasurements", hasMeasurements);
+
+  //   // Append productImages
+  //   const productImages = {
+  //     productThumbnail: {
+  //       public_id: "Feli Technology Inv. Group/",
+  //       url: mainImageUrl,
+  //     },
+  //     otherImages: otherImageUrls?.map((image) => {
+  //       return {
+  //         public_id: "Feli Technology Inv. Group/",
+  //         url: image,
+  //       };
+  //     }),
+  //   };
+
+  //   formData.append("productImages", JSON.stringify(productImages));
+
+  //   formData.append(
+  //     "colorMeasurementVariations",
+  //     JSON.stringify(colorMeasurementVariations)
+  //     // colorMeasurementVariations
+  //   );
+
+  //   // data?.availableSizes?.forEach((size) => {
+  //   //   formData.append("availableSizes[]", size);
+  //   // });
+
+  //   // for (let i = 0; i < colorImages.length; i++) {
+  //   //   formData.append("colorImages", colorImages[i]);
+  //   // }
+
+  //   // data?.colorNames?.forEach((size) => {
+  //   //   formData.append("colorNames[]", size);
+  //   // });
+
+  //   for (var pair of formData.entries()) {
+  //     console.log(pair[0] + ": " + pair[1]);
+  //   }
+
+  //   dispatch(createProduct({ productData: formData, token: token }))
+  //     .unwrap()
+  //     .then((data) => {
+  //       if (data && data?.status == "success") {
+  //         // update get product state
+
+  //         props.handlecreateproduct(data?.data?.product);
+  //         setProducts(data?.data?.product);
+  //         setAlertIndex("success");
+  //         setAlertDescription(`${"product created successfully"}`);
+  //         setTimeout(() => {
+  //           handleCancel();
+  //         }, 3000);
+  //       }
+  //     })
+  //     .catch((er) => {
+  //       setAlertIndex("error"); // Display error alert on error
+  //       setAlertDescription("Error: " + er.message);
+  //       console.log("error while creating product on product model", er);
+  //     });
+  // };
 
   const handleSubmits = (data) => {
-    data.availableSizes = Array.isArray(data.availableSizes)
-      ? data.availableSizes
-      : [data.availableSizes];
-
-    setAvailableSizes(data.availableSizes);
-    console.log(
-      "datasive",
-      availableSizes,
-      JSON.stringify(data.availableSizes)
-    );
-
-    const formData = new FormData();
-    formData.append("name", data.name); // Replace 'seller_id' with the actual ID of the seller
-
-    if (userRole == "seller") {
-      formData.append("seller", user.id);
-    } else {
-      formData.append("seller", data.seller);
+    if (!mainImageUrl) {
+      setImageError("Product main image is required");
+      return;
     }
 
-    formData.append("category", data.category); // Replace 'category_id' with the actual ID of the category
-    formData.append("subcategory", data.subcategory); // Replace 'subcategory_id' with the actual ID of the subcategory
-    formData.append("description", data.description); // Replace 'subcategory_id' with the actual ID of the subcategory
-    // formData.append("otherImages", otherImages);
-    formData.append("price", Number(data.price));
-    formData.append("productThumbnail", data.productThumbnail.file);
-    formData.append("brandName", data.brandName);
-    formData.append("stockQuantity", data.stockQuantity);
-
-    formData.append("discountPercentage", data.discountPercentage);
-    formData.append("quantityParameter", data.quantityParameter);
-
-    for (let i = 0; i < otherImages.length; i++) {
-      formData.append("otherImages", otherImages[i]);
+    // Validate otherImageUrls
+    if (otherImageUrls.length === 0) {
+      setOtherimagesError("At least one product image is required");
+      return;
     }
 
-    data.availableSizes.forEach((size) => {
-      formData.append("availableSizes[]", size);
-    });
+    setOtherimagesError("");
+    setImageError("");
 
-    for (let i = 0; i < colorImages.length; i++) {
-      formData.append("colorImages", colorImages[i]);
-    }
+    // Convert stockQuantity to a number if it's not already
+    const stockQty =
+      stockQuantity !== 0 ? stockQuantity : parseInt(data.stockQuantity);
 
-    data.colorNames.forEach((size) => {
-      formData.append("colorNames[]", size);
-    });
+    const payload = {
+      name: data.name,
+      seller: userRole === "seller" ? user.id : data.seller,
+      category: data.category,
+      subcategory: data.subcategory,
+      description: data.description,
+      price: Number(data.price),
+      brandName: data.brandName,
+      stockQuantity: stockQty,
+      discountPercentage: data.discountPercentage,
+      quantityParameter: data.quantityParameter,
+      hasColors: colorVariations[0].colorImageUrl !== null ? true : false,
+      hasMeasurements:
+        colorVariations[0].availableSizes !== null ? true : false,
+      productImages: {
+        productThumbnail: {
+          public_id: "Feli Technology Inv. Group/",
+          url: mainImageUrl,
+        },
+        otherImages: otherImageUrls?.map((image) => ({
+          public_id: "Feli Technology Inv. Group/",
+          url: image,
+        })),
+      },
+      colorMeasurementVariations: {
+        measurementType: "size",
+        variations: colorVariations.map((variation) => ({
+          measurementvalue: variation.availableSizes,
+          colorImg: {
+            url: variation.colorImageUrl,
+            colorName: variation.colorName, // or variation.colorName if needed
+          },
+          colorMeasurementVariationQuantity: parseInt(variation.stock),
+        })),
+      },
+    };
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
-
-    dispatch(createProduct({ productData: formData, token: token }))
+    // Dispatch API call with the payload
+    dispatch(createProduct({ productData: payload, token: token }))
       .unwrap()
       .then((data) => {
         if (data && data?.status == "success") {
@@ -178,7 +359,7 @@ const ProductModel = (props) => {
           props.handlecreateproduct(data?.data?.product);
           setProducts(data?.data?.product);
           setAlertIndex("success");
-          setAlertDescription(`${"product created successfully"}`);
+          setAlertDescription("Product created successfully");
           setTimeout(() => {
             handleCancel();
           }, 3000);
@@ -187,7 +368,7 @@ const ProductModel = (props) => {
       .catch((er) => {
         setAlertIndex("error"); // Display error alert on error
         setAlertDescription("Error: " + er.message);
-        console.log("error while creating product on product model", er);
+        console.log("Error while creating product:", er);
       });
   };
   // close alert window
@@ -195,83 +376,6 @@ const ProductModel = (props) => {
     setAlertIndex(null);
   };
 
-  const onFormSubmit = (data) => {
-    const formData = new FormData();
-    const {
-      productThumbnail,
-      colorImages,
-      availableSizes,
-      otherImages,
-      ...restData
-    } = data;
-
-    // Ensure otherImages is an array
-    data.otherImages = Array.isArray(data.otherImages.fileList)
-      ? data.otherImages.fileList.map((file) => file.originFileObj)
-      : [data.otherImages.file?.originFileObj];
-
-    data.colorImages = Array.isArray(data.colorImages.fileList)
-      ? data.colorImages.fileList.map((file) => file.originFileObj)
-      : [data.colorImages.file?.originFileObj];
-
-    data.availableSizes = Array.isArray(data.availableSizes)
-      ? data.availableSizes
-      : [data.availableSizes];
-
-    data.productImages = {
-      productThumbnail: data.productThumbnail,
-      colorImages: data.colorImages,
-      otherImages: data.otherImages,
-    };
-
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("seller", data.seller);
-    if (userRole == "seller") {
-      formData.append("seller", data.seller);
-    }
-    formData.append("brandName", data.brandName);
-    formData.append("stockQuantity", data.stockQuantity);
-    formData.append("price", data.price);
-    formData.append("category", data.category);
-    formData.append("subcategory", data.subcategory);
-    formData.append("discountPercentage", data.discountPercentage);
-    formData.append("quantityParameter", data.quantityParameter);
-    formData.append("colorNames", data.colorNames);
-    formData.append("availableSizes", data.availableSizes);
-    // Append files
-    formData.append(
-      "productThumbnail",
-      data.productThumbnail.fileList[0].originFileObj
-    );
-    data.colorImages.forEach((file, index) => {
-      console.log("color file", file);
-      formData.append(`colorImages[${index}]`, file);
-    });
-    data.otherImages.forEach((file, index) => {
-      formData.append(`otherImages[${index}]`, file);
-    });
-
-    const newData = {
-      ...restData,
-      availableSizes: data.availableSizes,
-
-      productThumbnail: data.productThumbnail.fileList[0].originFileObj,
-      colorImages: data.colorImages,
-      otherImages: data.otherImages,
-    };
-
-    console.log("newdata", newData);
-    dispatch(createProduct({ productData: newData, token: token }))
-      .unwrap()
-      .then((s) => {
-        console.log("success", s);
-      })
-      .catch((er) => {
-        setError(er.message);
-        console.log("error while creating product on product model", er);
-      });
-  };
   const onErrors = (errors) => console.error(errors);
 
   const registerinput = {
@@ -292,16 +396,16 @@ const ProductModel = (props) => {
         isNumber: (value) => !isNaN(value) || "price must be a number",
       },
     },
-    stockQuantity: {
-      required: "Quantity is required",
-      min: {
-        value: 0.0000000001,
-        message: "Quantity must be greater than 0",
-      },
-      validate: {
-        isNumber: (value) => !isNaN(value) || "Quantity must be a number",
-      },
-    },
+    // stockQuantity : {
+    //    required: "Quantity is required",
+    //   min: {
+    //     value: 0.0000000001,
+    //     message: "Quantity must be greater than 0",
+    //   },
+    //   validate: {
+    //     isNumber: (value) => !isNaN(value) || "Quantity must be a number",
+    //   },
+    // },
     description: {
       required: "description is required",
       minLength: {
@@ -420,8 +524,6 @@ const ProductModel = (props) => {
       value: comp?.user?.id,
       label: comp?.user?.firstName,
     }));
-
-  console.log("selectoption", selectOptions);
 
   const categorySelect =
     categorys &&
@@ -548,12 +650,126 @@ const ProductModel = (props) => {
     }
   }, [dispatch, companys, token]);
 
+  function handleOnUpload(error, result, widget) {
+    if (error) {
+      setImageError(error);
+      widget.close({ quiet: true });
+      return;
+    }
+    // Assuming the main product image URL is stored in the secure_url property of the result object
+    setMainImageUrl(result?.info?.secure_url);
+    setImageError("");
+  }
+
+  // function handleuploadcolorimage(
+  //   error,
+  //   result,
+  //   widget,
+  //   colorName,
+  //   availableSizes,
+  //   stock
+  // ) {
+  //   if (error) {
+  //     console.log("error  while uploadnif", error);
+  //     setImageError(error);
+  //     widget.close({ quiet: true });
+  //     return;
+  //   }
+
+  //   console.log(
+  //     "data to send on create color images",
+  //     widget,
+  //     colorName,
+  //     availableSizes,
+  //     stock
+  //   );
+  //   setColorVariations((prevVariations) => [
+  //     ...prevVariations,
+  //     {
+  //       measurementvalue: availableSizes,
+  //       colorImg: {
+  //         url: result?.info?.secure_url,
+  //         colorName: colorName,
+  //       },
+  //       colorMeasurementVariationQuantity: stock,
+  //     },
+  //   ]);
+  // }
+
+  // const handleColorChange = (index, field, value) => {
+  //   console.log("index", index, field, value);
+  //   setColorVariations((prevVariations) =>
+  //     prevVariations.map((variation, i) =>
+  //       i === index ? { ...variation, [field]: value } : variation
+  //     )
+  //   );
+  // };
+
+  // const handleColorChange = (index, field, value) => {
+  //   console.log("index", index, field, value);
+  //   setColorVariations((prevVariations) => {
+  //     return prevVariations.map((variation, i) => {
+  //       if (i === index) {
+  //         return { ...variation, [field]: value };
+  //       } else {
+  //         return variation;
+  //       }
+  //     });
+  //   });
+  // };
+
+  const handleColorChange = (index, field, value) => {
+    console.log("index", index, field, value);
+    setColorVariations((prevVariations) => {
+      // Deep copy the array using slice()
+      const updatedVariations = [...prevVariations.slice(0)];
+
+      // Update the specific object at the given index
+      updatedVariations[index] = {
+        ...updatedVariations[index],
+        [field]: value,
+      };
+
+      return updatedVariations;
+    });
+  };
+  // function handleuploadcolorimage(error, result, widget) {
+  //   if (error) {
+  //     console.log("error  while uploadnif", error);
+  //     // setImageError(error);
+  //     widget.close({ quiet: true });
+  //     return;
+  //   }
+  //   console.log("result", result?.info?.secure_url);
+
+  //   {
+  //     /* Input for color image URL */
+  //   }
+  //   handleColorChange(index, "colorImageUrl", result?.info?.secure_url);
+  //   setColorImageUrls(result?.info?.secure_url);
+  // }
+  function handleonuploadOtherImages(error, result, widget) {
+    if (error) {
+      console.log("error  while uploadnif", error);
+      setImageError(error);
+      widget.close({ quiet: true });
+      return;
+    }
+    console.log("resulthandleonuploadOtherImages", result?.info?.secure_url);
+    // Limit the number of images to 6
+    // if (otherImageUrls.length < 6) {
+    //   setOtherImageUrls([...otherImageUrls, result?.info?.secure_url]);
+    // }
+    setOtherImageUrls((prevUrls) => [...prevUrls, result?.info?.secure_url]);
+  }
+
+  console.log("colorVariations ", colorVariations, "index", index);
   return (
     <>
       <Button onClick={showModal}>Add a product</Button>
 
       {/* open addnew category model */}
-      {addnew && (
+      {userRole == "admin" && addnew && (
         <Modal
           title="Add new Category"
           width="50rem"
@@ -569,7 +785,7 @@ const ProductModel = (props) => {
         </Modal>
       )}
       {/* open addnewsub category model */}
-      {addnewsub && (
+      {userRole == "admin" && addnewsub && (
         <Modal
           title="Add new Category"
           width="50rem"
@@ -659,12 +875,14 @@ const ProductModel = (props) => {
               className="border mb-3 border-[black] py-10 px-5 "
             >
               <div className="">
-                <button
-                  onClick={handleOpenNewModel}
-                  className="absolute right-5 font-bold  z-50 underline text-primary"
-                >
-                  Add New
-                </button>
+                {userRole == "admin" && (
+                  <button
+                    onClick={handleOpenNewModel}
+                    className="absolute right-5 font-bold  z-50 underline text-primary"
+                  >
+                    Add New
+                  </button>
+                )}
 
                 <Controller
                   name="category"
@@ -702,13 +920,15 @@ const ProductModel = (props) => {
               </div>
 
               <div className="">
-                <button
-                  type="button"
-                  onClick={handleOpenNewSubModel}
-                  className="absolute right-5 font-bold z-50 underline text-primary"
-                >
-                  Add New
-                </button>
+                {userRole == "admin" && (
+                  <button
+                    type="button"
+                    onClick={handleOpenNewSubModel}
+                    className="absolute right-5 font-bold z-50 underline text-primary"
+                  >
+                    Add New
+                  </button>
+                )}
 
                 <Controller
                   name="subcategory"
@@ -744,61 +964,42 @@ const ProductModel = (props) => {
               </div>
             </Col>
           </div>
+
           <span className=" font-bold">Add Images</span>
           <div className="md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 ">
             <div className="w-full md:w-[40%] ">
               <span>Main product image</span>
               <p>Add product main image </p>
               <div className="flex flex-col justify-center items-center border rounded ">
-                {/* <input
-                  type="file"
-                  {...register("productThumbnail", { required: true })}
-                  placeholder="File"
-                /> */}
+                <>
+                  <Form.Item
+                    label=""
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                    className=" text-center mt-2 "
+                  >
+                    <span className="">
+                      Drop a main image here or click to upload.
+                    </span>
 
-                <Controller
-                  name="productThumbnail"
-                  control={control}
-                  rules={{
-                    required: "product main image is required",
-                    max: {
-                      value: 1,
-                      message: "only one image is allowed",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <>
-                      <Form.Item
-                        label=""
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
-                        className=" text-center mt-2 "
-                      >
-                        <span className="">
-                          Drop a main image here or click to upload.
-                        </span>
-                        <Upload
-                          // beforeUpload={beforeUpload}
-                          beforeUpload={handlebeforeThumbnail}
-                          listType="picture"
-                          maxCount={1}
-                          name={field.name}
-                          {...field}
+                    <UploadWidget onUpload={handleOnUpload}>
+                      {({ open }) => (
+                        <Button
+                          className=""
+                          icon={<FileImageOutlined />}
+                          onClick={open}
                         >
-                          <Button
-                            className="bg-[red]"
-                            icon={<FileImageOutlined />}
-                          >
-                            Upload
-                          </Button>
-                        </Upload>
-                        <p className="text-[red]">
-                          {errors?.productThumbnail?.message}
-                        </p>
-                      </Form.Item>
-                    </>
-                  )}
-                />
+                          Upload
+                        </Button>
+                      )}
+                    </UploadWidget>
+
+                    {!mainImageUrl && (
+                      <p className="text-[red]">{imageError}</p>
+                    )}
+                  </Form.Item>
+                  <Image width={70} height={70} src={mainImageUrl} alt="Main" />{" "}
+                </>
               </div>
             </div>
 
@@ -806,164 +1007,218 @@ const ProductModel = (props) => {
               <span>Main product images</span>
               <p>Add product images </p>
               <div className="flex  flex-col justify-center items-center border rounded ">
-                <Controller
-                  name="otherImages"
-                  control={control}
-                  rules={{
-                    required: "product productsimages is required",
-                    max: {
-                      value: 6,
-                      message: "only one image is allowed",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <Form.Item
-                      label=""
-                      valuePropName="fileList"
-                      getValueFromEvent={normFile}
-                      className=" text-center mt-2   "
-                    >
-                      <span className=" py-10 ">
-                        Drop maximum of 6 images here or click to upload.
-                      </span>
-                      <br />
-                      <Upload
-                        beforeUpload={beforeUpload}
-                        // listType="picture-card"
-                        listType="picture"
-                        maxCount={6}
-                        {...field}
-                        name={field.name}
+                <Form.Item
+                  label=""
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
+                  className=" text-center mt-2   "
+                >
+                  <span className=" py-10 ">
+                    Click to upload. maximum of 6 images
+                  </span>
+
+                  <br />
+
+                  <UploadWidget
+                    onUpload={handleonuploadOtherImages}
+                    uploadmultiple={true}
+                  >
+                    {({ open }) => (
+                      <Button
+                        className=""
+                        icon={<FileImageOutlined />}
+                        onClick={open}
                       >
-                        <Button className="" icon={<FileImageOutlined />}>
-                          Upload
-                        </Button>
-                      </Upload>
-                      <p className="text-[red]">
-                        {errors?.otherImages?.message}
-                      </p>
-                    </Form.Item>
+                        {/* <button className="" onClick={open}>
+                              Upload
+                            </button>{" "} */}
+                        Upload
+                      </Button>
+                    )}
+                  </UploadWidget>
+                  {otherImageUrls.length == 0 && (
+                    <p className="text-[red]">{otherimagesError}</p>
                   )}
-                />
+                </Form.Item>
+                <div className="flex justify-center border space-x-4">
+                  {otherImageUrls.slice(0, 6).map((url, index) => {
+                    return (
+                      <Image
+                        key={index}
+                        width={70}
+                        height={70}
+                        src={url}
+                        alt="otherimages"
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
-          <span className="mt-2 font-bold ">Add Colors</span>
+          <span className="mt-2 font-bold ">
+            Add Colors images here or Available Sizes
+          </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
-            <span>Add a color with it’s corresponding</span>
+            <span>
+              Add a color or zize with it’s corresponding size and stockQuantity
+            </span>
             <p>image </p>
-            <div className="flex  w-[100%] p-5 flex-col justify-center items-center border  rounded ">
-              {/* <Form.List name="users">
+            <div className="flex  w-[100%] p-5 flex-col justify-center items-center border    rounded ">
+              <Form.List name="colors" className="">
                 {(fields, { add, remove }) => (
                   <>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{
-                          display: "flex",
-                          marginBottom: 2,
-                        }}
-                        align="baseline"
-                      >
-                        <Form.Item {...restField} name={[name, "first"]}>
-                          <Input
-                            placeholder="Enter Image Name"
-                            name="colorNames"
-                          />
-                        </Form.Item>
-                        <Form.Item {...restField} name={[name, "last"]}>
-                          <Upload
-                            action="/upload.do"
-                            listType="picture"
-                            maxCount={7}
-                            name="colorImages"
+                    {fields.map(({ key, name, ...restField }, index) => (
+                      <>
+                        <Space
+                          key={key}
+                          style={{ display: "flex", marginBottom: 2 }}
+                          align="baseline"
+                        >
+                          {/* Input for color name */}
+                          <Form.Item
+                            {...restField}
+                            name={[name, "name"]}
+                            label="Color Name"
                           >
-                            <Button icon={<UploadOutlined />}>Upload</Button>
-                          </Upload>
-                        </Form.Item>
-                        <MinusCircleOutlined
-                          className="text-[red]"
-                          onClick={() => remove(name)}
-                        />
-                      </Space>
-                    ))}
-                    <Form.Item>
-                      <Button
-                        className="p-1 font-bold"
-                        type="primary"
-                        onClick={() => add()}
-                        block
-                        icon={<PlusOutlined />}
-                      />
-                    </Form.Item>
-                  </>
-                )}
-              </Form.List> */}
+                            <Input
+                              placeholder="Enter Color Name"
+                              onChange={(e) =>
+                                handleColorChange(
+                                  index,
+                                  "colorName",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </Form.Item>
+                          {/* Input for available sizes */}
+                          <Form.Item
+                            {...restField}
+                            name={[name, "availableSizes"]}
+                            label="Available Sizes"
+                          >
+                            <Input
+                              placeholder="Enter Available Sizes"
+                              onChange={(e) =>
+                                handleColorChange(
+                                  index,
+                                  "availableSizes",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </Form.Item>
+                          {/* Input for number available in stock */}
+                          <Form.Item
+                            {...restField}
+                            name={[name, "stock"]}
+                            label="Available Stock"
+                          >
+                            <Input
+                              placeholder="Enter Available Stock"
+                              type="number"
+                              onChange={(e) =>
+                                handleColorChange(
+                                  index,
+                                  "stock",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </Form.Item>
+                          <div className="flex flex-col">
+                            {" "}
+                            <Form.Item>
+                              <UploadWidget
+                                // onUpload={handleuploadcolorimage}
 
-              {/* <Form.List name="users">
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{
-                          display: "flex",
-                          marginBottom: 2,
-                        }}
-                        align="baseline"
-                      >
-                        <Form.Item {...restField} name={[name, "first"]}>
-                          <Controller
-                            name="colorNames"
-                            control={control}
-                            render={({ field }) => (
-                              <Input
-                                {...field}
-                                placeholder="Enter Image Name"
-                                name={field.name}
+                                onUpload={(error, result, widget) => {
+                                  if (error) {
+                                    console.log(
+                                      "error  while uploadnif",
+                                      error
+                                    );
+                                    // setImageError(error);
+                                    widget.close({ quiet: true });
+                                    return;
+                                  }
+                                  console.log(
+                                    "result",
+                                    result?.info?.secure_url
+                                  );
+
+                                  {
+                                    /* Input for color image URL */
+                                  }
+                                  handleColorChange(
+                                    index,
+                                    "colorImageUrl",
+                                    result?.info?.secure_url
+                                  );
+                                  // setColorImageUrls(
+                                  //   result?.info?.secure_url
+                                  // );
+                                }}
+                                uploadmultiple={false}
+                              >
+                                {({ open }) => (
+                                  <Button
+                                    type="primary"
+                                    onClick={open}
+                                    block
+                                    icon={<PlusOutlined />}
+                                  >
+                                    Add Image
+                                  </Button>
+                                )}
+                              </UploadWidget>
+                            </Form.Item>
+                            {colorVariations[index]?.colorImageUrl && (
+                              <Image
+                                src={colorVariations[index]?.colorImageUrl}
+                                width={50}
+                                height={50}
                               />
                             )}
+                          </div>
+
+                          {/* Button to remove color entry */}
+                          <MinusCircleOutlined
+                            className="text-[red]"
+                            onClick={() => {
+                              remove(name);
+                              setIndex(index - 1);
+                              colorVariations.length > 0 &&
+                                colorVariations.splice(index, 1);
+                            }}
                           />
-                        </Form.Item>
-                        <Form.Item {...restField} name={[name, "last"]}>
-                          <Controller
-                            name="colorImages"
-                            control={control}
-                            render={({ field }) => (
-                              <Upload
-                                listType="picture"
-                                beforeUpload={uploadColorImage}
-                                maxCount={7}
-                                name={field.name}
-                                {...field}
-                              >
-                                <Button icon={<UploadOutlined />}>
-                                  Upload
-                                </Button>
-                              </Upload>
-                            )}
-                          />
-                        </Form.Item>
-                        <MinusCircleOutlined
-                          className="text-[red]"
-                          onClick={() => remove(name)}
-                        />
-                      </Space>
+                        </Space>
+                      </>
                     ))}
+                    {/* Button to add new color entry */}
+
                     <Form.Item>
                       <Button
-                        className="p-1 font-bold"
-                        type="primary"
-                        onClick={() => add()}
+                        type="default"
+                        onClick={() => {
+                          add();
+                          setIndex(index + 1);
+                        }}
                         block
                         icon={<PlusOutlined />}
-                      />
+                      >
+                        + fields
+                      </Button>
                     </Form.Item>
+                    {}
                   </>
                 )}
-              </Form.List> */}
+              </Form.List>
+            </div>
+          </div>
 
-              <Form.List name="users">
+          {/* <Form.List name="users">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, ...restField }) => (
@@ -988,25 +1243,33 @@ const ProductModel = (props) => {
                             )}
                           />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "last"]}>
+                        <Form.Item {...restField} name={[name, "first"]}>
                           <Controller
-                            name={`colorImages[${name}]`}
+                            name={`availableSizes[${name}]`}
                             control={control}
                             render={({ field }) => (
-                              <Upload
-                                listType="picture"
-                                beforeUpload={uploadColorImage}
-                                maxCount={7}
-                                name={field.name}
+                              <Input
                                 {...field}
-                              >
-                                <Button icon={<UploadOutlined />}>
-                                  Upload
-                                </Button>
-                              </Upload>
+                                placeholder="Enter AvailableSizes"
+                                name={field.name}
+                              />
                             )}
                           />
                         </Form.Item>
+                        <Form.Item {...restField} name={[name, "first"]}>
+                          <Controller
+                            name={`availableSizes[${name}]`}
+                            control={control}
+                            render={({ field }) => (
+                              <Input
+                                {...field}
+                                placeholder="number avaieable instock "
+                                name={field.name}
+                              />
+                            )}
+                          />
+                        </Form.Item>
+                      
                         <MinusCircleOutlined
                           className="text-[red]"
                           onClick={() => remove(name)}
@@ -1025,10 +1288,8 @@ const ProductModel = (props) => {
                     </Form.Item>
                   </>
                 )}
-              </Form.List>
-            </div>
-          </div>
-          <span className="mt-2 font-bold  ">AvailableSizes</span>
+              </Form.List> */}
+          {/* <span className="mt-2 font-bold  ">AvailableSizes</span>
           <div className="w-[100%] border my-3 p-3  border  border-[black] rounded ">
             <span>Product availableSizes</span>
             <div className="flex  w-[100%] p-5 flex-col justify-center items-center border  rounded ">
@@ -1078,7 +1339,7 @@ const ProductModel = (props) => {
                 )}
               </Form.List>
             </div>
-          </div>
+          </div> */}
 
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] border p-3 mt-3  border  border-[black] rounded">
@@ -1150,7 +1411,7 @@ const ProductModel = (props) => {
             </div>
 
             <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
-              <Controller
+              {/* <Controller
                 name="stockQuantity"
                 control={control}
                 rules={{
@@ -1169,7 +1430,50 @@ const ProductModel = (props) => {
                     </p>
                   </Form.Item>
                 )}
-              />
+              /> */}
+
+              {stockQuantity !== 0 ? (
+                <Form.Item label="stockQuantity" className="md:w-[48%]">
+                  {/* <Input
+          type="text"
+          placeholder="stockQuantity"
+          name="stockQuantity"
+          {...field}
+        /> */}
+
+                  <Input
+                    type="text"
+                    placeholder="stockQuantity"
+                    name="stockQuantity"
+                    defaultValue={stockQuantity}
+                    readOnly
+                  />
+                  <p className="text-[red]">
+                    {/* {errors?.stockQuantity?.message} */}
+                  </p>
+                </Form.Item>
+              ) : (
+                <Controller
+                  name="stockQuantity"
+                  control={control}
+                  rules={{
+                    ...registerinput.stockQuantity,
+                  }}
+                  render={({ field }) => (
+                    <Form.Item label="stockQuantity" className="md:w-[48%]">
+                      <Input
+                        type="text"
+                        placeholder="stockQuantity"
+                        name="stockQuantity"
+                        {...field}
+                      />
+                      <p className="text-[red]">
+                        {errors?.stockQuantity?.message}
+                      </p>
+                    </Form.Item>
+                  )}
+                />
+              )}
 
               <Controller
                 name="price"

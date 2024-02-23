@@ -2,14 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png" />
+    <link
+      rel="icon"
+      href="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png" />
+    <script
+      src="https://upload-widget.cloudinary.com/global/all.js"
+      type="text/javascript"
+    >
+
+      var generateSignature = function(callback, params_to_sign){
+        $.ajax({
+         url     : `${ process.env.REACT_APP_BACKEND_SERVER_URL}`,
+         type    : "GET",
+         dataType: "text",
+         data    : { data: params_to_sign},
+         complete: function() {console.log("complete")},
+         success : function(signature, textStatus, xhr) { callback(signature); },
+         error   : function(xhr, status, error) { console.log(xhr, status, error); }
+        });
+      }
+    </script>
+    <link
+      rel="apple-touch-icon"
+      href="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
+    />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -24,7 +47,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>FELI GLOBAL MARKET | Experience shopping </title>
+    <title>FELI GLOBAL MARKET | Experience shopping</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
