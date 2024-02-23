@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -8,10 +8,10 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import productsReducer from "./productsSlice";
-import userReducer from "./userSlice";
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import productsReducer from './productsSlice';
+import userReducer from './userSlice';
 
 import {
   getProfileReducer,
@@ -19,30 +19,32 @@ import {
   ViewprofileReducer,
   updateprofileImageReducer,
   updateprofilenamesReducer,
-} from "./Reducers/userReducers";
-import cartRecuder from "./Reducers/cartRecuder";
-import getproductSlice from "./Reducers/productReducers";
-import { getorderReducer } from "./Reducers/OrderReducer";
+} from './Reducers/userReducers';
+import cartRecuder from './Reducers/cartRecuder';
+import getproductSlice from './Reducers/productReducers';
+import { getorderReducer } from './Reducers/OrderReducer';
 
-import getdashproductslice from "../dashboard/Redux/ReduxSlice/Slice";
-import creteproductSlice from "../dashboard/Redux/ReduxSlice/createProduct";
-import userLoginSlice from "../dashboard/Redux/ReduxSlice/LoginSlice";
-import getSlice from "../dashboard/Redux/ReduxSlice/getCompany";
-import getsubcategory from "../dashboard/Redux/ReduxSlice/subcategorySlice";
-import getCategory from "../dashboard/Redux/ReduxSlice/categorySlice";
-import getorders from "../dashboard/Redux/ReduxSlice/ordersSlice";
+import getdashproductslice from '../dashboard/Redux/ReduxSlice/Slice';
+import creteproductSlice from '../dashboard/Redux/ReduxSlice/createProduct';
+import userLoginSlice from '../dashboard/Redux/ReduxSlice/LoginSlice';
+import getSlice from '../dashboard/Redux/ReduxSlice/getCompany';
+import getsubcategory from '../dashboard/Redux/ReduxSlice/subcategorySlice';
+import getCategory from '../dashboard/Redux/ReduxSlice/categorySlice';
+import getorders from '../dashboard/Redux/ReduxSlice/ordersSlice';
 import {
   createCatReducer,
   createSubCatReducer,
   deleteCatReducer,
   updateCatReducer,
-} from "../dashboard/Redux/ReduxSlice/createCategory";
-import { getMyprofilereducer } from "../dashboard/Redux/ReduxSlice/userProfile";
-import { deleteProductReducer } from "../dashboard/Redux/ReduxSlice/createProduct";
+} from '../dashboard/Redux/ReduxSlice/createCategory';
+import { getMyprofilereducer } from '../dashboard/Redux/ReduxSlice/userProfile';
+import { deleteProductReducer } from '../dashboard/Redux/ReduxSlice/createProduct';
 import {
   getSingleOrderReducer,
   updateOrderReducer,
-} from "../redux/Reducers/OrderReducer";
+} from '../redux/Reducers/OrderReducer';
+import userSlice from './userSlice';
+import usersSlice from './Reducers/usersSlice';
 
 const rootReducer = {
   productsReducer,
@@ -70,6 +72,7 @@ const rootReducer = {
   userprofile: getMyprofilereducer,
   deleteproduct: deleteProductReducer,
   updateoreder: updateOrderReducer,
+  users: usersSlice,
   // orders: getorders,
 };
 
