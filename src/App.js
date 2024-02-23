@@ -48,6 +48,7 @@ import Loader from './components/loader/Loader';
 import SingleOrder from './dashboard/Components/Orders/Order/singleOrder';
 import VerifyPaymentPage from './pages/ProductDetails/VerifyPaymentPage';
 import ForgotPassword from './pages/ForgotPassword';
+import Users from './pages/Users';
 
 // localStorage.removeItem("selectedKey");
 
@@ -96,6 +97,7 @@ const App = () => {
             <Route path='retailer' element={<Retailer />} />
             <Route path='profile' element={<SellerProfile />}></Route>
             <Route path='category' element={<Category />} />
+            <Route path='users' element={<Users />} />
             <Route path='order' element={<Orders />} />
             <Route path='order/:id' element={<SingleOrder />} />
           </Route>
