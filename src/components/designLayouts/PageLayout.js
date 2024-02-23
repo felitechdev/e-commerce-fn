@@ -12,7 +12,7 @@ export default function PageLayout({ children, showFooter, userInfo }) {
 
       {showFooter && (
         <>
-          <Footer />
+          {/* <Footer /> */}
           <FooterBottom />
         </>
       )}
