@@ -43,7 +43,6 @@ import { useUser } from "../../../../context/UserContex";
 import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 
 const normFile = (e) => {
-  console.log("eeeeeeeeeeeee", e);
   if (Array.isArray(e)) {
     return e;
   }
@@ -114,6 +113,18 @@ const ProductModel = (props) => {
   const [products, setProducts] = useState();
   const [error, setError] = React.useState([]);
   const [success, setSuccess] = React.useState([]);
+
+  const [colorVariations, setColorVariations] = useState([
+    // Initial color variation object
+    {
+      colorName: null,
+      availableSizes: null,
+      stock: 0,
+      colorImageUrl: null, // URL of the color image
+    },
+  ]);
+
+  const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
   const {
     register,
@@ -129,16 +140,161 @@ const ProductModel = (props) => {
     setIsModalOpen(false);
   };
 
-  const handleSubmits = (data) => {
-    console.log(
-      "dataon submit ",
-      data,
-      mainImageUrl,
-      otherImageUrls,
-      "colorimages",
-      colorImageUrls
-    );
+  let stockQuantity = colorVariations.reduce((acc, variation) => {
+    return acc + parseInt(variation.stock);
+  }, 0);
 
+  // const handleSubmits = (data) => {
+  //   if (!mainImageUrl) {
+  //     setImageError("Product main image is required");
+  //     return;
+  //   }
+
+  //   // Validate otherImageUrls
+  //   if (otherImageUrls.length === 0) {
+  //     setOtherimagesError("At least one product image is required");
+  //     return;
+  //   }
+
+  //   setOtherimagesError("");
+  //   setImageError("");
+
+  //   // data.availableSizes = Array.isArray(data.availableSizes)
+  //   //   ? data.availableSizes
+  //   //   : [data.availableSizes];
+
+  //   // setAvailableSizes(data.availableSizes);
+  //   // console.log(
+  //   //   "datasive",
+  //   //   availableSizes,
+  //   //   JSON.stringify(data.availableSizes)
+  //   // );
+
+  //   const formData = new FormData();
+  //   console.log("type", typeof data.name);
+  //   formData.append("name", JSON.stringify(data.name)); // Replace 'seller_id' with the actual ID of the seller
+
+  //   if (userRole == "seller") {
+  //     formData.append("seller", user.id);
+  //   } else {
+  //     formData.append("seller", data.seller);
+  //   }
+
+  //   formData.append("category", data.category); // Replace 'category_id' with the actual ID of the category
+  //   formData.append("subcategory", data.subcategory); // Replace 'subcategory_id' with the actual ID of the subcategory
+  //   formData.append("description", JSON.stringify(data.description)); // Replace 'subcategory_id' with the actual ID of the subcategory
+  //   // formData.append("otherImages", otherImages);
+  //   formData.append("price", Number(data.price));
+  //   // formData.append("productThumbnail", data.productThumbnail.file);
+  //   // formData.append("productThumbnail", mainImageUrl);
+
+  //   formData.append("brandName", data.brandName);
+
+  //   {
+  //     stockQuantity !== 0
+  //       ? formData.append("stockQuantity", stockQuantity)
+  //       : formData.append("stockQuantity", data.stockQuantity);
+  //   }
+
+  //   formData.append("discountPercentage", data.discountPercentage);
+  //   formData.append("quantityParameter", data.quantityParameter);
+
+  //   // for (let i = 0; i < otherImages.length; i++) {
+  //   //   formData.append("otherImages", otherImages[i]);
+  //   // }
+  //   // for (let i = 0; i < otherImageUrls.length; i++) {
+  //   //   formData.append("otherImages", otherImageUrls[i]);
+  //   // }
+
+  //   const colorMeasurementVariations = {
+  //     measurementType: "size",
+  //     variations: colorVariations.map((variation) => ({
+  //       measurementvalue: variation.availableSizes,
+  //       colorImg: {
+  //         url: variation.colorImageUrl,
+  //         // colorName:  variation.colorName  ,
+  //         colorName: "red",
+  //       },
+  //       colorMeasurementVariationQuantity: parseInt(variation.stock),
+  //     })),
+  //   };
+
+  //   // hasColors: {
+  //   //   type: Boolean,
+  //   // },
+
+  //   // hasMeasurements: {
+  //   //   type: Boolean,
+  //   // },
+
+  //   let hasColors = colorVariations[0].colorImageUrl !== null ? true : false;
+  //   let hasMeasurements =
+  //     colorVariations[0].availableSizes !== null ? true : false;
+
+  //   formData.append("hasColors", hasColors);
+  //   formData.append("hasMeasurements", hasMeasurements);
+
+  //   // Append productImages
+  //   const productImages = {
+  //     productThumbnail: {
+  //       public_id: "Feli Technology Inv. Group/",
+  //       url: mainImageUrl,
+  //     },
+  //     otherImages: otherImageUrls?.map((image) => {
+  //       return {
+  //         public_id: "Feli Technology Inv. Group/",
+  //         url: image,
+  //       };
+  //     }),
+  //   };
+
+  //   formData.append("productImages", JSON.stringify(productImages));
+
+  //   formData.append(
+  //     "colorMeasurementVariations",
+  //     JSON.stringify(colorMeasurementVariations)
+  //     // colorMeasurementVariations
+  //   );
+
+  //   // data?.availableSizes?.forEach((size) => {
+  //   //   formData.append("availableSizes[]", size);
+  //   // });
+
+  //   // for (let i = 0; i < colorImages.length; i++) {
+  //   //   formData.append("colorImages", colorImages[i]);
+  //   // }
+
+  //   // data?.colorNames?.forEach((size) => {
+  //   //   formData.append("colorNames[]", size);
+  //   // });
+
+  //   for (var pair of formData.entries()) {
+  //     console.log(pair[0] + ": " + pair[1]);
+  //   }
+
+  //   dispatch(createProduct({ productData: formData, token: token }))
+  //     .unwrap()
+  //     .then((data) => {
+  //       if (data && data?.status == "success") {
+  //         // update get product state
+
+  //         props.handlecreateproduct(data?.data?.product);
+  //         setProducts(data?.data?.product);
+  //         setAlertIndex("success");
+  //         setAlertDescription(`${"product created successfully"}`);
+  //         setTimeout(() => {
+  //           handleCancel();
+  //         }, 3000);
+  //       }
+  //     })
+  //     .catch((er) => {
+  //       setAlertIndex("error"); // Display error alert on error
+  //       setAlertDescription("Error: " + er.message);
+  //       console.log("error while creating product on product model", er);
+  //     });
+  // };
+
+  const handleSubmits = (data) => {
     if (!mainImageUrl) {
       setImageError("Product main image is required");
       return;
@@ -153,102 +309,49 @@ const ProductModel = (props) => {
     setOtherimagesError("");
     setImageError("");
 
-    // data.availableSizes = Array.isArray(data.availableSizes)
-    //   ? data.availableSizes
-    //   : [data.availableSizes];
+    // Convert stockQuantity to a number if it's not already
+    const stockQty =
+      stockQuantity !== 0 ? stockQuantity : parseInt(data.stockQuantity);
 
-    // setAvailableSizes(data.availableSizes);
-    // console.log(
-    //   "datasive",
-    //   availableSizes,
-    //   JSON.stringify(data.availableSizes)
-    // );
-
-    const formData = new FormData();
-    console.log("type", typeof data.name);
-    formData.append("name", JSON.stringify(data.name)); // Replace 'seller_id' with the actual ID of the seller
-
-    if (userRole == "seller") {
-      formData.append("seller", user.id);
-    } else {
-      formData.append("seller", data.seller);
-    }
-
-    formData.append("category", data.category); // Replace 'category_id' with the actual ID of the category
-    formData.append("subcategory", data.subcategory); // Replace 'subcategory_id' with the actual ID of the subcategory
-    formData.append("description", JSON.stringify(data.description)); // Replace 'subcategory_id' with the actual ID of the subcategory
-    // formData.append("otherImages", otherImages);
-    formData.append("price", Number(data.price));
-    // formData.append("productThumbnail", data.productThumbnail.file);
-    // formData.append("productThumbnail", mainImageUrl);
-
-    formData.append("brandName", data.brandName);
-    formData.append("stockQuantity", data.stockQuantity);
-
-    formData.append("discountPercentage", data.discountPercentage);
-    formData.append("quantityParameter", data.quantityParameter);
-
-    // for (let i = 0; i < otherImages.length; i++) {
-    //   formData.append("otherImages", otherImages[i]);
-    // }
-    // for (let i = 0; i < otherImageUrls.length; i++) {
-    //   formData.append("otherImages", otherImageUrls[i]);
-    // }
-
-    const colorMeasurementVariations = {
-      measurementType: "size",
-      variations: colorVariations.map((variation) => ({
-        measurementvalue: variation.availableSizes,
-        colorImg: {
-          url: variation.colorImageUrl,
-          // colorName:  variation.colorName  ,
-          colorName: "red",
+    const payload = {
+      name: data.name,
+      seller: userRole === "seller" ? user.id : data.seller,
+      category: data.category,
+      subcategory: data.subcategory,
+      description: data.description,
+      price: Number(data.price),
+      brandName: data.brandName,
+      stockQuantity: stockQty,
+      discountPercentage: data.discountPercentage,
+      quantityParameter: data.quantityParameter,
+      hasColors: colorVariations[0].colorImageUrl !== null ? true : false,
+      hasMeasurements:
+        colorVariations[0].availableSizes !== null ? true : false,
+      productImages: {
+        productThumbnail: {
+          public_id: "Feli Technology Inv. Group/",
+          url: mainImageUrl,
         },
-        colorMeasurementVariationQuantity: parseInt(variation.stock),
-      })),
-    };
-
-    // Append productImages
-    const productImages = {
-      productThumbnail: {
-        public_id: "Feli Technology Inv. Group/",
-        url: mainImageUrl,
-      },
-      otherImages: otherImageUrls?.map((image) => {
-        return {
+        otherImages: otherImageUrls?.map((image) => ({
           public_id: "Feli Technology Inv. Group/",
           url: image,
-        };
-      }),
+        })),
+      },
+      colorMeasurementVariations: {
+        measurementType: "size",
+        variations: colorVariations.map((variation) => ({
+          measurementvalue: variation.availableSizes,
+          colorImg: {
+            url: variation.colorImageUrl,
+            colorName: variation.colorName, // or variation.colorName if needed
+          },
+          colorMeasurementVariationQuantity: parseInt(variation.stock),
+        })),
+      },
     };
 
-    console.log("productImagesString", JSON.stringify(productImages));
-
-    formData.append("productImages", JSON.stringify(productImages));
-
-    formData.append(
-      "colorMeasurementVariations",
-      JSON.stringify(colorMeasurementVariations)
-      // colorMeasurementVariations
-    );
-
-    // data?.availableSizes?.forEach((size) => {
-    //   formData.append("availableSizes[]", size);
-    // });
-
-    // for (let i = 0; i < colorImages.length; i++) {
-    //   formData.append("colorImages", colorImages[i]);
-    // }
-
-    // data?.colorNames?.forEach((size) => {
-    //   formData.append("colorNames[]", size);
-    // });
-
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
-
-    dispatch(createProduct({ productData: formData, token: token }))
+    // Dispatch API call with the payload
+    dispatch(createProduct({ productData: payload, token: token }))
       .unwrap()
       .then((data) => {
         if (data && data?.status == "success") {
@@ -256,7 +359,7 @@ const ProductModel = (props) => {
           props.handlecreateproduct(data?.data?.product);
           setProducts(data?.data?.product);
           setAlertIndex("success");
-          setAlertDescription(`${"product created successfully"}`);
+          setAlertDescription("Product created successfully");
           setTimeout(() => {
             handleCancel();
           }, 3000);
@@ -265,7 +368,7 @@ const ProductModel = (props) => {
       .catch((er) => {
         setAlertIndex("error"); // Display error alert on error
         setAlertDescription("Error: " + er.message);
-        console.log("error while creating product on product model", er);
+        console.log("Error while creating product:", er);
       });
   };
   // close alert window
@@ -293,16 +396,16 @@ const ProductModel = (props) => {
         isNumber: (value) => !isNaN(value) || "price must be a number",
       },
     },
-    stockQuantity: {
-      required: "Quantity is required",
-      min: {
-        value: 0.0000000001,
-        message: "Quantity must be greater than 0",
-      },
-      validate: {
-        isNumber: (value) => !isNaN(value) || "Quantity must be a number",
-      },
-    },
+    // stockQuantity : {
+    //    required: "Quantity is required",
+    //   min: {
+    //     value: 0.0000000001,
+    //     message: "Quantity must be greater than 0",
+    //   },
+    //   validate: {
+    //     isNumber: (value) => !isNaN(value) || "Quantity must be a number",
+    //   },
+    // },
     description: {
       required: "description is required",
       minLength: {
@@ -593,17 +696,6 @@ const ProductModel = (props) => {
   //   ]);
   // }
 
-  const [colorVariations, setColorVariations] = useState([
-    // Initial color variation object
-    {
-      colorName: null,
-      availableSizes: null,
-      stock: 0,
-      colorImageUrl: null, // URL of the color image
-    },
-  ]);
-
-  const [index, setIndex] = useState(-1); //index for  color and size variations
   // const handleColorChange = (index, field, value) => {
   //   console.log("index", index, field, value);
   //   setColorVariations((prevVariations) =>
@@ -964,7 +1056,9 @@ const ProductModel = (props) => {
               </div>
             </div>
           </div>
-          <span className="mt-2 font-bold ">Add Colors</span>
+          <span className="mt-2 font-bold ">
+            Add Colors images here or Available Sizes
+          </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
             <span>
               Add a color or zize with it’s corresponding size and stockQuantity
@@ -1070,21 +1164,23 @@ const ProductModel = (props) => {
                               >
                                 {({ open }) => (
                                   <Button
-                                    type="dashed"
+                                    type="primary"
                                     onClick={open}
                                     block
                                     icon={<PlusOutlined />}
                                   >
-                                    Add Color
+                                    Add Image
                                   </Button>
                                 )}
                               </UploadWidget>
                             </Form.Item>
-                            <Image
-                              src={colorImageUrls}
-                              width={50}
-                              height={50}
-                            />
+                            {colorVariations[index]?.colorImageUrl && (
+                              <Image
+                                src={colorVariations[index]?.colorImageUrl}
+                                width={50}
+                                height={50}
+                              />
+                            )}
                           </div>
 
                           {/* Button to remove color entry */}
@@ -1101,7 +1197,7 @@ const ProductModel = (props) => {
                       </>
                     ))}
                     {/* Button to add new color entry */}
-                    {index} index
+
                     <Form.Item>
                       <Button
                         type="default"
@@ -1112,7 +1208,7 @@ const ProductModel = (props) => {
                         block
                         icon={<PlusOutlined />}
                       >
-                        Add Color
+                        + fields
                       </Button>
                     </Form.Item>
                     {}
@@ -1315,7 +1411,7 @@ const ProductModel = (props) => {
             </div>
 
             <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
-              <Controller
+              {/* <Controller
                 name="stockQuantity"
                 control={control}
                 rules={{
@@ -1334,7 +1430,50 @@ const ProductModel = (props) => {
                     </p>
                   </Form.Item>
                 )}
-              />
+              /> */}
+
+              {stockQuantity !== 0 ? (
+                <Form.Item label="stockQuantity" className="md:w-[48%]">
+                  {/* <Input
+          type="text"
+          placeholder="stockQuantity"
+          name="stockQuantity"
+          {...field}
+        /> */}
+
+                  <Input
+                    type="text"
+                    placeholder="stockQuantity"
+                    name="stockQuantity"
+                    defaultValue={stockQuantity}
+                    readOnly
+                  />
+                  <p className="text-[red]">
+                    {/* {errors?.stockQuantity?.message} */}
+                  </p>
+                </Form.Item>
+              ) : (
+                <Controller
+                  name="stockQuantity"
+                  control={control}
+                  rules={{
+                    ...registerinput.stockQuantity,
+                  }}
+                  render={({ field }) => (
+                    <Form.Item label="stockQuantity" className="md:w-[48%]">
+                      <Input
+                        type="text"
+                        placeholder="stockQuantity"
+                        name="stockQuantity"
+                        {...field}
+                      />
+                      <p className="text-[red]">
+                        {errors?.stockQuantity?.message}
+                      </p>
+                    </Form.Item>
+                  )}
+                />
+              )}
 
               <Controller
                 name="price"
