@@ -61,6 +61,8 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       // cropping: true,
     };
 
+    console.log("upload ultiple ", uploadmultiple);
+
     return cloudinary?.createUploadWidget(options, function (error, result) {
       // The callback is a bit more chatty than failed or success so
       // only trigger when one of those are the case. You can additionally

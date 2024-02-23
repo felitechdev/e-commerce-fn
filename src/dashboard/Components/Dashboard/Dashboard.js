@@ -285,7 +285,7 @@ export const Dashboard = () => {
   useEffect(() => {
     // Generate dataSource based on the current products state
     const newData = products.map((product) => ({
-      key: `${product.id}`,
+      key: product.id,
       name: [
         product.productImages.productThumbnail.url,
         product.name,
@@ -301,7 +301,7 @@ export const Dashboard = () => {
     setFilteredData(newData); // Update filteredData as well
 
     const sellerdata = products.map((product) => ({
-      key: `${product.id}`,
+      key: product.id,
       logo: product.productImages.productThumbnail.url,
       name: product.name,
       amount: product.price,

@@ -96,7 +96,7 @@ export const DashProducts = () => {
             : products
         )
           .map((product) => ({
-            key: `${product.id}`,
+            key: product.id,
             name: [
               product.productImages?.productThumbnail?.url,
               product.name,
@@ -386,7 +386,7 @@ export const DashProducts = () => {
         ? filteredProducts?.filter((product) => product?.seller?.id == user?.id)
         : filteredProducts
     ).map((product) => ({
-      key: `${product.id}`,
+      key: product.id,
       name: [
         product.productImages?.productThumbnail?.url,
         product.name,
@@ -422,7 +422,7 @@ export const DashProducts = () => {
         ? filteredProducts?.filter((product) => product?.seller == user?.id)
         : filteredProducts
     ).map((product) => ({
-      key: `${product.id}`,
+      key: product.id,
       name: [
         product.productImages?.productThumbnail?.url,
         product.name,
@@ -469,7 +469,7 @@ export const DashProducts = () => {
         ? products?.filter((product) => product?.seller?.id == user?.id)
         : products
     ).map((product) => ({
-      key: `${product.id}`,
+      key: product.id,
       name: [
         product.productImages?.productThumbnail?.url,
         product.name,
@@ -634,12 +634,11 @@ export const DashProducts = () => {
                       >
                         <div
                           style={{}}
-                          className=" rounded bg-red  object-fill   shadow-md  pb-2 m-3"
+                          className=" rounded bg-red   shadow-md  p-2 m-3"
                         >
                           <Image
-                            width="90%"
-                            height="80%"
-                            className="rounded-md"
+                            width="100%"
+                            className="rounded-md !h-[250px]  "
                             src={product.name[0]}
                             preview={false}
                           />

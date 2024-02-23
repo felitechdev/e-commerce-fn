@@ -132,14 +132,16 @@ const SingleproductModel = (props) => {
               {DBProductInfo ? DBProductInfo?.name : ""}
             </h1>
             <p className="text-gray-500">
-              Category: {DBProductInfo ? DBProductInfo?.category?.name : ""}
+              <span className="text-black"> Category:</span>{" "}
+              {DBProductInfo ? DBProductInfo?.category?.name : ""}
             </p>
             <p className="text-gray-500">
-              Price: {DBProductInfo ? DBProductInfo?.price : ""}{" "}
+              <span className="text-black"> Price: </span>{" "}
+              {DBProductInfo ? DBProductInfo?.price : ""}{" "}
               {DBProductInfo ? DBProductInfo?.currency : ""}
             </p>
             <p className="text-gray-500">
-              Description:
+              <span className="text-black"> Description: </span>
               <div
                 className="w-full overflow-auto  "
                 dangerouslySetInnerHTML={{
@@ -151,15 +153,18 @@ const SingleproductModel = (props) => {
               {/* Available Sizes: {DBProductInfo.availableSizes.join(", ")} */}
             </p>
             <p className="text-gray-500">
-              Stock Quantity: {DBProductInfo ? DBProductInfo.stockQuantity : ""}
+              <span className="text-black"> Stock Quantity: </span>{" "}
+              {DBProductInfo ? DBProductInfo.stockQuantity : ""}
             </p>
             <div>
               <h2 className="text-lg font-semibold">Seller Information</h2>
               <p className="text-gray-500">
-                Name: {DBProductInfo ? DBProductInfo?.seller?.name : ""}
+                <span className="text-black">Name: </span>{" "}
+                {DBProductInfo ? DBProductInfo?.seller?.name : ""}
               </p>
               <p className="text-gray-500">
-                Email: {DBProductInfo ? DBProductInfo?.seller?.email : ""}
+                <span className="text-black">Email: </span>{" "}
+                {DBProductInfo ? DBProductInfo?.seller?.email : ""}
               </p>
             </div>
 
@@ -169,6 +174,7 @@ const SingleproductModel = (props) => {
                 src={DBProductInfo.productImages.productThumbnail.url}
                 alt="Product thumbnail"
                 width={200}
+                className="border-2 border-gray-700 rounded-md"
               />
             </div>
 
@@ -182,18 +188,40 @@ const SingleproductModel = (props) => {
                       alt={image?.colorImg?.colorName}
                       width={100}
                       height={100}
+                      className="border-2 border-gray-700 rounded-md"
                     />
-                    <p className="text-center text-gray-500 mt-1">
-                      {image?.colorImg?.colorName}
-                    </p>
+                    {image?.colorImg?.colorName && (
+                      <p className="text-center text-gray-500 mt-1">
+                        Color: {image?.colorImg?.colorName}
+                      </p>
+                    )}
+                    {image?.colorMeasurementVariationQuantity && (
+                      <p className="text-center text-gray-500 mt-1">
+                        Qty: {image?.colorMeasurementVariationQuantity}
+                      </p>
+                    )}
+
+                    {image?.measurementvalue && (
+                      <p className="text-center text-gray-500 mt-1">
+                        Available Sizes: {image?.measurementvalue}{" "}
+                      </p>
+                    )}
                   </div>
                 )
               )}
+            </div>
 
-              {/* Other Images */}
+            <div className="flex flex-wrap justify-around ">
+              {" "}
               {DBProductInfo.productImages.otherImages.map((image, index) => (
                 <div key={index} className="m-2">
-                  <Image src={image.url} alt="" width={100} height={100} />
+                  <Image
+                    src={image.url}
+                    alt=""
+                    className="border-2 border-gray-700 rounded-md"
+                    width={100}
+                    height={100}
+                  />
                 </div>
               ))}
             </div>
