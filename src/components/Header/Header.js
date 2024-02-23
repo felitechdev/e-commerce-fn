@@ -109,7 +109,7 @@ const Header = (props) => {
                   Home
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
@@ -122,8 +122,8 @@ const Header = (props) => {
                 >
                   Shop
                 </NavLink>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
@@ -136,8 +136,8 @@ const Header = (props) => {
                 >
                   About
                 </NavLink>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
@@ -150,7 +150,7 @@ const Header = (props) => {
                 >
                   Contact
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           )}
           {search && (
