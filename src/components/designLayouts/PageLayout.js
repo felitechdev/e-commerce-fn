@@ -8,7 +8,7 @@ export default function PageLayout({ children, showFooter, userInfo }) {
   return (
     <>
       <Header userInfo={userInfo} />
-      <div className='mt-12'>{children}</div>
+      <div className='mt-6'>{children}</div>
 
       {showFooter && (
         <>

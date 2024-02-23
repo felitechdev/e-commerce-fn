@@ -94,7 +94,7 @@ const SignInForm = (props) => {
 
   return (
     <form
-      className='w-full lgl:w-[450px] h-auto flex flex-col gap-4 items-center'
+      className='w-full lgl:w-[400px] h-auto flex flex-col gap-4 items-center'
       onKeyDown={(e) => {
         if (e.key === 'Enter') return handleSignIn();
       }}
@@ -103,7 +103,7 @@ const SignInForm = (props) => {
         {signInError && (
           <AlertComponent color='failure' type='Error!' message={signInError} />
         )}
-        <h1 className='font-titleFont decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4 text-center'>
+        <h1 className='font-titleFont decoration-[1px] font-semibold text-lg mdl:text-4xl mb-4 text-center'>
           Sign in
         </h1>
         <div className='flex flex-col gap-4'>
@@ -128,7 +128,7 @@ const SignInForm = (props) => {
           </div>
 
           {/* Password */}
-          <div className='flex flex-col gap-.5 mb-4'>
+          <div className='flex flex-col gap-.5 mb-2'>
             <p className='font-titleFont text-base font-semibold text-gray-600'>
               Password
             </p>
@@ -146,6 +146,16 @@ const SignInForm = (props) => {
                 {errPassword}
               </p>
             )}
+
+            <p className='text-xs pt-1'>
+              Forgot password?{' '}
+              <Link
+                className='text-[#1E61CC] duration-300 cursor-pointer hover:underline'
+                to='/forgot-password'
+              >
+                Forgot Password
+              </Link>
+            </p>
           </div>
 
           <button
@@ -153,8 +163,8 @@ const SignInForm = (props) => {
             onClick={handleSignIn}
             className={
               loading
-                ? 'bg-[#81b48a] text-gray-200 hover:text-white w-full text-base font-medium h-10 rounded-md duration-300 disabled'
-                : 'bg-[#1D6F2B] hover:bg-[#437a4c] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300'
+                ? 'bg-[#81b48a] text-gray-200 hover:text-white w-full text-base font-medium h-8 rounded-md duration-300 disabled'
+                : 'bg-[#1D6F2B] hover:bg-[#437a4c] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-8 rounded-md duration-300'
             }
           >
             {loading ? (
@@ -166,10 +176,10 @@ const SignInForm = (props) => {
               'Sign In'
             )}
           </button>
-          <p className='text-sm text-center font-titleFont font-medium -mt-2'>
+          <p className='text-xs font-titleFont font-medium -mt-2'>
             Don't have an Account?{' '}
             <Link
-              className='text-[#1E61CC] duration-300 cursor-pointer'
+              className='text-[#1E61CC] duration-300 cursor-pointer hover:underline'
               to='/signup'
             >
               Sign up
