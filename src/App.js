@@ -47,6 +47,7 @@ import ActivateAccount from './pages/ActivateAccount';
 import Loader from './components/loader/Loader';
 import SingleOrder from './dashboard/Components/Orders/Order/singleOrder';
 import VerifyPaymentPage from './pages/ProductDetails/VerifyPaymentPage';
+import ForgotPassword from './pages/ForgotPassword';
 
 // localStorage.removeItem("selectedKey");
 
@@ -67,6 +68,7 @@ const App = () => {
           <Route path='shop' element={<Shop />} />
           <Route path='about' element={<About />} />
           <Route path='contact' element={<Contact />} />
+          <Route path='forgot-password' element={<ForgotPassword />} />
           <Route
             path='/activate-account/:token'
             element={<ActivateAccount />}
