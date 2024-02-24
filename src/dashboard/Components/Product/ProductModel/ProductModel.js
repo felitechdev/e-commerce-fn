@@ -998,7 +998,9 @@ const ProductModel = (props) => {
                       <p className="text-[red]">{imageError}</p>
                     )}
                   </Form.Item>
-                  <Image width={70} height={70} src={mainImageUrl} alt="Main" />{" "}
+                  {mainImageUrl && (
+                    <Image width={70} height={70} src={mainImageUrl} />
+                  )}
                 </>
               </div>
             </div>
@@ -1043,13 +1045,23 @@ const ProductModel = (props) => {
                 <div className="flex justify-center border space-x-4">
                   {otherImageUrls.slice(0, 6).map((url, index) => {
                     return (
-                      <Image
-                        key={index}
-                        width={70}
-                        height={70}
-                        src={url}
-                        alt="otherimages"
-                      />
+                      <div className=" bg-black relative" key={index}>
+                        <Image
+                          key={index}
+                          width={70}
+                          height={70}
+                          src={url}
+                          alt="otherimages"
+                        />
+                        <MinusCircleOutlined
+                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          onClick={() => {
+                            setOtherImageUrls(
+                              otherImageUrls.filter((_, i) => i !== index)
+                            );
+                          }}
+                        />
+                      </div>
                     );
                   })}
                 </div>
