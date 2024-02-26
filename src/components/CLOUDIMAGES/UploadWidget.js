@@ -59,6 +59,31 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       multiple: uploadmultiple,
       maxFiles: uploadmultiple ? 6 : 1,
       // cropping: true,
+
+      styles: {
+        palette: {
+          window: "#FFF",
+          windowBorder: " #1D6F2B",
+          tabIcon: "#f4a535",
+          menuIcons: "#5A616A",
+          textDark: "#000000",
+          textLight: "#FFFFFF",
+          link: "#1D6F2B",
+          action: "#1D6F2B",
+          inactiveTabIcon: "#1D6F2B",
+          error: "#d13931",
+          inProgress: "#20B832",
+          complete: "#20B832",
+          sourceBg: "#E4EBF1",
+        },
+        frame: {
+          background: "rgba(255, 255, 255, 0.5)",
+        },
+        // fonts: {
+        //   "'Cute Font', cursive":
+        //     "https://fonts.googleapis.com/css?family=Cute+Font",
+        // },
+      },
     };
 
     console.log("upload ultiple ", uploadmultiple);

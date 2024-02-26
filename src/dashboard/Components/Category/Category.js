@@ -1,21 +1,21 @@
-import { Button, Layout, Space, Typography, Table } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import CategoryModel from './CategoryModel/CategoryModel';
-import { ActionButton } from './ActionButton/ActionButton';
-import { fetchSubCategory, fetchCategory } from '../../Apis/Categories';
-import Cookies from 'js-cookie';
-import { Loader } from '../Loader/LoadingSpin';
+import { Button, Layout, Space, Typography, Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import CategoryModel from "./CategoryModel/CategoryModel";
+import { ActionButton } from "./ActionButton/ActionButton";
+import { fetchSubCategory, fetchCategory } from "../../Apis/Categories";
+import Cookies from "js-cookie";
+import { Loader } from "../Loader/LoadingSpin";
 
 const { Title, Paragraph, Text } = Typography;
 // const token = Cookies.get("token");
 const src =
-  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
+  "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";
 
 export const Category = () => {
   const [categorys, setCategorys] = useState([]);
   const [dataSource, setDataSource] = useState([]);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [gettoken, setGettoken] = useState(null);
 
@@ -30,7 +30,7 @@ export const Category = () => {
   const { subcategories, loadsubcategory, errsubcategory } = useSelector(
     (state) => state.subcategory
   );
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const dispatch = useDispatch();
 
   // update get category state after crud operations
@@ -52,16 +52,11 @@ export const Category = () => {
       dispatch(fetchCategory(gettoken))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == 'sucess') {
+          if (data?.data && data.status == "sucess") {
             setCategorys(data?.data?.categories);
           }
         })
-        .catch((error) => {
-          console.log('error on sub category page', error);
-          // if (error.response && error.response.status === 401) {
-          //   navigate("/");
-          // }
-        });
+        .catch((error) => {});
     }
   }, [loadcategory, dispatch, token]);
   // useEffect(() => {
@@ -88,7 +83,7 @@ export const Category = () => {
       dispatch(fetchCategory(gettoken))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == 'sucess') {
+          if (data?.data && data.status == "sucess") {
             setCategorys(data?.data?.categories);
           }
         })
@@ -111,6 +106,8 @@ export const Category = () => {
     setFilteredData(newData); // Update filteredData as well
   }, [categorys]);
 
+  console.log("categorys", categorys, loadcategory, errcategory);
+
   useEffect(() => {
     if (token) {
       setGettoken(token);
@@ -121,13 +118,13 @@ export const Category = () => {
 
   const Columns = [
     {
-      title: 'Category',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Category",
+      dataIndex: "name",
+      key: "name",
       render: (_, record) => (
         <Space size={12}>
           <div>
-            <Title level={5} className='w-full'>
+            <Title level={5} className="w-full">
               {record.name}
             </Title>
           </div>
@@ -135,22 +132,22 @@ export const Category = () => {
       ),
       width: 200,
     },
+    // {
+    //   title: "Date Created",
+    //   dataIndex: "Joindate",
+    //   key: "Joindate",
+    //   width: 100,
+    // },
     {
-      title: 'Date Created',
-      dataIndex: 'Joindate',
-      key: 'Joindate',
-      width: 100,
-    },
-    {
-      title: 'Subcategories',
-      dataIndex: 'subcategories',
-      key: 'subcategories',
+      title: "Subcategories",
+      dataIndex: "subcategories",
+      key: "subcategories",
       render: (_, record) => (
         <Space size={12}>
-          <div className=' border-b-2 border-primary'>
+          <div className=" ">
             {record?.subcategories?.length > 0 ? (
               record?.subcategories?.map((sub) => (
-                <Title level={5} className='w-full' key={sub.id}>
+                <Title level={5} className="w-full" key={sub.id}>
                   {sub.name}
                 </Title>
               ))
@@ -164,9 +161,9 @@ export const Category = () => {
       width: 100,
     },
     {
-      title: 'Action',
-      dataIndex: 'Action',
-      key: 'Action',
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
       width: 100,
       render: (_, record) => (
         // console.log("record", record),
@@ -179,40 +176,40 @@ export const Category = () => {
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
+    console.log("params", pagination, filters, sorter, extra);
   };
 
   return (
-    <Layout className='space-y-6 bg-light'>
-      <Space className='flex justify-between'>
+    <Layout className=" space-y-6  bg-light overflow-auto">
+      <Space className="flex justify-between">
         <Title level={3}>Categories</Title>
         <CategoryModel />
       </Space>
 
-      <div className=''>
+      <div className=" ">
         {loadcategory ? (
           <>
-            <Loader className=' text-primary flex items-center w-full justify-center' />
-            <span className=' text-primary flex items-center  justify-center'>
+            <Loader className=" text-primary flex items-center w-full justify-center" />
+            <span className=" text-primary flex items-center  justify-center">
               Loading....
             </span>
           </>
         ) : (
           <Table
-            // rowClassName="even:bg-[#838383]  hover:cursor-pointer custom-table-row "
-            size='small'
-            tableLayout='fixed'
+            rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
+            size="small"
+            tableLayout="fixed"
             bordered={true}
             columns={Columns}
             dataSource={filteredData}
             style={{
-              position: 'sticky',
+              position: "sticky",
               bottom: 0,
               top: 0,
               left: 0,
               zIndex: 1,
-              border: '0px solid #838383',
-              padding: '0px',
+              border: "0px solid #838383",
+              padding: "0px",
             }}
             scroll={{ x: 500, y: 500 }}
           />

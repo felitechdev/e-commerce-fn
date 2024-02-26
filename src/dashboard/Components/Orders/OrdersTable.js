@@ -177,19 +177,18 @@ export const OrderTable = (...props) => {
     }
   }, [loadorders, dispatch, token]);
 
-  // Fetch products only when the component mounts
-  // useEffect(() => {
-  //   if (!order.length) {
-  //     dispatch(GetMyOrders(token))
-  //       .unwrap()
-  //       .then((data) => {
-  //         if (data?.data && data?.status == "success") {
-  //           setOrder(data?.data?.orders);
-  //         }
-  //       })
-  //       .catch((error) => {});
-  //   }
-  // }, [dispatch, order, token]);
+  useEffect(() => {
+    if (!order.length) {
+      dispatch(GetMyOrders(token))
+        .unwrap()
+        .then((data) => {
+          if (data?.data && data?.status == "success") {
+            setOrder(data?.data?.orders);
+          }
+        })
+        .catch((error) => {});
+    }
+  }, [dispatch, token]);
 
   useEffect(() => {
     const newData =
@@ -212,6 +211,7 @@ export const OrderTable = (...props) => {
 
     setFilteredData(newData);
   }, [orders, loadorders]);
+  console.log("orders", orders, loadorders, errorders);
 
   return (
     <>

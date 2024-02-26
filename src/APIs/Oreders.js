@@ -16,7 +16,7 @@ export const GetMyOrders = createAsyncThunk(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders`,
         config
       );
-      console.log("orders response", response);
+
       if (response?.data && response.status == 200) {
         return response?.data;
       } else {
@@ -27,7 +27,6 @@ export const GetMyOrders = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error on getting orders ", err.response?.data);
       return rejectWithValue({
         status: err.response.status,
         message: err.response?.data?.message,
@@ -49,7 +48,7 @@ export const getorderDetail = createAsyncThunk(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders/${id}`,
         config
       );
-      console.log("orders detail ", response);
+
       if (response?.data && response?.status == 200) {
         return response?.data?.data;
       } else {
@@ -71,7 +70,6 @@ export const getorderDetail = createAsyncThunk(
 export const UpdateOrder = createAsyncThunk(
   "order/update",
   async ({ token, id, status }, { rejectWithValue }) => {
-    console.log("data", status, "id", id, "token", token);
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders/${id}`,
@@ -82,7 +80,7 @@ export const UpdateOrder = createAsyncThunk(
         },
         data: { status },
       });
-      console.log("order update ", response);
+
       if (response?.data && response.status == 200) {
         return response?.data;
       } else {
