@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-
 import {
   Button,
   Col,
@@ -9,17 +8,14 @@ import {
   InputNumber,
   Modal,
   Select,
-  Upload,
   Space,
   Image,
 } from "antd";
-import "../style.css";
 import {
   PlusOutlined,
   FileImageOutlined,
   CloseOutlined,
   MinusCircleOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -27,32 +23,19 @@ import axios from "axios";
 import ModalFooter from "../../Button/Modelfooter";
 import { ProductCatery } from "../../Category/AddCategory/Category";
 import { SubCategory } from "../../Category/AddCategory/SubCategory";
-// deendencies to implement redux toolkit
 import { useSelector, useDispatch } from "react-redux";
 import { createProduct } from "../../../Apis/Product";
-import { Loader } from "../../Loader/LoadingSpin";
 import { fetchCompany } from "../../../Apis/Company";
 import { fetchCategory, fetchSubCategory } from "../../../Apis/Categories";
-import Cookies, { set } from "js-cookie";
-import { data } from "autoprefixer";
+import Cookies from "js-cookie";
 import { useRef } from "react";
-import Item from "antd/lib/list/Item";
 import Alerts from "../../Notifications&Alert/Alert";
 import { useUser } from "../../../../context/UserContex";
-// widget upload for cloudinary Image"
 import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 import { colorOptions } from "../../../../common/productpossibleColors";
-import { sizeOptions } from "../../../../common/productspossibleSizes";
+import { normFile } from "./ProductModel";
 
-const normFile = (e) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-
-  return e?.fileList;
-};
-
-const ProductModel = (props) => {
+export const ProductModel = (props) => {
   const formRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -91,6 +74,8 @@ const ProductModel = (props) => {
   const [otherimagesError, setOtherimagesError] = useState("");
   const [colorImageUrls, setColorImageUrls] = useState("");
   // const [colorVariations, setColorVariations] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
 
   // redux state handling
   const dispatch = useDispatch();
@@ -126,17 +111,8 @@ const ProductModel = (props) => {
     },
   ]);
 
-  // const [selectedColor, setSelectedColor] = useState([
-  //   {
-  //     color: null,
-  //     index: 0,
-  //   },
-  // ]);
-  const [selectedColor, setSelectedColor] = useState([]);
-  const [selectedSize, setSelectedSize] = useState([]);
-  const [stock, setStock] = useState([]);
-
   const [index, setIndex] = useState(-1); //index for  color and size variations
+
   // use react from hook
   const {
     register,
@@ -161,37 +137,30 @@ const ProductModel = (props) => {
   //     setImageError("Product main image is required");
   //     return;
   //   }
-
   //   // Validate otherImageUrls
   //   if (otherImageUrls.length === 0) {
   //     setOtherimagesError("At least one product image is required");
   //     return;
   //   }
-
   //   setOtherimagesError("");
   //   setImageError("");
-
   //   // data.availableSizes = Array.isArray(data.availableSizes)
   //   //   ? data.availableSizes
   //   //   : [data.availableSizes];
-
   //   // setAvailableSizes(data.availableSizes);
   //   // console.log(
   //   //   "datasive",
   //   //   availableSizes,
   //   //   JSON.stringify(data.availableSizes)
   //   // );
-
   //   const formData = new FormData();
   //   console.log("type", typeof data.name);
   //   formData.append("name", JSON.stringify(data.name)); // Replace 'seller_id' with the actual ID of the seller
-
   //   if (userRole == "seller") {
   //     formData.append("seller", user.id);
   //   } else {
   //     formData.append("seller", data.seller);
   //   }
-
   //   formData.append("category", data.category); // Replace 'category_id' with the actual ID of the category
   //   formData.append("subcategory", data.subcategory); // Replace 'subcategory_id' with the actual ID of the subcategory
   //   formData.append("description", JSON.stringify(data.description)); // Replace 'subcategory_id' with the actual ID of the subcategory
@@ -199,25 +168,20 @@ const ProductModel = (props) => {
   //   formData.append("price", Number(data.price));
   //   // formData.append("productThumbnail", data.productThumbnail.file);
   //   // formData.append("productThumbnail", mainImageUrl);
-
   //   formData.append("brandName", data.brandName);
-
   //   {
   //     stockQuantity !== 0
   //       ? formData.append("stockQuantity", stockQuantity)
   //       : formData.append("stockQuantity", data.stockQuantity);
   //   }
-
   //   formData.append("discountPercentage", data.discountPercentage);
   //   formData.append("quantityParameter", data.quantityParameter);
-
   //   // for (let i = 0; i < otherImages.length; i++) {
   //   //   formData.append("otherImages", otherImages[i]);
   //   // }
   //   // for (let i = 0; i < otherImageUrls.length; i++) {
   //   //   formData.append("otherImages", otherImageUrls[i]);
   //   // }
-
   //   const colorMeasurementVariations = {
   //     measurementType: "size",
   //     variations: colorVariations.map((variation) => ({
@@ -230,22 +194,17 @@ const ProductModel = (props) => {
   //       colorMeasurementVariationQuantity: parseInt(variation.stock),
   //     })),
   //   };
-
   //   // hasColors: {
   //   //   type: Boolean,
   //   // },
-
   //   // hasMeasurements: {
   //   //   type: Boolean,
   //   // },
-
   //   let hasColors = colorVariations[0].colorImageUrl !== null ? true : false;
   //   let hasMeasurements =
   //     colorVariations[0].availableSizes !== null ? true : false;
-
   //   formData.append("hasColors", hasColors);
   //   formData.append("hasMeasurements", hasMeasurements);
-
   //   // Append productImages
   //   const productImages = {
   //     productThumbnail: {
@@ -259,37 +218,29 @@ const ProductModel = (props) => {
   //       };
   //     }),
   //   };
-
   //   formData.append("productImages", JSON.stringify(productImages));
-
   //   formData.append(
   //     "colorMeasurementVariations",
   //     JSON.stringify(colorMeasurementVariations)
   //     // colorMeasurementVariations
   //   );
-
   //   // data?.availableSizes?.forEach((size) => {
   //   //   formData.append("availableSizes[]", size);
   //   // });
-
   //   // for (let i = 0; i < colorImages.length; i++) {
   //   //   formData.append("colorImages", colorImages[i]);
   //   // }
-
   //   // data?.colorNames?.forEach((size) => {
   //   //   formData.append("colorNames[]", size);
   //   // });
-
   //   for (var pair of formData.entries()) {
   //     console.log(pair[0] + ": " + pair[1]);
   //   }
-
   //   dispatch(createProduct({ productData: formData, token: token }))
   //     .unwrap()
   //     .then((data) => {
   //       if (data && data?.status == "success") {
   //         // update get product state
-
   //         props.handlecreateproduct(data?.data?.product);
   //         setProducts(data?.data?.product);
   //         setAlertIndex("success");
@@ -305,7 +256,6 @@ const ProductModel = (props) => {
   //       console.log("error while creating product on product model", er);
   //     });
   // };
-
   const handleSubmits = (data) => {
     if (!mainImageUrl) {
       setImageError("Product main image is required");
@@ -324,25 +274,6 @@ const ProductModel = (props) => {
     // Convert stockQuantity to a number if it's not already
     const stockQty =
       stockQuantity !== 0 ? stockQuantity : parseInt(data.stockQuantity);
-
-    const hasValidationError = colorVariations.some((variation) => {
-      return (
-        // !variation.availableSizes ||
-        // !variation.colorName ||
-        // !variation.colorImageUrl ||
-        // !variation.stock
-        (!variation.availableSizes && !variation.colorName) ||
-        !variation.colorImageUrl ||
-        !variation.stock
-      );
-    });
-
-    if (hasValidationError) {
-      alert(
-        "Something went wrong in combination of color or size with its corresponding color and stockQuantity"
-      );
-      return; // Don't proceed with the API call if there's a validation error
-    }
 
     const payload = {
       name: data.name,
@@ -368,32 +299,18 @@ const ProductModel = (props) => {
           url: image,
         })),
       },
-
       colorMeasurementVariations: {
         measurementType: "size",
-        variations: colorVariations.map((variation) => {
-          return {
-            measurementvalue: variation.availableSizes,
-            colorImg: {
-              url: variation.colorImageUrl,
-              colorName: variation.colorName, // or variation.colorName if needed
-            },
-            colorMeasurementVariationQuantity: parseInt(variation.stock),
-          };
-        }),
+        variations: colorVariations.map((variation) => ({
+          measurementvalue: variation.availableSizes,
+          colorImg: {
+            url: variation.colorImageUrl,
+            colorName: variation.colorName, // or variation.colorName if needed
+          },
+          colorMeasurementVariationQuantity: parseInt(variation.stock),
+        })),
       },
     };
-
-    // console.log(
-    //   "stock ",
-    //   stock,
-    //   "selectedcolor",
-    //   selectedColor,
-    //   "selectedSize",
-    //   selectedSize,
-    //   "colorVariations",
-    //   colorVariations
-    // );
 
     // Dispatch API call with the payload
     dispatch(createProduct({ productData: payload, token: token }))
@@ -413,6 +330,7 @@ const ProductModel = (props) => {
       .catch((er) => {
         setAlertIndex("error"); // Display error alert on error
         setAlertDescription("Error: " + er.message);
+        console.log("Error while creating product:", er);
       });
   };
   // close alert window
@@ -433,7 +351,7 @@ const ProductModel = (props) => {
     price: {
       required: "price is required",
       min: {
-        value: 0.0000000001,
+        value: 1e-10,
         message: "price must be greater than zero",
       },
       validate: {
@@ -487,7 +405,6 @@ const ProductModel = (props) => {
   };
 
   // console.log("product", product, load, err);
-
   // handle add new category
   const handleOpenNewModel = () => {
     setAddnew(true);
@@ -502,12 +419,38 @@ const ProductModel = (props) => {
     setAddnewsub(false);
   };
 
+  // Function to handle the api actions and prerequisites
+  const handleProductUpload = async (e) => {
+    e.preventDefault();
+
+    // product data processing
+    setLoading(true);
+    let productData = {
+      description: description,
+      prodName: prodName,
+      prodCategory: prodCategory,
+      price: price,
+    };
+
+    axios({
+      url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/product/upload`,
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      data: productData,
+    })
+      .then((result) => console.log(result.data))
+      .catch((error) => console.log("product upload error : ", error));
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
     setAddnew(false);
   };
 
   const handleOk = () => {
+    handleSubmitForm();
     setIsModalOpen(false);
   };
 
@@ -517,6 +460,13 @@ const ProductModel = (props) => {
 
   const onSearch = (value) => {
     console.log("search:", value);
+  };
+
+  // handle Submit function
+  const handleSubmitForm = () => {
+    handleProductUpload();
+    setChecked(!checked);
+    setIsModalOpen(false);
   };
 
   // Filter `option.label` match the user type `input`
@@ -686,7 +636,6 @@ const ProductModel = (props) => {
   //     widget.close({ quiet: true });
   //     return;
   //   }
-
   //   console.log(
   //     "data to send on create color images",
   //     widget,
@@ -706,7 +655,6 @@ const ProductModel = (props) => {
   //     },
   //   ]);
   // }
-
   // const handleColorChange = (index, field, value) => {
   //   console.log("index", index, field, value);
   //   setColorVariations((prevVariations) =>
@@ -715,7 +663,6 @@ const ProductModel = (props) => {
   //     )
   //   );
   // };
-
   // const handleColorChange = (index, field, value) => {
   //   console.log("index", index, field, value);
   //   setColorVariations((prevVariations) => {
@@ -728,8 +675,8 @@ const ProductModel = (props) => {
   //     });
   //   });
   // };
-
   const handleColorChange = (index, field, value) => {
+    console.log("index", index, field, value);
     setColorVariations((prevVariations) => {
       // Deep copy the array using slice()
       const updatedVariations = [...prevVariations.slice(0)];
@@ -742,50 +689,7 @@ const ProductModel = (props) => {
 
       return updatedVariations;
     });
-
-    // setSelectedColor = (prevSelectedColor) => {
-    //   const updatedSelectedColor = [...prevSelectedColor.slice(0)];
-    //   updatedSelectedColor[index] = {
-    //     ...updatedSelectedColor[index],
-    //     color: value,
-    //     index: index,
-    //   };
-    //   console.log("updatedSelectedColor", updatedSelectedColor);
-    //   return updatedSelectedColor;
-    // };
-
-    if (field === "colorName")
-      setSelectedColor((prevSelectedColor) => {
-        const updatedSelectedColor = [...prevSelectedColor];
-        updatedSelectedColor[index] = {
-          ...updatedSelectedColor[index],
-          color: value,
-        };
-
-        return updatedSelectedColor;
-      });
-
-    if (field === "stock")
-      setStock((prevstock) => {
-        const updatedStock = [...prevstock];
-        updatedStock[index] = {
-          ...updatedStock[index],
-          stock: parseInt(value),
-        };
-
-        return updatedStock;
-      });
-
-    // setSelectedSize((prevSelectedSize) => {
-    //   const updatedSelectedSize = [...prevSelectedSize];
-    //   updatedSelectedSize[index] = {
-    //     ...updatedSelectedSize[index],
-    //     size: value,
-    //   };
-    //   return updatedSelectedSize;
-    // });
   };
-
   // function handleuploadcolorimage(error, result, widget) {
   //   if (error) {
   //     console.log("error  while uploadnif", error);
@@ -794,7 +698,6 @@ const ProductModel = (props) => {
   //     return;
   //   }
   //   console.log("result", result?.info?.secure_url);
-
   //   {
   //     /* Input for color image URL */
   //   }
@@ -803,11 +706,12 @@ const ProductModel = (props) => {
   // }
   function handleonuploadOtherImages(error, result, widget) {
     if (error) {
+      console.log("error  while uploadnif", error);
       setImageError(error);
       widget.close({ quiet: true });
       return;
     }
-
+    console.log("resulthandleonuploadOtherImages", result?.info?.secure_url);
     // Limit the number of images to 6
     // if (otherImageUrls.length < 6) {
     //   setOtherImageUrls([...otherImageUrls, result?.info?.secure_url]);
@@ -815,24 +719,7 @@ const ProductModel = (props) => {
     setOtherImageUrls((prevUrls) => [...prevUrls, result?.info?.secure_url]);
   }
 
-  // const handlestockQty = (index,value) => {
-  //   setStock(stock + value);
-  // };
-
-  let stockforproduct =
-    stock.length > 0 ? stock.reduce((acc, curr) => acc + curr.stock, 0) : 0;
-
-  // console.log("colorVariations ", colorVariations, "index", index);
-
-  // console.log(
-  //   "selectedColor",
-  //   selectedColor[6]?.color || selectedSize[5]?.size,
-  //   "stock",
-  //   stock,
-  //   "stockforproduct",
-  //   stockforproduct
-  // );
-
+  console.log("colorVariations ", colorVariations, "index", index);
   return (
     <>
       <Button onClick={showModal}>Add a product</Button>
@@ -1112,8 +999,8 @@ const ProductModel = (props) => {
                         onClick={open}
                       >
                         {/* <button className="" onClick={open}>
-                              Upload
-                            </button>{" "} */}
+                          Upload
+                        </button>{" "} */}
                         Upload
                       </Button>
                     )}
@@ -1157,20 +1044,16 @@ const ProductModel = (props) => {
               Add a color or zize with it’s corresponding size and stockQuantity
             </span>
             <p>image </p>
-            <div className="flex  w-[100%] p-5 flex-col justify-center  border   items-center rounded ">
-              <Form.List name="colors" style={{ backgroundColor: "red " }}>
+            <div className="flex  w-[100%] p-5 flex-col justify-center items-center border    rounded ">
+              <Form.List name="colors" className="bg-black">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, ...restField }, index) => (
                       <>
                         <Space
                           key={key}
-                          style={{
-                            display: "flex",
-                            marginBottom: 2,
-                            // backgroundColor: "red",
-                          }}
-                          // align="baseline"
+                          style={{ display: "flex", marginBottom: 2 }}
+                          align="baseline"
                         >
                           {/* Input for color name */}
                           <Form.Item
@@ -1178,27 +1061,21 @@ const ProductModel = (props) => {
                             name={[name, "name"]}
                             label={
                               <div
-                                style={{
-                                  backgroundColor: selectedColor[index]?.color,
-                                }}
+                                style={{ backgroundColor: selectedColor }}
                                 className={` w-20 h-5 border border-[black] rounded-full`}
                               ></div>
                             }
                           >
                             <div className="flex-col">
                               {/* <div
-                                style={{ backgroundColor: selectedColor }}
-                                className={`w-5 h-5 border border-[black] rounded-full`}
-                              ></div> */}
+                              style={{ backgroundColor: selectedColor }}
+                              className={`w-5 h-5 border border-[black] rounded-full`}
+                            ></div> */}
 
                               <Select
                                 options={colorOptions}
-                                value={selectedColor[index]?.color}
                                 onChange={(value) => {
-                                  // setSelectedColor((color) => {
-                                  //   console.log("color", color);
-                                  // });
-
+                                  setSelectedColor(value);
                                   handleColorChange(index, "colorName", value);
                                 }}
                                 onSearch={onSearch}
@@ -1210,38 +1087,23 @@ const ProductModel = (props) => {
                           <Form.Item
                             {...restField}
                             name={[name, "availableSizes"]}
-                            label={`Available Sizes:  ${
-                              selectedSize[index]?.size
-                                ? selectedSize[index]?.size
-                                : ""
-                            }`}
+                            label="Available Sizes"
                           >
                             <Select
-                              value={selectedSize[index]?.size}
-                              options={sizeOptions}
+                              options={colorOptions}
                               onChange={(value) => {
-                                setSelectedSize((prevSelectedSize) => {
-                                  const updatedSelectedSize = [
-                                    ...prevSelectedSize,
-                                  ];
-                                  updatedSelectedSize[index] = {
-                                    ...updatedSelectedSize[index],
-                                    size: value,
-                                  };
-                                  return updatedSelectedSize;
-                                });
-
+                                setSelectedSize(value);
                                 handleColorChange(
                                   index,
                                   "availableSizes",
-                                  value
+                                  e.target.value
                                 );
                               }}
                               onSearch={onSearch}
                               showSearch
                             />
 
-                            {/* <Input
+                            <Input
                               placeholder="Enter Available Sizes"
                               onChange={(e) =>
                                 handleColorChange(
@@ -1250,88 +1112,79 @@ const ProductModel = (props) => {
                                   e.target.value
                                 )
                               }
-                            /> */}
+                            />
                           </Form.Item>
                           {/* Input for number available in stock */}
-                          {/* <Form.Item
+                          <Form.Item
                             {...restField}
                             name={[name, "stock"]}
                             label="Available Stock"
-                            style={{ width: "100px", backgroundColor: "red" }}
-                          > */}
-
-                          {selectedColor[index]?.color !== undefined ||
-                          selectedSize[index]?.size !== undefined ? (
-                            <input
+                          >
+                            <Input
                               placeholder="Enter Available Stock"
                               type="number"
-                              onChange={(e) => {
-                                // handlestockQty(index, e.target.value);
+                              onChange={(e) =>
                                 handleColorChange(
                                   index,
                                   "stock",
                                   e.target.value
-                                );
-                              }}
+                                )
+                              }
                             />
-                          ) : null}
-                          {/* </Form.Item> */}
+                          </Form.Item>
                           <div className="flex flex-col">
                             {" "}
                             <Form.Item>
-                              {!colorVariations[index]?.colorImageUrl && (
-                                <UploadWidget
-                                  // onUpload={handleuploadcolorimage}
-
-                                  onUpload={(error, result, widget) => {
-                                    if (error) {
-                                      // console.log(
-                                      //   "error  while uploadnif",
-                                      //   error
-                                      // );
-                                      // setImageError(error);
-                                      widget.close({ quiet: true });
-                                      return;
-                                    }
-                                    // console.log(
-                                    //   "result",
-                                    //   result?.info?.secure_url
-                                    // );
-
-                                    {
-                                      /* Input for color image URL */
-                                    }
-                                    handleColorChange(
-                                      index,
-                                      "colorImageUrl",
-                                      result?.info?.secure_url
+                              <UploadWidget
+                                // onUpload={handleuploadcolorimage}
+                                onUpload={(error, result, widget) => {
+                                  if (error) {
+                                    console.log(
+                                      "error  while uploadnif",
+                                      error
                                     );
-                                    // setColorImageUrls(
-                                    //   result?.info?.secure_url
-                                    // );
-                                  }}
-                                  uploadmultiple={false}
-                                >
-                                  {({ open }) => (
-                                    <Button
-                                      type="primary"
-                                      onClick={open}
-                                      block
-                                      icon={<PlusOutlined />}
-                                    >
-                                      Add Image
-                                    </Button>
-                                  )}
-                                </UploadWidget>
-                              )}
-                              {colorVariations[index]?.colorImageUrl && (
-                                <Image
-                                  src={colorVariations[index]?.colorImageUrl}
-                                  width={50}
-                                  height={50}
-                                />
-                              )}
+                                    // setImageError(error);
+                                    widget.close({ quiet: true });
+                                    return;
+                                  }
+                                  console.log(
+                                    "result",
+                                    result?.info?.secure_url
+                                  );
+
+                                  {
+                                    /* Input for color image URL */
+                                  }
+                                  handleColorChange(
+                                    index,
+                                    "colorImageUrl",
+                                    result?.info?.secure_url
+                                  );
+                                  // setColorImageUrls(
+                                  //   result?.info?.secure_url
+                                  // );
+                                }}
+                                uploadmultiple={false}
+                              >
+                                {({ open }) => (
+                                  <Button
+                                    type="primary"
+                                    onClick={open}
+                                    block
+                                    icon={<PlusOutlined />}
+                                  >
+                                    Add Image
+                                  </Button>
+                                )}
+                              </UploadWidget>
                             </Form.Item>
+                            {colorVariations[index]?.colorImageUrl && (
+                              <Image
+                                src={colorVariations[index]?.colorImageUrl}
+                                width={50}
+                                height={50}
+                              />
+                            )}
                           </div>
 
                           {/* Button to remove color entry */}
@@ -1342,20 +1195,6 @@ const ProductModel = (props) => {
                               setIndex(index - 1);
                               colorVariations.length > 0 &&
                                 colorVariations.splice(index, 1);
-
-                              selectedColor.splice(index, 1);
-
-                              // setSelectedColor(
-                              //   selectedColor.filter((_, i) => i !== index)
-                              //   // ...selectedColor,
-                              // );
-
-                              setSelectedSize(
-                                selectedSize.filter((_, i) => i !== index)
-                                // selectedSize.splice(index, 1)
-                              );
-
-                              stock.splice(index, 1);
                             }}
                           />
                         </Space>
@@ -1376,12 +1215,134 @@ const ProductModel = (props) => {
                         + fields
                       </Button>
                     </Form.Item>
-                    {}
                   </>
                 )}
               </Form.List>
             </div>
           </div>
+
+          {/* <Form.List name="users">
+                  {(fields, { add, remove }) => (
+                    <>
+                      {fields.map(({ key, name, ...restField }) => (
+                        <Space
+                          key={key}
+                          style={{
+                            display: "flex",
+                            marginBottom: 2,
+                          }}
+                          align="baseline"
+                        >
+                          <Form.Item {...restField} name={[name, "first"]}>
+                            <Controller
+                              name={`colorNames[${name}]`}
+                              control={control}
+                              render={({ field }) => (
+                                <Input
+                                  {...field}
+                                  placeholder="Enter Image Name"
+                                  name={field.name}
+                                />
+                              )}
+                            />
+                          </Form.Item>
+                          <Form.Item {...restField} name={[name, "first"]}>
+                            <Controller
+                              name={`availableSizes[${name}]`}
+                              control={control}
+                              render={({ field }) => (
+                                <Input
+                                  {...field}
+                                  placeholder="Enter AvailableSizes"
+                                  name={field.name}
+                                />
+                              )}
+                            />
+                          </Form.Item>
+                          <Form.Item {...restField} name={[name, "first"]}>
+                            <Controller
+                              name={`availableSizes[${name}]`}
+                              control={control}
+                              render={({ field }) => (
+                                <Input
+                                  {...field}
+                                  placeholder="number avaieable instock "
+                                  name={field.name}
+                                />
+                              )}
+                            />
+                          </Form.Item>
+                        
+                          <MinusCircleOutlined
+                            className="text-[red]"
+                            onClick={() => remove(name)}
+                          />
+                        </Space>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          style={{ width: "50px" }}
+                          className="p-1 font-bold w-[50px] "
+                          type="primary"
+                          onClick={() => add()}
+                          block
+                          icon={<PlusOutlined />}
+                        />
+                      </Form.Item>
+                    </>
+                  )}
+                </Form.List> */}
+          {/* <span className="mt-2 font-bold  ">AvailableSizes</span>
+            <div className="w-[100%] border my-3 p-3  border  border-[black] rounded ">
+              <span>Product availableSizes</span>
+              <div className="flex  w-[100%] p-5 flex-col justify-center items-center border  rounded ">
+                <Form.List name="user">
+                  {(fields, { add, remove }) => (
+                    <>
+                      {fields.map(({ key, name, ...restField }) => (
+                        <Space
+                          key={key}
+                          style={{
+                            display: "flex",
+                            marginBottom: 2,
+                          }}
+                          align="baseline"
+                        >
+                          <Form.Item {...restField} name={[name, "first"]}>
+                            <Controller
+                              name={`availableSizes[${name}]`}
+                              control={control}
+                              render={({ field }) => (
+                                <Input
+                                  {...field}
+                                  placeholder="Enter AvailableSizes"
+                                  name={field.name}
+                                />
+                              )}
+                            />
+                          </Form.Item>
+  
+                          <MinusCircleOutlined
+                            className="text-[red]"
+                            onClick={() => remove(name)}
+                          />
+                        </Space>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          className="p-1 font-bold"
+                          style={{ width: "50px" }}
+                          type="primary"
+                          onClick={() => add()}
+                          block
+                          icon={<PlusOutlined />}
+                        />
+                      </Form.Item>
+                    </>
+                  )}
+                </Form.List>
+              </div>
+            </div> */}
 
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] border p-3 mt-3  border  border-[black] rounded">
@@ -1398,10 +1359,10 @@ const ProductModel = (props) => {
                     <>
                       <Form.Item label="Select Seller" className=" w-[50%]">
                         {/* <Select
-                        options={selectOptions}
-                        {...field}
-                        label="Text field"
-                      /> */}
+                                options={selectOptions}
+                                {...field}
+                                label="Text field"
+                              /> */}
                         {loadcompany ? (
                           <p>loading...</p>
                         ) : (
@@ -1412,16 +1373,6 @@ const ProductModel = (props) => {
                             onSearch={onSearch}
                             filterOption={filterOption}
                             options={selectOptions}
-                            // options={[
-                            //   {
-                            //     label: "Feli Technology Inv. Group",
-                            //     value: "64fb3d689851a4c86d6182de",
-                            //   },
-                            //   {
-                            //     value: "659310aa742a59c3314ef268",
-                            //     label: "Oliviertech",
-                            //   },
-                            // ]}
                           />
                         )}
 
@@ -1454,37 +1405,45 @@ const ProductModel = (props) => {
 
             <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
               {/* <Controller
-                name="stockQuantity"
-                control={control}
-                rules={{
-                  ...registerinput.stockQuantity,
-                }}
-                render={({ field }) => (
-                  <Form.Item label="stockQuantity" className="md:w-[48%]">
-                    <Input
-                      type="text"
-                      placeholder="stockQuantity"
-                      name="stockQuantity"
-                      {...field}
-                    />
-                    <p className="text-[red]">
-                      {errors?.stockQuantity?.message}
-                    </p>
-                  </Form.Item>
-                )}
-              /> */}
+              name="stockQuantity"
+              control={control}
+              rules={{
+                ...registerinput.stockQuantity,
+              }}
+              render={({ field }) => (
+                <Form.Item label="stockQuantity" className="md:w-[48%]">
+                  <Input
+                    type="text"
+                    placeholder="stockQuantity"
+                    name="stockQuantity"
+                    {...field}
+                  />
+                  <p className="text-[red]">
+                    {errors?.stockQuantity?.message}
+                  </p>
+                </Form.Item>
+              )}
+            /> */}
 
               {stockQuantity !== 0 ? (
-                <Form.Item
-                  label={`stockQuantity:  ${stockforproduct} `}
-                  className="md:w-[48%]"
-                >
+                <Form.Item label="stockQuantity" className="md:w-[48%]">
                   {/* <Input
-          type="text"
-          placeholder="stockQuantity"
-          name="stockQuantity"
-          {...field}
-        /> */}
+            type="text"
+            placeholder="stockQuantity"
+            name="stockQuantity"
+            {...field}
+          /> */}
+
+                  <Input
+                    type="text"
+                    placeholder="stockQuantity"
+                    name="stockQuantity"
+                    defaultValue={stockQuantity}
+                    readOnly
+                  />
+                  <p className="text-[red]">
+                    {/* {errors?.stockQuantity?.message} */}
+                  </p>
                 </Form.Item>
               ) : (
                 <Controller
@@ -1574,19 +1533,13 @@ const ProductModel = (props) => {
               />
             </div>
           </div>
-          <ModalFooter
-            onCancel={handleCancel}
-            isload={load}
-            // onOk={handleSubmitForm}
-          />
+          <ModalFooter onCancel={handleCancel} isload={load} />
           {/* <div className='flex  justify-end space-x-2 pr-0 mt-2'>
-         <Button onClick={handleCancel} > <span> <CloseOutlined /> Cancel</span> </Button>
-         <Button onClick={handleSubmitForm} style={{background:'#1D6F2B', color:'#FFFFFF',fontWeight:'bold'}} > <span>   <SaveOutlined /> Save</span> </Button>
-      </div> */}
+           <Button onClick={handleCancel} > <span> <CloseOutlined /> Cancel</span> </Button>
+           <Button onClick={handleSubmitForm} style={{background:'#1D6F2B', color:'#FFFFFF',fontWeight:'bold'}} > <span>   <SaveOutlined /> Save</span> </Button>
+        </div> */}
         </Form>
       </Modal>
     </>
   );
 };
-
-export default ProductModel;
