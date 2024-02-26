@@ -486,8 +486,6 @@ export const DashProducts = () => {
     setFilteredData(newData); // Update filteredData as well
   }, [products]);
 
-  console.log("products", products, loading, err);
-
   return (
     <Layout className="space-y-6  overflow-auto bg-white">
       <Space className="flex justify-between">

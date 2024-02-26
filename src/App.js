@@ -1,11 +1,11 @@
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
-import About from './pages/Default/About/About';
-import Contact from './pages/Default/Contact/Contact';
-import Home from './pages/Home';
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import About from "./pages/Default/About/About";
+import Contact from "./pages/Default/Contact/Contact";
+import Home from "./pages/Home";
 // import Journal from './pages/Default/Journal/Journal';
 // import Payment from './pages/Default/payment/Payment';
 // import ProductDetails from './pages/Default/ProductDetails/ProductDetails';
-import Shop from './pages/Default/Shop/Shop';
+import Shop from "./pages/Default/Shop/Shop";
 // import UserLayout from './Layouts/UserLayout';
 // import IndexLayout from './Layouts/IndexLayout';
 // import UserHome from './components/ProductsCategories';
@@ -25,14 +25,14 @@ import Shop from './pages/Default/Shop/Shop';
 // import PaymentDone from './pages/Payment/payment';
 // import CustomerOrders from './pages/orders/orders';
 // import SignInForm from './components/pageProps/Authentication/SignInForm';
-import SignIn from './pages/SignIn';
+import SignIn from "./pages/SignIn";
 
-import SellerProfile from './pages/Account/Profile/SellerProfile';
-import SignUp from './pages/SignUp';
-import Cart from './pages/Cart';
-import Product from './pages/ProductDetails/Product';
-import { useUser } from './context/UserContex';
-import { LayoutDesign } from './dashboard/Layouts/LayoutDesign';
+import SellerProfile from "./pages/Account/Profile/SellerProfile";
+import SignUp from "./pages/SignUp";
+import Cart from "./pages/Cart";
+import Product from "./pages/ProductDetails/Product";
+import { useUser } from "./context/UserContex";
+import { LayoutDesign } from "./dashboard/Layouts/LayoutDesign";
 import {
   Category,
   Company,
@@ -41,14 +41,15 @@ import {
   DashProducts,
   Retailer,
   Orders,
-} from './dashboard/Components';
-import ShopNow from './components/designLayouts/buttons/ShopNow';
-import ActivateAccount from './pages/ActivateAccount';
-import Loader from './components/loader/Loader';
-import SingleOrder from './dashboard/Components/Orders/Order/singleOrder';
-import VerifyPaymentPage from './pages/ProductDetails/VerifyPaymentPage';
-import ForgotPassword from './pages/ForgotPassword';
-import Users from './pages/Users';
+} from "./dashboard/Components";
+import ShopNow from "./components/designLayouts/buttons/ShopNow";
+import ActivateAccount from "./pages/ActivateAccount";
+import Loader from "./components/loader/Loader";
+import SingleOrder from "./dashboard/Components/Orders/Order/singleOrder";
+import VerifyPaymentPage from "./pages/ProductDetails/VerifyPaymentPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import Users from "./pages/Users";
+import PageNotFound from "./pages/PageNotFound";
 
 // localStorage.removeItem("selectedKey");
 
@@ -61,46 +62,49 @@ const App = () => {
         <Loader />
       ) : (
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='signin' element={<SignIn />} />
-          <Route path='signup' element={<SignUp />} />
-          <Route path='cart' element={<Cart />} />
-          <Route path='products/:id' element={<Product />} />
-          <Route path='shop' element={<Shop />} />
-          <Route path='about' element={<About />} />
-          <Route path='contact' element={<Contact />} />
-          <Route path='forgot-password' element={<ForgotPassword />} />
+          <Route path="/" element={<Home />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="products/:id" element={<Product />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route
-            path='/activate-account/:token'
+            path="/activate-account/:token"
             element={<ActivateAccount />}
           />
-          <Route path='/payment-verification' element={<VerifyPaymentPage />} />
-          <Route path='user' element={<LayoutDesign />}>
+          <Route path="/payment-verification" element={<VerifyPaymentPage />} />
+          <Route path="user" element={<LayoutDesign />}>
             <Route
               index
               element={
-                user?.role === 'admin'
-                  ? (localStorage.setItem('selectedKey', '0'),
-                    (<Navigate replace to='dashboard' />))
-                  : user?.role === 'seller'
-                  ? (localStorage.setItem('selectedKey', '5'),
-                    (<Navigate replace to='dashproduct' />))
+                user?.role === "admin"
+                  ? (localStorage.setItem("selectedKey", "0"),
+                    (<Navigate replace to="dashboard" />))
+                  : user?.role === "seller"
+                  ? (localStorage.setItem("selectedKey", "5"),
+                    (<Navigate replace to="dashproduct" />))
                   : user &&
-                    (localStorage.setItem('selectedKey', '6'),
-                    (<Navigate replace to='profile' />))
+                    (localStorage.setItem("selectedKey", "6"),
+                    (<Navigate replace to="profile" />))
               }
             />
-            <Route path='dashboard' element={<Dashboard />} />
-            <Route path='seller' element={<Company />} />
-            <Route path='contract' element={<Contract />} />
-            <Route path='dashproduct' element={<DashProducts />} />
-            <Route path='retailer' element={<Retailer />} />
-            <Route path='profile' element={<SellerProfile />}></Route>
-            <Route path='category' element={<Category />} />
-            <Route path='users' element={<Users />} />
-            <Route path='order' element={<Orders />} />
-            <Route path='order/:id' element={<SingleOrder />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="seller" element={<Company />} />
+            <Route path="contract" element={<Contract />} />
+            <Route path="dashproduct" element={<DashProducts />} />
+            <Route path="retailer" element={<Retailer />} />
+            <Route path="profile" element={<SellerProfile />}></Route>
+            <Route path="category" element={<Category />} />
+            <Route path="users" element={<Users />} />
+            <Route path="order" element={<Orders />} />
+            <Route path="order/:id" element={<SingleOrder />} />
+            {/* <Route path="*" element={<PageNotFound />} /> */}
           </Route>
+
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       )}
     </>
