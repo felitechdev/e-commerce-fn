@@ -30,14 +30,7 @@ export const getorder = createSlice({
         const orderIndex = current(state).orders.findIndex(
           (order) => order.id === orderId
         );
-        console.log(
-          "orderIndex",
-          orderIndex,
-          "status",
-          status,
-          "orderId",
-          orderId
-        );
+
         if (orderIndex !== -1) {
           state.orders[orderIndex] = {
             ...state.orders[orderIndex],

@@ -50,7 +50,6 @@ const SingleOrder = () => {
       dispatch(getorderDetail({ token, id }))
         .unwrap()
         .then((data) => {
-          console.log("data", data);
           if (data) {
             setOrders(data?.order);
           }
@@ -74,33 +73,21 @@ const SingleOrder = () => {
 
   const singleorder = ord.length > 0 ? ord : [];
 
-  console.log(
-    // singleorder.map((order) => {} order._id),
-    "single order",
-    singleorder.find((order) => {
-      // return order.id === id;
-      return order._id ? order._id === id : order.id === id;
-    }),
-    ord
-  );
-
-  const duplicatedItems = orders?.items?.reduce((acc, item) => {
-    return [...acc, { ...item }, { ...item }];
-  }, []);
+  console.log("singleorder", orders);
 
   return (
     <>
       {/* min-h-[500px] */}
       <div className="bg-white border shadow-md rounded-md w-full lg:w-1/2 h-min  pb-3">
         <Button
-          onClick={async () => {
+          onClick={() => {
             const current = localStorage.getItem("selectedKey");
             if (current) {
               localStorage.removeItem("selectedKey");
             } else {
               localStorage.setItem("selectedKey", "4");
-              return navigate("/user/order", { replace: true });
             }
+            navigate("/user/order", { replace: true });
           }}
         >
           <FaArrowCircleLeft />
@@ -155,11 +142,8 @@ const SingleOrder = () => {
                 )}
               </div>
             </div>
-            {singleorder
-              .find((order) => {
-                return order._id ? order._id === id : order.id === id;
-              })
-              ?.items.map(
+            {orders &&
+              orders?.items.map(
                 (item, index) => (
                   console.log("itemDetails", item),
                   (
@@ -170,22 +154,17 @@ const SingleOrder = () => {
                             width={100}
                             className="rounded-md border"
                             src={
-                              item?.itemDetails?.thumbnail
-                                ? item?.itemDetails?.thumbnail
+                              item?.thumbnail
+                                ? item?.thumbnail
                                 : "https://via.placeholder.com/150"
                             }
                           />
                         </Space>
 
                         <div className="ml-2 ">
-                          <h1 className="text-md font-bold">
-                            {item?.itemDetails?.name}
-                          </h1>
+                          <h1 className="text-md font-bold">{item?.name}</h1>
                           <h1 className="text-md font-bold text-gray-400">
-                            price :{" "}
-                            {!item?.itemDetails
-                              ? item?.price
-                              : item?.itemDetails?.price}
+                            price : {item?.price}
                           </h1>
                           {/* <p className="text-gray-400 font-bold text-md">
                       quantity : {item.quantity}
@@ -193,11 +172,13 @@ const SingleOrder = () => {
                         </div>
                       </div>
                       <div>
-                        <h1 className="text-md font-bold">seller:{}</h1>
                         {UserRole == "admin" && (
-                          <p className="text-gray-400 font-bold text-md">
-                            Tel : {}
-                          </p>
+                          <>
+                            <h1 className="text-md font-bold">seller:{}</h1>
+                            <p className="text-gray-400 font-bold text-md">
+                              Tel : {}
+                            </p>
+                          </>
                         )}
                         <p className="text-gray-400 font-bold text-md">
                           quantity : {item.quantity}

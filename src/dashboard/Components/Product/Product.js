@@ -9,12 +9,12 @@ import {
   Tag,
   Row,
   Col,
-} from 'antd';
-import { Checkbox } from 'antd';
-import { Card } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
+} from "antd";
+import { Checkbox } from "antd";
+import { Card } from "antd";
+import { useSelector, useDispatch } from "react-redux";
 // import type { TableProps } from 'antd/es/table';
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import {
   DownloadOutlined,
   RotateLeftOutlined,
@@ -31,30 +31,30 @@ import {
   filters,
   FilterFilled,
   AppstoreFilled,
-} from '@ant-design/icons';
-import { useState } from 'react';
-import ProductModel from './ProductModel/ProductModel';
-import { ActionButton } from './ActionButton copy/ActionButton';
-import { CategoryList } from '../filterproducts/categorylist';
-import { useNavigate } from 'react-router-dom';
+} from "@ant-design/icons";
+import { useState } from "react";
+import ProductModel from "./ProductModel/ProductModel";
+import { ActionButton } from "./ActionButton copy/ActionButton";
+import { CategoryList } from "../filterproducts/categorylist";
+import { useNavigate } from "react-router-dom";
 // import actions
-import { fetchadminproduct } from '../../Apis/Product';
-import { Loader } from '../Loader/LoadingSpin';
-import './style.css';
-import { SellerList } from '../filterproducts/sellerlist';
-import { useUser } from '../../../context/UserContex';
+import { fetchadminproduct } from "../../Apis/Product";
+import { Loader } from "../Loader/LoadingSpin";
+import "./style.css";
+import { SellerList } from "../filterproducts/sellerlist";
+import { useUser } from "../../../context/UserContex";
 
 const { Title, Paragraph, Text } = Typography;
 
 export const DashProducts = () => {
   const [products, setProducts] = useState([]);
-  const [src, setSrc] = useState('');
-  const [prodName, setProdName] = useState('');
-  const [description, setDescription] = useState('');
-  const [stock, setStock] = useState('');
-  const [price, setPrice] = useState('');
+  const [src, setSrc] = useState("");
+  const [prodName, setProdName] = useState("");
+  const [description, setDescription] = useState("");
+  const [stock, setStock] = useState("");
+  const [price, setPrice] = useState("");
   const [dataSource, setDataSource] = useState([]);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedsellerId, setSelectedsellerId] = useState(null);
@@ -81,17 +81,17 @@ export const DashProducts = () => {
 
   const FilterByNameInput = (
     <Input.Search
-      placeholder='search product by name .......'
+      placeholder="search product by name ......."
       allowClear
-      enterButton='Search'
-      size='large'
-      className='w-[80%] md:w-[50%] my-2'
+      enterButton="Search"
+      size="large"
+      className="w-[80%] md:w-[50%] my-2"
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
         setValue(currValue);
         const newData = (
-          userRole == 'seller'
+          userRole == "seller"
             ? products?.filter((product) => product?.seller?.id == user?.id)
             : products
         )
@@ -130,9 +130,9 @@ export const DashProducts = () => {
       .then((response) => response.blob())
       .then((blob) => {
         const url = URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = url;
-        link.download = 'image.png';
+        link.download = "image.png";
         document.body.appendChild(link);
         link.click();
         URL.revokeObjectURL(url);
@@ -187,7 +187,7 @@ export const DashProducts = () => {
     setFilteredData(filteredProducts);
   };
 
-  if (activeFilter === 'NewArrivals') {
+  if (activeFilter === "NewArrivals") {
     handleNewArrivals();
   }
 
@@ -209,23 +209,22 @@ export const DashProducts = () => {
         totalQuantity: totalQuantity,
       };
     });
-    console.log('ordered', ordered);
-    console.log('Total quantity for item', itemId, ':', totalQuantity);
+
     return totalQuantity;
   };
 
   const Columns = [
     {
       // title: `Product ${FilterByNameInput}`,
-      title: 'Product',
-      dataIndex: 'name',
-      key: 'name',
-      colSpan: '1',
+      title: "Product",
+      dataIndex: "name",
+      key: "name",
+      colSpan: "1",
       render: (_, record, index) => (
-        <Space size={12} className='' key={index}>
+        <Space size={12} className="" key={index}>
           <Image
             width={50}
-            className='rounded-md'
+            className="rounded-md"
             src={record.name[0]}
             preview={{
               toolbarRender: (
@@ -242,7 +241,7 @@ export const DashProducts = () => {
                   },
                 }
               ) => (
-                <Space size={12} className='mx-w-full h-screen'>
+                <Space size={12} className="mx-w-full h-screen">
                   <DownloadOutlined onClick={onDownload} />
                   <SwapOutlined rotate={90} onClick={onFlipY} />
                   <SwapOutlined onClick={onFlipX} />
@@ -254,16 +253,16 @@ export const DashProducts = () => {
               ),
             }}
           />
-          <div className=' overflow-auto '>
-            <Title level={5} className='w-full'>
+          <div className=" overflow-auto ">
+            <Title level={5} className="w-full">
               {record.name[1]}
             </Title>
 
             {/* display value as html */}
             <div
-              className='w-full overflow-auto  '
+              className="w-full overflow-auto  "
               dangerouslySetInnerHTML={{
-                __html: record.name[2].slice(0, 30) + '...',
+                __html: record.name[2].slice(0, 30) + "...",
               }}
             />
             {/* {record.name[2].slice(0, 20) + "...."} */}
@@ -274,76 +273,76 @@ export const DashProducts = () => {
       width: 200,
     },
     {
-      title: 'Stock',
+      title: "Stock",
       dataIndex: { stock },
-      key: 'Stock',
+      key: "Stock",
       width: 60,
       render: (_, record) => (
-        <div className='w-full text-center'>
+        <div className="w-full text-center">
           <span>{record.stock} units</span>
         </div>
       ),
       sorter: (a, b) => a.age - b.age,
     },
     {
-      title: 'Price',
-      dataIndex: 'Price',
-      key: 'Price',
+      title: "Price",
+      dataIndex: "Price",
+      key: "Price",
       width: 100,
       render: (_, record) => (
-        <div className='w-full text-center'>
+        <div className="w-full text-center">
           <span>{record.price} RWF</span>
         </div>
       ),
       sorter: (a, b) => a.age - b.age,
     },
     {
-      title: 'Orders',
-      dataIndex: 'orders',
-      key: 'orders',
+      title: "Orders",
+      dataIndex: "orders",
+      key: "orders",
       width: 30,
       render: (_, record) => {
         const orders = handlecountorders(record.key);
 
         return (
-          <div className='w-full text-center'>
+          <div className="w-full text-center">
             <span>total: {orders}</span>
           </div>
         );
       },
     },
     {
-      title: 'Rating',
-      dataIndex: 'rating',
-      key: 'rating',
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
       width: 50,
       render: (_, record) => (
-        <div className='w-full text-center'>
+        <div className="w-full text-center">
           <span>
             **
-            <StarFilled className='text-icon1' />
+            <StarFilled className="text-icon1" />
           </span>
         </div>
       ),
     },
     {
-      title: 'Published',
-      dataIndex: 'published',
-      key: 'published',
+      title: "Published",
+      dataIndex: "published",
+      key: "published",
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
     {
-      title: 'Brand Name',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Brand Name",
+      dataIndex: "address",
+      key: "address",
       filter: true,
       width: 70,
     },
     {
-      title: 'Action',
-      dataIndex: 'Action',
-      key: 'Action',
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
       width: 100,
       render: (_, record) => (
         <>
@@ -362,7 +361,7 @@ export const DashProducts = () => {
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
+    console.log("params", pagination, filters, sorter, extra);
   };
   //  handle update product state after create product
   const handlecreateproduct = (data) => {
@@ -382,7 +381,7 @@ export const DashProducts = () => {
     }
 
     const formattedFilteredProducts = (
-      userRole == 'seller'
+      userRole == "seller"
         ? filteredProducts?.filter((product) => product?.seller?.id == user?.id)
         : filteredProducts
     ).map((product) => ({
@@ -418,7 +417,7 @@ export const DashProducts = () => {
     }
 
     const formattedFilteredProducts = (
-      userRole == 'seller'
+      userRole == "seller"
         ? filteredProducts?.filter((product) => product?.seller == user?.id)
         : filteredProducts
     ).map((product) => ({
@@ -465,7 +464,7 @@ export const DashProducts = () => {
   useEffect(() => {
     // Generate dataSource based on the current products state
     const newData = (
-      userRole == 'seller'
+      userRole == "seller"
         ? products?.filter((product) => product?.seller?.id == user?.id)
         : products
     ).map((product) => ({
@@ -487,23 +486,25 @@ export const DashProducts = () => {
     setFilteredData(newData); // Update filteredData as well
   }, [products]);
 
+  console.log("products", products, loading, err);
+
   return (
-    <Layout className='space-y-6  overflow-auto bg-white'>
-      <Space className='flex justify-between'>
-        <h3 className='text-gray-700 text-3xl font-[600] self-start'>
+    <Layout className="space-y-6  overflow-auto bg-white">
+      <Space className="flex justify-between">
+        <h3 className="text-gray-700 text-3xl font-[600] self-start">
           All Products
         </h3>
-        <div className='flex justify-center space-x-5'>
+        <div className="flex justify-center space-x-5">
           <UnorderedListOutlined
             onClick={handleDisplay}
             className={`${
-              selectedlist ? 'text-primary border-b-4 border-b-secondary' : ''
+              selectedlist ? "text-primary border-b-4 border-b-secondary" : ""
             }text-lg md:text-2xl `}
           />
           <AppstoreFilled
             onClick={handleDisplay}
             className={`${
-              !selectedlist ? 'text-primary border-b-4 border-b-secondary' : ''
+              !selectedlist ? "text-primary border-b-4 border-b-secondary" : ""
             } text-lg md:text-2xl `}
           />
 
@@ -515,57 +516,57 @@ export const DashProducts = () => {
         {/* display loading spinner */}
         {loading ? (
           <>
-            <Loader className=' text-primary flex items-center justify-center' />
-            <span className=' text-primary flex items-center  justify-center'>
+            <Loader className=" text-primary flex items-center justify-center" />
+            <span className=" text-primary flex items-center  justify-center">
               Loading....
             </span>
           </>
         ) : (
           <>
-            <div className='flex  w-full justify-start space-x-5 '>
+            <div className="flex  w-full justify-start space-x-5 ">
               {FilterByNameInput}
               <FilterFilled
-                className='text-[green] text-2xl'
+                className="text-[green] text-2xl"
                 onClick={handleFilterClick}
               />
             </div>
 
             {isFilterVisible && (
               <Card
-                title='Filter by '
-                headStyle={{ backgroundColor: '#838383', fontWeight: 'bold' }}
-                style={{ border: '0px solid #000', borderRadius: '8px' }}
+                title="Filter by "
+                headStyle={{ backgroundColor: "#838383", fontWeight: "bold" }}
+                style={{ border: "0px solid #000", borderRadius: "8px" }}
               >
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    cursor: 'pointer',
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    cursor: "pointer",
                   }}
                 >
                   <Checkbox onChange={handleViewAll} checked={isViewAllChecked}>
                     View All
                   </Checkbox>
-                  {userRole !== 'seller' && (
+                  {userRole !== "seller" && (
                     <h3
                       className={`filterOption p-x-10 rounded-sm ${
-                        activeFilter === 'Seller'
-                          ? 'underline bg-primary text-[white] px-5'
-                          : ''
+                        activeFilter === "Seller"
+                          ? "underline bg-primary text-[white] px-5"
+                          : ""
                       }`}
-                      onClick={() => handleFilterClickactive('Seller')}
+                      onClick={() => handleFilterClickactive("Seller")}
                     >
                       Seller
                     </h3>
                   )}
                   <h3
                     className={`filterOption p-x-10 rounded-sm ${
-                      activeFilter === 'Category'
-                        ? 'underline bg-primary text-[white] px-5'
-                        : ''
+                      activeFilter === "Category"
+                        ? "underline bg-primary text-[white] px-5"
+                        : ""
                     }`}
-                    onClick={() => handleFilterClickactive('Category')}
+                    onClick={() => handleFilterClickactive("Category")}
                   >
                     Category
                   </h3>
@@ -578,18 +579,18 @@ export const DashProducts = () => {
                   </h3> */}
                   <h3
                     className={`filterOption p-x-10 rounded-sm ${
-                      activeFilter === 'NewArrivals' ? 'underline' : ''
+                      activeFilter === "NewArrivals" ? "underline" : ""
                     }`}
-                    onClick={() => handleFilterClick('NewArrivals')}
+                    onClick={() => handleFilterClick("NewArrivals")}
                   >
                     New Arrivals
                   </h3>
                 </div>
 
-                {activeFilter === 'Category' && (
+                {activeFilter === "Category" && (
                   <CategoryList onCategorySelect={handleCategorySelect} />
                 )}
-                {activeFilter === 'Seller' && (
+                {activeFilter === "Seller" && (
                   <SellerList onSellersellect={handleSellerSelect} />
                 )}
               </Card>
@@ -597,24 +598,26 @@ export const DashProducts = () => {
 
             {selectedlist ? (
               <Table
-                rowClassName=' hover:cursor-pointer'
-                size='small'
-                tableLayout='fixed'
+                rowClassName=" hover:cursor-pointer"
+                size="small"
+                tableLayout="fixed"
                 bordered={false}
                 style={{
-                  position: 'sticky',
+                  position: "sticky",
                   bottom: 0,
                   top: 0,
                   left: 0,
                   zIndex: 1,
                 }}
-                dataSource={filteredData}
+                dataSource={filteredData.sort(
+                  (a, b) => new Date(b.published) - new Date(a.published)
+                )}
                 columns={Columns}
                 onChange={onChange}
                 scroll={{ x: 1500, y: 1200 }}
               />
             ) : (
-              <div className='mt-5'>
+              <div className="mt-5">
                 <Row
                   gutter={{
                     xs: 8,
@@ -622,12 +625,12 @@ export const DashProducts = () => {
                     md: 24,
                     lg: 32,
                   }}
-                  className='w-full '
+                  className="w-full "
                 >
                   {filteredData.map((product) => {
                     return (
                       <Col
-                        className='gutter-row text-center '
+                        className="gutter-row text-center "
                         key={product.key}
                         // span={4}
                         md={6}
@@ -636,25 +639,25 @@ export const DashProducts = () => {
                       >
                         <div
                           style={{}}
-                          className=' rounded bg-red   shadow-md  p-2 m-3'
+                          className=" rounded bg-red   shadow-md  p-2 m-3"
                         >
                           <Image
-                            width='100%'
-                            className='rounded-md !h-[250px]  '
+                            width="100%"
+                            className="rounded-md !h-[250px]  "
                             src={product.name[0]}
                             preview={false}
                           />
-                          <div className=' font-medium text-xl'>
+                          <div className=" font-medium text-xl">
                             {product.name[1]}
                           </div>
 
                           <div
-                            className='font-medium  overflow-auto break-words px-5   '
+                            className="font-medium  overflow-auto break-words px-5   "
                             dangerouslySetInnerHTML={{
-                              __html: product?.name[2]?.slice(0, 150) + '...',
+                              __html: product?.name[2]?.slice(0, 150) + "...",
                             }}
                           />
-                          <div className='font-bold text-primary text-lg'>
+                          <div className="font-bold text-primary text-lg">
                             $ {product.price}
                           </div>
                         </div>

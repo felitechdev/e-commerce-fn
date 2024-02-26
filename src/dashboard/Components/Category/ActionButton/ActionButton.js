@@ -207,7 +207,7 @@ export const ActionButton = (props) => {
       >
         <ProductCatery openUPdate={true} categoryId={props.categoryId} />
       </Modal>
-      <div div className="flex justify-center  space-x-5 text-xl items-center">
+      <div div className="flex justify-start  space-x-5 text-lg  ">
         <EditFilled className=" text-icon2 mr-2" onClick={() => handleOpen()} />
         <DeleteFilled
           onClick={() => ShowDeleteConfirm(props.categoryId)}
