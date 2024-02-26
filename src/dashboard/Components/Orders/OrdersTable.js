@@ -178,23 +178,23 @@ export const OrderTable = (...props) => {
   }, [loadorders, dispatch, token]);
 
   // Fetch products only when the component mounts
-  useEffect(() => {
-    if (!order.length) {
-      dispatch(GetMyOrders(token))
-        .unwrap()
-        .then((data) => {
-          if (data?.data && data?.status == "success") {
-            setOrder(data?.data?.orders);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [dispatch, order, token]);
+  // useEffect(() => {
+  //   if (!order.length) {
+  //     dispatch(GetMyOrders(token))
+  //       .unwrap()
+  //       .then((data) => {
+  //         if (data?.data && data?.status == "success") {
+  //           setOrder(data?.data?.orders);
+  //         }
+  //       })
+  //       .catch((error) => {});
+  //   }
+  // }, [dispatch, order, token]);
 
   useEffect(() => {
     const newData =
-      !loadorders && order.length > 0
-        ? order?.map((orderItem, index) => ({
+      !loadorders && orders.length > 0
+        ? orders?.map((orderItem, index) => ({
             key: orderItem.id ? orderItem.id : orderItem._id,
             // customerId: orderItem.customer,
             // orderId: orderItem.id,
@@ -211,15 +211,8 @@ export const OrderTable = (...props) => {
         : [];
 
     setFilteredData(newData);
-  }, [order, loadorders]);
+  }, [orders, loadorders]);
 
-  console.log(
-    "filteredData",
-    filteredData,
-
-    "order",
-    order
-  );
   return (
     <>
       <UpdateOrderStatus
