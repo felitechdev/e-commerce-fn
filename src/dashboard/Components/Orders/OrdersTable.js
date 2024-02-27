@@ -211,7 +211,6 @@ export const OrderTable = (...props) => {
 
     setFilteredData(newData);
   }, [orders, loadorders]);
-  console.log("orders", orders, loadorders, errorders);
 
   return (
     <>

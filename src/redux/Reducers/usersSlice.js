@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const initialState = {
   users: [],
@@ -8,8 +9,8 @@ const initialState = {
   errorMessage: null,
 };
 
-export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-  const Token = Cookies.get('token');
+export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+  const Token = Cookies.get("token");
 
   const res = await axios(
     `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users`,
@@ -24,7 +25,7 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
 });
 
 export const usersSlice = createSlice({
-  name: 'users',
+  name: "users",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -40,8 +41,24 @@ export const usersSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message; // Or customize error handling
+      })
+      .addCase(updateuserRole, (state, action) => {
+        const { userid, role } = action.payload;
+
+        const userIndex = current(state).users.findIndex(
+          (user) => user.id === userid
+        );
+
+        if (userIndex !== -1) {
+          state.users[userIndex] = {
+            ...state.users[userIndex],
+            role: role,
+          };
+        }
       });
   },
 });
+
+export const updateuserRole = createAction("updateuserRole");
 
 export default usersSlice.reducer;
