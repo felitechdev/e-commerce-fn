@@ -16,7 +16,10 @@ const SearchBar = () => {
   const ref = useRef();
   useEffect(() => {
     document.body.addEventListener('click', (e) => {
-      if (ref.current !== null && ref.current.contains(e.target) === false) {
+      if (
+        ref.current !== null &&
+        ref.current.contains(e.target) === false
+      ) {
         return setShowCategories(false);
       }
     });
@@ -46,14 +49,16 @@ const SearchBar = () => {
 
   useEffect(() => {
     const filtered = paginationItems.filter((item) =>
-      item.productName.toLowerCase().includes(searchQuery.toLowerCase())
+      item.productName
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
     );
 
     setFilteredProducts(prod);
   }, [searchQuery]);
 
   return (
-    <div className='hidden md:block w-[30%] relative  '>
+    <div className='hidden md:block w-[30%] relative flex-1 '>
       <div className='max-w-container mx-auto'>
         <Flex className='flex lg:flex-row items-start lg:items-center justify-between lg:pb-0 h-full lg:h-24'>
           <div
@@ -61,17 +66,16 @@ const SearchBar = () => {
             ref={ref}
             className={
               'relative  border-box cursor-pointer items-center gap-2 text-[#1D6F2B] '
-            }
-          >
+            }>
             <div
               className={`lg:hidden flex py-4 px-6 items-center gap-2 rounded-md ${
                 // showCategories ? `bg-[#1D6F2B] text-white` : ""
                 showCategories ? `bg-[black] text-white` : ''
-              }`}
-            >
+              }`}>
               <img
                 src={showCategories ? MenuIconWhite : MenuIcon}
                 className='w-5 h-5'
+                alt=''
               />
               <p className='text-[14px] font-semibold'>Categories</p>
             </div>
@@ -81,8 +85,7 @@ const SearchBar = () => {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className='absolute top-14 z-50 bg-[#FFF] min-w-[200px] text-[#1D6F2B] h-auto p-4 pb-6 border-[2px] rounded-md'
-              >
+                className='absolute top-14 z-50 bg-[#FFF] min-w-[200px] text-[#1D6F2B] h-auto p-4 pb-6 border-[2px] rounded-md'>
                 <li className='text-[#000] px-4 py-1 border-b-[1px] border-b-[#fff] hover:border-b-[#1D6F2B] hover:text-[#000] duration-300 cursor-pointer'>
                   Accessories
                 </li>
@@ -104,9 +107,9 @@ const SearchBar = () => {
               </motion.ul>
             )}
           </div>
-          <div className='relative w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl border-[2px]'>
+          <div className='relative w-full text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-md border'>
             <input
-              className='flex-1 h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none'
+              className='flex-1 l outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none'
               type='text'
               onChange={handleSearch}
               value={searchQuery}
@@ -115,8 +118,7 @@ const SearchBar = () => {
             <FaSearch className='w-5 h-5 ' />
             {searchQuery && (
               <div
-                className={`w-full mx-auto h-96 bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}
-              >
+                className={`w-full mx-auto h-96 bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}>
                 {searchQuery &&
                   filteredProducts.map((item) => (
                     <div
@@ -127,15 +129,18 @@ const SearchBar = () => {
                         setSearchQuery('');
                       }}
                       key={item.id}
-                      className='max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3'
-                    >
+                      className='max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3'>
                       <img
                         className='w-24'
-                        src={item?.productImages?.productThumbnail?.url}
+                        src={
+                          item?.productImages?.productThumbnail?.url
+                        }
                         alt='productImg'
                       />
                       <div className='flex flex-col gap-1'>
-                        <p className='font-semibold text-lg'>{item.name}</p>
+                        <p className='font-semibold text-lg'>
+                          {item.name}
+                        </p>
                         <p className='text-xs'>{item.description}</p>
                         <p className='text-sm'>
                           Price:{' '}
