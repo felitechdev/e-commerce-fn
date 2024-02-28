@@ -14,7 +14,7 @@ function removeDuplicateMeasurement(variations) {
         {
           measurement: variation.measurementvalue,
           qunatity: variation.colorMeasurementVariationQuantity,
-          color: variation.colorImgs.colorName,
+          color: variation.colorImg.colorName,
         },
       ];
     else return [...acc];
