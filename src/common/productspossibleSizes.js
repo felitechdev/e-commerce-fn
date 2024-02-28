@@ -59,5 +59,10 @@ export const sizeOptions = [
     value: `${(index + 1) / 2}l`,
   })),
 
+  ...Array.from({ length: 100 }, (_, index) => ({
+    label: `${(index + 1) / 2} `,
+    value: `${(index + 1) / 2}`,
+  })),
+
   // Add more specific sizes for each category and subcategory as needed
 ];

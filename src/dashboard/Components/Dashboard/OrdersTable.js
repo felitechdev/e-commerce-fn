@@ -131,7 +131,9 @@ export const OrderTable = (...props) => {
         <Table
           rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
           columns={columns}
-          dataSource={filteredData}
+          dataSource={filteredData.sort(
+            (a, b) => new Date(b.updatedAt) - new Date(a.published)
+          )}
           size="small"
           tableLayout="fixed"
           bordered={false}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function removeDuplicateImages(imgArr) {
   let uniqueImgs = [];
@@ -46,37 +46,37 @@ const SmallImagesContainer = ({
   productName,
 }) => {
   const colorMeasurementVariations =
-    feature === 'colorImages' && processColorImages(variations);
+    feature === "colorImages" && processColorImages(variations);
 
   const handleImageClick = (e) => {
     const src = e.target.src;
     const img = images.find((img) => img.url === src);
 
-    if (feature === 'colorImages') {
+    if (feature === "colorImages") {
       dispatch({
-        type: 'colorSelected',
+        type: "colorSelected",
         payload: img.colorName,
       });
 
       dispatch({
-        type: 'activeImageChanged',
+        type: "activeImageChanged",
         payload: img,
       });
     } else {
       dispatch({
-        type: 'activeImageChanged',
+        type: "activeImageChanged",
         payload: img,
       });
     }
   };
 
   const handleInsufficientQuantityHover = (e) => {
-    alert('Combination not available');
+    alert("Combination not available");
   };
 
   return (
-    <div className='flex flex-row gap-4'>
-      {feature === 'colorImages' &&
+    <div className="flex flex-row gap-4">
+      {feature === "colorImages" &&
         colorMeasurementVariations.map((variation) => {
           const colorMeasurementCombinationNotAvailable =
             selectedMeasurement === variation.measurement &&
@@ -88,36 +88,37 @@ const SmallImagesContainer = ({
               disabled={colorMeasurementCombinationNotAvailable}
               className={`border-[2px] rounded-lg p-0.5 cursor-pointer text-sm disabled:opacity-30 disabled:cursor-not-allowed ${
                 activeImage.url === variation.imageUrl
-                  ? 'border-dashed border-7 border-orange-400 shadow-orange-400 drop-shadow-xl'
-                  : ''
+                  ? "border-dashed border-7 border-orange-400 shadow-orange-400 drop-shadow-xl"
+                  : ""
               }`}
               onMouseOver={(e) => {
                 colorMeasurementCombinationNotAvailable &&
                   handleInsufficientQuantityHover(e);
-              }}>
+              }}
+            >
               <img
                 className={`w-[50px] h-[50px] rounded`}
                 src={variation.imageUrl}
                 onClick={handleImageClick}
-                alt=''
+                alt=""
               />
             </button>
           );
         })}
 
-      {feature !== 'colorImages' &&
+      {feature !== "colorImages" &&
         removeDuplicateImages(images).map((image, index) => {
           return (
             <img
               key={index}
               className={`w-[50px] h-[50px] border-[2px] rounded-lg p-0.5 cursor-pointer  ${
                 activeImage.url === image.url
-                  ? 'border-dashed border-7 border-orange-400 shadow-orange-400 drop-shadow-xl'
-                  : ''
+                  ? "border-dashed border-7 border-orange-400 shadow-orange-400 drop-shadow-xl"
+                  : ""
               }`}
               src={image.url}
               onClick={handleImageClick}
-              alt=''
+              alt=""
             />
           );
         })}

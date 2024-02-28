@@ -188,7 +188,7 @@ export const ProductModel = (props) => {
   //       measurementvalue: variation.availableSizes,
   //       colorImg: {
   //         url: variation.colorImageUrl,
-  //         // colorName:  variation.colorName  ,
+  //         // colorName:  variation?.colorName  ,
   //         colorName: "red",
   //       },
   //       colorMeasurementVariationQuantity: parseInt(variation.stock),
@@ -305,7 +305,7 @@ export const ProductModel = (props) => {
           measurementvalue: variation.availableSizes,
           colorImg: {
             url: variation.colorImageUrl,
-            colorName: variation.colorName, // or variation.colorName if needed
+            colorName: variation?.colorName, // or variation?.colorName if needed
           },
           colorMeasurementVariationQuantity: parseInt(variation.stock),
         })),
