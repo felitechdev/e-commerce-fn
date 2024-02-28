@@ -114,8 +114,8 @@ const ProductModel = (props) => {
   const [availableSizes, setAvailableSizes] = React.useState([]);
   const [products, setProducts] = useState();
   const [error, setError] = React.useState([]);
-  const [success, setSuccess] = React.useState([]);
-
+  const [success, setSuccess] = React.useState("");
+  const [fieldvalidation, setFieldValidation] = React.useState();
   const [colorVariations, setColorVariations] = useState([
     // Initial color variation object
     {
@@ -125,13 +125,6 @@ const ProductModel = (props) => {
       colorImageUrl: null, // URL of the color image
     },
   ]);
-
-  // const [selectedColor, setSelectedColor] = useState([
-  //   {
-  //     color: null,
-  //     index: 0,
-  //   },
-  // ]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [stock, setStock] = useState([]);
@@ -224,7 +217,7 @@ const ProductModel = (props) => {
   //       measurementvalue: variation.availableSizes,
   //       colorImg: {
   //         url: variation.colorImageUrl,
-  //         // colorName:  variation.colorName  ,
+  //         // colorName:  variation?.colorName  ,
   //         colorName: "red",
   //       },
   //       colorMeasurementVariationQuantity: parseInt(variation.stock),
@@ -306,7 +299,7 @@ const ProductModel = (props) => {
   //     });
   // };
 
-  const handleSubmits = (data) => {
+  const handleSubmits = async (data) => {
     if (!mainImageUrl) {
       setImageError("Product main image is required");
       return;
@@ -328,14 +321,28 @@ const ProductModel = (props) => {
     const hasValidationError = colorVariations.some((variation) => {
       return (
         // !variation.availableSizes ||
-        // !variation.colorName ||
+        // !variation?.colorName ||
         // !variation.colorImageUrl ||
         // !variation.stock
-        (!variation.availableSizes && !variation.colorName) ||
-        !variation.colorImageUrl ||
+        (!variation.availableSizes && !variation?.colorName) ||
+        // !variation.colorImageUrl ||
         !variation.stock
       );
     });
+
+    const hasValidationError2 = colorVariations.some((variation) => {
+      return (
+        (!variation?.colorName && variation.colorImageUrl) ||
+        (variation?.colorName && !variation.colorImageUrl)
+      );
+    });
+
+    if (hasValidationError2) {
+      alert(
+        "Something went wrong on combination of colorname and color image please check "
+      );
+      return;
+    }
 
     if (hasValidationError) {
       alert(
@@ -343,6 +350,8 @@ const ProductModel = (props) => {
       );
       return; // Don't proceed with the API call if there's a validation error
     }
+
+    fieldValidation();
 
     const payload = {
       name: data.name,
@@ -355,9 +364,21 @@ const ProductModel = (props) => {
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       quantityParameter: data.quantityParameter,
-      hasColors: colorVariations[0].colorImageUrl !== null ? true : false,
+      // hasColors:
+      //   colorVariations.length > 0 && colorVariations[0]?.colorImageUrl !== null
+      //     ? true
+      //     : false,
+      // hasMeasurements:
+      //   colorVariations.length > 0 && colorVariations[0].availableSizes !== null
+      //     ? true
+      //     : false,
+      hasColors:
+        colorVariations.length > 0 &&
+        colorVariations.every((variation) => variation.colorImageUrl),
+
       hasMeasurements:
-        colorVariations[0].availableSizes !== null ? true : false,
+        colorVariations.length > 0 &&
+        colorVariations.every((variation) => variation.availableSizes),
       productImages: {
         productThumbnail: {
           public_id: "Feli Technology Inv. Group/",
@@ -371,31 +392,77 @@ const ProductModel = (props) => {
 
       colorMeasurementVariations: {
         measurementType: "size",
+        // variations: colorVariations.map((variation) => {
+        //   console.log("variation sent", variation);
+        //   return {
+        //     measurementvalue: variation.availableSizes,
+        //     colorImg: {
+        //       url: variation.colorImageUrl,
+        //       colorName: variation?.colorName, // or variation?.colorName if needed
+        //     },
+        //     colorMeasurementVariationQuantity: parseInt(variation.stock),
+        //   };
+        // }),
+
+        // variations: colorVariations.map((variation) => {
+        //   const colorImg =
+        //     "colorName" in variation && "colorImageUrl" in variation
+        //       ? {
+        //           url: variation.colorImageUrl,
+        //           colorName: variation?.colorName,
+        //         }
+        //       : null;
+
+        //   const measurementvalue =
+        //     "availableSizes" in variation ? variation.availableSizes : null;
+
+        //   console.log(
+        //     "colorImg",
+        //     colorImg,
+        //     "measurementvalue",
+        //     measurementvalue
+        //   );
+
+        //   if (colorImg !== null || measurementvalue === null) {
+        //     return {
+        //       colorImg: colorImg,
+        //       colorMeasurementVariationQuantity: parseInt(variation.stock),
+        //     };
+        //   } else if (colorImg === null || measurementvalue !== null) {
+        //     return {
+        //       measurementvalue: measurementvalue,
+
+        //       colorMeasurementVariationQuantity: parseInt(variation.stock),
+        //     };
+        //   } else if (colorImg !== null || measurementvalue !== null) {
+        //     return {
+        //       measurementvalue: measurementvalue,
+        //       colorImg: colorImg,
+        //       colorMeasurementVariationQuantity: parseInt(variation.stock),
+        //     };
+        //   }
+        // }),
+
         variations: colorVariations.map((variation) => {
+          const colorImg =
+            "colorName" in variation && "colorImageUrl" in variation
+              ? {
+                  url: variation.colorImageUrl,
+                  colorName: variation?.colorName,
+                }
+              : null;
+          const measurementvalue =
+            "availableSizes" in variation ? variation.availableSizes : null;
+
           return {
-            measurementvalue: variation.availableSizes,
-            colorImg: {
-              url: variation.colorImageUrl,
-              colorName: variation.colorName, // or variation.colorName if needed
-            },
+            measurementvalue: measurementvalue,
+            colorImg: colorImg,
             colorMeasurementVariationQuantity: parseInt(variation.stock),
           };
         }),
       },
     };
 
-    // console.log(
-    //   "stock ",
-    //   stock,
-    //   "selectedcolor",
-    //   selectedColor,
-    //   "selectedSize",
-    //   selectedSize,
-    //   "colorVariations",
-    //   colorVariations
-    // );
-
-    // Dispatch API call with the payload
     dispatch(createProduct({ productData: payload, token: token }))
       .unwrap()
       .then((data) => {
@@ -729,10 +796,60 @@ const ProductModel = (props) => {
   //   });
   // };
 
+  const fieldValidation = () => {
+    // Get the fields in the first index that contain a value
+    const filledFields =
+      colorVariations[0] &&
+      Object?.keys(colorVariations[0])?.filter(
+        (field) => colorVariations[0][field]
+      );
+
+    // Iterate over the rest of the indices
+    for (let i = 1; i < colorVariations.length; i++) {
+      // Get the fields in the current index that contain a value
+      const currentIndexFilledFields = Object.keys(colorVariations[i]).filter(
+        (field) => colorVariations[i][field]
+      );
+      // Check if the filled fields in the first index are also filled in the current index
+      for (const field of filledFields) {
+        if (!colorVariations[i][field]) {
+          // If a field is not filled, show an alert and return
+
+          alert(
+            `The field ${field} must be filled in all indices if it is filled in the first index`
+          );
+
+          return;
+        }
+      }
+
+      // Check if the current index contains any extra filled fields
+      for (const field of currentIndexFilledFields) {
+        if (!filledFields.includes(field)) {
+          // If an extra filled field is found, show an alert and return
+
+          alert(
+            `Only the fields that are filled in the first index should be filled in the rest of the indices. The field ${field} should not be filled in line ${
+              i + 1
+            }`
+          );
+
+          return;
+        }
+      }
+    }
+  };
+
   const handleColorChange = (index, field, value) => {
     setColorVariations((prevVariations) => {
       // Deep copy the array using slice()
       const updatedVariations = [...prevVariations.slice(0)];
+
+      console.log(
+        "updatedVariations",
+        updatedVariations,
+        ...prevVariations.slice(0)
+      );
 
       // Update the specific object at the given index
       updatedVariations[index] = {
@@ -1368,6 +1485,7 @@ const ProductModel = (props) => {
                         type="default"
                         onClick={() => {
                           add();
+
                           setIndex(index + 1);
                         }}
                         block
