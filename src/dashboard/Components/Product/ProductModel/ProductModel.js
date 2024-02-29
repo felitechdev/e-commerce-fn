@@ -318,17 +318,23 @@ const ProductModel = (props) => {
     const stockQty =
       stockQuantity !== 0 ? stockQuantity : parseInt(data.stockQuantity);
 
-    const hasValidationError = colorVariations.some((variation) => {
-      return (
-        // !variation.availableSizes ||
-        // !variation?.colorName ||
-        // !variation.colorImageUrl ||
-        // !variation.stock
-        (!variation.availableSizes && !variation?.colorName) ||
-        // !variation.colorImageUrl ||
-        !variation.stock
-      );
-    });
+    const hasValidationError =
+      colorVariations[0].availableSizes !== null ||
+      colorVariations[0].stock !== 0
+        ? colorVariations.some((variation) => {
+            return (
+              // !variation.availableSizes ||
+              // !variation?.colorName ||
+              // !variation.colorImageUrl ||
+              // !variation.stock
+              (!variation.availableSizes && !variation?.colorName) ||
+              // !variation.colorImageUrl ||
+              !variation.stock
+            );
+          })
+        : false;
+
+    console.log("colorVariations", colorVariations);
 
     const hasValidationError2 = colorVariations.some((variation) => {
       return (
@@ -351,7 +357,51 @@ const ProductModel = (props) => {
       return; // Don't proceed with the API call if there's a validation error
     }
 
-    fieldValidation();
+    // const AllfieldValidation = () => {
+    // Get the fields in the first index that contain a value
+    const filledFields =
+      colorVariations[0] &&
+      Object?.keys(colorVariations[0])?.filter(
+        (field) => colorVariations[0][field]
+      );
+
+    // Iterate over the rest of the indices
+    for (let i = 1; i < colorVariations.length; i++) {
+      // Get the fields in the current index that contain a value
+      const currentIndexFilledFields = Object.keys(colorVariations[i]).filter(
+        (field) => colorVariations[i][field]
+      );
+      // Check if the filled fields in the first index are also filled in the current index
+      for (const field of filledFields) {
+        if (!colorVariations[i][field]) {
+          // If a field is not filled, show an alert and return
+
+          alert(
+            `The field ${field} must be filled in all indices if it is filled in the first index`
+          );
+
+          return;
+        }
+      }
+
+      // Check if the current index contains any extra filled fields
+      for (const field of currentIndexFilledFields) {
+        if (!filledFields.includes(field)) {
+          // If an extra filled field is found, show an alert and return
+
+          alert(
+            `Only the fields that are filled in the first index should be filled in the rest of the indices. The field ${field} should not be filled in line ${
+              i + 1
+            }`
+          );
+
+          return;
+        }
+      }
+    }
+    // };
+
+    // AllfieldValidation();
 
     const payload = {
       name: data.name,
@@ -795,50 +845,6 @@ const ProductModel = (props) => {
   //     });
   //   });
   // };
-
-  const fieldValidation = () => {
-    // Get the fields in the first index that contain a value
-    const filledFields =
-      colorVariations[0] &&
-      Object?.keys(colorVariations[0])?.filter(
-        (field) => colorVariations[0][field]
-      );
-
-    // Iterate over the rest of the indices
-    for (let i = 1; i < colorVariations.length; i++) {
-      // Get the fields in the current index that contain a value
-      const currentIndexFilledFields = Object.keys(colorVariations[i]).filter(
-        (field) => colorVariations[i][field]
-      );
-      // Check if the filled fields in the first index are also filled in the current index
-      for (const field of filledFields) {
-        if (!colorVariations[i][field]) {
-          // If a field is not filled, show an alert and return
-
-          alert(
-            `The field ${field} must be filled in all indices if it is filled in the first index`
-          );
-
-          return;
-        }
-      }
-
-      // Check if the current index contains any extra filled fields
-      for (const field of currentIndexFilledFields) {
-        if (!filledFields.includes(field)) {
-          // If an extra filled field is found, show an alert and return
-
-          alert(
-            `Only the fields that are filled in the first index should be filled in the rest of the indices. The field ${field} should not be filled in line ${
-              i + 1
-            }`
-          );
-
-          return;
-        }
-      }
-    }
-  };
 
   const handleColorChange = (index, field, value) => {
     setColorVariations((prevVariations) => {
