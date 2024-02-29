@@ -43,7 +43,7 @@ const CompanyModel = (props) => {
     handleSubmit,
     setValue, // Add setValue from useForm
   } = useForm({
-    defaultValues: props.profileview, // Set default values from profileview
+    // defaultValues: props.profileview, // Set default values from profileview
   });
 
   const { profile, loadprofile, errprofile } = useSelector(
@@ -220,7 +220,7 @@ const CompanyModel = (props) => {
 
   useEffect(() => {
     if (profile?.data?.user) {
-      setUserprofile(profile?.data?.user);
+      // setUserprofile(profile?.data?.user);
     }
   }, [profile]);
 
@@ -272,7 +272,7 @@ const CompanyModel = (props) => {
         <Form
           layout={"vertical"}
           onFinish={handleSubmit(onFinish, onErrors)}
-          initialValues={userprofile}
+          // initialValues={userprofile}
         >
           <h1 className=" font-bold">Business Info</h1> <hr className="h-2 " />
           <Row

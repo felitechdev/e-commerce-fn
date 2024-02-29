@@ -185,12 +185,6 @@ export const checkAuthentication = async (token) => {
       config
     );
 
-    console.log(
-      "response on get ggggg profile",
-      response.data.data,
-      response.status
-    );
-
     if (response?.data && response.status == 200) {
       return response?.data;
     }

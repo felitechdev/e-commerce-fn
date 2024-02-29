@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../../APIs/Product";
 
-import Cookies from "js-cookie";
+import Cookies, { set } from "js-cookie";
 import {
   ExclamationCircleFilled,
   PlusOutlined,
@@ -24,6 +24,7 @@ import {
 import { Loader } from "../../Loader/LoadingSpin";
 
 import { deleteproduct } from "../../../Apis/Product";
+import UpdateProductModel from "../ProductModel/updateproductModel";
 
 const { confirm } = Modal;
 
@@ -239,10 +240,11 @@ const SingleproductModel = (props) => {
 export const ActionButton = (props) => {
   const [showUpdateModel, setShowUpdateModel] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [updateModelOpen, setUpdateModelOpen] = useState(false);
 
   const [err, setErr] = useState(null);
   const [onSuccess, setOnSuccess] = useState(null);
-  const [isupdate, setIsupdate] = useState(false);
+  const [isupdate, setIsupdate] = useState();
 
   const [productId, setProductId] = useState(null);
 
@@ -253,10 +255,13 @@ export const ActionButton = (props) => {
   const token = Cookies.get("token");
   const dispatch = useDispatch();
 
-  const handleEditClick = () => {
+  const handleEditClick = (id) => {
     setShowUpdateModel(true);
+    setIsupdate(id);
+  };
 
-    console.log("Edit Action");
+  const handleclose = () => {
+    setShowUpdateModel(false);
   };
   const handleClick = () => {
     <UpdateModel setModel={true} />;
@@ -268,7 +273,6 @@ export const ActionButton = (props) => {
   };
 
   const handleOpen = (id) => {
-    console.log("Action");
     setIsModalOpen(true);
     setProductId(id);
   };
@@ -277,7 +281,6 @@ export const ActionButton = (props) => {
   };
 
   const ShowDeleteConfirm = (productId) => {
-    console.log("productId", productId);
     confirm({
       title: "Are you sure delete this Product?",
       icon: <ExclamationCircleFilled />,
@@ -333,7 +336,13 @@ export const ActionButton = (props) => {
           onClick={() => ShowDeleteConfirm(props.productId)}
           className=" text-icon3"
         />
-        <EditFilled className=" text-icon2 mr-2" />
+        <EditFilled
+          className=" text-icon2 mr-2"
+          onClick={() => {
+            console.log("props.productId", props.productId, isModalOpen);
+            handleEditClick(props.productId);
+          }}
+        />
         <EyeFilled
           className=" text-icon1 mr-2"
           onClick={() => {
@@ -347,6 +356,15 @@ export const ActionButton = (props) => {
             handleCancelUppdate={handleCancelUppdate}
             Id={productId}
             setIsModalOpen={setIsModalOpen}
+          />
+        )}
+
+        {isupdate && (
+          <UpdateProductModel
+            isModalOpen={showUpdateModel}
+            handleclose={handleclose}
+            Id={isupdate}
+            setShowUpdateMode={setShowUpdateModel}
           />
         )}
         {/* <ActionButton /> */}

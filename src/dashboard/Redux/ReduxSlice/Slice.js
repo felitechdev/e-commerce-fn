@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current, createAction } from "@reduxjs/toolkit";
 import { fetchadminproduct } from "../../Apis/Product";
 
 // set initial state
@@ -26,8 +26,18 @@ export const getdashproductslice = createSlice({
       .addCase(fetchadminproduct.rejected, (state, action) => {
         state.loading = false;
         state.err = action.error.message;
+      })
+      .addCase(updateuserProduct, (state, action) => {
+        console.log("action.payload", action.payload);
+        state.dashproduct = current(state).dashproduct.map((product) => {
+          if (product.id === action.payload.id) {
+            return action.payload;
+          }
+          return product;
+        });
       });
   },
 });
 
+export const updateuserProduct = createAction("updateuserProduct");
 export default getdashproductslice.reducer;
