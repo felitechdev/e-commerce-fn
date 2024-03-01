@@ -26,7 +26,6 @@ export const getorder = createSlice({
       })
       .addCase(updateOrderStatus, (state, action) => {
         const { orderId, status } = action.payload;
-        console.log("action", "state", current(state).orders);
         const orderIndex = current(state).orders.findIndex(
           (order) => order.id === orderId
         );

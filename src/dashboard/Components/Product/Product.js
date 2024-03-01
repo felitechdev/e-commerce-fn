@@ -79,6 +79,8 @@ export const DashProducts = () => {
   const { user, onLogout } = useUser();
   const userRole = user?.role;
 
+  console.log("dashproduct", dashproduct, err);
+
   const FilterByNameInput = (
     <Input.Search
       placeholder="search product by name ......."
@@ -92,8 +94,8 @@ export const DashProducts = () => {
         setValue(currValue);
         const newData = (
           userRole == "seller"
-            ? products?.filter((product) => product?.seller?.id == user?.id)
-            : products
+            ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
+            : dashproduct
         )
           .map((product) => ({
             key: product.id,
@@ -372,33 +374,37 @@ export const DashProducts = () => {
   useEffect(() => {
     let filteredProducts;
     if (selectedCategoryId) {
-      filteredProducts = products.filter(
+      filteredProducts = dashproduct.filter(
         (product) => product?.category?.id == selectedCategoryId
       );
     } else {
-      filteredProducts = products;
+      filteredProducts = dashproduct;
       setIsViewAllChecked(true); // Check the checkbox
     }
 
-    const formattedFilteredProducts = (
-      userRole == "seller"
-        ? filteredProducts?.filter((product) => product?.seller?.id == user?.id)
-        : filteredProducts
-    ).map((product) => ({
-      key: product.id,
-      name: [
-        product.productImages?.productThumbnail?.url,
-        product.name,
-        product.description,
-      ],
-      price: product.price,
-      stock: product.stockQuantity,
-      orders: handlecountorders(product.id),
-      published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-      address: product.brandName,
-      category: product?.category?.id,
-      seller: product?.seller?.id,
-    }));
+    const formattedFilteredProducts =
+      filteredProducts.length > 0
+        ? (userRole == "seller"
+            ? filteredProducts?.filter(
+                (product) => product?.seller?.id == user?.id
+              )
+            : filteredProducts
+          ).map((product) => ({
+            key: product.id,
+            name: [
+              product.productImages?.productThumbnail?.url,
+              product.name,
+              product.description,
+            ],
+            price: product.price,
+            stock: product.stockQuantity,
+            orders: handlecountorders(product.id),
+            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
+            address: product.brandName,
+            category: product?.category?.id,
+            seller: product?.seller?.id,
+          }))
+        : [];
 
     setFilteredData(formattedFilteredProducts);
   }, [selectedCategoryId]);
@@ -408,33 +414,35 @@ export const DashProducts = () => {
     let filteredProducts;
 
     if (selectedsellerId) {
-      filteredProducts = products.filter(
+      filteredProducts = dashproduct.filter(
         (product) => product?.seller?.id == selectedsellerId
       );
     } else {
-      filteredProducts = products;
+      filteredProducts = dashproduct;
       setIsViewAllChecked(true); // Check the checkbox
     }
 
-    const formattedFilteredProducts = (
-      userRole == "seller"
-        ? filteredProducts?.filter((product) => product?.seller == user?.id)
-        : filteredProducts
-    ).map((product) => ({
-      key: product.id,
-      name: [
-        product.productImages?.productThumbnail?.url,
-        product.name,
-        product.description,
-      ],
-      price: product.price,
-      stock: product.stockQuantity,
-      orders: handlecountorders(product.id),
-      published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-      address: product.brandName,
-      category: product?.category?.id,
-      seller: product?.seller?.id,
-    }));
+    const formattedFilteredProducts =
+      filteredProducts.length > 0
+        ? (userRole == "seller"
+            ? filteredProducts?.filter((product) => product?.seller == user?.id)
+            : filteredProducts
+          ).map((product) => ({
+            key: product.id,
+            name: [
+              product.productImages?.productThumbnail?.url,
+              product.name,
+              product.description,
+            ],
+            price: product.price,
+            stock: product.stockQuantity,
+            orders: handlecountorders(product.id),
+            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
+            address: product.brandName,
+            category: product?.category?.id,
+            seller: product?.seller?.id,
+          }))
+        : [];
 
     setFilteredData(formattedFilteredProducts);
   }, [selectedsellerId]);
@@ -463,28 +471,30 @@ export const DashProducts = () => {
 
   useEffect(() => {
     // Generate dataSource based on the current products state
-    const newData = (
-      userRole == "seller"
-        ? products?.filter((product) => product?.seller?.id == user?.id)
-        : products
-    ).map((product) => ({
-      key: product.id,
-      name: [
-        product.productImages?.productThumbnail?.url,
-        product.name,
-        product.description,
-      ],
-      price: product.price,
-      stock: product.stockQuantity,
-      orders: handlecountorders(product.id),
-      published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-      address: product.brandName,
-      category: product?.category?.id,
-      seller: product?.seller?.id,
-    }));
+    const newData =
+      dashproduct.length > 0
+        ? (userRole == "seller"
+            ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
+            : dashproduct
+          ).map((product) => ({
+            key: product.id,
+            name: [
+              product.productImages?.productThumbnail?.url,
+              product.name,
+              product.description,
+            ],
+            price: product.price,
+            stock: product.stockQuantity,
+            orders: handlecountorders(product.id),
+            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
+            address: product.brandName,
+            category: product?.category?.id,
+            seller: product?.seller?.id,
+          }))
+        : [];
     setDataSource(newData);
     setFilteredData(newData); // Update filteredData as well
-  }, [products]);
+  }, [dashproduct]);
 
   return (
     <Layout className="space-y-6  overflow-auto bg-white">

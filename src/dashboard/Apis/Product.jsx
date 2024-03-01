@@ -16,7 +16,7 @@ export const fetchadminproduct = createAsyncThunk(
     const sortedProducts = data?.data?.products.sort(
       (a, b) => b.createdAt - a.createdAt
     );
-    console.log(sortedProducts);
+
     return sortedProducts;
   }
 );
@@ -25,7 +25,6 @@ export const fetchadminproduct = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   "product/createProduct",
   async ({ productData, token }, { rejectWithValue }) => {
-    console.log("productData", productData);
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`,
@@ -37,7 +36,6 @@ export const createProduct = createAsyncThunk(
         },
         data: productData,
       });
-      console.log("Product response ", response);
 
       if (response?.data && response?.status == 201) {
         return response?.data;
@@ -49,7 +47,6 @@ export const createProduct = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while creating product", err);
       return rejectWithValue({
         status: err.response?.data?.status,
         message: err.response?.data?.message,
@@ -71,7 +68,7 @@ export const deleteproduct = createAsyncThunk(
           Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
         },
       });
-      console.log("delete product", response);
+
       // return response;
       if (response.status == 201) {
         return response;
@@ -83,10 +80,42 @@ export const deleteproduct = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while deleting product  api", err);
       return rejectWithValue({
         status: err.response.status,
         message: err.response.data.message,
+      });
+    }
+  }
+);
+
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async ({ productData, id }, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${id}`,
+        method: "PATCH",
+        headers: {
+          Authorization: Token && `Bearer ${Token}`, // Pass the token only if it exists
+          // "content-type": "multipart/form-data",
+          "content-type": "application/json",
+        },
+        data: productData,
+      });
+
+      if (response?.data && response?.status == 200) {
+        return response?.data;
+      } else {
+        // Handle unexpected
+        return rejectWithValue({
+          status: response?.status,
+          message: response?.data,
+        });
+      }
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response?.data?.status,
+        message: err.response?.data?.message,
       });
     }
   }

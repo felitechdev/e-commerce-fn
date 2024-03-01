@@ -64,5 +64,24 @@ export const sizeOptions = [
     value: `${(index + 1) / 2}`,
   })),
 
+  ...Array.from({ length: 1024 }, (_, index) => ({
+    label: `${index + 1}KB `,
+    value: `${index + 1}Kb`,
+  })),
+
+  ...Array.from({ length: 1024 }, (_, index) => ({
+    label: `${index + 1}MB `,
+    value: `${index + 1}Mb`,
+  })),
+
+  ...Array.from({ length: 1024 }, (_, index) => ({
+    label: `${index + 1}GB `,
+    value: `${index + 1}Gb`,
+  })),
+  ...Array.from({ length: 1024 }, (_, index) => ({
+    label: `${index + 1}TB `,
+    value: `${index + 1}Tb`,
+  })),
+
   // Add more specific sizes for each category and subcategory as needed
 ];

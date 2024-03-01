@@ -15,6 +15,7 @@ const ModalFooter = (props) => {
         </Button>
         <Button
           //   onClick={props.onOk}
+          disabled={props.loading}
           htmlType="submit"
           style={{
             background: "#1D6F2B",
@@ -22,7 +23,7 @@ const ModalFooter = (props) => {
             fontWeight: "bold",
           }}
         >
-          {props.isload ? (
+          {props.isload || props.loading ? (
             <span>Loading...</span>
           ) : (
             <span>
