@@ -22,14 +22,9 @@ const CheckoutDetails = ({ product }) => {
 
   const ValidateCartInfo = () => {
     if (productInTheCart?.items === 0) {
-      setErrorMessage(
-        'Please select the quantity before proceeding.'
-      );
+      setErrorMessage('Please select the quantity before proceeding.');
       return false;
-    } else if (
-      product.productDetails.hasColors &&
-      !product.selectedColor
-    ) {
+    } else if (product.productDetails.hasColors && !product.selectedColor) {
       setErrorMessage('Please select color.');
       return false;
     } else if (
@@ -90,7 +85,7 @@ const CheckoutDetails = ({ product }) => {
           : null),
         price: product.productDetails.price,
         productThumbnail:
-          product.productDetails.productImages.productThumbnail,
+          product.productDetails.productImages.productThumbnail.url,
         items: 1,
       };
       cart.push(existingProduct);
@@ -156,8 +151,7 @@ const CheckoutDetails = ({ product }) => {
 
     if (
       existingProduct &&
-      existingProduct.items + 1 >
-        product.productDetails.stockQuantity &&
+      existingProduct.items + 1 > product.productDetails.stockQuantity &&
       !(e.nativeEvent.inputType === 'deleteContentBackward')
     ) {
       setErrorMessage(
@@ -185,8 +179,7 @@ const CheckoutDetails = ({ product }) => {
             }
           : null),
         price: product.productDetails.price,
-        productThumbnail:
-          product.productDetails.productImages.productThumbnail,
+        productThumbnail: product.productDetails.productImages.productThumbnail,
         items: Number(e.target.value),
       };
 
@@ -217,7 +210,8 @@ const CheckoutDetails = ({ product }) => {
           <button
             disabled={!productInTheCart}
             className='border border-gray-400 px-4 border-r-0 text-base font-bold cursor-pointer hover:bg-[#c8c9ca] disabled:opacity-50 disabled:cursor-not-allowed'
-            onClick={handleRemoveCart}>
+            onClick={handleRemoveCart}
+          >
             -
           </button>
 
@@ -233,7 +227,8 @@ const CheckoutDetails = ({ product }) => {
 
           <button
             className='border border-gray-400 border-l-0 px-4 text-base font-bold cursor-pointer hover:bg-[#c8c9ca]'
-            onClick={handleAddToCart}>
+            onClick={handleAddToCart}
+          >
             +
           </button>
         </div>
@@ -255,14 +250,16 @@ const CheckoutDetails = ({ product }) => {
         {!productInTheCart && (
           <button
             onClick={() => handleAddToCart()}
-            className='hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]'>
+            className='hover:bg-[#f0f0f0] text-[#437a4c] cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300 border-[2px] border-[#1D6F2B]'
+          >
             Add to Cart
           </button>
         )}
 
         <button
           className='bg-[#1D6F2B] hover:bg-[#437a4c] text-white cursor-pointer w-full text-base font-medium h-9 rounded-md duration-300'
-          onClick={() => navigate('/cart')}>
+          onClick={() => navigate('/cart')}
+        >
           Buy Now
         </button>
       </div>
