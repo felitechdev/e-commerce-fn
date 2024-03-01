@@ -30,6 +30,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Loader } from "../../Loader/LoadingSpin";
 import { fetchCompany } from "../../../Apis/Company";
+import { createProduct } from "../../../Apis/Product";
 import { fetchCategory, fetchSubCategory } from "../../../Apis/Categories";
 import Cookies, { set } from "js-cookie";
 import { data } from "autoprefixer";
@@ -192,11 +193,11 @@ const UpdateProductModel = (props) => {
       return;
     }
 
-    // Validate otherImageUrls
-    if (otherImageUrls.length === 0) {
-      setOtherimagesError("At least one product image is required");
-      return;
-    }
+    // // Validate otherImageUrls
+    // if (otherImageUrls.length === 0) {
+    //   setOtherimagesError("At least one product image is required");
+    //   return;
+    // }
 
     setOtherimagesError("");
     setImageError("");
@@ -205,40 +206,9 @@ const UpdateProductModel = (props) => {
     const stockQty =
       stockQuantity !== 0 ? stockQuantity : parseInt(data.stockQuantity);
 
-    const hasValidationError = colorVariations.some((variation) => {
-      return (
-        (!variation.availableSizes && !variation?.colorName) ||
-        // !variation.colorImageUrl ||
-        !variation.stock
-      );
-    });
-
-    const hasValidationError2 = colorVariations.some((variation) => {
-      return (
-        (!variation?.colorName && variation.colorImageUrl) ||
-        (variation?.colorName && !variation.colorImageUrl)
-      );
-    });
-
-    if (hasValidationError2) {
-      alert(
-        "Something went wrong on combination of colorname and color image please check "
-      );
-      return;
-    }
-
-    if (hasValidationError) {
-      alert(
-        "Something went wrong in combination of color or size with its corresponding color and stockQuantity"
-      );
-      return; // Don't proceed with the API call if there's a validation error
-    }
-
-    fieldValidation();
-
     const payload = {
       name: data.name,
-      seller: userRole === "seller" ? user.id : data.seller,
+      // seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
       subcategory: data.subcategory,
       description: data.description,
@@ -247,13 +217,13 @@ const UpdateProductModel = (props) => {
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       quantityParameter: data.quantityParameter,
-      hasColors:
-        colorVariations.length > 0 &&
-        colorVariations.every((variation) => variation.colorImageUrl),
+      // hasColors:
+      //   colorVariations.length > 0 &&
+      //   colorVariations.every((variation) => variation.colorImageUrl),
 
-      hasMeasurements:
-        colorVariations.length > 0 &&
-        colorVariations.every((variation) => variation.availableSizes),
+      // hasMeasurements:
+      //   colorVariations.length > 0 &&
+      //   colorVariations.every((variation) => variation.availableSizes),
       productImages: {
         productThumbnail: {
           public_id: "Feli Technology Inv. Group/",
@@ -265,39 +235,42 @@ const UpdateProductModel = (props) => {
         })),
       },
 
-      colorMeasurementVariations: {
-        measurementType: "size",
+      //   colorMeasurementVariations: {
+      //     measurementType: "size",
 
-        variations: colorVariations.map((variation) => {
-          const colorImg =
-            "colorName" in variation && "colorImageUrl" in variation
-              ? {
-                  url: variation.colorImageUrl,
-                  colorName: variation?.colorName,
-                }
-              : null;
-          const measurementvalue =
-            "availableSizes" in variation ? variation.availableSizes : null;
+      //     variations: colorVariations.map((variation) => {
+      //       const colorImg =
+      //         "colorName" in variation && "colorImageUrl" in variation
+      //           ? {
+      //               url: variation.colorImageUrl,
+      //               colorName: variation?.colorName,
+      //             }
+      //           : null;
+      //       const measurementvalue =
+      //         "availableSizes" in variation ? variation.availableSizes : null;
 
-          return {
-            measurementvalue: measurementvalue,
-            colorImg: colorImg,
-            colorMeasurementVariationQuantity: parseInt(variation.stock),
-          };
-        }),
-      },
+      //       return {
+      //         measurementvalue: measurementvalue,
+      //         colorImg: colorImg,
+      //         colorMeasurementVariationQuantity: parseInt(variation.stock),
+      //       };
+      //     }),
+      //   },
     };
 
-    dispatch(updateProduct({ productData: payload, token: token }))
+    setLoading(true);
+
+    dispatch(updateProduct({ productData: payload, id: props.Id }))
       .unwrap()
       .then((data) => {
         if (data && data?.status == "success") {
           // update get product state
 
-          updateuserProduct({ id: props.Id, payload });
-          setProducts(data?.data?.product);
+          dispatch(updateuserProduct({ id: props.Id, payload }));
+          setProducts(data?.product);
           setAlertIndex("success");
           setAlertDescription("Product Updated successfully");
+          setLoading(false);
           setTimeout(() => {
             handleCancel();
           }, 3000);
@@ -306,6 +279,10 @@ const UpdateProductModel = (props) => {
       .catch((er) => {
         setAlertIndex("error"); // Display error alert on error
         setAlertDescription("Error: " + er.message);
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   // close alert window
@@ -537,12 +514,6 @@ const UpdateProductModel = (props) => {
       // Deep copy the array using slice()
       const updatedVariations = [...prevVariations.slice(0)];
 
-      console.log(
-        "updatedVariations",
-        updatedVariations,
-        ...prevVariations.slice(0)
-      );
-
       // Update the specific object at the given index
       updatedVariations[index] = {
         ...updatedVariations[index],
@@ -619,15 +590,15 @@ const UpdateProductModel = (props) => {
     setValue("name", DBProductInfo.name || "");
     setValue("price", DBProductInfo.price || "");
 
-    setValue("seller", DBProductInfo.seller.email || "");
+    setValue("seller", DBProductInfo.seller.id || "");
     setValue(
       "productThumbnail",
       DBProductInfo.productImages.productThumbnail.url || ""
     );
 
-    setColorVariations(DBProductInfo.colorMeasurementVariations.variations);
-    setValue("subcategory", DBProductInfo.subcategory.name || "");
-    setValue("category", DBProductInfo.category.name || "");
+    // setColorVariations(DBProductInfo.colorMeasurementVariations.variations);
+    setValue("subcategory", DBProductInfo.subcategory.id || "");
+    setValue("category", DBProductInfo.category.id || "");
     setValue("description", DBProductInfo.description);
     setValue("currency", DBProductInfo.currency || "");
     setValue("discountPercentage", DBProductInfo?.discountPercentage || 0);
@@ -672,6 +643,8 @@ const UpdateProductModel = (props) => {
     //   },
     // };
   }, [DBProductInfo, setValue]);
+
+  console.log(" DBProductInfo.length", DBProductInfo, DBProductInfo.length);
 
   return (
     <>
@@ -750,29 +723,25 @@ const UpdateProductModel = (props) => {
               className="border mb-3 border-[black] py-10 px-5 "
             >
               <div className="">
-                {userRole == "admin" && (
-                  <button
-                    onClick={handleOpenNewModel}
-                    className="absolute right-5 font-bold  z-50 underline text-primary"
-                  >
-                    Add New
-                  </button>
-                )}
-
                 <Controller
                   name="category"
                   control={control}
-                  defaultValue=""
+                  defaultValue={
+                    Object.keys(DBProductInfo).length > 0
+                      ? DBProductInfo.category.id
+                      : ""
+                  }
                   rules={{}}
                   render={({ field }) => (
                     <>
-                      <Form.Item label="Select product Category">
+                      <Form.Item label=" Category">
                         {loadcategory ? (
                           <p>loading...</p>
                         ) : (
                           <Select
                             {...field}
                             showSearch
+                            value={field.value}
                             label="Text field"
                             onSearch={onSearch}
                             filterOption={filterOption}
@@ -795,25 +764,22 @@ const UpdateProductModel = (props) => {
               </div>
 
               <div className="">
-                {userRole == "admin" && (
-                  <button
-                    type="button"
-                    onClick={handleOpenNewSubModel}
-                    className="absolute right-5 font-bold z-50 underline text-primary"
-                  >
-                    Add New
-                  </button>
-                )}
-
                 <Controller
                   name="subcategory"
                   control={control}
-                  defaultValue=""
+                  defaultValue={
+                    Object.keys(DBProductInfo).length > 0
+                      ? DBProductInfo.subcategory.id
+                      : ""
+                  }
                   rules={{}}
                   render={({ field }) => (
                     <>
                       <Form.Item
-                        label="Select product sub-category"
+                        label={` sub-category : ${
+                          Object.keys(DBProductInfo).length > 0 &&
+                          DBProductInfo.subcategory.name
+                        } `}
                         className=""
                       >
                         {loadcategory ? (
@@ -822,10 +788,14 @@ const UpdateProductModel = (props) => {
                           <Select
                             {...field}
                             showSearch
+                            value={field.value}
                             label="Text field"
                             onSearch={onSearch}
                             filterOption={filterOption}
                             options={subcategory?.length != 0 && subcategory}
+                            onChange={(value) => {
+                              field.onChange(value); // Update the form field value
+                            }}
                           />
                         )}
 
@@ -963,353 +933,6 @@ const UpdateProductModel = (props) => {
               Add a color or zize with it’s corresponding size and stockQuantity
             </span>
             <p>image </p>
-            <div className="flex  w-[100%] p-5 flex-col justify-center  border   items-center rounded ">
-              <Form.List name="colors" style={{ backgroundColor: "red " }}>
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name, ...restField }, index) => (
-                      <>
-                        <Space
-                          key={key}
-                          style={{
-                            display: "flex",
-                            marginBottom: 2,
-                            // backgroundColor: "red",
-                          }}
-                          // align="baseline"
-                        >
-                          {/* Input for color name */}
-                          <Form.Item
-                            {...restField}
-                            name={[name, "name"]}
-                            label={
-                              <div
-                                style={{
-                                  backgroundColor: selectedColor[index]?.color,
-                                }}
-                                className={` w-20 h-5 border border-[black] rounded-full`}
-                              ></div>
-                            }
-                          >
-                            <div className="flex-col">
-                              {/* <div
-                                style={{ backgroundColor: selectedColor }}
-                                className={`w-5 h-5 border border-[black] rounded-full`}
-                              ></div> */}
-
-                              <Select
-                                options={colorOptions}
-                                value={selectedColor[index]?.color}
-                                onChange={(value) => {
-                                  // setSelectedColor((color) => {
-                                  //   console.log("color", color);
-                                  // });
-
-                                  handleColorChange(index, "colorName", value);
-                                }}
-                                onSearch={onSearch}
-                                showSearch
-                              />
-                            </div>
-                          </Form.Item>
-                          {/* Input for available sizes */}
-                          <Form.Item
-                            {...restField}
-                            name={[name, "availableSizes"]}
-                            label={`Available Sizes:  ${
-                              selectedSize[index]?.size
-                                ? selectedSize[index]?.size
-                                : ""
-                            }`}
-                          >
-                            <Select
-                              value={selectedSize[index]?.size}
-                              options={sizeOptions}
-                              onChange={(value) => {
-                                setSelectedSize((prevSelectedSize) => {
-                                  const updatedSelectedSize = [
-                                    ...prevSelectedSize,
-                                  ];
-                                  updatedSelectedSize[index] = {
-                                    ...updatedSelectedSize[index],
-                                    size: value,
-                                  };
-                                  return updatedSelectedSize;
-                                });
-
-                                handleColorChange(
-                                  index,
-                                  "availableSizes",
-                                  value
-                                );
-                              }}
-                              onSearch={onSearch}
-                              showSearch
-                            />
-
-                            {/* <Input
-                              placeholder="Enter Available Sizes"
-                              onChange={(e) =>
-                                handleColorChange(
-                                  index,
-                                  "availableSizes",
-                                  e.target.value
-                                )
-                              }
-                            /> */}
-                          </Form.Item>
-                          {/* Input for number available in stock */}
-                          {/* <Form.Item
-                            {...restField}
-                            name={[name, "stock"]}
-                            label="Available Stock"
-                            style={{ width: "100px", backgroundColor: "red" }}
-                          > */}
-
-                          {selectedColor[index]?.color !== undefined ||
-                          selectedSize[index]?.size !== undefined ? (
-                            <input
-                              placeholder="Enter Available Stock"
-                              type="number"
-                              onChange={(e) => {
-                                // handlestockQty(index, e.target.value);
-                                handleColorChange(
-                                  index,
-                                  "stock",
-                                  e.target.value
-                                );
-                              }}
-                            />
-                          ) : null}
-                          {/* </Form.Item> */}
-                          <div className="flex flex-col">
-                            {" "}
-                            <Form.Item>
-                              {!colorVariations[index]?.colorImageUrl && (
-                                <UploadWidget
-                                  onUpload={(error, result, widget) => {
-                                    if (error) {
-                                      widget.close({ quiet: true });
-                                      return;
-                                    }
-
-                                    handleColorChange(
-                                      index,
-                                      "colorImageUrl",
-                                      result?.info?.secure_url
-                                    );
-                                  }}
-                                  uploadmultiple={false}
-                                >
-                                  {({ open }) => (
-                                    <Button
-                                      type="primary"
-                                      onClick={open}
-                                      block
-                                      icon={<PlusOutlined />}
-                                    >
-                                      Add Image
-                                    </Button>
-                                  )}
-                                </UploadWidget>
-                              )}
-                              {colorVariations[index]?.colorImageUrl && (
-                                <Image
-                                  src={colorVariations[index]?.colorImageUrl}
-                                  width={50}
-                                  height={50}
-                                />
-                              )}
-                            </Form.Item>
-                          </div>
-
-                          {/* Button to remove color entry */}
-                          <MinusCircleOutlined
-                            className="text-[red]"
-                            onClick={() => {
-                              remove(name);
-                              setIndex(index - 1);
-                              colorVariations.length > 0 &&
-                                colorVariations.splice(index, 1);
-
-                              selectedColor.splice(index, 1);
-
-                              setSelectedSize(
-                                selectedSize.filter((_, i) => i !== index)
-                                // selectedSize.splice(index, 1)
-                              );
-
-                              stock.splice(index, 1);
-                            }}
-                          />
-                        </Space>
-                      </>
-                    ))}
-                    {/* Button to add new color entry */}
-
-                    <Form.Item>
-                      <Button
-                        type="default"
-                        onClick={() => {
-                          add();
-
-                          setIndex(index + 1);
-                        }}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        + fields
-                      </Button>
-                    </Form.Item>
-                    {}
-                  </>
-                )}
-              </Form.List>
-            </div>
-
-            <div className="flex w-[100%] p-5 flex-col justify-center border items-center rounded">
-              <Form.List name="colors">
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map((field, index) => (
-                      <Space
-                        key={field.key}
-                        style={{ display: "flex", marginBottom: 2 }}
-                        align="baseline"
-                      >
-                        {/* Input for color name */}
-                        <Form.Item
-                          {...field}
-                          name={[field.name, "colorName"]}
-                          label={
-                            <div
-                              style={{
-                                backgroundColor:
-                                  colorVariations[index]?.colorImg?.colorName,
-                              }}
-                              className="w-20 h-5 border border-[black] rounded-full"
-                            ></div>
-                          }
-                        >
-                          <Select
-                            options={colorOptions}
-                            value={colorVariations[index]?.colorImg?.colorName}
-                            onChange={(value) =>
-                              handleColorChange(index, "colorName", value)
-                            }
-                            onSearch={onSearch}
-                            showSearch
-                          />
-                        </Form.Item>
-                        {/* Input for available sizes */}
-                        <Form.Item
-                          {...field}
-                          name={[field.name, "measurementvalue"]}
-                          label={`Available Sizes: ${
-                            colorVariations[index]?.measurementvalue || ""
-                          }`}
-                        >
-                          <Select
-                            value={colorVariations[index]?.measurementvalue}
-                            options={sizeOptions}
-                            onChange={(value) =>
-                              handleColorChange(
-                                index,
-                                "measurementvalue",
-                                value
-                              )
-                            }
-                            onSearch={onSearch}
-                            showSearch
-                          />
-                        </Form.Item>
-                        {/* Input for number available in stock */}
-                        {colorVariations[index]?.colorImg?.colorName && (
-                          <input
-                            placeholder="Enter Available Stock"
-                            type="number"
-                            value={
-                              colorVariations[index]
-                                ?.colorMeasurementVariationQuantity || ""
-                            }
-                            onChange={(e) =>
-                              handleColorChange(index, "stock", e.target.value)
-                            }
-                          />
-                        )}
-                        <div className="flex flex-col">
-                          <Form.Item>
-                            {!colorVariations[index]?.colorImg?.url && (
-                              <UploadWidget
-                                onUpload={(error, result, widget) => {
-                                  if (error) {
-                                    widget.close({ quiet: true });
-                                    return;
-                                  }
-                                  handleColorChange(
-                                    index,
-                                    "colorImageUrl",
-                                    result?.info?.secure_url
-                                  );
-                                }}
-                                uploadmultiple={false}
-                              >
-                                {({ open }) => (
-                                  <Button
-                                    type="primary"
-                                    onClick={open}
-                                    block
-                                    icon={<PlusOutlined />}
-                                  >
-                                    Add Image
-                                  </Button>
-                                )}
-                              </UploadWidget>
-                            )}
-                            {colorVariations[index]?.colorImg?.url && (
-                              <Image
-                                src={colorVariations[index]?.colorImg?.url}
-                                width={50}
-                                height={50}
-                              />
-                            )}
-                          </Form.Item>
-                        </div>
-                        <MinusCircleOutlined
-                          className="text-[red]"
-                          onClick={() => {
-                            remove(field.name);
-                            const newVariations = [...colorVariations];
-                            newVariations.splice(index, 1);
-                            setColorVariations(newVariations);
-                          }}
-                        />
-                      </Space>
-                    ))}
-                    <Form.Item>
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                          setColorVariations([
-                            ...colorVariations,
-                            {
-                              colorImg: { colorName: "", url: "" },
-                              measurementvalue: "",
-                              stock: "",
-                            },
-                          ]);
-                        }}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        Add field
-                      </Button>
-                    </Form.Item>
-                  </>
-                )}
-              </Form.List>
-            </div>
           </div>
 
           <span className="my-5 font-bold">More info</span>
@@ -1317,14 +940,18 @@ const UpdateProductModel = (props) => {
             <div className="flex justify-between space-x-2 w-[100%]">
               {userRole == "seller" ? (
                 <div className=" flex justify-center items-center ">{`Seller : ${
-                  DBProductInfo.length > 0 && DBProductInfo.seller.email
+                  Object.keys(DBProductInfo).length > 0
+                    ? DBProductInfo.seller.email
+                    : ""
                 }`}</div>
               ) : (
                 <Controller
                   name="seller"
                   control={control}
                   defaultValue={
-                    DBProductInfo.length > 0 && DBProductInfo.seller.email
+                    Object.keys(DBProductInfo).length > 0
+                      ? DBProductInfo.seller.email
+                      : ""
                   }
                   rules={{}}
                   render={({ field }) => (
@@ -1364,7 +991,6 @@ const UpdateProductModel = (props) => {
                   )}
                 />
               )}
-
               <Controller
                 name="brandName"
                 control={control}
@@ -1384,31 +1010,31 @@ const UpdateProductModel = (props) => {
             </div>
 
             <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
-              {stockQuantity !== 0 ? (
+              {/* {stockQuantity !== 0 ? (
                 <Form.Item
                   label={`stockQuantity:  ${stockforproduct} `}
                   className="md:w-[48%]"
                 ></Form.Item>
-              ) : (
-                <Controller
-                  name="stockQuantity"
-                  control={control}
-                  rules={{}}
-                  render={({ field }) => (
-                    <Form.Item label="stockQuantity" className="md:w-[48%]">
-                      <Input
-                        type="text"
-                        placeholder="stockQuantity"
-                        name="stockQuantity"
-                        {...field}
-                      />
-                      <p className="text-[red]">
-                        {errors?.stockQuantity?.message}
-                      </p>
-                    </Form.Item>
-                  )}
-                />
-              )}
+              ) : ( */}
+              <Controller
+                name="stockQuantity"
+                control={control}
+                rules={{}}
+                render={({ field }) => (
+                  <Form.Item label="stockQuantity" className="md:w-[48%]">
+                    <Input
+                      type="text"
+                      placeholder="stockQuantity"
+                      name="stockQuantity"
+                      {...field}
+                    />
+                    <p className="text-[red]">
+                      {errors?.stockQuantity?.message}
+                    </p>
+                  </Form.Item>
+                )}
+              />
+              {/* )} */}
               <Controller
                 name="price"
                 control={control}
@@ -1471,6 +1097,7 @@ const UpdateProductModel = (props) => {
           <ModalFooter
             onCancel={handleCancel}
             isload={load}
+            loading={loading}
             // onOk={handleSubmitForm}
           />
         </Form>

@@ -306,10 +306,10 @@ const ProductModel = (props) => {
     }
 
     // Validate otherImageUrls
-    if (otherImageUrls.length === 0) {
-      setOtherimagesError("At least one product image is required");
-      return;
-    }
+    // if (otherImageUrls.length === 0) {
+    //   setOtherimagesError("At least one product image is required");
+    //   return;
+    // }
 
     setOtherimagesError("");
     setImageError("");

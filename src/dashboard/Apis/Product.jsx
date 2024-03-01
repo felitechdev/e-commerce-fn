@@ -90,21 +90,20 @@ export const deleteproduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
-  async ({ productData, token }, { rejectWithValue }) => {
+  async ({ productData, id }, { rejectWithValue }) => {
     try {
       const response = await axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`,
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${id}`,
         method: "PATCH",
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: Token && `Bearer ${Token}`, // Pass the token only if it exists
           // "content-type": "multipart/form-data",
           "content-type": "application/json",
         },
         data: productData,
       });
-      console.log("Product update response ", response);
 
-      if (response?.data && response?.status == 201) {
+      if (response?.data && response?.status == 200) {
         return response?.data;
       } else {
         // Handle unexpected
@@ -114,7 +113,6 @@ export const updateProduct = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while creating product", err);
       return rejectWithValue({
         status: err.response?.data?.status,
         message: err.response?.data?.message,

@@ -79,6 +79,8 @@ export const DashProducts = () => {
   const { user, onLogout } = useUser();
   const userRole = user?.role;
 
+  console.log("dashproduct", dashproduct, err);
+
   const FilterByNameInput = (
     <Input.Search
       placeholder="search product by name ......."
@@ -92,8 +94,8 @@ export const DashProducts = () => {
         setValue(currValue);
         const newData = (
           userRole == "seller"
-            ? products?.filter((product) => product?.seller?.id == user?.id)
-            : products
+            ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
+            : dashproduct
         )
           .map((product) => ({
             key: product.id,
@@ -372,11 +374,11 @@ export const DashProducts = () => {
   useEffect(() => {
     let filteredProducts;
     if (selectedCategoryId) {
-      filteredProducts = products.filter(
+      filteredProducts = dashproduct.filter(
         (product) => product?.category?.id == selectedCategoryId
       );
     } else {
-      filteredProducts = products;
+      filteredProducts = dashproduct;
       setIsViewAllChecked(true); // Check the checkbox
     }
 
@@ -412,11 +414,11 @@ export const DashProducts = () => {
     let filteredProducts;
 
     if (selectedsellerId) {
-      filteredProducts = products.filter(
+      filteredProducts = dashproduct.filter(
         (product) => product?.seller?.id == selectedsellerId
       );
     } else {
-      filteredProducts = products;
+      filteredProducts = dashproduct;
       setIsViewAllChecked(true); // Check the checkbox
     }
 
@@ -470,10 +472,10 @@ export const DashProducts = () => {
   useEffect(() => {
     // Generate dataSource based on the current products state
     const newData =
-      products.length > 0
+      dashproduct.length > 0
         ? (userRole == "seller"
-            ? products?.filter((product) => product?.seller?.id == user?.id)
-            : products
+            ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
+            : dashproduct
           ).map((product) => ({
             key: product.id,
             name: [
@@ -492,7 +494,7 @@ export const DashProducts = () => {
         : [];
     setDataSource(newData);
     setFilteredData(newData); // Update filteredData as well
-  }, [products]);
+  }, [dashproduct]);
 
   return (
     <Layout className="space-y-6  overflow-auto bg-white">

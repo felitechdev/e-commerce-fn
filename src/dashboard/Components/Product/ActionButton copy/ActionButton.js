@@ -33,7 +33,6 @@ const UpdateModel = ({ setModel }) => {
   const [form] = Form.useForm();
 
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -110,8 +109,6 @@ const SingleproductModel = (props) => {
     getProduct();
   }, [props.Id]);
 
-  console.log("DBProductInfo", DBProductInfo);
-
   return (
     <Modal
       title="Product"
@@ -175,7 +172,7 @@ const SingleproductModel = (props) => {
                 src={DBProductInfo.productImages.productThumbnail.url}
                 alt="Product thumbnail"
                 width={200}
-                className="border-2 border-gray-700 rounded-md"
+                className="border-1 border-gray-700 rounded-md"
               />
             </div>
 
@@ -339,14 +336,12 @@ export const ActionButton = (props) => {
         <EditFilled
           className=" text-icon2 mr-2"
           onClick={() => {
-            console.log("props.productId", props.productId, isModalOpen);
             handleEditClick(props.productId);
           }}
         />
         <EyeFilled
           className=" text-icon1 mr-2"
           onClick={() => {
-            console.log("props.productId", props.productId, isModalOpen);
             handleOpen(props.productId);
           }}
         />
