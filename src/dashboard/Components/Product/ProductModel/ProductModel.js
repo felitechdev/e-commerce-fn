@@ -43,6 +43,7 @@ import { useUser } from "../../../../context/UserContex";
 import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 import { colorOptions } from "../../../../common/productpossibleColors";
 import { sizeOptions } from "../../../../common/productspossibleSizes";
+import { updateuserProduct } from "../../../Redux/ReduxSlice/createProduct";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -519,6 +520,7 @@ const ProductModel = (props) => {
         if (data && data?.status == "success") {
           // update get product state
           props.handlecreateproduct(data?.data?.product);
+          dispatch(updateuserProduct({ data: data, payload: payload }));
           setProducts(data?.data?.product);
           setAlertIndex("success");
           setAlertDescription("Product created successfully");

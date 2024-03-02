@@ -90,13 +90,13 @@ export const deleteproduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
-  async ({ productData, id }, { rejectWithValue }) => {
+  async ({ productData, id, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${id}`,
         method: "PATCH",
         headers: {
-          Authorization: Token && `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
           // "content-type": "multipart/form-data",
           "content-type": "application/json",
         },

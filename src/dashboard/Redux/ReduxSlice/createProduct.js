@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
 import { createProduct, deleteproduct } from "../../Apis/Product";
+import { createSlice, current, createAction } from "@reduxjs/toolkit";
 
 const initialState = {
   product: [],
@@ -19,10 +19,25 @@ export const creteproductSlice = createSlice({
       .addCase(createProduct.fulfilled, (state, action) => {
         state.load = false;
         state.product = state.product.concat(action.payload);
+        console.log("state", state.action);
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.load = false;
         state.err = action.error.message;
+        state.dashproduct = action.payload;
+      })
+      .addCase(updateuserProduct, (state, action) => {
+        const updatedProduct = action.payload;
+        state.dashproduct = state.dashproduct.map((product) => {
+          if (product.id === updatedProduct.id) {
+            // Merge the updated fields into the existing product
+            return {
+              ...product,
+              ...updatedProduct.payload, // Assuming payload contains only the updated fields
+            };
+          }
+          return product;
+        });
       });
   },
 });
@@ -53,5 +68,5 @@ const deleteproductSlice = createSlice({
 });
 
 export const deleteProductReducer = deleteproductSlice.reducer;
-
+export const updateuserProduct = createAction("updateuserProduct");
 export default creteproductSlice.reducer;
