@@ -54,7 +54,7 @@ export const ImageUpload = ({
   return (
     <>
       {openmodel && (
-        <div className="w-full h-screen z-50 fixed top-0 left-0 opacity-95  space-x-10 flex items-center justify-center bg-[#f4f4f4] ">
+        <div className="w-full h-screen z-50 fixed top-0 left-0 opacity-95  space-x-5 md:space-x-10 flex items-center justify-center bg-[#f4f4f4] ">
           {/* <div className="form-group  bg-primary p-1 font-bold rounded-md relative">
             <IoCloseSharp
               onClick={() => handleupdateprofileModel(false)}
@@ -111,7 +111,7 @@ export const ImageUpload = ({
                           <input
                             type="file"
                             onChange={(e) => {
-                              field.onChange(e.target.files[0]);
+                              field.onChange(previewImage);
 
                               setImage(e.target.files);
                               setPreviewImage(
