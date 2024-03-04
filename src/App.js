@@ -93,7 +93,7 @@ const App = () => {
                     (<Navigate replace to="dashproduct" />))
                   : user &&
                     (localStorage.setItem("selectedKey", "6"),
-                    (<Navigate replace to="/" />))
+                    (<Navigate replace to="profile" />))
               }
             />
             <Route path="dashboard" element={<Dashboard />} />

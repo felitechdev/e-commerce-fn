@@ -20,8 +20,8 @@ export const getdashproductslice = createSlice({
       })
       .addCase(fetchadminproduct.fulfilled, (state, action) => {
         state.loading = false;
-        // Add any fetched products to the array
         state.dashproduct = action.payload;
+        // Add any fetched products to the array
       })
       .addCase(fetchadminproduct.rejected, (state, action) => {
         state.loading = false;
@@ -30,16 +30,23 @@ export const getdashproductslice = createSlice({
       .addCase(updateuserProduct, (state, action) => {
         const updatedProduct = action.payload;
 
-        state.dashproduct = state.dashproduct.map((product) => {
-          if (product.id === updatedProduct.id) {
-            // Merge the updated fields into the existing product
-            return {
-              ...product,
-              ...updatedProduct.payload, // Assuming payload contains only the updated fields
-            };
-          }
-          return product;
-        });
+        const currentDashProduct = current(state).dashproduct;
+        console.log(
+          "updatedProduct on get",
+
+          currentDashProduct,
+          updatedProduct.product
+        );
+        const updatedDashProduct = [
+          updatedProduct.product,
+          ...currentDashProduct,
+        ];
+        console.log(
+          "updated",
+          current(state).dashproduct.concat(updatedProduct.product)
+        );
+
+        state.dashproduct = updatedDashProduct;
       });
   },
 });

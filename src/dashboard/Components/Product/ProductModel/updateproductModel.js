@@ -260,12 +260,13 @@ const UpdateProductModel = (props) => {
 
     setLoading(true);
 
-    dispatch(updateProduct({ productData: payload, id: props.Id }))
+    dispatch(
+      updateProduct({ productData: payload, id: props.Id, token: token })
+    )
       .unwrap()
       .then((data) => {
         if (data && data?.status == "success") {
           // update get product state
-
           dispatch(updateuserProduct({ id: props.Id, payload }));
           setProducts(data?.product);
           setAlertIndex("success");
