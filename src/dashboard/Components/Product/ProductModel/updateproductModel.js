@@ -645,8 +645,6 @@ const UpdateProductModel = (props) => {
     // };
   }, [DBProductInfo, setValue]);
 
-  console.log(" DBProductInfo.length", DBProductInfo, DBProductInfo.length);
-
   return (
     <>
       <Modal
@@ -662,7 +660,7 @@ const UpdateProductModel = (props) => {
             type={alertIndex}
             description={alertDescription}
             onClose={handleAlertClose}
-            className="w-[60%] m-auto"
+            className="w-[100%] md:w-[30%] opacity-100 fixed  top-0 right-5 transform-[translate(-50%,-50%)] h-[100px] z-[9999]"
           />
         )}
         <Form
