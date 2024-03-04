@@ -274,7 +274,7 @@ export const DashProducts = () => {
         </Space>
       ),
 
-      width: 200,
+      width: 100,
     },
     {
       title: "Stock",
@@ -282,7 +282,7 @@ export const DashProducts = () => {
       key: "Stock",
       width: 60,
       render: (_, record) => (
-        <div className="w-full text-center">
+        <div className="w-full text-start">
           <span>{record.stock} units</span>
         </div>
       ),
@@ -294,7 +294,7 @@ export const DashProducts = () => {
       key: "Price",
       width: 100,
       render: (_, record) => (
-        <div className="w-full text-center">
+        <div className="w-full text-start">
           <span>{record.price} RWF</span>
         </div>
       ),
@@ -309,7 +309,7 @@ export const DashProducts = () => {
         const orders = handlecountorders(record.key);
 
         return (
-          <div className="w-full text-center">
+          <div className="w-full text-start">
             <span>total: {orders}</span>
           </div>
         );
@@ -321,7 +321,7 @@ export const DashProducts = () => {
       key: "rating",
       width: 50,
       render: (_, record) => (
-        <div className="w-full text-center">
+        <div className="w-full text-start">
           <span>
             **
             <StarFilled className="text-icon1" />
@@ -341,7 +341,7 @@ export const DashProducts = () => {
       dataIndex: "address",
       key: "address",
       filter: true,
-      width: 70,
+      width: 100,
     },
     {
       title: "Action",
@@ -499,11 +499,11 @@ export const DashProducts = () => {
   }, [products]);
 
   return (
-    <Layout className="space-y-6  overflow-auto bg-white">
+    <Layout className="space-y-6   overflow-auto bg-[white]">
       <Space className="flex justify-between">
-        <h3 className="text-gray-700 text-3xl font-[600] self-start">
-          All Products
-        </h3>
+        <Space className="flex justify-between">
+          <Title level={3}> All Products</Title>
+        </Space>
         <div className="flex justify-center space-x-5">
           <UnorderedListOutlined
             onClick={handleDisplay}

@@ -94,19 +94,27 @@ const SellerProfile = () => {
             {user ? (
               <>
                 <div className="flex  space-x-2 items-center">
-                  {user?.photo !== "default.jpg" && (
+                  {/* {(user?.profileImageUrl !== "default.jpg" ||
+                    user?.photo !== "default.jpg") && (
                     <img
                       src={user?.photo}
+                      alt={user?.firstName}
+                      className=" w-14 h-14 rounded-full border-2 p-1 "
+                    />
+                  )} */}
+
+                  {user?.profileImageUrl == "default.jpg" ||
+                  user?.photo == "default.jpg" ? (
+                    <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
+                      {user?.firstName[0]}
+                    </h1>
+                  ) : (
+                    <img
+                      src={user?.photo}
+                      alt={user?.firstName}
                       className=" w-14 h-14 rounded-full border-2 p-1 "
                     />
                   )}
-
-                  {user?.profileImageUrl ||
-                    (user.photo == "default.jpg" && (
-                      <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
-                        {user?.firstName[0]}
-                      </h1>
-                    ))}
 
                   <h1 className="font-bold text-xl">{user?.firstName}</h1>
                 </div>
@@ -231,8 +239,15 @@ const SellerProfile = () => {
                 {user?.data?.profile && (
                   <Row gutter={[16, 16]}>
                     {/* <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}></Row> */}
-                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                      <span className="text-border font-bold text-md">
+                    <Col
+                      xs={24}
+                      sm={12}
+                      md={8}
+                      lg={8}
+                      xl={8}
+                      className=" flex md:block"
+                    >
+                      <span className="text-border font-bold text-md ">
                         companyEmail:{" "}
                       </span>
                       <h1 className="font-bold">
@@ -246,7 +261,7 @@ const SellerProfile = () => {
                       md={8}
                       lg={8}
                       xl={8}
-                      className=" flex sm:block "
+                      className=" flex md:block"
                     >
                       <span className="text-border font-bold text-md">
                         companyName:{" "}
@@ -256,7 +271,14 @@ const SellerProfile = () => {
                           user?.data?.profile.companyName}
                       </h1>
                     </Col>
-                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                    <Col
+                      xs={24}
+                      sm={12}
+                      md={8}
+                      lg={8}
+                      xl={8}
+                      className=" flex md:block"
+                    >
                       <span className="text-border font-bold text-md">
                         phoneNumber:{" "}
                       </span>
@@ -265,7 +287,14 @@ const SellerProfile = () => {
                           user?.data?.profile.phoneNumber}
                       </h1>
                     </Col>
-                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                    <Col
+                      xs={24}
+                      sm={12}
+                      md={8}
+                      lg={8}
+                      xl={8}
+                      className=" flex md:block"
+                    >
                       <span className="text-border font-bold text-md">
                         website:{" "}
                       </span>
@@ -286,7 +315,14 @@ const SellerProfile = () => {
 
                     {user?.data?.profile.bankAccount && (
                       <>
-                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                        <Col
+                          xs={24}
+                          sm={12}
+                          md={8}
+                          lg={8}
+                          xl={8}
+                          className=" flex md:block"
+                        >
                           <span className="text-border font-bold text-md">
                             bank:{" "}
                           </span>
@@ -303,7 +339,14 @@ const SellerProfile = () => {
                                 : user?.data?.profile?.bankAccount.bank)}
                           </h1>
                         </Col>
-                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                        <Col
+                          xs={24}
+                          sm={12}
+                          md={8}
+                          lg={8}
+                          xl={8}
+                          className=" flex md:block"
+                        >
                           <span className="text-border font-bold text-md">
                             accountName:{" "}
                           </span>
@@ -319,7 +362,14 @@ const SellerProfile = () => {
                                 : user?.data?.profile?.bankAccount.accountName)}
                           </h1>
                         </Col>
-                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                        <Col
+                          xs={24}
+                          sm={12}
+                          md={8}
+                          lg={8}
+                          xl={8}
+                          className=" flex md:block"
+                        >
                           <span className="text-border font-bold text-md">
                             accountNumber:{" "}
                           </span>
@@ -336,7 +386,14 @@ const SellerProfile = () => {
                                     .accountNumber)}
                           </h1>
                         </Col>
-                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                        <Col
+                          xs={24}
+                          sm={12}
+                          md={8}
+                          lg={8}
+                          xl={8}
+                          className=" flex md:block"
+                        >
                           <span className="text-border font-bold text-md">
                             accountHolderName:{" "}
                           </span>
@@ -356,7 +413,14 @@ const SellerProfile = () => {
                       </>
                     )}
 
-                    <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                    <Col
+                      xs={24}
+                      sm={12}
+                      md={8}
+                      lg={8}
+                      xl={8}
+                      className=" flex md:block"
+                    >
                       <span className="text-border font-bold text-md">
                         cardNumber:
                       </span>
@@ -368,7 +432,7 @@ const SellerProfile = () => {
 
                     {user?.data?.profile.locations &&
                       user?.data?.profile.locations.length > 0 && (
-                        <Col span={24}>
+                        <Col span={24} className=" flex md:block">
                           <span className="text-border font-bold text-md">
                             address:{" "}
                           </span>

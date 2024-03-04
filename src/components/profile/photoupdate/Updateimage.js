@@ -111,7 +111,7 @@ export const ImageUpload = ({
                           <input
                             type="file"
                             onChange={(e) => {
-                              field.onChange(previewImage);
+                              field.onChange(e.target.files[0]);
 
                               setImage(e.target.files);
                               setPreviewImage(

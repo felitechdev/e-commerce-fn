@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { emptyCart } from '../assets/images/index';
-import axios from 'axios';
-import { Button, Form, Input, Select } from 'antd';
-import { FaSave } from 'react-icons/fa';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { emptyCart } from "../assets/images/index";
+import axios from "axios";
+import { Button, Form, Input, Select } from "antd";
+import { FaSave } from "react-icons/fa";
+import { Controller, useForm } from "react-hook-form";
 // country input to check country phone number
-import PhoneInput from 'antd-phone-input';
+import PhoneInput from "antd-phone-input";
 import {
   addToCart,
   removeToCart,
   clearCart,
   clearitemCart,
-} from '../redux/Reducers/cartRecuder';
-import Cookies from 'js-cookie';
-import ItemCard from './Default/Cart/ItemCard';
-import PageLayout from '../components/designLayouts/PageLayout';
+} from "../redux/Reducers/cartRecuder";
+import Cookies from "js-cookie";
+import ItemCard from "./Default/Cart/ItemCard";
+import PageLayout from "../components/designLayouts/PageLayout";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -27,14 +27,14 @@ const Cart = () => {
   const [loading, setLoadng] = useState(false);
   const [checkoutform, setCheckoutform] = useState(false);
 
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
 
   const cart = useSelector((state) => state.cart);
 
   const handleAddCart = (event, productId) => {
     event.stopPropagation();
 
-    let cart = JSON.parse(localStorage.getItem('cart'));
+    let cart = JSON.parse(localStorage.getItem("cart"));
 
     if (!cart) {
       cart = [];
@@ -50,13 +50,13 @@ const Cart = () => {
     dispatch(addToCart(existingProduct));
 
     // Update localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   const handleRemoveCart = (event, productId) => {
     event.stopPropagation();
 
-    let existingCart = JSON.parse(localStorage.getItem('cart'));
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
     let existingProduct = existingCart.find(
       (product) => product.id === productId
     );
@@ -71,20 +71,20 @@ const Cart = () => {
         (product) => product.id !== existingProduct.id
       );
     }
-    localStorage.setItem('cart', JSON.stringify(existingCart));
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
   const handleclearCart = () => {
-    let existingCart = JSON.parse(localStorage.getItem('cart'));
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
 
     dispatch(clearCart());
     if (existingCart) {
       existingCart = [];
     }
-    localStorage.setItem('cart', JSON.stringify(existingCart));
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
   const handleRemoveitemfromCart = (productId) => {
-    let existingCart = JSON.parse(localStorage.getItem('cart'));
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
 
     let existingProduct = existingCart.find(
       (product) => product.id === productId
@@ -97,7 +97,7 @@ const Cart = () => {
         (product) => product.id !== existingProduct.id
       );
     }
-    localStorage.setItem('cart', JSON.stringify(existingCart));
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
   let totalCost = cart.reduce((total, item) => {
@@ -121,10 +121,10 @@ const Cart = () => {
     formState: { errors },
     handleSubmit,
   } = useForm({
-    defaultValues: '', // Set default values from profileview
+    defaultValues: "", // Set default values from profileview
   });
 
-  const onErrors = (errors) => console.log('errors on form creation', errors);
+  const onErrors = (errors) => console.log("errors on form creation", errors);
 
   async function makepayment(requestData) {
     setLoadng(true);
@@ -135,13 +135,13 @@ const Cart = () => {
         {
           headers: {
             Authorization: ` Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
-      if (res.data.status === 'success') {
+      if (res.data.status === "success") {
         setLoadng(false);
-        handleclearCart();
+        // handleclearCart();
         setIspaymentsucces(true);
       }
       window.open(res.data.data.link);
@@ -157,7 +157,13 @@ const Cart = () => {
     if (values.phoneNumber) {
       const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
       const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
-      payload['phoneNumber'] = fullPhoneNumber;
+      if (
+        fullPhoneNumber.includes("null") ||
+        fullPhoneNumber.includes("undefined")
+      ) {
+      } else {
+        payload["phoneNumber"] = fullPhoneNumber;
+      }
     }
 
     let requestData = {
@@ -187,16 +193,16 @@ const Cart = () => {
 
   return (
     <PageLayout>
-      <div className='max-w-container mx-auto px-4'>
+      <div className="max-w-container mx-auto px-4">
         {cart && cart.length > 0 ? (
-          <div className='pb-20'>
-            <div className='w-full h-20 bg-[#F5F7F7] rounded-lg text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold'>
-              <h2 className='col-span-2'>Product</h2>
+          <div className="pb-20">
+            <div className="w-full h-20 bg-[#F5F7F7] rounded-lg text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
+              <h2 className="col-span-2">Product</h2>
               <h2>Price</h2>
               <h2>Quantity</h2>
               <h2>Product Cost</h2>
             </div>
-            <div className='mt-5'>
+            <div className="mt-5">
               {cart.map((item) => (
                 <div key={item.id}>
                   <ItemCard
@@ -211,37 +217,37 @@ const Cart = () => {
 
             <button
               onClick={handleclearCart}
-              className='py-2 px-10 rounded-lg bg-[#1D6F2B] text-white font-semibold mb-4 hover:text-white duration-300'
+              className="py-2 px-10 rounded-lg bg-[#1D6F2B] text-white font-semibold mb-4 hover:text-white duration-300"
             >
               Clear Shopping Cart
             </button>
-            <div className='max-w-7xl gap-4 flex justify-end mt-4 p-3'>
-              <div className=''>
+            <div className="w-full  gap-4 flex justify-end mt-4 p-3 ">
+              <div className="">
                 <Form
-                  layout={'vertical'}
+                  layout={"vertical"}
                   onFinish={handleSubmit(onFinish, onErrors)}
                   // initialValues={userprofile}
                   style={{
-                    width: '100%',
-                    backgroundColor: '#F5F7F7',
-                    padding: '10px',
-                    borderRadius: '0.375rem',
-                    boxShadow: '0px 0px 24px -13px rgba(0,0,0,0.7)',
-                    display: ` ${checkoutform ? 'block' : 'none'}`,
+                    width: "100%",
+                    backgroundColor: "#F5F7F7",
+                    padding: "10px",
+                    borderRadius: "0.375rem",
+                    boxShadow: "0px 0px 24px -13px rgba(0,0,0,0.7)",
+                    display: ` ${checkoutform ? "block" : "none"}`,
                   }}
                 >
                   <div>
-                    <div className=' flex justify-between items-center space-x-2 w-fill '>
+                    <div className=" flex justify-between items-center space-x-2 w-fill ">
                       <Controller
                         control={control}
-                        name='Country'
-                        rules={{ required: 'Country is required' }}
-                        defaultValue={''}
+                        name="Country"
+                        rules={{ required: "Country is required" }}
+                        defaultValue={""}
                         render={({ field }) => (
                           <>
-                            <Form.Item label='Country' className='w-[48%]'>
-                              <Input {...field} placeholder='Country' />
-                              <p className='text-[red]'>
+                            <Form.Item label="Country" className="w-[48%]">
+                              <Input {...field} placeholder="Country" />
+                              <p className="text-[red]">
                                 {errors?.Country?.message}
                               </p>
                             </Form.Item>
@@ -251,18 +257,18 @@ const Cart = () => {
 
                       <Controller
                         control={control}
-                        name='City'
-                        rules={{ required: 'City is required' }}
-                        defaultValue={''}
+                        name="City"
+                        rules={{ required: "City is required" }}
+                        defaultValue={""}
                         render={({ field }) => (
                           <>
-                            <Form.Item label='City' className='w-[48%]'>
+                            <Form.Item label="City" className="w-[48%]">
                               <Input
                                 {...field}
-                                type='text'
-                                placeholder='City'
+                                type="text"
+                                placeholder="City"
                               />
-                              <p className='text-[red]'>
+                              <p className="text-[red]">
                                 {errors?.City?.message}
                               </p>
                             </Form.Item>
@@ -271,20 +277,20 @@ const Cart = () => {
                       />
                     </div>
 
-                    <div className='flex justify-between space-x-2   '>
+                    <div className="flex justify-between space-x-2   ">
                       <Controller
                         control={control}
-                        name='street'
-                        rules={{ required: 'Street is required' }}
+                        name="street"
+                        rules={{ required: "Street is required" }}
                         render={({ field }) => (
                           <>
-                            <Form.Item label='Street' className='w-[30%] h-8'>
+                            <Form.Item label="Street" className="w-[30%] h-8">
                               <Input
                                 {...field}
-                                type='text'
-                                placeholder='Street'
+                                type="text"
+                                placeholder="Street"
                               />
-                              <p className='text-[red]'>
+                              <p className="text-[red]">
                                 {errors?.street?.message}
                               </p>
                             </Form.Item>
@@ -293,16 +299,18 @@ const Cart = () => {
                       />
                       <Controller
                         control={control}
-                        name='phoneNumber'
-                        rules={{}}
+                        name="phoneNumber"
+                        rules={{
+                          required: "Phone number is required",
+                        }}
                         render={({ field }) => (
                           <>
                             <Form.Item
-                              label='Phone number'
-                              className='w-[68%] h-5'
+                              label="Phone number"
+                              className="w-[68%] h-5"
                             >
                               <PhoneInput {...field} enableSearch />
-                              <p className='text-[red]'>
+                              <p className="text-[red]">
                                 {errors?.phoneNumber?.message}
                               </p>
                             </Form.Item>
@@ -310,34 +318,34 @@ const Cart = () => {
                         )}
                       />
                     </div>
-                    <div className='mt-3 flex justify-between space-x-2  items-center'>
+                    <div className="mt-3 flex justify-between space-x-2  items-center">
                       <Controller
                         control={control}
-                        name='Currency'
-                        rules={{ required: 'Currency is required' }}
+                        name="Currency"
+                        rules={{ required: "Currency is required" }}
                         render={({ field }) => (
                           <>
                             <Form.Item
                               // label=" Currency"
-                              className=' mt-10 w-[50%]'
+                              className=" mt-10 w-[50%]"
                             >
                               <Select
                                 {...field}
-                                label='Currency field'
-                                placeholder='Currency'
+                                label="Currency field"
+                                placeholder="Currency"
                                 options={[
                                   {
-                                    label: 'RWF',
-                                    value: 'RWF',
+                                    label: "RWF",
+                                    value: "RWF",
                                   },
                                   {
-                                    value: 'USD',
-                                    label: 'USD',
+                                    value: "USD",
+                                    label: "USD",
                                   },
                                 ]}
                               />
 
-                              <p className='text-[red]'>
+                              <p className="text-[red]">
                                 {errors?.Currency?.message}
                               </p>
                             </Form.Item>
@@ -348,22 +356,22 @@ const Cart = () => {
                       <Button
                         // onClick={props.onOk}
                         disabled={loading}
-                        htmlType='submit'
+                        htmlType="submit"
                         style={{
-                          opcity: { loading } ? '0.2' : '',
-                          backgroundColor: '#1D6F2B',
-                          color: '#FFFFFF',
-                          fontWeight: 'bold',
-                          marginTop: '20px',
+                          opcity: { loading } ? "0.2" : "",
+                          backgroundColor: "#1D6F2B",
+                          color: "#FFFFFF",
+                          fontWeight: "bold",
+                          marginTop: "20px",
                           display:
-                            'flex items-center justify-center mt-3  disabled:opacity-50 duration-300 ',
+                            "flex items-center justify-center mt-3  disabled:opacity-50 duration-300 ",
                         }}
                       >
-                        <span className='flex'>
-                          <h2 className=' flex  items-center justify-center '>
-                            <FaSave className='  mr-2' />
+                        <span className="flex">
+                          <h2 className=" flex  items-center justify-center ">
+                            <FaSave className="  mr-2" />
 
-                            {loading ? 'Processing...' : ' Checkout'}
+                            {loading ? "Processing..." : " Checkout"}
                           </h2>
                         </span>
                       </Button>
@@ -371,41 +379,41 @@ const Cart = () => {
                   </div>
                 </Form>
               </div>
-              <div className='w-96 flex flex-col gap-4'>
-                <h1 className='text-2xl font-semibold text-right'>
+              <div className="w-[95%] md:w-[50%] flex flex-col gap-4  ">
+                <h1 className="text-2xl font-semibold text-right">
                   Cart totals
                 </h1>
                 <div>
-                  <p className='flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium'>
+                  <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
                     Subtotal
-                    <span className='font-semibold tracking-wide font-titleFont'>
+                    <span className="font-semibold tracking-wide font-titleFont">
                       {/* ${totalAmounts.subTotal} */}
                     </span>
                   </p>
-                  <p className='flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium'>
+                  <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
                     Total delivery fee
-                    <span className='font-semibold tracking-wide font-titleFont'>
+                    <span className="font-semibold tracking-wide font-titleFont">
                       {/* ${totalAmounts.totalDeliveryFee} */}
                     </span>
                   </p>
-                  <p className='flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium'>
+                  <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                     Total
-                    <span className='font-bold tracking-wide text-lg font-titleFont'>
+                    <span className="font-bold tracking-wide text-lg font-titleFont">
                       {totalCost} RWF
                     </span>
                   </p>
                 </div>
                 {!checkoutform && (
-                  <div className='flex justify-end'>
+                  <div className="flex justify-end">
                     {/* <Link to="/paymentgateway"> */}
                     {/* <Link to=`payment` > */}
                     <button
                       disabled={loading}
                       // onClick={makepayment}
                       onClick={handleopencheckoutform}
-                      className='w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300'
+                      className="w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300"
                     >
-                      {loading ? 'Processing...' : 'Proceed to Checkout'}
+                      {loading ? "Processing..." : "Proceed to Checkout"}
                     </button>
                     {/* </Link> */}
                     {/* <NavLink
@@ -428,25 +436,26 @@ const Cart = () => {
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className='flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20'
+            className="flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20"
           >
             <div>
               <img
-                className='w-80 rounded-lg p-4 mx-auto'
+                className="w-80 rounded-lg p-4 mx-auto"
                 src={emptyCart}
-                alt='emptyCart'
+                alt="emptyCart"
               />
             </div>
-            <div className='max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg'>
-              <h1 className='font-titleFont text-xl font-bold uppercase'>
+            <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
+              <h1 className="font-titleFont text-xl font-bold uppercase">
                 Your Cart feels lonely.
               </h1>
-              <p className='text-sm text-center px-10 -mt-2'>
+              <p className="text-sm text-center px-10 -mt-2">
                 Your Shopping cart lives to serve. Give it purpose - fill it
                 with books, electronics, videos, etc. and make it happy.
               </p>
-              <Link to='/shop'>
-                <button className='bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300'>
+              {/* <Link to="/shop"> */}
+              <Link to="/">
+                <button className="bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300">
                   Continue Shopping
                 </button>
               </Link>

@@ -4,16 +4,21 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
   LockOutlined,
+  CloseSquareFilled,
+  FastBackwardOutlined,
 } from "@ant-design/icons";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Layout, Menu, Button, Dropdown, Space, Avatar } from "antd";
+import { Layout, Menu, Button, Dropdown, Space, Avatar, Image } from "antd";
 import { MenuProps } from "antd";
 import { NavLink } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menus } from "../Common";
 import Cookies from "js-cookie";
 import { useUser } from "../../context/UserContex";
+import { BiArrowToLeft, BiLeftArrow } from "react-icons/bi";
+import { motion } from "framer-motion";
+import { IoCloseSharp } from "react-icons/io5";
 
 const { Header, Sider, Content } = Layout;
 
@@ -49,7 +54,7 @@ export const LayoutDesign = ({ userprofile }) => {
   }, [errprofile, navigate]);
   const titles = {
     0: "Dashboard",
-    1: "Seller",
+    1: "Users",
     2: "Contract",
     3: "Categories",
     4: "Orders",
@@ -145,6 +150,7 @@ export const LayoutDesign = ({ userprofile }) => {
           <Sider
             collapsible
             collapsed={collapsed}
+            defaultCollapsed={true}
             style={
               window.innerWidth > 500
                 ? {
@@ -173,18 +179,30 @@ export const LayoutDesign = ({ userprofile }) => {
             //   // borderRight: "1px solid ",
             // }}
           >
-            <Avatar
-              onClick={() => navigate("/", { replace: true })}
-              className="w-20 mx-4 h-20"
-              src="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
-            />
+            <div className="flex items-center justify-between mr-10 ">
+              <Image
+                onClick={() => navigate("/", { replace: true })}
+                width={60}
+                preview={false}
+                src="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
+              />
+
+              <motion.button>
+                <FastBackwardOutlined
+                  onClick={() => navigate("/", { replace: true })}
+                  className="text-primary text-lg"
+                  size={50}
+                />
+              </motion.button>
+            </div>
 
             <Menu
-              theme="light"
-              mode="inline"
+              // theme="light"
+              // mode="inline"
               defaultSelectedKeys={[selectedKey]}
               onClick={handleMenuClick}
-              className="font-bold text-primary h-full"
+              style={{ color: "green" }}
+              className="font-bold !text-primary h-full"
             >
               {Menus.map((item, index) => {
                 return (
@@ -195,10 +213,13 @@ export const LayoutDesign = ({ userprofile }) => {
                       onClick={() => {
                         if (item.name === "Logout") {
                           handleSignOut();
+                        } else if (window.innerWidth <= 500) {
+                          setCollapsed(!collapsed);
+                          toggleSidebar();
                         }
                       }}
                     >
-                      <NavLink to={`/user/${item.link}`}>{item.name}</NavLink>
+                      <NavLink to={`/user/${item.link}`}>{item.name} </NavLink>
                     </Menu.Item>
                   )
                 );
@@ -211,19 +232,30 @@ export const LayoutDesign = ({ userprofile }) => {
             <div className="flex items-center ">
               <Button
                 type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                // icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 onClick={() => {
                   setCollapsed(!collapsed);
                   toggleSidebar();
                 }}
                 style={{
-                  fontSize: "26px",
+                  fontSize: "35px",
                   width: 64,
                   height: 64,
                   fontWeight: "bold",
                   color: "white",
+                  // backgroundColor: "red",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-              />
+              >
+                {collapsed ? (
+                  <MenuFoldOutlined size={80} />
+                ) : (
+                  <CloseSquareFilled />
+                )}
+              </Button>
+
               <TitleDisplay />
             </div>
             <Dropdown
@@ -267,7 +299,7 @@ export const LayoutDesign = ({ userprofile }) => {
               // alignItems: "center",
               display: "flex",
             }}
-            className="h-full md:py-2 md:px-5"
+            className="h-full md:py-2 px-5"
           >
             <Outlet />
           </Content>
