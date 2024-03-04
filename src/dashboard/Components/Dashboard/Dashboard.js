@@ -193,6 +193,7 @@ export const Dashboard = () => {
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
+
     {
       title: "Orders",
       dataIndex: "orders",

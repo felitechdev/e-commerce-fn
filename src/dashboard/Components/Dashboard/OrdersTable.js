@@ -103,7 +103,7 @@ export const OrderTable = (...props) => {
         })
         .catch((error) => {});
     }
-  }, [dispatch, order, token]);
+  }, [dispatch, token]);
 
   useEffect(() => {
     const newData = order?.map((orderItem, index) => ({
