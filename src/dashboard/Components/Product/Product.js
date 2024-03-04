@@ -79,7 +79,9 @@ export const DashProducts = () => {
   const { user, onLogout } = useUser();
   const userRole = user?.role;
 
-  console.log("dashproduct", dashproduct, err);
+  useEffect(() => {
+    console.log("Filtered Data:", filteredData);
+  }, [filteredData]);
 
   const FilterByNameInput = (
     <Input.Search
@@ -400,7 +402,7 @@ export const DashProducts = () => {
             stock: product.stockQuantity,
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product.brandName,
+            address: product?.brandName,
             category: product?.category?.id,
             seller: product?.seller?.id,
           }))
@@ -438,7 +440,7 @@ export const DashProducts = () => {
             stock: product.stockQuantity,
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product.brandName,
+            address: product?.brandName,
             category: product?.category?.id,
             seller: product?.seller?.id,
           }))
@@ -472,10 +474,10 @@ export const DashProducts = () => {
   useEffect(() => {
     // Generate dataSource based on the current products state
     const newData =
-      dashproduct.length > 0
+      products.length > 0
         ? (userRole == "seller"
-            ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
-            : dashproduct
+            ? products?.filter((product) => product?.seller?.id == user?.id)
+            : products
           ).map((product) => ({
             key: product.id,
             name: [
@@ -487,14 +489,14 @@ export const DashProducts = () => {
             stock: product.stockQuantity,
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product.brandName,
+            address: product?.brandName,
             category: product?.category?.id,
             seller: product?.seller?.id,
           }))
         : [];
     setDataSource(newData);
-    setFilteredData(newData); // Update filteredData as well
-  }, [dashproduct]);
+    setFilteredData(newData);
+  }, [products]);
 
   return (
     <Layout className="space-y-6  overflow-auto bg-white">

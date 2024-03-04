@@ -94,17 +94,19 @@ const SellerProfile = () => {
             {user ? (
               <>
                 <div className="flex  space-x-2 items-center">
-                  {user?.photo == "default.jpg" ||
-                  user?.profileImageUrl == "default.jpg" ? (
-                    <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
-                      {user?.firstName[0]}
-                    </h1>
-                  ) : (
+                  {user?.photo !== "default.jpg" && (
                     <img
                       src={user?.photo}
                       className=" w-14 h-14 rounded-full border-2 p-1 "
                     />
                   )}
+
+                  {user?.profileImageUrl ||
+                    (user.photo == "default.jpg" && (
+                      <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
+                        {user?.firstName[0]}
+                      </h1>
+                    ))}
 
                   <h1 className="font-bold text-xl">{user?.firstName}</h1>
                 </div>

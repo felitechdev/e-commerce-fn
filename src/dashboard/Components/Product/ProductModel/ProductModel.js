@@ -43,7 +43,7 @@ import { useUser } from "../../../../context/UserContex";
 import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 import { colorOptions } from "../../../../common/productpossibleColors";
 import { sizeOptions } from "../../../../common/productspossibleSizes";
-import { updateuserProduct } from "../../../Redux/ReduxSlice/createProduct";
+import { updateuserProduct } from "../../../Redux/ReduxSlice/Slice";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -520,7 +520,13 @@ const ProductModel = (props) => {
         if (data && data?.status == "success") {
           // update get product state
           props.handlecreateproduct(data?.data?.product);
-          dispatch(updateuserProduct({ data: data, payload: payload }));
+          dispatch(
+            updateuserProduct({
+              data: data,
+              payload: payload,
+              product: data?.data?.product,
+            })
+          );
           setProducts(data?.data?.product);
           setAlertIndex("success");
           setAlertDescription("Product created successfully");
@@ -1279,7 +1285,7 @@ const ProductModel = (props) => {
           </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
             <span>
-              Add a color or zize with it’s corresponding size and stockQuantity
+              Add a Color or Size with it’s corresponding size and stockQuantity
             </span>
             <p>image </p>
             <div className="flex  w-[100%] p-5 flex-col justify-center  border   items-center rounded ">

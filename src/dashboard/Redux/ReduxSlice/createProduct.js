@@ -19,7 +19,6 @@ export const creteproductSlice = createSlice({
       .addCase(createProduct.fulfilled, (state, action) => {
         state.load = false;
         state.product = state.product.concat(action.payload);
-        console.log("state", state.action);
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.load = false;
@@ -28,16 +27,17 @@ export const creteproductSlice = createSlice({
       })
       .addCase(updateuserProduct, (state, action) => {
         const updatedProduct = action.payload;
-        state.dashproduct = state.dashproduct.map((product) => {
-          if (product.id === updatedProduct.id) {
-            // Merge the updated fields into the existing product
-            return {
-              ...product,
-              ...updatedProduct.payload, // Assuming payload contains only the updated fields
-            };
-          }
-          return product;
-        });
+        console.log("updatedProduct", updatedProduct);
+        // state.dashproduct = state.dashproduct.map((product) => {
+        //   if (product.id === updatedProduct.id) {
+        //     // Merge the updated fields into the existing product
+        //     return {
+        //       ...product,
+        //       ...updatedProduct.payload, // Assuming payload contains only the updated fields
+        //     };
+        //   }
+        //   return product;
+        // });
       });
   },
 });

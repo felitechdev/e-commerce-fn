@@ -17,6 +17,7 @@ export const fetchadminproduct = createAsyncThunk(
       (a, b) => b.createdAt - a.createdAt
     );
 
+    console.log("sortedProducts", sortedProducts);
     return sortedProducts;
   }
 );
