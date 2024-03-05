@@ -2,7 +2,6 @@ import React from 'react';
 
 import Badge from './Badge';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useCurrency } from '../../Currency/CurrencyProvider/CurrencyProvider';
 import DisplayCurrency from '../../Currency/DisplayCurrency/DisplayCurrency';
 import { BsCart3 } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
@@ -11,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { BiPlus } from 'react-icons/bi';
 import { BiMinus } from 'react-icons/bi';
 import Image from '../../designLayouts/Image';
-import discountedFinalPrice from '../../../util/discountedFinalPrice';
 
 // change i made
 const ProductPreview = ({ productInfo }) => {
@@ -20,10 +18,7 @@ const ProductPreview = ({ productInfo }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { fromCurrency, toCurrency, getConvertedAmount } = useCurrency();
   const cart = useSelector((state) => state.cart);
-
-  const cartTotal = cart.reduce((total, product) => total + product.items, 0);
 
   // check if product is in cart
   const productInCart = cart.find((product) => product.id === rootId);
@@ -126,24 +121,11 @@ const ProductPreview = ({ productInfo }) => {
               <div className='text-sm flex justify-between '>
                 <div>
                   <div className='text-[#1D6F2B] font-semibold'>
-                    <DisplayCurrency
-                      amount={
-                        productInfo.discountPercentage > 0
-                          ? discountedFinalPrice(
-                              productInfo.price,
-                              productInfo.discountPercentage
-                            )
-                          : productInfo.price
-                      }
-                      currencyCode={toCurrency}
-                    />
+                    <DisplayCurrency product={productInfo} />
                   </div>
                   {productInfo.discountPercentage > 0 && (
                     <div className='text-[#00000080] line-through'>
-                      <DisplayCurrency
-                        amount={productInfo.price}
-                        currencyCode={toCurrency}
-                      />
+                      <DisplayCurrency product={productInfo} />
                     </div>
                   )}
                 </div>
