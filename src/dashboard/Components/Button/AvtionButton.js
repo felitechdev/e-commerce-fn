@@ -88,7 +88,7 @@ const UpdateModel = ({ setModel }) => {
   );
 };
 
-export const ActionButton = (props) => {
+export const ActionMenuButton = (props) => {
   const handleClick = () => {
     <UpdateModel setModel={true} />;
   };

@@ -335,8 +335,6 @@ const ProductModel = (props) => {
           })
         : false;
 
-    console.log("colorVariations", colorVariations);
-
     const hasValidationError2 = colorVariations.some((variation) => {
       return (
         (!variation?.colorName && variation.colorImageUrl) ||

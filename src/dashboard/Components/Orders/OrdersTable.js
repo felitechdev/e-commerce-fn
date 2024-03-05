@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { getorderDetail } from "../../../APIs/Oreders";
 import { useNavigate, Navigate } from "react-router-dom";
-import { ActionButton } from "../Button/AvtionButton";
+import { ActionMenuButton } from "../Button/AvtionButton";
 import { UpdateOrderStatus } from "./Order/updateorderstatus";
 import { statusColors } from "../../../common/statuscolor";
 import { GetMyOrders } from "../../../APIs/Oreders";
@@ -49,7 +49,8 @@ export const OrderTable = (...props) => {
         navigate(`${record.key}`);
       },
     },
-    (user?.role == "admin" || user?.role == "customer") && {
+    // || user?.role == "customer"
+    user?.role == "admin" && {
       label: <span className="font-bold text-primary">Update</span>,
       key: "edit",
       icon: <EditFilled className=" text-icon2 mr-2" />,
@@ -147,7 +148,7 @@ export const OrderTable = (...props) => {
           
           </span> */}
 
-          <ActionButton items={getItems(record)} />
+          <ActionMenuButton items={getItems(record)} />
         </>
       ),
     },

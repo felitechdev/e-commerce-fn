@@ -235,6 +235,7 @@ const SingleproductModel = (props) => {
 };
 
 export const ActionButton = (props) => {
+  console.log("props", props);
   const [showUpdateModel, setShowUpdateModel] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateModelOpen, setUpdateModelOpen] = useState(false);
