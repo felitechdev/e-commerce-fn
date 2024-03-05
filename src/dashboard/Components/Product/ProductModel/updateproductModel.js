@@ -136,14 +136,6 @@ const UpdateProductModel = (props) => {
     getProduct();
   }, [props.Id]);
 
-  console.log(
-    "DBProductInfo",
-    DBProductInfo,
-
-    props.Id,
-    typeof DBProductInfo?.discountPercentage
-  );
-
   const [otherImages, setOtherImages] = React.useState([]);
   const [colorNames, setColorNames] = React.useState([]);
   const [colorImages, setColorImages] = React.useState([]);
@@ -207,6 +199,86 @@ const UpdateProductModel = (props) => {
     const stockQty =
       stockQuantity !== 0 ? stockQuantity : parseInt(data.stockQuantity);
 
+    const hasValidationError =
+      colorVariations[0].availableSizes !== null ||
+      colorVariations[0].stock !== 0
+        ? colorVariations.some((variation) => {
+            return (
+              // !variation.availableSizes ||
+              // !variation?.colorName ||
+              // !variation.colorImageUrl ||
+              // !variation.stock
+              (!variation.availableSizes && !variation?.colorName) ||
+              // !variation.colorImageUrl ||
+              !variation.stock
+            );
+          })
+        : false;
+
+    const hasValidationError2 = colorVariations.some((variation) => {
+      return (
+        (!variation?.colorName && variation.colorImageUrl) ||
+        (variation?.colorName && !variation.colorImageUrl)
+      );
+    });
+
+    if (hasValidationError2) {
+      alert(
+        "Something went wrong on combination of colorname and color image please check "
+      );
+      return;
+    }
+
+    if (hasValidationError) {
+      alert(
+        "Something went wrong in combination of color or size with its corresponding color and stockQuantity"
+      );
+      return; // Don't proceed with the API call if there's a validation error
+    }
+
+    // const AllfieldValidation = () => {
+    // Get the fields in the first index that contain a value
+    const filledFields =
+      colorVariations[0] &&
+      Object?.keys(colorVariations[0])?.filter(
+        (field) => colorVariations[0][field]
+      );
+
+    // Iterate over the rest of the indices
+    for (let i = 1; i < colorVariations.length; i++) {
+      // Get the fields in the current index that contain a value
+      const currentIndexFilledFields = Object.keys(colorVariations[i]).filter(
+        (field) => colorVariations[i][field]
+      );
+      // Check if the filled fields in the first index are also filled in the current index
+      for (const field of filledFields) {
+        if (!colorVariations[i][field]) {
+          // If a field is not filled, show an alert and return
+
+          alert(
+            `The field ${field} must be filled in all indices if it is filled in the first index`
+          );
+
+          return;
+        }
+      }
+
+      // Check if the current index contains any extra filled fields
+      for (const field of currentIndexFilledFields) {
+        if (!filledFields.includes(field)) {
+          // If an extra filled field is found, show an alert and return
+
+          alert(
+            `Only the fields that are filled in the first index should be filled in the rest of the indices. The field ${field} should not be filled in line ${
+              i + 1
+            }`
+          );
+
+          return;
+        }
+      }
+    }
+
     const payload = {
       name: data.name,
       // seller: userRole === "seller" ? user.id : data.seller,
@@ -218,13 +290,13 @@ const UpdateProductModel = (props) => {
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       quantityParameter: data.quantityParameter,
-      // hasColors:
-      //   colorVariations.length > 0 &&
-      //   colorVariations.every((variation) => variation.colorImageUrl),
+      hasColors:
+        colorVariations.length > 0 &&
+        colorVariations.every((variation) => variation.colorImageUrl),
 
-      // hasMeasurements:
-      //   colorVariations.length > 0 &&
-      //   colorVariations.every((variation) => variation.availableSizes),
+      hasMeasurements:
+        colorVariations.length > 0 &&
+        colorVariations.every((variation) => variation.availableSizes),
       productImages: {
         productThumbnail: {
           public_id: "Feli Technology Inv. Group/",
@@ -236,31 +308,37 @@ const UpdateProductModel = (props) => {
         })),
       },
 
-      //   colorMeasurementVariations: {
-      //     measurementType: "size",
+      colorMeasurementVariations: {
+        measurementType: "size",
 
-      //     variations: colorVariations.map((variation) => {
-      //       const colorImg =
-      //         "colorName" in variation && "colorImageUrl" in variation
-      //           ? {
-      //               url: variation.colorImageUrl,
-      //               colorName: variation?.colorName,
-      //             }
-      //           : null;
-      //       const measurementvalue =
-      //         "availableSizes" in variation ? variation.availableSizes : null;
+        variations: colorVariations.map((variation) => {
+          const colorImg =
+            "colorName" in variation && "colorImageUrl" in variation
+              ? {
+                  url: variation.colorImageUrl,
+                  colorName: variation?.colorName,
+                }
+              : null;
+          const measurementvalue =
+            "availableSizes" in variation ? variation.availableSizes : null;
 
-      //       return {
-      //         measurementvalue: measurementvalue,
-      //         colorImg: colorImg,
-      //         colorMeasurementVariationQuantity: parseInt(variation.stock),
-      //       };
-      //     }),
-      //   },
+          return {
+            measurementvalue: measurementvalue,
+            colorImg: colorImg,
+            colorMeasurementVariationQuantity: parseInt(variation.stock),
+          };
+        }),
+      },
     };
 
     setLoading(true);
-    console.log("selectedSubCategory", selectedSubCategory, selectedCategory);
+
+    // setValue("colorMeasurementVariations", {
+    //   measurementType: "size",
+    //   variations: colorVariations,
+    // });
+
+    console.log("payload", payload);
 
     dispatch(
       updateProduct({ productData: payload, id: props.Id, token: token })
@@ -404,9 +482,7 @@ const UpdateProductModel = (props) => {
           if (data.data && data.status == "success")
             setSubcategorys(data?.data?.subCategories);
         })
-        .catch((error) => {
-          console.log("error on sub cate", error);
-        });
+        .catch((error) => {});
     }
   }, [loadsubcategory, dispatch]);
 
@@ -588,7 +664,7 @@ const UpdateProductModel = (props) => {
     setValue("name", DBProductInfo.name || "");
     setValue("price", DBProductInfo.price || "");
 
-    setValue("seller", DBProductInfo.seller.id || "");
+    setValue("seller", DBProductInfo?.seller?.id || "");
     setValue(
       "productThumbnail",
       DBProductInfo.productImages.productThumbnail.url || ""
@@ -596,14 +672,6 @@ const UpdateProductModel = (props) => {
 
     setSelectedSubCategory(DBProductInfo.subcategory.id);
     setSelectedCategory(DBProductInfo.category.id);
-
-    console.log(
-      "selectedSubCategory on useeffect",
-      selectedSubCategory,
-      selectedCategory,
-      DBProductInfo.subcategory.id
-    );
-
     setValue(
       "subcategory",
       selectedSubCategory || DBProductInfo.subcategory.id
@@ -618,40 +686,23 @@ const UpdateProductModel = (props) => {
     setValue("quantityParameter", DBProductInfo.quantityParameter || "");
     setValue("hasColors", DBProductInfo.hasColors || "");
     setValue("hasMeasurements", DBProductInfo.hasMeasurements || "");
-    setValue(
-      "colorMeasurementVariations",
-      DBProductInfo.colorMeasurementVariations || ""
+    setValue("colorMeasurementVariations", {
+      measurementType: "size",
+      variations: colorVariations,
+    });
+    setColorVariations(
+      DBProductInfo.colorMeasurementVariations?.variations?.map((variation) => {
+        return {
+          colorName: variation?.colorImg?.colorName,
+          availableSizes: variation?.measurementvalue,
+          stock:
+            variation?.colorMeasurementVariationQuantity > 0
+              ? variation?.colorMeasurementVariationQuantity
+              : 0,
+          colorImageUrl: variation?.colorImg?.url,
+        };
+      })
     );
-
-    // setValue(
-    //   "measurementType",
-    //   DBProductInfo.colorMeasurementVariations.measurementType || ""
-    // );
-
-    // const payload = {
-
-    //   colorMeasurementVariations: {
-    //     measurementType: "size",
-
-    //     variations: colorVariations.map((variation) => {
-    //       const colorImg =
-    //         "colorName" in variation && "colorImageUrl" in variation
-    //           ? {
-    //               url: variation.colorImageUrl,
-    //               colorName: variation?.colorName,
-    //             }
-    //           : null;
-    //       const measurementvalue =
-    //         "availableSizes" in variation ? variation.availableSizes : null;
-
-    //       return {
-    //         measurementvalue: measurementvalue,
-    //         colorImg: colorImg,
-    //         colorMeasurementVariationQuantity: parseInt(variation.stock),
-    //       };
-    //     }),
-    //   },
-    // };
   }, [DBProductInfo, setValue]);
 
   return (
@@ -709,11 +760,8 @@ const UpdateProductModel = (props) => {
                     <CKEditor
                       editor={ClassicEditor}
                       data={field.value}
-                      onReady={(editor) => {
-                        // console.log("Editor is ready to use!", editor);
-                      }}
+                      onReady={(editor) => {}}
                       onChange={(event, editor) => {
-                        // console.log("Editor is ready to use!", editor);
                         const data = editor.getData();
                         field.onChange(data); // Update the form field value
                       }}
@@ -932,9 +980,157 @@ const UpdateProductModel = (props) => {
           </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
             <span>
-              Add a color or zize with it’s corresponding size and stockQuantity
+              Add a color or Size with it’s corresponding size and stockQuantity
             </span>
             <p>image </p>
+
+            <div className="flex  w-[100%] p-5 flex-col justify-center  border   items-center rounded ">
+              <Form.List name="colors">
+                {(fields, { add, remove }) => (
+                  <>
+                    {colorVariations.length > 0 &&
+                      colorVariations?.map((variation, index) => (
+                        <Space
+                          key={index}
+                          style={{
+                            display: "flex",
+                            marginBottom: 2,
+                          }}
+                          align="baseline"
+                        >
+                          {variation?.colorName}
+                          {/* Input for color name */}
+                          <Form.Item
+                            name={[index, "name"]}
+                            label={
+                              <div
+                                style={{
+                                  backgroundColor: variation?.colorName
+                                    ? variation?.colorName
+                                    : "",
+                                }}
+                                className={` w-20 h-5 border border-[black] rounded-full`}
+                              ></div>
+                            }
+                          >
+                            <div className="flex-col">
+                              <Select
+                                options={colorOptions}
+                                value={variation?.colorName}
+                                onChange={(value) =>
+                                  handleColorChange(index, "colorName", value)
+                                }
+                                onSearch={onSearch}
+                                showSearch
+                              />
+                            </div>
+                          </Form.Item>
+                          {/* Input for available sizes */}
+                          <Form.Item
+                            name={[index, "availableSizes"]}
+                            label={`Available Sizes:  ${
+                              variation?.availableSizes || ""
+                            }`}
+                          >
+                            <Select
+                              value={variation?.availableSizes}
+                              options={sizeOptions}
+                              onChange={(value) =>
+                                handleColorChange(
+                                  index,
+                                  "availableSizes",
+                                  value
+                                )
+                              }
+                              onSearch={onSearch}
+                              showSearch
+                            />
+                          </Form.Item>
+                          {/* Input for number available in stock */}
+                          {(variation?.colorName ||
+                            variation?.availableSizes) && (
+                            <input
+                              placeholder="Enter Available Stock"
+                              type="number"
+                              value={variation?.stock}
+                              onChange={(e) =>
+                                handleColorChange(
+                                  index,
+                                  "stock",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          )}
+                          <div className="flex flex-col">
+                            <Form.Item>
+                              {!variation?.colorImageUrl && (
+                                <UploadWidget
+                                  onUpload={(error, result, widget) => {
+                                    if (error) {
+                                      widget.close({ quiet: true });
+                                      return;
+                                    }
+                                    handleColorChange(
+                                      index,
+                                      "colorImageUrl",
+                                      result?.info?.secure_url
+                                    );
+                                  }}
+                                  uploadmultiple={false}
+                                >
+                                  {({ open }) => (
+                                    <Button
+                                      type="primary"
+                                      onClick={open}
+                                      block
+                                      icon={<PlusOutlined />}
+                                    >
+                                      Add Image
+                                    </Button>
+                                  )}
+                                </UploadWidget>
+                              )}
+                              {variation?.colorImageUrl && (
+                                <Image
+                                  src={variation?.colorImageUrl}
+                                  width={50}
+                                  height={50}
+                                />
+                              )}
+                            </Form.Item>
+                          </div>
+                          <MinusCircleOutlined
+                            className="text-[red]"
+                            onClick={() => {
+                              remove(index);
+                              const newVariations = [...colorVariations];
+                              newVariations.splice(index, 1);
+                              setColorVariations(newVariations);
+                            }}
+                          />
+                        </Space>
+                      ))}
+                    <Form.Item>
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          add();
+                          setColorVariations([
+                            ...colorVariations,
+                            { colorName: "", availableSizes: "", stock: "" },
+                          ]);
+                        }}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        Add field
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+            </div>
           </div>
 
           <span className="my-5 font-bold">More info</span>
@@ -997,31 +1193,31 @@ const UpdateProductModel = (props) => {
             </div>
 
             <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
-              {/* {stockQuantity !== 0 ? (
+              {stockQuantity !== 0 ? (
                 <Form.Item
                   label={`stockQuantity:  ${stockforproduct} `}
                   className="md:w-[48%]"
                 ></Form.Item>
-              ) : ( */}
-              <Controller
-                name="stockQuantity"
-                control={control}
-                rules={{}}
-                render={({ field }) => (
-                  <Form.Item label="stockQuantity" className="md:w-[48%]">
-                    <Input
-                      type="text"
-                      placeholder="stockQuantity"
-                      name="stockQuantity"
-                      {...field}
-                    />
-                    <p className="text-[red]">
-                      {errors?.stockQuantity?.message}
-                    </p>
-                  </Form.Item>
-                )}
-              />
-              {/* )} */}
+              ) : (
+                <Controller
+                  name="stockQuantity"
+                  control={control}
+                  rules={{}}
+                  render={({ field }) => (
+                    <Form.Item label="stockQuantity" className="md:w-[48%]">
+                      <Input
+                        type="text"
+                        placeholder="stockQuantity"
+                        name="stockQuantity"
+                        {...field}
+                      />
+                      <p className="text-[red]">
+                        {errors?.stockQuantity?.message}
+                      </p>
+                    </Form.Item>
+                  )}
+                />
+              )}
               <Controller
                 name="price"
                 control={control}

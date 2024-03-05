@@ -43,6 +43,7 @@ import { Loader } from "../Loader/LoadingSpin";
 import "./style.css";
 import { SellerList } from "../filterproducts/sellerlist";
 import { useUser } from "../../../context/UserContex";
+import { ActionMenuButton } from "../Button/AvtionButton";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -364,6 +365,17 @@ export const DashProducts = () => {
     },
   ];
 
+  const getItems = (record) => [
+    {
+      icon: (
+        <ActionButton
+          handleUpdatestate={handleUpdatestate}
+          productId={record.key}
+        />
+      ),
+    },
+  ];
+
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
@@ -649,7 +661,7 @@ export const DashProducts = () => {
                       >
                         <div
                           style={{}}
-                          className=" rounded bg-red   shadow-md  p-2 m-3"
+                          className=" rounded    shadow-md  p-2 m-3"
                         >
                           <Image
                             width="100%"
@@ -660,6 +672,10 @@ export const DashProducts = () => {
                           <div className=" font-medium text-xl">
                             {product.name[1]}
                           </div>
+
+                          <span className="bg-primary rounded-full opacity-70 text-[red] absolute top-5  right-10 ">
+                            <ActionMenuButton items={getItems(product)} />
+                          </span>
 
                           <div
                             className="font-medium  overflow-auto break-words px-5   "

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { DeleteFilled, EyeFilled, EditFilled } from "@ant-design/icons";
 import { useUser } from "../../../context/UserContex";
 
-import { ActionButton } from "../Button/AvtionButton";
+import { ActionMenuButton } from "../Button/AvtionButton";
 import UpdateRole from "./userActions/updatemodel";
 
 import React from "react";
@@ -109,7 +109,7 @@ export default function UsersTable({ users }) {
 
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         <button onClick={() => {}}>
-                          <ActionButton items={getItems(user)} />
+                          <ActionMenuButton items={getItems(user)} />
                         </button>
                       </td>
                       <UpdateRole
