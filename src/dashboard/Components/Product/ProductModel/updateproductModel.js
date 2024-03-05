@@ -85,6 +85,7 @@ const UpdateProductModel = (props) => {
   const [categorys, setCategorys] = useState([]);
   const [subcategorys, setSubcategorys] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const token = Cookies.get("token");
 
   // ahndel ulpad images on frontend
@@ -259,6 +260,7 @@ const UpdateProductModel = (props) => {
     };
 
     setLoading(true);
+    console.log("selectedSubCategory", selectedSubCategory, selectedCategory);
 
     dispatch(
       updateProduct({ productData: payload, id: props.Id, token: token })
@@ -564,11 +566,6 @@ const UpdateProductModel = (props) => {
       widget.close({ quiet: true });
       return;
     }
-
-    // Limit the number of images to 6
-    // if (otherImageUrls.length < 6) {
-    //   setOtherImageUrls([...otherImageUrls, result?.info?.secure_url]);
-    // }
     setOtherImageUrls((prevUrls) => [...prevUrls, result?.info?.secure_url]);
   }
 
@@ -597,8 +594,20 @@ const UpdateProductModel = (props) => {
       DBProductInfo.productImages.productThumbnail.url || ""
     );
 
-    // setColorVariations(DBProductInfo.colorMeasurementVariations.variations);
-    setValue("subcategory", DBProductInfo.subcategory.id || "");
+    setSelectedSubCategory(DBProductInfo.subcategory.id);
+    setSelectedCategory(DBProductInfo.category.id);
+
+    console.log(
+      "selectedSubCategory on useeffect",
+      selectedSubCategory,
+      selectedCategory,
+      DBProductInfo.subcategory.id
+    );
+
+    setValue(
+      "subcategory",
+      selectedSubCategory || DBProductInfo.subcategory.id
+    );
     setValue("category", DBProductInfo.category.id || "");
     setValue("description", DBProductInfo.description);
     setValue("currency", DBProductInfo.currency || "");
@@ -749,6 +758,8 @@ const UpdateProductModel = (props) => {
                             onChange={(value) => {
                               field.onChange(value); // Update the form field value
                               setSelectedCategory(value); // Update the selected category
+                              setSelectedSubCategory("");
+                              setValue("subcategory", "");
                             }}
                           />
                         )}
@@ -766,21 +777,11 @@ const UpdateProductModel = (props) => {
                 <Controller
                   name="subcategory"
                   control={control}
-                  defaultValue={
-                    Object.keys(DBProductInfo).length > 0
-                      ? DBProductInfo.subcategory.id
-                      : ""
-                  }
+                  defaultValue={selectedSubCategory}
                   rules={{}}
                   render={({ field }) => (
                     <>
-                      <Form.Item
-                        label={` sub-category : ${
-                          Object.keys(DBProductInfo).length > 0 &&
-                          DBProductInfo.subcategory.name
-                        } `}
-                        className=""
-                      >
+                      <Form.Item label={` sub-category `} className="">
                         {loadcategory ? (
                           <p>loading...</p>
                         ) : (
@@ -793,7 +794,9 @@ const UpdateProductModel = (props) => {
                             filterOption={filterOption}
                             options={subcategory?.length != 0 && subcategory}
                             onChange={(value) => {
-                              field.onChange(value); // Update the form field value
+                              field.onChange(value);
+                              setSelectedSubCategory(value);
+                              setValue("subcategory", value);
                             }}
                           />
                         )}
@@ -956,11 +959,6 @@ const UpdateProductModel = (props) => {
                   render={({ field }) => (
                     <>
                       <Form.Item label="Select Seller" className=" w-[50%]">
-                        {/* <Select
-                        options={selectOptions}
-                        {...field}
-                        label="Text field"
-                      /> */}
                         {loadcompany ? (
                           <p>loading...</p>
                         ) : (
@@ -971,16 +969,6 @@ const UpdateProductModel = (props) => {
                             onSearch={onSearch}
                             filterOption={filterOption}
                             options={selectOptions}
-                            // options={[
-                            //   {
-                            //     label: "Feli Technology Inv. Group",
-                            //     value: "64fb3d689851a4c86d6182de",
-                            //   },
-                            //   {
-                            //     value: "659310aa742a59c3314ef268",
-                            //     label: "Oliviertech",
-                            //   },
-                            // ]}
                           />
                         )}
 
