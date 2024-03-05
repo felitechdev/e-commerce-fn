@@ -436,7 +436,7 @@ export const Dashboard = () => {
           </Card>
         )}
       </div>
-      <div className="w-full  flex-col md:flex-row md:space-x-4 p-3 bg-[white]">
+      <div className="w-full  space-x-4 p-3 bg-[white]">
         {/* display loading spinner */}
         {status == "loading" ? (
           <>

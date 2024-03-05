@@ -35,7 +35,7 @@ export const OrderTable = (...props) => {
       title: "Order",
       dataIndex: "orderId",
       key: "orderId",
-      width: 100,
+      width: 200,
     },
     {
       title: "Amount",
