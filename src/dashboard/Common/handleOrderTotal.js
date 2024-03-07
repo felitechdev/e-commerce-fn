@@ -17,7 +17,6 @@ export const handlecountorders = (orders, productId) => {
       totalQuantity: totalQuantity,
     };
   });
-  console.log("ordered", ordered);
-  console.log("Total quantity for item", itemId, ":", totalQuantity);
+
   return totalQuantity;
 };

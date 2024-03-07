@@ -31,7 +31,6 @@ const UpdateRole = ({ setModel, setOpenModal, id }) => {
     setError(false);
 
     try {
-      console.log("values", values, id);
       const result = await axios.patch(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users/${id.id}`,
         values,

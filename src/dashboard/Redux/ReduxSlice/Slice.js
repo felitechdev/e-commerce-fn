@@ -31,20 +31,11 @@ export const getdashproductslice = createSlice({
         const updatedProduct = action.payload;
 
         const currentDashProduct = current(state).dashproduct;
-        console.log(
-          "updatedProduct on get",
 
-          currentDashProduct,
-          updatedProduct.product
-        );
         const updatedDashProduct = [
           updatedProduct.product,
           ...currentDashProduct,
         ];
-        console.log(
-          "updated",
-          current(state).dashproduct.concat(updatedProduct.product)
-        );
 
         state.dashproduct = updatedDashProduct;
       });

@@ -24,6 +24,7 @@ import { fetchadminproduct } from "../../Apis/Product";
 import { Loader } from "../Loader/LoadingSpin";
 
 import Cookies from "js-cookie";
+import { DashboardTopCard, OrdersLineCahrt } from "../Chart/DashboardTopCard";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -42,6 +43,55 @@ export const Dashboard = () => {
     (state) => state.orders
   );
 
+  const toalEarning =
+    orders && orders.reduce((acc, order) => acc + order.amount, 0);
+  const now = new Date();
+  const today = new Date(now.setDate(now.getDate()));
+  const oneDayAgo = new Date(now.setDate(now.getDate() - 1));
+  const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
+  const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
+  const oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
+
+  const totalOrders = orders && orders.length;
+  const totalEarning =
+    orders && orders.reduce((acc, order) => acc + order.amount, 0);
+
+  const totalDailyOrders =
+    orders &&
+    orders.filter((order) => new Date(order.createdAt) > oneDayAgo).length;
+  const totalDailyEarning =
+    orders &&
+    orders
+      .filter((order) => new Date(order.createdAt) > oneDayAgo)
+      .reduce((acc, order) => acc + order.amount, 0);
+
+  const totalWeeklyOrders =
+    orders &&
+    orders.filter((order) => new Date(order.createdAt) > oneWeekAgo).length;
+  const totalWeeklyEarning =
+    orders &&
+    orders
+      .filter((order) => new Date(order.createdAt) > oneWeekAgo)
+      .reduce((acc, order) => acc + order.amount, 0);
+
+  const totalMonthlyOrders =
+    orders &&
+    orders.filter((order) => new Date(order.createdAt) > oneMonthAgo).length;
+  const totalMonthlyEarning =
+    orders &&
+    orders
+      .filter((order) => new Date(order.createdAt) > oneMonthAgo)
+      .reduce((acc, order) => acc + order.amount, 0);
+
+  const totalYearlyOrders =
+    orders &&
+    orders.filter((order) => new Date(order.createdAt) > oneYearAgo).length;
+  const totalYearlyEarning =
+    orders &&
+    orders
+      .filter((order) => new Date(order.createdAt) > oneYearAgo)
+      .reduce((acc, order) => acc + order.amount, 0);
+
   const containerRef = useRef(null);
 
   // redux
@@ -59,11 +109,11 @@ export const Dashboard = () => {
     setViewallsellerProducts(false);
   };
 
-  const category = [
-    { name: "Orders", value: 1024 },
+  const chartheader = [
+    { name: "Orders", value: totalOrders },
     { name: "Earning", value: 1024 },
     { name: "Customers", value: 1024 },
-    { name: "Total Earning", value: 1024 },
+    { name: "Total Earning in General", value: totalEarning },
   ];
 
   const numberOfCards = 5;
@@ -306,11 +356,18 @@ export const Dashboard = () => {
 
   return (
     <Layout className="space-y-6  bg-light overflow-auto">
-      <div ref={containerRef} className=" border border-2-[red]"></div>
+      <div ref={containerRef} className="">
+        <DashboardTopCard />
+      </div>
+      {/* <div className="w-full flex flex-col md:flex-row   md:space-x-4 p-3 bg-[white]"> */}
+      <OrdersLineCahrt />
+      {/* <OrdersLineCahrt /> */}
+      {/* </div> */}
+
       <div className="w-full flex flex-col md:flex-row   md:space-x-4 p-3 bg-[white]">
         <Row className=" w-full md:w-[60%] p-3 bg-[#e2e8f0] ">
           <Row className="w-full p-4 mb-6 bg-tableborder rounded-md">
-            {category.map((items, index) => (
+            {chartheader.map((items, index) => (
               <Col className="text-center" span={6}>
                 <Title level={5}>{items.value}</Title>
                 <Text>{items.name}</Text>
@@ -446,8 +503,8 @@ export const Dashboard = () => {
             </span>
           </>
         ) : (
-          <div className="w-full flex  flex-col-reverse lg:flex-row space-y-1   lg:space-x-4  ">
-            <Row className=" w-full lg:w-[50%] p-0      ">
+          <div className="w-full flex  flex-col-reverse lg:flex-row space-y-1    lg:space-x-4  ">
+            <Row className=" w-full lg:w-[50%] p-0   h-min     ">
               {FilterByNameInput}
 
               {/* <Space className="w-full p-4 mb-6 bg-tableborder rounded-md">
@@ -463,11 +520,13 @@ export const Dashboard = () => {
                 tableLayout="fixed"
                 bordered={false}
                 style={{
+                  marginTop: "10px",
                   position: "sticky",
                   bottom: 0,
                   top: 0,
                   left: 0,
                   zIndex: 1,
+
                   // border: "2px solid #838383",
                   padding: "5px",
                 }}

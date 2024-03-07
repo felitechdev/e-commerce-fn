@@ -14,12 +14,12 @@ const getsubCategory = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchSubCategory.pending, (state, action) => {
-        console.log("pending");
         state.loadsubcategory = true;
       })
       .addCase(fetchSubCategory.fulfilled, (state, action) => {
         state.loadsubcategory = false;
-        state.subcategories = state.subcategories.concat(action.payload);
+
+        state.subcategories = action.payload.data.subCategories;
       })
       .addCase(fetchSubCategory.rejected, (state, action) => {
         state.loadsubcategory = false;

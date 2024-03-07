@@ -16,8 +16,8 @@ import { useState, useEffect } from "react";
 import { Loader } from "../Loader/LoadingSpin";
 
 import Cookies from "js-cookie";
-import { fetchorders } from "../../Apis/orders";
-
+// import { GetMyOrders } from "../../Apis/orders";
+import { GetMyOrders } from "../../../APIs/Oreders";
 const { Title, Paragraph, Text } = Typography;
 
 export const OrderTable = (...props) => {
@@ -76,7 +76,7 @@ export const OrderTable = (...props) => {
 
   useEffect(() => {
     if (loadorders == true) {
-      dispatch(fetchorders(token))
+      dispatch(GetMyOrders(token))
         .unwrap()
         .then((data) => {
           console.log("data on sub orders page", data);
@@ -93,10 +93,10 @@ export const OrderTable = (...props) => {
   // Fetch products only when the component mounts
   useEffect(() => {
     if (!order.length) {
-      dispatch(fetchorders(token))
+      dispatch(GetMyOrders(token))
         .unwrap()
         .then((data) => {
-          console.log("data mount  on sub orders page", data.data, data.status);
+          console.log("data mount  on sub orders page", data.data, orders);
           if (data?.data && data?.status == "success") {
             setOrder(data?.data?.orders);
           }
