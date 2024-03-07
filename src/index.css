@@ -1,7 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 10px;
+  background-color: #97909070;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #1d6f2b;
+}
+
 @tailwind utilities;
 
 @layer components {
@@ -146,7 +158,7 @@ nav .active li {
   display: none !important;
 }
 .capitalize-first::first-letter {
-  text-transform: uppercase;
+  text-transform: uppercase !important;
 }
 
 .ant-modal-mask {

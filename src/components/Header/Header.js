@@ -44,8 +44,6 @@ const Header = (props) => {
     currencies,
   } = useCurrency();
 
-  console.log('Current Currency', currentCurrency);
-
   const cart = useSelector((state) => state.cart);
 
   const cartTotal = cart.reduce((total, product) => total + product.items, 0);
