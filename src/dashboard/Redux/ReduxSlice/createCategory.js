@@ -26,7 +26,9 @@ export const createCategory = createSlice({
       })
       .addCase(createcategory.fulfilled, (state, action) => {
         state.load = false;
-        state.category = state.category.concat(action.payload);
+        state.category = state.category.concat(
+          action.payload.data.data.category
+        );
       })
       .addCase(createcategory.rejected, (state, action) => {
         state.load = false;
@@ -46,7 +48,9 @@ export const createSubCategory = createSlice({
       })
       .addCase(createsubcategory.fulfilled, (state, action) => {
         state.loadsub = false;
-        state.subcategory = state.subcategory.concat(action.payload);
+        state.subcategory = state.subcategory.concat(
+          action.payload.data.data.subcategory
+        );
       })
       .addCase(createsubcategory.rejected, (state, action) => {
         state.loadsub = false;

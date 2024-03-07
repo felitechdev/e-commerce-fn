@@ -1,152 +1,152 @@
-import React from 'react';
-import { DualAxes } from '@ant-design/plots';
+import React from "react";
+import { DualAxes } from "@ant-design/plots";
 
 export const Chart = () => {
   const uvBillData = [
     {
-      time: '2023-03',
+      time: "2023-03",
       value: 350,
-      type: 'revenue',
+      type: "revenue",
     },
     {
-      time: '2023-04',
+      time: "2023-04",
       value: 900,
-      type: 'revenue',
+      type: "revenue",
     },
     {
-      time: '2023-05',
+      time: "2023-05",
       value: 300,
-      type: 'revenue',
+      type: "revenue",
     },
     {
-      time: '2023-06',
+      time: "2023-06",
       value: 450,
-      type: 'revenue',
+      type: "revenue",
     },
     {
-      time: '2023-07',
+      time: "2023-07",
       value: 470,
-      type: 'revenue',
+      type: "revenue",
     },
     {
-      time: '2023-03',
+      time: "2023-03",
       value: 220,
-      type: 'bill',
+      type: "bill",
     },
     {
-      time: '2023-04',
+      time: "2023-04",
       value: 300,
-      type: 'bill',
+      type: "bill",
     },
     {
-      time: '2023-05',
+      time: "2023-05",
       value: 250,
-      type: 'bill',
+      type: "bill",
     },
     {
-      time: '2023-06',
+      time: "2023-06",
       value: 220,
-      type: 'bill',
+      type: "bill",
     },
     {
-      time: '2023-07',
+      time: "2023-07",
       value: 362,
-      type: 'bill',
+      type: "bill",
     },
   ];
   const transformData = [
     {
-      time: '2023-03',
+      time: "2023-03",
       count: 800,
-      name: 'a',
+      name: "a",
     },
     {
-      time: '2023-04',
+      time: "2023-04",
       count: 600,
-      name: 'a',
+      name: "a",
     },
     {
-      time: '2023-05',
+      time: "2023-05",
       count: 400,
-      name: 'a',
+      name: "a",
     },
     {
-      time: '2023-06',
+      time: "2023-06",
       count: 380,
-      name: 'a',
+      name: "a",
     },
     {
-      time: '2023-07',
+      time: "2023-07",
       count: 220,
-      name: 'a',
+      name: "a",
     },
     {
-      time: '2023-03',
+      time: "2023-03",
       count: 750,
-      name: 'b',
+      name: "b",
     },
     {
-      time: '2023-04',
+      time: "2023-04",
       count: 650,
-      name: 'b',
+      name: "b",
     },
     {
-      time: '2023-05',
+      time: "2023-05",
       count: 450,
-      name: 'b',
+      name: "b",
     },
     {
-      time: '2023-06',
+      time: "2023-06",
       count: 400,
-      name: 'b',
+      name: "b",
     },
     {
-      time: '2023-07',
+      time: "2023-07",
       count: 320,
-      name: 'b',
+      name: "b",
     },
     {
-      time: '2023-03',
+      time: "2023-03",
       count: 900,
-      name: 'c',
+      name: "c",
     },
     {
-      time: '2023-04',
+      time: "2023-04",
       count: 600,
-      name: 'c',
+      name: "c",
     },
     {
-      time: '2023-05',
+      time: "2023-05",
       count: 450,
-      name: 'c',
+      name: "c",
     },
     {
-      time: '2023-06',
+      time: "2023-06",
       count: 300,
-      name: 'c',
+      name: "c",
     },
     {
-      time: '2023-07',
+      time: "2023-07",
       count: 200,
-      name: 'c',
+      name: "c",
     },
   ];
   const config = {
     data: [uvBillData, transformData],
-    xField: 'time',
-    yField: ['value', 'count'],
+    xField: "time",
+    yField: ["value", "count"],
     geometryOptions: [
       {
-        geometry: 'column',
+        geometry: "column",
         isGroup: true,
-        seriesField: 'type',
+        seriesField: "type",
         columnWidthRatio: 0.4,
       },
       {
-        geometry: 'line',
-        seriesField: 'name',
+        geometry: "line",
+        seriesField: "name",
         lineStyle: ({ name }) => {
-          if (name === 'a') {
+          if (name === "a") {
             return {
               lineDash: [1, 4],
               opacity: 1,
@@ -160,11 +160,9 @@ export const Chart = () => {
       },
     ],
     legend: {
-        custom: false,
-        position: 'bottom',
-    }
+      custom: false,
+      position: "bottom",
+    },
   };
-  return (
-      <DualAxes {...config} style={{ width: '100%', height: '20rem' }} />
-  );
+  return <DualAxes {...config} style={{ width: "150%", height: "20rem" }} />;
 };

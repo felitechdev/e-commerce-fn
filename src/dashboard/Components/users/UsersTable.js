@@ -15,7 +15,7 @@ export default function UsersTable({ users }) {
   const user = useUser().user;
 
   const getItems = (record) => [
-    (user?.role == "admin" || user?.role == "customer") && {
+    user?.role == "admin" && {
       label: <span className="font-bold text-primary">Update</span>,
       key: "edit",
       icon: <EditFilled className=" text-icon2 mr-2" />,

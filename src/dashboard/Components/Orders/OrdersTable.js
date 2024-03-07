@@ -172,9 +172,7 @@ export const OrderTable = (...props) => {
             setOrder(data?.data?.orders);
           }
         })
-        .catch((error) => {
-          console.log("error on sub orders page", error);
-        });
+        .catch((error) => {});
     }
   }, [loadorders, dispatch, token]);
 
