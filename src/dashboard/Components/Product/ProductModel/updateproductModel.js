@@ -56,6 +56,7 @@ const normFile = (e) => {
 };
 
 const UpdateProductModel = (props) => {
+  console.log("props on update model", props);
   const formRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();

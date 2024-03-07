@@ -327,30 +327,36 @@ export const Dashboard = () => {
 
   useEffect(() => {
     // Generate dataSource based on the current products state
-    const newData = products.map((product) => ({
-      key: product.id,
-      name: [
-        product.productImages.productThumbnail.url,
-        product.name,
-        product.description,
-      ],
-      price: product.price,
-      stock: product.stockQuantity,
-      // orders: product.deliveryInfo.length,
-      published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-      address: product.brandName,
-    }));
+    const newData =
+      products.length > 0
+        ? products.map((product) => ({
+            key: product.id,
+            name: [
+              product.productImages.productThumbnail.url,
+              product.name,
+              product.description,
+            ],
+            price: product.price,
+            stock: product.stockQuantity,
+            // orders: product.deliveryInfo.length,
+            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
+            address: product.brandName,
+          }))
+        : [];
     setDataSource(newData);
     setFilteredData(newData); // Update filteredData as well
 
-    const sellerdata = products.map((product) => ({
-      key: product.id,
-      logo: product.productImages.productThumbnail.url,
-      name: product.name,
-      amount: product.price,
-      stock: product.stockQuantity,
-      product: product.name,
-    }));
+    const sellerdata =
+      products.length > 0
+        ? products.map((product) => ({
+            key: product.id,
+            logo: product.productImages.productThumbnail.url,
+            name: product.name,
+            amount: product.price,
+            stock: product.stockQuantity,
+            product: product.name,
+          }))
+        : [];
     setSeller(sellerdata);
   }, [products, dispatch]);
 
@@ -364,135 +370,6 @@ export const Dashboard = () => {
       {/* <OrdersLineCahrt /> */}
       {/* </div> */}
 
-      <div className="w-full flex flex-col md:flex-row   md:space-x-4 p-3 bg-[white]">
-        <Row className=" w-full md:w-[60%] p-3 bg-[#e2e8f0] ">
-          <Row className="w-full p-4 mb-6 bg-tableborder rounded-md">
-            {chartheader.map((items, index) => (
-              <Col className="text-center" span={6}>
-                <Title level={5}>{items.value}</Title>
-                <Text>{items.name}</Text>
-              </Col>
-            ))}
-          </Row>
-          <Chart />
-        </Row>
-        {/* display loading spinner */}
-        {status == "loading" ? (
-          <Loader className=" text-primary w-full  flex items-center justify-center" />
-        ) : (
-          <Card
-            className="h-[26rem] w-full md:w-[40%]   overflow-auto"
-            title="Top Seller"
-            extra={<Space>Report</Space>}
-            style={{
-              border: "2px solid #838383",
-            }}
-            actions={[
-              <Button
-                style={{}}
-                onClick={
-                  viewallsellerproducts
-                    ? handleViewTopSellerProducts
-                    : handleViewAllSellerProducts
-                }
-              >
-                {viewallsellerproducts
-                  ? " View Top Sellers"
-                  : "View All Sellers"}
-              </Button>,
-            ]}
-          >
-            {viewallsellerproducts
-              ? [...products]
-                  .sort((a, b) => b.published - a.published)
-                  .map((product) => (
-                    <Card type="inner" key={product._id}>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          margin: 0,
-                          borderBottom: "2px solid #838383",
-                        }}
-                      >
-                        <Avatar
-                          style={{
-                            width: 50,
-                            height: 50,
-                            backgroundColor: "#000",
-                            marginLeft: " 3px",
-                          }}
-                          src={product.productImages.productThumbnail.url}
-                        />
-                        <div className="ml-[2px] mt-0 flex-1 ">
-                          <div className="flex justify-between items-center">
-                            <Text className="  w-[30%]   font-bold text-center ">
-                              {product.brandName}
-                            </Text>
-                            <Col className=" w-[30%] text-start  h-10  ">
-                              <Text className="font-bold">delivery</Text>
-                              {/* <Paragraph className="text-sm">
-                                {product.deliveryInfo.length}
-                              </Paragraph> */}
-                            </Col>
-                            <Row style={{ alignItems: "center" }}>
-                              <Col span={16}>{product.stockQuantity}</Col>
-                              <Col span={16}>Stocks</Col>
-                            </Row>
-                            <Button>{product.price}</Button>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  ))
-              : [...products]
-
-                  //  .sort((a, b) => b.deliveryInfo.length - a.deliveryInfo.length)
-                  .sort((a, b) => b.published - a.published)
-                  .slice(0, 5)
-                  .map((product) => (
-                    <Card type="inner" key={product._id}>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          margin: 0,
-                          borderBottom: "2px solid #838383",
-                        }}
-                      >
-                        <Avatar
-                          style={{
-                            width: 50,
-                            height: 50,
-                            backgroundColor: "#000",
-                            marginLeft: " 3px",
-                          }}
-                          src={product.productImages.productThumbnail.url}
-                        />
-                        <div className="ml-[2px] mt-0 flex-1 ">
-                          <div className="flex justify-between items-center">
-                            <Text className="  w-[30%]   font-bold text-center ">
-                              {product.brandName}
-                            </Text>
-                            <Col className=" w-[30%] text-start  h-10  ">
-                              <Text className="font-bold">delivery</Text>
-                              <Paragraph className="text-sm">
-                                {/* {product.deliveryInfo.length} */}
-                              </Paragraph>
-                            </Col>
-                            <Row style={{ alignItems: "center" }}>
-                              <Col span={16}>{product.stockQuantity}</Col>
-                              <Col span={16}>Stocks</Col>
-                            </Row>
-                            <Button>{product.price}</Button>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
-          </Card>
-        )}
-      </div>
       <div className="w-full  space-x-4 p-3 bg-[white]">
         {/* display loading spinner */}
         {status == "loading" ? (
