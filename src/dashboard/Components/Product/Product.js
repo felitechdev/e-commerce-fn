@@ -398,21 +398,43 @@ export const DashProducts = () => {
     // },
 
     {
-      label: <span className="font-bold text-primary">Update</span>,
-      key: "update",
-      icon: (
-        <EditFilled
-          className=" text-icon2 mr-2"
+      label: (
+        <span
+          className="font-bold text-primary"
           onClick={() => {
             setShowUpdateModel(true);
             setProductId(record.key);
           }}
-        />
+        >
+          Update
+        </span>
+      ),
+      key: "update",
+      icon: (
+        <>
+          <EditFilled
+            className=" text-icon2 mr-2"
+            onClick={() => {
+              setShowUpdateModel(true);
+              setProductId(record.key);
+            }}
+          />
+        </>
       ),
     },
 
     {
-      label: <span className="font-bold text-primary">View more</span>,
+      label: (
+        <span
+          className="font-bold text-primary"
+          onClick={() => {
+            setIsModalOpen(true);
+            setSingleId(record.key);
+          }}
+        >
+          View more
+        </span>
+      ),
       key: "view",
       icon: (
         <EyeFilled
