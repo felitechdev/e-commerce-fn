@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg";
+import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 
 import Cookies from "js-cookie";
 import AlertComponent from "../designLayouts/AlertComponent";
@@ -18,6 +19,8 @@ const SignInForm = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [signInError, setSignInError] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -137,14 +140,22 @@ const SignInForm = (props) => {
             <p className="font-titleFont text-base font-semibold text-gray-600">
               Password
             </p>
-            <input
-              onChange={handlePassword}
-              value={password}
-              className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium 
-                    placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-              type="password"
-              placeholder="Create password"
-            />
+            <div className="relative">
+              <input
+                onChange={handlePassword}
+                value={password}
+                className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium 
+                placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+              />
+              <div
+                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeInvisibleFilled /> : <EyeFilled />}
+              </div>
+            </div>
             {errPassword && (
               <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
                 <span className="font-bold italic mr-1">!</span>
@@ -162,7 +173,6 @@ const SignInForm = (props) => {
               </Link>
             </p>
           </div>
-
           <button
             type="button"
             onClick={handleSignIn}

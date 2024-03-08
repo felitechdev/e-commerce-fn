@@ -89,7 +89,6 @@ const UpdateModel = ({ setModel }) => {
 };
 
 export const SingleproductModel = (props) => {
-  console.log("vierrr", props);
   const [DBProductInfo, setDBProductInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState(null);
@@ -236,7 +235,6 @@ export const SingleproductModel = (props) => {
 };
 
 export const ActionButton = (props) => {
-  console.log("props  on action ", props);
   const [showUpdateModel, setShowUpdateModel] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

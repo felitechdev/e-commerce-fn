@@ -71,6 +71,8 @@ const SingleOrder = () => {
     }
   }, [dispatch, ord, token]);
 
+  console.log("orders", orders);
+
   const singleorder = ord.length > 0 ? ord : [];
 
   return (
