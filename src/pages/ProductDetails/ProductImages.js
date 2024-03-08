@@ -6,7 +6,7 @@ const ProductImages = ({ activeImage, productImages, dispatch }) => {
     <>
       <div className='mt-4 inline-block w-container lg:w-[35%]'>
         <div className='flex flex-col gap-3 items-center'>
-          <div className='relative max-w-[428px] max-h-[418px] rounded-md'>
+          <div className='relative max-w-[428px] max-h-[418px] rounded-md overflow-hidden'>
             <FiHeart
               className='absolute right-2 top-2 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-1.5 px-2.5  cursor-pointer'
               size={40}
@@ -14,7 +14,7 @@ const ProductImages = ({ activeImage, productImages, dispatch }) => {
 
             <img
               src={activeImage.url}
-              className='w-full rounded-md'
+              className='w-full rounded-md object-scale-down'
               alt=''
             />
           </div>
