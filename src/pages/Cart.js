@@ -127,8 +127,6 @@ const Cart = () => {
   const onErrors = (errors) => console.log('errors on form creation', errors);
 
   async function makepayment(requestData) {
-    alert('Here Pages');
-    console.log(requestData);
     setLoadng(true);
     try {
       const res = await axios.post(
