@@ -32,9 +32,13 @@ import {
   FilterFilled,
   AppstoreFilled,
 } from "@ant-design/icons";
+
 import { useState } from "react";
 import ProductModel from "./ProductModel/ProductModel";
-import { ActionButton } from "./ActionButton copy/ActionButton";
+import {
+  ActionButton,
+  SingleproductModel,
+} from "./ActionButton copy/ActionButton";
 import { CategoryList } from "../filterproducts/categorylist";
 import { useNavigate } from "react-router-dom";
 // import actions
@@ -44,6 +48,7 @@ import "./style.css";
 import { SellerList } from "../filterproducts/sellerlist";
 import { useUser } from "../../../context/UserContex";
 import { ActionMenuButton } from "../Button/AvtionButton";
+import UpdateProductModel from "./ProductModel/updateproductModel";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -61,10 +66,22 @@ export const DashProducts = () => {
   const [selectedsellerId, setSelectedsellerId] = useState(null);
   const [isViewAllChecked, setIsViewAllChecked] = useState(false);
   const [activeFilter, setActiveFilter] = useState(null);
-
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-
   const [selectedlist, setSelectedlist] = useState(true);
+  // handle update product model
+  const [showUpdateModel, setShowUpdateModel] = useState(false);
+  const [productId, setProductId] = useState(null);
+  const handleclose = () => {
+    setShowUpdateModel(false);
+  };
+  // handle view sible product
+  const [singleId, setSingleId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCancelview = () => {
+    setIsModalOpen(false);
+  };
+
   // redux
   const dispatch = useDispatch();
   const { dashproduct, loading, err } = useSelector(
@@ -366,11 +383,66 @@ export const DashProducts = () => {
   ];
 
   const getItems = (record) => [
+    // {
+    //   label: <span className="font-bold text-primary">Delete</span>,
+    //   key: "Delete",
+    //   icon: (
+    //     <DeleteFilled
+    //       className=" text-icon3 mr-2"
+    //       onClick={() => {
+    //         console.log("delete", record.key);
+    //         // handleDeleteClick(props.productId);
+    //       }}
+    //     />
+    //   ),
+    // },
+
     {
+      label: (
+        <span
+          className="font-bold text-primary"
+          onClick={() => {
+            setShowUpdateModel(true);
+            setProductId(record.key);
+          }}
+        >
+          Update
+        </span>
+      ),
+      key: "update",
       icon: (
-        <ActionButton
-          handleUpdatestate={handleUpdatestate}
-          productId={record.key}
+        <>
+          <EditFilled
+            className=" text-icon2 mr-2"
+            onClick={() => {
+              setShowUpdateModel(true);
+              setProductId(record.key);
+            }}
+          />
+        </>
+      ),
+    },
+
+    {
+      label: (
+        <span
+          className="font-bold text-primary"
+          onClick={() => {
+            setIsModalOpen(true);
+            setSingleId(record.key);
+          }}
+        >
+          View more
+        </span>
+      ),
+      key: "view",
+      icon: (
+        <EyeFilled
+          className=" text-icon1 mr-2"
+          onClick={() => {
+            setIsModalOpen(true);
+            setSingleId(record.key);
+          }}
         />
       ),
     },
@@ -512,6 +584,24 @@ export const DashProducts = () => {
 
   return (
     <Layout className="space-y-6   overflow-auto bg-[white]">
+      {/* handle open update product model  */}
+
+      {showUpdateModel && productId && (
+        <UpdateProductModel
+          handleclose={handleclose}
+          Id={productId}
+          isModalOpen={showUpdateModel}
+        />
+      )}
+
+      {isModalOpen && singleId && (
+        <SingleproductModel
+          Id={singleId}
+          isModalOpen={isModalOpen}
+          handleCancelUppdate={handleCancelview}
+        />
+      )}
+
       <Space className="flex justify-between">
         <Space className="flex justify-between">
           <Title level={3}> All Products</Title>

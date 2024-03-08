@@ -59,12 +59,13 @@ export const OrderTable = (...props) => {
       title: "Items",
       dataIndex: "itemsCount",
       key: "itemsCount",
+      width: 100,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: 100,
+      width: 200,
     },
     {
       title: "Updated At",
@@ -84,9 +85,7 @@ export const OrderTable = (...props) => {
             setOrder(data?.data?.orders);
           }
         })
-        .catch((error) => {
-          console.log("error on sub orders page", error);
-        });
+        .catch((error) => {});
     }
   }, [loadorders, dispatch, token]);
 
@@ -96,7 +95,6 @@ export const OrderTable = (...props) => {
       dispatch(GetMyOrders(token))
         .unwrap()
         .then((data) => {
-          console.log("data mount  on sub orders page", data.data, orders);
           if (data?.data && data?.status == "success") {
             setOrder(data?.data?.orders);
           }
@@ -108,7 +106,6 @@ export const OrderTable = (...props) => {
   useEffect(() => {
     const newData = order?.map((orderItem, index) => ({
       key: orderItem.id,
-
       customerId: index + 1,
       orderId: orderItem?.id,
       amount: orderItem.amount,
@@ -121,6 +118,7 @@ export const OrderTable = (...props) => {
 
     setFilteredData(newData);
   }, [order]);
+
   return (
     <>
       {loadorders ? (

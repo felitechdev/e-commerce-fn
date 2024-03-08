@@ -6,6 +6,7 @@ import {
   LockOutlined,
   CloseSquareFilled,
   FastBackwardOutlined,
+  HomeFilled,
 } from "@ant-design/icons";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -188,10 +189,11 @@ export const LayoutDesign = ({ userprofile }) => {
               />
 
               <motion.button>
-                <FastBackwardOutlined
+                <HomeFilled
                   onClick={() => navigate("/", { replace: true })}
                   className="text-primary text-lg"
-                  size={50}
+                  size={90}
+                  style={{ color: "green", fontSize: "30px" }}
                 />
               </motion.button>
             </div>
