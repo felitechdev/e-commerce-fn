@@ -106,7 +106,7 @@ const App = () => {
             <Route path='users' element={<Users />} />
             <Route path='order' element={<Orders />} />
             <Route path='order/:id' element={<SingleOrder />} />
-            {/* <Route path="*" element={<PageNotFound />} /> */}
+            <Route path='*' element={<PageNotFound />} />
           </Route>
 
           <Route path='*' element={<PageNotFound />} />
