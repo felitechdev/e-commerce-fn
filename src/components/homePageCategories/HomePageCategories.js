@@ -65,7 +65,7 @@ export default function HomePageCategories() {
                   'bg-[#1D6F2B] text-white '
                 }`}
                 key={category.name}
-                onMouseEnter={() => handleMouseEnter(category.name)}
+                onMouseEnter={() => handleMouseEnter(category.id)}
               >
                 <Link
                   to={`shop/?category=${hoveredCategory}`}
@@ -73,7 +73,7 @@ export default function HomePageCategories() {
                 >
                   {category.name}
                 </Link>{' '}
-                {hoveredCategory === category.name && <HiChevronRight />}
+                {hoveredCategory === category.id && <HiChevronRight />}
               </li>
             ))}
           </ul>
@@ -85,7 +85,7 @@ export default function HomePageCategories() {
           <ul className='min-w-52 flex gap-2 flex-col'>
             {categories
               .find((cat) => {
-                return cat.name === hoveredCategory;
+                return cat.id === hoveredCategory;
               })
               .subCategories.map((subCat) => (
                 <li
@@ -93,7 +93,7 @@ export default function HomePageCategories() {
                   className='w-full px-4 hover:underline cursor-pointer'
                 >
                   <Link
-                    to={`shop/?category=${hoveredCategory}&subCategory=${subCat.name}`}
+                    to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
                     className='capitalize'
                   >
                     {subCat.name}
