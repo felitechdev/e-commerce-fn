@@ -1,53 +1,77 @@
-import React from "react";
-import NavTitle from "./NavTitle";
+import React, { useState } from 'react';
+import NavTitle from './NavTitle';
+import { useCurrency } from '../../../Currency/CurrencyProvider/CurrencyProvider';
+import { useSearchParams } from 'react-router-dom';
 
 const Price = () => {
-  const priceList = [
-    {
-      _id: 950,
-      priceOne: 0.0,
-      priceTwo: 49.99,
-    },
-    {
-      _id: 951,
-      priceOne: 50.0,
-      priceTwo: 99.99,
-    },
-    {
-      _id: 952,
-      priceOne: 100.0,
-      priceTwo: 199.99,
-    },
-    {
-      _id: 953,
-      priceOne: 200.0,
-      priceTwo: 399.99,
-    },
-    {
-      _id: 954,
-      priceOne: 400.0,
-      priceTwo: 599.99,
-    },
-    {
-      _id: 955,
-      priceOne: 600.0,
-      priceTwo: 1000.0,
-    },
-  ];
+  const { currentCurrency } = useCurrency();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [priceRange, setPriceRange] = useState({
+    min: 0,
+    max: null,
+  });
+
+  const handleOnChange = (e) => {
+    setPriceRange({
+      ...priceRange,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    searchParams.set('price[gte]', priceRange.min);
+    searchParams.set('price[lte]', priceRange.max);
+    setSearchParams(searchParams);
+  };
+
   return (
-    <div className="cursor-pointer">
-      <NavTitle title="Shop by Price" icons={false} />
-      <div className="font-titleFont">
-        <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
-          {priceList.map((item) => (
-            <li
-              key={item._id}
-              className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
-            >
-              ${item.priceOne.toFixed(2)} - ${item.priceTwo.toFixed(2)}
-            </li>
-          ))}
-        </ul>
+    <div className='cursor-pointer'>
+      <NavTitle title='Shop by Price' icons={false} />
+      <div className='font-titleFont'>
+        <form class='w-full max-w-lg' onSubmit={handleSubmit}>
+          <div class='flex gap-4 items-end'>
+            <div class='md:w-1/2 mb-6 md:mb-0'>
+              <label
+                class='block tracking-wide text-gray-700 text-xs font-bold mb-2'
+                for='grid-first-name'
+              >
+                Min ({currentCurrency})
+              </label>
+              <input
+                class='appearance-none  w-full bg-white text-gray-700 border border-gray-200  rounded py-2 px-4 leading-tight focus:outline-none placeholder:text-[#C4C4C4]'
+                id='grid-first-name'
+                type='number'
+                placeholder='Min'
+                name='min'
+                value={priceRange.min}
+                min={0}
+                onChange={handleOnChange}
+              />
+            </div>
+            <div class=' md:w-1/2'>
+              <label
+                class='block tracking-wide text-gray-700 text-xs font-bold mb-2'
+                for='grid-last-name'
+              >
+                Max ({currentCurrency})
+              </label>
+              <input
+                class='appearance-none  w-full bg-white text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight placeholder:text-[#C4C4C4]'
+                id='grid-last-name'
+                type='number'
+                placeholder='Max'
+                onChange={handleOnChange}
+                name='max'
+                min={1}
+                value={priceRange.max}
+              />
+            </div>
+            <button class='shadow bg-[#1D6F2B]  hover:bg-[#1d6f2ba4] focus:shadow-outline focus:outline-none !focus:border-[#1D6F2B] text-white font-bold py-2 px-4 rounded'>
+              Ok
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
