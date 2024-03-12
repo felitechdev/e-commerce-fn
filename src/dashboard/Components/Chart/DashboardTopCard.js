@@ -504,6 +504,15 @@ export const OrdersBarChart = () => {
   const [orderdata, setOrderdata] = useState({
     options: {
       colors: colors,
+      title: {
+        text: "Weekly Orders",
+        align: "center",
+        style: {
+          fontSize: "20px",
+          color: "#263238",
+        },
+      },
+
       xaxis: {
         categories: daysOfWeek,
       },
