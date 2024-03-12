@@ -11,7 +11,7 @@ export const Menus = [
     name: "Dashboard",
     link: "dashboard",
     icon: <PieChartOutlined />,
-    roles: ["admin"], // All roles can see
+    roles: ["admin", "seller"], // All roles can see
   },
   {
     name: "Users",

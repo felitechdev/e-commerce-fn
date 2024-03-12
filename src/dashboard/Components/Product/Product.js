@@ -97,9 +97,7 @@ export const DashProducts = () => {
   const { user, onLogout } = useUser();
   const userRole = user?.role;
 
-  useEffect(() => {
-    console.log("Filtered Data:", filteredData);
-  }, [filteredData]);
+  useEffect(() => {}, [filteredData]);
 
   const FilterByNameInput = (
     <Input.Search
@@ -471,9 +469,7 @@ export const DashProducts = () => {
     const formattedFilteredProducts =
       filteredProducts.length > 0
         ? (userRole == "seller"
-            ? filteredProducts?.filter(
-                (product) => product?.seller?.id == user?.id
-              )
+            ? filteredProducts?.filter((product) => product?.seller == user?.id)
             : filteredProducts
           ).map((product) => ({
             key: product.id,
@@ -488,7 +484,7 @@ export const DashProducts = () => {
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
             category: product?.category?.id,
-            seller: product?.seller?.id,
+            seller: product?.seller,
           }))
         : [];
 
@@ -526,7 +522,7 @@ export const DashProducts = () => {
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
             category: product?.category?.id,
-            seller: product?.seller?.id,
+            seller: product?.seller,
           }))
         : [];
 
@@ -560,7 +556,7 @@ export const DashProducts = () => {
     const newData =
       products.length > 0
         ? (userRole == "seller"
-            ? products?.filter((product) => product?.seller?.id == user?.id)
+            ? products?.filter((product) => product?.seller == user?.id)
             : products
           ).map((product) => ({
             key: product.id,
@@ -575,7 +571,7 @@ export const DashProducts = () => {
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
             category: product?.category?.id,
-            seller: product?.seller?.id,
+            seller: product?.seller,
           }))
         : [];
     setDataSource(newData);
@@ -729,7 +725,7 @@ export const DashProducts = () => {
                 scroll={{ x: 1500, y: 1200 }}
               />
             ) : (
-              <div className="mt-5">
+              <div className="mt-5 ">
                 <Row
                   gutter={{
                     xs: 8,
@@ -754,7 +750,7 @@ export const DashProducts = () => {
                           className=" rounded    shadow-md  p-2 m-3"
                         >
                           <Image
-                            width="100%"
+                            width="80%"
                             className="rounded-md !h-[250px]  "
                             src={product.name[0]}
                             preview={false}

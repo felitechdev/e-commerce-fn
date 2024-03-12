@@ -12,8 +12,8 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-
 import { Loader } from "../Loader/LoadingSpin";
+import { useUser } from "../../../context/UserContex";
 
 import Cookies from "js-cookie";
 // import { GetMyOrders } from "../../Apis/orders";
@@ -23,20 +23,14 @@ const { Title, Paragraph, Text } = Typography;
 export const OrderTable = (...props) => {
   const [order, setOrder] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-
   const token = Cookies.get("token");
-
+  const { user } = useUser();
   const { orders, loadorders, errorders } = useSelector(
     (state) => state.orders
   );
+
   const dispatch = useDispatch();
   const columns = [
-    {
-      title: "Order",
-      dataIndex: "orderId",
-      key: "orderId",
-      width: 200,
-    },
     {
       title: "Amount",
       dataIndex: "amount",
@@ -49,12 +43,7 @@ export const OrderTable = (...props) => {
       key: "address",
       width: 200,
     },
-    {
-      title: "Phone ",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      width: 200,
-    },
+
     {
       title: "Items",
       dataIndex: "itemsCount",
@@ -74,6 +63,22 @@ export const OrderTable = (...props) => {
       width: 100,
     },
   ];
+
+  if (user?.role === "admin") {
+    columns.splice(0, 0, {
+      title: "Order",
+      dataIndex: "orderId",
+      key: "orderId",
+      width: 250,
+    });
+
+    columns.splice(3, 0, {
+      title: "Phone ",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      width: 200,
+    });
+  }
 
   useEffect(() => {
     if (loadorders == true) {
@@ -113,11 +118,12 @@ export const OrderTable = (...props) => {
       phoneNumber: orderItem.phoneNumber,
       itemsCount: orderItem.items.length,
       status: orderItem.status,
-      updatedAt: new Date(orderItem.updatedAt).toLocaleDateString(),
+      updatedAt: new Date(orderItem.createdAt).toLocaleDateString(),
     }));
 
     setFilteredData(newData);
   }, [order]);
+  console.log(order, "order");
 
   return (
     <>

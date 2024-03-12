@@ -6,6 +6,7 @@ import Chart from "react-apexcharts";
 import { groupBy } from "lodash";
 import { fetchUsers } from "../../../redux/Reducers/usersSlice";
 import { useEffect } from "react";
+import { useUser } from "../../../context/UserContex";
 
 // percentages for daily and monthly orders and earnings based on weekly and yearly data, respectively.
 
@@ -124,18 +125,24 @@ export const DashboardTopCard = ({ className }) => {
     <Row gutter={[16, 16]} className="w-full">
       <Col xs={24} sm={12} md={6}>
         <Card
-          className="dashboard-top-card font-bold shadow-lg text-gray-700"
+          className="dashboard-top-card font-semibold  shadow-lg text-gray-700"
           style={{ background: dailyOrdersBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className="">Daily Orders</h3>
+            <h3 className=" text-[black] text-xl  font-extrabold ">
+              Daily Orders
+            </h3>
           </div>
           <div className="dashboard-top-card__value ">
             Total: {totalDailyOrders}{" "}
             <span style={{ fontSize: "12px", color: "#f4a535" }}>Orders</span>
           </div>
           <div className="dashboard-top-card__subtitle">
-            Percentage: {dailyOrdersPercentage.toFixed(2)}%
+            Percentage:{" "}
+            {isNaN(dailyOrdersPercentage.toFixed(2))
+              ? 0
+              : dailyOrdersPercentage.toFixed(2)}
+            %
           </div>
         </Card>
       </Col>
@@ -145,14 +152,20 @@ export const DashboardTopCard = ({ className }) => {
           style={{ background: dailyEarningBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className="">Daily Earnings</h3>
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              Daily Earnings
+            </h3>
           </div>
           <div className="dashboard-top-card__value">
             Amount: {totalDailyEarning}{" "}
             <span style={{ fontSize: "12px", color: "#f75d81" }}> Rwf</span>
           </div>
           <div className="dashboard-top-card__subtitle">
-            Percentage: {dailyEarningPercentage.toFixed(2)}%
+            Percentage:{" "}
+            {isNaN(dailyEarningPercentage.toFixed(2))
+              ? 0
+              : dailyEarningPercentage.toFixed(2)}
+            %
           </div>
         </Card>
       </Col>
@@ -163,14 +176,20 @@ export const DashboardTopCard = ({ className }) => {
           style={{ background: weeklyOrdersBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className="text-gray-700">Weekly Orders</h3>
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              Weekly Orders
+            </h3>
           </div>
           <div className="dashboard-top-card__value ">
             Total: {totalWeeklyOrders}{" "}
             <span style={{ fontSize: "12px", color: "#f4a535" }}>Orders</span>
           </div>
           <div className="dashboard-top-card__subtitle">
-            Percentage: {weeklyOrdersPercentage.toFixed(2)}%
+            Percentage:{" "}
+            {isNaN(weeklyOrdersPercentage.toFixed(2))
+              ? 0
+              : weeklyOrdersPercentage.toFixed(2)}
+            %
           </div>
         </Card>
       </Col>
@@ -181,14 +200,21 @@ export const DashboardTopCard = ({ className }) => {
           style={{ background: weeklyEarningBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className=""> Weakly Earnings </h3>
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              {" "}
+              Weakly Earnings{" "}
+            </h3>
           </div>
           <div className="dashboard-top-card__value ">
             Amount: {totalWeeklyEarning}{" "}
             <span style={{ fontSize: "12px", color: "#f75d81" }}> Rwf</span>
           </div>
           <div className="dashboard-top-card__subtitle">
-            Percentage: {weeklyEarningPercentage.toFixed(2)}%
+            Percentage:{" "}
+            {isNaN(weeklyEarningPercentage.toFixed(2))
+              ? 0
+              : weeklyEarningPercentage.toFixed(2)}
+            %
           </div>
         </Card>
       </Col>
@@ -199,14 +225,20 @@ export const DashboardTopCard = ({ className }) => {
           style={{ background: monthlyOrdersBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className="">Monthly Orders</h3>
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              Monthly Orders
+            </h3>
           </div>
           <div className="dashboard-top-card__value ">
             Total: {totalMonthlyOrders}{" "}
             <span style={{ fontSize: "12px", color: "#f4a535" }}>Orders</span>
           </div>
           <div className="dashboard-top-card__subtitle">
-            Percentage: {monthlyOrdersPercentage.toFixed(2)}%
+            Percentage:{" "}
+            {isNaN(monthlyOrdersPercentage.toFixed(2))
+              ? 0
+              : monthlyOrdersPercentage.toFixed(2)}
+            %
           </div>
         </Card>
       </Col>
@@ -216,14 +248,20 @@ export const DashboardTopCard = ({ className }) => {
           style={{ background: monthlyEarningBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className="">Monthly Earnings</h3>
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              Monthly Earnings
+            </h3>
           </div>
           <div className="dashboard-top-card__value ">
             Amount: {totalMonthlyEarning}{" "}
             <span style={{ fontSize: "12px", color: "#f75d81" }}> Rwf</span>
           </div>
           <div className="dashboard-top-card__subtitle">
-            Percentage: {monthlyEarningPercentage.toFixed(2)}%
+            Percentage:{" "}
+            {isNaN(monthlyEarningPercentage.toFixed(2))
+              ? 0
+              : monthlyEarningPercentage.toFixed(2)}
+            %
           </div>
         </Card>
       </Col>
@@ -233,7 +271,9 @@ export const DashboardTopCard = ({ className }) => {
           style={{ background: monthlyEarningBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className="">Yearly Orders</h3>
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              Yearly Orders
+            </h3>
           </div>
 
           <div className="dashboard-top-card__subtitle">
@@ -248,7 +288,9 @@ export const DashboardTopCard = ({ className }) => {
           style={{ background: monthlyEarningBgColor }}
         >
           <div className="dashboard-top-card__title">
-            <h3 className="">Yearly Earnings</h3>
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              Yearly Earnings
+            </h3>
           </div>
 
           <div className="dashboard-top-card__subtitle">
@@ -266,6 +308,7 @@ export const OrdersLineCahrt = () => {
   const now = new Date();
   const today = new Date(now.setDate(now.getDate()));
   const yesterday = new Date(now.setDate(now.getDate() - 1));
+  const { user } = useUser();
 
   const totalYesterdayOrders = orders.filter(
     (order) =>
@@ -398,7 +441,7 @@ export const OrdersLineCahrt = () => {
             </p>
           </Col>
           <Col sm={12} md={6}>
-            <p className="text-[white] font-bold text-md mb-1">
+            <p className="text-[white] font-bold text-lg mb-1">
               Orders / {today.getHours()} h:00
             </p>
             <Statistic
@@ -424,7 +467,7 @@ export const OrdersLineCahrt = () => {
             />
           </Col>
           <Col sm={12} md={8} className="">
-            <p className="text-[white] font-bold text-md mb-1">
+            <p className="text-[white] font-bold text-lg mb-1">
               Earnings / {today.getHours()} h:00{" "}
             </p>
             <Statistic
@@ -462,7 +505,7 @@ export const OrdersLineCahrt = () => {
         />
       </div>
       <div className="sm:flex-col md:flex-row flex justify-between">
-        <SellerPieChart />
+        {user?.role == "admin" && <SellerPieChart />}
         <OrdersBarChart />
       </div>
     </div>
@@ -574,7 +617,6 @@ export const OrdersBarChart1 = () => {
     "Saturday",
   ];
   const ordersPerDayOfWeek = new Array(7).fill(0);
-
   orders?.forEach((order) => {
     const orderDate = new Date(order.createdAt);
     const dayOfWeek = orderDate.getDay();

@@ -16,6 +16,7 @@ import {
 } from "@ant-design/icons";
 import { useState, useEffect, useRef } from "react";
 import { handlecountorders } from "../../Common/handleOrderTotal";
+import { useUser } from "../../../context/UserContex";
 
 import { OrderTable } from "./OrdersTable";
 
@@ -38,6 +39,7 @@ export const Dashboard = () => {
   const [value, setValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [seller, setSeller] = useState([]);
+  const { user: userRole } = useUser();
 
   const { orders, loadorders, errorders } = useSelector(
     (state) => state.orders
@@ -370,68 +372,70 @@ export const Dashboard = () => {
       {/* <OrdersLineCahrt /> */}
       {/* </div> */}
 
-      <div className="w-full  space-x-4 p-3 bg-[white]">
-        {/* display loading spinner */}
-        {status == "loading" ? (
-          <>
-            <Loader className=" text-primary flex items-center w-full justify-center" />
-            <span className=" text-primary flex items-center  justify-center">
-              Loading....
-            </span>
-          </>
-        ) : (
-          <div className="w-full flex  flex-col-reverse lg:flex-row space-y-1    lg:space-x-4  ">
-            <Row className=" w-full lg:w-[50%] p-0   h-min     ">
-              {FilterByNameInput}
+      {userRole.role == "admin" && (
+        <div className="w-full  space-x-4 p-3 bg-[white]">
+          {/* display loading spinner */}
+          {status == "loading" ? (
+            <>
+              <Loader className=" text-primary flex items-center w-full justify-center" />
+              <span className=" text-primary flex items-center  justify-center">
+                Loading....
+              </span>
+            </>
+          ) : (
+            <div className="w-full flex  flex-col-reverse lg:flex-row space-y-1    lg:space-x-4  ">
+              <Row className=" w-full lg:w-[50%] p-0   h-min     ">
+                {FilterByNameInput}
 
-              {/* <Space className="w-full p-4 mb-6 bg-tableborder rounded-md">
+                {/* <Space className="w-full p-4 mb-6 bg-tableborder rounded-md">
                 {FilterByNameInput}
               </Space> */}
 
-              <Table
-                rowClassName="even:bg-[#f1f5f9]  hover:cursor-pointer custom-table-row "
-                // rowSelection={{
-                //   type: "checkbox",
-                // }}
-                size="small"
-                tableLayout="fixed"
-                bordered={false}
-                style={{
-                  marginTop: "10px",
-                  position: "sticky",
-                  bottom: 0,
-                  top: 0,
-                  left: 0,
-                  zIndex: 1,
+                <Table
+                  rowClassName="even:bg-[#f1f5f9]  hover:cursor-pointer custom-table-row "
+                  // rowSelection={{
+                  //   type: "checkbox",
+                  // }}
+                  size="small"
+                  tableLayout="fixed"
+                  bordered={false}
+                  style={{
+                    marginTop: "10px",
+                    position: "sticky",
+                    bottom: 0,
+                    top: 0,
+                    left: 0,
+                    zIndex: 1,
 
-                  // border: "2px solid #838383",
-                  padding: "5px",
-                }}
-                dataSource={filteredData.sort(
-                  (a, b) => new Date(b.published) - new Date(a.published)
-                )}
-                columns={Columns}
-                scroll={{ x: 500 }}
-                className="w-full   "
-              />
-            </Row>
+                    // border: "2px solid #838383",
+                    padding: "5px",
+                  }}
+                  dataSource={filteredData.sort(
+                    (a, b) => new Date(b.published) - new Date(a.published)
+                  )}
+                  columns={Columns}
+                  scroll={{ x: 500 }}
+                  className="w-full   "
+                />
+              </Row>
 
-            <Row className=" w-full lg:w-[50%]  p-0   ">
-              <OrderTable
-                style={{
-                  position: "sticky",
-                  bottom: 0,
-                  top: 0,
-                  left: 0,
-                  zIndex: 1,
-                  border: "2px solid #838383",
-                  padding: "10px",
-                }}
-              />
-            </Row>
-          </div>
-        )}
-      </div>
+              <Row className=" w-full lg:w-[50%]  p-0   ">
+                <OrderTable
+                  style={{
+                    position: "sticky",
+                    bottom: 0,
+                    top: 0,
+                    left: 0,
+                    zIndex: 1,
+                    border: "2px solid #838383",
+                    padding: "10px",
+                  }}
+                />
+              </Row>
+            </div>
+          )}
+        </div>
+      )}
     </Layout>
   );
 };
