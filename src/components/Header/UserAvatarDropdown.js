@@ -11,10 +11,7 @@ const UserAvatarDropdown = (props) => {
 
   useEffect(() => {
     document.body.addEventListener('click', (e) => {
-      if (
-        avatarRef.current &&
-        avatarRef.current.contains(e.target) === false
-      ) {
+      if (avatarRef.current && avatarRef.current.contains(e.target) === false) {
         if (
           dropDownRef.current &&
           dropDownRef.current.contains(e.target) === false
@@ -33,9 +30,10 @@ const UserAvatarDropdown = (props) => {
   return (
     <>
       <li
-        className='hidden  rounded-full border-2 border-black hover:border-slate-300  md:inline-block align-middle w-[40px] md:ml-4 cursor-pointer'
+        className='hidden hover:border-slate-300  md:inline-block align-middle w-[40px] md:ml-4 cursor-pointer'
         onClick={() => setDisplayDropdown(!displayDropdown)}
-        ref={avatarRef}>
+        ref={avatarRef}
+      >
         {/* <img
           className="inline-block w-[40px] rounded-full"
           // src={props.userInfo.profile.profileImageUrl}
@@ -45,7 +43,7 @@ const UserAvatarDropdown = (props) => {
         {/* <div className="flex"> */}
         {(!props?.userInfo?.photo && props.userInfo.firstName) ||
         props?.userInfo?.photo == 'default.jpg' ? (
-          <h1 className='bg-primary rounded-full text-white font-bold px-1 py-1 text-2xl text-center'>
+          <h1 className='bg-[#1D6F2B] grid place-content-center rounded-full text-white font-bold px-1 py-1 h-12 w-12 text-2xl'>
             {props.userInfo?.firstName[0]}
           </h1>
         ) : (
@@ -61,7 +59,8 @@ const UserAvatarDropdown = (props) => {
       {displayDropdown && (
         <div
           className='absolute top-[75px] right-2 w-40 rounded-md  py-2 px-2 border-2 bg-[#1D6F2B]'
-          ref={dropDownRef}>
+          ref={dropDownRef}
+        >
           <ul className='  text-center'>
             {props.userInfo.firstName ? (
               <li className='w-[100%] text-center py-2 px-2 hover:bg-[#E5E5E5]   rounded-md cursor-pointer '>
@@ -72,7 +71,8 @@ const UserAvatarDropdown = (props) => {
                       : 'font-semibold hidden md:inline-block align-middle hover:text-[#1D6F2B]   text-white';
                   }}
                   to='/user'
-                  replace={true}>
+                  replace={true}
+                >
                   Settings
                 </NavLink>
               </li>
@@ -81,11 +81,13 @@ const UserAvatarDropdown = (props) => {
             )}
             <li
               className='w-[100%] bottom-2 text-center py-2 px-2 text-white font-semibold hover:bg-[#E5E5E5] rounded-md cursor-pointer'
-              onClick={handleSignOut}>
+              onClick={handleSignOut}
+            >
               <NavLink
                 to=''
                 state={{ data: location.pathname.split('/')[1] }}
-                className='hover:text-[#1D6F2B] text-white'>
+                className='hover:text-[#1D6F2B] text-white'
+              >
                 Sign out
               </NavLink>
             </li>
