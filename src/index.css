@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 
@@ -25,10 +25,10 @@
   }
 }
 
-input[type='number']:focus,
-input[type='text']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
   box-shadow: 0px 0px 1.5px #1d6f2b;
   border-color: #06b623;
 }
@@ -178,3 +178,47 @@ nav .active li {
   color: #1d6f2b;
   font-weight: bold;
 }
+/* change select input look */
+.ant-input {
+  border: 1px solid #262626 !important;
+  height: 38px !important;
+  border-radius: 5px;
+  width: 100%;
+}
+.ant-select {
+  height: 45px !important;
+  border-radius: 0px !important;
+}
+.ant-select-selector {
+  border: 1px solid #262626 !important;
+  height: 38px !important;
+  border-radius: 5px;
+}
+.ant-select-selector:hover {
+  border: 1px solid #1d6f2b !important;
+}
+.ant-select-selector:focus {
+  border: 1px solid #1d6f2b !important;
+}
+
+.ant-input-number .ant-input-number-input {
+  border: 1px solid #262626 !important;
+  height: 38px !important;
+  border-radius: 5px;
+}
+
+.stockinput {
+  border: 1px solid #262626 !important;
+  height: 38px !important;
+  border-radius: 5px;
+}
+.stockinput:hover {
+  border: 1px solid #1d6f2b !important;
+}
+
+/* .ant-select:hover {
+  border: 1px solid #1d6f2b;
+}
+.ant-select-focused {
+  border: 1px solid #1d6f2b;
+} */
