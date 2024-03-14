@@ -7,6 +7,8 @@ import axios from "axios";
 import { Button, Form, Input, Select } from "antd";
 import { FaSave } from "react-icons/fa";
 import { Controller, useForm } from "react-hook-form";
+import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
+
 // country input to check country phone number
 import PhoneInput from "antd-phone-input";
 import {
@@ -21,16 +23,11 @@ import PageLayout from "../components/designLayouts/PageLayout";
 
 const Cart = () => {
   const dispatch = useDispatch();
-
   const [ispaymentsucces, setIspaymentsucces] = useState(false);
-
   const [loading, setLoadng] = useState(false);
   const [checkoutform, setCheckoutform] = useState(false);
-
   const token = Cookies.get("token");
-
   const cart = useSelector((state) => state.cart);
-
   const handleAddCart = (event, productId) => {
     event.stopPropagation();
 
@@ -45,7 +42,6 @@ const Cart = () => {
     if (existingProduct) {
       existingProduct.items += 1;
     }
-
     // Dispatch the addToCart action to update the Redux state
     dispatch(addToCart(existingProduct));
 
@@ -231,8 +227,8 @@ const Cart = () => {
                     width: "100%",
                     backgroundColor: "#F5F7F7",
                     padding: "10px",
-                    borderRadius: "0.375rem",
-                    boxShadow: "0px 0px 24px -13px rgba(0,0,0,0.7)",
+                    borderRadius: "10px",
+                    boxShadow: "0px 10px 20px -13px rgba(0,0,0,0.7)",
                     display: ` ${checkoutform ? "block" : "none"}`,
                   }}
                 >
@@ -245,7 +241,7 @@ const Cart = () => {
                         defaultValue={""}
                         render={({ field }) => (
                           <>
-                            <Form.Item label="Country" className="w-[48%]">
+                            <Form.Item label="Country" className="w-[48%]  ">
                               <Input {...field} placeholder="Country" />
                               <p className="text-[red]">
                                 {errors?.Country?.message}
@@ -262,11 +258,17 @@ const Cart = () => {
                         defaultValue={""}
                         render={({ field }) => (
                           <>
-                            <Form.Item label="City" className="w-[48%]">
-                              <Input
+                            <Form.Item label="Location" className="w-[48%] ">
+                              <Select
                                 {...field}
-                                type="text"
-                                placeholder="City"
+                                placeholder="Select your location"
+                                options={Districts().map((district) => {
+                                  return {
+                                    label: district,
+                                    value: district,
+                                  };
+                                })}
+                                onSearch={{}}
                               />
                               <p className="text-[red]">
                                 {errors?.City?.message}
@@ -353,28 +355,17 @@ const Cart = () => {
                         )}
                       />
 
-                      <Button
-                        // onClick={props.onOk}
+                      <button
                         disabled={loading}
                         htmlType="submit"
-                        style={{
-                          opcity: { loading } ? "0.2" : "",
-                          backgroundColor: "#1D6F2B",
-                          color: "#FFFFFF",
-                          fontWeight: "bold",
-                          marginTop: "20px",
-                          display:
-                            "flex items-center justify-center mt-3  disabled:opacity-50 duration-300 ",
-                        }}
+                        className="h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 px-5 duration-300"
                       >
                         <span className="flex">
-                          <h2 className=" flex  items-center justify-center ">
-                            <FaSave className="  mr-2" />
+                          <FaSave className="  mr-2" />
 
-                            {loading ? "Processing..." : " Checkout"}
-                          </h2>
+                          <h2>{loading ? "Processing..." : " Checkout"}</h2>
                         </span>
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </Form>

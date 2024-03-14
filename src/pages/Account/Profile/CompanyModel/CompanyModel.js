@@ -438,7 +438,7 @@ const CompanyModel = (props) => {
                     <Form.Item label="Business accountNumber">
                       <Input
                         {...field}
-                        type="text"
+                        type="number"
                         placeholder="Enter accountNumber"
                       />
                     </Form.Item>
@@ -457,7 +457,7 @@ const CompanyModel = (props) => {
                     <Form.Item label="cardNumber">
                       <Input
                         {...field}
-                        type="text"
+                        type="number"
                         placeholder="Enter cardNumber"
                       />
                     </Form.Item>

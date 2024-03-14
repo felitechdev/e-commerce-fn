@@ -1392,6 +1392,7 @@ const ProductModel = (props) => {
                           {selectedColor[index]?.color !== undefined ||
                           selectedSize[index]?.size !== undefined ? (
                             <input
+                              className="stockinput"
                               placeholder="Enter Available Stock"
                               type="number"
                               onChange={(e) => {
