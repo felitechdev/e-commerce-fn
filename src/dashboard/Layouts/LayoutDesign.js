@@ -70,7 +70,46 @@ export const LayoutDesign = ({ userprofile }) => {
     localStorage.setItem("selectedKey", menuItem.key);
   };
 
-  let selectedKey = localStorage.getItem("selectedKey") || "0";
+  let selectedKey = localStorage.getItem("selectedKey");
+
+  if (selectedKey === null) {
+    localStorage.setItem("selectedKey", "0");
+  }
+  let keyselected = parseInt(selectedKey);
+  console.log("selectedKey", keyselected == 1);
+  if (keyselected == 1) {
+    console.log("useonnssss");
+  }
+  useEffect(() => {
+    switch (keyselected) {
+      case 0:
+        navigate("/user/dashboard");
+        break;
+      case 1:
+        navigate("/user/users");
+        break;
+      case 2:
+        navigate("/user/contract");
+        break;
+      case 3:
+        navigate("/user/category");
+        break;
+      case 4:
+        navigate("/user/order");
+        break;
+      case 5:
+        navigate("/user/dashproduct");
+        break;
+      case 6:
+        navigate("/user/profile");
+        break;
+      case 7:
+        handleSignOut();
+        break;
+      default:
+        break;
+    }
+  }, [keyselected]);
 
   const handleSignOut = () => {
     onLogout();
