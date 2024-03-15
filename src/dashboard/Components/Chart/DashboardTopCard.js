@@ -341,6 +341,19 @@ export const OrdersLineCahrt = () => {
     )
     .reduce((acc, order) => acc + order.amount, 0);
 
+  const [isgreater, setIsgreater] = useState(false);
+  useEffect(() => {
+    if (
+      totalDailyEarning !== 0 &&
+      totayesterdayEarnings !== 0 &&
+      totalDailyEarning > totayesterdayEarnings
+    ) {
+      setIsgreater(true);
+    } else {
+      setIsgreater(false);
+    }
+  }, []);
+
   const [orderdata, setOrderdata] = useState({
     options: {
       chart: {
@@ -350,16 +363,32 @@ export const OrdersLineCahrt = () => {
         categories: [],
       },
     },
-    series: [
-      {
-        name: "Today",
-        data: [],
-      },
-      {
-        name: "Yesterday",
-        data: [],
-      },
-    ],
+
+    series: isgreater
+      ? [
+          {
+            name: "Today",
+            data: [],
+            color: "#78e4a3",
+          },
+          {
+            name: "Yesterday",
+            data: [],
+            color: "#0d8ffb",
+          },
+        ]
+      : [
+          {
+            name: "Today",
+            data: [],
+            color: "#f75d81",
+          },
+          {
+            name: "Yesterday",
+            data: [],
+            color: "#0d8ffb",
+          },
+        ],
 
     chart: {
       height: 350,
@@ -433,7 +462,7 @@ export const OrdersLineCahrt = () => {
   return (
     <div className="   ">
       {/* <div className="bg-gradient-to-r  w-[100%]   from-primary  via-icon2 to-primeColor  shadow-lg rounded-md  "> */}
-      <div className="bg-gradient-to-r  w-[100%]  bg-primary  shadow-lg rounded-md  ">
+      <div className="bg-gradient-to-r  w-[100%]  bg-[#e1e7f1]  shadow-lg rounded-md pt-5 ">
         <Row gutter={[16, 16]} className="mt-0 mx-2">
           <Col sm={24} md={8} className="">
             <p className="text-icon1 flex items-center pl-3 font-bold text-xl mb-1">
@@ -441,7 +470,7 @@ export const OrdersLineCahrt = () => {
             </p>
           </Col>
           <Col sm={12} md={6}>
-            <p className="text-[white] font-bold text-lg mb-1">
+            <p className="text-[#f75d81] font-bold text-lg mb-1">
               Orders / {today.getHours()} h:00
             </p>
             <Statistic
@@ -467,7 +496,7 @@ export const OrdersLineCahrt = () => {
             />
           </Col>
           <Col sm={12} md={8} className="">
-            <p className="text-[white] font-bold text-lg mb-1">
+            <p className="text-[#f75d81] font-bold text-lg mb-1">
               Earnings / {today.getHours()} h:00{" "}
             </p>
             <Statistic
@@ -497,10 +526,7 @@ export const OrdersLineCahrt = () => {
           height={400}
           width="100%"
           style={{
-            background:
-              totalYesterdayOrders > totalDailyOrders
-                ? "#de5f5f"
-                : "transparent",
+            background: "#e1e7f1",
           }}
         />
       </div>
