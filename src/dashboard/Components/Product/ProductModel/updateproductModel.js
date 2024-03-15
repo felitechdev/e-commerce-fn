@@ -339,8 +339,6 @@ const UpdateProductModel = (props) => {
     //   variations: colorVariations,
     // });
 
-    console.log("payload", payload);
-
     dispatch(
       updateProduct({ productData: payload, id: props.Id, token: token })
     )
@@ -1279,7 +1277,7 @@ const UpdateProductModel = (props) => {
             </div>
           </div>
           <ModalFooter
-            onCancel={handleCancel}
+            onCancel={props.handleclose}
             isload={load}
             loading={loading}
             // onOk={handleSubmitForm}
