@@ -4,11 +4,31 @@ import { HiChevronRight } from 'react-icons/hi2';
 import { Loader } from '../../dashboard/Components/Loader/LoadingSpin';
 import MenuIconWhite from '../../assets/images/menu-white.png';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+
+export async function fetchCategories() {
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`
+    );
+
+    return response.data.data.categories;
+  } catch (error) {
+    throw new Error('Error fetching categories');
+  }
+}
 
 export default function HomePageCategories() {
+  const {
+    isLoading,
+    data: categories,
+    error,
+  } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleMouseEnter = (element) => {
     setHoveredCategory(element);
@@ -17,27 +37,6 @@ export default function HomePageCategories() {
   const handleMouseLeave = () => {
     setHoveredCategory(null);
   };
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`
-        );
-
-        if (response.status === 200) {
-          setCategories(response.data.data.categories);
-        }
-      } catch (error) {
-        console.log('onCategorySelect error', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchCategories();
-  }, []);
 
   return (
     <div
@@ -49,16 +48,16 @@ export default function HomePageCategories() {
         <h3 className=' text-white text-lg'>Categories</h3>
       </div>
 
-      {isLoading && !categories.length && (
+      {isLoading && (
         <div className='flex justify-center p-16'>
           <Loader />
         </div>
       )}
 
-      {!isLoading && categories.length && (
+      {!isLoading && (
         <div className='flex relative rounded h-full overflow-auto'>
           <ul className='w-full flex flex-col rounded-b'>
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <li
                 className={`flex gap-4 cursor-pointer items-center justify-between hover:bg-[#1D6F2B] hover:text-white ${
                   hoveredCategory === category.name &&

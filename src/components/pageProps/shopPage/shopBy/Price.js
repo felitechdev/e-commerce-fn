@@ -27,7 +27,7 @@ const Price = () => {
 
   return (
     <div className='cursor-pointer'>
-      <NavTitle title='Shop by Price' icons={false} />
+      <NavTitle title='Shop by Price' icons={true} />
       <div className='font-titleFont'>
         <form class='w-full max-w-lg' onSubmit={handleSubmit}>
           <div class='flex gap-4 items-end'>
