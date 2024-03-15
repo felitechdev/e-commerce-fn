@@ -18,6 +18,7 @@ import { getorderDetail } from "../../../../APIs/Oreders";
 import { GetMyOrders } from "../../../../APIs/Oreders";
 import axios from "axios";
 import { statusColors } from "../../../../common/statuscolor";
+import { fetchProduct } from "../../../../APIs/Product";
 
 const SingleOrder = () => {
   const [isLoading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ const SingleOrder = () => {
   const { order, loadorder, errororder } = useSelector(
     (state) => state.singleorder
   );
+  const { loading, users } = useSelector((state) => state.users);
 
   const UserRole = user?.role;
 
@@ -70,9 +72,22 @@ const SingleOrder = () => {
         .catch((error) => {});
     }
   }, [dispatch, ord, token]);
+  async function fetchProductData() {
+    let products = await Promise.all(
+      orders?.items?.map((item) => fetchProduct(item.product))
+    );
 
-  console.log("orders", orders);
+    let sellers =
+      !loading &&
+      products.map(
+        (product) =>
+          users?.find((user) => user?._id === product?.seller?._id)?.firstName
+      );
+  }
 
+  if (orders && orders.items && !loading) {
+    fetchProductData();
+  }
   const singleorder = ord.length > 0 ? ord : [];
 
   return (
@@ -143,57 +158,52 @@ const SingleOrder = () => {
               </div>
             </div>
             {orders &&
-              orders?.items.map(
-                (item, index) => (
-                  console.log("itemDetails", item),
-                  (
-                    <div className="flex justify-between p-4 border ">
-                      <div className="flex">
-                        <Space size={12}>
-                          <Image
-                            width={100}
-                            className="rounded-md border"
-                            src={
-                              item?.productThumbnail
-                                ? item?.productThumbnail
-                                : "https://via.placeholder.com/150"
-                            }
-                          />
-                        </Space>
+              orders?.items.map((item, index) => (
+                <div className="flex justify-between p-4 border ">
+                  <div className="flex">
+                    <Space size={12}>
+                      <Image
+                        width={100}
+                        className="rounded-md border"
+                        src={
+                          item?.productThumbnail
+                            ? item?.productThumbnail
+                            : "https://via.placeholder.com/150"
+                        }
+                      />
+                    </Space>
 
-                        <div className="ml-2 ">
-                          <h1 className="text-md font-bold">{item?.name}</h1>
-                          <h1 className="text-md font-bold text-gray-400">
-                            price : {item?.price}
-                          </h1>
-                          {/* <p className="text-gray-400 font-bold text-md">
+                    <div className="ml-2 ">
+                      <h1 className="text-md font-bold">{item?.name}</h1>
+                      <h1 className="text-md font-bold text-gray-400">
+                        price : {item?.price}
+                      </h1>
+                      {/* <p className="text-gray-400 font-bold text-md">
                       quantity : {item.quantity}
                     </p> */}
-                        </div>
-                      </div>
-                      <div>
-                        {UserRole == "admin" && (
-                          <>
-                            <h1 className="text-md font-bold">seller:{}</h1>
-                            <p className="text-gray-400 font-bold text-md">
-                              Tel : {}
-                            </p>
-                          </>
-                        )}
-                        <p className="text-gray-400 font-bold text-md">
-                          quantity : {item.quantity}
-                        </p>
-                        <p className="text-gray-400 font-bold text-md">
-                          color : {item?.variation?.color}
-                        </p>
-                        <p className="text-gray-400 font-bold text-md">
-                          zize : {item?.variation?.size}
-                        </p>
-                      </div>
                     </div>
-                  )
-                )
-              )}
+                  </div>
+                  <div>
+                    {UserRole == "admin" && (
+                      <>
+                        <h1 className="text-md font-bold">seller:{}</h1>
+                        {/* <p className="text-gray-400 font-bold text-md">
+                          Tel : {}
+                        </p> */}
+                      </>
+                    )}
+                    <p className="text-gray-400 font-bold text-md">
+                      quantity : {item.quantity}
+                    </p>
+                    <p className="text-gray-400 font-bold text-md">
+                      color : {item?.variation?.color}
+                    </p>
+                    <p className="text-gray-400 font-bold text-md">
+                      zize : {item?.variation?.size}
+                    </p>
+                  </div>
+                </div>
+              ))}
           </>
         )}
       </div>

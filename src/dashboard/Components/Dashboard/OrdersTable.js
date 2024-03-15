@@ -123,7 +123,6 @@ export const OrderTable = (...props) => {
 
     setFilteredData(newData);
   }, [order]);
-  console.log(order, "order");
 
   return (
     <>

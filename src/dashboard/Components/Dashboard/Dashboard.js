@@ -14,17 +14,17 @@ import {
   ZoomOutOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+import Cookies from "js-cookie";
 import { useState, useEffect, useRef } from "react";
 import { handlecountorders } from "../../Common/handleOrderTotal";
 import { useUser } from "../../../context/UserContex";
 
 import { OrderTable } from "./OrdersTable";
+import { GetMyOrders } from "../../../APIs/Oreders";
 
 // import actions
 import { fetchadminproduct } from "../../Apis/Product";
 import { Loader } from "../Loader/LoadingSpin";
-
-import Cookies from "js-cookie";
 import { DashboardTopCard, OrdersLineCahrt } from "../Chart/DashboardTopCard";
 
 const { Title, Paragraph, Text } = Typography;
@@ -44,6 +44,7 @@ export const Dashboard = () => {
   const { orders, loadorders, errorders } = useSelector(
     (state) => state.orders
   );
+  const token = Cookies.get("token");
 
   const toalEarning =
     orders && orders.reduce((acc, order) => acc + order.amount, 0);
@@ -321,7 +322,6 @@ export const Dashboard = () => {
       dispatch(fetchadminproduct())
         .unwrap()
         .then((data) => {
-          console.log("Products fetched", data);
           setProducts(data);
         });
     }
@@ -361,6 +361,24 @@ export const Dashboard = () => {
         : [];
     setSeller(sellerdata);
   }, [products, dispatch]);
+
+  useEffect(() => {
+    dispatch(GetMyOrders(token))
+      .unwrap()
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {});
+
+    setInterval(() => {
+      dispatch(GetMyOrders(token))
+        .unwrap()
+        .then((data) => {
+          return data;
+        })
+        .catch((error) => {});
+    }, 3600000);
+  }, []);
 
   return (
     <Layout className="space-y-6  bg-light overflow-auto">
