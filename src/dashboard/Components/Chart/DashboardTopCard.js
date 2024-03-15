@@ -364,32 +364,44 @@ export const OrdersLineCahrt = () => {
       },
     },
 
-    series: isgreater
-      ? [
-          {
-            name: "Today",
-            data: [],
-            color: "#78e4a3",
-          },
-          {
-            name: "Yesterday",
-            data: [],
-            color: "#0d8ffb",
-          },
-        ]
-      : [
-          {
-            name: "Today",
-            data: [],
-            color: "#f75d81",
-          },
-          {
-            name: "Yesterday",
-            data: [],
-            color: "#0d8ffb",
-          },
-        ],
+    // series: isgreater
+    //   ? [
+    //       {
+    //         name: "Today",
+    //         data: [],
+    //         color: "#78e4a3",
+    //       },
+    //       {
+    //         name: "Yesterday",
+    //         data: [],
+    //         color: "#0d8ffb",
+    //       },
+    //     ]
+    //   : [
+    //       {
+    //         name: "Today",
+    //         data: [],
+    //         color: "#f75d81",
+    //       },
+    //       {
+    //         name: "Yesterday",
+    //         data: [],
+    //         color: "#0d8ffb",
+    //       },
+    //     ],
 
+    series: [
+      {
+        name: "Today",
+        data: [],
+        color: "#78e4a3",
+      },
+      {
+        name: "Yesterday",
+        data: [],
+        color: "#0d8ffb",
+      },
+    ],
     chart: {
       height: 350,
       type: "area",
