@@ -392,14 +392,14 @@ export const OrdersLineCahrt = () => {
 
     series: [
       {
-        name: "Today",
-        data: [],
-        color: "#78e4a3",
-      },
-      {
         name: "Yesterday",
         data: [],
         color: "#0d8ffb",
+      },
+      {
+        name: "Today",
+        data: [],
+        color: "#78e4a3",
       },
     ],
     chart: {

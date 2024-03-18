@@ -19,12 +19,12 @@ export const Menus = [
     icon: <ApartmentOutlined />,
     roles: ["admin"], // All roles can see
   },
-  {
-    name: "Contract",
-    link: "contract",
-    icon: <FileTextOutlined />,
-    roles: ["admin", "seller"], // All roles can see
-  },
+  // {
+  //   name: "Contract",
+  //   link: "contract",
+  //   icon: <FileTextOutlined />,
+  //   roles: ["admin", "seller"], // All roles can see
+  // },
   // {
   //   name: "Retailers",
   //   link: "retailer",

@@ -56,12 +56,12 @@ export const LayoutDesign = ({ userprofile }) => {
   const titles = {
     0: "Dashboard",
     1: "Users",
-    2: "Contract",
-    3: "Categories",
-    4: "Orders",
-    5: "Products",
-    6: "Profile",
-    7: "Logout",
+    // 2: "Contract",
+    2: "Categories",
+    3: "Orders",
+    4: "Products",
+    5: "Profile",
+    6: "Logout",
   };
   // Function to handle menu item click and update title
   const handleMenuClick = (menuItem) => {
@@ -76,10 +76,7 @@ export const LayoutDesign = ({ userprofile }) => {
     localStorage.setItem("selectedKey", "0");
   }
   let keyselected = parseInt(selectedKey);
-  console.log("selectedKey", keyselected == 1);
-  if (keyselected == 1) {
-    console.log("useonnssss");
-  }
+
   useEffect(() => {
     switch (keyselected) {
       case 0:
@@ -88,22 +85,22 @@ export const LayoutDesign = ({ userprofile }) => {
       case 1:
         navigate("/user/users");
         break;
+      // case 2:
+      //   navigate("/user/contract");
+      //   break;
       case 2:
-        navigate("/user/contract");
-        break;
-      case 3:
         navigate("/user/category");
         break;
-      case 4:
+      case 3:
         navigate("/user/order");
         break;
-      case 5:
+      case 4:
         navigate("/user/dashproduct");
         break;
-      case 6:
+      case 5:
         navigate("/user/profile");
         break;
-      case 7:
+      case 6:
         handleSignOut();
         break;
       default:
@@ -119,7 +116,7 @@ export const LayoutDesign = ({ userprofile }) => {
   const handleItemClick = (key) => {
     if (key === "1") {
       navigate("/user/profile");
-      localStorage.setItem("selectedKey", "6");
+      localStorage.setItem("selectedKey", "5");
     } else if (key === "2") {
       handleSignOut();
       // onLogout();
