@@ -84,8 +84,7 @@ const CheckoutDetails = ({ product }) => {
             }
           : null),
         price: product.productDetails.price,
-        productThumbnail:
-          product.productDetails.productImages.productThumbnail.url,
+        productThumbnail: product.productDetails.productImages.productThumbnail,
         items: 1,
       };
       cart.push(existingProduct);
