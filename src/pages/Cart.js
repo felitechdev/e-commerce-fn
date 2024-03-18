@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { emptyCart } from "../assets/images/index";
 import axios from "axios";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Row, Select, Space } from "antd";
 import { FaSave } from "react-icons/fa";
 import { Controller, useForm } from "react-hook-form";
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
@@ -27,6 +27,71 @@ const Cart = () => {
   const [loading, setLoadng] = useState(false);
   const [checkoutform, setCheckoutform] = useState(false);
   const token = Cookies.get("token");
+
+  const [selectedProvince, setSelectedProvince] = useState();
+  const [selectedDistrict, setSelectedDistrict] = useState();
+  const [selectedSector, setSelectedSector] = useState();
+  const [deliveryprice, setDeliveryprice] = useState(0);
+
+  const [fillorderform, setFillorderform] = useState(false);
+  const [location, setLocation] = useState(false);
+  const [nodelivery, setNodelivery] = useState(false);
+
+  const handlefillorderform = () => {
+    setFillorderform(true);
+    setLocation(false);
+    setNodelivery(false);
+  };
+  const handlenodelivery = () => {
+    setDeliveryprice(0);
+    setFillorderform(false);
+    setLocation(false);
+    setNodelivery(false);
+  };
+  const handlelocation = () => {
+    setFillorderform(true);
+    setLocation(false);
+    setNodelivery(false);
+  };
+
+  const handleProvinceChange = (value) => {
+    setSelectedProvince(value);
+    setSelectedDistrict();
+    setSelectedSector();
+  };
+
+  useEffect(() => {
+    switch (selectedProvince) {
+      case "Kigali":
+        setDeliveryprice(2000);
+        break;
+      case "East":
+        setDeliveryprice(3000);
+        break;
+      case "South":
+        setDeliveryprice(4000);
+        break;
+      case "West":
+        setDeliveryprice(7000);
+        break;
+      case "North":
+        setDeliveryprice(5000);
+        break;
+      default:
+        setDeliveryprice(0);
+        break;
+    }
+  }, []);
+
+  const handleDistrictChange = (value) => {
+    setSelectedDistrict(value);
+    setSelectedSector();
+  };
+
+  const handleSectorChange = (value) => {
+    setSelectedSector(value);
+  };
+
   const cart = useSelector((state) => state.cart);
   const handleAddCart = (event, productId) => {
     event.stopPropagation();
@@ -217,6 +282,188 @@ const Cart = () => {
             >
               Clear Shopping Cart
             </button>
+
+            <div className="p-0 md:p-0 space-y-5  w-full  ">
+              <div className=" space-y-2">
+                <Space>
+                  <h1 className="font-bold"> Order Delivery : </h1>{" "}
+                </Space>
+                <Button onClick={handlefillorderform} type="primary">
+                  Fill Form{" "}
+                </Button>{" "}
+                <Button type="primary">Get my Location via Googlemap </Button>{" "}
+                <Button onClick={handlenodelivery} type="primary">
+                  No delivey
+                </Button>
+              </div>
+
+              <Form
+                layout={"vertical"}
+                // onFinish={handleSubmit(onFinish, onErrors)}
+                style={{
+                  width: "100%",
+                  backgroundColor: "#F5F7F7",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  boxShadow: "0px 10px 20px -13px rgba(0,0,0,0.7)",
+                  display: ` ${fillorderform ? "block" : "none"}`,
+                }}
+              >
+                <div>
+                  <div className=" flex justify-between items-center space-x-2 w-fill ">
+                    <Controller
+                      control={control}
+                      name="Country"
+                      rules={{ required: "Country is required" }}
+                      defaultValue={""}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item label="Country" className="w-[48%]  ">
+                            <Input {...field} placeholder="Country" />
+                            <p className="text-[red]">
+                              {errors?.Country?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+
+                    <Controller
+                      control={control}
+                      name="Province"
+                      // rules={{ required: "Province is required" }}
+                      defaultValue={""}
+                      render={({ field }) => (
+                        <Form.Item label="Province" className="w-[48%] ">
+                          <Select
+                            // {...field}
+                            placeholder="Select your location"
+                            onChange={handleProvinceChange}
+                          >
+                            {Provinces().map((province) => (
+                              <Select.Option key={province} value={province}>
+                                {province}
+                              </Select.Option>
+                            ))}
+                          </Select>
+                          <p className="text-[red]">
+                            {errors?.Province?.message}
+                          </p>
+                        </Form.Item>
+                      )}
+                    />
+
+                    <Controller
+                      control={control}
+                      name="District"
+                      // rules={{ required: "District is required" }}
+                      defaultValue={""}
+                      render={({ field }) => (
+                        <Form.Item label="District" className="w-[48%] ">
+                          <Select
+                            // {...field}
+                            placeholder="Select your district"
+                            onChange={handleDistrictChange}
+                          >
+                            {Districts(selectedProvince).map((district) => (
+                              <Select.Option key={district} value={district}>
+                                {district}
+                              </Select.Option>
+                            ))}
+                          </Select>
+
+                          <p className="text-[red]">
+                            {errors?.District?.message}
+                          </p>
+                        </Form.Item>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex justify-between space-x-2   ">
+                    <Controller
+                      control={control}
+                      name="Sector"
+                      // rules={{ required: "Sector is required" }}
+                      defaultValue={selectedSector}
+                      render={({ field }) => (
+                        <Form.Item label="Sector" className="w-[48%] ">
+                          <Select
+                            // {...field}
+                            placeholder="Select your sector"
+                            onChange={handleSectorChange}
+                          >
+                            {Sectors(selectedProvince, selectedDistrict)?.map(
+                              (sector) => (
+                                <Select.Option key={sector} value={sector}>
+                                  {sector}
+                                </Select.Option>
+                              )
+                            )}
+                          </Select>
+
+                          <p className="text-[red]">
+                            {errors?.Sector?.message}
+                          </p>
+                        </Form.Item>
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="street"
+                      rules={{ required: "Street is required" }}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item label="Street" className="w-[30%] h-8">
+                            <Input
+                              {...field}
+                              type="text"
+                              placeholder="Street"
+                            />
+                            <p className="text-[red]">
+                              {errors?.street?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="phoneNumber"
+                      rules={{
+                        required: "Phone number is required",
+                      }}
+                      render={({ field }) => (
+                        <>
+                          <Form.Item
+                            label="Phone number"
+                            className="w-[68%] h-5"
+                          >
+                            <PhoneInput {...field} enableSearch />
+                            <p className="text-[red]">
+                              {errors?.phoneNumber?.message}
+                            </p>
+                          </Form.Item>
+                        </>
+                      )}
+                    />
+                  </div>
+                  <div className="mt-3 flex justify-between space-x-2  items-center">
+                    <button
+                      disabled={loading}
+                      htmlType="submit"
+                      className="h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 px-5 duration-300"
+                    >
+                      <span className="flex">
+                        <FaSave className="  mr-2" />
+
+                        <h2>{loading ? "Processing..." : " Checkout"}</h2>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </Form>
+            </div>
             <div className="w-full  gap-4 flex justify-end mt-4 p-3 ">
               <div className="">
                 <Form

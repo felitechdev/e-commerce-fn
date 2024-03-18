@@ -231,11 +231,6 @@ const SellerProfile = () => {
 
             <hr className=" mt-4" />
 
-            <h1 className=" text-border font-bold text-lg underline mb-3">
-              My location
-            </h1>
-            <Mymap />
-
             {user != null && user?.role == "seller" && (
               <div className=" pl-10 mt-1  ">
                 <h1 className=" text-border font-bold text-lg underline mb-3">
@@ -451,6 +446,11 @@ const SellerProfile = () => {
                 )}
               </div>
             )}
+
+            <h1 className=" text-border font-bold text-lg underline mb-3">
+              My location
+            </h1>
+            <Mymap />
           </>
         )}
 

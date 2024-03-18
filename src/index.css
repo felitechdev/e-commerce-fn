@@ -87,7 +87,7 @@ nav .active li {
   border: 1px solid #1d6f2b;
 }
 .ant-btn-primary:hover {
-  background: #1d6f2b;
+  background: #1d6f2b !important;
   color: white;
 }
 .ant-btn:focus {
@@ -97,7 +97,7 @@ nav .active li {
 .ant-btn-primary:focus {
   border: 1px solid #1d6f2b;
   color: white;
-  background-color: #1d6f2b;
+  background-color: #1d6f2b !important;
 }
 
 .ant-btn-primary {
