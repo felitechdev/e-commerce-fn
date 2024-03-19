@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { HiChevronRight } from 'react-icons/hi2';
 import { Loader } from '../../dashboard/Components/Loader/LoadingSpin';
@@ -40,7 +40,7 @@ export default function HomePageCategories() {
 
   return (
     <div
-      className='flex flex-col gap-2 w-full bg-[#D9D9D970] h-full relative rounded'
+      className='hidden lg:flex flex-col gap-2 w-full bg-[#D9D9D970] h-full relative rounded'
       onMouseLeave={handleMouseLeave}
     >
       <div className='flex items-center gap-3 p-2 rounded-t  bg-[#1D6F2B]'>

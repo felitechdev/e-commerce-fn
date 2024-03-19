@@ -11,7 +11,7 @@ import ImageSlider from '../imageslider/ImageSlider';
 import HomePageCategories from '../homePageCategories/HomePageCategories';
 
 // change i made
-const Banner = (props) => {
+const Banner = () => {
   const [dotActive, setDocActive] = useState(0);
 
   const ads = [

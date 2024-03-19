@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Banner from './Banner/Banner';
 import AllProducts from './home/AllProducts/AllProducts';
-import CategoryFilteredProducts from './home/AllProducts/CategoryFilteredProducts';
 import { Loader } from '../dashboard/Components/Loader/LoadingSpin';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../APIs/Product';
+
+import MobileCategoryNav from './MobileCategoryNav';
 
 function ProductsCategories() {
   const { status, products } = useSelector((state) => state.product);
@@ -15,65 +16,10 @@ function ProductsCategories() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const [selectedCategory, setSelectedCategory] = useState({
-    category: {
-      categoryname: null,
-      categoryId: null,
-    },
-    subcategory: {
-      subcategoryname: null,
-      subcategoryId: null,
-    },
-  });
-
-  const displayProducts = selectedCategory.category.categoryname
-    ? products.filter(
-        (product) =>
-          product.category.name === selectedCategory.category.categoryname
-      )
-    : products;
-
-  const handleCategorySelect = (category, subcategory) => {
-    if (category.categoryId) {
-      setSelectedCategory({
-        category: {
-          categoryname: category.categoryname,
-          categoryId: category.categoryId,
-        },
-        subcategory: { subcategoryname: null, subcategoryId: null },
-      });
-    } else if (subcategory.subcategoryId) {
-      setSelectedCategory({
-        category: { categoryname: null, categoryId: null },
-        subcategory: {
-          subcategoryname: subcategory.subcategoryname,
-          subcategoryId: subcategory.subcategoryId,
-        },
-      });
-    }
-  };
-
-  const handleViewAllClick = () => {
-    setSelectedCategory({
-      category: {
-        categoryname: null,
-        categoryId: null,
-      },
-      subcategory: {
-        subcategoryname: null,
-        subcategoryId: null,
-      },
-    });
-  };
-
   return (
     <div className='w-full mx-auto '>
-      <Banner
-        onCategorySelect={handleCategorySelect}
-        allcategory={selectedCategory.category.categoryId}
-        allcatesubcategory={selectedCategory.subcategory.subcategoryId}
-        onViewAllClick={handleViewAllClick}
-      />
+      <MobileCategoryNav title='Shop by Categories' />
+      <Banner />
 
       <div className='max-w-container mx-auto px-4'>
         {status === 'loading' && !products.length && (
@@ -82,7 +28,7 @@ function ProductsCategories() {
           </div>
         )}
 
-        {products.length > 0 && <AllProducts products={displayProducts} />}
+        {products.length > 0 && <AllProducts products={products} />}
       </div>
     </div>
   );
