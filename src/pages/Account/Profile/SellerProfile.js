@@ -446,11 +446,12 @@ const SellerProfile = () => {
                 )}
               </div>
             )}
-
-            <h1 className=" text-border font-bold text-lg underline mb-3">
-              My location
-            </h1>
-            <Mymap />
+            <div className=" pl-10 mt-1  ">
+              <h1 className=" text-border font-bold text-lg underline mb-3">
+                My location
+              </h1>
+              <Mymap />
+            </div>
           </>
         )}
 
