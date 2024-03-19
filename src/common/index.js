@@ -17,11 +17,11 @@ export const Menus = [
     link: "/company",
     icon: <ApartmentOutlined />,
   },
-  {
-    name: "Contract",
-    link: "/contract",
-    icon: <FileTextOutlined />,
-  },
+  // {
+  //   name: "Contract",
+  //   link: "/contract",
+  //   icon: <FileTextOutlined />,
+  // },
   {
     name: "Products",
     link: "/product",

@@ -15,6 +15,7 @@ import PersonalInfoModel from "./userinfo";
 import { useUser } from "../../../context/UserContex";
 import axios from "axios";
 import Mymap from "./Googlemap/getLocation";
+import { App } from "./Googlemap/getLocation";
 
 const SellerProfile = () => {
   const [isLoading, setLoading] = useState(true);
@@ -445,6 +446,12 @@ const SellerProfile = () => {
                 )}
               </div>
             )}
+            <div className=" pl-10 mt-1  ">
+              <h1 className=" text-border font-bold text-lg underline mb-3">
+                My location
+              </h1>
+              <Mymap />
+            </div>
           </>
         )}
 
@@ -454,7 +461,6 @@ const SellerProfile = () => {
           profileview={user}
           handleupdatestateProfile={handleupdatestateProfile}
         />
-        {/* <Mymap /> */}
       </div>
     </div>
   );
