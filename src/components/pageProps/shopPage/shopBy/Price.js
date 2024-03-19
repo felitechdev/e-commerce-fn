@@ -3,7 +3,7 @@ import NavTitle from "./NavTitle";
 import { useCurrency } from "../../../Currency/CurrencyProvider/CurrencyProvider";
 import { useSearchParams } from "react-router-dom";
 
-const Price = () => {
+const Price = ({ handlefilterShow }) => {
   const { currentCurrency } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const [priceRange, setPriceRange] = useState({
@@ -67,7 +67,10 @@ const Price = () => {
                 value={priceRange.max}
               />
             </div>
-            <button class="shadow bg-[#1D6F2B]  hover:bg-[#1d6f2ba4] focus:shadow-outline focus:outline-none !focus:border-[#1D6F2B] text-white font-bold py-2 px-4 rounded">
+            <button
+              class="shadow bg-[#1D6F2B]  hover:bg-[#1d6f2ba4] focus:shadow-outline focus:outline-none !focus:border-[#1D6F2B] text-white font-bold py-2 px-4 rounded"
+              onClick={() => handlefilterShow()}
+            >
               Ok
             </button>
           </div>

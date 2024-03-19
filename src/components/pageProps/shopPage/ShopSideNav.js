@@ -16,8 +16,8 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
           onClick={handlefilterShow}
         />
       </span>
-      <Price />
-      <Brand brands={brands} />
+      <Price handlefilterShow={() => handlefilterShow()} />
+      <Brand brands={brands} handlefilterShow={() => handlefilterShow()} />
       {/* <Category icons={true} /> */}
       <Color />
     </div>
