@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '../../../components/homePageCategories/HomePageCategories.js';
 import { fetchProducts } from './apis.js';
 import { Loader } from '../../../dashboard/Components/Loader/LoadingSpin.jsx';
+import MobileCategoryNav from '../../../components/MobileCategoryNav.js';
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
@@ -46,7 +47,8 @@ const Shop = () => {
 
   return (
     <PageLayout showFooter={true}>
-      <div className='max-w-container mx-auto px-4'>
+      <MobileCategoryNav title='Categories' />
+      <div className='max-w-container mx-auto px-4 mt-5'>
         {/* <Breadcrumbs title='Products' /> */}
         <div className='w-full h-full flex pb-20 gap-10'>
           <div className='w-[20%] lgl:w-[25%] hidden mdl:inline-flex h-full'>
