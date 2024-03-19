@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { BsGridFill } from "react-icons/bs";
 import { ImList } from "react-icons/im";
 import { GoTriangleDown } from "react-icons/go";
+import { FilterFilled } from "@ant-design/icons";
 
-const ProductBanner = ({ itemsPerPageFromBanner }) => {
+const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   const [girdViewActive, setGridViewActive] = useState(true);
   const [listViewActive, setListViewActive] = useState(false);
 
@@ -24,6 +25,13 @@ const ProductBanner = ({ itemsPerPageFromBanner }) => {
   return (
     <div className="w-full flex flex-col md:flex-row md:items-center justify-between">
       <div className="flex items-center gap-4">
+        <span className=" block mdl:hidden">
+          {" "}
+          <FilterFilled
+            className="text-[green] text-2xl"
+            onClick={handlefilterShow}
+          />
+        </span>
         <span
           className={`${
             girdViewActive
