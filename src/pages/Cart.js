@@ -190,20 +190,21 @@ const OrderForm = ({
 
     <Modal
       title="Comfirm Payment MTN or AIRTEL"
-      width="80rem"
+      width="20rem"
+      styles={{ backgroundColor: "red" }}
       open={isModalOpen}
       closeIcon={<IoCloseSharp onClick={handlecancel} className="text-[red]" />}
       style={{ width: "70rem" }}
     >
       <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
-        <div className="flex justify-between space-x-2 ">
+        <div className="flex justify-between space-x-2  ">
           <Controller
             control={control}
             name="paymentphoneNumber"
             rules={{ required: "phone number is required" }}
             render={({ field }) => (
               <>
-                <Form.Item label="phoneNumber" className="w-[48%] ">
+                <Form.Item label="phoneNumber" className="w-[100%] ">
                   <Input
                     {...field}
                     type="number"
@@ -248,7 +249,7 @@ const OrderForm = ({
           >
             {" "}
             {isLoading ? (
-              "updating..."
+              "Payment..."
             ) : (
               <span className="flex">
                 <h2 className=" flex  items-center justify-center ">
@@ -282,6 +283,8 @@ const Cart = () => {
   const [payAllowed, setPayAllowed] = useState(false);
   const [requestData, setRequestData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderDelivery, setOrderDelivery] = useState();
+  const [prevdeliveryprice, setPrevdeliveryprice] = useState(0);
 
   const handlefillorderform = () => {
     setFillorderform(true);
@@ -314,24 +317,44 @@ const Cart = () => {
     switch (selectedProvince) {
       case "Kigali":
         setDeliveryprice(2000);
+        setPrevdeliveryprice(2000);
         break;
       case "East":
         setDeliveryprice(3000);
+        setPrevdeliveryprice(3000);
         break;
       case "South":
         setDeliveryprice(4000);
+        setPrevdeliveryprice(4000);
         break;
       case "West":
         setDeliveryprice(7000);
+        setPrevdeliveryprice(7000);
         break;
       case "North":
         setDeliveryprice(5000);
+        setPrevdeliveryprice(5000);
         break;
       default:
         setDeliveryprice(0);
+        setPrevdeliveryprice(0);
         break;
     }
   }, [selectedProvince]);
+
+  useEffect(() => {
+    switch (orderDelivery) {
+      case "PickUp":
+        setDeliveryprice(0);
+        break;
+      case "Delivery":
+        setDeliveryprice(prevdeliveryprice);
+        break;
+      default:
+        setDeliveryprice(prevdeliveryprice);
+        break;
+    }
+  }, [orderDelivery, deliveryprice, prevdeliveryprice]);
 
   const handleDistrictChange = (value) => {
     setSelectedDistrict(value);
@@ -488,8 +511,6 @@ const Cart = () => {
       }
     }
 
-    console.log("values", values, payload);
-
     let requestData = {
       amount: totalCost,
       currency: values.Currency,
@@ -515,8 +536,9 @@ const Cart = () => {
         sector: values.Sector,
         cell: values.Cell,
         village: values.Village,
-        street: values.Street,
+        address: { street: values.Street },
         phoneNumber: payload.phoneNumber,
+        deliveryPreference: orderDelivery,
       });
 
       setIsModalOpen(true);
@@ -584,12 +606,12 @@ const Cart = () => {
                 <Button type={location ? "primary" : "default"}>
                   Get my Location via Googlemap{" "}
                 </Button>{" "}
-                <Button
+                {/* <Button
                   onClick={handlenodelivery}
                   type={nodelivery ? "primary" : "default"}
                 >
                   No delivey
-                </Button>
+                </Button> */}
                 {/* <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                   Delivery fee
                   <span className="font-bold tracking-wide text-lg font-titleFont">
@@ -828,7 +850,44 @@ const Cart = () => {
                         />
                       </Col>
 
-                      <Col xs={24} sm={24} md={12} lg={8} xl={8}></Col>
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="orderDelivery"
+                          rules={{
+                            required: "please select",
+                          }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item
+                                label="Delivery preferences"
+                                className=" h-5"
+                              >
+                                <Select
+                                  {...field}
+                                  onChange={(value) => {
+                                    setOrderDelivery(value);
+                                    field.onChange(value);
+                                  }}
+                                  options={[
+                                    {
+                                      label: "PickUp",
+                                      value: "PickUp",
+                                    },
+                                    {
+                                      label: "Delivery",
+                                      value: "Delivery",
+                                    },
+                                  ]}
+                                />
+                                <p className="text-[red]">
+                                  {errors?.orderDelivery?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
                     </Row>
 
                     <div className="mt-5"></div>
@@ -842,7 +901,9 @@ const Cart = () => {
                         >
                           <span className="flex">
                             <FaSave className="  mr-2" />
-                            <h2>{loading ? "Processing..." : " Submit"}</h2>
+                            <h2>
+                              {loading ? "Processing..." : " Proceed to pay"}
+                            </h2>
                           </span>
                         </button>
                       </Col>
@@ -883,7 +944,7 @@ const Cart = () => {
                   </p>
                 </div>
 
-                {!checkoutform && (
+                {/* {!checkoutform && (
                   <div className="flex justify-end">
                     <button
                       disabled={loading}
@@ -893,7 +954,7 @@ const Cart = () => {
                       {loading ? "Processing..." : "Proceed to Checkout"}
                     </button>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
