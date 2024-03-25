@@ -55,6 +55,7 @@ const ProductPreview = ({ productInfo }) => {
         name: productInfo.name,
         price: productInfo.price,
         productThumbnail: productInfo.productImages.productThumbnail,
+        seller: productInfo.seller,
         items: 1,
       };
       cart.push(existingProduct);
