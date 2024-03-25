@@ -86,6 +86,7 @@ const CheckoutDetails = ({ product }) => {
         price: product.productDetails.price,
         productThumbnail: product.productDetails.productImages.productThumbnail,
         items: 1,
+        seller: product.productDetails.seller.id,
       };
       cart.push(existingProduct);
     } else {
@@ -180,6 +181,7 @@ const CheckoutDetails = ({ product }) => {
         price: product.productDetails.price,
         productThumbnail: product.productDetails.productImages.productThumbnail,
         items: Number(e.target.value),
+        seller: product.productDetails.seller.id,
       };
 
       cart.push(existingProduct);
