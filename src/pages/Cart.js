@@ -604,7 +604,7 @@ const Cart = () => {
                         control={control}
                         name='country'
                         rules={{ required: 'Country is required' }}
-                        defaultValue={''}
+                        defaultValue={'Rwanda'}
                         render={({ field }) => (
                           <>
                             <Form.Item label='Country'>
