@@ -1,30 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { CgFormatSlash } from 'react-icons/cg';
-import { Controller, useForm } from 'react-hook-form';
-import { Button, Form, Input, Row, Select, Space, Col, Modal } from 'antd';
-import { IoCloseSharp } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { emptyCart } from '../assets/images/index';
-import MtnIcon from '../assets/images/MTN.png';
-import AirtelIcon from '../assets/images/Airtel.png';
-import { FaSave } from 'react-icons/fa';
-import { Provinces, Districts, Sectors, Cells, Villages } from 'rwanda';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { emptyCart } from "../assets/images/index";
+import axios from "axios";
+import { Button, Form, Input, Row, Select, Space, Col, Modal } from "antd";
+import { FaSave } from "react-icons/fa";
+import { Controller, useForm } from "react-hook-form";
+import { IoCloseSharp } from "react-icons/io5";
+import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
+import Alerts from "../dashboard/Components/Notifications&Alert/Alert";
 
 // country input to check country phone number
-import PhoneInput from 'antd-phone-input';
+import PhoneInput from "antd-phone-input";
 import {
   addToCart,
   removeToCart,
   clearCart,
   clearitemCart,
-} from '../redux/Reducers/cartRecuder';
-import Cookies from 'js-cookie';
-import ItemCard from './Default/Cart/ItemCard';
-import PageLayout from '../components/designLayouts/PageLayout';
-import { Loader } from '../dashboard/Components/Loader/LoadingSpin';
+} from "../redux/Reducers/cartRecuder";
+import Cookies, { set } from "js-cookie";
+import ItemCard from "./Default/Cart/ItemCard";
+import PageLayout from "../components/designLayouts/PageLayout";
 
 const OrderForm = ({
   token,
@@ -32,27 +29,36 @@ const OrderForm = ({
   totalCost,
   shippingAddress,
   isModalOpen,
-  deliveryPreference,
   handlecancel,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState();
+  const [alertIndex, setAlertIndex] = useState(null);
   // const [isModalOpen, setIsModalOpen] = useState(false);
-  const { handleSubmit, control } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const onErrors = (errors) => console.log('errors on form creation', errors);
+  // -close alert message
+  const handleAlertClose = () => {
+    setAlertIndex(null);
+  };
+
+  const onErrors = (errors) => console.log("errors on form creation", errors);
 
   const onSubmit = async (data) => {
     let requestData = {
       ...data,
       shippingAddress: shippingAddress,
-      deliveryPreference: deliveryPreference.toLowerCase(),
       items: cartTotl,
       amount: totalCost,
     };
 
     setIsLoading(true);
-    setError('');
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments`,
@@ -60,120 +66,223 @@ const OrderForm = ({
         {
           headers: {
             Authorization: ` Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
-      if (res.data.status === 'success') {
+      if (res.data.status === "success") {
+        setAlertIndex("success");
         setIsLoading(false);
+        setError("Payment  Successfull");
       }
 
-      alert('Payment was successfull!');
+      alert("Payment Was Successfull");
     } catch (error) {
-      if (error.response.data.message === 'Payment not completed.')
-        return setError(error.response.data.message);
-      if (error.response.data.message === 'Invalid phone number')
-        return setError('Invalid phone number');
-      setError('Unexpected error has occured. Please try again!');
+      console.log("errors on payment", error);
+      if (error.response && error.response.data) {
+        setAlertIndex("error");
+        setError(error.response.data.message);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Modal
-      width='20rem'
-      styles={{ backgroundColor: 'red', position: 'relative' }}
-      open={isModalOpen}
-      closeIcon={<IoCloseSharp onClick={handlecancel} className='text-[red]' />}
-    >
-      {error && error === 'Payment not completed.' && (
-        <div className='flex flex-col justify-start rounded'>
-          <h4 className='text-gray-700 mb-4 text-sm'>
-            Payment was not completed. Deal to complete!
-          </h4>
-          <div className='flex gap-3 items-center  mb-1'>
-            <img src={MtnIcon} className='h-4 block' />
-            <p>
-              <span class='inline-flex tracking-widest items-center  bg-green-50 px-2  text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20'>
-                *182*7*1#
-              </span>
-            </p>
-          </div>
-          <div className='flex gap-3 items-center'>
-            <img src={AirtelIcon} className='h-4 block' />
-            <p>
-              <span class='inline-flex tracking-widest items-center  bg-green-50 px-2  text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20'>
-                *182*7*1#
-              </span>
-            </p>
-          </div>
-        </div>
-      )}
+    // <div className="max-w-container mx-auto">
+    //   <form
+    //     className="flex border bg-gray-200 justify-between items-start rounded p-4 gap-4 flex-wrap"
+    //     onSubmit={handleSubmit(onSubmit)}
+    //   >
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="phoneNumber" className="block mb-1">
+    //         Phone Number:
+    //       </label>
+    //       <input
+    //         type="tel"
+    //         id="phoneNumber"
+    //         {...register("phoneNumber", {
+    //           required: "Phone number is required",
+    //         })}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //       {/* <ErrorMessage
+    //         errors={errors}
+    //         name='phoneNumber'
+    //         as='p'
+    //         className='text-red-500 text-sm mt-1'
+    //       /> */}
+    //     </div>
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="country" className="block mb-1">
+    //         Country:
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="country"
+    //         {...register("shippingAddress.country")}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //     </div>
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="city" className="block mb-1">
+    //         City/Province:
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="city"
+    //         {...register("shippingAddress.city")}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //     </div>
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="city" className="block mb-1">
+    //         District:
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="district"
+    //         {...register("shippingAddress.district")}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //     </div>
 
-      {error !== 'Payment not completed.' && (
-        <Form layout={'vertical'} onFinish={handleSubmit(onSubmit, onErrors)}>
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="city" className="block mb-1">
+    //         Sector:
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="sector"
+    //         {...register("shippingAddress.sector")}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //     </div>
+
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="cell" className="block mb-1">
+    //         Cell:
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="cell"
+    //         {...register("shippingAddress.cell")}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //     </div>
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="village" className="block mb-1">
+    //         Village:
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="village"
+    //         {...register("shippingAddress.village")}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //     </div>
+    //     {/* Repeat similar pattern for other address fields */}
+    //     <div className="mb-4 w-62">
+    //       <label htmlFor="street" className="block mb-1">
+    //         Street:
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="street"
+    //         {...register("shippingAddress.address.street")}
+    //         className="border border-gray-300 px-3 py-1 w-full"
+    //       />
+    //     </div>
+    //     <button
+    //       type="submit"
+    //       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+    //     >
+    //       {isLoading ? "Processing..." : "Pay"}
+    //     </button>
+    //   </form>
+    // </div>
+
+    <Modal
+      title="Comfirm Payment MTN or AIRTEL"
+      width="20rem"
+      styles={{ backgroundColor: "red" }}
+      open={isModalOpen}
+      closeIcon={<IoCloseSharp onClick={handlecancel} className="text-[red]" />}
+      style={{ width: "70rem" }}
+    >
+      {alertIndex !== null && (
+        <Alerts
+          type={alertIndex}
+          description={error}
+          onClose={handleAlertClose}
+          className="w-[100%] md:w-[30%] opacity-100 fixed  top-0 right-5 transform-[translate(-50%,-50%)] h-[100px] z-[9999]"
+        />
+      )}
+      <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
+        <div className="flex justify-between space-x-2  ">
           <Controller
             control={control}
-            name='paymentphoneNumber'
-            rules={{ required: 'Phone number is required' }}
+            name="paymentphoneNumber"
+            rules={{ required: "phone number is required" }}
             render={({ field }) => (
               <>
-                <Form.Item
-                  label='Phone number'
-                  className='w-[100%] text-red-700 !mb-2'
-                >
+                <Form.Item label="phoneNumber" className="w-[100%] ">
                   <Input
                     {...field}
-                    type='number'
-                    placeholder='Ex 078/9/2/3XXXXXXX'
-                    className='text-gray-700 text-sm placeholder:text-sm '
+                    type="number"
+                    placeholder="paymentPhoneNumber"
                   />
-                  <p className='text-red-500 text-xs'>
-                    {error && error !== 'Payment not completed.' && error}
+                  <p className="text-[red]">
+                    {errors?.paymentphoneNumber?.message}
                   </p>
                 </Form.Item>
               </>
             )}
           />
+        </div>
 
-          <div className='flex flex-col gap-2'>
-            {isLoading && (
-              <span className='text-xs font-bold leadin-5 text-gray-700'>
-                Follow instructions on your phone to proceed.
+        <div className="flex  justify-end space-x-2 pr-0 mt-2">
+          <Button
+            onClick={handlecancel}
+            style={{
+              fontWeight: "bold",
+              display: "flex items-center justify-center space-x-5",
+            }}
+          >
+            {" "}
+            <span className="flex">
+              {" "}
+              <h2 className=" flex  items-center justify-center ">
+                <IoCloseSharp className="  mr-2" />
+                Cancel
+              </h2>
+            </span>{" "}
+          </Button>
+
+          <Button
+            // onClick={props.onOk}
+            htmlType="submit"
+            style={{
+              background: "#1D6F2B",
+              color: "#FFFFFF",
+              fontWeight: "bold",
+              display: "flex items-center justify-center ",
+            }}
+          >
+            {" "}
+            {isLoading ? (
+              "Payment..."
+            ) : (
+              <span className="flex">
+                <h2 className=" flex  items-center justify-center ">
+                  <FaSave className="  mr-2" />
+                  Pay
+                </h2>
               </span>
             )}
-
-            <div className='flex gap-2'>
-              <Button
-                disabled={isLoading}
-                onClick={handlecancel}
-                className='flex items-center justify-center font-thin disabled:opacity-40'
-                style={{
-                  borderRadius: '9999px',
-                }}
-              >
-                <span className='flex'>
-                  <h2 className=' flex  items-center justify-center'>Cancel</h2>
-                </span>{' '}
-              </Button>
-
-              <Button
-                disabled={isLoading}
-                htmlType='submit'
-                className='flex items-center justify-center disabled:opacity-40'
-                style={{
-                  background: '#1D6F2B',
-                  color: '#FFFFFF',
-                  borderRadius: '9999px',
-                }}
-              >
-                {(isLoading && 'Processing...') || 'Pay'}
-              </Button>
-            </div>
-          </div>
-        </Form>
-      )}
+          </Button>
+        </div>
+      </Form>
     </Modal>
   );
 };
@@ -183,14 +292,13 @@ const Cart = () => {
   const [ispaymentsucces, setIspaymentsucces] = useState(false);
   const [loading, setLoadng] = useState(false);
   const [checkoutform, setCheckoutform] = useState(false);
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
 
   const [selectedProvince, setSelectedProvince] = useState();
   const [selectedDistrict, setSelectedDistrict] = useState();
   const [selectedSector, setSelectedSector] = useState();
   const [deliveryprice, setDeliveryprice] = useState(0);
 
-  const [showOrderForm, setShowOrderForm] = useState(false);
   const [fillorderform, setFillorderform] = useState(false);
   const [location, setLocation] = useState(false);
   const [nodelivery, setNodelivery] = useState(true);
@@ -198,7 +306,6 @@ const Cart = () => {
   const [requestData, setRequestData] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderDelivery, setOrderDelivery] = useState();
-  const [deliveryPreference, setDeliveryPreference] = useState('');
   const [prevdeliveryprice, setPrevdeliveryprice] = useState(0);
 
   const handlefillorderform = () => {
@@ -218,10 +325,6 @@ const Cart = () => {
     setNodelivery(false);
   };
 
-  const handleShowOrderForm = () => {
-    setShowOrderForm(true);
-  };
-
   const handleProvinceChange = (value) => {
     setSelectedProvince(value);
     setSelectedDistrict();
@@ -234,23 +337,23 @@ const Cart = () => {
 
   useEffect(() => {
     switch (selectedProvince) {
-      case 'Kigali':
+      case "Kigali":
         setDeliveryprice(2000);
         setPrevdeliveryprice(2000);
         break;
-      case 'East':
+      case "East":
         setDeliveryprice(3000);
         setPrevdeliveryprice(3000);
         break;
-      case 'South':
+      case "South":
         setDeliveryprice(4000);
         setPrevdeliveryprice(4000);
         break;
-      case 'West':
+      case "West":
         setDeliveryprice(7000);
         setPrevdeliveryprice(7000);
         break;
-      case 'North':
+      case "North":
         setDeliveryprice(5000);
         setPrevdeliveryprice(5000);
         break;
@@ -263,10 +366,10 @@ const Cart = () => {
 
   useEffect(() => {
     switch (orderDelivery) {
-      case 'PickUp':
+      case "PickUp":
         setDeliveryprice(0);
         break;
-      case 'Delivery':
+      case "Delivery":
         setDeliveryprice(prevdeliveryprice);
         break;
       default:
@@ -295,7 +398,7 @@ const Cart = () => {
   const handleAddCart = (event, productId) => {
     event.stopPropagation();
 
-    let cart = JSON.parse(localStorage.getItem('cart'));
+    let cart = JSON.parse(localStorage.getItem("cart"));
 
     if (!cart) {
       cart = [];
@@ -310,13 +413,13 @@ const Cart = () => {
     dispatch(addToCart(existingProduct));
 
     // Update localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   const handleRemoveCart = (event, productId) => {
     event.stopPropagation();
 
-    let existingCart = JSON.parse(localStorage.getItem('cart'));
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
     let existingProduct = existingCart.find(
       (product) => product.id === productId
     );
@@ -331,20 +434,20 @@ const Cart = () => {
         (product) => product.id !== existingProduct.id
       );
     }
-    localStorage.setItem('cart', JSON.stringify(existingCart));
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
   const handleclearCart = () => {
-    let existingCart = JSON.parse(localStorage.getItem('cart'));
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
 
     dispatch(clearCart());
     if (existingCart) {
       existingCart = [];
     }
-    localStorage.setItem('cart', JSON.stringify(existingCart));
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
   const handleRemoveitemfromCart = (productId) => {
-    let existingCart = JSON.parse(localStorage.getItem('cart'));
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
 
     let existingProduct = existingCart.find(
       (product) => product.id === productId
@@ -357,7 +460,7 @@ const Cart = () => {
         (product) => product.id !== existingProduct.id
       );
     }
-    localStorage.setItem('cart', JSON.stringify(existingCart));
+    localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
   let totalCost = cart.reduce((total, item) => {
@@ -371,7 +474,6 @@ const Cart = () => {
       price: item.price,
       productThumbnail: item.productThumbnail.url,
       ...(item.variations && { variation: { ...item.variations } }),
-      seller: item.seller,
     };
 
     return product;
@@ -382,13 +484,39 @@ const Cart = () => {
     formState: { errors },
     handleSubmit,
   } = useForm({
-    defaultValues: '', // Set default values from profileview
+    defaultValues: "", // Set default values from profileview
   });
 
   const onErrors = (errors) => {
     setPayAllowed(false);
-    console.log('errors on form creation', errors);
+    console.log("errors on form creation", errors);
   };
+
+  async function makepayment(requestData) {
+    // setLoadng(true);
+    // try {
+    //   const res = await axios.post(
+    //     `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments`,
+    //     requestData,
+    //     {
+    //       headers: {
+    //         Authorization: ` Bearer ${token}`,
+    //         'Content-Type': 'application/json',
+    //       },
+    //     }
+    //   );
+    //   if (res.data.status === 'success') {
+    //     setLoadng(false);
+    //     // handleclearCart();
+    //     setIspaymentsucces(true);
+    //   }
+    //   window.open(res.data.data.link);
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setLoadng(false);
+    // }
+  }
 
   const onFinish = async (values) => {
     const payload = {};
@@ -396,12 +524,12 @@ const Cart = () => {
       const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
       const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
       if (
-        fullPhoneNumber.includes('null') ||
-        fullPhoneNumber.includes('undefined')
+        fullPhoneNumber.includes("null") ||
+        fullPhoneNumber.includes("undefined")
       ) {
         return;
       } else {
-        payload['phoneNumber'] = fullPhoneNumber;
+        payload["phoneNumber"] = fullPhoneNumber;
       }
     }
 
@@ -432,12 +560,17 @@ const Cart = () => {
         village: values.Village,
         address: { street: values.Street },
         phoneNumber: payload.phoneNumber,
+        deliveryPreference: orderDelivery,
       });
 
       setIsModalOpen(true);
       //   await makepayment(requestData);
       //   ispaymentsucces && setCheckoutform(!checkoutform);
     }
+  };
+
+  const handleopencheckoutform = () => {
+    setCheckoutform(!checkoutform);
   };
 
   return (
@@ -448,435 +581,644 @@ const Cart = () => {
         totalCost={totalCost}
         isModalOpen={isModalOpen}
         shippingAddress={requestData}
-        deliveryPreference={deliveryPreference}
         handlecancel={handlecancel}
       />
-      <div className='max-w-container mx-auto px-4'>
-        {!cart ||
-          (!cart.length && (
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.4 }}
-              className='flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20'
-            >
-              <div>
-                <img
-                  className='w-80 rounded-lg p-4 mx-auto'
-                  src={emptyCart}
-                  alt='emptyCart'
-                />
+      <div className="max-w-container mx-auto px-4">
+        {cart && cart.length > 0 ? (
+          <div className="pb-20 ">
+            <div className="">
+              <div className="w-full h-20 bg-[#F5F7F7] rounded-lg text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
+                <h2 className="col-span-2">Product</h2>
+                <h2>Price</h2>
+                <h2>Quantity</h2>
+                <h2>Product Cost</h2>
               </div>
-              <div className='max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg'>
-                <h1 className='font-titleFont text-xl font-bold uppercase'>
-                  Your Cart feels lonely.
-                </h1>
-                <p className='text-sm text-center px-10 -mt-2'>
-                  Your Shopping cart lives to serve. Give it purpose - fill it
-                  with books, electronics, videos, etc. and make it happy.
-                </p>
-                {/* <Link to="/shop"> */}
-                <Link to='/'>
-                  <button className='bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300'>
-                    Continue Shopping
-                  </button>
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-
-        {cart && cart.length > 0 && (
-          <div className='pb-20'>
-            <div className='flex justify-between items-start gap-8'>
-              <div className='w-[75%]'>
-                <div className='w-full h-20 bg-[#F5F7F7] rounded text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold'>
-                  <h2 className='col-span-2'>Product</h2>
-                  <h2>Price</h2>
-                  <h2>Quantity</h2>
-                  <h2>Product Cost</h2>
-                </div>
-                <div className='mt-5'>
-                  {cart.map((item) => (
-                    <div key={item.id}>
-                      <ItemCard
-                        itemInfo={item}
-                        handleAddCart={handleAddCart}
-                        handleRemoveCart={handleRemoveCart}
-                        handleRemoveitemfromCart={handleRemoveitemfromCart}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleclearCart}
-                  className='py-2 px-6 rounded-full bg-[#1D6F2B] text-white  mb-4 hover:text-white duration-300'
-                >
-                  Clear Shopping Cart
-                </button>
-              </div>
-
-              <div className='gap-4 flex w-[25%] bg-[#F5F7F7] p-3 rounded shadow overflow-hidden'>
-                <div className='flex flex-col w-full gap-4'>
-                  <h1 className='text-2xl font-semibold text-gray-700'>
-                    Cart totals
-                  </h1>
-                  <div className='border rounded'>
-                    <p className='flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium'>
-                      <span>Subtotal</span>
-                      <span className='font-semibold tracking-wide font-titleFont'>
-                        {totalCost} RWF
-                      </span>
-                    </p>
-                    <p className='flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium'>
-                      Delivery fee
-                      <span className='font-semibold tracking-wide font-titleFont'>
-                        {deliveryprice} RWF
-                      </span>
-                    </p>
-                    <p className='flex items-center justify-between py-1.5 text-lg px-4 font-medium mb-6'>
-                      Total
-                      <span className='font-bold tracking-wide text-lg font-titleFont'>
-                        {totalCost + deliveryprice} RWF
-                      </span>
-                    </p>
+              <div className="mt-5">
+                {cart.map((item) => (
+                  <div key={item.id}>
+                    <ItemCard
+                      itemInfo={item}
+                      handleAddCart={handleAddCart}
+                      handleRemoveCart={handleRemoveCart}
+                      handleRemoveitemfromCart={handleRemoveitemfromCart}
+                    />
                   </div>
-
-                  {!checkoutform && (
-                    <button
-                      disabled={loading}
-                      onClick={handlefillorderform}
-                      className='rounded-full py-2 bg-[#1D6F2B] text-white disabled:opacity-50 duration-300'
-                    >
-                      {loading ? 'Processing...' : 'Proceed to Checkout'}
-                    </button>
-                  )}
-                </div>
+                ))}
               </div>
+
+              <button
+                onClick={handleclearCart}
+                className="py-2 px-10 rounded-lg bg-[#1D6F2B] text-white font-semibold mb-4 hover:text-white duration-300"
+              >
+                Clear Shopping Cart
+              </button>
             </div>
 
-            {/* <div className='p-0 md:p-0 space-y-5  w-full bg-yellow-400  '>
-              <div className=' space-y-2'>
+            <div className="p-0 md:p-0 space-y-5  w-full  ">
+              <div className=" space-y-2">
                 <Space>
-                  <h1 className='font-bold'> Order Delivery : </h1>{' '}
+                  <h1 className="font-bold"> Order Delivery : </h1>{" "}
                 </Space>
                 <Button
                   onClick={handlefillorderform}
-                  type={fillorderform ? 'primary' : 'default'}
+                  type={fillorderform ? "primary" : "default"}
                 >
-                  Fill Order Delivery Form{' '}
-                </Button>{' '}
-                <Button type={location ? 'primary' : 'default'}>
-                  Get my Location via Googlemap{' '}
-                </Button>{' '}
-                <Button
+                  Fill Order Delivery Form{" "}
+                </Button>{" "}
+                <Button type={location ? "primary" : "default"}>
+                  Get my Location via Googlemap{" "}
+                </Button>{" "}
+                {/* <Button
                   onClick={handlenodelivery}
                   type={nodelivery ? "primary" : "default"}
                 >
                   No delivey
-                </Button>
-                <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
+                </Button> */}
+                {/* <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                   Delivery fee
                   <span className="font-bold tracking-wide text-lg font-titleFont">
                     {deliveryprice} RWF
                   </span>
-                </p>
+                </p> */}
               </div>
 
-            </div> */}
+              {fillorderform && (
+                <Form
+                  layout={"vertical"}
+                  onFinish={handleSubmit(onFinish, onErrors)}
+                  style={{
+                    width: "100%",
+                    backgroundColor: "#F5F7F7",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    boxShadow: "0px 10px 20px -13px rgba(0,0,0,0.7)",
+                    display: ` ${fillorderform ? "block" : "none"}`,
+                  }}
+                >
+                  <div>
+                    <Row
+                      gutter={[12, 12]}
+                      // className="flex justify-between space-x-2  "
+                    >
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="country"
+                          rules={{ required: "Country is required" }}
+                          defaultValue={""}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Country" className=" ">
+                                <Select
+                                  {...field}
+                                  placeholder="Select your country"
+                                >
+                                  <Select.Option value="Rwanda">
+                                    Rwanda
+                                  </Select.Option>
+                                </Select>
+                                <p className="text-[red]">
+                                  {errors?.country?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
 
-            {fillorderform && (
-              <Form
-                layout={'vertical'}
-                onFinish={handleSubmit(onFinish, onErrors)}
-                style={{
-                  width: '100%',
-                  border: '1px solid rgb(229, 231, 235)',
-                  padding: '20px',
-                  borderRadius: '5px',
-                  display: ` ${fillorderform ? 'block' : 'none'}`,
-                }}
-              >
-                <div>
-                  <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='country'
-                        rules={{ required: 'Country is required' }}
-                        defaultValue={''}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label='Country'>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        style={{ margin: " 0px 0px " }}
+                      >
+                        <Controller
+                          control={control}
+                          name="Province"
+                          rules={{ required: "Province is required" }}
+                          defaultValue=""
+                          render={({ field }) => (
+                            <Form.Item label="Province" className=" ">
                               <Select
                                 {...field}
-                                placeholder='Select your country'
-                              >
-                                <Select.Option
-                                  value='Rwanda'
-                                  className='border'
-                                >
-                                  Rwanda
-                                </Select.Option>
-                              </Select>
-                              <p className='text-[red]'>
-                                {errors?.country?.message}
+                                placeholder="Select your location"
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  // setSelectedProvince(value);
+                                  handleProvinceChange(value);
+                                }}
+                                options={provinceselectoption}
+                              />
+
+                              <p className="text-[red]">
+                                {errors?.Province?.message}
                               </p>
                             </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
+                          )}
+                        />
+                      </Col>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        style={{
+                          margin: " 0px 0px ",
 
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='Province'
-                        rules={{ required: 'Province is required' }}
-                        defaultValue=''
-                        render={({ field }) => (
-                          <Form.Item label='Province' className=' '>
-                            <Select
-                              {...field}
-                              placeholder='Select your location'
-                              onChange={(value) => {
-                                field.onChange(value);
-                                // setSelectedProvince(value);
-                                handleProvinceChange(value);
-                              }}
-                              options={provinceselectoption}
-                            />
+                          height: "20px !  important",
+                        }}
+                      >
+                        <Controller
+                          control={control}
+                          name="District"
+                          rules={{ required: "District is required" }}
+                          defaultValue=""
+                          render={({ field }) => (
+                            <Form.Item label="District" className="  ">
+                              <Select
+                                {...field}
+                                placeholder="Select your district"
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleDistrictChange(value);
+                                }}
+                              >
+                                {Districts(selectedProvince).map((district) => (
+                                  <Select.Option
+                                    key={district}
+                                    value={district}
+                                  >
+                                    {district}
+                                  </Select.Option>
+                                ))}
+                              </Select>
 
-                            <p className='text-[red]'>
-                              {errors?.Province?.message}
-                            </p>
-                          </Form.Item>
-                        )}
-                      />
-                    </Col>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='District'
-                        rules={{ required: 'District is required' }}
-                        defaultValue=''
-                        render={({ field }) => (
-                          <Form.Item label='District' className='  '>
-                            <Select
-                              {...field}
-                              placeholder='Select your district'
-                              onChange={(value) => {
-                                field.onChange(value);
-                                handleDistrictChange(value);
-                              }}
-                            >
-                              {Districts(selectedProvince).map((district) => (
-                                <Select.Option key={district} value={district}>
-                                  {district}
-                                </Select.Option>
-                              ))}
-                            </Select>
-
-                            <p className='text-[red]'>
-                              {errors?.District?.message}
-                            </p>
-                          </Form.Item>
-                        )}
-                      />
-                    </Col>
-                  </Row>
-                  <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='Sector'
-                        rules={{ required: 'Sector is required' }}
-                        defaultValue={selectedSector}
-                        render={({ field }) => (
-                          <Form.Item label='Sector' className=' '>
-                            <Select
-                              {...field}
-                              placeholder='Select your sector'
-                              onChange={(value) => {
-                                field.onChange(value);
-                                handleSectorChange(value);
-                              }}
-                            >
-                              {Sectors(selectedProvince, selectedDistrict)?.map(
-                                (sector) => (
+                              <p className="text-[red]">
+                                {errors?.District?.message}
+                              </p>
+                            </Form.Item>
+                          )}
+                        />
+                      </Col>
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="Sector"
+                          rules={{ required: "Sector is required" }}
+                          defaultValue={selectedSector}
+                          render={({ field }) => (
+                            <Form.Item label="Sector" className=" ">
+                              <Select
+                                {...field}
+                                placeholder="Select your sector"
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleSectorChange(value);
+                                }}
+                              >
+                                {Sectors(
+                                  selectedProvince,
+                                  selectedDistrict
+                                )?.map((sector) => (
                                   <Select.Option key={sector} value={sector}>
                                     {sector}
                                   </Select.Option>
-                                )
-                              )}
-                            </Select>
+                                ))}
+                              </Select>
 
-                            <p className='text-[red]'>
-                              {errors?.Sector?.message}
-                            </p>
-                          </Form.Item>
-                        )}
-                      />
-                    </Col>
-
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='Cell'
-                        rules={{ required: 'Cell is required' }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label='Cell' className=' h-8'>
-                              <Input
-                                {...field}
-                                type='text'
-                                placeholder='Enter your Cell'
-                              />
-                              <p className='text-[red]'>
-                                {errors?.Cell?.message}
+                              <p className="text-[red]">
+                                {errors?.Sector?.message}
                               </p>
                             </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
+                          )}
+                        />
+                      </Col>
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="Cell"
+                          rules={{ required: "Cell is required" }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Cell" className=" h-8">
+                                <Input
+                                  {...field}
+                                  type="text"
+                                  placeholder="Enter your Cell"
+                                />
+                                <p className="text-[red]">
+                                  {errors?.Cell?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
 
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='Village'
-                        rules={{ required: 'Village is required' }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label='Village' className=' h-8'>
-                              <Input
-                                {...field}
-                                type='text'
-                                placeholder='Enter your Village'
-                              />
-                              <p className='text-[red]'>
-                                {errors?.Village?.message}
-                              </p>
-                            </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
-                  </Row>
-                  <div className='mt-5'></div>
-                  <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='Street'
-                        rules={{ required: 'Street is required' }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label='Street' className=' h-8'>
-                              <Input
-                                {...field}
-                                type='text'
-                                placeholder='Street'
-                                className='border'
-                              />
-                              <p className='text-[red]'>
-                                {errors?.Street?.message}
-                              </p>
-                            </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        style={{ margin: " 10px 0px " }}
+                      >
+                        <Controller
+                          control={control}
+                          name="Village"
+                          rules={{ required: "Village is required" }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Village" className=" h-8">
+                                <Input
+                                  {...field}
+                                  type="text"
+                                  placeholder="Enter your Village"
+                                />
+                                <p className="text-[red]">
+                                  {errors?.Village?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        style={{ margin: " 10px 0px " }}
+                      >
+                        <Controller
+                          control={control}
+                          name="Street"
+                          rules={{ required: "Street is required" }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Street" className=" h-8">
+                                <Input
+                                  {...field}
+                                  type="text"
+                                  placeholder="Street"
+                                />
+                                <p className="text-[red]">
+                                  {errors?.Street?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
 
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='phoneNumber'
-                        rules={{
-                          required: 'Phone number is required',
-                        }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label='Phone number' className=' h-5'>
-                              <PhoneInput {...field} enableSearch />
-                              <p className='text-[red]'>
-                                {errors?.phoneNumber?.message}
-                              </p>
-                            </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        style={{ margin: " 10px 0px " }}
+                      >
+                        <Controller
+                          control={control}
+                          name="phoneNumber"
+                          rules={{
+                            required: "Phone number is required",
+                          }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Phone number" className=" h-5">
+                                <PhoneInput {...field} enableSearch />
+                                <p className="text-[red]">
+                                  {errors?.phoneNumber?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
 
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name='orderDelivery'
-                        rules={{
-                          required: 'please select',
-                        }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item
-                              label='Delivery preferences'
-                              className=' h-5'
-                            >
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        style={{ margin: " 10px 0px " }}
+                      >
+                        <Controller
+                          control={control}
+                          name="orderDelivery"
+                          rules={{
+                            required: "please select",
+                          }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item
+                                label="Delivery preferences"
+                                className=" h-5"
+                              >
+                                <Select
+                                  {...field}
+                                  onChange={(value) => {
+                                    setOrderDelivery(value);
+                                    field.onChange(value);
+                                  }}
+                                  options={[
+                                    {
+                                      label: "PickUp",
+                                      value: "PickUp",
+                                    },
+                                    {
+                                      label: "Delivery",
+                                      value: "Delivery",
+                                    },
+                                  ]}
+                                />
+                                <p className="text-[red]">
+                                  {errors?.orderDelivery?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
+                    </Row>
+
+                    {/* <Row gutter={[16, 16]}>
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="Sector"
+                          rules={{ required: "Sector is required" }}
+                          defaultValue={selectedSector}
+                          render={({ field }) => (
+                            <Form.Item label="Sector" className=" ">
                               <Select
                                 {...field}
+                                placeholder="Select your sector"
                                 onChange={(value) => {
-                                  setDeliveryPreference(value);
                                   field.onChange(value);
+                                  handleSectorChange(value);
                                 }}
-                                options={[
-                                  {
-                                    label: 'PickUp',
-                                    value: 'PickUp',
-                                  },
-                                  {
-                                    label: 'Delivery',
-                                    value: 'Delivery',
-                                  },
-                                ]}
-                              />
-                              <p className='text-[red]'>
-                                {errors?.orderDelivery?.message}
+                              >
+                                {Sectors(
+                                  selectedProvince,
+                                  selectedDistrict
+                                )?.map((sector) => (
+                                  <Select.Option key={sector} value={sector}>
+                                    {sector}
+                                  </Select.Option>
+                                ))}
+                              </Select>
+
+                              <p className="text-[red]">
+                                {errors?.Sector?.message}
                               </p>
                             </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
-                  </Row>
-                  <div className='mb-12'></div>
-                  <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <button
-                        disabled={loading}
-                        htmlType='submit'
-                        className='h-10 rounded-full bg-[#1D6F2B] text-white disabled:opacity-50 px-5 duration-300'
+                          )}
+                        />
+                      </Col>
+
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="Cell"
+                          rules={{ required: "Cell is required" }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Cell" className=" h-8">
+                                <Input
+                                  {...field}
+                                  type="text"
+                                  placeholder="Enter your Cell"
+                                />
+                                <p className="text-[red]">
+                                  {errors?.Cell?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
+
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="Village"
+                          rules={{ required: "Village is required" }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Village" className=" h-8">
+                                <Input
+                                  {...field}
+                                  type="text"
+                                  placeholder="Enter your Village"
+                                />
+                                <p className="text-[red]">
+                                  {errors?.Village?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
+                    </Row>
+
+                    <div className="mt-5"></div>
+
+                    <Row gutter={[16, 16]}>
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="Street"
+                          rules={{ required: "Street is required" }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Street" className=" h-8">
+                                <Input
+                                  {...field}
+                                  type="text"
+                                  placeholder="Street"
+                                />
+                                <p className="text-[red]">
+                                  {errors?.Street?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
+
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="phoneNumber"
+                          rules={{
+                            required: "Phone number is required",
+                          }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item label="Phone number" className=" h-5">
+                                <PhoneInput {...field} enableSearch />
+                                <p className="text-[red]">
+                                  {errors?.phoneNumber?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
+
+                      <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                        <Controller
+                          control={control}
+                          name="orderDelivery"
+                          rules={{
+                            required: "please select",
+                          }}
+                          render={({ field }) => (
+                            <>
+                              <Form.Item
+                                label="Delivery preferences"
+                                className=" h-5"
+                              >
+                                <Select
+                                  {...field}
+                                  onChange={(value) => {
+                                    setOrderDelivery(value);
+                                    field.onChange(value);
+                                  }}
+                                  options={[
+                                    {
+                                      label: "PickUp",
+                                      value: "PickUp",
+                                    },
+                                    {
+                                      label: "Delivery",
+                                      value: "Delivery",
+                                    },
+                                  ]}
+                                />
+                                <p className="text-[red]">
+                                  {errors?.orderDelivery?.message}
+                                </p>
+                              </Form.Item>
+                            </>
+                          )}
+                        />
+                      </Col>
+                    </Row> */}
+
+                    <div className="mt-5"></div>
+
+                    <Row gutter={[16, 16]}>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={8}
+                        style={{ margin: " 30px 0px " }}
                       >
-                        <span className='flex items-center tracking-widest'>
-                          <span className='mr-2'>Pay With</span>
-                          <span>
-                            <img src={MtnIcon} className='w-14 rounded' />
+                        <button
+                          disabled={loading}
+                          htmlType="submit"
+                          className="h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 px-5 duration-300"
+                        >
+                          <span className="flex">
+                            <FaSave className="  mr-2" />
+                            <h2>
+                              {loading ? "Processing..." : " Proceed to pay"}
+                            </h2>
                           </span>
-                          <CgFormatSlash
-                            style={{
-                              color: '#ffffff',
-                              fontSize: '1.8rem',
-                            }}
-                          />
-                          <span>
-                            <img src={AirtelIcon} className='w-14 rounded' />
-                          </span>
-                        </span>
-                      </button>
-                    </Col>
-                  </Row>
+                        </button>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form>
+              )}
+            </div>
+            <div className="w-full gap-4 flex justify-end mt-4">
+              {/* <OrderForm
+                token={token}
+                cartTotl={cartTotl}
+                totalCost={totalCost}
+                
+              /> */}
+              <div className="w-[95%] md:w-[50%] flex flex-col gap-4  ">
+                <h1 className="text-2xl font-semibold text-right">
+                  Cart totals
+                </h1>
+                <div>
+                  <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
+                    Subtotal
+                    <span className="font-semibold tracking-wide font-titleFont">
+                      {totalCost} RWF
+                    </span>
+                  </p>
+                  <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
+                    Total delivery fee
+                    <span className="font-semibold tracking-wide font-titleFont">
+                      {deliveryprice} RWF
+                    </span>
+                  </p>
+                  <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
+                    Total
+                    <span className="font-bold tracking-wide text-lg font-titleFont">
+                      {totalCost + deliveryprice} RWF
+                    </span>
+                  </p>
                 </div>
-              </Form>
-            )}
+
+                {/* {!checkoutform && (
+                  <div className="flex justify-end">
+                    <button
+                      disabled={loading}
+                      onClick={handleopencheckoutform}
+                      className="w-52 h-10 rounded-lg bg-[#1D6F2B] text-white disabled:opacity-50 duration-300"
+                    >
+                      {loading ? "Processing..." : "Proceed to Checkout"}
+                    </button>
+                  </div>
+                )} */}
+              </div>
+            </div>
           </div>
+        ) : (
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20"
+          >
+            <div>
+              <img
+                className="w-80 rounded-lg p-4 mx-auto"
+                src={emptyCart}
+                alt="emptyCart"
+              />
+            </div>
+            <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
+              <h1 className="font-titleFont text-xl font-bold uppercase">
+                Your Cart feels lonely.
+              </h1>
+              <p className="text-sm text-center px-10 -mt-2">
+                Your Shopping cart lives to serve. Give it purpose - fill it
+                with books, electronics, videos, etc. and make it happy.
+              </p>
+              {/* <Link to="/shop"> */}
+              <Link to="/">
+                <button className="bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300">
+                  Continue Shopping
+                </button>
+              </Link>
+            </div>
+          </motion.div>
         )}
       </div>
     </PageLayout>

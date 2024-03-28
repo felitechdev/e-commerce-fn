@@ -451,6 +451,7 @@ const SellerProfile = () => {
                 My location
               </h1>
               <Mymap />
+              {/* <App /> */}
             </div>
           </>
         )}
