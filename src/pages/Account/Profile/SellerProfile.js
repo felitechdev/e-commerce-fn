@@ -16,6 +16,7 @@ import { useUser } from "../../../context/UserContex";
 import axios from "axios";
 import Mymap from "./Googlemap/getLocation";
 import { App } from "./Googlemap/getLocation";
+import MyMapComponent from "./Googlemap/GoogleMap";
 
 const SellerProfile = () => {
   const [isLoading, setLoading] = useState(true);
@@ -450,8 +451,8 @@ const SellerProfile = () => {
               <h1 className=" text-border font-bold text-lg underline mb-3">
                 My location
               </h1>
-              <Mymap />
-              {/* <App /> */}
+
+              <MyMapComponent />
             </div>
           </>
         )}
