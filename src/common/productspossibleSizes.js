@@ -1,9 +1,9 @@
 export const sizeOptions = [
   // Common sizes for all categories
-  { label: "Small", value: "small" },
-  { label: "Medium", value: "medium" },
-  { label: "Large", value: "large" },
-  { label: "Extra Large", value: "xl" },
+  // { label: "Small", value: "small" },
+  // { label: "Medium", value: "medium" },
+  // { label: "Large", value: "large" },
+  // { label: "Extra Large", value: "xl" },
   // Additional sizes for clothing
   { label: "XS", value: "xs" },
   { label: "S", value: "s" },
@@ -36,9 +36,9 @@ export const sizeOptions = [
   { label: "CM 25", value: "cm25" },
   { label: "CM 26", value: "cm26" },
   // Additional sizes for hats
-  { label: "Small (S)", value: "small-s" },
-  { label: "Medium (M)", value: "medium-m" },
-  { label: "Large (L)", value: "large-l" },
+  // { label: "Small (S)", value: "small-s" },
+  // { label: "Medium (M)", value: "medium-m" },
+  // { label: "Large (L)", value: "large-l" },
   // Additional sizes for jewelry
   { label: '16" (Inch)', value: "16inch" },
   { label: '18" (Inch)', value: "18inch" },
