@@ -317,6 +317,25 @@ export const DashProducts = () => {
       sorter: (a, b) => a.age - b.age,
     },
     {
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
+      width: 100,
+      render: (_, record) => (
+        <>
+          <ActionButton
+            handleUpdatestate={handleUpdatestate}
+            productId={record.key}
+          />
+          {/* <EditFilled className=" text-icon2 mr-2" />
+          <EyeFilled className=" text-icon1 mr-2" />
+          <DeleteFilled className=" text-icon3" /> */}
+
+          {/* <ActionButton /> */}
+        </>
+      ),
+    },
+    {
       title: "Orders",
       dataIndex: "orders",
       key: "orders",
@@ -358,25 +377,6 @@ export const DashProducts = () => {
       key: "address",
       filter: true,
       width: 100,
-    },
-    {
-      title: "Action",
-      dataIndex: "Action",
-      key: "Action",
-      width: 100,
-      render: (_, record) => (
-        <>
-          <ActionButton
-            handleUpdatestate={handleUpdatestate}
-            productId={record.key}
-          />
-          {/* <EditFilled className=" text-icon2 mr-2" />
-          <EyeFilled className=" text-icon1 mr-2" />
-          <DeleteFilled className=" text-icon3" /> */}
-
-          {/* <ActionButton /> */}
-        </>
-      ),
     },
   ];
 
