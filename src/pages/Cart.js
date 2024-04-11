@@ -488,8 +488,8 @@ const Cart = () => {
 
         {cart && cart.length > 0 && (
           <div className="pb-20">
-            <div className="flex justify-between items-start gap-8">
-              <div className="w-[75%]">
+            <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-8">
+              <div className="w-[100%] md:w-[75%]">
                 <div className="w-full h-20 bg-[#F5F7F7] rounded text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
                   <h2 className="col-span-2">Product</h2>
                   <h2>Price</h2>
@@ -508,16 +508,27 @@ const Cart = () => {
                     </div>
                   ))}
                 </div>
+                <div className="w-full flex justify-between ">
+                  <button
+                    onClick={handleclearCart}
+                    className="py-2 px-6 rounded-full bg-[#1D6F2B] text-white  mb-4 hover:text-white duration-300"
+                  >
+                    Clear Cart
+                  </button>
 
-                <button
-                  onClick={handleclearCart}
-                  className="py-2 px-6 rounded-full bg-[#1D6F2B] text-white  mb-4 hover:text-white duration-300"
-                >
-                  Clear Shopping Cart
-                </button>
+                  {!checkoutform && (
+                    <button
+                      disabled={loading}
+                      onClick={handlefillorderform}
+                      className="rounded-full py-2 bg-[#1D6F2B] text-white mb-4 disabled:opacity-50 duration-300 w-[50%] block md:hidden"
+                    >
+                      {loading ? "Processing..." : "Proceed to Checkout"}
+                    </button>
+                  )}
+                </div>
               </div>
 
-              <div className="gap-4 flex w-[25%] bg-[#F5F7F7] p-3 rounded shadow overflow-hidden">
+              <div className="gap-4 flex  w-[100%] md:w-[25%] bg-[#F5F7F7] p-3 rounded shadow overflow-hidden">
                 <div className="flex flex-col w-full gap-4">
                   <h1 className="text-2xl font-semibold text-gray-700">
                     Cart totals
@@ -547,7 +558,7 @@ const Cart = () => {
                     <button
                       disabled={loading}
                       onClick={handlefillorderform}
-                      className="rounded-full py-2 bg-[#1D6F2B] text-white disabled:opacity-50 duration-300"
+                      className="rounded-full py-2 bg-[#1D6F2B] text-white disabled:opacity-50 duration-300 hidden md:inline-block "
                     >
                       {loading ? "Processing..." : "Proceed to Checkout"}
                     </button>
