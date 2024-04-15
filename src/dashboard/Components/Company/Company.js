@@ -1,11 +1,19 @@
-import { Image, Layout, Space, Table, Typography, Input, Tag } from "antd";
-import { jwtDecode } from "jwt-decode";
-import { useEffect } from "react";
-import { Chart } from "../Chart/Chart";
-import { useSelector, useDispatch } from "react-redux";
-import { Loader } from "../Loader/LoadingSpin";
+import {
+  Image,
+  Layout,
+  Space,
+  Table,
+  Typography,
+  Input,
+  Tag,
+} from 'antd';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
+import { Chart } from '../Chart/Chart';
+import { useSelector, useDispatch } from 'react-redux';
+import { Loader } from '../Loader/LoadingSpin';
 // import type { TableProps } from 'antd/es/table';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import {
   DownloadOutlined,
   RotateLeftOutlined,
@@ -14,24 +22,24 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
   SearchOutlined,
-} from "@ant-design/icons";
-import { useState } from "react";
-import CompanyModel from "./CompanyModel/CompanyModel";
-import { ActionButton } from "./ActionButton/ActionButton";
-import { fetchCompany } from "../../Apis/Company";
-import Cookies from "js-cookie";
+} from '@ant-design/icons';
+import { useState } from 'react';
+import CompanyModel from './CompanyModel/CompanyModel';
+import { ActionButton } from './ActionButton/ActionButton';
+import { fetchCompany } from '../../Apis/Company';
+import Cookies from 'js-cookie';
 
 const { Title, Text } = Typography;
 
 const src =
-  "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";
+  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
 
 export const Company = () => {
   const [searchText, setSearchText] = useState();
   const [searchedColumn, setSearchedColumn] = useState();
   const [companys, setCompanys] = useState([]);
   const [dataSource, setDataSource] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
   // access redux userlogin actions
@@ -43,15 +51,15 @@ export const Company = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = Cookies.get("token");
+  const token = Cookies.get('token');
 
   const FilterByNameInput = (
     <Input.Search
-      placeholder="search co by name ......."
+      placeholder='search co by name .......'
       allowClear
-      enterButton="Search"
-      size="large"
-      className="w-[50%] my-2"
+      enterButton='Search'
+      size='large'
+      className='w-[50%] my-2'
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
@@ -62,10 +70,14 @@ export const Company = () => {
             name: comp.companyName,
             email: comp.email,
             phone: comp.phoneNumber,
-            joindate: new Date(`${comp.createdAt}`).toLocaleDateString(),
+            joindate: new Date(
+              `${comp.createdAt}`
+            ).toLocaleDateString(),
           }))
           .filter((entry) =>
-            entry.name.toLowerCase().includes(currValue.toLowerCase())
+            entry.name
+              .toLowerCase()
+              .includes(currValue.toLowerCase())
           );
 
         setFilteredData(newData);
@@ -80,8 +92,8 @@ export const Company = () => {
       dispatch(fetchCompany(token))
         .unwrap()
         .then((data) => {
-          console.log("Company", data?.data?.sellers);
-          if (data?.data?.sellers) setCompanys(data?.data?.sellers);
+          if (data?.data?.sellers)
+            setCompanys(data?.data?.sellers);
         })
         .catch((error) => {
           // if (error.response && error.response.status === 401) {
@@ -97,8 +109,8 @@ export const Company = () => {
       dispatch(fetchCompany(token))
         .unwrap()
         .then((data) => {
-          console.log("Company", data?.data?.sellers);
-          if (data?.data?.sellers) setCompanys(data?.data?.sellers);
+          if (data?.data?.sellers)
+            setCompanys(data?.data?.sellers);
         })
         .catch((error) => {
           // if (error.response && error.response.status === 401) {
@@ -112,14 +124,16 @@ export const Company = () => {
   useEffect(() => {
     let timerRef = null;
     // decode token
-    const decoded = typeof token == "string" && jwtDecode(token);
+    const decoded =
+      typeof token == 'string' && jwtDecode(token);
 
-    const expiryTime = new Date(decoded.exp * 1000).getTime();
+    const expiryTime = new Date(
+      decoded.exp * 1000
+    ).getTime();
     const currentTime = new Date().getTime();
 
     const timeout = expiryTime - currentTime;
     const onExpire = () => {
-      console.log("token expired", timeout);
       // navigate("/");
     };
 
@@ -143,23 +157,25 @@ export const Company = () => {
       name: comp.companyName,
       email: comp.email,
       phone: comp.phoneNumber,
-      joindate: new Date(`${comp.createdAt}`).toLocaleDateString(),
+      joindate: new Date(
+        `${comp.createdAt}`
+      ).toLocaleDateString(),
     }));
     setDataSource(newData);
     setFilteredData(newData); // Update filteredData as well
   }, [companys]);
 
   const category = [
-    { name: "Orders", value: 1024 },
-    { name: "Earning", value: 1024 },
-    { name: "Customers", value: 1024 },
-    { name: "Total Earning", value: 1024 },
+    { name: 'Orders', value: 1024 },
+    { name: 'Earning', value: 1024 },
+    { name: 'Customers', value: 1024 },
+    { name: 'Total Earning', value: 1024 },
   ];
 
   const data = [];
   for (let i = 0; i < 1; i++) {
     data.push({
-      key: "1",
+      key: '1',
       name: `Mike ${i}`,
       age: 32,
       address: `10 Downing Street ${i}`,
@@ -173,9 +189,9 @@ export const Company = () => {
       .then((response) => response.blob())
       .then((blob) => {
         const url = URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = url;
-        link.download = "image.png";
+        link.download = 'image.png';
         document.body.appendChild(link);
         link.click();
         URL.revokeObjectURL(url);
@@ -185,14 +201,14 @@ export const Company = () => {
 
   const Columns = [
     {
-      title: "Company",
-      dataIndex: "name",
-      key: "name",
+      title: 'Company',
+      dataIndex: 'name',
+      key: 'name',
       render: (_, record) => (
         <Space size={12}>
           <Image
             width={50}
-            className="rounded-md"
+            className='rounded-md'
             src={src}
             preview={{
               toolbarRender: (
@@ -209,20 +225,36 @@ export const Company = () => {
                   },
                 }
               ) => (
-                <Space size={12} className="mx-w-full h-screen">
+                <Space
+                  size={12}
+                  className='mx-w-full h-screen'
+                >
                   <DownloadOutlined onClick={onDownload} />
-                  <SwapOutlined rotate={90} onClick={onFlipY} />
+                  <SwapOutlined
+                    rotate={90}
+                    onClick={onFlipY}
+                  />
                   <SwapOutlined onClick={onFlipX} />
-                  <RotateLeftOutlined onClick={onRotateLeft} />
-                  <RotateRightOutlined onClick={onRotateRight} />
-                  <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
-                  <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                  <RotateLeftOutlined
+                    onClick={onRotateLeft}
+                  />
+                  <RotateRightOutlined
+                    onClick={onRotateRight}
+                  />
+                  <ZoomOutOutlined
+                    disabled={scale === 1}
+                    onClick={onZoomOut}
+                  />
+                  <ZoomInOutlined
+                    disabled={scale === 50}
+                    onClick={onZoomIn}
+                  />
                 </Space>
               ),
             }}
           />
           <div>
-            <Title level={5} className="w-full">
+            <Title level={5} className='w-full'>
               {record.name} {record.name}
             </Title>
           </div>
@@ -230,108 +262,112 @@ export const Company = () => {
       ),
       filters: [
         {
-          text: "Joe",
-          value: "Joe",
+          text: 'Joe',
+          value: 'Joe',
         },
         {
-          text: "Category 1",
-          value: "Category 1",
+          text: 'Category 1',
+          value: 'Category 1',
           children: [
             {
-              text: "Yellow",
-              value: "Yellow",
+              text: 'Yellow',
+              value: 'Yellow',
             },
             {
-              text: "Pink",
-              value: "Pink",
+              text: 'Pink',
+              value: 'Pink',
             },
           ],
         },
         {
-          text: "Category 2",
-          value: "Category 2",
+          text: 'Category 2',
+          value: 'Category 2',
           children: [
             {
-              text: "Green",
-              value: "Green",
+              text: 'Green',
+              value: 'Green',
             },
             {
-              text: "Black",
-              value: "Black",
+              text: 'Black',
+              value: 'Black',
             },
           ],
         },
       ],
-      filterMode: "tree",
+      filterMode: 'tree',
       filterSearch: true,
-      onFilter: (value, record) => record.name.includes(value),
+      onFilter: (value, record) =>
+        record.name.includes(value),
       width: 200,
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       width: 100,
       sorter: (a, b) => a.age - b.age,
     },
     {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
       width: 100,
       sorter: (a, b) => a.age - b.age,
     },
     {
-      title: "Join date",
-      dataIndex: "joindate",
-      key: "joindate",
+      title: 'Join date',
+      dataIndex: 'joindate',
+      key: 'joindate',
       width: 100,
     },
     {
-      title: "Status",
-      dataIndex: "Status",
-      key: "Status",
+      title: 'Status',
+      dataIndex: 'Status',
+      key: 'Status',
       width: 100,
       sorter: (a, b) => a.age - b.age,
       render: (_, record) => (
-        <div className="w-full text-center">
-          <Tag className="rounded-full bg-blue-700 text-white px-4 py-1">
+        <div className='w-full text-center'>
+          <Tag className='rounded-full bg-blue-700 text-white px-4 py-1'>
             Pending
           </Tag>
         </div>
       ),
     },
     {
-      title: "Action",
-      dataIndex: "Action",
-      key: "Action",
+      title: 'Action',
+      dataIndex: 'Action',
+      key: 'Action',
       width: 100,
       render: (_, record) => <ActionButton />,
     },
   ];
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
+  const onChange = (
+    pagination,
+    filters,
+    sorter,
+    extra
+  ) => {};
 
   return (
-    <Layout className="space-y-6 S bg-light">
-      <Space className="flex justify-between">
+    <Layout className='space-y-6 S bg-light'>
+      <Space className='flex justify-between'>
         <Title level={3}>Company's</Title>
         <CompanyModel />
       </Space>
       {loadcompany == true ? (
         <>
-          <Loader className=" text-primary flex items-center justify-center" />
-          <span className=" text-primary flex items-center  justify-center">
+          <Loader className=' text-primary flex items-center justify-center' />
+          <span className=' text-primary flex items-center  justify-center'>
             Loading....
           </span>
         </>
       ) : (
-        <div className="">
+        <div className=''>
           {FilterByNameInput}
           <Table
-            rowClassName="even:bg-[#838383] hover:cursor-pointer"
+            rowClassName='even:bg-[#838383] hover:cursor-pointer'
             // rowSelection={{
             //   type: "checkbox",
             //   onChange: () =>
@@ -343,11 +379,11 @@ export const Company = () => {
             //     disabled: false, // Column configuration not to be checked
             //   }),
             // }}
-            size="small"
-            tableLayout="fixed"
+            size='small'
+            tableLayout='fixed'
             bordered={false}
             style={{
-              position: "sticky",
+              position: 'sticky',
               bottom: 0,
               top: 0,
               left: 0,

@@ -1,12 +1,12 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const Token = Cookies.get("token");
+const Token = Cookies.get('token');
 
 // Async thunk for fetching products  to handle asynchronous
 export const fetchadminproduct = createAsyncThunk(
-  "product/fetchProducts",
+  'product/fetchProducts',
   async () => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`
@@ -17,23 +17,24 @@ export const fetchadminproduct = createAsyncThunk(
       (a, b) => b.createdAt - a.createdAt
     );
 
-    console.log("sortedProducts", sortedProducts);
     return sortedProducts;
   }
 );
 
 // create product
 export const createProduct = createAsyncThunk(
-  "product/createProduct",
+  'product/createProduct',
   async ({ productData, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`,
-        method: "POST",
+        method: 'POST',
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
           // "content-type": "multipart/form-data",
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
         data: productData,
       });
@@ -57,16 +58,18 @@ export const createProduct = createAsyncThunk(
 );
 
 export const deleteproduct = createAsyncThunk(
-  "product/delete",
+  'product/delete',
   async ({ id, token }, { rejectWithValue }) => {
-    alert("delete product");
+    alert('delete product');
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "content-type": "application/json",
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          'content-type': 'application/json',
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
       });
 
@@ -90,16 +93,21 @@ export const deleteproduct = createAsyncThunk(
 );
 
 export const updateProduct = createAsyncThunk(
-  "product/updateProduct",
-  async ({ productData, id, token }, { rejectWithValue }) => {
+  'product/updateProduct',
+  async (
+    { productData, id, token },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`,
           // "content-type": "multipart/form-data",
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
         data: productData,
       });

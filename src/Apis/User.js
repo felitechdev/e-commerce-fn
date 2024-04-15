@@ -1,16 +1,16 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const Token = Cookies.get("token");
+const Token = Cookies.get('token');
 
 export const Login = createAsyncThunk(
-  "user/Login",
+  'user/Login',
   async (formData, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       };
       const response = await axios.post(
@@ -19,7 +19,7 @@ export const Login = createAsyncThunk(
         config
       );
       if (response.status == 200) {
-        Cookies.set("token", response.data.token);
+        Cookies.set('token', response.data.token);
         return response;
       } else {
         // Handle unexpected status codes
@@ -39,12 +39,14 @@ export const Login = createAsyncThunk(
 
 // Async thunk for  get logged in user profile
 export const GetMyprofile = createAsyncThunk(
-  "user/getuser",
+  'user/getuser',
   async (token, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`,
         },
       };
       const response = await axios.get(
@@ -61,7 +63,6 @@ export const GetMyprofile = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error on getting myprofile ", err.response?.data);
       return rejectWithValue({
         status: err.response?.data?.status,
         message: err.response?.data?.message,

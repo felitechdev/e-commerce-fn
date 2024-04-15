@@ -1,18 +1,20 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
-const Token = Cookies.get("token");
+const Token = Cookies.get('token');
 
 // Async thunk for fetching categories  to handle asynchronous
 export const fetchCategory = createAsyncThunk(
-  "category/fetchcategory",
+  'category/fetchcategory',
   async (token, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
       };
       const response = await axios.get(
@@ -29,7 +31,6 @@ export const fetchCategory = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while getting category api", err.response?.data);
       return rejectWithValue({
         status: err.response.status,
         message: err.response?.data?.message,
@@ -39,12 +40,14 @@ export const fetchCategory = createAsyncThunk(
 );
 
 export const fetchSubCategory = createAsyncThunk(
-  "subcategry/fetchsubcategory",
+  'subcategry/fetchsubcategory',
   async (token, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
       };
       const response = await axios.get(
@@ -62,7 +65,6 @@ export const fetchSubCategory = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while getting subcategory", err);
       return rejectWithValue({
         status: err.response.status,
         message: err.response?.data?.message,
@@ -73,19 +75,21 @@ export const fetchSubCategory = createAsyncThunk(
 
 // create category
 export const createcategory = createAsyncThunk(
-  "category/createCategory",
+  'category/createCategory',
   async ({ Data, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`,
-        method: "POST",
+        method: 'POST',
         headers: {
-          "content-type": "application/json",
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          'content-type': 'application/json',
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
         data: Data,
       });
-      console.log("created category", response);
+
       // return response;
       if (response.status == 201) {
         return response;
@@ -97,7 +101,6 @@ export const createcategory = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while creating category  api", err);
       return rejectWithValue({
         status: err.response.status,
         message: err.response.data.message,
@@ -107,15 +110,17 @@ export const createcategory = createAsyncThunk(
 );
 // update category
 export const updatecategory = createAsyncThunk(
-  "category/updateCategory",
+  'category/updateCategory',
   async ({ Data, id, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "content-type": "application/json",
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          'content-type': 'application/json',
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`,
         },
         data: Data,
       });
@@ -131,7 +136,6 @@ export const updatecategory = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while updating category  api", err);
       return rejectWithValue({
         status: err.response.status,
         message: err.response.data.message,
@@ -141,19 +145,21 @@ export const updatecategory = createAsyncThunk(
 );
 
 export const createsubcategory = createAsyncThunk(
-  "subcategory/createsubcategory",
+  'subcategory/createsubcategory',
   async ({ Data, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/subcategories`,
-        method: "POST",
+        method: 'POST',
         headers: {
-          "content-type": "application/json",
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          'content-type': 'application/json',
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
         data: Data,
       });
-      console.log("created subcategory", response);
+
       if (response.status == 201) {
         return response;
       } else {
@@ -164,7 +170,6 @@ export const createsubcategory = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while creating subcategory api", err);
       return rejectWithValue({
         status: err.response.status,
         message: err.response.data.message,
@@ -174,18 +179,20 @@ export const createsubcategory = createAsyncThunk(
 );
 
 export const deletecategory = createAsyncThunk(
-  "category/delete",
+  'category/delete',
   async ({ id, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "content-type": "application/json",
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          'content-type': 'application/json',
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
       });
-      console.log("delete category", response);
+
       // return response;
       if (response.status == 204) {
         return response;
@@ -197,7 +204,6 @@ export const deletecategory = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while deleting category  api", err);
       return rejectWithValue({
         status: err.response.status,
         message: err.response.data.message,

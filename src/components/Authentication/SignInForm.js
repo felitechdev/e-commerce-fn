@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Spinner } from '../../assets/images/Spinner.svg';
-import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
+import {
+  EyeFilled,
+  EyeInvisibleFilled,
+} from '@ant-design/icons';
 
 import Cookies from 'js-cookie';
 import AlertComponent from '../designLayouts/AlertComponent';
@@ -53,7 +56,9 @@ const SignInForm = (props) => {
       setErrPassword('Enter your password');
       return;
     } else if (password.length < 6) {
-      setErrPassword('Passwords must be at least 6 characters');
+      setErrPassword(
+        'Passwords must be at least 6 characters'
+      );
       return;
     }
 
@@ -82,7 +87,7 @@ const SignInForm = (props) => {
           ...result.data.data.user,
           token: result.data.token,
         });
-        console.log('User Logged in', result.data.data.user);
+
         if (result.data.data.user.role === 'customer') {
           navigate('/', { replace: true });
         } else {
@@ -93,7 +98,9 @@ const SignInForm = (props) => {
       if (err?.response?.data?.status === 'fail') {
         setSignInError(err.response.data.message);
       } else {
-        setSignInError('Unable to sign you in! Try again later.');
+        setSignInError(
+          'Unable to sign you in! Try again later.'
+        );
       }
     } finally {
       setLoading(false);
@@ -109,7 +116,11 @@ const SignInForm = (props) => {
     >
       <div className='px-6 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin'>
         {signInError && (
-          <AlertComponent color='failure' type='Error!' message={signInError} />
+          <AlertComponent
+            color='failure'
+            type='Error!'
+            message={signInError}
+          />
         )}
         <h1 className='font-titleFont decoration-[1px] font-semibold text-lg mdl:text-4xl mb-4 text-center'>
           Sign in
@@ -129,7 +140,9 @@ const SignInForm = (props) => {
             />
             {errEmail && (
               <p className='text-sm text-red-500 font-titleFont font-semibold px-4'>
-                <span className='font-bold italic mr-1'>!</span>
+                <span className='font-bold italic mr-1'>
+                  !
+                </span>
                 {errEmail}
               </p>
             )}
@@ -151,7 +164,9 @@ const SignInForm = (props) => {
               />
               <div
                 className='absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer'
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() =>
+                  setShowPassword(!showPassword)
+                }
               >
                 {showPassword ? (
                   <EyeInvisibleFilled className='text-gray-500' />
@@ -162,7 +177,9 @@ const SignInForm = (props) => {
             </div>
             {errPassword && (
               <p className='text-sm text-red-500 font-titleFont font-semibold px-4'>
-                <span className='font-bold italic mr-1'>!</span>
+                <span className='font-bold italic mr-1'>
+                  !
+                </span>
                 {errPassword}
               </p>
             )}

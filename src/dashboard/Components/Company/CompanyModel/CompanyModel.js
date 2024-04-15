@@ -1,9 +1,19 @@
-import React, { useState } from "react";
-import { Button, DatePicker, Form, Input, Modal, Tabs } from "antd";
-import { SaveOutlined, CloseOutlined } from "@ant-design/icons";
-import { PersonalDetailsComponent } from "./Tabs/personDetails";
-import { BusinessDetailsComponent } from "./Tabs/BusinessDetails";
-import { BankDetailsComponent } from "./Tabs/BankDetails";
+import React, { useState } from 'react';
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Tabs,
+} from 'antd';
+import {
+  SaveOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
+import { PersonalDetailsComponent } from './Tabs/personDetails';
+import { BusinessDetailsComponent } from './Tabs/BusinessDetails';
+import { BankDetailsComponent } from './Tabs/BankDetails';
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -16,24 +26,33 @@ const { TabPane } = Tabs;
 
 const personalDetailsFields = [
   {
-    label: "First Name",
-    className: "w-[48%]",
-    rules: [{ required: true, message: "Please input your bank name!" }],
-    placeholder: "Enter First Name",
-    type: "text",
+    label: 'First Name',
+    className: 'w-[48%]',
+    rules: [
+      {
+        required: true,
+        message: 'Please input your bank name!',
+      },
+    ],
+    placeholder: 'Enter First Name',
+    type: 'text',
   },
   {
-    label: "Last Name",
-    className: "w-[48%]",
-    placeholder: "Enter Last Name",
-    type: "text",
+    label: 'Last Name',
+    className: 'w-[48%]',
+    placeholder: 'Enter Last Name',
+    type: 'text',
   },
-  { label: "Enter Phone number", className: "w-[48%]", type: "phone" },
   {
-    label: "Date of birth",
-    className: "w-[48%]",
-    datePickerClass: "w-[100%]",
-    type: "date",
+    label: 'Enter Phone number',
+    className: 'w-[48%]',
+    type: 'phone',
+  },
+  {
+    label: 'Date of birth',
+    className: 'w-[48%]',
+    datePickerClass: 'w-[100%]',
+    type: 'date',
   },
   // Add more fields as needed
 ];
@@ -41,7 +60,7 @@ const personalDetailsFields = [
 const CompanyModel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [activeKey, setActiveKey] = useState("1");
+  const [activeKey, setActiveKey] = useState('1');
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -59,22 +78,18 @@ const CompanyModel = () => {
     setActiveKey(key);
   };
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+  const onFinish = (values) => {};
+  const onFinishFailed = (errorInfo) => {};
 
   return (
     <>
       <Button onClick={showModal}>Add company</Button>
 
       <Modal
-        title="Create company"
-        width="50rem"
+        title='Create company'
+        width='50rem'
         open={isModalOpen}
-        closeIcon={<CloseOutlined className="text-[red]" />}
+        closeIcon={<CloseOutlined className='text-[red]' />}
         onOk={handleOk}
         onCancel={handleCancel}
         okText={
@@ -92,9 +107,9 @@ const CompanyModel = () => {
         {/* change tabs while creating company */}
         <Tabs
           tabBarStyle={{
-            background: "#f0f0f0",
-            color: "black",
-            fontWeight: "bold",
+            background: '#f0f0f0',
+            color: 'black',
+            fontWeight: 'bold',
           }}
           activeKey={activeKey}
           onChange={onChange}
@@ -103,15 +118,15 @@ const CompanyModel = () => {
             tab={
               <span
                 className={
-                  activeKey === "1"
-                    ? " bg-white  text-[#1D6F2B] "
-                    : "text-[black]"
+                  activeKey === '1'
+                    ? ' bg-white  text-[#1D6F2B] '
+                    : 'text-[black]'
                 }
               >
                 Personal Details
               </span>
             }
-            key="1"
+            key='1'
           >
             <PersonalDetailsComponent
               handleCancel={handleCancel}
@@ -125,15 +140,15 @@ const CompanyModel = () => {
             tab={
               <span
                 className={
-                  activeKey === "2"
-                    ? " bg-white  text-[#1D6F2B] "
-                    : "text-[black]"
+                  activeKey === '2'
+                    ? ' bg-white  text-[#1D6F2B] '
+                    : 'text-[black]'
                 }
               >
                 Business Details
               </span>
             }
-            key="2"
+            key='2'
           >
             <BusinessDetailsComponent
               handleCancel={handleCancel}
@@ -147,15 +162,15 @@ const CompanyModel = () => {
             tab={
               <span
                 className={
-                  activeKey === "3"
-                    ? " bg-white  text-[#1D6F2B] "
-                    : "text-[black]"
+                  activeKey === '3'
+                    ? ' bg-white  text-[#1D6F2B] '
+                    : 'text-[black]'
                 }
               >
                 Bank Details
               </span>
             }
-            key="3"
+            key='3'
           >
             <BankDetailsComponent
               handleCancel={handleCancel}
