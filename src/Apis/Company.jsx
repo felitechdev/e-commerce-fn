@@ -1,18 +1,20 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
-const Token = Cookies.get("token");
+const Token = Cookies.get('token');
 
 // Async thunk for fetching comapanys  to handle asynchronous
 export const fetchCompany = createAsyncThunk(
-  "company/fetchcompany",
+  'company/fetchcompany',
   async (token, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
       };
 
@@ -31,7 +33,6 @@ export const fetchCompany = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while getting company", err);
       return rejectWithValue({
         status: err.response?.data?.status,
         message: err.response?.data?.message,

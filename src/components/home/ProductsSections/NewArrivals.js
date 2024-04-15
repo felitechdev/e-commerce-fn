@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import ProductsSection from "../Products/ProductsSection";
-import Product from "../Products/Product";
-import axios from "axios";
-import ProductsSliderContainer from "../Products/ProductsSliderContainer";
+import React, { useState, useEffect } from 'react';
+import ProductsSection from '../Products/ProductsSection';
+import Product from '../Products/Product';
+import axios from 'axios';
+import ProductsSliderContainer from '../Products/ProductsSliderContainer';
 
 // change i made
 const NewArrivals = () => {
@@ -11,13 +11,10 @@ const NewArrivals = () => {
 
   useEffect(() => {
     // Fetch your API data here
-    axios(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`)
+    axios(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`
+    )
       .then((data) => {
-        console.log(
-          "data newarrivals",
-          data.status,
-          data?.data?.data?.products
-        );
         if (data.status === 200) {
           setDuplicatedData([
             ...data?.data?.data?.products,
@@ -32,19 +29,26 @@ const NewArrivals = () => {
         // setApiData(data.data);
       })
       .catch((error) =>
-        console.error("Error fetching data  product newArrivals:", error)
+        console.error(
+          'Error fetching data  product newArrivals:',
+          error
+        )
       );
   }, []);
 
-  console.log("duplicateData", duplicatedData);
-
   return (
-    <div className="w-full mx-auto">
-      <ProductsSection heading="New Arrivals" styles="bg-[#F5F5F3] px-4">
+    <div className='w-full mx-auto'>
+      <ProductsSection
+        heading='New Arrivals'
+        styles='bg-[#F5F5F3] px-4'
+      >
         <ProductsSliderContainer>
           {duplicatedData.map((product, index) => (
-            <div key={product._id + index} className="px-2">
-              <Product key={product._id + index} productInfo={product} />
+            <div key={product._id + index} className='px-2'>
+              <Product
+                key={product._id + index}
+                productInfo={product}
+              />
             </div>
           ))}
         </ProductsSliderContainer>

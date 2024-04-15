@@ -1,17 +1,26 @@
-import { Button, Layout, Space, Typography, Table } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import {
+  Button,
+  Layout,
+  Space,
+  Typography,
+  Table,
+} from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
-import { fetchSubCategory, fetchCategory } from "../../Apis/Categories";
-import Cookies from "js-cookie";
-import { Loader } from "../Loader/LoadingSpin";
+import {
+  fetchSubCategory,
+  fetchCategory,
+} from '../../Apis/Categories';
+import Cookies from 'js-cookie';
+import { Loader } from '../Loader/LoadingSpin';
 
 const { Title, Paragraph, Text } = Typography;
 
 export const CategoryList = ({ onCategorySelect }) => {
   const [categorys, setCategorys] = useState([]);
   const [dataSource, setDataSource] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [gettoken, setGettoken] = useState(null);
 
@@ -19,14 +28,12 @@ export const CategoryList = ({ onCategorySelect }) => {
   const [resetCategory, setResetCategory] = useState();
 
   //  access redux actions
-  const { categories, loadcategory, errcategory } = useSelector(
-    (state) => state.category
-  );
+  const { categories, loadcategory, errcategory } =
+    useSelector((state) => state.category);
 
-  const { subcategories, loadsubcategory, errsubcategory } = useSelector(
-    (state) => state.subcategory
-  );
-  const token = Cookies.get("token");
+  const { subcategories, loadsubcategory, errsubcategory } =
+    useSelector((state) => state.subcategory);
+  const token = Cookies.get('token');
   const dispatch = useDispatch();
 
   // update get category state after crud operations
@@ -43,16 +50,11 @@ export const CategoryList = ({ onCategorySelect }) => {
       dispatch(fetchCategory(gettoken))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == "sucess") {
+          if (data?.data && data.status == 'sucess') {
             setCategorys(data?.data?.categories);
           }
         })
-        .catch((error) => {
-          console.log("error on sub category page", error);
-          // if (error.response && error.response.status === 401) {
-          //   navigate("/");
-          // }
-        });
+        .catch((error) => {});
     }
   }, [loadcategory, dispatch, token]);
 
@@ -62,7 +64,7 @@ export const CategoryList = ({ onCategorySelect }) => {
       dispatch(fetchCategory(gettoken))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == "sucess") {
+          if (data?.data && data.status == 'sucess') {
             setCategorys(data?.data?.categories);
           }
         })
@@ -75,7 +77,9 @@ export const CategoryList = ({ onCategorySelect }) => {
       key: `${category.id}`,
       name: category.name,
       subcategories: category?.subCategories,
-      Joindate: new Date(`${category.createdAt}`).toLocaleDateString(),
+      Joindate: new Date(
+        `${category.createdAt}`
+      ).toLocaleDateString(),
     }));
     setDataSource(newData);
     setFilteredData(newData); // Update filteredData as well
@@ -90,18 +94,21 @@ export const CategoryList = ({ onCategorySelect }) => {
   useEffect(() => {}, [resetCategory]);
 
   return (
-    <div className=" ">
+    <div className=' '>
       {loadcategory ? (
         <>
-          <Loader className=" text-primary flex items-center w-full justify-center" />
-          <span className=" text-primary flex items-center  justify-center">
+          <Loader className=' text-primary flex items-center w-full justify-center' />
+          <span className=' text-primary flex items-center  justify-center'>
             Loading....
           </span>
         </>
       ) : (
         <div
-          className=" mt-4  p-10 cursor-pointer "
-          style={{ border: "1px solid #000", borderRadius: "8px" }}
+          className=' mt-4  p-10 cursor-pointer '
+          style={{
+            border: '1px solid #000',
+            borderRadius: '8px',
+          }}
         >
           {filteredData &&
             filteredData?.map((cat, index) => {
@@ -109,7 +116,7 @@ export const CategoryList = ({ onCategorySelect }) => {
                 <h2
                   key={index}
                   onClick={() => onCategorySelect(cat.key)}
-                  className=" hover:text-primary cursor-pointer text-sm font-semibold"
+                  className=' hover:text-primary cursor-pointer text-sm font-semibold'
                 >
                   {cat.name}
                 </h2>

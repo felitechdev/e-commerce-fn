@@ -1,17 +1,19 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
-const Token = Cookies.get("token");
+const Token = Cookies.get('token');
 
 export const fetchorders = createAsyncThunk(
-  "orders/fetchorders",
+  'orders/fetchorders',
   async (token, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: token
+            ? `Bearer ${token}`
+            : `Bearer ${Token}`, // Pass the token only if it exists
         },
       };
       const response = await axios.get(
@@ -29,7 +31,6 @@ export const fetchorders = createAsyncThunk(
         });
       }
     } catch (err) {
-      console.log("error while getting orders api", err.response?.data);
       return rejectWithValue({
         status: err.response.status,
         message: err.response?.data?.message,

@@ -23,7 +23,9 @@ const ProductDetails = () => {
   const [apiData, setApiData] = useState([]);
   const [duplicatedData, setDuplicatedData] = useState([]);
 
-  const userInfo = useSelector((state) => state.userReducer.userInfo);
+  const userInfo = useSelector(
+    (state) => state.userReducer.userInfo
+  );
 
   useEffect(() => {
     const fetchProductInfo = async () => {
@@ -32,10 +34,12 @@ const ProductDetails = () => {
           `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${location.state.productId}`
         );
         setDBProductInfo(productInfo.data);
-        console.log('productInfo.data', productInfo.data);
+
         setCartItemInfo({
           ...cartItemInfo,
-          imagePreview: productInfo.data.productImages.productThumbnail.url,
+          imagePreview:
+            productInfo.data.productImages.productThumbnail
+              .url,
         });
       } catch (error) {
         console.error(
@@ -92,7 +96,9 @@ const ProductDetails = () => {
                     cartItemInfo={cartItemInfo}
                     setCartItemInfo={setCartItemInfo}
                   />
-                  <ProductSecondaryInfo DBProductInfo={DBProductInfo} />
+                  <ProductSecondaryInfo
+                    DBProductInfo={DBProductInfo}
+                  />
                 </>
               ) : (
                 ''
@@ -102,11 +108,16 @@ const ProductDetails = () => {
           {/* For testing similar products slider only */}
           <ProductsSection heading='Similar Products'>
             <ProductsSliderContainer>
-              {duplicatedData.map((product, productIndex) => (
-                <div key={product._id + productIndex} className='px-2'>
-                  <Product productInfo={product} />
-                </div>
-              ))}
+              {duplicatedData.map(
+                (product, productIndex) => (
+                  <div
+                    key={product._id + productIndex}
+                    className='px-2'
+                  >
+                    <Product productInfo={product} />
+                  </div>
+                )
+              )}
             </ProductsSliderContainer>
           </ProductsSection>
         </div>

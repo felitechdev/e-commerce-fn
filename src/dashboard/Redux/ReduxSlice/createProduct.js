@@ -1,5 +1,12 @@
-import { createProduct, deleteproduct } from "../../Apis/Product";
-import { createSlice, current, createAction } from "@reduxjs/toolkit";
+import {
+  createProduct,
+  deleteproduct,
+} from '../../Apis/Product';
+import {
+  createSlice,
+  current,
+  createAction,
+} from '@reduxjs/toolkit';
 
 const initialState = {
   product: [],
@@ -8,7 +15,7 @@ const initialState = {
 };
 
 export const creteproductSlice = createSlice({
-  name: "newProduct",
+  name: 'newProduct',
   initialState,
   reducer: {},
   extraReducers: (builder) => {
@@ -18,7 +25,9 @@ export const creteproductSlice = createSlice({
       })
       .addCase(createProduct.fulfilled, (state, action) => {
         state.load = false;
-        state.product = state.product.concat(action.payload);
+        state.product = state.product.concat(
+          action.payload
+        );
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.load = false;
@@ -27,23 +36,12 @@ export const creteproductSlice = createSlice({
       })
       .addCase(updateuserProduct, (state, action) => {
         const updatedProduct = action.payload;
-        console.log("updatedProduct", updatedProduct);
-        // state.dashproduct = state.dashproduct.map((product) => {
-        //   if (product.id === updatedProduct.id) {
-        //     // Merge the updated fields into the existing product
-        //     return {
-        //       ...product,
-        //       ...updatedProduct.payload, // Assuming payload contains only the updated fields
-        //     };
-        //   }
-        //   return product;
-        // });
       });
   },
 });
 
 const deleteproductSlice = createSlice({
-  name: "deleteproducts",
+  name: 'deleteproducts',
   initialState: {
     loading: false,
     error: null,
@@ -67,6 +65,9 @@ const deleteproductSlice = createSlice({
   },
 });
 
-export const deleteProductReducer = deleteproductSlice.reducer;
-export const updateuserProduct = createAction("updateuserProduct");
+export const deleteProductReducer =
+  deleteproductSlice.reducer;
+export const updateuserProduct = createAction(
+  'updateuserProduct'
+);
 export default creteproductSlice.reducer;

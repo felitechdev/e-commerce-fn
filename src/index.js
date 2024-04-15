@@ -7,7 +7,10 @@ import { store, persistor } from './redux/store';
 import './index.css';
 // import "./App.css";
 import App from './App';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter } from 'react-router-dom';
 import { CurrencyProvider } from './components/Currency/CurrencyProvider/CurrencyProvider';
@@ -20,7 +23,9 @@ const queryClient = new QueryClient({
     },
   },
 });
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(
+  document.getElementById('root')
+);
 root.render(
   <UserProvider>
     <Provider store={store}>
