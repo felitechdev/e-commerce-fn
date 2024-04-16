@@ -1,10 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { GetMyprofile } from "../../APIs/UserAPIs";
-import { Updateprofile } from "../../APIs/UserAPIs";
-import { GetMyprofilebyId } from "../../APIs/UserAPIs";
-import { UpdateprofileInage } from "../../APIs/UserAPIs";
-import { Updateprofilenames } from "../../APIs/UserAPIs";
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+import { createSlice } from '@reduxjs/toolkit';
+import { GetMyprofile } from '../../APIs/UserAPIs';
+import { Updateprofile } from '../../APIs/UserAPIs';
+import { GetMyprofilebyId } from '../../APIs/UserAPIs';
+import { UpdateprofileInage } from '../../APIs/UserAPIs';
+import { Updateprofilenames } from '../../APIs/UserAPIs';
 
 const initialState = {
   profile: null,
@@ -13,7 +12,7 @@ const initialState = {
 };
 
 const viewprofile = createSlice({
-  name: "viewprofile",
+  name: 'viewprofile',
   initialState: {
     viewprofile: null,
     loadviewprofile: false,
@@ -22,22 +21,31 @@ const viewprofile = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(GetMyprofilebyId.pending, (state, action) => {
-        state.loadprofile = true;
-      })
-      .addCase(GetMyprofilebyId.fulfilled, (state, action) => {
-        state.loadviewprofile = false;
-        state.viewprofile = action.payload;
-      })
-      .addCase(GetMyprofilebyId.rejected, (state, action) => {
-        state.loadviewprofile = false;
-        state.errviewprofile = action.error;
-      });
+      .addCase(
+        GetMyprofilebyId.pending,
+        (state, action) => {
+          state.loadprofile = true;
+        }
+      )
+      .addCase(
+        GetMyprofilebyId.fulfilled,
+        (state, action) => {
+          state.loadviewprofile = false;
+          state.viewprofile = action.payload;
+        }
+      )
+      .addCase(
+        GetMyprofilebyId.rejected,
+        (state, action) => {
+          state.loadviewprofile = false;
+          state.errviewprofile = action.error;
+        }
+      );
   },
 });
 
 export const getprofile = createSlice({
-  name: "profile",
+  name: 'profile',
   initialState,
   reducers: {
     updateProfile: (state, action) => {
@@ -61,7 +69,7 @@ export const getprofile = createSlice({
 });
 
 const updateprofile = createSlice({
-  name: "updateprofile",
+  name: 'updateprofile',
   initialState: {
     profileupdate: null,
     loadprofileupdate: false,
@@ -85,7 +93,7 @@ const updateprofile = createSlice({
 });
 
 const updateprofileImage = createSlice({
-  name: "updateprofileimage",
+  name: 'updateprofileimage',
   initialState: {
     pimage: null,
     loadpimage: false,
@@ -94,22 +102,31 @@ const updateprofileImage = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(UpdateprofileInage.pending, (state, action) => {
-        state.loadpimage = true;
-      })
-      .addCase(UpdateprofileInage.fulfilled, (state, action) => {
-        state.loadpimage = false;
-        state.pimage = action.payload;
-      })
-      .addCase(UpdateprofileInage.rejected, (state, action) => {
-        state.loadpimage = false;
-        state.errpimage = action.error;
-      });
+      .addCase(
+        UpdateprofileInage.pending,
+        (state, action) => {
+          state.loadpimage = true;
+        }
+      )
+      .addCase(
+        UpdateprofileInage.fulfilled,
+        (state, action) => {
+          state.loadpimage = false;
+          state.pimage = action.payload;
+        }
+      )
+      .addCase(
+        UpdateprofileInage.rejected,
+        (state, action) => {
+          state.loadpimage = false;
+          state.errpimage = action.error;
+        }
+      );
   },
 });
 
 const updateprofilenames = createSlice({
-  name: "updateuserinfo",
+  name: 'updateuserinfo',
   initialState: {
     userenameupdate: null,
     loadusername: false,
@@ -118,22 +135,33 @@ const updateprofilenames = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(Updateprofilenames.pending, (state, action) => {
-        state.loadusername = true;
-      })
-      .addCase(Updateprofilenames.fulfilled, (state, action) => {
-        state.loadusername = false;
-        state.userenameupdate = action.payload;
-      })
-      .addCase(Updateprofilenames.rejected, (state, action) => {
-        state.loadusername = false;
-        state.errusername = action.error;
-      });
+      .addCase(
+        Updateprofilenames.pending,
+        (state, action) => {
+          state.loadusername = true;
+        }
+      )
+      .addCase(
+        Updateprofilenames.fulfilled,
+        (state, action) => {
+          state.loadusername = false;
+          state.userenameupdate = action.payload;
+        }
+      )
+      .addCase(
+        Updateprofilenames.rejected,
+        (state, action) => {
+          state.loadusername = false;
+          state.errusername = action.error;
+        }
+      );
   },
 });
 
-export const updateprofileImageReducer = updateprofileImage.reducer;
+export const updateprofileImageReducer =
+  updateprofileImage.reducer;
 export const ViewprofileReducer = viewprofile.reducer;
 export const updateprofileReducer = updateprofile.reducer;
 export const getProfileReducer = getprofile.reducer;
-export const updateprofilenamesReducer = updateprofilenames.reducer;
+export const updateprofilenamesReducer =
+  updateprofilenames.reducer;

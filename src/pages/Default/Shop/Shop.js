@@ -1,43 +1,71 @@
-import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
-import Pagination from "../../../components/pageProps/shopPage/Pagination";
-import { FilterFilled } from "@ant-design/icons";
-import ProductBanner from "../../../components/pageProps/shopPage/ProductBanner";
-import ShopSideNav from "../../../components/pageProps/shopPage/ShopSideNav";
-import PageLayout from "../../../components/designLayouts/PageLayout";
-import ShopProducts from "./ShopProducts.js";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCategories } from "../../../components/homePageCategories/HomePageCategories.js";
-import { fetchProducts } from "./apis.js";
-import { Loader } from "../../../dashboard/Components/Loader/LoadingSpin.jsx";
-import MobileCategoryNav from "../../../components/MobileCategoryNav.js";
+import {
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
+import React, { useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import PageLayout from '../../../components/designLayouts/PageLayout';
+import { fetchCategories } from '../../../components/homePageCategories/HomePageCategories.js';
+import ProductBanner from '../../../components/pageProps/shopPage/ProductBanner';
+import ShopSideNav from '../../../components/pageProps/shopPage/ShopSideNav';
+import ShopProducts from './ShopProducts.js';
+import MobileCategoryNav from '../../../components/MobileCategoryNav.js';
+import Paginator from '../../../components/Paginator.js';
+import { Loader } from '../../../dashboard/Components/Loader/LoadingSpin.jsx';
+import axios from 'axios';
+
+export async function fetchProducts(page, queryString) {
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=10&page=${page}&fields=name,price,discountPercentage,productImages.productThumbnail.url`
+    );
+
+    return response.data.data.products;
+  } catch (error) {
+    return [];
+  }
+}
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.toString();
-  const categoryId = searchParams.get("category");
-  const subcategoryId = searchParams.get("subcategory");
+  const categoryId = searchParams.get('category');
+  const subcategoryId = searchParams.get('subcategory');
   const [showfilter, setShowFilter] = React.useState(false);
+
+  const queryString = query && `${query}`;
+
+  const {
+    data,
+    isFetching,
+    isLoading,
+    hasNextPage,
+    error,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: [`products-${queryString}`],
+    queryFn: ({ pageParam = 1 }) => {
+      return fetchProducts(pageParam, queryString);
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length
+        ? allPages.length + 1
+        : undefined;
+    },
+  });
+
+  const products = useMemo(() => {
+    return data?.pages.reduce((acc, page) => {
+      return [...acc, ...page];
+    }, []);
+  }, [data]);
 
   const handlefilterShow = () => {
     setShowFilter(!showfilter);
   };
 
-  const queryString = query && `?${query}`;
-
-  const {
-    isLoading,
-    data: products,
-    error,
-  } = useQuery({
-    queryKey: [`products-${queryString}`],
-    queryFn: () => fetchProducts(queryString),
-    retry: false,
-  });
-
   const { data: categories } = useQuery({
-    queryKey: ["categories"],
+    queryKey: ['categories'],
     queryFn: fetchCategories,
   });
 
@@ -48,34 +76,40 @@ const Shop = () => {
 
   const subcategory =
     subcategoryId && category
-      ? category.subCategories.find((subCat) => subCat.id === subcategoryId)
+      ? category.subCategories.find(
+          (subCat) => subCat.id === subcategoryId
+        )
       : null;
 
   return (
     <PageLayout showFooter={true}>
-      <MobileCategoryNav title="Categories" />
-      <div className="max-w-container mx-auto px-4 mt-5">
+      <MobileCategoryNav title='Categories' />
+      <div className='max-w-container mx-auto px-4 mt-5'>
         {/* <Breadcrumbs title='Products' /> */}
-        <div className="relative w-full h-full flex pb-20 gap-10">
+        <div className='relative w-full h-full flex pb-20 gap-10'>
           {/* <div className="w-[20%] lgl:w-[25%] hidden mdl:inline-flex h-full">
             <ShopSideNav brands={category && category.brands} />
           </div> */}
 
-          {showfilter && (
-            <div className="w-[200px] lgl:w-[25%] bg-[white]  opacity-100    absolute mdl:relative mdl:hidden z-10 mdl:z-0 left-0 top-0  h-full">
+          {/* {showfilter && (
+            <div className='w-[200px] lgl:w-[25%] bg-[white]  opacity-100    absolute mdl:relative mdl:hidden z-10 mdl:z-0 left-0 top-0  h-full'>
               <ShopSideNav
                 brands={category && category.brands}
                 handlefilterShow={handlefilterShow}
               />
             </div>
-          )}
-          <div className="w-[200px] lgl:w-[25%] bg-[white]  hidden mdl:block z-10 mdl:z-0   h-full">
-            <ShopSideNav brands={category && category.brands} />
+          )} */}
+          <div className='w-[200px] lgl:w-[25%] bg-[white]  hidden mdl:block z-10 mdl:z-0   h-full'>
+            <ShopSideNav
+              brands={category && category.brands}
+            />
           </div>
-          <div className="w-full mdl:w-[80%] lgl:w-[75%] h-full flex flex-col gap-10">
-            <ProductBanner handlefilterShow={handlefilterShow} />
+          <div className='w-full mdl:w-[80%] lgl:w-[75%] h-full flex flex-col gap-10'>
+            <ProductBanner
+              handlefilterShow={handlefilterShow}
+            />
             {(isLoading && (
-              <div className="flex justify-center">
+              <div className='flex justify-center'>
                 <Loader fontSize={38} />
               </div>
             )) || (
@@ -88,7 +122,12 @@ const Shop = () => {
 
             {error && <span>{error?.message}</span>}
 
-            {/* <Pagination /> */}
+            <Paginator
+              isFetching={isFetching}
+              isLoading={isLoading}
+              hasNextPage={hasNextPage}
+              fetchNextPage={fetchNextPage}
+            />
           </div>
         </div>
       </div>

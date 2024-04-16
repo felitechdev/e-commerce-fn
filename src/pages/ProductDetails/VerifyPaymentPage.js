@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
 import ProgresiveBar from '../../components/ProgressiveBar';
 import axios from 'axios';
-import { data } from 'autoprefixer';
 import Cookies from 'js-cookie';
 import { FiCheckCircle } from 'react-icons/fi';
 
@@ -13,7 +15,9 @@ export default function VerifyPaymentPage() {
   const navigate = useNavigate();
   const token = Cookies.get('token');
 
-  const { tx_ref, transaction_id } = Object.fromEntries(searchParam.entries());
+  const { tx_ref, transaction_id } = Object.fromEntries(
+    searchParam.entries()
+  );
 
   useEffect(() => {
     setIsVerifying(true);
@@ -44,7 +48,7 @@ export default function VerifyPaymentPage() {
     };
 
     activateAccount();
-  }, []);
+  }, [navigate, token, transaction_id, tx_ref]);
 
   return (
     <div className='flex flex-col h-screen items-center justify-center'>
@@ -54,6 +58,7 @@ export default function VerifyPaymentPage() {
             <img
               className='w-[200px]'
               src='https://res.cloudinary.com/dy2opnabf/image/upload/v1699005685/FeliTechWhiteLogo_aml9yf.jpg'
+              alt=''
             />
           </div>
           <ProgresiveBar message='Verifying payment...' />
@@ -62,13 +67,19 @@ export default function VerifyPaymentPage() {
 
       {!isVerifying && (
         <div className='w-[30%] flex flex-col items-center gap-8'>
-          <FiCheckCircle className='text-[#1D6F2B]' size={70} />
+          <FiCheckCircle
+            className='text-[#1D6F2B]'
+            size={70}
+          />
           <span className='text-[#1D6F2B] text-center text-2xl'>
-            Payment was successful! You should expect deliver very soon.
+            Payment was successful! You should expect
+            deliver very soon.
           </span>
           <button
             type='button'
-            onClick={() => navigate('/user/order', { replace: true })}
+            onClick={() =>
+              navigate('/user/order', { replace: true })
+            }
             className='bg-[#1D6F2B] hover:bg-[#437a4c] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300'
           >
             Track your orders

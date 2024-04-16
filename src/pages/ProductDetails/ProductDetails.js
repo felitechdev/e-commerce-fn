@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchProduct } from '../../APIs/Product';
-import SkeletonSpinner from '../../components/SkeletonSpinner';
+import React from 'react';
 import ProductImages from './ProductImages';
 import ProductMainInfo from './ProductMainInfo';
 import CheckoutDetails from './CheckoutDetails';
-import ProductPreview from '../../components/home/Products/Product';
-import ProductsSliderContainer from '../../components/home/Products/ProductsSliderContainer';
-import ProductsSection from '../../components/home/Products/ProductsSection';
 import ProductSecondaryInfo from './ProductSecondaryInfo';
-import { useSelector } from 'react-redux';
 
-export default function ProductDetails({ product, dispatch }) {
-  const { id } = useParams();
-  const userInfo = useSelector((state) => state.userReducer.userInfo);
-  const [isLoading, setIsLoading] = useState(false);
-  const [DBProductInfo, setDBProductInfo] = useState(null);
-  const [similarProducts, setSmilarProducts] = useState([]);
-
-  const [cartItemInfo, setCartItemInfo] = useState({
-    productDBId: id,
-    quantity: 0,
-    colorId: '',
-    size: '',
-  });
-
+export default function ProductDetails({
+  product,
+  dispatch,
+}) {
   return (
     <div className='w-full mx-auto border-b-[1px] border-b-gray-300'>
       <div className='max-w-container mx-auto p-4 mt-10'>
@@ -33,14 +16,18 @@ export default function ProductDetails({ product, dispatch }) {
             <div className='flex flex-col mdl:flex-row mdl:flex-wrap gap-12 items-center'>
               <>
                 <ProductImages
-                  productImages={product.productDetails.productImages}
+                  productImages={
+                    product.productDetails.productImages
+                  }
                   activeImage={product.activeImage}
                   dispatch={dispatch}
                 />
                 <ProductMainInfo
                   product={product.productDetails}
                   dispatch={dispatch}
-                  selectedMeasurement={product.selectedMeasurement}
+                  selectedMeasurement={
+                    product.selectedMeasurement
+                  }
                   selectedColor={product.selectedColor}
                   activeImage={product.activeImage}
                 />
