@@ -15,7 +15,7 @@ export default function Paginator({
             <Loader />
           ) : (
             <button
-              className='rounded-full px-5 py-2 bg-[#1D6F2B] text-white disabled:opacity-50 duration-300 hidden md:inline-block hover:bg-[#1d6f2b93] hover:shadow-lg transform'
+              className='rounded-full px-5 py-2 bg-[#1D6F2B] text-white disabled:opacity-50 duration-300 md:inline-block hover:bg-[#1d6f2b93] hover:shadow-lg transform'
               onClick={fetchNextPage}
               disabled={isFetching}
             >
