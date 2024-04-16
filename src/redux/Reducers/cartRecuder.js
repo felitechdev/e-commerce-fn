@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 export const cartSlice = createSlice({
@@ -30,7 +30,9 @@ export const cartSlice = createSlice({
     },
 
     removeItem: (state, action) => {
-      return state.filter((item) => item.id !== action.payload.id);
+      return state.filter(
+        (item) => item.id !== action.payload.id
+      );
     },
 
     removeToCart: (state, action) => {

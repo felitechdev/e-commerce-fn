@@ -5,7 +5,6 @@ import ProductDetails from './ProductDetails';
 import { fetchProduct } from '../../APIs/Product';
 import { useParams } from 'react-router-dom';
 import SkeletonSpinner from '../../components/SkeletonSpinner';
-import { useSelector } from 'react-redux';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -16,7 +15,8 @@ const reducer = (state, action) => {
         status: 'ready',
         price: action.payload.price,
         id: action.payload.id,
-        activeImage: action.payload.productImages.productThumbnail,
+        activeImage:
+          action.payload.productImages.productThumbnail,
       };
 
     case 'activeImageChanged':
@@ -57,7 +57,10 @@ const initialState = {
 
 const Product = () => {
   const { id } = useParams();
-  const [product, dispatch] = useReducer(reducer, initialState);
+  const [product, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
   // Fetch Product
   useEffect(() => {
@@ -87,7 +90,10 @@ const Product = () => {
         )}
 
         {product.status === 'ready' && (
-          <ProductDetails product={product} dispatch={dispatch} />
+          <ProductDetails
+            product={product}
+            dispatch={dispatch}
+          />
         )}
       </PageLayout>
     </>
