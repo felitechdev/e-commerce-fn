@@ -20,6 +20,7 @@ import { useUser } from "../../context/UserContex";
 import { BiArrowToLeft, BiLeftArrow } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { IoCloseSharp } from "react-icons/io5";
+import { FeliTechLogo_transparent } from "../../assets/images";
 
 const { Header, Sider, Content } = Layout;
 
@@ -216,12 +217,12 @@ export const LayoutDesign = ({ userprofile }) => {
             //   // borderRight: "1px solid ",
             // }}
           >
-            <div className="flex items-center justify-between mr-10 ">
+            <div className="flex items-center justify-between  m-2 border ">
               <Image
                 onClick={() => navigate("/", { replace: true })}
-                width={60}
+                width={200}
                 preview={false}
-                src="https://res.cloudinary.com/dy2opnabf/image/upload/v1699009141/FeliTechWhiteLogo_aml9yf-removebg-preview_kfwo3b.png"
+                src={FeliTechLogo_transparent}
               />
 
               <motion.button>

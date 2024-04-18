@@ -121,8 +121,8 @@ const Header = (props) => {
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
-                      ? "w-full text-[#1D6F2B] bg-white px-2 py-1 rounded-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5]  font-light md:inline-block lg:py-1 lg:px-2 text-center"
-                      : "w-full lg:hover:text-[#1D6F2B] rounded-full lg:hover:bg-[#E5E5E5] md:inline-block px-2 py-1  font-light lg:py-1 lg:px-2 text-center";
+                      ? "w-full text-[#1D6F2B] bg-white px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5]  font-light md:inline-block lg:py-1 lg:px-2 text-center"
+                      : "w-full lg:hover:text-[#1D6F2B] rounded-md lg:hover:bg-[#E5E5E5] md:inline-block px-2 py-1  font-light lg:py-1 lg:px-2 text-center";
                   }}
                   to="/signin"
                 >
@@ -134,8 +134,8 @@ const Header = (props) => {
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
-                      ? "w-full text-[#1D6F2B] bg-white rounded-full px-2 py-1 lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full  font-light  md:inline-block lg:py-1 lg:px-2 text-center"
-                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full px-2 py-1 rounded-full  font-light  md:inline-block lg:py-1 lg:px-2 text-center";
+                      ? "w-full text-[#1D6F2B] bg-white rounded-md px-2 py-1 lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-light  md:inline-block lg:py-1 lg:px-2 text-center"
+                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md px-2 py-1 rounded-md  font-light  md:inline-block lg:py-1 lg:px-2 text-center";
                   }}
                   to="/signup"
                 >
@@ -183,7 +183,7 @@ const Header = (props) => {
             >
               <BsCart3 className={headerIconStyles} size={40} />
               {
-                <p className="absolute -ml-4 mt-1 -top-1 -right-2 z-1 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
+                <p className="absolute -ml-4 mt-1 -top-1 -right-2 z-1 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-md  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
                   {cartTotal}
                 </p>
               }
@@ -193,10 +193,13 @@ const Header = (props) => {
       </div>
 
       <nav className="h-full px-4 max-w-container mx-auto relative gap-6 flex items-center md:items-center md:justify-between">
-        <div className="flex">
+        <div className="flex space-x-5 ml-0">
           <Link to="/">
-            <div>
-              <Image className="w-20 " imgSrc={FeliTechLogo_transparent} />
+            <div className=" ">
+              <Image
+                className=" h-[100px] w-[250px] "
+                imgSrc={FeliTechLogo_transparent}
+              />
             </div>
           </Link>
 
@@ -275,16 +278,16 @@ const Header = (props) => {
             className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
           />
           {sidenav && (
-            <div className="fixed top-0 left-0 w-full h-screen bg-black text-gray-200 bg-opacity-80 z-50">
+            <div className="fixed top-0 right-0 w-full h-screen bg-black text-gray-200 bg-opacity-80 z-50">
               <motion.div
                 initial={{ x: -300, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 className="w-[80%] h-full relative"
               >
-                <div className="w-full h-full bg-[#1D6F2B] p-6">
+                <div className="w-full h-full bg-[#1D6F2B] ml-0 p-6">
                   <img
-                    className="w-28 mb-6"
+                    className="w-40 mb-6 "
                     src={FeliTechWhiteLogo}
                     alt="logoLight"
                   />
@@ -421,8 +424,8 @@ const Header = (props) => {
                   <NavLink
                     className={({ isActive }) => {
                       return isActive
-                        ? "w-full text-white bg-[#1D6F2B] px-2 py-1 rounded-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-light  md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] text-white bg-[#1D6F2B] px-2 py-1 rounded-full lg:hover:bg-[#E5E5E5]  font-light  md:inline-block lg:py-1 lg:px-2 text-center";
+                        ? "w-full text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-light  md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-light  md:inline-block lg:py-1 lg:px-2 text-center";
                     }}
                     to="/signup"
                   >

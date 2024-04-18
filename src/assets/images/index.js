@@ -1,5 +1,5 @@
-import FeliTechLogo_transparent from "./FeliTechLogo_transparent.png";
-import FeliTechWhiteLogo from "./FeliTechWhiteLogo.jpg";
+import FeliTechLogo_transparent from "./feli.png";
+import FeliTechWhiteLogo from "./feliwhite.png";
 import bannerImgOne from "./banner/bannerImgOne.png";
 import bannerImgTwo from "./banner/bannerImgTwo.png";
 import bannerImgThree from "./banner/bannerImgThree.png";

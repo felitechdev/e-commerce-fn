@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import './Loader.css';
+import React, { useState, useEffect } from "react";
+import "./Loader.css";
+
+import { FeliTechWhiteLogo } from "../../assets/images";
 
 const Loader = () => {
   const [progress, setProgress] = useState(0);
@@ -22,7 +24,7 @@ const Loader = () => {
   }, [progress]);
 
   useEffect(() => {
-    window.addEventListener('load', () => {
+    window.addEventListener("load", () => {
       // Ensure the loader doesn't close prematurely when the page has finished loading
       if (progress < 100) {
         return;
@@ -31,7 +33,7 @@ const Loader = () => {
     });
 
     return () => {
-      window.removeEventListener('load', () => {
+      window.removeEventListener("load", () => {
         if (progress < 100) {
           return;
         }
@@ -41,14 +43,17 @@ const Loader = () => {
   }, [progress]);
 
   return loading ? (
-    <div className='fixed top-0 left-0 w-full h-screen bg-white z-50 flex justify-center items-center flex-wrap '>
-      <div className='w-full'>
-        <div className='w-full flex justify-center'>
-          <img className="w-[200px]" src="https://res.cloudinary.com/dy2opnabf/image/upload/v1699005685/FeliTechWhiteLogo_aml9yf.jpg" />
+    <div className="fixed top-0 left-0 w-full h-screen bg-white z-50 flex justify-center items-center flex-wrap ">
+      <div className="w-full">
+        <div className="w-full flex justify-center">
+          <img className="w-[200px]" src={FeliTechWhiteLogo} />
         </div>
         <div className="w-full flex justify-center">
           <div className="loader w-[90%] md:w-[60%] lg:w-[40%] rounded-full">
-            <div className="loader-progress rounded-full" style={{ width: `${progress}%` }}></div>
+            <div
+              className="loader-progress rounded-full"
+              style={{ width: `${progress}%` }}
+            ></div>
           </div>
         </div>
       </div>
