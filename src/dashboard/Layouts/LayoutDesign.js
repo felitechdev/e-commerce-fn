@@ -217,7 +217,7 @@ export const LayoutDesign = ({ userprofile }) => {
             //   // borderRight: "1px solid ",
             // }}
           >
-            <div className="flex items-center justify-between  m-2 border ">
+            <div className="flex items-center justify-between  ml-2 pr-2 pt-0 mt-0 border  ">
               <Image
                 onClick={() => navigate("/", { replace: true })}
                 width={200}
