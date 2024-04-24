@@ -150,7 +150,7 @@ const Header = (props) => {
               <li>
                 <button
                   onClick={handleSignOut}
-                  className="w-full  flex items-center gap-1.5 font-light lg:py-1 lg:px-2"
+                  className="w-full  flex items-center gap-1.5 font-bold lg:py-1 lg:px-2"
                 >
                   <MdLogout className="text-lg" />
                   Sign out
@@ -159,7 +159,7 @@ const Header = (props) => {
 
               <li>
                 <NavLink
-                  className="w-full bg-white text-[#1D6F2B] flex items-center gap-1.5 rounded px-2 py-1 font-light"
+                  className="w-full bg-white text-[#1D6F2B] flex items-center gap-1.5 rounded px-2 py-1 font-bold"
                   to="/user"
                 >
                   <FaRegUser className="text-lg" />
@@ -173,8 +173,8 @@ const Header = (props) => {
             <NavLink
               className={({ isActive }) => {
                 return isActive
-                  ? "text-[#1D6F2B] bg-white py-1 rounded hover:text-[#1D6F2B]  font-light align-middle"
-                  : "hover:text-[#1D6F2B]  font-light align-middle";
+                  ? "text-[#1D6F2B] bg-white py-1 rounded hover:text-[#1D6F2B]  font-bold align-middle"
+                  : "hover:text-[#1D6F2B]  font-bold align-middle";
               }}
               to="/cart"
               state={{
@@ -209,8 +209,8 @@ const Header = (props) => {
                 to="/"
                 className={({ isActive }) => {
                   return isActive
-                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-light hidden md:inline-block lg:py-1 lg:px-2"
-                    : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-light hidden md:inline-block lg:py-1 lg:px-2";
+                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] font-bold lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    hidden md:inline-block lg:py-1 lg:px-2"
+                    : "w-full lg:hover:text-[#1D6F2B] font-bold lg:hover:bg-[#E5E5E5] lg:hover:rounded-md     hidden md:inline-block lg:py-1 lg:px-2";
                 }}
               >
                 Home
@@ -220,8 +220,8 @@ const Header = (props) => {
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
-                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-light hidden md:inline-block lg:py-1 lg:px-2'
-                      : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-light hidden md:inline-block lg:py-1 lg:px-2';
+                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold hidden md:inline-block lg:py-1 lg:px-2'
+                      : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-bold hidden md:inline-block lg:py-1 lg:px-2';
                   }}
                   to='/shop'
                   state={{ data: location.pathname.split('/')[1] }}
@@ -234,7 +234,7 @@ const Header = (props) => {
                 <NavLink
                   className={({ isActive }) => {
                     return isActive
-                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-light hidden md:inline-block lg:py-1 lg:px-2'
+                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold hidden md:inline-block lg:py-1 lg:px-2'
                       : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-light hidden md:inline-block lg:py-1 lg:px-2';
                   }}
                   to='/about'
@@ -411,8 +411,8 @@ const Header = (props) => {
                   <NavLink
                     className={({ isActive }) => {
                       return isActive
-                        ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-light  md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-light  md:inline-block lg:py-1 lg:px-2 text-center";
+                        ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
                     }}
                     to="/signin"
                   >
@@ -424,8 +424,8 @@ const Header = (props) => {
                   <NavLink
                     className={({ isActive }) => {
                       return isActive
-                        ? "w-full text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-light  md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-light  md:inline-block lg:py-1 lg:px-2 text-center";
+                        ? "w-full text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
                     }}
                     to="/signup"
                   >

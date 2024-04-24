@@ -45,7 +45,7 @@ export default function HomePageCategories() {
     >
       <div className="flex items-center gap-3 p-2 rounded-t  bg-[#1D6F2B]">
         <img src={MenuIconWhite} className="w-5 h-5" />
-        <h3 className=" text-white text-lg">Categories</h3>
+        <h3 className=" text-white text-lg font-bold">Categories</h3>
       </div>
 
       {isLoading && (
@@ -59,7 +59,7 @@ export default function HomePageCategories() {
           <ul className="w-full flex flex-col rounded-b">
             {categories?.map((category) => (
               <li
-                className={`flex gap-4 cursor-pointer items-center justify-between hover:bg-[#1D6F2B] hover:text-white ${
+                className={`flex gap-4 cursor-pointer font-semibold items-center justify-between hover:bg-[#1D6F2B] hover:text-white ${
                   hoveredCategory === category.name &&
                   "bg-[#1D6F2B] text-white "
                 }`}
@@ -68,7 +68,7 @@ export default function HomePageCategories() {
               >
                 <Link
                   to={`shop/?category=${hoveredCategory}`}
-                  className="capitalize-first w-full p-2"
+                  className="capitalize-first w-full  p-2"
                 >
                   {category.name}
                 </Link>{" "}
@@ -89,11 +89,11 @@ export default function HomePageCategories() {
               .subCategories.map((subCat) => (
                 <li
                   key={subCat.id}
-                  className="w-full px-4 hover:underline cursor-pointer"
+                  className="w-full px-4 hover:underline font-medium cursor-pointer"
                 >
                   <Link
                     to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
-                    className="capitalize"
+                    className="capitalize flex"
                   >
                     {subCat.name}
                   </Link>
