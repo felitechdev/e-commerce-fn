@@ -59,7 +59,7 @@ export default function HomePageCategories() {
           <ul className="w-full flex flex-col rounded-b">
             {categories?.map((category) => (
               <li
-                className={`flex gap-4 cursor-pointer font-semibold items-center justify-between hover:bg-[#1D6F2B] hover:text-white ${
+                className={`flex gap-4 cursor-pointer font-semibold items-center justify-between hover:bg-[#1D6F2B] hover:text-white text-[14px] ${
                   hoveredCategory === category.name &&
                   "bg-[#1D6F2B] text-white "
                 }`}
@@ -80,7 +80,7 @@ export default function HomePageCategories() {
       )}
 
       {hoveredCategory && (
-        <div className=" bg-gray-200 text-gray-700 pt-6  b-0 absolute min-h-full rounded left-full z-50">
+        <div className=" bg-gray-200 text-gray-700 pt-6  b-0 absolute min-h-full rounded left-full z-50 text-[13px] ">
           <ul className="min-w-52 flex gap-2 flex-col">
             {categories
               .find((cat) => {
