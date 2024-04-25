@@ -411,8 +411,8 @@ const Header = (props) => {
                   <NavLink
                     className={({ isActive }) => {
                       return isActive
-                        ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
+                        ? "w-full text-[#1D6F2B] text-[14px] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] text-[14px] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
                     }}
                     to="/signin"
                   >
@@ -424,8 +424,8 @@ const Header = (props) => {
                   <NavLink
                     className={({ isActive }) => {
                       return isActive
-                        ? "w-full text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
+                        ? "w-full text-white bg-[#1D6F2B] text-[14px] px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] text-[14px] text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
                     }}
                     to="/signup"
                   >
