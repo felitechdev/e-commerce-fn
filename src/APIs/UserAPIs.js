@@ -185,37 +185,3 @@ export const checkAuthentication = async (token) => {
     throw err;
   }
 };
-
-export const deleteAccount = createAsyncThunk(
-  "product/delete",
-  async ({ id, token }, { rejectWithValue }) => {
-    try {
-      const response = await axios({
-        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/delete-account/${id}`,
-        method: "DELETE",
-        headers: {
-          "content-type": "application/json",
-          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
-        },
-      });
-
-      console.log("delete response", response);
-
-      // return response;
-      if (response.status == 201) {
-        return response;
-      } else {
-        // Handle unexpected status codes
-        return rejectWithValue({
-          status: response.status,
-          message: response.data.message,
-        });
-      }
-    } catch (err) {
-      return rejectWithValue({
-        status: err.response.status,
-        message: err.response.data.message,
-      });
-    }
-  }
-);

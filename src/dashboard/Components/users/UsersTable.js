@@ -5,11 +5,21 @@ import { useUser } from "../../../context/UserContex";
 import { ActionMenuButton } from "../Button/AvtionButton";
 import UpdateRole from "./userActions/updatemodel";
 
-import React from "react";
+import DeleteUserAccountConfirmation from "./userActions/deleteUserAccount";
+import React, { useState, useEffect } from "react";
+import { Modal } from "antd";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+
+import axios from "axios";
+
+import Cookies from "js-cookie";
+
+const { confirm } = Modal;
 
 export default function UsersTable({ users }) {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = React.useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
   const [userId, setUserId] = React.useState();
 
   const user = useUser().user;
@@ -36,13 +46,89 @@ export default function UsersTable({ users }) {
 
     {
       label: <span className="font-bold text-primary">Activate </span>,
-      key: "view",
+      key: "activate",
       icon: <EditFilled className=" text-icon1 mr-2" />,
       onClick: () => {
         // navigate(`${record.id}`);
       },
     },
+
+    // delete user
+
+    {
+      label: <span className="font-bold text-primary">Delete</span>,
+
+      key: "delete",
+      icon: <DeleteFilled className=" text-icon3 mr-2" />,
+      onClick: () => {
+        setOpenDeleteModal(true);
+        setUserId(record);
+      },
+    },
   ];
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [err, setErr] = useState("");
+  const [onSuccess, setOnSuccess] = useState(null);
+  const token = Cookies.get("token");
+
+  const handleDelete = async (id) => {
+    try {
+      setLoading(true);
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/delete-account/${id}`,
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Authorization: token && `Bearer ${token}`,
+        },
+      });
+
+      if (response?.data && response.status === 200) {
+        setOnSuccess("Account deleted successfully!");
+        setLoading(false);
+        // redirect to login page
+        setTimeout(() => {
+          // window.location.href = "/login";
+          setOpenDeleteModal(false);
+        }, 500);
+      } else {
+        setError(true);
+        setErr("Error deleting account.");
+      }
+    } catch (err) {
+      setError(true);
+      setErr(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showDeleteConfirm = (id) => {
+    confirm({
+      title: "Are you sure delete this Account ?",
+      icon: <ExclamationCircleFilled />,
+      content: (
+        <span>
+          {loading ? (
+            <p>loading...</p>
+          ) : error ? (
+            `Error: ${err}`
+          ) : (
+            onSuccess !== null && <p>{onSuccess}</p>
+          )}
+        </span>
+      ),
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: () => handleDelete(id),
+      onCancel() {
+        setOpenDeleteModal(false);
+      },
+    });
+  };
 
   return (
     <div className="flex w-full flex-col ">
@@ -117,6 +203,8 @@ export default function UsersTable({ users }) {
                         setOpenModal={setOpenModal}
                         id={userId}
                       />
+
+                      {openDeleteModal && showDeleteConfirm(userId.id)}
                     </tr>
                   );
                 })}
