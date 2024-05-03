@@ -73,6 +73,8 @@ export default function UsersTable({ users }) {
   const [onSuccess, setOnSuccess] = useState(null);
   const token = Cookies.get("token");
 
+  const [userList, setUserList] = useState(users);
+
   const handleDelete = async (id) => {
     try {
       setLoading(true);
@@ -93,6 +95,10 @@ export default function UsersTable({ users }) {
           // window.location.href = "/login";
           setOpenDeleteModal(false);
         }, 500);
+
+        // update the user list
+        const newUsers = users.filter((user) => user.id !== id);
+        setUserList(newUsers);
       } else {
         setError(true);
         setErr("Error deleting account.");
@@ -130,6 +136,12 @@ export default function UsersTable({ users }) {
     });
   };
 
+  useEffect(() => {
+    if (openDeleteModal) {
+      showDeleteConfirm(userId.id);
+    }
+  }, [openDeleteModal]);
+
   return (
     <div className="flex w-full flex-col ">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -165,7 +177,7 @@ export default function UsersTable({ users }) {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => {
+                {userList.map((user, index) => {
                   return (
                     <tr
                       key={user.id}
@@ -204,7 +216,8 @@ export default function UsersTable({ users }) {
                         id={userId}
                       />
 
-                      {openDeleteModal && showDeleteConfirm(userId.id)}
+                      {/* {openDeleteModal && showDeleteConfirm(userId.id)} */}
+                      {openDeleteModal && <div></div>}
                     </tr>
                   );
                 })}
