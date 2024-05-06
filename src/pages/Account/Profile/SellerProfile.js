@@ -88,9 +88,9 @@ const SellerProfile = () => {
   }, []);
 
   return (
-    <div className=" flex  justify-center  w-full h-min">
-      <div className="bg-white border   rounded-md w-full min-h-[500px] pb-3">
-        <div className=" rounded-t-md flex  justify-between space-x-3 font-normal pl-10  py-3  px-2 text-xl">
+    <div className=" flex   justify-center  w-full h-min">
+      <div className="   bg-[white] rounded-md w-full pr-3 min-h-[500px] pb-3">
+        <div className=" rounded-t-md flex  justify-between space-x-3 font-normal md:pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
             {user ? (
               <>
@@ -173,7 +173,7 @@ const SellerProfile = () => {
 
         {user != null && (
           <>
-            <div className=" pl-10 mt-10   flex justify-between pr-2">
+            <div className=" md:pl-10 mt-10   flex justify-between pr-2">
               <div className="">
                 <h1>
                   {" "}
@@ -241,7 +241,7 @@ const SellerProfile = () => {
             <hr className=" mt-4" />
 
             {user != null && user?.role == "seller" && (
-              <div className=" pl-10 mt-1  ">
+              <div className="pl-2 md:pl-10 mt-1  ">
                 <h1 className=" text-border font-bold text-lg underline mb-3">
                   More Information
                 </h1>
@@ -455,8 +455,8 @@ const SellerProfile = () => {
                 )}
               </div>
             )}
-            <div className=" pl-10 mt-1  ">
-              <h1 className=" text-border font-bold text-lg underline mb-3">
+            <div className=" p-0  md:pl-10 mt-1  ">
+              <h1 className=" text-border font-bold text-lg  underline mb-3">
                 My location
               </h1>
 
