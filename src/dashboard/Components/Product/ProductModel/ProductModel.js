@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 
 import {
   Button,
@@ -12,41 +12,38 @@ import {
   Upload,
   Space,
   Image,
-} from 'antd';
-import '../style.css';
+} from "antd";
+import "../style.css";
 import {
   PlusOutlined,
   FileImageOutlined,
   CloseOutlined,
   MinusCircleOutlined,
   UploadOutlined,
-} from '@ant-design/icons';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import axios from 'axios';
-import ModalFooter from '../../Button/Modelfooter';
-import { ProductCatery } from '../../Category/AddCategory/Category';
-import { SubCategory } from '../../Category/AddCategory/SubCategory';
+} from "@ant-design/icons";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import axios from "axios";
+import ModalFooter from "../../Button/Modelfooter";
+import { ProductCatery } from "../../Category/AddCategory/Category";
+import { SubCategory } from "../../Category/AddCategory/SubCategory";
 // deendencies to implement redux toolkit
-import { useSelector, useDispatch } from 'react-redux';
-import { createProduct } from '../../../Apis/Product';
-import { Loader } from '../../Loader/LoadingSpin';
-import { fetchCompany } from '../../../Apis/Company';
-import {
-  fetchCategory,
-  fetchSubCategory,
-} from '../../../Apis/Categories';
-import Cookies, { set } from 'js-cookie';
-import { data } from 'autoprefixer';
-import { useRef } from 'react';
-import Item from 'antd/lib/list/Item';
-import Alerts from '../../Notifications&Alert/Alert';
-import { useUser } from '../../../../context/UserContex';
+import { useSelector, useDispatch } from "react-redux";
+import { createProduct } from "../../../Apis/Product";
+import { Loader } from "../../Loader/LoadingSpin";
+import { fetchCompany } from "../../../Apis/Company";
+import { fetchCategory, fetchSubCategory } from "../../../Apis/Categories";
+import Cookies, { set } from "js-cookie";
+import { data } from "autoprefixer";
+import { useRef } from "react";
+import Item from "antd/lib/list/Item";
+import Alerts from "../../Notifications&Alert/Alert";
+import { useUser } from "../../../../context/UserContex";
 // widget upload for cloudinary Image"
-import UploadWidget from '../../../../components/CLOUDIMAGES/UploadWidget';
-import { colorOptions } from '../../../../common/productpossibleColors';
-import { sizeOptions } from '../../../../common/productspossibleSizes';
-import { updateuserProduct } from '../../../Redux/ReduxSlice/Slice';
+import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
+import { colorOptions } from "../../../../common/productpossibleColors";
+import { sizeOptions } from "../../../../common/productspossibleSizes";
+import { updateuserProduct } from "../../../Redux/ReduxSlice/Slice";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -60,28 +57,22 @@ const ProductModel = (props) => {
   const formRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [description, setDescription] = useState('');
-  const [prodName, setProdName] = useState('');
-  const [prodCategory, setProdCategory] = useState('');
-  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState("");
+  const [prodName, setProdName] = useState("");
+  const [prodCategory, setProdCategory] = useState("");
+  const [price, setPrice] = useState("");
   // checking state
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
   // error handling states
-  const [errProdCategory, setErrProdCategory] =
-    useState('');
+  const [errProdCategory, setErrProdCategory] = useState("");
   const [errPrice, setErrPrice] = useState();
 
   const [alertIndex, setAlertIndex] = useState(null);
-  const [alertIndexonUpdate, setAlertIndexonUpdate] =
-    useState(null);
+  const [alertIndexonUpdate, setAlertIndexonUpdate] = useState(null);
 
-  const [alertDescription, setAlertDescription] =
-    useState('');
-  const [
-    alertDescriptiononUpdate,
-    setAlertDescriptiononUpdate,
-  ] = useState('');
+  const [alertDescription, setAlertDescription] = useState("");
+  const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
   const [isupdate, setIsupdate] = useState(false);
   const { user, onLogout } = useUser();
   const userRole = user?.role;
@@ -91,45 +82,41 @@ const ProductModel = (props) => {
   const [companys, setCompanys] = useState([]);
   const [categorys, setCategorys] = useState([]);
   const [subcategorys, setSubcategorys] = useState([]);
-  const [selectedCategory, setSelectedCategory] =
-    useState('');
-  const token = Cookies.get('token');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const token = Cookies.get("token");
 
   // ahndel ulpad images on frontend
-  const [mainImageUrl, setMainImageUrl] = useState('');
+  const [mainImageUrl, setMainImageUrl] = useState("");
   const [otherImageUrls, setOtherImageUrls] = useState([]);
-  const [imageError, setImageError] = useState('');
-  const [otherimagesError, setOtherimagesError] =
-    useState('');
-  const [colorImageUrls, setColorImageUrls] = useState('');
+  const [imageError, setImageError] = useState("");
+  const [otherimagesError, setOtherimagesError] = useState("");
+  const [colorImageUrls, setColorImageUrls] = useState("");
   // const [colorVariations, setColorVariations] = useState([]);
 
   // redux state handling
   const dispatch = useDispatch();
-  const { product, load, err } = useSelector(
-    (state) => state.createproduct
-  );
+  const { product, load, err } = useSelector((state) => state.createproduct);
 
   const { company, loadcompany, errcompany } = useSelector(
     (state) => state.getcompany
   );
 
-  const { categories, loadcategory, errcategory } =
-    useSelector((state) => state.category);
+  const { categories, loadcategory, errcategory } = useSelector(
+    (state) => state.category
+  );
 
-  const { subcategories, loadsubcategory, errsubcategory } =
-    useSelector((state) => state.subcategory);
+  const { subcategories, loadsubcategory, errsubcategory } = useSelector(
+    (state) => state.subcategory
+  );
 
   const [otherImages, setOtherImages] = React.useState([]);
   const [colorNames, setColorNames] = React.useState([]);
   const [colorImages, setColorImages] = React.useState([]);
-  const [availableSizes, setAvailableSizes] =
-    React.useState([]);
+  const [availableSizes, setAvailableSizes] = React.useState([]);
   const [products, setProducts] = useState();
   const [error, setError] = React.useState([]);
-  const [success, setSuccess] = React.useState('');
-  const [fieldvalidation, setFieldValidation] =
-    React.useState();
+  const [success, setSuccess] = React.useState("");
+  const [fieldvalidation, setFieldValidation] = React.useState();
   const [colorVariations, setColorVariations] = useState([
     // Initial color variation object
     {
@@ -152,34 +139,29 @@ const ProductModel = (props) => {
     formState: { errors },
   } = useForm({
     // use mode to specify the event that triggers each input field
-    mode: 'onBlur',
+    mode: "onBlur",
   });
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-  let stockQuantity = colorVariations.reduce(
-    (acc, variation) => {
-      return acc + parseInt(variation.stock);
-    },
-    0
-  );
+  let stockQuantity = colorVariations.reduce((acc, variation) => {
+    return acc + parseInt(variation.stock);
+  }, 0);
 
   const handleSubmits = async (data) => {
     if (!mainImageUrl) {
-      setImageError('Product main image is required');
+      setImageError("Product main image is required");
       return;
     }
 
-    setOtherimagesError('');
-    setImageError('');
+    setOtherimagesError("");
+    setImageError("");
 
     // Convert stockQuantity to a number if it's not already
     const stockQty =
-      stockQuantity !== 0
-        ? stockQuantity
-        : parseInt(data.stockQuantity);
+      stockQuantity !== 0 ? stockQuantity : parseInt(data.stockQuantity);
 
     const hasValidationError =
       colorVariations[0].availableSizes !== null ||
@@ -190,34 +172,30 @@ const ProductModel = (props) => {
               // !variation?.colorName ||
               // !variation.colorImageUrl ||
               // !variation.stock
-              (!variation.availableSizes &&
-                !variation?.colorName) ||
+              (!variation.availableSizes && !variation?.colorName) ||
               // !variation.colorImageUrl ||
               !variation.stock
             );
           })
         : false;
 
-    const hasValidationError2 = colorVariations.some(
-      (variation) => {
-        return (
-          (!variation?.colorName &&
-            variation.colorImageUrl) ||
-          (variation?.colorName && !variation.colorImageUrl)
-        );
-      }
-    );
+    const hasValidationError2 = colorVariations.some((variation) => {
+      return (
+        (!variation?.colorName && variation.colorImageUrl) ||
+        (variation?.colorName && !variation.colorImageUrl)
+      );
+    });
 
     if (hasValidationError2) {
       alert(
-        'Something went wrong on combination of colorname and color image please check '
+        "Something went wrong on combination of colorname and color image please check "
       );
       return;
     }
 
     if (hasValidationError) {
       alert(
-        'Something went wrong in combination of color or size with its corresponding color and stockQuantity'
+        "Something went wrong in combination of color or size with its corresponding color and stockQuantity"
       );
       return; // Don't proceed with the API call if there's a validation error
     }
@@ -233,9 +211,9 @@ const ProductModel = (props) => {
     // Iterate over the rest of the indices
     for (let i = 1; i < colorVariations.length; i++) {
       // Get the fields in the current index that contain a value
-      const currentIndexFilledFields = Object.keys(
-        colorVariations[i]
-      ).filter((field) => colorVariations[i][field]);
+      const currentIndexFilledFields = Object.keys(colorVariations[i]).filter(
+        (field) => colorVariations[i][field]
+      );
       // Check if the filled fields in the first index are also filled in the current index
       for (const field of filledFields) {
         if (!colorVariations[i][field]) {
@@ -270,7 +248,7 @@ const ProductModel = (props) => {
 
     const payload = {
       name: data.name,
-      seller: userRole === 'seller' ? user.id : data.seller,
+      seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
       subcategory: data.subcategory,
       description: data.description,
@@ -289,60 +267,49 @@ const ProductModel = (props) => {
       //     : false,
       hasColors:
         colorVariations.length > 0 &&
-        colorVariations.every(
-          (variation) => variation.colorImageUrl
-        ),
+        colorVariations.every((variation) => variation.colorImageUrl),
 
       hasMeasurements:
         colorVariations.length > 0 &&
-        colorVariations.every(
-          (variation) => variation.availableSizes
-        ),
+        colorVariations.every((variation) => variation.availableSizes),
       productImages: {
         productThumbnail: {
-          public_id: 'Feli Technology Inv. Group/',
+          public_id: "Feli Technology Inv. Group/",
           url: mainImageUrl,
         },
         otherImages: otherImageUrls?.map((image) => ({
-          public_id: 'Feli Technology Inv. Group/',
+          public_id: "Feli Technology Inv. Group/",
           url: image,
         })),
       },
 
       colorMeasurementVariations: {
-        measurementType: 'size',
+        measurementType: "size",
 
         variations: colorVariations.map((variation) => {
           const colorImg =
-            'colorName' in variation &&
-            'colorImageUrl' in variation
+            "colorName" in variation && "colorImageUrl" in variation
               ? {
                   url: variation.colorImageUrl,
                   colorName: variation?.colorName,
                 }
               : null;
           const measurementvalue =
-            'availableSizes' in variation
-              ? variation.availableSizes
-              : null;
+            "availableSizes" in variation ? variation.availableSizes : null;
 
           return {
             measurementvalue: measurementvalue,
             colorImg: colorImg,
-            colorMeasurementVariationQuantity: parseInt(
-              variation.stock
-            ),
+            colorMeasurementVariationQuantity: parseInt(variation.stock),
           };
         }),
       },
     };
 
-    dispatch(
-      createProduct({ productData: payload, token: token })
-    )
+    dispatch(createProduct({ productData: payload, token: token }))
       .unwrap()
       .then((data) => {
-        if (data && data?.status == 'success') {
+        if (data && data?.status == "success") {
           // update get product state
           props.handlecreateproduct(data?.data?.product);
           dispatch(
@@ -353,18 +320,16 @@ const ProductModel = (props) => {
             })
           );
           setProducts(data?.data?.product);
-          setAlertIndex('success');
-          setAlertDescription(
-            'Product created successfully'
-          );
+          setAlertIndex("success");
+          setAlertDescription("Product created successfully");
           setTimeout(() => {
             handleCancel();
           }, 3000);
         }
       })
       .catch((er) => {
-        setAlertIndex('error'); // Display error alert on error
-        setAlertDescription('Error: ' + er.message);
+        setAlertIndex("error"); // Display error alert on error
+        setAlertDescription("Error: " + er.message);
       });
   };
   // close alert window
@@ -376,21 +341,20 @@ const ProductModel = (props) => {
 
   const registerinput = {
     name: {
-      required: 'product name is required',
+      required: "product name is required",
       minLength: {
         value: 2,
-        message: 'minimum length should be 2',
+        message: "minimum length should be 2",
       },
     },
     price: {
-      required: 'price is required',
+      required: "price is required",
       min: {
         value: 0.0000000001,
-        message: 'price must be greater than zero',
+        message: "price must be greater than zero",
       },
       validate: {
-        isNumber: (value) =>
-          !isNaN(value) || 'price must be a number',
+        isNumber: (value) => !isNaN(value) || "price must be a number",
       },
     },
     // stockQuantity : {
@@ -404,41 +368,38 @@ const ProductModel = (props) => {
     //   },
     // },
     description: {
-      required: 'description is required',
+      required: "description is required",
       minLength: {
         value: 6,
-        message: 'minimum length should be 6',
+        message: "minimum length should be 6",
       },
     },
     seller: {
-      required: 'seller is required',
+      required: "seller is required",
     },
     discountPercentage: {
-      required: 'discountPercentage is required',
+      required: "discountPercentage is required",
       min: {
         value: 0,
-        message:
-          'discountPercentage must be greater than 0',
+        message: "discountPercentage must be greater than 0",
       },
       validate: {
         isNumber: (value) =>
-          !isNaN(value) ||
-          'discountPercentage must be a number',
+          !isNaN(value) || "discountPercentage must be a number",
       },
     },
     quantityParameter: {
-      required: 'quantityParameter is required',
+      required: "quantityParameter is required",
     },
     brandName: {
       validate: (value) =>
-        typeof value === 'string' ||
-        'brandName must be a string',
+        typeof value === "string" || "brandName must be a string",
     },
     category: {
-      required: 'category is required',
+      required: "category is required",
     },
     subcategory: {
-      required: 'subcategory is required',
+      required: "subcategory is required",
     },
   };
 
@@ -474,9 +435,7 @@ const ProductModel = (props) => {
     if (!option || !option.label) {
       return false;
     }
-    return option.label
-      .toLowerCase()
-      .includes(input.toLowerCase());
+    return option.label.toLowerCase().includes(input.toLowerCase());
   };
 
   const fileList = [];
@@ -531,7 +490,7 @@ const ProductModel = (props) => {
       dispatch(fetchCategory(token))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == 'sucess') {
+          if (data?.data && data.status == "sucess") {
             setCategorys(data?.data?.categories);
           }
         })
@@ -547,7 +506,7 @@ const ProductModel = (props) => {
       dispatch(fetchSubCategory(token))
         .unwrap()
         .then((data) => {
-          if (data.data && data.status == 'success')
+          if (data.data && data.status == "success")
             setSubcategorys(data?.data?.subCategories);
         })
         .catch((error) => {});
@@ -560,7 +519,7 @@ const ProductModel = (props) => {
       dispatch(fetchCategory(token))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == 'sucess') {
+          if (data?.data && data.status == "sucess") {
             setCategorys(data?.data?.categories);
           }
         })
@@ -570,7 +529,7 @@ const ProductModel = (props) => {
       dispatch(fetchSubCategory(token))
         .unwrap()
         .then((data) => {
-          if (data.data && data.status == 'success')
+          if (data.data && data.status == "success")
             setSubcategorys(data?.data?.subCategories);
         })
         .catch((error) => {});
@@ -583,8 +542,7 @@ const ProductModel = (props) => {
       dispatch(fetchCompany(token))
         .unwrap()
         .then((data) => {
-          if (data?.data?.sellers)
-            setCompanys(data?.data?.sellers);
+          if (data?.data?.sellers) setCompanys(data?.data?.sellers);
         })
         .catch((error) => {
           // if (error.response && error.response.status === 401) {
@@ -600,8 +558,7 @@ const ProductModel = (props) => {
       dispatch(fetchCompany(token))
         .unwrap()
         .then((data) => {
-          if (data?.data?.sellers)
-            setCompanys(data?.data?.sellers);
+          if (data?.data?.sellers) setCompanys(data?.data?.sellers);
         })
         .catch((error) => {
           // if (error.response && error.response.status === 401) {
@@ -619,15 +576,13 @@ const ProductModel = (props) => {
     }
     // Assuming the main product image URL is stored in the secure_url property of the result object
     setMainImageUrl(result?.info?.secure_url);
-    setImageError('');
+    setImageError("");
   }
 
   const handleColorChange = (index, field, value) => {
     setColorVariations((prevVariations) => {
       // Deep copy the array using slice()
-      const updatedVariations = [
-        ...prevVariations.slice(0),
-      ];
+      const updatedVariations = [...prevVariations.slice(0)];
 
       // Update the specific object at the given index
       updatedVariations[index] = {
@@ -638,7 +593,7 @@ const ProductModel = (props) => {
       return updatedVariations;
     });
 
-    if (field === 'colorName')
+    if (field === "colorName")
       setSelectedColor((prevSelectedColor) => {
         const updatedSelectedColor = [...prevSelectedColor];
         updatedSelectedColor[index] = {
@@ -649,7 +604,7 @@ const ProductModel = (props) => {
         return updatedSelectedColor;
       });
 
-    if (field === 'stock')
+    if (field === "stock")
       setStock((prevstock) => {
         const updatedStock = [...prevstock];
         updatedStock[index] = {
@@ -661,42 +616,33 @@ const ProductModel = (props) => {
       });
   };
 
-  function handleonuploadOtherImages(
-    error,
-    result,
-    widget
-  ) {
+  function handleonuploadOtherImages(error, result, widget) {
     if (error) {
       setImageError(error);
       widget.close({ quiet: true });
       return;
     }
 
-    setOtherImageUrls((prevUrls) => [
-      ...prevUrls,
-      result?.info?.secure_url,
-    ]);
+    setOtherImageUrls((prevUrls) => [...prevUrls, result?.info?.secure_url]);
   }
 
   let stockforproduct =
-    stock.length > 0
-      ? stock.reduce((acc, curr) => acc + curr.stock, 0)
-      : 0;
+    stock.length > 0 ? stock.reduce((acc, curr) => acc + curr.stock, 0) : 0;
 
   return (
     <>
       <Button onClick={showModal}>Add a product</Button>
 
       {/* open addnew category model */}
-      {userRole == 'admin' && addnew && (
+      {userRole == "admin" && addnew && (
         <Modal
-          title='Add new Category'
-          width='50rem'
+          title="Add new Category"
+          width="50rem"
           open={isModalOpen}
           closeIcon={
             <CloseOutlined
               onClick={handleCancelOnAddNew}
-              className='text-[red]'
+              className="text-[red]"
             />
           }
         >
@@ -704,15 +650,15 @@ const ProductModel = (props) => {
         </Modal>
       )}
       {/* open addnewsub category model */}
-      {userRole == 'admin' && addnewsub && (
+      {userRole == "admin" && addnewsub && (
         <Modal
-          title='Add new Category'
-          width='50rem'
+          title="Add new Category"
+          width="50rem"
           open={isModalOpen}
           closeIcon={
             <CloseOutlined
               onClick={handleCancelOnAddNew}
-              className='text-[red]'
+              className="text-[red]"
             />
           }
         >
@@ -720,14 +666,11 @@ const ProductModel = (props) => {
         </Modal>
       )}
       <Modal
-        title='Add product'
-        width='80rem'
+        title="Add product"
+        width="80rem"
         open={isModalOpen}
         closeIcon={
-          <CloseOutlined
-            onClick={handleCancel}
-            className='text-[red]'
-          />
+          <CloseOutlined onClick={handleCancel} className="text-[red]" />
         }
       >
         {alertIndex !== null && (
@@ -735,16 +678,16 @@ const ProductModel = (props) => {
             type={alertIndex}
             description={alertDescription}
             onClose={handleAlertClose}
-            className='w-[100%] md:w-[30%] opacity-100 fixed  top-0 right-5 transform-[translate(-50%,-50%)] h-[100px] z-[9999]'
+            className="w-[100%] md:w-[30%] opacity-100 fixed  top-0 right-5 transform-[translate(-50%,-50%)] h-[100px] z-[9999]"
           />
         )}
         <Form
-          layout={'vertical'}
+          layout={"vertical"}
           onFinish={handleSubmit(handleSubmits, onErrors)}
         >
           <div
             className={` space-x-0 md:space-x-6   md:flex  ${
-              alertIndex !== null ? ' mt-5 ' : ''
+              alertIndex !== null ? " mt-5 " : ""
             } `}
           >
             <Col
@@ -755,18 +698,13 @@ const ProductModel = (props) => {
                `}
             >
               <Controller
-                name='name'
+                name="name"
                 control={control}
                 rules={registerinput.name}
                 render={({ field }) => (
-                  <Form.Item label='Product name'>
-                    <Input
-                      {...field}
-                      placeholder='Enter product name'
-                    />
-                    <p className='text-[red]'>
-                      {errors?.name?.message}
-                    </p>
+                  <Form.Item label="Product name">
+                    <Input {...field} placeholder="Enter product name" />
+                    <p className="text-[red]">{errors?.name?.message}</p>
                   </Form.Item>
                 )}
               />
@@ -774,7 +712,7 @@ const ProductModel = (props) => {
               <Controller
                 control={control}
                 rules={registerinput.description}
-                name='description'
+                name="description"
                 render={({ field }) => (
                   <>
                     <CKEditor
@@ -786,9 +724,8 @@ const ProductModel = (props) => {
                         field.onChange(data); // Update the form field value
                       }}
                     />
-                    <p className='text-[red]'>
-                      {errors?.description &&
-                        errors.description.message}
+                    <p className="text-[red]">
+                      {errors?.description && errors.description.message}
                     </p>
                   </>
                 )}
@@ -797,33 +734,33 @@ const ProductModel = (props) => {
             <Col
               span={24}
               md={11}
-              className='border mb-3 border-[black] py-10 px-5 '
+              className="border mb-3 border-[black] py-10 px-5 "
             >
-              <div className=''>
-                {userRole == 'admin' && (
+              <div className="">
+                {userRole == "admin" && (
                   <button
                     onClick={handleOpenNewModel}
-                    className='absolute right-5 font-bold  z-50 underline text-primary'
+                    className="absolute right-5 font-bold  z-50 underline text-primary"
                   >
                     Add New
                   </button>
                 )}
 
                 <Controller
-                  name='category'
+                  name="category"
                   control={control}
-                  defaultValue=''
+                  defaultValue=""
                   rules={registerinput.category}
                   render={({ field }) => (
                     <>
-                      <Form.Item label='Select product Category'>
+                      <Form.Item label="Select product Category">
                         {loadcategory ? (
                           <p>loading...</p>
                         ) : (
                           <Select
                             {...field}
                             showSearch
-                            label='Text field'
+                            label="Text field"
                             onSearch={onSearch}
                             filterOption={filterOption}
                             options={categorySelect}
@@ -835,7 +772,7 @@ const ProductModel = (props) => {
                           />
                         )}
 
-                        <p className='text-[red]'>
+                        <p className="text-[red]">
                           {errors?.category?.message}
                         </p>
                       </Form.Item>
@@ -844,27 +781,27 @@ const ProductModel = (props) => {
                 />
               </div>
 
-              <div className=''>
-                {userRole == 'admin' && (
+              <div className="">
+                {userRole == "admin" && (
                   <button
-                    type='button'
+                    type="button"
                     onClick={handleOpenNewSubModel}
-                    className='absolute right-5 font-bold z-50 underline text-primary'
+                    className="absolute right-5 font-bold z-50 underline text-primary"
                   >
                     Add New
                   </button>
                 )}
 
                 <Controller
-                  name='subcategory'
+                  name="subcategory"
                   control={control}
-                  defaultValue=''
+                  defaultValue=""
                   rules={registerinput.subcategory}
                   render={({ field }) => (
                     <>
                       <Form.Item
-                        label='Select product sub-category'
-                        className=''
+                        label="Select product sub-category"
+                        className=""
                       >
                         {loadcategory ? (
                           <p>loading...</p>
@@ -872,17 +809,14 @@ const ProductModel = (props) => {
                           <Select
                             {...field}
                             showSearch
-                            label='Text field'
+                            label="Text field"
                             onSearch={onSearch}
                             filterOption={filterOption}
-                            options={
-                              subcategory?.length != 0 &&
-                              subcategory
-                            }
+                            options={subcategory?.length != 0 && subcategory}
                           />
                         )}
 
-                        <p className='text-[red]'>
+                        <p className="text-[red]">
                           {errors?.subcategory?.message}
                         </p>
                       </Form.Item>
@@ -893,28 +827,27 @@ const ProductModel = (props) => {
             </Col>
           </div>
 
-          <span className=' font-bold'>Add Images</span>
-          <div className='md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 '>
-            <div className='w-full md:w-[40%] '>
+          <span className=" font-bold">Add Images</span>
+          <div className="md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 ">
+            <div className="w-full md:w-[40%] ">
               <span>Main product image</span>
               <p>Add product main image </p>
-              <div className='flex flex-col justify-center items-center border rounded '>
+              <div className="flex flex-col justify-center items-center border rounded ">
                 <>
                   <Form.Item
-                    label=''
-                    valuePropName='fileList'
+                    label=""
+                    valuePropName="fileList"
                     getValueFromEvent={normFile}
-                    className=' text-center mt-2 '
+                    className=" text-center mt-2 "
                   >
-                    <span className=''>
-                      Drop a main image here or click to
-                      upload.
+                    <span className="">
+                      Drop a main image here or click to upload.
                     </span>
 
                     <UploadWidget onUpload={handleOnUpload}>
                       {({ open }) => (
                         <Button
-                          className=''
+                          className=""
                           icon={<FileImageOutlined />}
                           onClick={open}
                         >
@@ -924,24 +857,18 @@ const ProductModel = (props) => {
                     </UploadWidget>
 
                     {!mainImageUrl && (
-                      <p className='text-[red]'>
-                        {imageError}
-                      </p>
+                      <p className="text-[red]">{imageError}</p>
                     )}
                   </Form.Item>
 
-                  <div className=' relative '>
+                  <div className=" relative ">
                     {mainImageUrl && (
                       <>
-                        <Image
-                          width={70}
-                          height={70}
-                          src={mainImageUrl}
-                        />
+                        <Image width={70} height={70} src={mainImageUrl} />
                         <MinusCircleOutlined
-                          className='text-[red] text-xl absolute -top-3 font-bold -right-2'
+                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
                           onClick={() => {
-                            setMainImageUrl('');
+                            setMainImageUrl("");
                           }}
                         />
                       </>
@@ -951,17 +878,17 @@ const ProductModel = (props) => {
               </div>
             </div>
 
-            <div className=' w-full md:w-[65%] '>
+            <div className=" w-full md:w-[65%] ">
               <span>Main product images</span>
               <p>Add product images </p>
-              <div className='flex  flex-col justify-center items-center border rounded '>
+              <div className="flex  flex-col justify-center items-center border rounded ">
                 <Form.Item
-                  label=''
-                  valuePropName='fileList'
+                  label=""
+                  valuePropName="fileList"
                   getValueFromEvent={normFile}
-                  className=' text-center mt-2   '
+                  className=" text-center mt-2   "
                 >
-                  <span className=' py-10 '>
+                  <span className=" py-10 ">
                     Click to upload. maximum of 6 images
                   </span>
 
@@ -973,7 +900,7 @@ const ProductModel = (props) => {
                   >
                     {({ open }) => (
                       <Button
-                        className=''
+                        className=""
                         icon={<FileImageOutlined />}
                         onClick={open}
                       >
@@ -986,163 +913,130 @@ const ProductModel = (props) => {
                   </UploadWidget>
 
                   {otherImageUrls.length == 0 && (
-                    <p className='text-[red]'>
-                      {otherimagesError}
-                    </p>
+                    <p className="text-[red]">{otherimagesError}</p>
                   )}
                 </Form.Item>
-                <div className='flex justify-center border space-x-4'>
-                  {otherImageUrls
-                    .slice(0, 6)
-                    .map((url, index) => {
-                      return (
-                        <div
-                          className=' relative'
+                <div className="flex justify-center border space-x-4">
+                  {otherImageUrls.slice(0, 6).map((url, index) => {
+                    return (
+                      <div className=" relative" key={index}>
+                        <Image
                           key={index}
-                        >
-                          <Image
-                            key={index}
-                            width={70}
-                            height={70}
-                            src={url}
-                            alt='otherimages'
-                          />
-                          <MinusCircleOutlined
-                            className='text-[red] text-xl absolute -top-3 font-bold -right-2'
-                            onClick={() => {
-                              setOtherImageUrls(
-                                otherImageUrls.filter(
-                                  (_, i) => i !== index
-                                )
-                              );
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
+                          width={70}
+                          height={70}
+                          src={url}
+                          alt="otherimages"
+                        />
+                        <MinusCircleOutlined
+                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          onClick={() => {
+                            setOtherImageUrls(
+                              otherImageUrls.filter((_, i) => i !== index)
+                            );
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
           </div>
-          <span className='mt-2 font-bold '>
+          <span className="mt-2 font-bold ">
             Add Colors images here or Available Sizes
           </span>
-          <div className='w-[100%] border  border-[black] my-3 p-3 rounded '>
+          <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
             <span>
-              Add a Color or Size with it’s corresponding
-              size and stockQuantity
+              Add a Color or Size with it’s corresponding size and stockQuantity
             </span>
             <p>image </p>
-            <div className='flex  w-[100%] p-5 flex-col justify-center  border   items-center rounded '>
+            <div className="flex  w-[100%] md:p-5 flex-col justify-center  md:border    items-center rounded ">
               <Form.List
-                name='colors'
-                style={{ backgroundColor: 'red ' }}
+                name="colors"
+                style={{
+                  backgroundColor: "red ! important ",
+                  width: "50%",
+                }}
               >
                 {(fields, { add, remove }) => (
                   <>
-                    {fields.map(
-                      (
-                        { key, name, ...restField },
-                        index
-                      ) => (
-                        <>
-                          <Space
-                            key={key}
-                            style={{
-                              display: 'flex',
-                              marginBottom: 2,
-                              // backgroundColor: "red",
-                            }}
-                            // align="baseline"
+                    {fields.map(({ key, name, ...restField }, index) => (
+                      <>
+                        <Space
+                          key={key}
+                          style={{
+                            display: "flex",
+                            marginBottom: 2,
+                            // backgroundColor: "red",
+                          }}
+                          // align="baseline"
+                        >
+                          {/* Input for color name */}
+                          <Form.Item
+                            {...restField}
+                            name={[name, "name"]}
+                            label={
+                              <div
+                                style={{
+                                  backgroundColor: selectedColor[index]?.color,
+                                }}
+                                className={` w-20 h-5 border border-[black] rounded-full`}
+                              ></div>
+                            }
                           >
-                            {/* Input for color name */}
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'name']}
-                              label={
-                                <div
-                                  style={{
-                                    backgroundColor:
-                                      selectedColor[index]
-                                        ?.color,
-                                  }}
-                                  className={` w-20 h-5 border border-[black] rounded-full`}
-                                ></div>
-                              }
-                            >
-                              <div className='flex-col'>
-                                {/* <div
+                            <div className="flex-col">
+                              {/* <div
                                 style={{ backgroundColor: selectedColor }}
                                 className={`w-5 h-5 border border-[black] rounded-full`}
                               ></div> */}
 
-                                <Select
-                                  options={colorOptions}
-                                  value={
-                                    selectedColor[index]
-                                      ?.color
-                                  }
-                                  onChange={(value) => {
-                                    handleColorChange(
-                                      index,
-                                      'colorName',
-                                      value
-                                    );
-                                  }}
-                                  onSearch={onSearch}
-                                  showSearch
-                                />
-                              </div>
-                            </Form.Item>
-                            {/* Input for available sizes */}
-                            <Form.Item
-                              {...restField}
-                              name={[
-                                name,
-                                'availableSizes',
-                              ]}
-                              label={`Available Sizes:  ${
-                                selectedSize[index]?.size
-                                  ? selectedSize[index]
-                                      ?.size
-                                  : ''
-                              }`}
-                            >
                               <Select
-                                value={
-                                  selectedSize[index]?.size
-                                }
-                                options={sizeOptions}
+                                options={colorOptions}
+                                value={selectedColor[index]?.color}
                                 onChange={(value) => {
-                                  setSelectedSize(
-                                    (prevSelectedSize) => {
-                                      const updatedSelectedSize =
-                                        [
-                                          ...prevSelectedSize,
-                                        ];
-                                      updatedSelectedSize[
-                                        index
-                                      ] = {
-                                        ...updatedSelectedSize[
-                                          index
-                                        ],
-                                        size: value,
-                                      };
-                                      return updatedSelectedSize;
-                                    }
-                                  );
-
-                                  handleColorChange(
-                                    index,
-                                    'availableSizes',
-                                    value
-                                  );
+                                  handleColorChange(index, "colorName", value);
                                 }}
                                 onSearch={onSearch}
                                 showSearch
                               />
+                            </div>
+                          </Form.Item>
+                          {/* Input for available sizes */}
+                          <Form.Item
+                            {...restField}
+                            name={[name, "availableSizes"]}
+                            label={`Available Sizes:  ${
+                              selectedSize[index]?.size
+                                ? selectedSize[index]?.size
+                                : ""
+                            }`}
+                          >
+                            <Select
+                              value={selectedSize[index]?.size}
+                              options={sizeOptions}
+                              onChange={(value) => {
+                                setSelectedSize((prevSelectedSize) => {
+                                  const updatedSelectedSize = [
+                                    ...prevSelectedSize,
+                                  ];
+                                  updatedSelectedSize[index] = {
+                                    ...updatedSelectedSize[index],
+                                    size: value,
+                                  };
+                                  return updatedSelectedSize;
+                                });
 
-                              {/* <Input
+                                handleColorChange(
+                                  index,
+                                  "availableSizes",
+                                  value
+                                );
+                              }}
+                              onSearch={onSearch}
+                              showSearch
+                            />
+
+                            {/* <Input
                               placeholder="Enter Available Sizes"
                               onChange={(e) =>
                                 handleColorChange(
@@ -1152,136 +1046,113 @@ const ProductModel = (props) => {
                                 )
                               }
                             /> */}
-                            </Form.Item>
-                            {/* Input for number available in stock */}
-                            {/* <Form.Item
+                          </Form.Item>
+                          {/* Input for number available in stock */}
+                          {/* <Form.Item
                             {...restField}
                             name={[name, "stock"]}
                             label="Available Stock"
                             style={{ width: "100px", backgroundColor: "red" }}
                           > */}
 
-                            {selectedColor[index]?.color !==
-                              undefined ||
-                            selectedSize[index]?.size !==
-                              undefined ? (
-                              <input
-                                className='stockinput'
-                                placeholder='Enter Available Stock'
-                                type='number'
-                                onChange={(e) => {
-                                  // handlestockQty(index, e.target.value);
-                                  handleColorChange(
-                                    index,
-                                    'stock',
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            ) : null}
-                            {/* </Form.Item> */}
-                            <div className='flex flex-col'>
-                              {' '}
-                              <Form.Item>
-                                {!colorVariations[index]
-                                  ?.colorImageUrl && (
-                                  <UploadWidget
-                                    // onUpload={handleuploadcolorimage}
-
-                                    onUpload={(
-                                      error,
-                                      result,
-                                      widget
-                                    ) => {
-                                      if (error) {
-                                        widget.close({
-                                          quiet: true,
-                                        });
-                                        return;
-                                      }
-
-                                      {
-                                        /* Input for color image URL */
-                                      }
-                                      handleColorChange(
-                                        index,
-                                        'colorImageUrl',
-                                        result?.info
-                                          ?.secure_url
-                                      );
-                                    }}
-                                    uploadmultiple={false}
-                                  >
-                                    {({ open }) => (
-                                      <Button
-                                        type='primary'
-                                        onClick={open}
-                                        block
-                                        icon={
-                                          <PlusOutlined />
-                                        }
-                                      >
-                                        Add Image
-                                      </Button>
-                                    )}
-                                  </UploadWidget>
-                                )}
-                                {colorVariations[index]
-                                  ?.colorImageUrl && (
-                                  <Image
-                                    src={
-                                      colorVariations[index]
-                                        ?.colorImageUrl
-                                    }
-                                    width={50}
-                                    height={50}
-                                  />
-                                )}
-                              </Form.Item>
-                            </div>
-
-                            {/* Button to remove color entry */}
-                            <MinusCircleOutlined
-                              className='text-[red]'
-                              onClick={() => {
-                                remove(name);
-                                setIndex(index - 1);
-                                colorVariations.length >
-                                  0 &&
-                                  colorVariations.splice(
-                                    index,
-                                    1
-                                  );
-
-                                selectedColor.splice(
+                          {selectedColor[index]?.color !== undefined ||
+                          selectedSize[index]?.size !== undefined ? (
+                            <input
+                              className="stockinput"
+                              placeholder="Enter Available Stock"
+                              type="number"
+                              onChange={(e) => {
+                                // handlestockQty(index, e.target.value);
+                                handleColorChange(
                                   index,
-                                  1
+                                  "stock",
+                                  e.target.value
                                 );
-
-                                // setSelectedColor(
-                                //   selectedColor.filter((_, i) => i !== index)
-                                //   // ...selectedColor,
-                                // );
-
-                                setSelectedSize(
-                                  selectedSize.filter(
-                                    (_, i) => i !== index
-                                  )
-                                  // selectedSize.splice(index, 1)
-                                );
-
-                                stock.splice(index, 1);
                               }}
                             />
-                          </Space>
-                        </>
-                      )
-                    )}
+                          ) : null}
+                          {/* </Form.Item> */}
+                          <div className="flex flex-col">
+                            {" "}
+                            <Form.Item>
+                              {!colorVariations[index]?.colorImageUrl && (
+                                <UploadWidget
+                                  // onUpload={handleuploadcolorimage}
+
+                                  onUpload={(error, result, widget) => {
+                                    if (error) {
+                                      widget.close({
+                                        quiet: true,
+                                      });
+                                      return;
+                                    }
+
+                                    {
+                                      /* Input for color image URL */
+                                    }
+                                    handleColorChange(
+                                      index,
+                                      "colorImageUrl",
+                                      result?.info?.secure_url
+                                    );
+                                  }}
+                                  uploadmultiple={false}
+                                >
+                                  {({ open }) => (
+                                    <Button
+                                      type="primary"
+                                      onClick={open}
+                                      block
+                                      icon={<PlusOutlined />}
+                                    >
+                                      Add Image
+                                    </Button>
+                                  )}
+                                </UploadWidget>
+                              )}
+                              {colorVariations[index]?.colorImageUrl && (
+                                <Image
+                                  src={colorVariations[index]?.colorImageUrl}
+                                  width={50}
+                                  height={50}
+                                />
+                              )}
+                            </Form.Item>
+                          </div>
+
+                          {/* Button to remove color entry */}
+                          <MinusCircleOutlined
+                            size={90}
+                            className="text-[red] "
+                            onClick={() => {
+                              remove(name);
+                              setIndex(index - 1);
+                              colorVariations.length > 0 &&
+                                colorVariations.splice(index, 1);
+
+                              selectedColor.splice(index, 1);
+
+                              // setSelectedColor(
+                              //   selectedColor.filter((_, i) => i !== index)
+                              //   // ...selectedColor,
+                              // );
+
+                              setSelectedSize(
+                                selectedSize.filter((_, i) => i !== index)
+                                // selectedSize.splice(index, 1)
+                              );
+
+                              stock.splice(index, 1);
+                            }}
+                          />
+                        </Space>
+                      </>
+                    ))}
                     {/* Button to add new color entry */}
 
                     <Form.Item>
                       <Button
-                        type='default'
+                        type="default"
                         onClick={() => {
                           add();
 
@@ -1300,23 +1171,20 @@ const ProductModel = (props) => {
             </div>
           </div>
 
-          <span className='my-5 font-bold'>More info</span>
-          <div className='w-[100%] p-3 mt-3  border  border-[black] rounded'>
-            <div className='flex justify-between space-x-2 w-[100%]'>
-              {userRole == 'seller' ? (
-                <div className=' flex justify-center items-center '>{`Seller : ${user?.firstName}`}</div>
+          <span className="my-5 font-bold">More info</span>
+          <div className="w-[100%] p-3 mt-3  border  border-[black] rounded">
+            <div className="flex justify-between space-x-2 w-[100%]">
+              {userRole == "seller" ? (
+                <div className=" flex justify-center items-center ">{`Seller : ${user?.firstName}`}</div>
               ) : (
                 <Controller
-                  name='seller'
+                  name="seller"
                   control={control}
-                  defaultValue=''
+                  defaultValue=""
                   rules={registerinput.seller}
                   render={({ field }) => (
                     <>
-                      <Form.Item
-                        label='Select Seller'
-                        className=' w-[50%]'
-                      >
+                      <Form.Item label="Select Seller" className=" w-[50%]">
                         {/* <Select
                         options={selectOptions}
                         {...field}
@@ -1328,7 +1196,7 @@ const ProductModel = (props) => {
                           <Select
                             {...field}
                             showSearch
-                            label='Text field'
+                            label="Text field"
                             onSearch={onSearch}
                             filterOption={filterOption}
                             options={selectOptions}
@@ -1345,9 +1213,7 @@ const ProductModel = (props) => {
                           />
                         )}
 
-                        <p className='text-[red]'>
-                          {errors?.seller?.message}
-                        </p>
+                        <p className="text-[red]">{errors?.seller?.message}</p>
                       </Form.Item>
                     </>
                   )}
@@ -1355,31 +1221,26 @@ const ProductModel = (props) => {
               )}
 
               <Controller
-                name='brandName'
+                name="brandName"
                 control={control}
                 rules={{
                   ...registerinput.brandName,
                 }}
                 render={({ field }) => (
-                  <Form.Item
-                    label=' Brand name'
-                    className=' w-[45%]'
-                  >
+                  <Form.Item label=" Brand name" className=" w-[45%]">
                     <Input
-                      type='text'
-                      name='brandName'
+                      type="text"
+                      name="brandName"
                       {...field}
-                      placeholder='Enter Brand Name'
+                      placeholder="Enter Brand Name"
                     />
-                    <p className='text-[red]'>
-                      {errors?.brandName?.message}
-                    </p>
+                    <p className="text-[red]">{errors?.brandName?.message}</p>
                   </Form.Item>
                 )}
               />
             </div>
 
-            <div className='grid grid-cols-2  md:flex justify-between  md:space-x-4'>
+            <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
               {/* <Controller
                 name="stockQuantity"
                 control={control}
@@ -1404,7 +1265,7 @@ const ProductModel = (props) => {
               {stockQuantity !== 0 ? (
                 <Form.Item
                   label={`stockQuantity:  ${stockforproduct} `}
-                  className='md:w-[48%]'
+                  className="md:w-[48%]"
                 >
                   {/* <Input
           type="text"
@@ -1415,23 +1276,20 @@ const ProductModel = (props) => {
                 </Form.Item>
               ) : (
                 <Controller
-                  name='stockQuantity'
+                  name="stockQuantity"
                   control={control}
                   rules={{
                     ...registerinput.stockQuantity,
                   }}
                   render={({ field }) => (
-                    <Form.Item
-                      label='stockQuantity'
-                      className='md:w-[48%]'
-                    >
+                    <Form.Item label="stockQuantity" className="md:w-[48%]">
                       <Input
-                        type='text'
-                        placeholder='stockQuantity'
-                        name='stockQuantity'
+                        type="text"
+                        placeholder="stockQuantity"
+                        name="stockQuantity"
                         {...field}
                       />
-                      <p className='text-[red]'>
+                      <p className="text-[red]">
                         {errors?.stockQuantity?.message}
                       </p>
                     </Form.Item>
@@ -1440,49 +1298,41 @@ const ProductModel = (props) => {
               )}
 
               <Controller
-                name='price'
+                name="price"
                 control={control}
                 rules={{
                   ...registerinput.price,
                 }}
                 render={({ field }) => (
-                  <Form.Item
-                    label='Price'
-                    className='md:w-[48%]'
-                  >
+                  <Form.Item label="Price" className="md:w-[48%]">
                     <InputNumber
-                      className='w-full'
-                      addonBefore='Rwf'
-                      placeholder='amount'
-                      name='price'
+                      className="w-full"
+                      addonBefore="Rwf"
+                      placeholder="amount"
+                      name="price"
                       {...field}
                     />
-                    <p className='text-[red]'>
-                      {errors?.price?.message}
-                    </p>
+                    <p className="text-[red]">{errors?.price?.message}</p>
                   </Form.Item>
                 )}
               />
 
               <Controller
-                name='discountPercentage'
+                name="discountPercentage"
                 control={control}
                 rules={{
                   ...registerinput.discountPercentage,
                 }}
                 render={({ field }) => (
-                  <Form.Item
-                    label='Discount'
-                    className='md:w-[48%]'
-                  >
+                  <Form.Item label="Discount" className="md:w-[48%]">
                     <InputNumber
-                      className='w-full'
-                      addonBefore='%'
-                      placeholder='discountPercentage'
-                      name='discountPercentage'
+                      className="w-full"
+                      addonBefore="%"
+                      placeholder="discountPercentage"
+                      name="discountPercentage"
                       {...field}
                     />
-                    <p className='text-[red]'>
+                    <p className="text-[red]">
                       {errors?.discountPercentage?.message}
                     </p>
                   </Form.Item>
@@ -1490,24 +1340,21 @@ const ProductModel = (props) => {
               />
 
               <Controller
-                name='quantityParameter'
+                name="quantityParameter"
                 control={control}
                 rules={{
                   ...registerinput.quantityParameter,
                 }}
                 render={({ field }) => (
-                  <Form.Item
-                    label='Quantity parameter'
-                    className='md:w-[48%]'
-                  >
+                  <Form.Item label="Quantity parameter" className="md:w-[48%]">
                     <Input
-                      type='text'
-                      placeholder='Enter quantityParameter'
-                      name='quantityParameter'
+                      type="text"
+                      placeholder="Enter quantityParameter"
+                      name="quantityParameter"
                       {...field}
                     />
 
-                    <p className='text-[red]'>
+                    <p className="text-[red]">
                       {errors?.quantityParameter?.message}
                     </p>
                   </Form.Item>
