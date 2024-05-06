@@ -299,37 +299,44 @@ export const LayoutDesign = ({ userprofile }) => {
 
               <TitleDisplay />
             </div>
-            <Dropdown
-              menu={{ items }}
-              placement="bottomLeft"
-              arrow
-              overlay={
-                <Menu>
-                  {items.map((item) => (
-                    <Menu.Item key={item.key} onClick={item.onClick}>
-                      {item.icon}
-                      {item.label}
-                    </Menu.Item>
-                  ))}
-                </Menu>
-              }
-            >
-              <Space wrap size={16}>
-                {user?.photo || user?.profileImageUrl == "default.jpg" ? (
-                  <>
-                    <Avatar shape="square" size={50} icon={<UserOutlined />} />
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src={`${user && user?.photo}`}
-                      className="h-14 w-14 rounded-full mt-1 mb-1 "
-                      alt={user?.firstName}
-                    />
-                  </>
-                )}
-              </Space>
-            </Dropdown>
+
+            <div className="">
+              <Dropdown
+                menu={{ items }}
+                placement="bottomLeft"
+                arrow
+                overlay={
+                  <Menu>
+                    {items.map((item) => (
+                      <Menu.Item key={item.key} onClick={item.onClick}>
+                        {item.icon}
+                        {item.label}
+                      </Menu.Item>
+                    ))}
+                  </Menu>
+                }
+              >
+                <Space wrap size={16}>
+                  {user?.photo || user?.profileImageUrl == "default.jpg" ? (
+                    <>
+                      <Avatar
+                        shape="square"
+                        size={50}
+                        icon={<UserOutlined />}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        src={`${user && user?.photo}`}
+                        className="h-14 w-14 rounded-full mt-1 mb-1 "
+                        alt={user?.firstName}
+                      />
+                    </>
+                  )}
+                </Space>
+              </Dropdown>
+            </div>
           </Header>
           <Content
             style={{
