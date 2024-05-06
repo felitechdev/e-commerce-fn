@@ -26,8 +26,8 @@ export const Orders = () => {
   const containerRef = useRef(null);
 
   return (
-    <Layout className="space-y-6  bg-light overflow-auto">
-      <div className="w-full flex flex-col md:flex-row   md:space-x-4 p-3 bg-[white]">
+    <Layout className="space-y-6 bg-light overflow-auto">
+      <div className="w-full flex flex-col md:flex-row   md:space-x-4  bg-[white]">
         <Row className=" w-full md:w-[100%] p-0   ">
           <OrderTable
             style={{
