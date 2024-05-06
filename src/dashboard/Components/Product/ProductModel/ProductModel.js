@@ -950,8 +950,14 @@ const ProductModel = (props) => {
               Add a Color or Size with it’s corresponding size and stockQuantity
             </span>
             <p>image </p>
-            <div className="flex  w-[100%] p-5 flex-col justify-center  border   items-center rounded ">
-              <Form.List name="colors" style={{ backgroundColor: "red " }}>
+            <div className="flex  w-[100%] md:p-5 flex-col justify-center  md:border    items-center rounded ">
+              <Form.List
+                name="colors"
+                style={{
+                  backgroundColor: "red ! important ",
+                  width: "50%",
+                }}
+              >
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, ...restField }, index) => (
