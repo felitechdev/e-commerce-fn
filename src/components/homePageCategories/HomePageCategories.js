@@ -18,6 +18,19 @@ export async function fetchCategories() {
   }
 }
 
+//  dumy data for sub-sub-category
+const sub_sub_category = [
+  "Drawing Tablet",
+  "Graphic Tablet",
+  "Pen Tablet ",
+
+  "Digital Graphic Tablet Digital Graphic Tablet",
+  "Digital Pen Tablet",
+  "Digital Drawing Tablet",
+  "Digital Graphic Tablet",
+  "Digital Pen Tablet",
+];
+
 export default function HomePageCategories() {
   const {
     isLoading,
@@ -29,9 +42,17 @@ export default function HomePageCategories() {
   });
 
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [hoveredSubCategory, setHoveredSubCategory] = useState(null);
 
   const handleMouseEnter = (element) => {
     setHoveredCategory(element);
+  };
+
+  const handleMouseEnterSub = (element) => {
+    setHoveredSubCategory(element);
+  };
+  const handleMouseLeaveSub = () => {
+    setHoveredSubCategory(null);
   };
 
   const handleMouseLeave = () => {
@@ -80,24 +101,42 @@ export default function HomePageCategories() {
       )}
 
       {hoveredCategory && (
-        <div className=" bg-gray-200 text-gray-700 pt-6  b-0 absolute min-h-full rounded left-full z-50 text-[13px] ">
-          <ul className="min-w-52 flex gap-2 flex-col">
+        // bg-gray-200
+        <div className=" bg-gray-200 shadow-md ml-2  text-gray-700 pt-6  w-[700px]  sm:w-[1000px]     b-0 absolute min-h-full rounded left-full z-10 text-[13px] ">
+          {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
+          <ul className="  grid grid-cols-4 gap-2 ">
             {categories
               .find((cat) => {
                 return cat.id === hoveredCategory;
               })
               .subCategories.map((subCat) => (
-                <li
-                  key={subCat.id}
-                  className="w-full px-4 hover:underline font-medium cursor-pointer"
-                >
-                  <Link
-                    to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
-                    className="capitalize flex"
+                <div className="  flex-col  text-center justify-start  items-center">
+                  <li
+                    key={subCat.id}
+                    // className="w-full px-4 hover:underline font-medium cursor-pointer"
+                    className="w-full px-4 flex justify-start hover:underline font-bold cursor-pointer"
+                    onMouseEnter={() => handleMouseEnterSub(subCat.id)}
                   >
-                    {subCat.name}
-                  </Link>
-                </li>
+                    <Link
+                      to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
+                      className="capitalize flex"
+                    >
+                      {subCat.name}
+                    </Link>
+                  </li>
+
+                  <div>
+                    <ul className=" px-4 flex-col justify-start ">
+                      {sub_sub_category.map((sub) => {
+                        return (
+                          <li className=" hover:underline hover:text-black text-left text-sm text-gray-500">
+                            {sub}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
               ))}
           </ul>
         </div>
