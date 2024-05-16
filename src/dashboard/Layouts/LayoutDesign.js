@@ -58,11 +58,13 @@ export const LayoutDesign = ({ userprofile }) => {
     0: "Dashboard",
     1: "Users",
     // 2: "Contract",
-    2: "Categories",
-    3: "Orders",
-    4: "Products",
-    5: "Profile",
-    6: "Logout",
+    2: "ProductsClass",
+    3: "Brands",
+    4: "Categories",
+    5: "Orders",
+    6: "Products",
+    7: "Profile",
+    8: "Logout",
   };
   // Function to handle menu item click and update title
   const handleMenuClick = (menuItem) => {
@@ -90,18 +92,26 @@ export const LayoutDesign = ({ userprofile }) => {
       //   navigate("/user/contract");
       //   break;
       case 2:
+        navigate("/user/productclass");
+        break;
+
+      case 3:
+        navigate("/user/brand");
+        break;
+
+      case 4:
         navigate("/user/category");
         break;
-      case 3:
+      case 5:
         navigate("/user/order");
         break;
-      case 4:
+      case 6:
         navigate("/user/dashproduct");
         break;
-      case 5:
+      case 7:
         navigate("/user/profile");
         break;
-      case 6:
+      case 8:
         handleSignOut();
         break;
       default:
@@ -117,7 +127,7 @@ export const LayoutDesign = ({ userprofile }) => {
   const handleItemClick = (key) => {
     if (key === "1") {
       navigate("/user/profile");
-      localStorage.setItem("selectedKey", "5");
+      localStorage.setItem("selectedKey", "7");
     } else if (key === "2") {
       handleSignOut();
       // onLogout();
