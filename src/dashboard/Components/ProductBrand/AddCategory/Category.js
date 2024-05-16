@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal, Select } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createcategory, updatecategory } from "../../../Apis/Categories";
 import Cookies from "js-cookie";
 import Alerts from "../../Notifications&Alert/Alert";
+import { fetchProductclass } from "../../../Redux/ReduxSlice/ProductClass";
 
-import { createProductClass } from "../../../Redux/ReduxSlice/ProductClass";
+import { createProductBrand } from "../../../Redux/ReduxSlice/ProductBrand.slice";
 export const ProductClassForm = (props) => {
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
@@ -30,19 +31,28 @@ export const ProductClassForm = (props) => {
   const token = Cookies.get("token");
   const dispatch = useDispatch();
 
+  const {
+    loading: productclassLoading,
+    productclass: productclassData,
+    errorMessage: productclassError,
+  } = useSelector((state) => state.productclass);
+
+  useEffect(() => {
+    dispatch(fetchProductclass());
+  }, [dispatch]);
+
   const onSubmit = (data) => {
-    dispatch(createProductClass({ data: data }))
+    dispatch(createProductBrand({ data: data }))
       .unwrap()
       .then((response) => {
         if (response.status == 201) {
           setAlertIndex("success");
-          setAlertDescription(`${"product class created"}`);
-          // dispatch(fetchCategory());
+          setAlertDescription(`${"product brand created"}`);
         }
       })
       .catch((er) => {
         setAlertIndex("error");
-        setAlertDescription("Error creating product class: " + er.message);
+        setAlertDescription("Error creating product brand: " + er.message);
       });
   };
 
@@ -60,7 +70,7 @@ export const ProductClassForm = (props) => {
       .then((response) => {
         if (response.status == 200) {
           setAlertIndexonUpdate("success"); // Display success alert on success
-          setAlertDescriptiononUpdate(`${"product class updated"}`);
+          setAlertDescriptiononUpdate(`${"brand updated"}`);
           // dispatch(fetchCategory(token));
         }
       })
@@ -72,10 +82,22 @@ export const ProductClassForm = (props) => {
   const onErrors = (errors) => {};
 
   const validateMessages = {
+    productclass: {
+      required: "Product class is required",
+    },
     name: {
-      required: "product class is required!",
+      required: "bdand is required!",
     },
   };
+
+  // Filter `option.label` match the user type `input`
+  const filterOption = (input, option) => {
+    if (!option || !option.label) {
+      return false;
+    }
+    return option.label.toLowerCase().includes(input.toLowerCase());
+  };
+  const onSearch = (value) => {};
 
   // Reset alertIndex to hide the alert
   useEffect(() => {
@@ -129,10 +151,42 @@ export const ProductClassForm = (props) => {
       >
         <div className="w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5">
           {isupdate ? (
-            <span className="text-primary font-bold">Update Product Class</span>
+            <span className="text-primary font-bold">Update Product Brand</span>
           ) : (
-            <span className="text-primary font-bold">Add Product Class</span>
+            <span className="text-primary font-bold">Add Product Brand</span>
           )}
+
+          <Controller
+            name="productclass"
+            control={control}
+            defaultValue=""
+            rules={validateMessages.productclass}
+            render={({ field }) => (
+              <>
+                <Form.Item label="select product class" className=" w-[100%]">
+                  {productclassLoading ? (
+                    <p>loading...</p>
+                  ) : (
+                    <Select
+                      {...field}
+                      showSearch
+                      label="Text field"
+                      onSearch={onSearch}
+                      filterOption={filterOption}
+                      options={productclassData.map((item) => {
+                        return { value: item.id, label: item.name };
+                      })}
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    />
+                  )}
+
+                  <p className="text-[red]">{errors?.category?.message}</p>
+                </Form.Item>
+              </>
+            )}
+          />
 
           <Controller
             control={control}

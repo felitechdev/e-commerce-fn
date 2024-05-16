@@ -31,6 +31,7 @@ import VerifyPaymentPage from "./pages/ProductDetails/VerifyPaymentPage";
 import ResetPassword from "./pages/ReserPassword";
 import SignUp from "./pages/SignUp";
 import Users from "./pages/Users";
+import { ProductBrand } from "./dashboard/Components/ProductBrand/ProductBrand";
 
 // localStorage.removeItem("selectedKey");
 
@@ -90,7 +91,7 @@ const App = () => {
             <Route path="retailer" element={<Retailer />} />
             <Route path="profile" element={<SellerProfile />}></Route>
             <Route path="productclass" element={<ProductClass />} />
-            <Route path="brand" element={<Category />} />
+            <Route path="brand" element={<ProductBrand />} />
 
             <Route path="category" element={<Category />} />
 
