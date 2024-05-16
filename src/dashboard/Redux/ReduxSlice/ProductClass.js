@@ -15,12 +15,12 @@ export const fetchProductclass = createAsyncThunk(
     const Token = Cookies.get("token");
 
     const res = await axios(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/product-classes`,
-      {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      }
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/product-classes`
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${Token}`,
+      //   },
+      // }
     );
     return res.data?.data?.productClasses;
   }
@@ -75,7 +75,6 @@ export const productClassSlice = createSlice({
         state.error = null;
       })
       .addCase(createProductClass.fulfilled, (state, action) => {
-        console.log("action.payload", action.payload.data.data);
         state.loading = false;
         state.productclass = [
           ...state.productclass,

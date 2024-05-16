@@ -34,6 +34,7 @@ import {
 } from "../redux/Reducers/OrderReducer";
 import usersSlice from "./Reducers/usersSlice";
 import { productClassReducers } from "../dashboard/Redux/ReduxSlice/ProductClass";
+import { productBrandReducers } from "../dashboard/Redux/ReduxSlice/ProductBrand.slice";
 
 const rootReducer = {
   productsReducer,
@@ -49,6 +50,7 @@ const rootReducer = {
   singleorder: getSingleOrderReducer,
 
   productclass: productClassReducers,
+  productbrand: productBrandReducers,
 
   adminProduct: getdashproductslice,
   createproduct: creteproductSlice,
