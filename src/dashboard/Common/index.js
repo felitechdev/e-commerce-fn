@@ -32,6 +32,18 @@ export const Menus = [
   //   roles: ["admin", "seller"], // All roles can see
   // },
   {
+    name: "ProductsClass",
+    link: "productsclass",
+    icon: <AppstoreAddOutlined />,
+    roles: ["admin"], // Only admin can see
+  },
+  {
+    name: "Brands",
+    link: "brand",
+    icon: <AppstoreAddOutlined />,
+    roles: ["admin"], // Only admin can see
+  },
+  {
     name: "Categories",
     link: "category",
     icon: <AppstoreAddOutlined />,

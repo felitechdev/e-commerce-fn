@@ -6,3 +6,4 @@ export * from "./Retailer/Retailer";
 export * from "./Chart/Chart";
 export * from "./Category/Category";
 export * from "./Orders/orders";
+export * from "./ProductClass/ProductClass";
