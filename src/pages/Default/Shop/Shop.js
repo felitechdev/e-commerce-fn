@@ -1,6 +1,8 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import React, { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import PageLayout from "../../../components/designLayouts/PageLayout";
 import { fetchCategories } from "../../../components/homePageCategories/HomePageCategories.js";
 import ProductBanner from "../../../components/pageProps/shopPage/ProductBanner";
@@ -10,6 +12,7 @@ import MobileCategoryNav from "../../../components/MobileCategoryNav.js";
 import Paginator from "../../../components/Paginator.js";
 import { Loader } from "../../../dashboard/Components/Loader/LoadingSpin.jsx";
 import axios from "axios";
+import { fetchProductclass } from "../../../dashboard/Redux/ReduxSlice/ProductClass.js";
 
 export async function fetchProducts(page, queryString) {
   try {
@@ -28,9 +31,20 @@ const Shop = () => {
   const query = searchParams.toString();
   const categoryId = searchParams.get("category");
   const subcategoryId = searchParams.get("subcategory");
+  const productclassId = searchParams.get("productclass");
   const [showfilter, setShowFilter] = React.useState(false);
-
+  const dispatch = useDispatch();
   const queryString = query && `${query}`;
+
+  const {
+    loading: productclassLoading,
+    productclass: productclassData,
+    errorMessage: productclassError,
+  } = useSelector((state) => state.productclass);
+
+  useEffect(() => {
+    dispatch(fetchProductclass());
+  }, [dispatch]);
 
   const { data, isFetching, isLoading, hasNextPage, error, fetchNextPage } =
     useInfiniteQuery({
@@ -66,6 +80,13 @@ const Shop = () => {
   const subcategory =
     subcategoryId && category
       ? category.subCategories.find((subCat) => subCat.id === subcategoryId)
+      : null;
+
+  const productclass =
+    productclassId && productclassData
+      ? productclassData.find(
+          (productclass) => productclass.id === productclassId
+        )
       : null;
 
   return (
