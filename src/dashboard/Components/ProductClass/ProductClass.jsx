@@ -44,36 +44,6 @@ export const ProductClass = () => {
     dispatch(fetchProductclass());
   }, [dispatch]);
 
-  console.log("productclassData", productclassData);
-
-  // implement redux
-  // useEffect(() => {
-  //   if (loadcategory == true) {
-  //     dispatch(fetchCategory(gettoken))
-  //       .unwrap()
-  //       .then((data) => {
-  //         if (data?.data && data.status == "sucess") {
-  //           setProductclass(data?.data?.categories);
-  //         }
-  //       })
-  //       .catch((error) => {});
-  //   }
-  // }, [loadcategory, dispatch, token]);
-
-  // Fetch products only when the component mounts
-  // useEffect(() => {
-  //   if (!productclass.length) {
-  //     dispatch(fetchCategory(gettoken))
-  //       .unwrap()
-  //       .then((data) => {
-  //         if (data?.data && data.status == "sucess") {
-  //           setProductclass(data?.data?.categories);
-  //         }
-  //       })
-  //       .catch((error) => {});
-  //   }
-  // }, [dispatch, productclass, gettoken]);
-
   useEffect(() => {
     const newData = productclassData?.map((productclass) => ({
       key: `${productclass.id}`,
