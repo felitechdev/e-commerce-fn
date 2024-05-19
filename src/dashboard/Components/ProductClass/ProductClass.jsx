@@ -111,11 +111,13 @@ export const ProductClass = () => {
             {record?.categories?.length > 0 ? (
               <ul>
                 {record?.categories?.map((cat) => (
-                  <li key={cat.id}>{cat.name}</li>
+                  <li class="list-disc" key={cat.id}>
+                    {cat.name}
+                  </li>
                 ))}
               </ul>
             ) : (
-              <span>No categories available</span>
+              <span className="text-[red]">No categories available</span>
             )}
           </div>
         </Space>
@@ -133,11 +135,13 @@ export const ProductClass = () => {
             {record?.brands?.length > 0 ? (
               <ul>
                 {record?.brands?.map((brand) => (
-                  <li key={brand.id}>{brand.name}</li>
+                  <li class="list-disc" key={brand.id}>
+                    {brand.name}
+                  </li>
                 ))}
               </ul>
             ) : (
-              <span>No brands available</span>
+              <span className="text-[red]">No brands available</span>
             )}
           </div>
         </Space>
