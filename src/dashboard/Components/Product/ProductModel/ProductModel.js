@@ -44,6 +44,8 @@ import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 import { colorOptions } from "../../../../common/productpossibleColors";
 import { sizeOptions } from "../../../../common/productspossibleSizes";
 import { updateuserProduct } from "../../../Redux/ReduxSlice/Slice";
+import { fetchProductclass } from "../../../Redux/ReduxSlice/ProductClass";
+import { fetchProductBrand } from "../../../Redux/ReduxSlice/ProductBrand.slice";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -83,6 +85,8 @@ const ProductModel = (props) => {
   const [categorys, setCategorys] = useState([]);
   const [subcategorys, setSubcategorys] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selextedProductClass, setSelextedProductClass] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
   const token = Cookies.get("token");
 
   // ahndel ulpad images on frontend
@@ -108,6 +112,18 @@ const ProductModel = (props) => {
   const { subcategories, loadsubcategory, errsubcategory } = useSelector(
     (state) => state.subcategory
   );
+
+  // access product class state
+  const {
+    loading: productclassLoading,
+    productclass: productclassData,
+    errorMessage: productclassError,
+  } = useSelector((state) => state.productclass);
+  const {
+    loading: loadbrand,
+    productbrand,
+    errorMessage,
+  } = useSelector((state) => state.productbrand);
 
   const [otherImages, setOtherImages] = React.useState([]);
   const [colorNames, setColorNames] = React.useState([]);
@@ -250,10 +266,11 @@ const ProductModel = (props) => {
       name: data.name,
       seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
-      subcategory: data.subcategory,
+      subCategory: data.subcategory,
       description: data.description,
       price: Number(data.price),
-      brandName: data.brandName,
+      brand: data.brand,
+      productClass: data.productClass,
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       quantityParameter: data.quantityParameter,
@@ -391,9 +408,13 @@ const ProductModel = (props) => {
     quantityParameter: {
       required: "quantityParameter is required",
     },
-    brandName: {
-      validate: (value) =>
-        typeof value === "string" || "brandName must be a string",
+    brand: {
+      required: "brand is required",
+      // validate: (value) =>
+      //   typeof value === "string" || "brandName must be a string",
+    },
+    productClass: {
+      required: "product class is required",
     },
     category: {
       required: "category is required",
@@ -440,6 +461,8 @@ const ProductModel = (props) => {
 
   const fileList = [];
 
+  console.log(productclassLoading, productclassData, productclassError);
+
   const selectOptions =
     companys &&
     companys?.map((comp) => ({
@@ -447,16 +470,41 @@ const ProductModel = (props) => {
       label: comp?.user?.firstName,
     }));
 
+  const productclassSelect =
+    productclassData &&
+    productclassData?.map((productclass) => ({
+      value: productclass.id,
+      label: productclass.name,
+    }));
+
+  const selectedCategoryProductclass =
+    productclassData &&
+    categorys &&
+    categorys
+      .filter((cat) => cat.productClass == selextedProductClass)
+      .map((cat) => cat);
+
   const categorySelect =
     categorys &&
-    categorys?.map((cat) => ({
+    selectedCategoryProductclass?.map((cat) => ({
       value: cat?.id,
       label: cat?.name,
     }));
 
+  const selectBrandOption =
+    productbrand &&
+    productbrand
+      .filter((brand) => brand.productClass == selextedProductClass)
+      .map((brand) => ({
+        value: brand.id,
+        label: brand.name,
+      }));
+
   const selectedCategoryObj = categorys.find(
     (cat) => cat.id === selectedCategory
   );
+
+  console.log("selectedCategoryObj", selectedCategoryObj);
 
   let subcategory;
 
@@ -483,6 +531,12 @@ const ProductModel = (props) => {
   function handlebeforeThumbnail(file) {
     return false;
   }
+
+  // handle get product classess and brand
+  useEffect(() => {
+    dispatch(fetchProductclass());
+    dispatch(fetchProductBrand());
+  }, [dispatch]);
 
   // implement redux
   useEffect(() => {
@@ -736,6 +790,41 @@ const ProductModel = (props) => {
               md={11}
               className="border mb-3 border-[black] py-10 px-5 "
             >
+              <div>
+                <Controller
+                  name="productClass"
+                  control={control}
+                  defaultValue=""
+                  rules={registerinput.produCtclass}
+                  render={({ field }) => (
+                    <>
+                      <Form.Item label="Select product Class">
+                        {productclassLoading ? (
+                          <p>loading...</p>
+                        ) : (
+                          <Select
+                            {...field}
+                            showSearch
+                            label="Text field"
+                            onSearch={onSearch}
+                            filterOption={filterOption}
+                            options={productclassSelect}
+                            onChange={(value) => {
+                              field.onChange(value); // Update the form field value
+                              setSelextedProductClass(value);
+                            }}
+                          />
+                        )}
+
+                        <p className="text-[red]">
+                          {errors?.productClass?.message}
+                        </p>
+                      </Form.Item>
+                    </>
+                  )}
+                />
+              </div>
+
               <div className="">
                 {userRole == "admin" && (
                   <button
@@ -1221,6 +1310,35 @@ const ProductModel = (props) => {
               )}
 
               <Controller
+                name="brand"
+                control={control}
+                defaultValue=""
+                rules={registerinput.brand}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Select product brand" className="">
+                      {loadbrand ? (
+                        <p>loading...</p>
+                      ) : (
+                        <Select
+                          {...field}
+                          showSearch
+                          label="Text field"
+                          onSearch={onSearch}
+                          filterOption={filterOption}
+                          options={
+                            selectBrandOption?.length != 0 && selectBrandOption
+                          }
+                        />
+                      )}
+
+                      <p className="text-[red]">{errors?.brand?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+              {/* 
+              <Controller
                 name="brandName"
                 control={control}
                 rules={{
@@ -1237,7 +1355,7 @@ const ProductModel = (props) => {
                     <p className="text-[red]">{errors?.brandName?.message}</p>
                   </Form.Item>
                 )}
-              />
+              /> */}
             </div>
 
             <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
