@@ -30,7 +30,6 @@ export const fetchProductBrand = createAsyncThunk(
 export const createProductBrand = createAsyncThunk(
   "productcbrand/createProductBrand",
   async (data, { rejectWithValue }) => {
-    console.log("data", data.data.productclass);
     try {
       const Token = Cookies.get("token");
 

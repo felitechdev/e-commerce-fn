@@ -1,42 +1,34 @@
-import { useState, useEffect } from 'react';
-import { Button, Form, Input, Modal } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
-import { Controller, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  createcategory,
-  updatecategory,
-} from '../../../Apis/Categories';
-import Cookies from 'js-cookie';
-import Alerts from '../../Notifications&Alert/Alert';
-import { fetchCategory } from '../../../Apis/Categories';
+import { useState, useEffect } from "react";
+import { Button, Form, Input, Modal, Select } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { createcategory, updatecategory } from "../../../Apis/Categories";
+import Cookies from "js-cookie";
+import Alerts from "../../Notifications&Alert/Alert";
+import { fetchCategory } from "../../../Apis/Categories";
+import { fetchProductclass } from "../../../Redux/ReduxSlice/ProductClass";
 
 export const ProductCatery = (props) => {
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
-  const [alertIndexonUpdate, setAlertIndexonUpdate] =
-    useState(null);
+  const [alertIndexonUpdate, setAlertIndexonUpdate] = useState(null);
 
-  const [alertDescription, setAlertDescription] =
-    useState('');
-  const [
-    alertDescriptiononUpdate,
-    setAlertDescriptiononUpdate,
-  ] = useState('');
+  const [alertDescription, setAlertDescription] = useState("");
+  const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
   const [isupdate, setIsupdate] = useState(false);
 
-  const { category, load, err } = useSelector(
-    (state) => state.createcategory
+  const { category, load, err } = useSelector((state) => state.createcategory);
+  const { updateloading, updaterror, updateCategory } = useSelector(
+    (state) => state.updatecat
   );
-  const { updateloading, updaterror, updateCategory } =
-    useSelector((state) => state.updatecat);
   const {
     register,
     control,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
@@ -44,20 +36,28 @@ export const ProductCatery = (props) => {
       .unwrap()
       .then((response) => {
         if (response.status == 201) {
-          setAlertIndex('success'); // Display success alert on success
-          setAlertDescription(`${'category created'}`);
+          setAlertIndex("success"); // Display success alert on success
+          setAlertDescription(`${"category created"}`);
           dispatch(fetchCategory());
         }
         // refetch categories
         dispatch(fetchCategory(token));
       })
       .catch((er) => {
-        setAlertIndex('error'); // Display error alert on error
-        setAlertDescription(
-          'Error creating category: ' + er.message
-        );
+        setAlertIndex("error"); // Display error alert on error
+        setAlertDescription("Error creating category: " + er.message);
       });
   };
+
+  const {
+    loading: productclassLoading,
+    productclass: productclassData,
+    errorMessage: productclassError,
+  } = useSelector((state) => state.productclass);
+
+  useEffect(() => {
+    dispatch(fetchProductclass());
+  }, [dispatch]);
 
   // handle submit update
   const onSubmitUpdate = (data) => {
@@ -72,25 +72,33 @@ export const ProductCatery = (props) => {
       .unwrap()
       .then((response) => {
         if (response.status == 200) {
-          setAlertIndexonUpdate('success'); // Display success alert on success
-          setAlertDescriptiononUpdate(
-            `${'category updated'}`
-          );
+          setAlertIndexonUpdate("success"); // Display success alert on success
+          setAlertDescriptiononUpdate(`${"category updated"}`);
           // dispatch(fetchCategory(token));
         }
       })
       .catch((er) => {
-        setAlertIndexonUpdate('error'); // Display error alert on error
-        setAlertDescriptiononUpdate(
-          'Error : ' + er.message
-        );
+        setAlertIndexonUpdate("error"); // Display error alert on error
+        setAlertDescriptiononUpdate("Error : " + er.message);
       });
   };
   const onErrors = (errors) => {};
 
+  // Filter `option.label` match the user type `input`
+  const filterOption = (input, option) => {
+    if (!option || !option.label) {
+      return false;
+    }
+    return option.label.toLowerCase().includes(input.toLowerCase());
+  };
+  const onSearch = (value) => {};
+
   const validateMessages = {
+    productClass: {
+      required: "Product class is required",
+    },
     name: {
-      required: 'categoryname is required!',
+      required: "categoryname is required!",
     },
   };
 
@@ -115,13 +123,13 @@ export const ProductCatery = (props) => {
   }, [isupdate]);
 
   return (
-    <div className=''>
+    <div className="">
       {alertIndex !== null && (
         <Alerts
           type={alertIndex}
           description={alertDescription}
           onClose={handleAlertClose}
-          className='w-[60%] m-auto'
+          className="w-[60%] m-auto"
         />
       )}
 
@@ -130,65 +138,88 @@ export const ProductCatery = (props) => {
           type={alertIndexonUpdate}
           description={alertDescriptiononUpdate}
           onClose={handleAlertClose}
-          className='w-[60%] m-auto'
+          className="w-[60%] m-auto"
         />
       )}
       <Form
-        layout={'vertical'}
-        initialValues={''}
-        onValuesChange={''}
-        className='mt-10 mb-10'
+        layout={"vertical"}
+        initialValues={""}
+        onValuesChange={""}
+        className="mt-10 mb-10"
         onFinish={
           !isupdate
             ? handleSubmit(onSubmit, onErrors)
             : handleSubmit(onSubmitUpdate, onErrors)
         }
       >
-        <div className='w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5'>
+        <div className="w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5">
           {isupdate ? (
-            <span className='text-primary font-bold'>
-              Update Category
-            </span>
+            <span className="text-primary font-bold">Update Category</span>
           ) : (
-            <span className='text-primary font-bold'>
-              Add Category
-            </span>
+            <span className="text-primary font-bold">Add Category</span>
           )}
 
           <Controller
+            name="productClass"
             control={control}
-            name='name'
+            defaultValue=""
+            rules={validateMessages.productClass}
+            render={({ field }) => (
+              <>
+                <Form.Item label="select product class" className=" w-[100%]">
+                  {productclassLoading ? (
+                    <p>loading...</p>
+                  ) : (
+                    <Select
+                      {...field}
+                      showSearch
+                      label="Text field"
+                      onSearch={onSearch}
+                      filterOption={filterOption}
+                      options={productclassData.map((item) => {
+                        return { value: item.id, label: item.name };
+                      })}
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    />
+                  )}
+
+                  <p className="text-[red]">{errors?.category?.message}</p>
+                </Form.Item>
+              </>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="name"
             rules={validateMessages.name}
             render={({ field }) => (
               <>
-                <Form.Item
-                  label='Enter category'
-                  className=' w-[100%]'
-                >
-                  <Input {...field} placeholder='' />
-                  <p className='text-[red]'>
-                    {errors?.name?.message}
-                  </p>
+                <Form.Item label="Enter category" className=" w-[100%]">
+                  <Input {...field} placeholder="" />
+                  <p className="text-[red]">{errors?.name?.message}</p>
                 </Form.Item>
               </>
             )}
           />
 
           <Button
-            htmlType='submit'
+            htmlType="submit"
             style={{
-              background: '#1D6F2B',
-              color: 'white',
+              background: "#1D6F2B",
+              color: "white",
             }}
-            className='text-light font-bold w-[100%]'
+            className="text-light font-bold w-[100%]"
           >
             {!isupdate
               ? load
-                ? 'Loading ...'
-                : 'Add a category'
+                ? "Loading ..."
+                : "Add a category"
               : updateloading
-              ? 'Loading ...'
-              : 'Update category'}
+              ? "Loading ..."
+              : "Update category"}
           </Button>
         </div>
       </Form>
