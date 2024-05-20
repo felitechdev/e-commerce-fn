@@ -117,7 +117,7 @@ export default function HomePageCategories() {
                 onMouseOver={() => handlemoauseEnterproductclass(category.id)}
               >
                 <Link
-                  to={`shop/?productclass=${hoveredproductclass}`}
+                  to={`shop/?productClass=${hoveredproductclass}`}
                   className="capitalize-first w-full  p-2"
                 >
                   {category.name}
@@ -173,7 +173,7 @@ export default function HomePageCategories() {
                   >
                     <Link
                       // to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
-                      to={`shop/?productclass=${hoveredproductclass}&category=${Cat.id}`}
+                      to={`shop/?productClass=${hoveredproductclass}&category=${Cat.id}`}
                       className="capitalize flex"
                     >
                       {Cat.name}
