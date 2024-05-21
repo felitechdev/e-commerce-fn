@@ -191,7 +191,7 @@ export default function HomePageCategories() {
                           onMouseEnter={() => handleMouseEnterSub(subCat.id)}
                         >
                           <Link
-                            to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
+                            to={`shop/?category=${hoveredCategory}&subCategory=${subCat.id}`}
                             className="capitalize flex"
                           >
                             {subCat.name}
