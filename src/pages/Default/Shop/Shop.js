@@ -30,8 +30,8 @@ const Shop = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.toString();
   const categoryId = searchParams.get("category");
-  const subcategoryId = searchParams.get("subcategory");
-  const productclassId = searchParams.get("productclass");
+  const subcategoryId = searchParams.get("subCategory");
+  const productclassId = searchParams.get("productClass");
   const [showfilter, setShowFilter] = React.useState(false);
   const dispatch = useDispatch();
   const queryString = query && `${query}`;
