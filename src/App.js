@@ -33,6 +33,8 @@ import SignUp from "./pages/SignUp";
 import Users from "./pages/Users";
 import { ProductBrand } from "./dashboard/Components/ProductBrand/ProductBrand";
 
+import { FeliTechLogo_transparent } from "./assets/images";
+
 // localStorage.removeItem("selectedKey");
 
 const App = () => {
@@ -41,8 +43,17 @@ const App = () => {
   return (
     <>
       {isCheckingAuth ? (
-        <Loader />
+        <div className="fixed top-0 left-0 w-full h-screen bg-white z-50 flex justify-center items-center flex-wrap ">
+          <div className="w-full flex justify-center">
+            <img
+              className="w-[200px] animate-ping"
+              src={FeliTechLogo_transparent}
+            />
+          </div>
+        </div>
       ) : (
+        // <Loader />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="signin" element={<SignIn />} />
