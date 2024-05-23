@@ -119,6 +119,7 @@ const Shop = () => {
             )) || (
               <ShopProducts
                 products={products}
+                productClass={productclass}
                 category={category}
                 subcategory={subcategory}
               />
