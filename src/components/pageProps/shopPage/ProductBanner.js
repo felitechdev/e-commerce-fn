@@ -8,19 +8,19 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   const [girdViewActive, setGridViewActive] = useState(true);
   const [listViewActive, setListViewActive] = useState(false);
 
-  useEffect(() => {
-    const gridView = document.querySelector(".gridView");
-    const listView = document.querySelector(".listView");
+  // useEffect(() => {
+  //   const gridView = document.querySelector(".gridView");
+  //   const listView = document.querySelector(".listView");
 
-    gridView.addEventListener("click", () => {
-      setListViewActive(false);
-      setGridViewActive(true);
-    });
-    listView.addEventListener("click", () => {
-      setGridViewActive(false);
-      setListViewActive(true);
-    });
-  }, [girdViewActive, listViewActive]);
+  //   gridView.addEventListener("click", () => {
+  //     setListViewActive(false);
+  //     setGridViewActive(true);
+  //   });
+  //   listView.addEventListener("click", () => {
+  //     setGridViewActive(false);
+  //     setListViewActive(true);
+  //   });
+  // }, [girdViewActive, listViewActive]);
 
   return (
     <div className="w-full flex flex-col md:flex-row md:items-center justify-between">
@@ -32,7 +32,7 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
             onClick={handlefilterShow}
           />
         </span>
-        <span
+        {/* <span
           className={`${
             girdViewActive
               ? "bg-primeColor text-white"
@@ -40,8 +40,8 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           } w-8 h-8 text-lg flex items-center justify-center cursor-pointer gridView`}
         >
           <BsGridFill />
-        </span>
-        <span
+        </span> */}
+        {/* <span
           className={`${
             listViewActive
               ? "bg-primeColor text-white"
@@ -49,9 +49,9 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           } w-8 h-8 text-base flex items-center justify-center cursor-pointer listView`}
         >
           <ImList />
-        </span>
+        </span> */}
       </div>
-      <div className="flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
+      <div className="hidden items-center gap-2 md:gap-6 mt-4 md:mt-0">
         <div className="flex items-center gap-2 text-base text-[#767676] relative">
           <label className="block">Sort by:</label>
           <select
