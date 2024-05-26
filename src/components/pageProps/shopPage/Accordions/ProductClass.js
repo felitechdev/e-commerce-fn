@@ -31,13 +31,13 @@ const ProductClassAccordion = ({ brands, handlefilterShow }) => {
     dispatch(fetchProductclass());
   }, [dispatch]);
 
-  console.log("productbrand", productclassData);
+  console.log("showBrands", showBrands);
 
   return (
-    <div className=" text-sm">
+    <div className=" text-sm bg-slate-200 px-2 z-50   shadow-md">
       <div
         onClick={() => setShowBrands(!showBrands)}
-        className="cursor-pointer"
+        className="cursor-pointer h-6 "
       >
         <NavTitle title="ProductClass " icons={true} classname={""} />
       </div>

@@ -7,21 +7,15 @@ import { fetchProductBrand } from "../../../../dashboard/Redux/ReduxSlice/Produc
 import { useDispatch } from "react-redux";
 import { fetchProductclass } from "../../../../dashboard/Redux/ReduxSlice/ProductClass";
 const ProductCategoryAccordion = ({ brands, handlefilterShow }) => {
-  const [showBrands, setShowBrands] = useState(true);
+  const [showCategory, setShowCategory] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const categoryId = searchParams.get("category");
   const subcategoryId = searchParams.get("subCategory");
   const productclassId = searchParams.get("productClass");
-  // const handleOnClickBrand = (productclass) => {
-  //   searchParams.set("productClass", productclass.id);
-  //   setSearchParams(searchParams);
-  // };
-
-  const handleOnClickBrand = (productclass) => {
-    const newSearchParams = new URLSearchParams();
-    newSearchParams.set("productClass", productclass.id);
-    setSearchParams(newSearchParams);
+  const handleOnClickBrand = (category) => {
+    searchParams.set("category", category.id);
+    setSearchParams(searchParams);
   };
 
   const {
@@ -39,17 +33,17 @@ const ProductCategoryAccordion = ({ brands, handlefilterShow }) => {
     dispatch(fetchProductclass());
   }, [dispatch]);
 
-  console.log("proctclassfilter", proctclassfilter);
+  console.log("showCategory", showCategory);
 
   return (
-    <div className=" text-sm ">
+    <div className=" text-sm bg-slate-200 px-2 z-50   shadow-md ">
       <div
-        onClick={() => setShowBrands(!showBrands)}
-        className="cursor-pointer"
+        onClick={() => setShowCategory(!showCategory)}
+        className="cursor-pointer h-6"
       >
-        <NavTitle title="ProductClass " icons={true} classname={""} />
+        <NavTitle title="Category" icons={true} classname={""} />
       </div>
-      {showBrands && (
+      {showCategory && (
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -57,10 +51,10 @@ const ProductCategoryAccordion = ({ brands, handlefilterShow }) => {
         >
           <ul className="flex flex-col gap-4 text-sm  text-[#767676]">
             {!productclassLoading &&
-              productclassData &&
-              productclassData?.map((item) => (
+              proctclassfilter &&
+              proctclassfilter[0]?.categories?.map((item) => (
                 <li
-                  key={item}
+                  key={item.id}
                   onClick={() => {
                     handleOnClickBrand(item);
                   }}
