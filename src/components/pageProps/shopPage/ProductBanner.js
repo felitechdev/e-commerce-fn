@@ -3,6 +3,8 @@ import { BsGridFill } from "react-icons/bs";
 import { ImList } from "react-icons/im";
 import { GoTriangleDown } from "react-icons/go";
 import { FilterFilled } from "@ant-design/icons";
+import ProductClassAccordion from "./Accordions/ProductClass";
+import ProductCategoryAccordion from "./Accordions/productCategory";
 
 const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   const [girdViewActive, setGridViewActive] = useState(true);
@@ -51,8 +53,17 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           <ImList />
         </span> */}
       </div>
-      <div className="hidden items-center gap-2 md:gap-6 mt-4 md:mt-0">
-        <div className="flex items-center gap-2 text-base text-[#767676] relative">
+      <div className="flex items-center gap-2 md:gap-6 mt-4 md:mt-0 relative ">
+        <div className=" absolute top-0  right-6  flex space-x-2 ">
+          {" "}
+          <div className="z-50">
+            <ProductClassAccordion />
+          </div>
+          <div className="z-50">
+            <ProductCategoryAccordion />
+          </div>
+        </div>
+        <div className=" hidden items-center gap-2 text-base text-[#767676] relative">
           <label className="block">Sort by:</label>
           <select
             id="countries"
@@ -67,7 +78,7 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
             <GoTriangleDown />
           </span>
         </div>
-        <div className="flex items-center gap-2 text-[#767676] relative">
+        <div className="hidden items-center gap-2 text-[#767676] relative">
           <label className="block">Show:</label>
           <select
             onChange={(e) => itemsPerPageFromBanner(+e.target.value)}
