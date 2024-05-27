@@ -5,6 +5,7 @@ import { GoTriangleDown } from "react-icons/go";
 import { FilterFilled } from "@ant-design/icons";
 import ProductClassAccordion from "./Accordions/ProductClass";
 import ProductCategoryAccordion from "./Accordions/productCategory";
+import ProductBrandAccordion from "./Accordions/productBrand";
 
 const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   const [girdViewActive, setGridViewActive] = useState(true);
@@ -61,6 +62,9 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           </div>
           <div className="z-50">
             <ProductCategoryAccordion />
+          </div>
+          <div>
+            <ProductBrandAccordion />
           </div>
         </div>
         <div className=" hidden items-center gap-2 text-base text-[#767676] relative">
