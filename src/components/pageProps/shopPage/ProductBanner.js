@@ -6,10 +6,16 @@ import { FilterFilled } from "@ant-design/icons";
 import ProductClassAccordion from "./Accordions/ProductClass";
 import ProductCategoryAccordion from "./Accordions/productCategory";
 import ProductBrandAccordion from "./Accordions/productBrand";
+import ProductSubCategoryAccordion from "./Accordions/ProductSubCategory";
+import { useSearchParams } from "react-router-dom";
 
 const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   const [girdViewActive, setGridViewActive] = useState(true);
   const [listViewActive, setListViewActive] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [subcategories, setSubcategories] = useState();
+  const categoryId = searchParams.get("category");
 
   // useEffect(() => {
   //   const gridView = document.querySelector(".gridView");
@@ -63,7 +69,12 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           <div className="z-50">
             <ProductCategoryAccordion />
           </div>
-          <div>
+          {categoryId && (
+            <div className="z-50">
+              <ProductSubCategoryAccordion />
+            </div>
+          )}
+          <div className="z-50">
             <ProductBrandAccordion />
           </div>
         </div>
