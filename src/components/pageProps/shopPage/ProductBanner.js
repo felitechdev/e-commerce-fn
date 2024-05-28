@@ -3,13 +3,25 @@ import { BsGridFill } from "react-icons/bs";
 import { ImList } from "react-icons/im";
 import { GoTriangleDown } from "react-icons/go";
 import { FilterFilled } from "@ant-design/icons";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  CloseSquareFilled,
+  FastBackwardOutlined,
+} from "@ant-design/icons";
 import ProductClassAccordion from "./Accordions/ProductClass";
 import ProductCategoryAccordion from "./Accordions/productCategory";
 import ProductBrandAccordion from "./Accordions/productBrand";
+import ProductSubCategoryAccordion from "./Accordions/ProductSubCategory";
+import { useSearchParams } from "react-router-dom";
 
 const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   const [girdViewActive, setGridViewActive] = useState(true);
   const [listViewActive, setListViewActive] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [subcategories, setSubcategories] = useState();
+  const categoryId = searchParams.get("category");
 
   // useEffect(() => {
   //   const gridView = document.querySelector(".gridView");
@@ -26,14 +38,19 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   // }, [girdViewActive, listViewActive]);
 
   return (
-    <div className="w-full flex flex-col md:flex-row md:items-center justify-between">
+    <div className="w-full  flex flex-col md:flex-row md:items-center justify-between">
       <div className="flex items-center gap-4">
         <span className=" block mdl:hidden">
           {" "}
-          <FilterFilled
+          <MenuUnfoldOutlined
+            className="text-[green] text-4xl cursor-pointer "
+            onClick={handlefilterShow}
+          />
+          {/* <FilterFilled
             className="text-[green] text-2xl"
             onClick={handlefilterShow}
           />
+         */}
         </span>
         {/* <span
           className={`${
@@ -54,49 +71,23 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           <ImList />
         </span> */}
       </div>
-      <div className="flex items-center gap-2 md:gap-6 mt-4 md:mt-0 relative ">
-        <div className=" absolute top-0  right-6  flex space-x-2 ">
+      <div className="flex items-center gap-2 md:gap-6 mt-4 md:mt-0 relative  ">
+        <div className="  top-0   flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
           {" "}
-          <div className="z-50">
+          <div className=" z-10 ">
             <ProductClassAccordion />
           </div>
           <div className="z-50">
             <ProductCategoryAccordion />
           </div>
-          <div>
+          {categoryId && (
+            <div className="z-10">
+              <ProductSubCategoryAccordion />
+            </div>
+          )}
+          <div className="z-50 ">
             <ProductBrandAccordion />
           </div>
-        </div>
-        <div className=" hidden items-center gap-2 text-base text-[#767676] relative">
-          <label className="block">Sort by:</label>
-          <select
-            id="countries"
-            className="w-32 md:w-52 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-primeColor text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-primeColor"
-          >
-            <option value="Best Sellers">Best Sellers</option>
-            <option value="New Arrival">New Arrival</option>
-            <option value="Featured">Featured</option>
-            <option value="Final Offer">Final Offer</option>
-          </select>
-          <span className="absolute text-sm right-2 md:right-4 top-2.5">
-            <GoTriangleDown />
-          </span>
-        </div>
-        <div className="hidden items-center gap-2 text-[#767676] relative">
-          <label className="block">Show:</label>
-          <select
-            onChange={(e) => itemsPerPageFromBanner(+e.target.value)}
-            id="countries"
-            className="w-16 md:w-20 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-primeColor text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-primeColor"
-          >
-            <option value="12">12</option>
-            <option value="24">24</option>
-            <option value="36">36</option>
-            <option value="48">48</option>
-          </select>
-          <span className="absolute text-sm right-3 top-2.5">
-            <GoTriangleDown />
-          </span>
         </div>
       </div>
     </div>

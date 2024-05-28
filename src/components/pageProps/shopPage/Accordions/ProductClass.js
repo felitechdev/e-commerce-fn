@@ -31,8 +31,6 @@ const ProductClassAccordion = ({ brands, handlefilterShow }) => {
     dispatch(fetchProductclass());
   }, [dispatch]);
 
-  console.log("showBrands", showBrands);
-
   return (
     <div className=" text-sm bg-slate-200 px-2 z-50   shadow-md">
       <div

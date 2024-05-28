@@ -64,6 +64,7 @@ const Shop = () => {
   }, [data]);
 
   const handlefilterShow = () => {
+    console.log("clicked", showfilter);
     setShowFilter(!showfilter);
   };
 
@@ -90,7 +91,7 @@ const Shop = () => {
       : null;
 
   return (
-    <PageLayout showFooter={true}>
+    <PageLayout showFooter={false}>
       <MobileCategoryNav title="Categories" />
       <div className="max-w-container mx-auto px-4 mt-5">
         {/* <Breadcrumbs title='Products' /> */}
@@ -99,14 +100,14 @@ const Shop = () => {
             <ShopSideNav brands={category && category.brands} />
           </div> */}
 
-          {/* {showfilter && (
-            <div className='w-[200px] lgl:w-[25%] bg-[white]  opacity-100    absolute mdl:relative mdl:hidden z-10 mdl:z-0 left-0 top-0  h-full'>
+          {showfilter && (
+            <div className="w-[200px] lgl:w-[25%] bg-[white]  opacity-100    absolute mdl:relative mdl:hidden z-20 mdl:z-0 left-0 top-0  h-full">
               <ShopSideNav
                 brands={category && category.brands}
                 handlefilterShow={handlefilterShow}
               />
             </div>
-          )} */}
+          )}
           <div className="w-[200px] lgl:w-[25%] bg-[white]  hidden mdl:block z-10 mdl:z-0   h-full">
             <ShopSideNav brands={category && category.brands} />
           </div>
