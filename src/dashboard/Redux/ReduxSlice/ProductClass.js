@@ -52,6 +52,53 @@ export const createProductClass = createAsyncThunk(
     }
   }
 );
+
+export const updateProductClass = createAsyncThunk(
+  "productclass/updateProductClass",
+  async (data, { rejectWithValue }) => {
+    try {
+      const Token = Cookies.get("token");
+
+      const res = await axios.patch(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/product-classes/${data.id}`,
+        {
+          name: data?.Data?.name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }
+      );
+      return res;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const deleteProductClass = createAsyncThunk(
+  "productclass/deleteProductClass",
+  async (data, { rejectWithValue }) => {
+    try {
+      const Token = Cookies.get("token");
+
+      const res = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/product-classes/${data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }
+      );
+
+      return { res: res, id: data.id };
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 export const productClassSlice = createSlice({
   name: "productclasses",
   initialState,
@@ -84,25 +131,44 @@ export const productClassSlice = createSlice({
       .addCase(createProductClass.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(updateProductClass.pending, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateProductClass.fulfilled, (state, action) => {
+        const { id, name } = action.payload.data.data.productClass;
+
+        const userIndex = current(state).productclass.findIndex(
+          (user) => user.id === id
+        );
+
+        if (userIndex !== -1) {
+          state.productclass[userIndex] = {
+            ...state.productclass[userIndex],
+            name: name,
+          };
+        }
+      })
+      .addCase(updateProductClass.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteProductClass.pending, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(deleteProductClass.fulfilled, (state, action) => {
+        const { id } = action.payload.id;
+        state.productclass = state.productclass.filter(
+          (user) => user.id !== action.payload.id
+        );
+      })
+      .addCase(deleteProductClass.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
-
-    // .addCase(updateuserRole, (state, action) => {
-    //   const { userid, role } = action.payload;
-
-    //   const userIndex = current(state).productclass.findIndex(
-    //     (user) => user.id === userid
-    //   );
-
-    //   if (userIndex !== -1) {
-    //     state.productclass[userIndex] = {
-    //       ...state.productclass[userIndex],
-    //       role: role,
-    //     };
-    //   }
-    // });
   },
 });
-
-// export const updateuserRole = createAction("updateuserRole");
 
 export const productClassReducers = productClassSlice.reducer;

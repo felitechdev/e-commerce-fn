@@ -28,10 +28,11 @@ export const ProductClass = () => {
 
   // update get category state after crud operations
   const handleUpdatestate = (categoryId) => {
-    // const updatedCategories = categorys.filter(
-    //   (category) => category.id !== categoryId
-    // );
-    // setProductclass(updatedCategories);
+    const updatedCategories = filteredData.filter(
+      (category) => category.key !== categoryId
+    );
+
+    setFilteredData(updatedCategories);
   };
 
   const {

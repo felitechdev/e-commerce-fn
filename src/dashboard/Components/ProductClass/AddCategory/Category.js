@@ -5,6 +5,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createcategory, updatecategory } from "../../../Apis/Categories";
 import Cookies from "js-cookie";
+import {
+  updateProductClass,
+  deleteProductClass,
+} from "../../../Redux/ReduxSlice/ProductClass";
 import Alerts from "../../Notifications&Alert/Alert";
 
 import { createProductClass } from "../../../Redux/ReduxSlice/ProductClass";
@@ -20,6 +24,10 @@ export const ProductClassForm = (props) => {
   const { category, load, err } = useSelector((state) => state.createcategory);
   const { updateloading, updaterror, updateCategory } = useSelector(
     (state) => state.updatecat
+  );
+
+  const { productclass, loading, errorMessage } = useSelector(
+    (state) => state.productclass
   );
   const {
     register,
@@ -50,10 +58,9 @@ export const ProductClassForm = (props) => {
   const onSubmitUpdate = (data) => {
     const categoryId = props.categoryId;
     dispatch(
-      updatecategory({
+      updateProductClass({
         Data: data,
         id: categoryId,
-        token: token,
       })
     )
       .unwrap()
@@ -79,10 +86,10 @@ export const ProductClassForm = (props) => {
 
   // Reset alertIndex to hide the alert
   useEffect(() => {
-    if (load) {
+    if (loading) {
       setAlertIndex(null);
     }
-  }, [load, dispatch, alertDescription, alertIndex]);
+  }, [loading, dispatch, alertDescription, alertIndex]);
   const handleAlertClose = () => {
     setAlertIndex(null);
   };
@@ -157,10 +164,10 @@ export const ProductClassForm = (props) => {
             className="text-light font-bold w-[100%]"
           >
             {!isupdate
-              ? load
+              ? loading
                 ? "Loading ..."
                 : "Create Class"
-              : updateloading
+              : loading
               ? "Loading ..."
               : "Update Class"}
           </Button>
