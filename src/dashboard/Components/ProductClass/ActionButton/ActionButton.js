@@ -12,7 +12,8 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { deletecategory, fetchCategory } from "../../../Apis/Categories";
-
+import { ProductClassForm } from "../AddCategory/Category";
+import { deleteProductClass } from "../../../Redux/ReduxSlice/ProductClass";
 const { confirm } = Modal;
 
 const UpdateModel = ({ setModel }) => {
@@ -109,7 +110,7 @@ export const ActionButton = (props) => {
 
   const ShowDeleteConfirm = (categoryId) => {
     confirm({
-      title: "Are you sure delete this Category?",
+      title: "Are you sure delete this Class?",
       icon: <ExclamationCircleFilled />,
       content: (
         <span>
@@ -128,11 +129,12 @@ export const ActionButton = (props) => {
       cancelText: "No",
       async onOk() {
         return await new Promise((resolve, reject) => {
-          dispatch(deletecategory({ id: categoryId, token: token }))
+          dispatch(deleteProductClass({ id: categoryId }))
             .unwrap()
             .then((response) => {
-              if (response.status === 204) {
-                setOnSuccess("Category deleted successfully");
+              console.log("response", response);
+              if (response.res.status === 200) {
+                setOnSuccess("ProductClass deleted ");
 
                 // dispatch(fetchCategory());
                 // pass category id to update state instead of dispatch
@@ -155,39 +157,23 @@ export const ActionButton = (props) => {
 
   return (
     <>
-      {/* <Modal
-        title='Category'
-        width='50rem'
+      <Modal
+        title="ProductClass"
+        width="50rem"
         open={isModalOpen}
         closeIcon={
-          <CloseOutlined
-            onClick={handleCancelUppdate}
-            className='text-[red]'
-          />
+          <CloseOutlined onClick={handleCancelUppdate} className="text-[red]" />
         }
       >
-        <ProductCatery
-          openUPdate={true}
-          categoryId={props.categoryId}
-        />
+        <ProductClassForm openUPdate={true} categoryId={props.categoryId} />
       </Modal>
-      <div
-        div
-        className='flex justify-start  space-x-5 text-lg  '
-      >
-        <EditFilled
-          className=' text-icon2 mr-2'
-          onClick={() => handleOpen()}
-        />
+      <div div className="flex justify-start  space-x-5 text-lg  ">
+        <EditFilled className=" text-icon2 mr-2" onClick={() => handleOpen()} />
         <DeleteFilled
-          onClick={() =>
-            ShowDeleteConfirm(props.categoryId)
-          }
-          className=' text-icon3'
+          onClick={() => ShowDeleteConfirm(props.categoryId)}
+          className=" text-icon3"
         />
-
-     
-      </div> */}
+      </div>
     </>
   );
 };
