@@ -28,7 +28,7 @@ const CategoryModel = () => {
 
   return (
     <>
-      <Button onClick={showModal}>Add Category</Button>
+      <Button onClick={showModal}>Add Category & Sub </Button>
       <Modal
         title="Create Category"
         width="50rem"

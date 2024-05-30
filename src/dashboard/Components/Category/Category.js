@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import CategoryModel from "./CategoryModel/CategoryModel";
 import { ActionButton } from "./ActionButton/ActionButton";
+
+import { ActionButtonSubCategory } from "./ActionButtonSubcategory/ActionButton";
 import { fetchCategory } from "../../Apis/Categories";
 import Cookies from "js-cookie";
 import { Loader } from "../Loader/LoadingSpin";
@@ -122,9 +124,18 @@ export const Category = () => {
             {record?.subcategories?.length > 0 ? (
               <ul class="list-disc">
                 {record?.subcategories?.map((sub) => (
-                  <li className="w-full" key={sub.id}>
-                    {sub.name}
-                  </li>
+                  <div className="flex my-3">
+                    <li className="w-full hover:font-bold" key={sub.id}>
+                      {sub.name}
+                    </li>
+
+                    <div>
+                      <ActionButtonSubCategory
+                        handleUpdatestate={handleUpdatestate}
+                        categoryId={sub.id}
+                      />
+                    </div>
+                  </div>
                 ))}
               </ul>
             ) : (
