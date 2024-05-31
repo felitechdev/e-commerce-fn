@@ -27,7 +27,9 @@ export const ProductCatery = (props) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    defaultValues: props.openUPdate ? props.categoryId : "",
+  });
   const token = Cookies.get("token");
   const dispatch = useDispatch();
 
@@ -61,7 +63,7 @@ export const ProductCatery = (props) => {
 
   // handle submit update
   const onSubmitUpdate = (data) => {
-    const categoryId = props.categoryId;
+    const categoryId = props.categoryId.id;
     dispatch(
       updatecategory({
         Data: data,
@@ -93,7 +95,7 @@ export const ProductCatery = (props) => {
   };
   const onSearch = (value) => {};
 
-  const validateMessages = {
+  const validateMessages = !props.openUPdate && {
     productClass: {
       required: "Product class is required",
     },
@@ -159,42 +161,44 @@ export const ProductCatery = (props) => {
             <span className="text-primary font-bold">Add Category</span>
           )}
 
-          <Controller
-            name="productClass"
-            control={control}
-            defaultValue=""
-            rules={validateMessages.productClass}
-            render={({ field }) => (
-              <>
-                <Form.Item label="select product class" className=" w-[100%]">
-                  {productclassLoading ? (
-                    <p>loading...</p>
-                  ) : (
-                    <Select
-                      {...field}
-                      showSearch
-                      label="Text field"
-                      onSearch={onSearch}
-                      filterOption={filterOption}
-                      options={productclassData.map((item) => {
-                        return { value: item.id, label: item.name };
-                      })}
-                      onChange={(value) => {
-                        field.onChange(value);
-                      }}
-                    />
-                  )}
+          {!isupdate && (
+            <Controller
+              name="productClass"
+              control={control}
+              defaultValue=""
+              rules={validateMessages.productClass}
+              render={({ field }) => (
+                <>
+                  <Form.Item label="select product class" className=" w-[100%]">
+                    {productclassLoading ? (
+                      <p>loading...</p>
+                    ) : (
+                      <Select
+                        {...field}
+                        showSearch
+                        label="Text field"
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                        options={productclassData.map((item) => {
+                          return { value: item.id, label: item.name };
+                        })}
+                        onChange={(value) => {
+                          field.onChange(value);
+                        }}
+                      />
+                    )}
 
-                  <p className="text-[red]">{errors?.category?.message}</p>
-                </Form.Item>
-              </>
-            )}
-          />
-
+                    <p className="text-[red]">{errors?.category?.message}</p>
+                  </Form.Item>
+                </>
+              )}
+            />
+          )}
           <Controller
             control={control}
             name="name"
             rules={validateMessages.name}
+            defaultValue={props.openUPdate ? props.categoryId.name : ""}
             render={({ field }) => (
               <>
                 <Form.Item label="Enter category" className=" w-[100%]">

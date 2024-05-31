@@ -71,21 +71,21 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           <ImList />
         </span> */}
       </div>
-      <div className="flex items-center gap-2 md:gap-6 mt-4 md:mt-0 relative  ">
-        <div className="  top-0   flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
+      <div className=" flex  items-center gap-2 md:gap-6 mt-2 md:-mt-7 relative  ">
+        <div className="     flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
           {" "}
-          <div className=" z-10 ">
+          <div className=" z-0 ">
             <ProductClassAccordion />
           </div>
-          <div className="z-50">
+          <div className="z-0">
             <ProductCategoryAccordion />
           </div>
           {categoryId && (
-            <div className="z-10">
+            <div className="z-0">
               <ProductSubCategoryAccordion />
             </div>
           )}
-          <div className="z-50 ">
+          <div className="z-0 ">
             <ProductBrandAccordion />
           </div>
         </div>

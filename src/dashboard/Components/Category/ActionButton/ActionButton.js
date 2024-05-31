@@ -1,15 +1,7 @@
-import {
-  Button,
-  DatePicker,
-  Dropdown,
-  Form,
-  Input,
-  Modal,
-  Upload,
-} from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { ProductCatery } from '../AddCategory/Category';
-import Cookies from 'js-cookie';
+import { Button, DatePicker, Dropdown, Form, Input, Modal, Upload } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { ProductCatery } from "../AddCategory/Category";
+import Cookies from "js-cookie";
 import {
   ExclamationCircleFilled,
   PlusOutlined,
@@ -17,12 +9,9 @@ import {
   EyeFilled,
   EditFilled,
   CloseOutlined,
-} from '@ant-design/icons';
-import { useState } from 'react';
-import {
-  deletecategory,
-  fetchCategory,
-} from '../../../Apis/Categories';
+} from "@ant-design/icons";
+import { useState } from "react";
+import { deletecategory, fetchCategory } from "../../../Apis/Categories";
 
 const { confirm } = Modal;
 
@@ -48,49 +37,36 @@ const UpdateModel = ({ setModel }) => {
   return (
     <>
       <Modal
-        title='Create company'
-        width='50rem'
+        title="Create company"
+        width="50rem"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Form
-          form={form}
-          layout='vertical'
-          initialValues={{}}
-        >
+        <Form form={form} layout="vertical" initialValues={{}}>
           <Form.Item
-            label=''
-            name='fileList'
-            valuePropName='fileList'
+            label=""
+            name="fileList"
+            valuePropName="fileList"
             getValueFromEvent={normFile}
           >
-            <Upload
-              action='/upload.do'
-              listType='picture-card'
-            >
+            <Upload action="/upload.do" listType="picture-card">
               <div>
                 <PlusOutlined />
                 <div style={{ marginTop: 8 }}>Upload</div>
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item
-            label='Company Name'
-            name='companyName'
-          >
-            <Input placeholder='Input placeholder' />
+          <Form.Item label="Company Name" name="companyName">
+            <Input placeholder="Input placeholder" />
           </Form.Item>
-          <Form.Item label='Email' name='email'>
-            <Input placeholder='Input placeholder' />
+          <Form.Item label="Email" name="email">
+            <Input placeholder="Input placeholder" />
           </Form.Item>
-          <Form.Item
-            label='Phone number'
-            name='phoneNumber'
-          >
-            <Input placeholder='+250 788 284 364' />
+          <Form.Item label="Phone number" name="phoneNumber">
+            <Input placeholder="+250 788 284 364" />
           </Form.Item>
-          <Form.Item label='Joined date' name='joinedDate'>
+          <Form.Item label="Joined date" name="joinedDate">
             <DatePicker />
           </Form.Item>
         </Form>
@@ -100,8 +76,7 @@ const UpdateModel = ({ setModel }) => {
 };
 
 export const ActionButton = (props) => {
-  const [showUpdateModel, setShowUpdateModel] =
-    useState(false);
+  const [showUpdateModel, setShowUpdateModel] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [err, setErr] = useState(null);
@@ -112,7 +87,7 @@ export const ActionButton = (props) => {
   const { deletedCategory, loading, error } = useSelector(
     (state) => state.deletecat
   );
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const dispatch = useDispatch();
 
   const handleEditClick = () => {
@@ -134,7 +109,7 @@ export const ActionButton = (props) => {
 
   const ShowDeleteConfirm = (categoryId) => {
     confirm({
-      title: 'Are you sure delete this Category?',
+      title: "Are you sure delete this Category?",
       icon: <ExclamationCircleFilled />,
       content: (
         <span>
@@ -147,21 +122,17 @@ export const ActionButton = (props) => {
           )}
         </span>
       ),
-      okText: 'Yes',
-      okType: 'danger',
+      okText: "Yes",
+      okType: "danger",
 
-      cancelText: 'No',
+      cancelText: "No",
       async onOk() {
         return await new Promise((resolve, reject) => {
-          dispatch(
-            deletecategory({ id: categoryId, token: token })
-          )
+          dispatch(deletecategory({ id: categoryId, token: token }))
             .unwrap()
             .then((response) => {
               if (response.status === 204) {
-                setOnSuccess(
-                  'Category deleted successfully'
-                );
+                setOnSuccess("Category deleted successfully");
 
                 // dispatch(fetchCategory());
                 // pass category id to update state instead of dispatch
@@ -219,34 +190,20 @@ export const ActionButton = (props) => {
     // </>
     <>
       <Modal
-        title='Category'
-        width='50rem'
+        title="Category"
+        width="50rem"
         open={isModalOpen}
         closeIcon={
-          <CloseOutlined
-            onClick={handleCancelUppdate}
-            className='text-[red]'
-          />
+          <CloseOutlined onClick={handleCancelUppdate} className="text-[red]" />
         }
       >
-        <ProductCatery
-          openUPdate={true}
-          categoryId={props.categoryId}
-        />
+        <ProductCatery openUPdate={true} categoryId={props.categoryId} />
       </Modal>
-      <div
-        div
-        className='flex justify-start  space-x-5 text-lg  '
-      >
-        <EditFilled
-          className=' text-icon2 mr-2'
-          onClick={() => handleOpen()}
-        />
+      <div div className="flex justify-start  space-x-5 text-lg  ">
+        <EditFilled className=" text-icon2 mr-2" onClick={() => handleOpen()} />
         <DeleteFilled
-          onClick={() =>
-            ShowDeleteConfirm(props.categoryId)
-          }
-          className=' text-icon3'
+          onClick={() => ShowDeleteConfirm(props.categoryId.id)}
+          className=" text-icon3"
         />
 
         {/* <ActionButton /> */}

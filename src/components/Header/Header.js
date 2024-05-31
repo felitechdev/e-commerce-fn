@@ -97,7 +97,7 @@ const Header = (props) => {
   let headerIconStyles =
     "inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-2.5 px-2";
   return (
-    <div className="w-full h-100px bg-white sticky top-0 z-40 border-b-[1px] border-b-gray-200">
+    <div className="w-full h-100px bg-white sticky top-0  z-50 border-b-[1px] border-b-gray-200">
       <div className="flex justify-end px-4 bg-[#1D6F2B] text-white py-1 md:hidden border-b-[1px] border-b-gray-200">
         <ul className="flex items-center md:max-w-[320px] lg:max-w-[400px] z-50 p-0 gap-1">
           <li>

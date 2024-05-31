@@ -11,9 +11,9 @@ export default function ShopProducts({
 }) {
   return (
     <div>
-      <h2 className="capitalize mt-0 text-xl mdl:text-4xl font-medium leading-tight text-[#1D6F2B]">
-        {productClass?.name} {`: ${category?.name}`}{" "}
-        {subcategory?.name && `: ${subcategory.name}`}
+      <h2 className="capitalize mt-10 text-xl mdl:text-4xl font-medium leading-tight text-[#1D6F2B]">
+        {productClass?.name || ""} {`: ${category?.name || ""}`}{" "}
+        {subcategory?.name ? `: ${subcategory.name}` : ""}
       </h2>
       <hr class="h-px mb-8 mt-6 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 

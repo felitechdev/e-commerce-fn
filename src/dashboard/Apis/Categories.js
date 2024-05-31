@@ -115,7 +115,7 @@ export const updatecategory = createAsyncThunk(
           "content-type": "application/json",
           Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
         },
-        data: Data,
+        data: { name: Data.name },
       });
 
       // return response;
@@ -152,6 +152,71 @@ export const createsubcategory = createAsyncThunk(
       });
 
       if (response.status == 201) {
+        return response;
+      } else {
+        // Handle unexpected status codes
+        return rejectWithValue({
+          status: response.status,
+          message: response.data.message,
+        });
+      }
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response.status,
+        message: err.response.data.message,
+      });
+    }
+  }
+);
+
+export const updatesubcategory = createAsyncThunk(
+  "subcategory/updatesubcategory",
+  async ({ Data, id, token }, { rejectWithValue }) => {
+    console.log("data on update sub", Data, id);
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/subcategories/${id}`,
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+        },
+        data: { name: Data.name },
+      });
+
+      if (response.status == 200) {
+        return response;
+      } else {
+        // Handle unexpected status codes
+        return rejectWithValue({
+          status: response.status,
+          message: response.data.message,
+        });
+      }
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response.status,
+        message: err.response.data.message,
+      });
+    }
+  }
+);
+
+export const deletesubcategory = createAsyncThunk(
+  "subcategory/deletesubcategory",
+  async ({ id, token }, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/subcategories/${id}`,
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+        },
+      });
+
+      // return response;
+      if (response.status == 204) {
         return response;
       } else {
         // Handle unexpected status codes

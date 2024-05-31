@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import CategoryModel from "./CategoryModel/CategoryModel";
 import { ActionButton } from "./ActionButton/ActionButton";
+
+import { ActionButtonSubCategory } from "./ActionButtonSubcategory/ActionButton";
 import { fetchCategory } from "../../Apis/Categories";
 import Cookies from "js-cookie";
 import { Loader } from "../Loader/LoadingSpin";
@@ -75,6 +77,7 @@ export const Category = () => {
   useEffect(() => {
     const newData = categorys?.map((category) => ({
       key: `${category.id}`,
+      id: category.id,
       name: category.name,
       subcategories: category?.subCategories, //array of sub categories
       Joindate: new Date(`${category.createdAt}`).toLocaleDateString(),
@@ -122,9 +125,19 @@ export const Category = () => {
             {record?.subcategories?.length > 0 ? (
               <ul class="list-disc">
                 {record?.subcategories?.map((sub) => (
-                  <li className="w-full" key={sub.id}>
-                    {sub.name}
-                  </li>
+                  <div className="flex my-3">
+                    <li className="w-full hover:font-bold" key={sub.id}>
+                      {sub.name}
+                    </li>
+
+                    <div>
+                      <ActionButtonSubCategory
+                        // handleUpdatestate={handleUpdatestate}
+
+                        categoryId={sub}
+                      />
+                    </div>
+                  </div>
                 ))}
               </ul>
             ) : (
@@ -144,7 +157,7 @@ export const Category = () => {
       render: (_, record) => (
         <ActionButton
           handleUpdatestate={handleUpdatestate}
-          categoryId={record.key}
+          categoryId={record}
         />
       ),
     },
