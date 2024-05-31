@@ -77,6 +77,7 @@ export const Category = () => {
   useEffect(() => {
     const newData = categorys?.map((category) => ({
       key: `${category.id}`,
+      id: category.id,
       name: category.name,
       subcategories: category?.subCategories, //array of sub categories
       Joindate: new Date(`${category.createdAt}`).toLocaleDateString(),
@@ -131,8 +132,9 @@ export const Category = () => {
 
                     <div>
                       <ActionButtonSubCategory
-                        handleUpdatestate={handleUpdatestate}
-                        categoryId={sub.id}
+                        // handleUpdatestate={handleUpdatestate}
+
+                        categoryId={sub}
                       />
                     </div>
                   </div>
@@ -155,7 +157,7 @@ export const Category = () => {
       render: (_, record) => (
         <ActionButton
           handleUpdatestate={handleUpdatestate}
-          categoryId={record.key}
+          categoryId={record}
         />
       ),
     },

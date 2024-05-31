@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { deletecategory, fetchCategory } from "../../../Apis/Categories";
+import { deletesubcategory } from "../../../Apis/Categories";
 
 const { confirm } = Modal;
 
@@ -65,7 +66,7 @@ export const ActionButtonSubCategory = (props) => {
       cancelText: "No",
       async onOk() {
         return await new Promise((resolve, reject) => {
-          dispatch(deletecategory({ id: categoryId, token: token }))
+          dispatch(deletesubcategory({ id: categoryId, token: token }))
             .unwrap()
             .then((response) => {
               if (response.status === 204) {
@@ -108,7 +109,7 @@ export const ActionButtonSubCategory = (props) => {
           onClick={() => handleOpen()}
         />
         <DeleteFilled
-          onClick={() => ShowDeleteConfirm(props.categoryId)}
+          onClick={() => ShowDeleteConfirm(props.categoryId.id)}
           className=" text-icon3"
         />
 
