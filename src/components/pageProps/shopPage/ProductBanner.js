@@ -77,7 +77,7 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           <div className=" z-10 ">
             <ProductClassAccordion />
           </div>
-          <div className="z-50">
+          <div className="z-10">
             <ProductCategoryAccordion />
           </div>
           {categoryId && (
@@ -85,7 +85,7 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
               <ProductSubCategoryAccordion />
             </div>
           )}
-          <div className="z-50 ">
+          <div className="z-10 ">
             <ProductBrandAccordion />
           </div>
         </div>
