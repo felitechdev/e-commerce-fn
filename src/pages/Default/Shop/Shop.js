@@ -111,8 +111,11 @@ const Shop = () => {
           <div className="w-[200px] lgl:w-[25%] bg-[white]  hidden mdl:block z-10 mdl:z-0   h-full">
             <ShopSideNav brands={category && category.brands} />
           </div>
-          <div className="w-full mdl:w-[80%] lgl:w-[75%] h-full flex border  relative flex-col gap-10">
-            <ProductBanner handlefilterShow={handlefilterShow} />
+          <div className="w-full   mdl:w-[80%] lgl:w-[75%] h-full flex border  relative flex-col gap-10">
+            <div className=" fixed z-50">
+              {" "}
+              <ProductBanner handlefilterShow={handlefilterShow} />
+            </div>
             {(isLoading && (
               <div className="flex justify-center">
                 <Loader fontSize={38} />
