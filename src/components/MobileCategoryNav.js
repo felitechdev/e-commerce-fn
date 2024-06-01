@@ -4,8 +4,12 @@ import MenuIconWhite from "../assets/images/menu-white.png";
 import { fetchCategories } from "./homePageCategories/HomePageCategories";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 import { Link } from "react-router-dom";
+import ProductClassAccordion from "./pageProps/shopPage/Accordions/ProductClass";
+import ProductCategoryAccordion from "./pageProps/shopPage/Accordions/productCategory";
+import ProductSubCategoryAccordion from "./pageProps/shopPage/Accordions/ProductSubCategory";
+import ProductBrandAccordion from "./pageProps/shopPage/Accordions/productBrand";
 
-export default function MobileCategoryNav({ title }) {
+export default function MobileCategoryNav({ title, categoryId }) {
   const [activeCategory, setActiveCategory] = useState(null);
   const [showCategories, setShowCategories] = useState(false);
 
@@ -23,8 +27,8 @@ export default function MobileCategoryNav({ title }) {
   };
 
   return (
-    // <div className="md:hidden px-4 fixed top-40">
-    <div className="md:hidden px-4 ">
+    <div className="md:hidden px-4 fixed top-32 right-0 z-20  sm:left-10 w-[90%] py-4">
+      {/* <div className="md:hidden px-4 "> */}
       <div
         className="flex items-center gap-3 p-2 rounded-t   bg-[#1D6F2B] cursor-pointer"
         onClick={handleShowCategories}
@@ -32,8 +36,29 @@ export default function MobileCategoryNav({ title }) {
         <img src={MenuIconWhite} className="w-5 h-5" />
         <h3 className=" text-white text-lg">{title}</h3>
       </div>
-
       {showCategories && (
+        <>
+          <div className="     flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
+            {" "}
+            <div className=" z-0 ">
+              <ProductClassAccordion />
+            </div>
+            <div className="z-0">
+              <ProductCategoryAccordion />
+            </div>
+            {categoryId && (
+              <div className="z-0">
+                <ProductSubCategoryAccordion />
+              </div>
+            )}
+            <div className="z-0 ">
+              <ProductBrandAccordion />
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* {showCategories && (
         <>
           {isLoading && (
             <div className="flex justify-center p-16">
@@ -77,7 +102,7 @@ export default function MobileCategoryNav({ title }) {
             </div>
           )}
         </>
-      )}
+      )} */}
     </div>
   );
 }

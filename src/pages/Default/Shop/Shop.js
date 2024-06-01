@@ -92,7 +92,7 @@ const Shop = () => {
 
   return (
     <PageLayout showFooter={false}>
-      <MobileCategoryNav title="Products Filters" />
+      <MobileCategoryNav title="Products Filters" categoryId={categoryId} />
 
       <div className="max-w-container mx-auto px-4 mt-5">
         {/* <Breadcrumbs title='Products' /> */}

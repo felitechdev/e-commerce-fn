@@ -43,14 +43,14 @@ const ProductBanner = ({
 
   return (
     <div className="w-full  flex flex-col md:flex-row md:items-center justify-between">
-      <div className="flex items-center gap-4">
+      <div className="flex -mt-6 -ml-3 rounded-md p-1  border bg-[#1D6F2B]  items-center gap-4">
         {!showfilter && (
           <span className=" block mdl:hidden">
             {" "}
-            <MenuUnfoldOutlined
-              className="text-[green] text-4xl cursor-pointer "
+            {/* <MenuUnfoldOutlined
+              className="text-[white] text-2xl  cursor-pointer "
               onClick={handlefilterShow}
-            />
+            /> */}
             {/* <FilterFilled
             className="text-[green] text-2xl"
             onClick={handlefilterShow}
