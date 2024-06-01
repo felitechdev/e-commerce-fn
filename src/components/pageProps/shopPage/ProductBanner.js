@@ -15,7 +15,11 @@ import ProductBrandAccordion from "./Accordions/productBrand";
 import ProductSubCategoryAccordion from "./Accordions/ProductSubCategory";
 import { useSearchParams } from "react-router-dom";
 
-const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
+const ProductBanner = ({
+  itemsPerPageFromBanner,
+  handlefilterShow,
+  showfilter,
+}) => {
   const [girdViewActive, setGridViewActive] = useState(true);
   const [listViewActive, setListViewActive] = useState(false);
 
@@ -40,18 +44,20 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
   return (
     <div className="w-full  flex flex-col md:flex-row md:items-center justify-between">
       <div className="flex items-center gap-4">
-        <span className=" block mdl:hidden">
-          {" "}
-          <MenuUnfoldOutlined
-            className="text-[green] text-4xl cursor-pointer "
-            onClick={handlefilterShow}
-          />
-          {/* <FilterFilled
+        {!showfilter && (
+          <span className=" block mdl:hidden">
+            {" "}
+            <MenuUnfoldOutlined
+              className="text-[green] text-4xl cursor-pointer "
+              onClick={handlefilterShow}
+            />
+            {/* <FilterFilled
             className="text-[green] text-2xl"
             onClick={handlefilterShow}
           />
          */}
-        </span>
+          </span>
+        )}
         {/* <span
           className={`${
             girdViewActive
@@ -71,7 +77,7 @@ const ProductBanner = ({ itemsPerPageFromBanner, handlefilterShow }) => {
           <ImList />
         </span> */}
       </div>
-      <div className=" flex  items-center gap-2 md:gap-6 mt-2 md:-mt-7 relative  ">
+      <div className="hidden md:flex  items-center gap-2 md:gap-6 mt-2 md:-mt-7 relative   ">
         <div className="     flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
           {" "}
           <div className=" z-0 ">
