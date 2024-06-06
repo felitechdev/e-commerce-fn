@@ -92,7 +92,8 @@ const Shop = () => {
 
   return (
     <PageLayout showFooter={false}>
-      <MobileCategoryNav title="Categories" />
+      <MobileCategoryNav title="Products Filters" categoryId={categoryId} />
+
       <div className="max-w-container mx-auto px-4 mt-5">
         {/* <Breadcrumbs title='Products' /> */}
         <div className="relative w-full h-full flex pb-20 gap-10">
@@ -114,7 +115,10 @@ const Shop = () => {
           <div className="w-full   mdl:w-[80%] lgl:w-[75%] h-full flex border  relative flex-col gap-10">
             <div className=" fixed z-50">
               {" "}
-              <ProductBanner handlefilterShow={handlefilterShow} />
+              <ProductBanner
+                showfilter={showfilter}
+                handlefilterShow={handlefilterShow}
+              />
             </div>
             {(isLoading && (
               <div className="flex justify-center">

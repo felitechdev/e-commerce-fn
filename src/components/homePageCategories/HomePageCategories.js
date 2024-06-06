@@ -191,7 +191,7 @@ export default function HomePageCategories() {
                           onMouseEnter={() => handleMouseEnterSub(subCat.id)}
                         >
                           <Link
-                            to={`shop/?category=${hoveredCategory}&subCategory=${subCat.id}`}
+                            to={`shop/?productClass=${hoveredproductclass}&category=${hoveredCategory}&subCategory=${subCat.id}`}
                             className="capitalize flex"
                           >
                             {subCat.name}
@@ -217,47 +217,3 @@ export default function HomePageCategories() {
     </div>
   );
 }
-
-// {
-//   hoveredCategory && (
-//     // bg-gray-200
-//     <div className=" bg-gray-200 shadow-md ml-2  text-gray-700 pt-6  w-[700px]  sm:w-[1000px]     b-0 absolute min-h-full rounded left-full z-10 text-[13px] ">
-//       {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
-//       <ul className="  grid grid-cols-4 gap-2 ">
-//         {categories
-//           .find((cat) => {
-//             return cat.id === hoveredCategory;
-//           })
-//           .subCategories.map((subCat) => (
-//             <div className="  flex-col  text-center justify-start  items-center">
-//               <li
-//                 key={subCat.id}
-//                 // className="w-full px-4 hover:underline font-medium cursor-pointer"
-//                 className="w-full px-4 flex justify-start hover:underline font-bold cursor-pointer"
-//                 onMouseEnter={() => handleMouseEnterSub(subCat.id)}
-//               >
-//                 <Link
-//                   to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
-//                   className="capitalize flex"
-//                 >
-//                   {subCat.name}
-//                 </Link>
-//               </li>
-
-//               <div>
-//                 <ul className=" px-4 flex-col justify-start ">
-//                   {sub_sub_category.map((sub) => {
-//                     return (
-//                       <li className=" hover:underline hover:text-black text-left text-sm text-gray-500">
-//                         {sub}
-//                       </li>
-//                     );
-//                   })}
-//                 </ul>
-//               </div>
-//             </div>
-//           ))}
-//       </ul>
-//     </div>
-//   );
-// }
