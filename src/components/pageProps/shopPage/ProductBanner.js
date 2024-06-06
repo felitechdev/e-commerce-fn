@@ -47,10 +47,10 @@ const ProductBanner = ({
         {!showfilter && (
           <span className=" block mdl:hidden">
             {" "}
-            {/* <MenuUnfoldOutlined
+            <MenuUnfoldOutlined
               className="text-[white] text-2xl  cursor-pointer "
               onClick={handlefilterShow}
-            /> */}
+            />
             {/* <FilterFilled
             className="text-[green] text-2xl"
             onClick={handlefilterShow}
