@@ -34,7 +34,7 @@ const ProductCategoryAccordion = ({ brands, handlefilterShow }) => {
   }, [dispatch]);
 
   return (
-    <div className=" text-sm bg-slate-200 px-2 z-50   shadow-md ">
+    <div className=" text-sm bg-slate-100 border-2 py-1 rounded-md px-2 z-50   shadow-md ">
       <div
         onClick={() => setShowCategory(!showCategory)}
         className="cursor-pointer h-6"
