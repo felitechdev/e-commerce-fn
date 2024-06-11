@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import NavTitle from "../shopBy/NavTitle";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { fetchProductBrand } from "../../../../dashboard/Redux/ReduxSlice/ProductBrand.slice";
 import { useDispatch } from "react-redux";
 import { fetchProductclass } from "../../../../dashboard/Redux/ReduxSlice/ProductClass";
-const ProductClassAccordion = ({ brands, handlefilterShow }) => {
+const ProductClassAccordion = ({ ismobile, brands, handlefilterShow }) => {
   const [showBrands, setShowBrands] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
@@ -48,17 +48,33 @@ const ProductClassAccordion = ({ brands, handlefilterShow }) => {
           <ul className="flex flex-col gap-4 text-sm  text-[#767676]">
             {!productclassLoading &&
               productclassData &&
-              productclassData?.map((item) => (
-                <li
-                  key={item}
-                  onClick={() => {
-                    handleOnClickBrand(item);
-                  }}
-                  className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
-                >
-                  {item.name}
-                </li>
-              ))}
+              productclassData?.map((item) =>
+                ismobile == false ? (
+                  <li
+                    key={item}
+                    onClick={() => {
+                      handleOnClickBrand(item);
+                    }}
+                    className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
+                  >
+                    {item.name}
+                  </li>
+                ) : (
+                  // <li
+                  //   key={item}
+                  //   onClick={() => {
+                  //     handleOnClickBrand(item);
+                  //   }}
+                  // >
+                  <Link
+                    to={`/shop/?productClass=${item.id}`}
+                    className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
+                  >
+                    {item.name}
+                  </Link>
+                  // </li>
+                )
+              )}
           </ul>
         </motion.div>
       )}
