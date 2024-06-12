@@ -77,22 +77,22 @@ const ProductBanner = ({
           <ImList />
         </span> */}
       </div>
-      <div className="hidden md:flex  items-center gap-2 md:gap-6 mt-2 md:-mt-7 relative   ">
+      <div className="hidden md:flex  ml-3  items-center gap-2 md:gap-6 mt-2 md:-mt-7 relative   ">
         <div className="     flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
           {" "}
           <div className=" z-0 ">
-            <ProductClassAccordion />
+            <ProductClassAccordion ismobile={false} />
           </div>
           <div className="z-0">
-            <ProductCategoryAccordion />
+            <ProductCategoryAccordion ismobile={false} />
           </div>
           {categoryId && (
             <div className="z-0">
-              <ProductSubCategoryAccordion />
+              <ProductSubCategoryAccordion ismobile={false} />
             </div>
           )}
           <div className="z-0 ">
-            <ProductBrandAccordion />
+            <ProductBrandAccordion ismobile={false} />
           </div>
         </div>
       </div>

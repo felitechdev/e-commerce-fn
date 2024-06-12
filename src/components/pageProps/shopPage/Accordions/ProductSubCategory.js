@@ -29,7 +29,7 @@ const ProductSubCategoryAccordion = ({ brands, handlefilterShow }) => {
   const subcategoryId = searchParams.get("subCategory");
   const productclassId = searchParams.get("productClass");
   const handleOnClickBrand = (subcategory) => {
-    searchParams.set("subCategory", subcategory.id);
+    searchParams.set("subCategory", subcategory?.id);
     setSearchParams(searchParams);
   };
 

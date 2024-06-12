@@ -54,7 +54,25 @@ const normFile = (e) => {
 
   return e?.fileList;
 };
+const token = Cookies.get("token");
 
+export async function fetchseller(Token) {
+  try {
+    const config = {
+      headers: {
+        authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+      },
+    };
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users?role=seller`,
+      config
+    );
+
+    return response;
+  } catch (error) {
+    return [];
+  }
+}
 const ProductModel = (props) => {
   const formRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,7 +105,6 @@ const ProductModel = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selextedProductClass, setSelextedProductClass] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
-  const token = Cookies.get("token");
 
   // ahndel ulpad images on frontend
   const [mainImageUrl, setMainImageUrl] = useState("");
@@ -408,11 +425,11 @@ const ProductModel = (props) => {
     quantityParameter: {
       required: "quantityParameter is required",
     },
-    brand: {
-      required: "brand is required",
-      // validate: (value) =>
-      //   typeof value === "string" || "brandName must be a string",
-    },
+    // brand: {
+    //   required: "brand is required",
+    //   // validate: (value) =>
+    //   //   typeof value === "string" || "brandName must be a string",
+    // },
     productClass: {
       required: "product class is required",
     },
@@ -466,8 +483,8 @@ const ProductModel = (props) => {
   const selectOptions =
     companys &&
     companys?.map((comp) => ({
-      value: comp?.user?.id,
-      label: comp?.user?.firstName,
+      value: comp?.id,
+      label: comp?.firstName,
     }));
 
   const productclassSelect =
@@ -590,37 +607,44 @@ const ProductModel = (props) => {
     }
   }, [dispatch, categorys, subcategorys, token]);
 
-  // implement redux
-  useEffect(() => {
-    if (loadcompany == true) {
-      dispatch(fetchCompany(token))
-        .unwrap()
-        .then((data) => {
-          if (data?.data?.sellers) setCompanys(data?.data?.sellers);
-        })
-        .catch((error) => {
-          // if (error.response && error.response.status === 401) {
-          //   navigate("/");
-          // }
-        });
-    }
-  }, [loadcompany, dispatch]);
+  // // implement redux
+  // useEffect(() => {
+  //   if (loadcompany == true) {
+  //     dispatch(fetchCompany(token))
+  //       .unwrap()
+  //       .then((data) => {
+  //         if (data?.data?.sellers) setCompanys(data?.data?.sellers);
+  //       })
+  //       .catch((error) => {
+  //         // if (error.response && error.response.status === 401) {
+  //         //   navigate("/");
+  //         // }
+  //       });
+  //   }
+  // }, [loadcompany, dispatch]);
 
-  // Fetch products only when the component mounts
+  // // Fetch products only when the component mounts
+  // useEffect(() => {
+  //   if (!companys.length) {
+  //     dispatch(fetchCompany(token))
+  //       .unwrap()
+  //       .then((data) => {
+  //         if (data?.data?.sellers) setCompanys(data?.data?.sellers);
+  //       })
+  //       .catch((error) => {
+  //         // if (error.response && error.response.status === 401) {
+  //         //   navigate("/");
+  //         // }
+  //       });
+  //   }
+  // }, [dispatch, companys, token]);
+
   useEffect(() => {
-    if (!companys.length) {
-      dispatch(fetchCompany(token))
-        .unwrap()
-        .then((data) => {
-          if (data?.data?.sellers) setCompanys(data?.data?.sellers);
-        })
-        .catch((error) => {
-          // if (error.response && error.response.status === 401) {
-          //   navigate("/");
-          // }
-        });
-    }
-  }, [dispatch, companys, token]);
+    fetchseller(token).then((data) => {
+      console.log("selller", data?.data?.data?.users);
+      setCompanys(data?.data?.data?.users);
+    });
+  }, []);
 
   function handleOnUpload(error, result, widget) {
     if (error) {
@@ -1313,7 +1337,7 @@ const ProductModel = (props) => {
                 name="brand"
                 control={control}
                 defaultValue=""
-                rules={registerinput.brand}
+                // rules={registerinput.brand}
                 render={({ field }) => (
                   <>
                     <Form.Item label="Select product brand" className="">

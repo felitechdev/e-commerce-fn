@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import NavTitle from "../shopBy/NavTitle";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { fetchProductBrand } from "../../../../dashboard/Redux/ReduxSlice/ProductBrand.slice";
 import { useDispatch } from "react-redux";
 import { fetchProductclass } from "../../../../dashboard/Redux/ReduxSlice/ProductClass";
-const ProductClassAccordion = ({ brands, handlefilterShow }) => {
+const ProductClassAccordion = (props) => {
   const [showBrands, setShowBrands] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [clickCount, setClickCount] = useState(0);
+  const [selectedProductClass, setSelectedProductClass] = useState(null);
   const dispatch = useDispatch();
   // const handleOnClickBrand = (productclass) => {
   //   searchParams.set("productClass", productclass.id);
@@ -19,6 +21,21 @@ const ProductClassAccordion = ({ brands, handlefilterShow }) => {
     const newSearchParams = new URLSearchParams();
     newSearchParams.set("productClass", productclass.id);
     setSearchParams(newSearchParams);
+  };
+
+  const handleOnClickBrand2 = (productclass) => {
+    setClickCount(clickCount + 1);
+    // if (clickCount === 0) {
+    //   setSelectedProductClass(productclass.id);
+    //   setClickCount(1);
+    //   // Update props here
+    // } else if (clickCount === 1 && productclass.id === selectedProductClass) {
+    //   const newSearchParams = new URLSearchParams();
+    //   newSearchParams.set("productClass", productclass.id);
+    //   setSearchParams(newSearchParams);
+    //   // Navigate to new page
+    //   props.history.push(`/shop/?productClass=${productclass.id}`);
+    // }
   };
 
   const {
@@ -48,17 +65,43 @@ const ProductClassAccordion = ({ brands, handlefilterShow }) => {
           <ul className="flex flex-col gap-4 text-sm  text-[#767676]">
             {!productclassLoading &&
               productclassData &&
-              productclassData?.map((item) => (
-                <li
-                  key={item}
-                  onClick={() => {
-                    handleOnClickBrand(item);
-                  }}
-                  className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
-                >
-                  {item.name}
-                </li>
-              ))}
+              productclassData?.map((item) =>
+                props.ismobile == false ? (
+                  <li
+                    key={item}
+                    onClick={() => {
+                      handleOnClickBrand(item);
+                    }}
+                    className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
+                  >
+                    {item.name}
+                  </li>
+                ) : (
+                  <>
+                    {clickCount < 1 && (
+                      <li
+                        key={item}
+                        onClick={() => {
+                          handleOnClickBrand2(item);
+                        }}
+                        className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
+                      >
+                        {" "}
+                        {item.name}
+                      </li>
+                    )}
+
+                    {clickCount >= 1 && (
+                      <Link
+                        to={`/shop/?productClass=${item.id}`}
+                        className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </>
+                )
+              )}
           </ul>
         </motion.div>
       )}
