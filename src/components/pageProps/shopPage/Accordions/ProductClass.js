@@ -6,9 +6,11 @@ import { useSearchParams, Link } from "react-router-dom";
 import { fetchProductBrand } from "../../../../dashboard/Redux/ReduxSlice/ProductBrand.slice";
 import { useDispatch } from "react-redux";
 import { fetchProductclass } from "../../../../dashboard/Redux/ReduxSlice/ProductClass";
-const ProductClassAccordion = ({ ismobile, brands, handlefilterShow }) => {
+const ProductClassAccordion = (props) => {
   const [showBrands, setShowBrands] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [clickCount, setClickCount] = useState(0);
+  const [selectedProductClass, setSelectedProductClass] = useState(null);
   const dispatch = useDispatch();
   // const handleOnClickBrand = (productclass) => {
   //   searchParams.set("productClass", productclass.id);
@@ -19,6 +21,21 @@ const ProductClassAccordion = ({ ismobile, brands, handlefilterShow }) => {
     const newSearchParams = new URLSearchParams();
     newSearchParams.set("productClass", productclass.id);
     setSearchParams(newSearchParams);
+  };
+
+  const handleOnClickBrand2 = (productclass) => {
+    setClickCount(clickCount + 1);
+    // if (clickCount === 0) {
+    //   setSelectedProductClass(productclass.id);
+    //   setClickCount(1);
+    //   // Update props here
+    // } else if (clickCount === 1 && productclass.id === selectedProductClass) {
+    //   const newSearchParams = new URLSearchParams();
+    //   newSearchParams.set("productClass", productclass.id);
+    //   setSearchParams(newSearchParams);
+    //   // Navigate to new page
+    //   props.history.push(`/shop/?productClass=${productclass.id}`);
+    // }
   };
 
   const {
@@ -49,7 +66,7 @@ const ProductClassAccordion = ({ ismobile, brands, handlefilterShow }) => {
             {!productclassLoading &&
               productclassData &&
               productclassData?.map((item) =>
-                ismobile == false ? (
+                props.ismobile == false ? (
                   <li
                     key={item}
                     onClick={() => {
@@ -60,19 +77,29 @@ const ProductClassAccordion = ({ ismobile, brands, handlefilterShow }) => {
                     {item.name}
                   </li>
                 ) : (
-                  // <li
-                  //   key={item}
-                  //   onClick={() => {
-                  //     handleOnClickBrand(item);
-                  //   }}
-                  // >
-                  <Link
-                    to={`/shop/?productClass=${item.id}`}
-                    className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
-                  >
-                    {item.name}
-                  </Link>
-                  // </li>
+                  <>
+                    {clickCount < 1 && (
+                      <li
+                        key={item}
+                        onClick={() => {
+                          handleOnClickBrand2(item);
+                        }}
+                        className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
+                      >
+                        {" "}
+                        {item.name}
+                      </li>
+                    )}
+
+                    {clickCount >= 1 && (
+                      <Link
+                        to={`/shop/?productClass=${item.id}`}
+                        className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </>
                 )
               )}
           </ul>

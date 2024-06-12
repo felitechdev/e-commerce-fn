@@ -111,15 +111,15 @@ export const MobileCategoryNav = ({ title, categoryId }) => {
                 <ProductClassAccordion ismobile={true} />
               </div>
               <div className="z-0">
-                <ProductCategoryAccordion />
+                <ProductCategoryAccordion ismobile={true} />
               </div>
               {categoryId && (
                 <div className="z-0">
-                  <ProductSubCategoryAccordion />
+                  <ProductSubCategoryAccordion ismobile={true} />
                 </div>
               )}
               <div className="z-0 ">
-                <ProductBrandAccordion />
+                <ProductBrandAccordion ismobile={true} />
               </div>
             </div>
           </>

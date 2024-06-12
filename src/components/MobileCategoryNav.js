@@ -41,18 +41,18 @@ export default function MobileCategoryNav({ title, categoryId }) {
           <div className="     flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
             {" "}
             <div className=" z-0 ">
-              <ProductClassAccordion />
+              <ProductClassAccordion ismobile={false} />
             </div>
             <div className="z-0">
-              <ProductCategoryAccordion />
+              <ProductCategoryAccordion ismobile={false} />
             </div>
             {categoryId && (
               <div className="z-0">
-                <ProductSubCategoryAccordion />
+                <ProductSubCategoryAccordion ismobile={false} />
               </div>
             )}
             <div className="z-0 ">
-              <ProductBrandAccordion />
+              <ProductBrandAccordion ismobile={false} />
             </div>
           </div>
         </>
