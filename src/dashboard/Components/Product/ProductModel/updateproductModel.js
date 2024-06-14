@@ -649,11 +649,11 @@ const UpdateProductModel = (props) => {
       DBProductInfo.productImages.productThumbnail.url || ""
     );
 
-    setSelectedSubCategory(DBProductInfo.subcategory?.id);
+    setSelectedSubCategory(DBProductInfo?.subcategory?.id);
     setSelectedCategory(DBProductInfo.category.id);
     setValue(
       "subcategory",
-      selectedSubCategory || DBProductInfo.subcategory?.id
+      selectedSubCategory || DBProductInfo?.subcategory?.id
     );
     setValue("category", DBProductInfo.category.id || "");
     setValue("description", DBProductInfo.description);
