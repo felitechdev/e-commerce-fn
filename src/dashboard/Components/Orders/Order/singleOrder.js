@@ -109,13 +109,16 @@ const SingleOrder = () => {
             <div className="flex justify-between p-4 border ">
               <div>
                 <h1 className="text-md font-bold">Order ID : {orders.id}</h1>
+
                 <p className="text-gray-400">
                   Order Date :
                   {new Date(`${orders.createdAt}`).toLocaleDateString()}
                 </p>
               </div>
               <div>
-                <h1 className="text-md font-bold">Total: {orders.amount}</h1>
+                <h1 className="text-md font-bold">
+                  Total: {orders.amount} Rwf
+                </h1>
                 <p className="text-gray-400">
                   {" "}
                   Status:
@@ -131,16 +134,45 @@ const SingleOrder = () => {
                 >
                   {orders.status}
                 </Tag>
+
+                <h1 className="text-md font-bold">
+                  Choice : {orders?.deliveryPreference}
+                </h1>
               </div>
             </div>
+
+            <div className="flex justify-between p-4 border ">
+              <div>
+                <h1 className="text-md font-bold">Payment</h1>
+                <h1 className="text-sm text-gray-400">
+                  {`${orders?.payment_type?.details}  , 
+
+${orders?.payment_type?.type}`}
+                </h1>
+              </div>
+            </div>
+
             <div className="flex justify-between p-4 border ">
               <div>
                 <h1 className="text-md font-bold">shippingAddress</h1>
+                <h1 className="text-sm text-gray-400">
+                  Tel : {orders?.shippingAddress?.phoneNumber}
+                </h1>
+
                 <p className="text-gray-400">
                   Street : {orders?.shippingAddress?.address?.street}
                 </p>
                 <p className="text-gray-400">
-                  City : {orders?.shippingAddress?.city}
+                  Village : {orders?.shippingAddress?.village}
+                </p>
+                <p className="text-gray-400">
+                  Cell : {orders?.shippingAddress?.cell}
+                </p>
+                <p className="text-gray-400">
+                  Sector : {orders?.shippingAddress?.sector}
+                </p>
+                <p className="text-gray-400">
+                  City : {orders?.shippingAddress?.district}
                 </p>
               </div>
               <div>
@@ -150,7 +182,15 @@ const SingleOrder = () => {
                       {" "}
                       {UserRole !== "customer" ? " Cutomer" : "My phone"}
                     </h1>
-                    <p className="text-gray-400">Tel: {orders.phoneNumber}</p>
+                    <p className="text-gray-400">
+                      Tel: {orders?.customerDetails?.phone_number}
+                    </p>
+                    <p className="text-gray-400">
+                      Email: {orders?.customerDetails?.email}
+                    </p>
+                    <p className="text-gray-400">
+                      Name:{orders?.customerDetails?.name}
+                    </p>
                   </>
                 )}
               </div>
@@ -171,34 +211,38 @@ const SingleOrder = () => {
                       />
                     </Space>
 
-                    <div className="ml-2 ">
-                      <h1 className="text-md font-bold">{item?.name}</h1>
-                      <h1 className="text-md font-bold text-gray-400">
-                        price : {item?.price}
-                      </h1>
-                      {/* <p className="text-gray-400 font-bold text-md">
+                    <div>
+                      <div className=" ">
+                        <h1 className="text-md font-bold">{item?.name}</h1>
+                        <h1 className="text-md font-bold text-gray-400">
+                          price: {item?.price} Rwf
+                        </h1>
+                        {/* <p className="text-gray-400 font-bold text-md">
                       quantity : {item.quantity}
                     </p> */}
-                    </div>
-                  </div>
-                  <div>
-                    {UserRole == "admin" && (
-                      <>
-                        <h1 className="text-md font-bold">seller:{}</h1>
-                        {/* <p className="text-gray-400 font-bold text-md">
+                      </div>
+
+                      <div>
+                        <p className="text-gray-400 font-bold text-md">
+                          quantity : {item.quantity}
+                        </p>
+                        <p className="text-gray-400 font-bold text-md">
+                          color : {item?.variation?.color}
+                        </p>
+                        <p className="text-gray-400 font-bold text-md">
+                          zize : {item?.variation?.size}
+                        </p>
+                      </div>
+
+                      {UserRole == "admin" && (
+                        <>
+                          <h1 className="text-md font-bold">seller:{}</h1>
+                          {/* <p className="text-gray-400 font-bold text-md">
                           Tel : {}
                         </p> */}
-                      </>
-                    )}
-                    <p className="text-gray-400 font-bold text-md">
-                      quantity : {item.quantity}
-                    </p>
-                    <p className="text-gray-400 font-bold text-md">
-                      color : {item?.variation?.color}
-                    </p>
-                    <p className="text-gray-400 font-bold text-md">
-                      zize : {item?.variation?.size}
-                    </p>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
