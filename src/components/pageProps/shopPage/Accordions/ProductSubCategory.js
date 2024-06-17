@@ -52,7 +52,7 @@ const ProductSubCategoryAccordion = ({ brands, handlefilterShow }) => {
         onClick={() => setShowsubCategory(!showsubCategory)}
         className="cursor-pointer h-6"
       >
-        <NavTitle title="SubCategory" icons={true} classname={""} />
+        <NavTitle title="Category3" icons={true} classname={""} />
       </div>
       {showsubCategory && (
         <motion.div

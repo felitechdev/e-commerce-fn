@@ -44,18 +44,23 @@ const OrderForm = ({
 
   const onSubmit = async (data) => {
     let requestData = {
-      ...data,
+      // ...data,
       shippingAddress: shippingAddress,
       deliveryPreference: deliveryPreference.toLowerCase(),
       items: cartTotl,
       amount: totalCost,
+
+      //
+      phoneNumber: data.paymentphoneNumber,
+      email: "oliviertech@yopmail.com",
     };
 
     setIsLoading(true);
     setError("");
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments`,
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/momo`,
+        // /api/v1/payments`,
         requestData,
         {
           headers: {
@@ -67,6 +72,8 @@ const OrderForm = ({
       if (res.data.status === "success") {
         setIsLoading(false);
       }
+
+      console.log("response", res);
 
       alert("Payment was successfull!");
     } catch (error) {
@@ -238,24 +245,24 @@ const Cart = () => {
   useEffect(() => {
     switch (selectedProvince) {
       case "Kigali":
-        setDeliveryprice(2000);
-        setPrevdeliveryprice(2000);
+        setDeliveryprice(0);
+        setPrevdeliveryprice(0);
         break;
       case "East":
-        setDeliveryprice(3000);
-        setPrevdeliveryprice(3000);
+        setDeliveryprice(0);
+        setPrevdeliveryprice(0);
         break;
       case "South":
-        setDeliveryprice(4000);
-        setPrevdeliveryprice(4000);
+        setDeliveryprice(0);
+        setPrevdeliveryprice(0);
         break;
       case "West":
-        setDeliveryprice(7000);
-        setPrevdeliveryprice(7000);
+        setDeliveryprice(0);
+        setPrevdeliveryprice(0);
         break;
       case "North":
-        setDeliveryprice(5000);
-        setPrevdeliveryprice(5000);
+        setDeliveryprice(0);
+        setPrevdeliveryprice(0);
         break;
       default:
         setDeliveryprice(0);
@@ -429,13 +436,18 @@ const Cart = () => {
 
       setRequestData({
         country: values.country,
-        city: values.City,
+        city: values.District,
         province: values.Province,
         district: values.District,
         sector: values.Sector,
         cell: values.Cell,
         village: values.Village,
-        address: { street: values.Street },
+
+        address: {
+          street: values.Street,
+
+          // coordinates:{}
+        },
         phoneNumber: payload.phoneNumber,
       });
 
@@ -544,12 +556,12 @@ const Cart = () => {
                         {totalCost} RWF
                       </span>
                     </p>
-                    <p className="flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
+                    {/* <p className="flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
                       Delivery fee
                       <span className="font-semibold tracking-wide font-titleFont">
                         {deliveryprice} RWF
                       </span>
-                    </p>
+                    </p> */}
                     <p className="flex items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
                       Total
                       <span className="font-bold tracking-wide text-lg font-titleFont">
@@ -891,7 +903,7 @@ const Cart = () => {
                           <span>
                             <img src={MtnIcon} className="w-14 rounded" />
                           </span>
-                          <CgFormatSlash
+                          {/* <CgFormatSlash
                             style={{
                               color: "#ffffff",
                               fontSize: "1.8rem",
@@ -899,7 +911,7 @@ const Cart = () => {
                           />
                           <span>
                             <img src={AirtelIcon} className="w-14 rounded" />
-                          </span>
+                          </span> */}
                         </span>
                       </button>
                     </Col>
