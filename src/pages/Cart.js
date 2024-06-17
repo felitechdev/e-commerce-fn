@@ -81,6 +81,20 @@ const OrderForm = ({
       }
 
       console.log("response", res);
+      // if (res.status == "success") {
+      //   var link = res?.data?.meta?.authorization?.redirect;
+      //   navigate(link);
+      // }
+
+      if (res.data.status === "success") {
+        setIsLoading(false);
+
+        // Get the redirect link from the response
+        const redirectLink = res.data.data.meta.authorization.redirect;
+
+        // Open the redirect link in a new tab
+        window.open(redirectLink, "_blank");
+      }
 
       // alert("Payment was successfull!");
     } catch (error) {
