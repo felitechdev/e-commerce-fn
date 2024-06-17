@@ -12,7 +12,8 @@ import MtnIcon from "../assets/images/MTN.png";
 import AirtelIcon from "../assets/images/Airtel.png";
 import { FaSave } from "react-icons/fa";
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
-
+import { useUser } from "../context/UserContex";
+import { useNavigate } from "react-router-dom";
 // country input to check country phone number
 import PhoneInput from "antd-phone-input";
 import {
@@ -40,6 +41,12 @@ const OrderForm = ({
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const { handleSubmit, control } = useForm();
 
+  // check user
+
+  const user = useUser().user;
+  const navigate = useNavigate();
+
+  console.log("response", user);
   const onErrors = (errors) => {};
 
   const onSubmit = async (data) => {
@@ -75,7 +82,7 @@ const OrderForm = ({
 
       console.log("response", res);
 
-      alert("Payment was successfull!");
+      // alert("Payment was successfull!");
     } catch (error) {
       if (error.response.data.message === "Payment not completed.")
         return setError(error.response.data.message);
@@ -171,6 +178,11 @@ const OrderForm = ({
               <Button
                 disabled={isLoading}
                 htmlType="submit"
+                onClick={() => {
+                  if (user == null) {
+                    navigate("/signin", { replace: true });
+                  }
+                }}
                 className="flex items-center justify-center disabled:opacity-40"
                 style={{
                   background: "#1D6F2B",
