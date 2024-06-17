@@ -54,7 +54,7 @@ const ProductClassAccordion = (props) => {
         onClick={() => setShowBrands(!showBrands)}
         className="cursor-pointer h-6 "
       >
-        <NavTitle title="ProductClass " icons={true} classname={""} />
+        <NavTitle title="Category1 " icons={true} classname={""} />
       </div>
       {showBrands && (
         <motion.div

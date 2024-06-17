@@ -39,7 +39,7 @@ const ProductBrandAccordion = ({ brands, handlefilterShow }) => {
         onClick={() => setShowBrand(!showBrand)}
         className="cursor-pointer h-6"
       >
-        <NavTitle title="Brands" icons={true} classname={""} />
+        <NavTitle title="Brand" icons={true} classname={""} />
       </div>
       {showBrand && (
         <motion.div
