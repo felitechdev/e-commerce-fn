@@ -98,6 +98,8 @@ const OrderForm = ({
 
         // Open the redirect link in a new tab
         window.open(redirectLink, "_blank");
+
+        handlecancel();
       }
 
       // alert("Payment was successfull!");
