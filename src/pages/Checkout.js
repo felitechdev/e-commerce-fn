@@ -61,7 +61,9 @@ const OrderForm = ({
 
       //
       phoneNumber: data.paymentphoneNumber,
-      email: "oliviertech@yopmail.com",
+
+      email: data.email,
+      fullname: data?.fullname,
     };
 
     setIsLoading(true);
@@ -170,21 +172,65 @@ const OrderForm = ({
             )}
           />
 
+          <Controller
+            control={control}
+            name="email"
+            // rules={{ required: "Phone number is required" }}
+            render={({ field }) => (
+              <>
+                <Form.Item
+                  label="Email"
+                  className="w-[100%] text-red-700 !mb-2"
+                >
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="og@gmail.com"
+                    className="text-gray-700 text-sm placeholder:text-sm "
+                  />
+                </Form.Item>
+              </>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="fullname"
+            render={({ field }) => (
+              <>
+                <Form.Item
+                  label="Full Name"
+                  className="w-[100%] text-red-700 !mb-2"
+                >
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Joseph kanye "
+                    className="text-gray-700 text-sm placeholder:text-sm "
+                  />
+                </Form.Item>
+              </>
+            )}
+          />
+
           <div className="flex flex-col gap-2">
-            {isLoading && (
+            {/* {isLoading && (
               <span className="text-xs font-bold leadin-5 text-gray-700">
                 Follow instructions on your phone to proceed.
               </span>
-            )}
-
+            )} */}
+            Make sure that the account balance is greater than {totalCost} RWF,
+            otherwise the payment will not be completed.
             <div className="flex gap-2">
               <Button
                 disabled={isLoading}
                 onClick={handlecancel}
                 className="flex items-center justify-center font-thin disabled:opacity-40"
-                style={{
-                  borderRadius: "9999px",
-                }}
+                style={
+                  {
+                    // borderRadius: "9999px",
+                  }
+                }
               >
                 <span className="flex">
                   <h2 className=" flex  items-center justify-center">Cancel</h2>
@@ -203,10 +249,10 @@ const OrderForm = ({
                 style={{
                   background: "#1D6F2B",
                   color: "#FFFFFF",
-                  borderRadius: "9999px",
+                  // borderRadius: "9999px",
                 }}
               >
-                {(isLoading && "Processing...") || "Pay"}
+                {(isLoading && "Processing...") || `Pay ${totalCost} Rwf`}
               </Button>
             </div>
           </div>
@@ -238,7 +284,7 @@ const Checkout = () => {
   const [orderDelivery, setOrderDelivery] = useState();
   const [deliveryPreference, setDeliveryPreference] = useState("");
   const [prevdeliveryprice, setPrevdeliveryprice] = useState(0);
-
+  const navigate = useNavigate();
   const handlefillorderform = () => {
     setFillorderform(true);
     setLocation(false);
@@ -556,10 +602,23 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <div className="relative">
+              <div className="relative block md:hidden lg:block ">
                 <img src={AdvertiseImage} className="w-[100%] rounded" />
-                <div className="absolute bottom-10 left-0 right-0 mx-5 rounded-md bg-gray-300 opacity-60  ">
+                <div className="absolute bottom-10 left-0 right-0 mx-5 pb-2 rounded-md bg-gray-300 opacity-60  ">
                   <img src={MotivationWord} />
+                  <div className="w-full text-center -mt-9">
+                    {" "}
+                    <button
+                      onClick={() => {
+                        navigate("/", { replace: true });
+                      }}
+                      className="h-10 rounded-full bg-[#1D6F2B] ml-1/2 text-white  px-5 "
+                    >
+                      <span className="flex items-center tracking-widest">
+                        <span className="mr-2">Continue Shopping</span>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -871,7 +930,7 @@ const Checkout = () => {
 
                       <button
                         disabled={loading}
-                        htmlType="submit"
+                        // htmlType="submit"
                         className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
                       >
                         <span className="flex items-center tracking-widest">
