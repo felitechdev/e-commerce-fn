@@ -229,3 +229,12 @@ nav .active li {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* mobile money button */
+.bg-gradient-custom {
+  background: linear-gradient(to bottom, #ffd301, #ea1414);
+}
+
+.bg-gradient-custom-card {
+  background: linear-gradient(to bottom, #a39d9d, #1a8ff4, #1172c8);
+}

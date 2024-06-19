@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { emptyCart } from "../assets/images/index";
 import MtnIcon from "../assets/images/MTN.png";
+import AdvertiseImage from "../assets/images/checkoutimage.png";
+import MotivationWord from "../assets/images/specialsale-removedbg.png";
 import AirtelIcon from "../assets/images/Airtel.png";
 import { FaSave } from "react-icons/fa";
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
@@ -23,7 +25,7 @@ import {
   clearitemCart,
 } from "../redux/Reducers/cartRecuder";
 import Cookies from "js-cookie";
-import ItemCard from "./Default/Cart/ItemCard";
+import ItemCard, { ItemCardCheckout } from "./Default/Cart/ItemCard";
 import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 
@@ -59,7 +61,9 @@ const OrderForm = ({
 
       //
       phoneNumber: data.paymentphoneNumber,
-      email: "oliviertech@yopmail.com",
+
+      email: data.email,
+      fullname: data?.fullname,
     };
 
     setIsLoading(true);
@@ -94,6 +98,8 @@ const OrderForm = ({
 
         // Open the redirect link in a new tab
         window.open(redirectLink, "_blank");
+
+        handlecancel();
       }
 
       // alert("Payment was successfull!");
@@ -168,21 +174,65 @@ const OrderForm = ({
             )}
           />
 
+          <Controller
+            control={control}
+            name="email"
+            // rules={{ required: "Phone number is required" }}
+            render={({ field }) => (
+              <>
+                <Form.Item
+                  label="Email"
+                  className="w-[100%] text-red-700 !mb-2"
+                >
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="og@gmail.com"
+                    className="text-gray-700 text-sm placeholder:text-sm "
+                  />
+                </Form.Item>
+              </>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="fullname"
+            render={({ field }) => (
+              <>
+                <Form.Item
+                  label="Full Name"
+                  className="w-[100%] text-red-700 !mb-2"
+                >
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Joseph kanye "
+                    className="text-gray-700 text-sm placeholder:text-sm "
+                  />
+                </Form.Item>
+              </>
+            )}
+          />
+
           <div className="flex flex-col gap-2">
-            {isLoading && (
+            {/* {isLoading && (
               <span className="text-xs font-bold leadin-5 text-gray-700">
                 Follow instructions on your phone to proceed.
               </span>
-            )}
-
+            )} */}
+            Make sure that the account balance is greater than {totalCost} RWF,
+            otherwise the payment will not be completed.
             <div className="flex gap-2">
               <Button
                 disabled={isLoading}
                 onClick={handlecancel}
                 className="flex items-center justify-center font-thin disabled:opacity-40"
-                style={{
-                  borderRadius: "9999px",
-                }}
+                style={
+                  {
+                    // borderRadius: "9999px",
+                  }
+                }
               >
                 <span className="flex">
                   <h2 className=" flex  items-center justify-center">Cancel</h2>
@@ -201,10 +251,10 @@ const OrderForm = ({
                 style={{
                   background: "#1D6F2B",
                   color: "#FFFFFF",
-                  borderRadius: "9999px",
+                  // borderRadius: "9999px",
                 }}
               >
-                {(isLoading && "Processing...") || "Pay"}
+                {(isLoading && "Processing...") || `Pay ${totalCost} Rwf`}
               </Button>
             </div>
           </div>
@@ -214,7 +264,7 @@ const OrderForm = ({
   );
 };
 
-const Cart = () => {
+const Checkout = () => {
   const dispatch = useDispatch();
   const [ispaymentsucces, setIspaymentsucces] = useState(false);
   const [loading, setLoadng] = useState(false);
@@ -236,7 +286,7 @@ const Cart = () => {
   const [orderDelivery, setOrderDelivery] = useState();
   const [deliveryPreference, setDeliveryPreference] = useState("");
   const [prevdeliveryprice, setPrevdeliveryprice] = useState(0);
-
+  const navigate = useNavigate();
   const handlefillorderform = () => {
     setFillorderform(true);
     setLocation(false);
@@ -267,8 +317,6 @@ const Cart = () => {
   const handlecancel = () => {
     setIsModalOpen(false);
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     switch (selectedProvince) {
@@ -497,53 +545,17 @@ const Cart = () => {
         handlecancel={handlecancel}
       />
       <div className="max-w-container mx-auto px-4">
-        {!cart ||
-          (!cart.length && (
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.4 }}
-              className="flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20"
-            >
-              <div>
-                <img
-                  className="w-80 rounded-lg p-4 mx-auto"
-                  src={emptyCart}
-                  alt="emptyCart"
-                />
-              </div>
-              <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
-                <h1 className="font-titleFont text-xl font-bold uppercase">
-                  Your Cart feels lonely.
-                </h1>
-                <p className="text-sm text-center px-10 -mt-2">
-                  Your Shopping cart lives to serve. Give it purpose - fill it
-                  with books, electronics, videos, etc. and make it happy.
-                </p>
-                {/* <Link to="/shop"> */}
-                <Link to="/">
-                  <button className="bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300">
-                    Continue Shopping
-                  </button>
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-
         {cart && cart.length > 0 && (
           <div className="pb-20">
-            <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-8">
-              <div className="w-[100%] md:w-[75%]">
-                <div className="w-full h-20 bg-[#F5F7F7] rounded text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
-                  <h2 className="col-span-2">Product</h2>
-                  <h2>Price</h2>
-                  <h2>Quantity</h2>
-                  <h2>Product Cost</h2>
-                </div>
+            <div className="flex flex-col-reverse md:flex-row  justify-between items-start gap-8">
+              {/* bg-[#F5F7F7] */}
+              <div className=" w-[100%] md:w-[40%] bg-[#F5F7F7] rounded text-primeColor   place-content-center px-2 md:px-2 text-lg font-titleFont font-semibold">
+                <h2 className="mt-2">Ordered products</h2>
+
                 <div className="mt-5">
                   {cart.map((item) => (
                     <div key={item.id}>
-                      <ItemCard
+                      <ItemCardCheckout
                         itemInfo={item}
                         handleAddCart={handleAddCart}
                         handleRemoveCart={handleRemoveCart}
@@ -552,33 +564,12 @@ const Cart = () => {
                     </div>
                   ))}
                 </div>
-                <div className="w-full flex justify-between ">
-                  <button
-                    onClick={handleclearCart}
-                    className="py-2 px-6 rounded-full bg-[#1D6F2B] text-white  mb-4 hover:text-white duration-300"
-                  >
-                    Clear Cart
-                  </button>
-
-                  {!checkoutform && (
-                    <button
-                      disabled={loading}
-                      // onClick={handlefillorderform}
-                      onClick={() => {
-                        navigate("/checkout", { replace: true });
-                      }}
-                      className="rounded-full py-2 bg-[#1D6F2B] text-white mb-4 disabled:opacity-50 duration-300 w-[50%] block md:hidden"
-                    >
-                      {loading ? "Processing..." : "Proceed to Checkout"}
-                    </button>
-                  )}
-                </div>
               </div>
 
               <div className="gap-4 flex  w-[100%] md:w-[25%] bg-[#F5F7F7] p-3 rounded shadow overflow-hidden">
                 <div className="flex flex-col w-full gap-4">
                   <h1 className="text-2xl font-semibold text-gray-700">
-                    Cart totals
+                    Summary
                   </h1>
                   <div className="border rounded">
                     <p className="flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
@@ -601,54 +592,40 @@ const Cart = () => {
                     </p>
                   </div>
 
-                  {!checkoutform && (
+                  {/* {!checkoutform && (
                     <button
                       disabled={loading}
-                      // onClick={handlefillorderform}
-
-                      onClick={() => {
-                        navigate("/checkout", { replace: true });
-                      }}
+                      onClick={handlefillorderform}
                       className="rounded-full py-2 bg-[#1D6F2B] text-white disabled:opacity-50 duration-300 hidden md:inline-block "
                     >
                       {loading ? "Processing..." : "Proceed to Checkout"}
                     </button>
-                  )}
+                  )} */}
+                </div>
+              </div>
+
+              <div className="relative block md:hidden lg:block ">
+                <img src={AdvertiseImage} className="w-[100%] rounded" />
+                <div className="absolute bottom-10 left-0 right-0 mx-5 pb-2 rounded-md bg-gray-300 opacity-60  ">
+                  <img src={MotivationWord} />
+                  <div className="w-full text-center -mt-9">
+                    {" "}
+                    <button
+                      onClick={() => {
+                        navigate("/", { replace: true });
+                      }}
+                      className="h-10 rounded-full bg-[#1D6F2B] ml-1/2 text-white  px-5 "
+                    >
+                      <span className="flex items-center tracking-widest">
+                        <span className="mr-2">Continue Shopping</span>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* <div className='p-0 md:p-0 space-y-5  w-full bg-yellow-400  '>
-              <div className=' space-y-2'>
-                <Space>
-                  <h1 className='font-bold'> Order Delivery : </h1>{' '}
-                </Space>
-                <Button
-                  onClick={handlefillorderform}
-                  type={fillorderform ? 'primary' : 'default'}
-                >
-                  Fill Order Delivery Form{' '}
-                </Button>{' '}
-                <Button type={location ? 'primary' : 'default'}>
-                  Get my Location via Googlemap{' '}
-                </Button>{' '}
-                <Button
-                  onClick={handlenodelivery}
-                  type={nodelivery ? "primary" : "default"}
-                >
-                  No delivey
-                </Button>
-                <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
-                  Delivery fee
-                  <span className="font-bold tracking-wide text-lg font-titleFont">
-                    {deliveryprice} RWF
-                  </span>
-                </p>
-              </div>
-
-            </div> */}
-
-            {fillorderform && (
+            <div className="bg-[#F5F7F7] mt-4">
               <Form
                 layout={"vertical"}
                 onFinish={handleSubmit(onFinish, onErrors)}
@@ -657,7 +634,7 @@ const Cart = () => {
                   border: "1px solid rgb(229, 231, 235)",
                   padding: "20px",
                   borderRadius: "5px",
-                  display: ` ${fillorderform ? "block" : "none"}`,
+                  // display: ` ${fillorderform ? "block" : "none"}`,
                 }}
               >
                 <div>
@@ -926,9 +903,10 @@ const Cart = () => {
                     </Col>
                   </Row>
                   <div className="mb-12"></div>
+                  <p className="font-bold">Choose payment method</p>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <button
+                      {/* <button
                         disabled={loading}
                         htmlType="submit"
                         className="h-10 rounded-full bg-[#1D6F2B] text-white disabled:opacity-50 px-5 duration-300"
@@ -938,22 +916,34 @@ const Cart = () => {
                           <span>
                             <img src={MtnIcon} className="w-14 rounded" />
                           </span>
-                          {/* <CgFormatSlash
-                            style={{
-                              color: "#ffffff",
-                              fontSize: "1.8rem",
-                            }}
-                          />
-                          <span>
-                            <img src={AirtelIcon} className="w-14 rounded" />
-                          </span> */}
+                         
+                        </span>
+                      </button> */}
+
+                      <button
+                        disabled={loading}
+                        htmlType="submit"
+                        className="h-10 rounded-md bg-gradient-custom text-white disabled:opacity-50 px-5 duration-300"
+                      >
+                        <span className="flex items-center tracking-widest">
+                          <span className="mr-2 font-bold">Mobile money </span>
+                        </span>
+                      </button>
+
+                      <button
+                        disabled={loading}
+                        // htmlType="submit"
+                        className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
+                      >
+                        <span className="flex items-center tracking-widest">
+                          <span className="mr-2 font-bold">Card</span>
                         </span>
                       </button>
                     </Col>
                   </Row>
                 </div>
               </Form>
-            )}
+            </div>
           </div>
         )}
       </div>
@@ -961,4 +951,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Checkout;

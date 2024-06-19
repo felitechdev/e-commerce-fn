@@ -84,4 +84,49 @@ const ItemCard = ({
   );
 };
 
+export const ItemCardCheckout = ({ itemInfo }) => {
+  return (
+    <div className="w-full flex justify-around bg-white mb-4 h-[160px] border py-2 px-2 rounded-lg">
+      <div className=" grid grid-cols-2  ml-0 ">
+        <div className=" w-[120px]  h-[140px]">
+          {" "}
+          <img
+            className=" w-full h-full object-center "
+            src={itemInfo.productThumbnail.url}
+            alt="productImage"
+          />
+        </div>
+        <div className="w-32 flex flex-col gap-2">
+          <h1 className="font-titleFont font-semibold mt-2 text-gray-700">
+            {itemInfo.name}
+          </h1>
+
+          {itemInfo?.variations?.color && (
+            <p className=" text-md font-medium text-gray-700">
+              color: {itemInfo?.variations?.color}{" "}
+            </p>
+          )}
+          {itemInfo?.variations?.size && (
+            <p className=" text-md font-medium text-gray-700">
+              Size: {itemInfo?.variations?.size}{" "}
+            </p>
+          )}
+          <p className=" text-md font-medium text-gray-700">
+            Qty: {itemInfo.items}{" "}
+          </p>
+          <p className=" md:hidden pb-0 mb-5  font-semibold text-lg">
+            {itemInfo.price * itemInfo.items} RWF
+          </p>
+        </div>
+      </div>
+
+      <div className=" hidden  md:flex  pb-0  flex-col justify-end">
+        <p className="pb-0 mb-5  font-semibold text-lg">
+          {itemInfo.price * itemInfo.items} RWF
+        </p>
+      </div>
+    </div>
+  );
+};
+
 export default ItemCard;
