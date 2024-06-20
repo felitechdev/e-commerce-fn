@@ -28,7 +28,7 @@ import Cookies from "js-cookie";
 import ItemCard, { ItemCardCheckout } from "./Default/Cart/ItemCard";
 import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
-
+import { CardPayment } from "./Payment/cardpayment/card";
 const OrderForm = ({
   token,
   cartTotl,
@@ -318,6 +318,14 @@ const Checkout = () => {
     setIsModalOpen(false);
   };
 
+  const [cardpay, setCardpay] = useState(false);
+  const handlecardpay = () => {
+    setCardpay(true);
+  };
+  const cancelCardpay = () => {
+    setCardpay(false);
+  };
+
   useEffect(() => {
     switch (selectedProvince) {
       case "Kigali":
@@ -533,17 +541,36 @@ const Checkout = () => {
     }
   };
 
+  // handle pay with card
+  const onFinishCard = async (values) => {
+    console.log("values card", values);
+  };
+
   return (
     <PageLayout>
-      <OrderForm
-        token={token}
-        cartTotl={cartTotl}
-        totalCost={totalCost}
-        isModalOpen={isModalOpen}
-        shippingAddress={requestData}
-        deliveryPreference={deliveryPreference}
-        handlecancel={handlecancel}
-      />
+      {cardpay && !isModalOpen && (
+        <CardPayment
+          token={token}
+          cartTotl={cartTotl}
+          totalCost={totalCost}
+          isModalOpen={cardpay}
+          shippingAddress={requestData}
+          deliveryPreference={deliveryPreference}
+          handlecancel={cancelCardpay}
+        />
+      )}
+
+      {isModalOpen && !cardpay && (
+        <OrderForm
+          token={token}
+          cartTotl={cartTotl}
+          totalCost={totalCost}
+          isModalOpen={isModalOpen}
+          shippingAddress={requestData}
+          deliveryPreference={deliveryPreference}
+          handlecancel={handlecancel}
+        />
+      )}
       <div className="max-w-container mx-auto px-4">
         {cart && cart.length > 0 && (
           <div className="pb-20">
@@ -628,7 +655,11 @@ const Checkout = () => {
             <div className="bg-[#F5F7F7] mt-4">
               <Form
                 layout={"vertical"}
-                onFinish={handleSubmit(onFinish, onErrors)}
+                onFinish={
+                  cardpay
+                    ? handleSubmit(onFinishCard, onErrors)
+                    : handleSubmit(onFinish, onErrors)
+                }
                 style={{
                   width: "100%",
                   border: "1px solid rgb(229, 231, 235)",
@@ -923,6 +954,10 @@ const Checkout = () => {
                       <button
                         disabled={loading}
                         htmlType="submit"
+                        onClick={() => {
+                          console.log("clicked");
+                          setCardpay(false);
+                        }}
                         className="h-10 rounded-md bg-gradient-custom text-white disabled:opacity-50 px-5 duration-300"
                       >
                         <span className="flex items-center tracking-widest">
@@ -932,7 +967,13 @@ const Checkout = () => {
 
                       <button
                         disabled={loading}
-                        // htmlType="submit"
+                        htmlType="submit"
+                        // type="button"
+                        onClick={() => {
+                          console.log("clicked pay");
+                          handlecancel();
+                          handlecardpay();
+                        }}
                         className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
                       >
                         <span className="flex items-center tracking-widest">
