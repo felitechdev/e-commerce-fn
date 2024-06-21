@@ -104,9 +104,9 @@ const OrderForm = ({
 
       // alert("Payment was successfull!");
     } catch (error) {
-      if (error.response.data.message === "Payment not completed.")
-        return setError(error.response.data.message);
-      if (error.response.data.message === "Invalid phone number")
+      if (error.response?.data?.message === "Payment not completed.")
+        return setError(error.response?.data?.message);
+      if (error.response?.data?.message === "Invalid phone number")
         return setError("Invalid phone number");
       setError("Unexpected error has occured. Please try again!");
     } finally {
