@@ -181,7 +181,7 @@ const CheckoutDetails = ({ product }) => {
         price: product.productDetails.price,
         productThumbnail: product.productDetails.productImages.productThumbnail,
         items: Number(e.target.value),
-        seller: product.productDetails.seller.id,
+        seller: product.productDetails.seller,
       };
 
       cart.push(existingProduct);

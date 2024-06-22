@@ -8,7 +8,8 @@ import { IoCloseSharp } from "react-icons/io5";
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
 import { useUser } from "../../../context/UserContex";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import Cookies, { set } from "js-cookie";
+import AlertComponent from "../../../components/designLayouts/AlertComponent";
 import { formvalidation, formvalidation2, formvalidation3 } from "./validation";
 export const CardPayment = ({
   token,
@@ -21,7 +22,15 @@ export const CardPayment = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [paymentdata, setPaymentdata] = useState({});
 
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [error2, setError2] = useState("");
+  const [isLoading3, setIsLoading3] = useState(false);
+  const [error3, setError3] = useState("");
+
+  const [pinpayload, setPinpayload] = useState({});
+  const [otppayload, setOtppayload] = useState({});
   const [activetab, setActivetab] = useState(1);
   // const [isModalOpen, setIsModalOpen] = useState(false);
   //   const { handleSubmit, control } = useForm();
@@ -44,7 +53,7 @@ export const CardPayment = ({
   const onErrors = (errors) => {};
 
   const onSubmit = async (data) => {
-    let requestData = {
+    let requestData = await {
       // ...data,
       shippingAddress: shippingAddress,
       deliveryPreference: deliveryPreference.toLowerCase(),
@@ -67,6 +76,8 @@ export const CardPayment = ({
       },
     };
 
+    setPaymentdata(requestData);
+
     console.log("data on card details", requestData);
 
     setIsLoading(true);
@@ -87,11 +98,12 @@ export const CardPayment = ({
         setIsLoading(false);
       }
 
-      console.log("response", res);
-      // if (res.status == "success") {
-      //   var link = res?.data?.meta?.authorization?.redirect;
-      //   navigate(link);
-      // }
+      console.log("response", res.data.data);
+      if (res?.data?.data?.authorization?.mode == "pin") {
+        setActivetab(2);
+
+        setPinpayload(res?.data?.data?.payment_payload);
+      }
 
       if (res.data.status === "success") {
         setIsLoading(false);
@@ -114,11 +126,90 @@ export const CardPayment = ({
   };
 
   const onsubmitPin = async (data) => {
-    console.log(data);
+    let requestData = {
+      auth_mode: "pin",
+      pin: data?.pin,
+      payment_payload: {
+        ...pinpayload,
+        enckey: process.env.FLW_ECRYPTION_KEY,
+      },
+    };
+
+    setIsLoading2(true);
+    setError2("");
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/authorize-card`,
+        // /api/v1/payments`,
+        requestData,
+        {
+          headers: {
+            Authorization: ` Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.data.status === "success") {
+        setIsLoading2(false);
+      }
+      if (res.data.status === "success") {
+        setIsLoading2(false);
+        setActivetab(3);
+        setOtppayload(res?.data?.data?.flw_ref);
+      }
+    } catch (error) {
+      setError2("Unexpected error has occured. Please try again!");
+    } finally {
+      setIsLoading2(false);
+    }
   };
 
   const onsubmitOtp = async (data) => {
     console.log(data);
+
+    let requestData = {
+      otp: data?.otp,
+      flw_ref: otppayload,
+    };
+
+    setIsLoading3(true);
+    setError3("");
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/validate-card`,
+
+        requestData,
+        {
+          headers: {
+            Authorization: ` Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.data.status === "success") {
+        setIsLoading3(false);
+      }
+      if (res.data.status === "success") {
+        setIsLoading3(false);
+        // setActivetab(3);
+        console.log("payment successfull", res?.data?.message);
+
+        setTimeout(() => {}, 3000);
+        handlecancel();
+        <AlertComponent
+          color="success"
+          type="Success!"
+          message={emailMessage}
+        />;
+      }
+    } catch (error) {
+      setError3("Error has occured. Please try again!");
+      setTimeout(() => {}, 3000);
+      <AlertComponent color="failure" type="Error!" message={error3} />;
+      handlecancel();
+    } finally {
+      setIsLoading3(false);
+    }
   };
 
   return (
@@ -169,6 +260,11 @@ export const CardPayment = ({
 
       {activetab == 1 && (
         <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+              {error}
+            </div>
+          )}
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Controller
@@ -337,7 +433,10 @@ export const CardPayment = ({
       )}
 
       {activetab == 2 && (
-        <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
+        <Form
+          layout={"vertical"}
+          onFinish={handleSubmit(onsubmitPin, onErrors)}
+        >
           <div className="flex flex-col justify-center items-center gap-2">
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Controller
@@ -374,7 +473,7 @@ export const CardPayment = ({
               </Button>
 
               <Button
-                disabled={isLoading}
+                disabled={isLoading2}
                 htmlType="submit"
                 onClick={() => {
                   if (user == null) {
@@ -396,7 +495,10 @@ export const CardPayment = ({
       )}
 
       {activetab == 3 && (
-        <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
+        <Form
+          layout={"vertical"}
+          onFinish={handleSubmit(onsubmitOtp, onErrors)}
+        >
           <div className="flex flex-col justify-center items-center gap-2">
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Controller

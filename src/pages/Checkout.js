@@ -544,6 +544,41 @@ const Checkout = () => {
   // handle pay with card
   const onFinishCard = async (values) => {
     console.log("values card", values);
+    const payload = {};
+    if (values.phoneNumber) {
+      const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
+      const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
+      if (
+        fullPhoneNumber.includes("null") ||
+        fullPhoneNumber.includes("undefined")
+      ) {
+        return;
+      } else {
+        payload["phoneNumber"] = fullPhoneNumber;
+      }
+    }
+
+    if (values) {
+      setRequestData({
+        country: values.country,
+        city: values.District,
+        province: values.Province,
+        district: values.District,
+        sector: values.Sector,
+        cell: values.Cell,
+        village: values.Village,
+
+        address: {
+          street: values.Street,
+
+          // coordinates:{}
+        },
+        phoneNumber: payload.phoneNumber,
+      });
+
+      setIsModalOpen(false);
+      setCardpay(true);
+    }
   };
 
   return (

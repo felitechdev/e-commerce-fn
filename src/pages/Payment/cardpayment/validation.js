@@ -72,7 +72,7 @@ export const formvalidation3 = {
       message: " Enter You OTP ",
     },
     minLength: {
-      value: 6,
+      value: 4,
       message: "number must be 6 digits",
     },
     maxLength: {
