@@ -487,7 +487,10 @@ const Checkout = () => {
   });
 
   const onErrors = (errors) => {
-    setPayAllowed(false);
+    if (errors) {
+      console.log("errors on ", errors);
+      setPayAllowed(false);
+    }
   };
 
   const onFinish = async (values) => {
@@ -562,6 +565,7 @@ const Checkout = () => {
     }
 
     if (values) {
+      setPayAllowed(true);
       setRequestData({
         country: values.country,
         city: values.District,
@@ -586,7 +590,7 @@ const Checkout = () => {
 
   return (
     <PageLayout>
-      {cardpay && !isModalOpen && (
+      {cardpay && !isModalOpen && payAllowed && (
         <CardPayment
           token={token}
           cartTotl={cartTotl}
@@ -972,7 +976,7 @@ const Checkout = () => {
                     </Col>
                   </Row>
                   <div className="mb-12"></div>
-                  <p className="font-bold">Choose payment method</p>
+                  <p className="font-bold">Choose payment method </p>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       {/* <button
