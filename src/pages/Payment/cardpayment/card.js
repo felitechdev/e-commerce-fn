@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies, { set } from "js-cookie";
 import AlertComponent from "../../../components/designLayouts/AlertComponent";
 import { formvalidation, formvalidation2, formvalidation3 } from "./validation";
+import { clearCart } from "../../../redux/Reducers/cartRecuder";
 export const CardPayment = ({
   token,
   cartTotl,
@@ -41,6 +42,18 @@ export const CardPayment = ({
 
   const user = useUser().user;
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const handleclearCart = () => {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+
+    dispatch(clearCart());
+    if (existingCart) {
+      existingCart = [];
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
 
   const handleupdatetab = (nbr) => {
     setActivetab(nbr);
@@ -197,6 +210,7 @@ export const CardPayment = ({
       if (res.data.status === "success") {
         setIsLoading3(false);
         // setActivetab(3);
+        handleclearCart();
         setSuccessmessage(
           res?.data?.message ||
             "Payment successfull & Your order is successful payed. "

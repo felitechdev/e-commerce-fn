@@ -47,8 +47,18 @@ const OrderForm = ({
 
   const user = useUser().user;
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const onErrors = (errors) => {};
+
+  const handleclearCart = () => {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+
+    dispatch(clearCart());
+    if (existingCart) {
+      existingCart = [];
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
 
   const onSubmit = async (data) => {
     let requestData = {
@@ -93,6 +103,7 @@ const OrderForm = ({
         window.open(redirectLink, "_blank");
 
         handlecancel();
+        handleclearCart();
       }
 
       // alert("Payment was successfull!");
@@ -536,7 +547,6 @@ const Checkout = () => {
 
   // handle pay with card
   const onFinishCard = async (values) => {
-    console.log("values card", values);
     const payload = {};
     if (values.phoneNumber) {
       const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
