@@ -28,7 +28,7 @@ import Cookies from "js-cookie";
 import ItemCard, { ItemCardCheckout } from "./Default/Cart/ItemCard";
 import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
-
+import { CardPayment } from "./Payment/cardpayment/card";
 const OrderForm = ({
   token,
   cartTotl,
@@ -47,9 +47,18 @@ const OrderForm = ({
 
   const user = useUser().user;
   const navigate = useNavigate();
-
-  console.log("response", user);
+  const dispatch = useDispatch();
   const onErrors = (errors) => {};
+
+  const handleclearCart = () => {
+    let existingCart = JSON.parse(localStorage.getItem("cart"));
+
+    dispatch(clearCart());
+    if (existingCart) {
+      existingCart = [];
+    }
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+  };
 
   const onSubmit = async (data) => {
     let requestData = {
@@ -84,12 +93,6 @@ const OrderForm = ({
         setIsLoading(false);
       }
 
-      console.log("response", res);
-      // if (res.status == "success") {
-      //   var link = res?.data?.meta?.authorization?.redirect;
-      //   navigate(link);
-      // }
-
       if (res.data.status === "success") {
         setIsLoading(false);
 
@@ -100,13 +103,14 @@ const OrderForm = ({
         window.open(redirectLink, "_blank");
 
         handlecancel();
+        handleclearCart();
       }
 
       // alert("Payment was successfull!");
     } catch (error) {
-      if (error.response.data.message === "Payment not completed.")
-        return setError(error.response.data.message);
-      if (error.response.data.message === "Invalid phone number")
+      if (error.response?.data?.message === "Payment not completed.")
+        return setError(error.response?.data?.message);
+      if (error.response?.data?.message === "Invalid phone number")
         return setError("Invalid phone number");
       setError("Unexpected error has occured. Please try again!");
     } finally {
@@ -163,7 +167,7 @@ const OrderForm = ({
                   <Input
                     {...field}
                     type="number"
-                    placeholder="Ex 078/9/2/3XXXXXXX"
+                    placeholder="Ex 078/9/XXXXXXX"
                     className="text-gray-700 text-sm placeholder:text-sm "
                   />
                   <p className="text-red-500 text-xs">
@@ -316,6 +320,14 @@ const Checkout = () => {
   // close payment model
   const handlecancel = () => {
     setIsModalOpen(false);
+  };
+
+  const [cardpay, setCardpay] = useState(false);
+  const handlecardpay = () => {
+    setCardpay(true);
+  };
+  const cancelCardpay = () => {
+    setCardpay(false);
   };
 
   useEffect(() => {
@@ -475,7 +487,10 @@ const Checkout = () => {
   });
 
   const onErrors = (errors) => {
-    setPayAllowed(false);
+    if (errors) {
+      console.log("errors on ", errors);
+      setPayAllowed(false);
+    }
   };
 
   const onFinish = async (values) => {
@@ -533,17 +548,71 @@ const Checkout = () => {
     }
   };
 
+  // handle pay with card
+  const onFinishCard = async (values) => {
+    const payload = {};
+    if (values.phoneNumber) {
+      const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
+      const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
+      if (
+        fullPhoneNumber.includes("null") ||
+        fullPhoneNumber.includes("undefined")
+      ) {
+        return;
+      } else {
+        payload["phoneNumber"] = fullPhoneNumber;
+      }
+    }
+
+    if (values) {
+      setPayAllowed(true);
+      setRequestData({
+        country: values.country,
+        city: values.District,
+        province: values.Province,
+        district: values.District,
+        sector: values.Sector,
+        cell: values.Cell,
+        village: values.Village,
+
+        address: {
+          street: values.Street,
+
+          // coordinates:{}
+        },
+        phoneNumber: payload.phoneNumber,
+      });
+
+      setIsModalOpen(false);
+      setCardpay(true);
+    }
+  };
+
   return (
     <PageLayout>
-      <OrderForm
-        token={token}
-        cartTotl={cartTotl}
-        totalCost={totalCost}
-        isModalOpen={isModalOpen}
-        shippingAddress={requestData}
-        deliveryPreference={deliveryPreference}
-        handlecancel={handlecancel}
-      />
+      {cardpay && !isModalOpen && payAllowed && (
+        <CardPayment
+          token={token}
+          cartTotl={cartTotl}
+          totalCost={totalCost}
+          isModalOpen={cardpay}
+          shippingAddress={requestData}
+          deliveryPreference={deliveryPreference}
+          handlecancel={cancelCardpay}
+        />
+      )}
+
+      {isModalOpen && !cardpay && (
+        <OrderForm
+          token={token}
+          cartTotl={cartTotl}
+          totalCost={totalCost}
+          isModalOpen={isModalOpen}
+          shippingAddress={requestData}
+          deliveryPreference={deliveryPreference}
+          handlecancel={handlecancel}
+        />
+      )}
       <div className="max-w-container mx-auto px-4">
         {cart && cart.length > 0 && (
           <div className="pb-20">
@@ -628,7 +697,11 @@ const Checkout = () => {
             <div className="bg-[#F5F7F7] mt-4">
               <Form
                 layout={"vertical"}
-                onFinish={handleSubmit(onFinish, onErrors)}
+                onFinish={
+                  cardpay
+                    ? handleSubmit(onFinishCard, onErrors)
+                    : handleSubmit(onFinish, onErrors)
+                }
                 style={{
                   width: "100%",
                   border: "1px solid rgb(229, 231, 235)",
@@ -903,7 +976,7 @@ const Checkout = () => {
                     </Col>
                   </Row>
                   <div className="mb-12"></div>
-                  <p className="font-bold">Choose payment method</p>
+                  <p className="font-bold">Choose payment method </p>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       {/* <button
@@ -923,6 +996,10 @@ const Checkout = () => {
                       <button
                         disabled={loading}
                         htmlType="submit"
+                        onClick={() => {
+                          console.log("clicked");
+                          setCardpay(false);
+                        }}
                         className="h-10 rounded-md bg-gradient-custom text-white disabled:opacity-50 px-5 duration-300"
                       >
                         <span className="flex items-center tracking-widest">
@@ -932,7 +1009,13 @@ const Checkout = () => {
 
                       <button
                         disabled={loading}
-                        // htmlType="submit"
+                        htmlType="submit"
+                        // type="button"
+                        onClick={() => {
+                          console.log("clicked pay");
+                          handlecancel();
+                          handlecardpay();
+                        }}
                         className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
                       >
                         <span className="flex items-center tracking-widest">

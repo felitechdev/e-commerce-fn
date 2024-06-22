@@ -46,8 +46,9 @@ const OrderForm = ({
   const user = useUser().user;
   const navigate = useNavigate();
 
-  console.log("response", user);
-  const onErrors = (errors) => {};
+  const onErrors = (errors) => {
+    console.log("errors on ", errors);
+  };
 
   const onSubmit = async (data) => {
     let requestData = {
@@ -427,7 +428,10 @@ const Cart = () => {
   });
 
   const onErrors = (errors) => {
-    setPayAllowed(false);
+    if (errors) {
+      console.log("errors on ", errors);
+      setPayAllowed(false);
+    }
   };
 
   const onFinish = async (values) => {
@@ -617,36 +621,6 @@ const Cart = () => {
                 </div>
               </div>
             </div>
-
-            {/* <div className='p-0 md:p-0 space-y-5  w-full bg-yellow-400  '>
-              <div className=' space-y-2'>
-                <Space>
-                  <h1 className='font-bold'> Order Delivery : </h1>{' '}
-                </Space>
-                <Button
-                  onClick={handlefillorderform}
-                  type={fillorderform ? 'primary' : 'default'}
-                >
-                  Fill Order Delivery Form{' '}
-                </Button>{' '}
-                <Button type={location ? 'primary' : 'default'}>
-                  Get my Location via Googlemap{' '}
-                </Button>{' '}
-                <Button
-                  onClick={handlenodelivery}
-                  type={nodelivery ? "primary" : "default"}
-                >
-                  No delivey
-                </Button>
-                <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
-                  Delivery fee
-                  <span className="font-bold tracking-wide text-lg font-titleFont">
-                    {deliveryprice} RWF
-                  </span>
-                </p>
-              </div>
-
-            </div> */}
 
             {fillorderform && (
               <Form
