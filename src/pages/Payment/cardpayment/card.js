@@ -32,6 +32,8 @@ export const CardPayment = ({
   const [pinpayload, setPinpayload] = useState({});
   const [otppayload, setOtppayload] = useState({});
   const [activetab, setActivetab] = useState(1);
+  const [successmessage, setSuccessmessage] = useState(null);
+  const [errormessage, setErrormessage] = useState(null);
   // const [isModalOpen, setIsModalOpen] = useState(false);
   //   const { handleSubmit, control } = useForm();
 
@@ -68,7 +70,7 @@ export const CardPayment = ({
         fullname: data?.accountHolderName,
         phone_number: data?.paymentphoneNumber,
         cvv: data?.cvv,
-        amount: data?.amount,
+        amount: totalCost,
         currency: "RWF",
         email: data?.email,
         expiry_month: data?.expiryDate.split("/")[0],
@@ -126,12 +128,15 @@ export const CardPayment = ({
   };
 
   const onsubmitPin = async (data) => {
+    let enckey = await process.env.FLW_ECRYPTION_KEY;
+
+    console.log("enckey", process.env.FLW_ECRYPTION_KEY);
     let requestData = {
       auth_mode: "pin",
       pin: data?.pin,
       payment_payload: {
         ...pinpayload,
-        enckey: process.env.FLW_ECRYPTION_KEY,
+        enckey: "FLWSECK_TEST46515e8088a2",
       },
     };
 
@@ -192,21 +197,23 @@ export const CardPayment = ({
       if (res.data.status === "success") {
         setIsLoading3(false);
         // setActivetab(3);
-        console.log("payment successfull", res?.data?.message);
-
-        setTimeout(() => {}, 3000);
-        handlecancel();
-        <AlertComponent
-          color="success"
-          type="Success!"
-          message={emailMessage}
-        />;
+        setSuccessmessage(
+          res?.data?.message ||
+            "Payment successfull & Your order is successful payed. "
+        );
+        setTimeout(() => {
+          navigate("/user/profile", { replace: true });
+          handlecancel();
+        }, 6000);
       }
     } catch (error) {
       setError3("Error has occured. Please try again!");
-      setTimeout(() => {}, 3000);
-      <AlertComponent color="failure" type="Error!" message={error3} />;
-      handlecancel();
+      setErrormessage("Error has occured. Please try again!");
+      setTimeout(() => {
+        setErrormessage("");
+      }, 6000);
+
+      // handlecancel();
     } finally {
       setIsLoading3(false);
     }
@@ -257,6 +264,18 @@ export const CardPayment = ({
           OTP
         </h1>
       </div>
+
+      {successmessage != null && (
+        <AlertComponent
+          color="success"
+          type="Success!"
+          message={successmessage}
+        />
+      )}
+
+      {errormessage != null && (
+        <AlertComponent color="failure" type="Error!" message={errormessage} />
+      )}
 
       {activetab == 1 && (
         <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
@@ -377,12 +396,14 @@ export const CardPayment = ({
                 control={control}
                 name="amount"
                 rules={formvalidation.amount}
+                defaultValue={totalCost}
                 render={({ field }) => (
                   <>
                     <Form.Item label="Amount">
                       <Input
                         {...field}
                         type="number"
+                        value={totalCost}
                         placeholder="enter amount"
                       />
                       <p className="text-[red]">{errors?.amount?.message}</p>

@@ -48,7 +48,6 @@ const OrderForm = ({
   const user = useUser().user;
   const navigate = useNavigate();
 
-  console.log("response", user);
   const onErrors = (errors) => {};
 
   const onSubmit = async (data) => {
@@ -83,12 +82,6 @@ const OrderForm = ({
       if (res.data.status === "success") {
         setIsLoading(false);
       }
-
-      console.log("response", res);
-      // if (res.status == "success") {
-      //   var link = res?.data?.meta?.authorization?.redirect;
-      //   navigate(link);
-      // }
 
       if (res.data.status === "success") {
         setIsLoading(false);
@@ -163,7 +156,7 @@ const OrderForm = ({
                   <Input
                     {...field}
                     type="number"
-                    placeholder="Ex 078/9/2/3XXXXXXX"
+                    placeholder="Ex 078/9/XXXXXXX"
                     className="text-gray-700 text-sm placeholder:text-sm "
                   />
                   <p className="text-red-500 text-xs">
