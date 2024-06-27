@@ -134,7 +134,10 @@ export const CardPayment = ({
       //   return setError(error.response.data.message);
       // if (error.response.data.message === "Invalid phone number")
       //   return setError("Invalid phone number");
-      setError("Unexpected error has occured. Please try again!");
+
+      if (error && error?.response?.status == 500) {
+        setError("Unexpected error has occured. Please try again!");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -555,7 +558,7 @@ export const CardPayment = ({
           <div className="flex flex-col justify-center items-center gap-2">
             <div className="flex gap-2">
               <Button
-                disabled={isLoading}
+                disabled={isLoading3}
                 onClick={handlecancel}
                 className="flex items-center justify-center font-thin disabled:opacity-40"
                 style={
@@ -570,7 +573,7 @@ export const CardPayment = ({
               </Button>
 
               <Button
-                disabled={isLoading}
+                disabled={isLoading3}
                 htmlType="submit"
                 onClick={() => {
                   if (user == null) {
@@ -584,7 +587,7 @@ export const CardPayment = ({
                   // borderRadius: "9999px",
                 }}
               >
-                Next{" "}
+                {isLoading3 ? "Processing ...." : " Next"}
               </Button>
             </div>
           </div>

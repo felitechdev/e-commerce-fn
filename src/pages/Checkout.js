@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { emptyCart } from "../assets/images/index";
 import MtnIcon from "../assets/images/MTN.png";
+import CardIcon from "../assets/images/visacard.png";
 import AdvertiseImage from "../assets/images/checkoutimage.png";
 import MotivationWord from "../assets/images/specialsale-removedbg.png";
 import AirtelIcon from "../assets/images/Airtel.png";
@@ -976,7 +977,7 @@ const Checkout = () => {
                     </Col>
                   </Row>
                   <div className="mb-12"></div>
-                  <p className="font-bold">Choose payment method </p>
+                  <p className="font-bold my-2">Choose payment method </p>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       {/* <button
@@ -992,36 +993,50 @@ const Checkout = () => {
                          
                         </span>
                       </button> */}
+                      <div className=" flex items-center">
+                        <button
+                          disabled={loading}
+                          htmlType="submit"
+                          onClick={() => {
+                            console.log("clicked");
+                            setCardpay(false);
+                          }}
+                          className="h-10 flex bg-black items-center rounded-md bg-gradient-custom text-white disabled:opacity-50 px-2 duration-300"
+                        >
+                          <span className="flex items-center tracking-widest">
+                            {/* <span className="mr-2 font-bold">Mobile money </span> */}
 
-                      <button
-                        disabled={loading}
-                        htmlType="submit"
-                        onClick={() => {
-                          console.log("clicked");
-                          setCardpay(false);
-                        }}
-                        className="h-10 rounded-md bg-gradient-custom text-white disabled:opacity-50 px-5 duration-300"
-                      >
-                        <span className="flex items-center tracking-widest">
-                          <span className="mr-2 font-bold">Mobile money </span>
-                        </span>
-                      </button>
+                            <img src={MtnIcon} className="w-14 rounded" />
+                          </span>
+                          <CgFormatSlash
+                            style={{
+                              color: "#ffffff",
+                              fontSize: "1.8rem",
+                            }}
+                          />
+                          <span>
+                            <img src={AirtelIcon} className="w-14 rounded" />
+                          </span>
+                        </button>
 
-                      <button
-                        disabled={loading}
-                        htmlType="submit"
-                        // type="button"
-                        onClick={() => {
-                          console.log("clicked pay");
-                          handlecancel();
-                          handlecardpay();
-                        }}
-                        className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
-                      >
-                        <span className="flex items-center tracking-widest">
-                          <span className="mr-2 font-bold">Card</span>
-                        </span>
-                      </button>
+                        <button
+                          disabled={loading}
+                          htmlType="submit"
+                          // type="button"
+                          onClick={() => {
+                            console.log("clicked pay");
+                            handlecancel();
+                            handlecardpay();
+                          }}
+                          className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
+                        >
+                          <span className="flex items-center tracking-widest">
+                            {/* <span className="mr-2 font-bold">Card</span> */}
+
+                            <img src={CardIcon} className="w-14 rounded" />
+                          </span>
+                        </button>
+                      </div>
                     </Col>
                   </Row>
                 </div>
