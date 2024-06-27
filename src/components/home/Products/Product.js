@@ -10,7 +10,8 @@ import { useSelector } from "react-redux";
 import { BiPlus } from "react-icons/bi";
 import { BiMinus } from "react-icons/bi";
 import Image from "../../designLayouts/Image";
-
+import { FiHeart } from "react-icons/fi";
+import { addTowishlist } from "../../../redux/Reducers/wishlist";
 // change i made
 const ProductPreview = ({ productInfo }) => {
   const rootId = productInfo.id;
@@ -92,6 +93,40 @@ const ProductPreview = ({ productInfo }) => {
     localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
+  const handleAddwishlist = (event) => {
+    event.stopPropagation();
+
+    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
+
+    if (!wishlist) {
+      wishlist = [];
+    }
+
+    let existingProduct = wishlist.find(
+      (product) => product.id === productInfo.id
+    );
+
+    if (!existingProduct) {
+      existingProduct = {
+        id: productInfo.id,
+        name: productInfo.name,
+        price: productInfo.price,
+        productThumbnail: productInfo.productImages.productThumbnail,
+        seller: productInfo.seller,
+        items: 1,
+      };
+      wishlist.push(existingProduct);
+    } else {
+      // existingProduct.items += 0;
+    }
+
+    // Dispatch the addTowishlist action to update the Redux state
+    dispatch(addTowishlist(existingProduct));
+
+    // Update localStorage
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  };
+
   let headerIconStyles =
     "  ml-2  inline-block hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-full py-1.5 px-2.5";
   return (
@@ -103,6 +138,11 @@ const ProductPreview = ({ productInfo }) => {
         <>
           <div className="max-w-80 h-[70%]  relative overflow-y-hidden ">
             {/* <div className=""> */}
+            <FiHeart
+              className="absolute right-2 top-2 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-1.5 px-2.5  cursor-pointer"
+              size={40}
+              onClick={(event) => handleAddwishlist(event)}
+            />
 
             <Image
               className=" w-full h-full object-cover  rounded-tl-md rounded-tr-md"
