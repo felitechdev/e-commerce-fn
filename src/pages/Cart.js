@@ -912,7 +912,7 @@ const Cart = () => {
                           <span>
                             <img src={MtnIcon} className="w-14 rounded" />
                           </span>
-                          {/* <CgFormatSlash
+                          <CgFormatSlash
                             style={{
                               color: "#ffffff",
                               fontSize: "1.8rem",
@@ -920,7 +920,7 @@ const Cart = () => {
                           />
                           <span>
                             <img src={AirtelIcon} className="w-14 rounded" />
-                          </span> */}
+                          </span>
                         </span>
                       </button>
                     </Col>
