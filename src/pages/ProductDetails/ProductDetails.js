@@ -29,6 +29,7 @@ export default function ProductDetails({ product, dispatch }) {
         price: productInfo.price,
         productThumbnail: productInfo.productImages.productThumbnail,
         seller: productInfo.seller,
+        discountPercentage: productInfo?.discountPercentage,
         items: 1,
       };
       wishlist.push(existingProduct);
@@ -43,28 +44,6 @@ export default function ProductDetails({ product, dispatch }) {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
 
-  const handleRemovewishlist = (event) => {
-    event.stopPropagation();
-    let productInfo = product.productDetails;
-    let existingwishlist = JSON.parse(localStorage.getItem("wishlist"));
-    let existingProduct = existingwishlist.find(
-      (product) => product.id === productInfo.id
-    );
-
-    // Dispatch the removeTowishlist action to update the Redux state
-    dispatch(removeTowishlist(existingProduct));
-
-    // Update localStorage
-    if (existingProduct.items > 1) {
-      existingProduct.items -= 1;
-    } else {
-      existingwishlist = existingwishlist.filter(
-        (product) => product.id !== existingProduct.id
-      );
-    }
-    localStorage.setItem("wishlist", JSON.stringify(existingwishlist));
-  };
-
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
       <div className="max-w-container mx-auto p-4 mt-10">
@@ -76,6 +55,7 @@ export default function ProductDetails({ product, dispatch }) {
                   productImages={product.productDetails.productImages}
                   activeImage={product.activeImage}
                   dispatch={dispatch}
+                  productId={product.productDetails.id}
                   handleAddwishlist={handleAddwishlist}
                 />
                 <ProductMainInfo

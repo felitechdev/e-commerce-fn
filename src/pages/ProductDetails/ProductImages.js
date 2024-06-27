@@ -1,23 +1,37 @@
 import { FiHeart } from "react-icons/fi";
 import SmallImagesContainer from "./SmallImagesContainer";
-
+import { useSelector } from "react-redux";
 const ProductImages = ({
   activeImage,
   productImages,
+  productId,
   dispatch,
   handleAddwishlist,
 }) => {
+  const wishlist = useSelector((state) => state.wishlist);
+  const productInwhishlist = wishlist.find(
+    (product) => product.id === productId
+  );
+
   return (
     <>
       <div className="mt-4 inline-block w-container lg:w-[35%]">
         <div className="flex flex-col gap-3 items-center">
           {/* <div className="relative max-w-[428px] max-h-[418px] rounded-md overflow-hidden"> */}
           <div className="relative  w-[428px] h-[418px] rounded-md overflow-hidden">
-            <FiHeart
-              className="absolute right-2 top-2 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-1.5 px-2.5  cursor-pointer"
-              size={40}
-              onClick={(event) => handleAddwishlist(event)}
-            />
+            {productInwhishlist ? (
+              <FiHeart
+                className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
+                size={40}
+                // onClick={(event) => handleAddwishlist(event)}
+              />
+            ) : (
+              <FiHeart
+                className="absolute right-2 top-2 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
+                size={40}
+                onClick={(event) => handleAddwishlist(event)}
+              />
+            )}
 
             <img
               src={activeImage.url}
