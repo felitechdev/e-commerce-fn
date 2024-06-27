@@ -41,16 +41,16 @@ export const formvalidation = {
       message: "Expiry date is required",
     },
   },
-  //   expiryDate: {
-  //     required: {
-  //       value: true,
-  //       message: "Expiry date is required",
-  //     },
-  //     pattern: {
-  //       value: /^(0[1-9]|1[0-2])\/(20\d{2})$/,
-  //       message: "Expiry date must be in the format MM/YYYY",
-  //     },
+  // expiryDate: {
+  //   required: {
+  //     value: true,
+  //     message: "Expiry date is required",
   //   },
+  //   pattern: {
+  //     value: /^(0[1-9]|1[0-2])\/(20\d{2})$/,
+  //     message: "Expiry date must be in the format MM/YYYY",
+  //   },
+  // },
   email: {
     required: {
       value: true,
