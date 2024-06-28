@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 export const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist);
 
-  console.log("wishlist", wishlist);
+
   return (
     <PageLayout showFooter={true}>
       {wishlist && <WishlistProducts products={wishlist} />}

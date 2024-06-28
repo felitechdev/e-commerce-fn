@@ -4,7 +4,7 @@ import ProductsGridContainer from "../Products/ProductsGridContainer";
 import ProductPreview from "../Products/wishlistProduct";
 function WishlistProducts({ products }) {
   return (
-    <ProductsSection heading="My Wishlist Products">
+    <ProductsSection heading="My Wishlist ">
       <ProductsGridContainer>
         {products?.length > 0 &&
           products?.map((product, index) => (
