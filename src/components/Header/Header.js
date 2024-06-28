@@ -64,6 +64,7 @@ const Header = (props) => {
   const cart = useSelector((state) => state.cart);
 
   const cartTotal = cart.reduce((total, product) => total + product.items, 0);
+  const wishlist = useSelector((state) => state.wishlist);
 
   const handleCurrencyChange = (e) => {
     const selectedCurrency = e.target.value;
@@ -168,6 +169,30 @@ const Header = (props) => {
               </li>
             </>
           )}
+
+          <li className="mx-3 lg:mx-6 relative">
+            <NavLink
+              className={({ isActive }) => {
+                return isActive
+                  ? "text-[red]   font-light  align-middle"
+                  : " font-light  align-middle";
+              }}
+              to="/wishlist/"
+              state={{
+                data: location.pathname.split("/")[1],
+              }}
+            >
+              <FiHeart
+                className="lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5"
+                size={40}
+              />
+              {
+                <p className="absolute -ml-4 mt-1 -top-1 -right-2 z-1 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
+                  {wishlist.length}
+                </p>
+              }
+            </NavLink>
+          </li>
 
           <li className="relative  ">
             <NavLink
@@ -434,28 +459,30 @@ const Header = (props) => {
                 </li>
               </>
             )}
-            {user ? (
-              <li className="ml-2 lg:ml-6">
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "text-[#1D6F2B] bg-secondary  font-light hidden md:inline-block align-middle"
-                      : " font-light hidden md:inline-block align-middle";
-                  }}
-                  to="/accounts/"
-                  state={{
-                    data: location.pathname.split("/")[1],
-                  }}
-                >
-                  <FiHeart
-                    className="lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5"
-                    size={40}
-                  />
-                </NavLink>
-              </li>
-            ) : (
-              ""
-            )}
+            {user ? <></> : ""}
+            <li className="ml-2 lg:ml-6 relative">
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive
+                    ? "text-[#1D6F2B]   font-light hidden md:inline-block align-middle"
+                    : " font-light hidden md:inline-block align-middle";
+                }}
+                to="/wishlist/"
+                state={{
+                  data: location.pathname.split("/")[1],
+                }}
+              >
+                <FiHeart
+                  className="lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-1.5 px-2.5"
+                  size={40}
+                />
+                {
+                  <p className="absolute -ml-4 mt-1 -top-1 -right-2 z-1 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
+                    {wishlist.length}
+                  </p>
+                }
+              </NavLink>
+            </li>
             <li className="relative  ">
               <NavLink
                 className={({ isActive }) => {
@@ -530,7 +557,7 @@ const Header = (props) => {
                         {"About"}
                       </Link>
                     </li>
-                    <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
+                    {/* <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
                       <Link
                         to="/contact"
                         state={{
@@ -540,8 +567,8 @@ const Header = (props) => {
                       >
                         {"Contact"}
                       </Link>
-                    </li>
-                    <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
+                    </li> */}
+                    {/* <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
                       <Link
                         to="/journal"
                         state={{
@@ -551,7 +578,7 @@ const Header = (props) => {
                       >
                         {"Journal"}
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                   <div className="mt-4 bg-[#1D6F2B]">
                     <h1

@@ -35,6 +35,7 @@ import { ProductBrand } from "./dashboard/Components/ProductBrand/ProductBrand";
 
 import { FeliTechLogo_transparent } from "./assets/images";
 import Checkout from "./pages/Checkout";
+import { Wishlist } from "./pages/Wishlist";
 
 // localStorage.removeItem("selectedKey");
 
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="wishlist" element={<Wishlist />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="products/:id" element={<Product />} />
           <Route path="shop" element={<Shop />} />

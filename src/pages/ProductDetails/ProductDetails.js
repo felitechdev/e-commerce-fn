@@ -3,8 +3,47 @@ import ProductImages from "./ProductImages";
 import ProductMainInfo from "./ProductMainInfo";
 import CheckoutDetails from "./CheckoutDetails";
 import ProductSecondaryInfo from "./ProductSecondaryInfo";
-
+import { useDispatch } from "react-redux";
+import { addTowishlist } from "../../redux/Reducers/wishlist";
+import { removeTowishlist } from "../../redux/Reducers/wishlist";
 export default function ProductDetails({ product, dispatch }) {
+  const handleAddwishlist = (event) => {
+    event.stopPropagation();
+
+    let productInfo = product.productDetails;
+
+    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
+
+    if (!wishlist) {
+      wishlist = [];
+    }
+
+    let existingProduct = wishlist.find(
+      (product) => product.id === productInfo.id
+    );
+
+    if (!existingProduct) {
+      existingProduct = {
+        id: productInfo.id,
+        name: productInfo.name,
+        price: productInfo.price,
+        productThumbnail: productInfo.productImages.productThumbnail,
+        seller: productInfo.seller,
+        discountPercentage: productInfo?.discountPercentage,
+        items: 1,
+      };
+      wishlist.push(existingProduct);
+    } else {
+      // existingProduct.items += 0;
+    }
+
+    // Dispatch the addTowishlist action to update the Redux state
+    dispatch(addTowishlist(existingProduct));
+
+    // Update localStorage
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  };
+
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
       <div className="max-w-container mx-auto p-4 mt-10">
@@ -16,6 +55,8 @@ export default function ProductDetails({ product, dispatch }) {
                   productImages={product.productDetails.productImages}
                   activeImage={product.activeImage}
                   dispatch={dispatch}
+                  productId={product.productDetails.id}
+                  handleAddwishlist={handleAddwishlist}
                 />
                 <ProductMainInfo
                   product={product.productDetails}

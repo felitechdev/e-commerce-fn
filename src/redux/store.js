@@ -35,7 +35,7 @@ import {
 import usersSlice from "./Reducers/usersSlice";
 import { productClassReducers } from "../dashboard/Redux/ReduxSlice/ProductClass";
 import { productBrandReducers } from "../dashboard/Redux/ReduxSlice/ProductBrand.slice";
-
+import wishlistSlice from "./Reducers/wishlist";
 const rootReducer = {
   productsReducer,
   userReducer,
@@ -43,6 +43,7 @@ const rootReducer = {
   profileupdate: updateprofileReducer,
   viewprofile: ViewprofileReducer,
   cart: cartRecuder,
+  wishlist: wishlistSlice,
   product: getproductSlice,
   profileimage: updateprofileImageReducer,
   orders: getorderReducer,

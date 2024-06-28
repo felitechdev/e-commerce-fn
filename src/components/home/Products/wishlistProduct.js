@@ -12,6 +12,7 @@ import { BiMinus } from "react-icons/bi";
 import Image from "../../designLayouts/Image";
 import { FiHeart } from "react-icons/fi";
 import { addTowishlist } from "../../../redux/Reducers/wishlist";
+import { removeTowishlist } from "../../../redux/Reducers/wishlist";
 // change i made
 const ProductPreview = ({ productInfo }) => {
   const rootId = productInfo.id;
@@ -56,7 +57,7 @@ const ProductPreview = ({ productInfo }) => {
         id: productInfo.id,
         name: productInfo.name,
         price: productInfo.price,
-        productThumbnail: productInfo.productImages.productThumbnail,
+        productThumbnail: productInfo.productThumbnail.url,
         seller: productInfo.seller,
         items: 1,
       };
@@ -112,10 +113,10 @@ const ProductPreview = ({ productInfo }) => {
         id: productInfo.id,
         name: productInfo.name,
         price: productInfo.price,
-        productThumbnail: productInfo.productImages.productThumbnail,
+        productThumbnail: productInfo.productThumbnail.url,
         seller: productInfo.seller,
-        items: 1,
         discountPercentage: productInfo?.discountPercentage,
+        items: 1,
       };
       wishlist.push(existingProduct);
     } else {
@@ -129,6 +130,28 @@ const ProductPreview = ({ productInfo }) => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
 
+  const handleRemovewishlist = (event) => {
+    event.stopPropagation();
+
+    let existingwishlist = JSON.parse(localStorage.getItem("wishlist"));
+    let existingProduct = existingwishlist.find(
+      (product) => product.id === productInfo.id
+    );
+
+    // Dispatch the removeTowishlist action to update the Redux state
+    dispatch(removeTowishlist(existingProduct));
+
+    // Update localStorage
+    if (existingProduct.items > 1) {
+      existingProduct.items -= 1;
+    } else {
+      existingwishlist = existingwishlist.filter(
+        (product) => product.id !== existingProduct.id
+      );
+    }
+    localStorage.setItem("wishlist", JSON.stringify(existingwishlist));
+  };
+
   let headerIconStyles =
     "  ml-2  inline-block hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-full py-1.5 px-2.5";
   return (
@@ -136,7 +159,7 @@ const ProductPreview = ({ productInfo }) => {
       className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
       onClick={handleProductDetails}
     >
-      {productInfo.productImages !== undefined ? (
+      {productInfo.productThumbnail !== undefined ? (
         <>
           <div className="max-w-80 h-[70%]  relative overflow-y-hidden ">
             {/* <div className=""> */}
@@ -145,7 +168,7 @@ const ProductPreview = ({ productInfo }) => {
               <FiHeart
                 className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
                 size={40}
-                onClick={(event) => handleAddwishlist(event)}
+                onClick={(event) => handleRemovewishlist(event)}
               />
             ) : (
               <FiHeart
@@ -157,12 +180,12 @@ const ProductPreview = ({ productInfo }) => {
 
             <Image
               className=" w-full h-full object-cover  rounded-tl-md rounded-tr-md"
-              imgSrc={productInfo.productImages.productThumbnail.url}
+              imgSrc={productInfo.productThumbnail.url}
             />
             {/* </div> */}
             <div className="absolute top-3 left-4">
-              {productInfo.discountPercentage > 0 && (
-                <Badge text={`- ${productInfo.discountPercentage}%`} />
+              {productInfo?.discountPercentage > 0 && (
+                <Badge text={`- ${productInfo?.discountPercentage}%`} />
               )}
             </div>
           </div>
@@ -176,7 +199,7 @@ const ProductPreview = ({ productInfo }) => {
                   <div className="text-[#1D6F2B] font-semibold">
                     <DisplayCurrency product={productInfo} />
                   </div>
-                  {productInfo.discountPercentage > 0 && (
+                  {productInfo?.discountPercentage > 0 && (
                     <div className="text-[#00000080] line-through">
                       <DisplayCurrency product={productInfo} />
                     </div>
