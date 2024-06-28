@@ -168,7 +168,7 @@ const ProductPreview = ({ productInfo }) => {
               <FiHeart
                 className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
                 size={40}
-                onClick={(event) => handleAddwishlist(event)}
+                onClick={(event) => handleRemovewishlist(event)}
               />
             ) : (
               <FiHeart
