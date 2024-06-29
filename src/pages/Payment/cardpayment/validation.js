@@ -98,3 +98,38 @@ export const formvalidation2 = {
     },
   },
 };
+
+export const formvalidation4 = {
+  city: {
+    required: {
+      value: true,
+      message: "City is required",
+    },
+  },
+  address: {
+    required: {
+      value: true,
+      message: "Address is required",
+    },
+  },
+  state: {
+    required: {
+      value: true,
+      message: "State is required",
+    },
+  },
+
+  country: {
+    required: {
+      value: true,
+      message: "Country is required",
+    },
+  },
+
+  zipcode: {
+    required: {
+      value: true,
+      message: "Zipcode is required",
+    },
+  },
+};
