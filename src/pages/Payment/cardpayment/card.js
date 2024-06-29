@@ -10,7 +10,12 @@ import { useUser } from "../../../context/UserContex";
 import { useNavigate } from "react-router-dom";
 import Cookies, { set } from "js-cookie";
 import AlertComponent from "../../../components/designLayouts/AlertComponent";
-import { formvalidation, formvalidation2, formvalidation3 } from "./validation";
+import {
+  formvalidation,
+  formvalidation2,
+  formvalidation3,
+  formvalidation4,
+} from "./validation";
 import { clearCart } from "../../../redux/Reducers/cartRecuder";
 export const CardPayment = ({
   token,
@@ -32,9 +37,13 @@ export const CardPayment = ({
 
   const [pinpayload, setPinpayload] = useState({});
   const [otppayload, setOtppayload] = useState({});
+  const [avspayload, setAvspayload] = useState({});
   const [activetab, setActivetab] = useState(1);
   const [successmessage, setSuccessmessage] = useState(null);
   const [errormessage, setErrormessage] = useState(null);
+  // const [authmode, setAuthmode] = useState("pin");
+
+  const [authmode, setAuthmode] = useState("avs_noauth");
   // const [isModalOpen, setIsModalOpen] = useState(false);
   //   const { handleSubmit, control } = useForm();
 
@@ -116,6 +125,12 @@ export const CardPayment = ({
       console.log("response", res.data.data);
       if (res?.data?.data?.authorization?.mode == "pin") {
         setActivetab(2);
+        setAuthmode("pin");
+        setPinpayload(res?.data?.data?.payment_payload);
+      }
+      if (res?.data?.data?.authorization?.mode == "avs_noauth") {
+        setActivetab(2);
+        setAuthmode("avs_noauth");
 
         setPinpayload(res?.data?.data?.payment_payload);
       }
@@ -145,16 +160,29 @@ export const CardPayment = ({
 
   const onsubmitPin = async (data) => {
     let enckey = await process.env.FLW_ECRYPTION_KEY;
+    let requestData =
+      authmode == "pin"
+        ? {
+            auth_mode: "pin",
+            pin: data?.pin,
+            payment_payload: {
+              ...pinpayload,
+              enckey: "FLWSECK_TEST46515e8088a2",
+            },
+          }
+        : {
+            auth_mode: "avs_noauth",
 
-    console.log("enckey", process.env.FLW_ECRYPTION_KEY);
-    let requestData = {
-      auth_mode: "pin",
-      pin: data?.pin,
-      payment_payload: {
-        ...pinpayload,
-        enckey: "FLWSECK_TEST46515e8088a2",
-      },
-    };
+            city: data?.city,
+            address: data?.address,
+            zipcode: data?.zipcode,
+            state: data?.state,
+            country: data?.country,
+            payment_payload: {
+              ...pinpayload,
+              enckey: "FLWSECK_TEST46515e8088a2",
+            },
+          };
 
     setIsLoading2(true);
     setError2("");
@@ -268,7 +296,7 @@ export const CardPayment = ({
             activetab == 2 && "bg-primary"
           } h-full w-1/3 text-center  flex items-center justify-center `}
         >
-          PIN
+          PIN /Address
         </h1>
         <h1
           onClick={() => {
@@ -470,7 +498,7 @@ export const CardPayment = ({
         </Form>
       )}
 
-      {activetab == 2 && (
+      {activetab == 2 && authmode == "pin" && (
         <Form
           layout={"vertical"}
           onFinish={handleSubmit(onsubmitPin, onErrors)}
@@ -480,7 +508,7 @@ export const CardPayment = ({
               <Controller
                 control={control}
                 name="pin"
-                rules={formvalidation2.pin}
+                rules={authmode == "pin" && formvalidation2.pin}
                 render={({ field }) => (
                   <>
                     <Form.Item label="PIN">
@@ -494,6 +522,148 @@ export const CardPayment = ({
           </div>
 
           <div className="flex flex-col justify-center items-center gap-2">
+            <div className="flex gap-2">
+              <Button
+                disabled={isLoading}
+                onClick={handlecancel}
+                className="flex items-center justify-center font-thin disabled:opacity-40"
+                style={
+                  {
+                    // borderRadius: "9999px",
+                  }
+                }
+              >
+                <span className="flex">
+                  <h2 className=" flex  items-center justify-center">Cancel</h2>
+                </span>{" "}
+              </Button>
+
+              <Button
+                disabled={isLoading2}
+                htmlType="submit"
+                onClick={() => {
+                  if (user == null) {
+                    navigate("/signin", { replace: true });
+                  }
+                }}
+                className="flex items-center justify-center disabled:opacity-40"
+                style={{
+                  background: "#1D6F2B",
+                  color: "#FFFFFF",
+                  // borderRadius: "9999px",
+                }}
+              >
+                Next{" "}
+              </Button>
+            </div>
+          </div>
+        </Form>
+      )}
+
+      {activetab == 2 && authmode == "avs_noauth" && (
+        <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+              {error}
+            </div>
+          )}
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <Controller
+                control={control}
+                name="city"
+                rules={formvalidation4.city}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="City ">
+                      <Input {...field} type="text" placeholder="kigali" />
+                      <p className="text-[red]">{errors?.city?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <Controller
+                control={control}
+                name="state"
+                rules={formvalidation4.state}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="State ">
+                      <Input {...field} placeholder="Enter State" />
+
+                      <p className="text-[red]">{errors?.state?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+          </Row>
+
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <Controller
+                control={control}
+                name="country"
+                rules={formvalidation4.country}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Country">
+                      <Input {...field} type="text" placeholder="Rwanda" />
+
+                      <p className="text-[red]">{errors?.country?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <Controller
+                control={control}
+                name="address"
+                rules={formvalidation4.address}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Address">
+                      <Input {...field} type="text" placeholder="Address" />
+                      <p className="text-[red]">{errors?.address?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <Controller
+                control={control}
+                name="zipcode"
+                rules={formvalidation4.zipcode}
+                render={({ field }) => (
+                  <>
+                    <Form.Item
+                      label="Zipcode"
+                      className="w-[100%] text-red-700 !mb-2"
+                    >
+                      <Input
+                        {...field}
+                        type="number"
+                        placeholder="0000"
+                        className="text-gray-700 text-sm placeholder:text-sm "
+                      />
+
+                      <p className="text-[red]">{errors?.zipcode?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+            </Col>
+          </Row>
+
+          <div className="flex flex-col gap-2">
             <div className="flex gap-2">
               <Button
                 disabled={isLoading}
