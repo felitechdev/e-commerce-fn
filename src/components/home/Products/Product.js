@@ -139,27 +139,25 @@ const ProductPreview = ({ productInfo }) => {
       {productInfo.productImages !== undefined ? (
         <>
           <div className="max-w-80 h-[70%]  relative overflow-y-hidden ">
-            {/* <div className=""> */}
-
             {productInwhishlist ? (
               <FiHeart
-                className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
+                className="absolute text-[red] right-2 -top-1  bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
                 size={40}
                 onClick={(event) => handleAddwishlist(event)}
               />
             ) : (
               <FiHeart
-                className="absolute right-2 top-2 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
+                className="absolute right-2 -top-1 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
                 size={40}
                 onClick={(event) => handleAddwishlist(event)}
               />
             )}
-
-            <Image
-              className=" w-full h-full object-cover  rounded-tl-md rounded-tr-md"
-              imgSrc={productInfo.productImages.productThumbnail.url}
-            />
-            {/* </div> */}
+            <div className="m-2 ">
+              <Image
+                className=" w-full h-full object-cover  rounded-tl-md rounded-tr-md"
+                imgSrc={productInfo.productImages.productThumbnail.url}
+              />
+            </div>
             <div className="absolute top-3 left-4">
               {productInfo.discountPercentage > 0 && (
                 <Badge text={`- ${productInfo.discountPercentage}%`} />
