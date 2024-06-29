@@ -13,6 +13,7 @@ import Image from "../../designLayouts/Image";
 import { FiHeart } from "react-icons/fi";
 import { addTowishlist } from "../../../redux/Reducers/wishlist";
 import { removeTowishlist } from "../../../redux/Reducers/wishlist";
+import discountedFinalPrice from "../../../util/discountedFinalPrice";
 // change i made
 const ProductPreview = ({ productInfo }) => {
   const rootId = productInfo.id;
@@ -56,9 +57,13 @@ const ProductPreview = ({ productInfo }) => {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
-        price: productInfo.price,
+        price: discountedFinalPrice(
+          productInfo.price,
+          productInfo.discountPercentage
+        ),
         productThumbnail: productInfo.productThumbnail.url,
         seller: productInfo.seller,
+        discountPercentage: productInfo?.discountPercentage,
         items: 1,
       };
       cart.push(existingProduct);
@@ -196,13 +201,30 @@ const ProductPreview = ({ productInfo }) => {
               </h2>
               <div className="text-sm flex justify-between ">
                 <div>
-                  <div className="text-[#1D6F2B] font-semibold">
-                    <DisplayCurrency product={productInfo} />
-                  </div>
-                  {productInfo?.discountPercentage > 0 && (
-                    <div className="text-[#00000080] line-through">
-                      <DisplayCurrency product={productInfo} />
+                  {productInfo.discountPercentage <= 0 && (
+                    <div className="text-[#1D6F2B] font-semibold">
+                      <DisplayCurrency
+                        product={productInfo}
+                        isDiscount={false}
+                      />
                     </div>
+                  )}
+                  {productInfo.discountPercentage > 0 && (
+                    <>
+                      <div className=" text-[#1D6F2B] font-semibold  ">
+                        <DisplayCurrency
+                          product={productInfo}
+                          isDiscount={true}
+                        />
+                      </div>
+
+                      <div className=" text-[#00000080] font-semibold line-through">
+                        <DisplayCurrency
+                          product={productInfo}
+                          isDiscount={false}
+                        />
+                      </div>
+                    </>
                   )}
                 </div>
 

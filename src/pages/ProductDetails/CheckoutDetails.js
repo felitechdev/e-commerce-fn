@@ -8,6 +8,7 @@ import {
 } from "../../redux/Reducers/cartRecuder";
 import { useNavigate } from "react-router-dom";
 import AlertComponent from "../../components/designLayouts/AlertComponent";
+import discountedFinalPrice from "../../util/discountedFinalPrice";
 
 const CheckoutDetails = ({ product }) => {
   const navigate = useNavigate();
@@ -83,7 +84,10 @@ const CheckoutDetails = ({ product }) => {
               },
             }
           : null),
-        price: product.productDetails.price,
+        price: discountedFinalPrice(
+          product.productDetails.price,
+          product.productDetails.discountPercentage
+        ),
         productThumbnail: product.productDetails.productImages.productThumbnail,
         items: 1,
         seller: product.productDetails.seller,
