@@ -12,6 +12,7 @@ import { BiMinus } from "react-icons/bi";
 import Image from "../../designLayouts/Image";
 import { FiHeart } from "react-icons/fi";
 import { addTowishlist } from "../../../redux/Reducers/wishlist";
+import discountedFinalPrice from "../../../util/discountedFinalPrice";
 // change i made
 const ProductPreview = ({ productInfo }) => {
   const rootId = productInfo.id;
@@ -40,7 +41,7 @@ const ProductPreview = ({ productInfo }) => {
     }
   };
 
-  const handleAddCart = (event) => {
+  const handleAddCart = async (event) => {
     event.stopPropagation();
 
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -55,9 +56,13 @@ const ProductPreview = ({ productInfo }) => {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
-        price: productInfo.price,
+        price: await discountedFinalPrice(
+          productInfo.price,
+          productInfo.discountPercentage
+        ),
         productThumbnail: productInfo.productImages.productThumbnail,
         seller: productInfo.seller,
+        discountPercentage: productInfo?.discountPercentage,
         items: 1,
       };
       cart.push(existingProduct);
@@ -158,7 +163,7 @@ const ProductPreview = ({ productInfo }) => {
                 imgSrc={productInfo.productImages.productThumbnail.url}
               />
             </div>
-            <div className="absolute top-3 left-4">
+            <div className="absolute  text-[red] top-3 left-4">
               {productInfo.discountPercentage > 0 && (
                 <Badge text={`- ${productInfo.discountPercentage}%`} />
               )}
@@ -171,13 +176,30 @@ const ProductPreview = ({ productInfo }) => {
               </h2>
               <div className="text-sm flex justify-between ">
                 <div>
-                  <div className="text-[#1D6F2B] font-semibold">
-                    <DisplayCurrency product={productInfo} />
-                  </div>
-                  {productInfo.discountPercentage > 0 && (
-                    <div className="text-[#00000080] line-through">
-                      <DisplayCurrency product={productInfo} />
+                  {productInfo.discountPercentage <= 0 && (
+                    <div className="text-[#1D6F2B] font-semibold">
+                      <DisplayCurrency
+                        product={productInfo}
+                        isDiscount={false}
+                      />
                     </div>
+                  )}
+                  {productInfo.discountPercentage > 0 && (
+                    <>
+                      <div className=" text-[#1D6F2B] font-semibold  ">
+                        <DisplayCurrency
+                          product={productInfo}
+                          isDiscount={true}
+                        />
+                      </div>
+
+                      <div className=" text-[#00000080] font-semibold line-through">
+                        <DisplayCurrency
+                          product={productInfo}
+                          isDiscount={false}
+                        />
+                      </div>
+                    </>
                   )}
                 </div>
 
