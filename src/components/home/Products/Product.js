@@ -163,7 +163,7 @@ const ProductPreview = ({ productInfo }) => {
                 imgSrc={productInfo.productImages.productThumbnail.url}
               />
             </div>
-            <div className="absolute  text-primary top-3 left-4">
+            <div className="absolute  text-[red] top-3 left-4">
               {productInfo.discountPercentage > 0 && (
                 <Badge text={`- ${productInfo.discountPercentage}%`} />
               )}
