@@ -182,11 +182,14 @@ const ProductPreview = ({ productInfo }) => {
                 onClick={(event) => handleAddwishlist(event)}
               />
             )}
+            <div className="m-2 ">
+              {" "}
+              <Image
+                className=" w-full h-full object-cover  rounded-tl-md rounded-tr-md"
+                imgSrc={productInfo.productThumbnail.url}
+              />
+            </div>
 
-            <Image
-              className=" w-full h-full object-cover  rounded-tl-md rounded-tr-md"
-              imgSrc={productInfo.productThumbnail.url}
-            />
             {/* </div> */}
             <div className="absolute top-3 left-4">
               {productInfo?.discountPercentage > 0 && (
