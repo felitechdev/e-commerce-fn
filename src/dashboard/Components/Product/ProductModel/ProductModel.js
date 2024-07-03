@@ -150,6 +150,7 @@ const ProductModel = (props) => {
   const [error, setError] = React.useState([]);
   const [success, setSuccess] = React.useState("");
   const [fieldvalidation, setFieldValidation] = React.useState();
+  const [percentage, setPercentage] = React.useState(0);
   const [colorVariations, setColorVariations] = useState([
     // Initial color variation object
     {
@@ -744,7 +745,18 @@ const ProductModel = (props) => {
         </Modal>
       )}
       <Modal
-        title="Add product"
+        title={
+          <>
+            <h1 className="text-[#1D6F2B] font-bold text-lg text-center">
+              Add product
+            </h1>
+
+            <div className="text-red-600">
+              The price will include a 3% commission for Felictechnology on each
+              sale.
+            </div>
+          </>
+        }
         width="80rem"
         open={isModalOpen}
         closeIcon={
@@ -1446,13 +1458,28 @@ const ProductModel = (props) => {
                   ...registerinput.price,
                 }}
                 render={({ field }) => (
-                  <Form.Item label="Price" className="md:w-[48%]">
+                  <Form.Item
+                    label={
+                      <>
+                        Price
+                        <p className="text-[red] ml-2"> 3% commission </p> (
+                        {percentage})
+                      </>
+                    }
+                    className="md:w-[48%]"
+                  >
                     <InputNumber
                       className="w-full"
                       addonBefore="Rwf"
                       placeholder="amount"
                       name="price"
                       {...field}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        const commission = Math.trunc(value * 0.03);
+                        setPercentage(commission);
+                        console.log("value onchange", value, commission);
+                      }}
                     />
                     <p className="text-[red]">{errors?.price?.message}</p>
                   </Form.Item>
