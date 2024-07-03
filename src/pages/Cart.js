@@ -401,14 +401,16 @@ const Cart = () => {
   };
 
   let totalCost = cart.reduce((total, item) => {
-    return total + item.price * item.items;
+     
+ 
+    return total + Math.trunc(item.price) * item.items;
   }, 0);
 
   const cartTotl = cart.map((item) => {
     let product = {
       product: item.id,
       quantity: item.items,
-      price: item.price,
+      price: Math.trunc(item.price),
       productThumbnail: item.productThumbnail.url,
       ...(item.variations && {
         variation: { ...item.variations },
@@ -542,7 +544,11 @@ const Cart = () => {
                   <h2 className="col-span-2">Product</h2>
                   <h2>Price</h2>
                   <h2>Quantity</h2>
-                  <h2>Product Cost</h2>
+                  <h2>Product Cost    </h2>
+
+            
+
+
                 </div>
                 <div className="mt-5">
                   {cart.map((item) => (

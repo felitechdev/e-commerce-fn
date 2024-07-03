@@ -42,7 +42,7 @@ const ProductPreview = ({ productInfo }) => {
     }
   };
 
-  const handleAddCart = (event) => {
+  const handleAddCart = async (event) => {
     event.stopPropagation();
 
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -57,11 +57,13 @@ const ProductPreview = ({ productInfo }) => {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
-        price: discountedFinalPrice(
-          productInfo.price,
-          productInfo.discountPercentage
+        price: Math.trunc(
+          await discountedFinalPrice(
+            productInfo.price,
+            productInfo.discountPercentage
+          )
         ),
-        productThumbnail: productInfo.productThumbnail.url,
+        productThumbnail: productInfo.productImages.productThumbnail,
         seller: productInfo.seller,
         discountPercentage: productInfo?.discountPercentage,
         items: 1,
@@ -100,7 +102,7 @@ const ProductPreview = ({ productInfo }) => {
     localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
-  const handleAddwishlist = (event) => {
+  const handleAddwishlist = async (event) => {
     event.stopPropagation();
 
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
@@ -117,8 +119,13 @@ const ProductPreview = ({ productInfo }) => {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
-        price: productInfo.price,
-        productThumbnail: productInfo.productThumbnail.url,
+        price: Math.trunc(
+          await discountedFinalPrice(
+            productInfo.price,
+            productInfo.discountPercentage
+          )
+        ),
+        productThumbnail: productInfo.productImages.productThumbnail,
         seller: productInfo.seller,
         discountPercentage: productInfo?.discountPercentage,
         items: 1,
