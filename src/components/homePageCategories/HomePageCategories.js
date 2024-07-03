@@ -83,8 +83,6 @@ export default function HomePageCategories() {
     setHoveredproductclass(null);
   };
 
-  console.log("categories", categories);
-
   return (
     <div
       className="hidden lg:flex flex-col gap-2 w-full bg-[#D9D9D970] h-full relative rounded"

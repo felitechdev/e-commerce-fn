@@ -67,24 +67,35 @@ const SingleOrder = () => {
         .catch((error) => {});
     }
   }, [dispatch, ord, token]);
+
+  let sellers, customer;
   async function fetchProductData() {
     let products = await Promise.all(
       orders?.items?.map((item) => fetchProduct(item.product))
     );
 
-    let sellers =
+    sellers =
       !loading &&
       products.map(
         (product) =>
-          users?.find((user) => user?._id === product?.seller?._id)?.firstName
+          users?.find((user) => user?._id === product?.seller)?.firstName
       );
   }
 
   if (orders && orders.items && !loading) {
+    customer = users?.find((user) => user?.id == orders.customer);
+    console.log(
+      "single order",
+      orders.customer,
+      sellers,
+      customer,
+      users,
+      users?.find((user) => user?.id == orders.customer)
+    );
     fetchProductData();
   }
   const singleorder = ord.length > 0 ? ord : [];
-  console.log("single order", orders);
+
   return (
     <>
       {/* min-h-[500px] */}
@@ -145,7 +156,10 @@ const SingleOrder = () => {
               <div>
                 <h1 className="text-md font-bold">Payment</h1>
                 <h1 className="text-sm text-gray-400">
-                  {`${orders?.payment_type?.details}  , 
+                  {`${
+                    orders?.payment_type?.details ||
+                    orders?.payment_type?.mobile_number
+                  }  , 
 
 ${orders?.payment_type?.type}`}
                 </h1>
@@ -183,13 +197,18 @@ ${orders?.payment_type?.type}`}
                       {UserRole !== "customer" ? " Cutomer" : "My phone"}
                     </h1>
                     <p className="text-gray-400">
-                      Tel: {orders?.customerDetails?.phone_number}
+                      Tel:{" "}
+                      {orders?.customerDetails?.phone_number ||
+                        orders?.payment_type?.mobile_number ||
+                        orders?.shippingAddress?.phoneNumber}
                     </p>
                     <p className="text-gray-400">
-                      Email: {orders?.customerDetails?.email}
+                      Email: {orders?.customerDetails?.email || orders?.email}
                     </p>
                     <p className="text-gray-400">
-                      Name:{orders?.customerDetails?.name}
+                      Name:
+                      {orders?.customerDetails?.name ||
+                        customer?.firstName + " " + customer?.lastName}
                     </p>
                   </>
                 )}
