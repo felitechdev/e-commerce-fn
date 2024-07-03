@@ -17,6 +17,7 @@ import { FaSave } from "react-icons/fa";
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
 import { useUser } from "../context/UserContex";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "flowbite-react";
 // country input to check country phone number
 import PhoneInput from "antd-phone-input";
 import {
@@ -41,6 +42,7 @@ const OrderForm = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isdelivery, setIsdelivery] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const { handleSubmit, control } = useForm();
 
@@ -280,6 +282,8 @@ const Checkout = () => {
   const [selectedDistrict, setSelectedDistrict] = useState();
   const [selectedSector, setSelectedSector] = useState();
   const [deliveryprice, setDeliveryprice] = useState(0);
+  const [isdelivery, setIsdelivery] = useState(false);
+  const [isdeliveryapproved, setIsdeliveryapproved] = useState(false);
 
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [fillorderform, setFillorderform] = useState(false);
@@ -374,6 +378,14 @@ const Checkout = () => {
     }
   }, [orderDelivery]);
   // , deliveryprice, prevdeliveryprice
+
+  useEffect(() => {
+    if (selectedProvince !== "Kigali" && deliveryPreference === "Delivery") {
+      setIsdelivery(true);
+    } else {
+      setIsdelivery(false);
+    }
+  }, [deliveryPreference, selectedProvince]);
 
   const handleDistrictChange = (value) => {
     setSelectedDistrict(value);
@@ -614,7 +626,59 @@ const Checkout = () => {
           handlecancel={handlecancel}
         />
       )}
-      <div className="max-w-container mx-auto px-4">
+
+      {isdelivery && (
+        <div className="fixed bottom-0 p-2 z-50 pb-5 bg-[#fbe8e8] rounded-md w-[90%] md:w-1/3 right-5 md:right-20 shadow-lg border border-red-500">
+          <button
+            className="font-bold text-[red] absolute flex items-center justify-center -top-3 bg-[#fbe8e8] border-2   -right-3 p-2 rounded-full "
+            onClick={() => {
+              setIsdelivery(false);
+            }}
+          >
+            X
+          </button>
+          <div className="text-center">
+            <h3 className="text-lg font-bold mb-2">
+              Need Assistance with Delivery?
+            </h3>
+            <p className="mb-4">
+              If you are located outside Kigali and need delivery, please
+              contact us via:
+            </p>
+            <p className="mb-2">
+              <span className="font-bold">Phone:</span> +250 798 697 197
+            </p>
+            <p className="mb-2">
+              <span className="font-bold">Email:</span>
+              <a
+                href="mailto:info@felitechnology.com"
+                className="text-blue-500 underline"
+              >
+                info@felitechnology.com
+              </a>
+            </p>
+            <p className="mt-4 text-sm text-gray-600">
+              Please contact us to get the delivery price before you proceed
+              with your order. We are here to help! Reach out to us for any
+              queries or assistance.
+            </p>
+          </div>
+        </div>
+        // <div className=" fixed bottom-0 p-10  z-50  bg-[#fbe8e8] rounded-md  w-1/3 right-20 ">
+        //   {/* <Alert color="failure" type="Success" className=""> */}
+
+        //   <button className="font-bold text-[red] absolute flex items-center justify-center -top-3 bg-[#fbe8e8] border-2   -right-3 p-2 rounded-full ">
+        //     X
+        //   </button>
+        //   <p className="capitalize-first">
+        //     +250 798 697 197
+
+        //     info@felitechnology.com
+        //   </p>
+        //   {/* </Alert> */}
+        // </div>
+      )}
+      <div className="max-w-container mx-auto px-4  ">
         {cart && cart.length > 0 && (
           <div className="pb-20">
             <div className="flex flex-col-reverse md:flex-row  justify-between items-start gap-8">
