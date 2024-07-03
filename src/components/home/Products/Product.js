@@ -56,9 +56,11 @@ const ProductPreview = ({ productInfo }) => {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
-        price: await discountedFinalPrice(
-          productInfo.price,
-          productInfo.discountPercentage
+        price: Math.trunc(
+          await discountedFinalPrice(
+            productInfo.price,
+            productInfo.discountPercentage
+          )
         ),
         productThumbnail: productInfo.productImages.productThumbnail,
         seller: productInfo.seller,
@@ -99,7 +101,7 @@ const ProductPreview = ({ productInfo }) => {
     localStorage.setItem("cart", JSON.stringify(existingCart));
   };
 
-  const handleAddwishlist = (event) => {
+  const handleAddwishlist = async (event) => {
     event.stopPropagation();
 
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
@@ -116,11 +118,16 @@ const ProductPreview = ({ productInfo }) => {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
-        price: productInfo.price,
+        price: Math.trunc(
+          await discountedFinalPrice(
+            productInfo.price,
+            productInfo.discountPercentage
+          )
+        ),
         productThumbnail: productInfo.productImages.productThumbnail,
         seller: productInfo.seller,
-        items: 1,
         discountPercentage: productInfo?.discountPercentage,
+        items: 1,
       };
       wishlist.push(existingProduct);
     } else {

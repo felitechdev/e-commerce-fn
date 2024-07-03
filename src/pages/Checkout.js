@@ -461,14 +461,14 @@ const Checkout = () => {
   };
 
   let totalCost = cart.reduce((total, item) => {
-    return total + item.price * item.items;
+    return total + Math.trunc(item.price) * item.items;
   }, 0);
 
   const cartTotl = cart.map((item) => {
     let product = {
       product: item.id,
       quantity: item.items,
-      price: item.price,
+      price: Math.trunc(item.price),
       productThumbnail: item.productThumbnail.url,
       ...(item.variations && {
         variation: { ...item.variations },

@@ -23,6 +23,7 @@ export const OrderTable = (...props) => {
   const [order, setOrder] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [orderid, setOrderid] = useState();
+  const [value, setValue] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useUser().user;
   const UserRole = user?.role;
@@ -80,10 +81,16 @@ export const OrderTable = (...props) => {
       title: "#",
       dataIndex: "customerId",
       key: "customerId",
+      width: 50,
+    },
+    {
+      title: "Order",
+      dataIndex: "orderId",
+      key: "orderId",
       width: 100,
     },
     // {
-    //   title: "Order",
+    //   title: "Customer",
     //   dataIndex: "orderId",
     //   key: "orderId",
     //   width: 100,
@@ -177,13 +184,60 @@ export const OrderTable = (...props) => {
 
   console.log("orders", order);
 
+  const FilterByNameInput = (
+    <Input.Search
+      placeholder="search orderID ......."
+      allowClear
+      enterButton="Search"
+      size="large"
+      className="w-[80%] md:w-[50%] my-2"
+      value={value}
+      onChange={(e) => {
+        const currValue = e.target.value;
+        setValue(currValue);
+
+        const newData =
+          !loadorders && orders.length > 0
+            ? orders
+                ?.map((orderItem, index) => ({
+                  key: orderItem.id ? orderItem.id : orderItem._id,
+                  // customerId: orderItem.customer,
+                  orderId: orderItem.id,
+                  customerId: index + 1,
+                  // orderId: index + 1,
+                  amount: orderItem.amount,
+                  address: `${orderItem?.shippingAddress?.address?.street} , ${orderItem?.shippingAddress?.village} , ${orderItem?.shippingAddress?.cell}  , ${orderItem?.shippingAddress?.sector} , ${orderItem?.shippingAddress?.district} `,
+                  phoneNumber: `${orderItem?.shippingAddress?.phoneNumber} / ${
+                    orderItem?.customerDetails?.phone_number != undefined
+                      ? orderItem?.customerDetails?.phone_number
+                      : ""
+                  } `,
+                  itemsCount: orderItem.items.length,
+                  status: orderItem.status,
+
+                  updatedAt:
+                    // new Date(orderItem.updatedAt).toLocaleDateString() ||
+                    new Date(orderItem.createdAt).toLocaleDateString(),
+                }))
+
+                .filter((entry) =>
+                  entry.orderId.toLowerCase().includes(currValue.toLowerCase())
+                )
+            : [];
+
+        setFilteredData(newData);
+      }}
+      onSearch={() => {}} // Set the dataSource when searching
+    />
+  );
+
   useEffect(() => {
     const newData =
       !loadorders && orders.length > 0
         ? orders?.map((orderItem, index) => ({
             key: orderItem.id ? orderItem.id : orderItem._id,
             // customerId: orderItem.customer,
-            // orderId: orderItem.id,
+            orderId: orderItem.id,
             customerId: index + 1,
             // orderId: index + 1,
             amount: orderItem.amount,
@@ -218,18 +272,23 @@ export const OrderTable = (...props) => {
           <Loader className=" text-primary flex items-center w-full justify-center" />
         </>
       ) : (
-        <Table
-          rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
-          columns={columns}
-          dataSource={filteredData}
-          size="small"
-          tableLayout="fixed"
-          bordered={false}
-          className="w-full md:w-[90%]  custom-table   "
-          // scroll={{}}
+        <>
+          <div className="flex  w-full justify-start space-x-5 ">
+            {FilterByNameInput}
+          </div>
+          <Table
+            rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
+            columns={columns}
+            dataSource={filteredData}
+            size="small"
+            tableLayout="fixed"
+            bordered={false}
+            className="w-full md:w-[90%]  custom-table   "
+            // scroll={{}}
 
-          scroll={{ x: 1500 }}
-        />
+            scroll={{ x: 1500 }}
+          />
+        </>
       )}
     </>
   );

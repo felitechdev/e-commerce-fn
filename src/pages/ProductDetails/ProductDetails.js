@@ -6,9 +6,10 @@ import ProductSecondaryInfo from "./ProductSecondaryInfo";
 import { useDispatch } from "react-redux";
 import { addTowishlist } from "../../redux/Reducers/wishlist";
 import { removeTowishlist } from "../../redux/Reducers/wishlist";
+import discountedFinalPrice from "../../util/discountedFinalPrice";
 export default function ProductDetails({ product, dispatch }) {
-  const handleAddwishlist = (event) => {
-    event.stopPropagation();
+  const handleAddwishlist = async (id) => {
+    // event.stopPropagation();
 
     let productInfo = product.productDetails;
 
@@ -18,15 +19,18 @@ export default function ProductDetails({ product, dispatch }) {
       wishlist = [];
     }
 
-    let existingProduct = wishlist.find(
-      (product) => product.id === productInfo.id
-    );
+    let existingProduct = wishlist.find((product) => product.id === id);
 
     if (!existingProduct) {
       existingProduct = {
         id: productInfo.id,
         name: productInfo.name,
-        price: productInfo.price,
+        price: Math.trunc(
+          await discountedFinalPrice(
+            productInfo.price,
+            productInfo.discountPercentage
+          )
+        ),
         productThumbnail: productInfo.productImages.productThumbnail,
         seller: productInfo.seller,
         discountPercentage: productInfo?.discountPercentage,
@@ -36,6 +40,8 @@ export default function ProductDetails({ product, dispatch }) {
     } else {
       // existingProduct.items += 0;
     }
+
+    console.log("clicked", existingProduct);
 
     // Dispatch the addTowishlist action to update the Redux state
     dispatch(addTowishlist(existingProduct));
