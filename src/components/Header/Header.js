@@ -22,7 +22,13 @@ import Image from "../designLayouts/Image";
 import { useUser } from "../../context/UserContex";
 import SearchBar from "./SearchBar";
 import { useSearchParams } from "react-router-dom";
+
 import { useQuery } from "@tanstack/react-query";
+import { MobileCategoryNav } from "../ProductsCategories";
+import ProductClassAccordion from "../pageProps/shopPage/Accordions/ProductClass";
+import ProductCategoryAccordion from "../pageProps/shopPage/Accordions/productCategory";
+import ProductSubCategoryAccordion from "../pageProps/shopPage/Accordions/ProductSubCategory";
+import ProductBrandAccordion from "../pageProps/shopPage/Accordions/productBrand";
 
 // let cart = JSON.parse(localStorage.getItem("cart"));
 
@@ -310,7 +316,7 @@ const Header = (props) => {
                 transition={{ duration: 0.5 }}
                 className="w-[80%] h-full relative"
               >
-                <div className="w-full h-full bg-[#1D6F2B] ml-0 p-6">
+                <div className="w-full z-50 h-full bg-[#1D6F2B] ml-0 p-6">
                   <img
                     className="w-40 mb-6 "
                     src={FeliTechWhiteLogo}
@@ -353,7 +359,25 @@ const Header = (props) => {
                         transition={{ duration: 0.4 }}
                         className="text-sm flex flex-col gap-1"
                       >
-                        {!isLoading &&
+                        <div className="flex-col w-full space-y-2  overflow-auto mdl:overflow-hidden ">
+                          {" "}
+                          <div className=" z-0 ">
+                            <ProductClassAccordion ismobile={true} />
+                          </div>
+                          <div className="z-0">
+                            <ProductCategoryAccordion ismobile={true} />
+                          </div>
+                          {categoryId && (
+                            <div className="z-0">
+                              <ProductSubCategoryAccordion ismobile={true} />
+                            </div>
+                          )}
+                          <div className="z-0 ">
+                            <ProductBrandAccordion ismobile={true} />
+                          </div>
+                        </div>
+
+                        {/* {!isLoading &&
                           categories &&
                           categories.map((category) => (
                             <>
@@ -369,7 +393,7 @@ const Header = (props) => {
                                 </li>
                               </a>
                             </>
-                          ))}
+                          ))} */}
                       </motion.ul>
                     )}
                   </div>
