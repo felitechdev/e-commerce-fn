@@ -84,7 +84,7 @@ const ProductClassAccordion = (props) => {
                         onClick={() => {
                           handleOnClickBrand2(item);
                         }}
-                        className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
+                        className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
                       >
                         {" "}
                         {item.name}
@@ -94,7 +94,7 @@ const ProductClassAccordion = (props) => {
                     {clickCount >= 1 && (
                       <Link
                         to={`/shop/?productClass=${item.id}`}
-                        className="capitalize py-1 px-2  rounded-full bg-slate-700 text-white hover:text-underline"
+                        className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
                       >
                         {item.name}
                       </Link>

@@ -309,14 +309,24 @@ const Header = (props) => {
             className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
           />
           {sidenav && (
-            <div className="fixed top-0 right-0 w-full h-screen bg-black text-gray-200 bg-opacity-80 z-50">
+            <div
+              className="fixed top-0 right-0 w-full h-screen bg-black text-gray-200 bg-opacity-80"
+              style={{
+                zIndex: 3000,
+              }}
+            >
               <motion.div
                 initial={{ x: -300, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 className="w-[80%] h-full relative"
               >
-                <div className="w-full z-50 h-full bg-[#1D6F2B] ml-0 p-6">
+                <div
+                  className="w-full  h-full bg-primary ml-0 p-6"
+                  style={{
+                    zIndex: 3000,
+                  }}
+                >
                   <img
                     className="w-40 mb-6 "
                     src={FeliTechWhiteLogo}
