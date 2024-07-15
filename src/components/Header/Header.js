@@ -351,9 +351,13 @@ const Header = (props) => {
                     ))}
                   </ul>
                   <div
-                    className={`mt-4 bg-[#1D6F2B] ${
-                      categoryId ? "hidden" : "blocks"
-                    }`}
+                    className={`mt-4 bg-[#1D6F2B]
+                       ${
+                         // categoryId  ? "hidden" : "blocks"
+                         ""
+                       }
+                       
+                    `}
                   >
                     <h1
                       onClick={() => setCategory(!category)}
