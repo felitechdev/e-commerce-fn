@@ -69,7 +69,18 @@ const ProductSubCategoryAccordion = ({ brands, handlefilterShow }) => {
                   onClick={() => {
                     handleOnClickBrand(item);
                   }}
-                  className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
+                  className={`border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer
+                      
+                      
+
+                    ${
+                      item.id === subcategoryId
+                        ? " border-b-primary text-primary font-bold"
+                        : ""
+                    }
+                    
+                    
+                    `}
                 >
                   {item.name}
                 </li>
