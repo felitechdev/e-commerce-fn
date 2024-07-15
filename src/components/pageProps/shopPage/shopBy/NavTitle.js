@@ -8,7 +8,7 @@ const NavTitle = ({ title, icons, classname }) => {
         <>
           {/* text-lg underline lg:text-xl */}
           <h2 className={`font-bold ${classname}  text-primeColor`}>{title}</h2>
-          {icons && <BiCaretDown />}
+          {icons && <BiCaretDown className="text-black" zise={24} />}
         </>
       ) : (
         <>
