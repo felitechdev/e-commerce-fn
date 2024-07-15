@@ -22,7 +22,13 @@ import Image from "../designLayouts/Image";
 import { useUser } from "../../context/UserContex";
 import SearchBar from "./SearchBar";
 import { useSearchParams } from "react-router-dom";
+
 import { useQuery } from "@tanstack/react-query";
+import { MobileCategoryNav } from "../ProductsCategories";
+import ProductClassAccordion from "../pageProps/shopPage/Accordions/ProductClass";
+import ProductCategoryAccordion from "../pageProps/shopPage/Accordions/productCategory";
+import ProductSubCategoryAccordion from "../pageProps/shopPage/Accordions/ProductSubCategory";
+import ProductBrandAccordion from "../pageProps/shopPage/Accordions/productBrand";
 
 // let cart = JSON.parse(localStorage.getItem("cart"));
 
@@ -303,14 +309,24 @@ const Header = (props) => {
             className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
           />
           {sidenav && (
-            <div className="fixed top-0 right-0 w-full h-screen bg-black text-gray-200 bg-opacity-80 z-50">
+            <div
+              className="fixed top-0 right-0 w-full h-screen bg-black text-gray-200 bg-opacity-80"
+              style={{
+                zIndex: 3000,
+              }}
+            >
               <motion.div
                 initial={{ x: -300, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 className="w-[80%] h-full relative"
               >
-                <div className="w-full h-full bg-[#1D6F2B] ml-0 p-6">
+                <div
+                  className="w-full  h-full bg-primary ml-0 p-6"
+                  style={{
+                    zIndex: 3000,
+                  }}
+                >
                   <img
                     className="w-40 mb-6 "
                     src={FeliTechWhiteLogo}
@@ -335,9 +351,13 @@ const Header = (props) => {
                     ))}
                   </ul>
                   <div
-                    className={`mt-4 bg-[#1D6F2B] ${
-                      categoryId ? "hidden" : "blocks"
-                    }`}
+                    className={`mt-4 bg-[#1D6F2B]
+                       ${
+                         // categoryId  ? "hidden" : "blocks"
+                         ""
+                       }
+                       
+                    `}
                   >
                     <h1
                       onClick={() => setCategory(!category)}
@@ -353,7 +373,25 @@ const Header = (props) => {
                         transition={{ duration: 0.4 }}
                         className="text-sm flex flex-col gap-1"
                       >
-                        {!isLoading &&
+                        <div className="flex-col w-full space-y-2  overflow-auto mdl:overflow-hidden ">
+                          {" "}
+                          <div className=" z-0 ">
+                            <ProductClassAccordion ismobile={true} />
+                          </div>
+                          <div className="z-0">
+                            <ProductCategoryAccordion ismobile={true} />
+                          </div>
+                          {categoryId && (
+                            <div className="z-0">
+                              <ProductSubCategoryAccordion ismobile={true} />
+                            </div>
+                          )}
+                          <div className="z-0 ">
+                            <ProductBrandAccordion ismobile={true} />
+                          </div>
+                        </div>
+
+                        {/* {!isLoading &&
                           categories &&
                           categories.map((category) => (
                             <>
@@ -369,7 +407,7 @@ const Header = (props) => {
                                 </li>
                               </a>
                             </>
-                          ))}
+                          ))} */}
                       </motion.ul>
                     )}
                   </div>

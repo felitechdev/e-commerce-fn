@@ -50,7 +50,10 @@ function ProductsCategories() {
 
   return (
     <div className="w-full mx-auto ">
-      <MobileCategoryNav title="Shop by Categories" categoryId={categoryId} />
+      {/* <MobileCategoryNav
+        title="Shop by Categories  phone"
+        categoryId={categoryId}
+      /> */}
       <Banner />
 
       <div className="max-w-container mx-auto px-4">

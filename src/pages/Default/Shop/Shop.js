@@ -113,7 +113,7 @@ const Shop = () => {
             <ShopSideNav brands={category && category.brands} />
           </div>
           <div className="w-full   mdl:w-[80%] lgl:w-[75%] h-full flex border  relative flex-col gap-10">
-            <div className=" fixed z-50">
+            <div className=" fixed z-10">
               {" "}
               <ProductBanner
                 showfilter={showfilter}

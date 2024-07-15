@@ -11,7 +11,7 @@ const ProductBrandAccordion = ({ brands, handlefilterShow }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const categoryId = searchParams.get("category");
-  const subcategoryId = searchParams.get("subCategory");
+  const brandId = searchParams.get("brand");
   const productclassId = searchParams.get("productClass");
   const handleOnClickBrand = (brand) => {
     searchParams.set("brand", brand.id);
@@ -56,7 +56,18 @@ const ProductBrandAccordion = ({ brands, handlefilterShow }) => {
                   onClick={() => {
                     handleOnClickBrand(item);
                   }}
-                  className="border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer"
+                  className={`border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer
+                      
+                      
+
+                    ${
+                      item.id === brandId
+                        ? " border-b-primary text-primary font-bold"
+                        : ""
+                    }
+                    
+                    
+                    `}
                 >
                   {item.name}
                 </li>
