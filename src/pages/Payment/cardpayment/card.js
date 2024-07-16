@@ -135,14 +135,17 @@ export const CardPayment = ({
         setPinpayload(res?.data?.data?.payment_payload);
       }
 
-      if (res.data.status === "success") {
+      console.log("redirect url", res.data.status, res?.data?.data);
+
+      if (res.data.status === "success" && res?.data?.data?.redirect_url) {
         setIsLoading(false);
+        setActivetab(1);
         // Get the redirect link from the response
-        const redirectLink = res.data.data.meta.authorization.redirect;
+        const redirectLink = res?.data?.data?.redirect_url;
 
         // Open the redirect link in a new tab
-        // window.open(redirectLink, "_blank");
-        // handlecancel();
+        window.open(redirectLink, "_blank");
+        handlecancel();
       }
     } catch (error) {
       // if (error.response.data.message === "Payment not completed.")
