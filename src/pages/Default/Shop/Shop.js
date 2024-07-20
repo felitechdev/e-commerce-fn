@@ -92,7 +92,7 @@ const Shop = () => {
 
   return (
     <PageLayout showFooter={false}>
-      <MobileCategoryNav title="Products Filters" categoryId={categoryId} />
+      {/* <MobileCategoryNav title="Products Filters" categoryId={categoryId} /> */}
 
       <div className="max-w-container mx-auto px-4 mt-5">
         {/* <Breadcrumbs title='Products' /> */}
@@ -102,7 +102,7 @@ const Shop = () => {
           </div> */}
 
           {showfilter && (
-            <div className="w-[200px] lgl:w-[25%] bg-[white]  opacity-100    absolute mdl:relative mdl:hidden z-20 mdl:z-0 left-0 top-0  h-full">
+            <div className="w-[300px] lgl:w-[25%] bg-[white]  opacity-100    absolute mdl:relative mdl:hidden z-20 mdl:z-0 left-0 top-0  h-full">
               <ShopSideNav
                 brands={category && category.brands}
                 handlefilterShow={handlefilterShow}
