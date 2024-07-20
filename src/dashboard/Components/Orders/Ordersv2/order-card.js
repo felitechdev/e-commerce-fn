@@ -44,10 +44,12 @@ const OrderCard = ({ order }) => {
       </div>
 
       <div className="order-header flex my-3 space-x-3">
-        <span className="flex">
-          #payment -{" "}
-          <p className="font-semibold ml-2">{order.payment_type.type}</p>
-        </span>
+        {order?.payment_type && (
+          <span className="flex">
+            #payment -{" "}
+            <p className="font-semibold ml-2">{order?.payment_type?.type}</p>
+          </span>
+        )}
 
         <Tag
           style={{ color: "black", fontWeight: "bold" }}

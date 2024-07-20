@@ -21,23 +21,18 @@ import { statusColors } from "../../../../common/statuscolor";
 import { fetchProduct } from "../../../../APIs/Product";
 
 const SingleOrder = () => {
-  const [isLoading, setLoading] = useState(true);
   const token = Cookies.get("token");
-  // const [user, onSetProfile] = useUser();
+
   const user = useUser().user;
   const dispatch = useDispatch();
-  const setUser = useUser().setUser;
+
   const navigate = useNavigate();
-  const onSetProfile = useUser().onSetProfile;
+
   const { id } = useParams();
   const [ord, setOrd] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [openmodel, setOpenmodel] = useState(false);
+
   const [orders, setOrders] = useState();
-  const [usenameopenmodel, setUsernameopenmodel] = useState(false);
-  const { order, loadorder, errororder } = useSelector(
-    (state) => state.singleorder
-  );
+
   const { loading, users } = useSelector((state) => state.users);
 
   const UserRole = user?.role;

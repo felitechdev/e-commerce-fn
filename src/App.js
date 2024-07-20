@@ -38,6 +38,7 @@ import { ProductBrand } from "./dashboard/Components/ProductBrand/ProductBrand";
 import { FeliTechLogo_transparent } from "./assets/images";
 import Checkout from "./pages/Checkout";
 import { Wishlist } from "./pages/Wishlist";
+import OrderDetail from "./dashboard/Components/Orders/Ordersv2/single-order/order";
 
 // localStorage.removeItem("selectedKey");
 
@@ -115,7 +116,8 @@ const App = () => {
             <Route path="users" element={<Users />} />
             {/* <Route path="order" element={<Orders />} /> */}
             <Route path="order" element={<OrdersV2 />} />
-            <Route path="order/:id" element={<SingleOrder />} />
+            {/* <Route path="order/:id" element={<SingleOrder />} /> */}
+            <Route path="order/:id" element={<OrderDetail />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
 
