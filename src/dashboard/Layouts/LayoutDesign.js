@@ -240,7 +240,7 @@ export const LayoutDesign = ({ userprofile }) => {
               <motion.button>
                 <HomeFilled
                   onClick={() => navigate("/", { replace: true })}
-                  className="text-primary text-lg"
+                  className="text-primary text-lg m-3"
                   size={90}
                   style={{ color: "green", fontSize: "30px" }}
                 />
@@ -252,8 +252,8 @@ export const LayoutDesign = ({ userprofile }) => {
               // mode="inline"
               defaultSelectedKeys={[selectedKey]}
               onClick={handleMenuClick}
-              style={{ color: "green" }}
-              className="font-bold !text-primary h-full"
+              style={{ color: "black" }}
+              className="font-bold !text-black h-full"
             >
               {Menus.map((item, index) => {
                 return (
@@ -279,7 +279,7 @@ export const LayoutDesign = ({ userprofile }) => {
           </Sider>
         )}
         <Layout className="overflow-auto scrollbar-hidden bg-light">
-          <Header className="fixed z-50 w-[100%] top-0 left- right-0 bg-primary flex justify-between pl-0  pr-5">
+          <Header className="fixed z-50 w-[100%] top-0 left- right-0 border shadow-md bg-white !text-primary flex justify-between pl-0  pr-5">
             <div className="flex items-center ">
               <Button
                 type="text"
@@ -293,7 +293,7 @@ export const LayoutDesign = ({ userprofile }) => {
                   width: 64,
                   height: 64,
                   fontWeight: "bold",
-                  color: "white",
+                  color: "#1D6F2B",
                   // backgroundColor: "red",
                   display: "flex",
                   justifyContent: "center",
@@ -326,13 +326,14 @@ export const LayoutDesign = ({ userprofile }) => {
                   </Menu>
                 }
               >
-                <Space wrap size={16}>
+                <Space wrap size={16} className="">
                   {user?.photo || user?.profileImageUrl == "default.jpg" ? (
                     <>
                       <Avatar
                         shape="square"
                         size={50}
                         icon={<UserOutlined />}
+                        className="bg-[#1D6F2B]"
                       />
                     </>
                   ) : (
@@ -372,7 +373,7 @@ const TitleDisplay = () => {
   const dynamicTitle = useTitleContext();
 
   return (
-    <h1 className="font-bold text-white" style={{ marginLeft: "16px" }}>
+    <h1 className="font-bold text-primary" style={{ marginLeft: "16px" }}>
       {dynamicTitle}
     </h1>
   );

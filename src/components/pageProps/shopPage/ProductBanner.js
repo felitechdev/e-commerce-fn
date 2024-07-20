@@ -77,7 +77,7 @@ const ProductBanner = ({
           <ImList />
         </span> */}
       </div>
-      <div className="hidden md:flex  ml-3  items-center gap-2 md:gap-6 mt-2 md:-mt-7 relative   ">
+      {/* <div className="hidden md:flex  ml-3  items-center gap-2 md:gap-6 mt-2 md:-mt-7 relative   ">
         <div className="     flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
           {" "}
           <div className=" z-0 ">
@@ -95,7 +95,7 @@ const ProductBanner = ({
             <ProductBrandAccordion ismobile={false} />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

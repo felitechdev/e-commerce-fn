@@ -310,9 +310,18 @@ const Header = (props) => {
           />
           {sidenav && (
             <div
-              className="fixed top-0 right-0 w-full h-screen bg-black text-gray-200 bg-opacity-80"
+              className="fixed top-0 right-0 w-full h-screen bg-black text-gray-200 bg-opacity-80 overflow-auto"
               style={{
                 zIndex: 3000,
+              }}
+              onMouseMove={(e) => {
+                e.stopPropagation();
+              }}
+              onMouseOver={(e) => {
+                e.stopPropagation();
+              }}
+              onMouseEnter={(e) => {
+                e.stopPropagation();
               }}
             >
               <motion.div
@@ -322,7 +331,7 @@ const Header = (props) => {
                 className="w-[80%] h-full relative"
               >
                 <div
-                  className="w-full  h-full bg-primary ml-0 p-6"
+                  className="w-full  h-full bg-primary ml-0 p-6 overflow-auto "
                   style={{
                     zIndex: 3000,
                   }}
@@ -351,13 +360,22 @@ const Header = (props) => {
                     ))}
                   </ul>
                   <div
-                    className={`mt-4 bg-[#1D6F2B]
+                    className={`mt-4 bg-[#1D6F2B]  overflow-auto
                        ${
                          // categoryId  ? "hidden" : "blocks"
                          ""
                        }
                        
                     `}
+                    onMouseMove={(e) => {
+                      e.stopPropagation();
+                    }}
+                    onMouseOver={(e) => {
+                      e.stopPropagation();
+                    }}
+                    onMouseEnter={(e) => {
+                      e.stopPropagation();
+                    }}
                   >
                     <h1
                       onClick={() => setCategory(!category)}

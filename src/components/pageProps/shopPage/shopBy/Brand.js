@@ -24,7 +24,7 @@ const Brand = ({ brands, handlefilterShow }) => {
   console.log("productbrand", productbrand);
 
   return (
-    <div>
+    <div className="bg-white">
       <div
         onClick={() => setShowBrands(!showBrands)}
         className="cursor-pointer"

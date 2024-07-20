@@ -88,7 +88,8 @@ const SellerProfile = () => {
   }, []);
 
   return (
-    <div className=" flex   justify-center  w-full h-min">
+    // <div className=" flex   justify-center  w-full h-min">
+    <div className="bg-white border shadow-md rounded-md w-full lg:w-1/2 h-min  pb-3">
       <div className="   bg-[white] rounded-md w-full pr-3 min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal md:pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
@@ -455,13 +456,13 @@ const SellerProfile = () => {
                 )}
               </div>
             )}
-            <div className=" p-0  md:pl-10 mt-1  ">
+            {/* <div className=" p-0  md:pl-10 mt-1  ">
               <h1 className=" text-border font-bold text-lg  underline mb-3">
                 My location
-              </h1>
+              </h1> */}
 
-              <MyMapComponent />
-            </div>
+            {/* <MyMapComponent /> */}
+            {/* </div> */}
           </>
         )}
 
