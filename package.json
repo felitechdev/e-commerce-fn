@@ -24,6 +24,7 @@
     "axios": "^1.6.2",
     "axios-cookiejar-support": "^4.0.7",
     "chokidar": "^3.5.3",
+    "date-fns": "^3.6.0",
     "flowbite-react": "^0.6.4",
     "framer-motion": "^8.0.2",
     "google-maps-react-markers": "^2.0.8",

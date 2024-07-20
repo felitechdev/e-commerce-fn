@@ -16,9 +16,11 @@ import {
   DashProducts,
   Dashboard,
   Orders,
+  OrdersV2,
   Retailer,
   ProductClass,
 } from "./dashboard/Components";
+
 import SingleOrder from "./dashboard/Components/Orders/Order/singleOrder";
 import { LayoutDesign } from "./dashboard/Layouts/LayoutDesign";
 import SellerProfile from "./pages/Account/Profile/SellerProfile";
@@ -111,7 +113,8 @@ const App = () => {
             <Route path="category" element={<Category />} />
 
             <Route path="users" element={<Users />} />
-            <Route path="order" element={<Orders />} />
+            {/* <Route path="order" element={<Orders />} /> */}
+            <Route path="order" element={<OrdersV2 />} />
             <Route path="order/:id" element={<SingleOrder />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>

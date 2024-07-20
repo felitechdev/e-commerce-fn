@@ -240,7 +240,7 @@ export const LayoutDesign = ({ userprofile }) => {
               <motion.button>
                 <HomeFilled
                   onClick={() => navigate("/", { replace: true })}
-                  className="text-primary text-lg"
+                  className="text-primary text-lg m-3"
                   size={90}
                   style={{ color: "green", fontSize: "30px" }}
                 />
@@ -252,8 +252,8 @@ export const LayoutDesign = ({ userprofile }) => {
               // mode="inline"
               defaultSelectedKeys={[selectedKey]}
               onClick={handleMenuClick}
-              style={{ color: "green" }}
-              className="font-bold !text-primary h-full"
+              style={{ color: "black" }}
+              className="font-bold !text-black h-full"
             >
               {Menus.map((item, index) => {
                 return (
