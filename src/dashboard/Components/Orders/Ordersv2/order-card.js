@@ -72,14 +72,6 @@ const OrderCard = ({ order }) => {
                 {order.shippingAddress.district}
               </p>
             </span>
-            {user?.role == "admin" && (
-              <span className="flex">
-                <IoPersonSharp size={20} />
-                <p className="">
-                  {order?.momo_payload && order?.momo_payload?.fullname}
-                </p>
-              </span>
-            )}
           </div>
 
           <div className="flex space-x-2">
@@ -101,6 +93,14 @@ const OrderCard = ({ order }) => {
               </Tag>
             </span>
           </div>
+          {user?.role == "admin" && (
+            <span className="flex">
+              <IoPersonSharp size={20} />
+              <p className="">
+                {order?.momo_payload && order?.momo_payload?.fullname}
+              </p>
+            </span>
+          )}
         </d>
       </div>
 

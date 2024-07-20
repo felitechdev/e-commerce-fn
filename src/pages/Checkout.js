@@ -44,7 +44,6 @@ const OrderForm = ({
   const [error, setError] = useState("");
   const [isdelivery, setIsdelivery] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
-  const { handleSubmit, control } = useForm();
 
   // check user
 
@@ -52,6 +51,7 @@ const OrderForm = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onErrors = (errors) => {};
+  const { handleSubmit, control, setValue, getValues } = useForm();
 
   const handleclearCart = () => {
     let existingCart = JSON.parse(localStorage.getItem("cart"));
@@ -62,6 +62,22 @@ const OrderForm = ({
     }
     localStorage.setItem("cart", JSON.stringify(existingCart));
   };
+
+  // Load saved form data from localStorage on mount
+  useEffect(() => {
+    const savedFormData = JSON.parse(localStorage.getItem("orderFormData"));
+    if (savedFormData) {
+      Object.keys(savedFormData).forEach((key) => {
+        setValue(key, savedFormData[key]);
+      });
+    }
+  }, [setValue]);
+
+  // Save form data to localStorage on change
+  useEffect(() => {
+    const formData = getValues();
+    localStorage.setItem("orderFormData", JSON.stringify(formData));
+  });
 
   const onSubmit = async (data) => {
     let requestData = {
@@ -107,6 +123,8 @@ const OrderForm = ({
 
         handlecancel();
         handleclearCart();
+
+        // navigate("/", { replace: true });
       }
 
       // alert("Payment was successfull!");
@@ -277,7 +295,7 @@ const Checkout = () => {
   const [loading, setLoadng] = useState(false);
   const [checkoutform, setCheckoutform] = useState(false);
   const token = Cookies.get("token");
-
+  // const { handleSubmit, control, setValue, getValues } = useForm();
   const [selectedProvince, setSelectedProvince] = useState();
   const [selectedDistrict, setSelectedDistrict] = useState();
   const [selectedSector, setSelectedSector] = useState();
@@ -495,6 +513,8 @@ const Checkout = () => {
     control,
     formState: { errors },
     handleSubmit,
+    setValue,
+    getValues,
   } = useForm({
     defaultValues: "", // Set default values from profileview
   });
@@ -560,6 +580,24 @@ const Checkout = () => {
       //   ispaymentsucces && setCheckoutform(!checkoutform);
     }
   };
+
+  // Load saved form data from localStorage on mount
+  useEffect(() => {
+    const savedFormData = JSON.parse(
+      localStorage.getItem("shippingInfoFormData")
+    );
+    if (savedFormData) {
+      Object.keys(savedFormData).forEach((key) => {
+        setValue(key, savedFormData[key]);
+      });
+    }
+  }, [setValue]);
+
+  // Save form data to localStorage on change
+  useEffect(() => {
+    const formData = getValues();
+    localStorage.setItem("shippingInfoFormData", JSON.stringify(formData));
+  });
 
   // handle pay with card
   const onFinishCard = async (values) => {
