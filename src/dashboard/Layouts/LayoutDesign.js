@@ -270,7 +270,12 @@ export const LayoutDesign = ({ userprofile }) => {
                         }
                       }}
                     >
-                      <NavLink to={`/user/${item.link}`}>{item.name} </NavLink>
+                      <NavLink
+                        style={{ color: "black" }}
+                        to={`/user/${item.link}`}
+                      >
+                        {item.name}{" "}
+                      </NavLink>
                     </Menu.Item>
                   )
                 );
@@ -373,7 +378,10 @@ const TitleDisplay = () => {
   const dynamicTitle = useTitleContext();
 
   return (
-    <h1 className="font-bold text-primary" style={{ marginLeft: "16px" }}>
+    <h1
+      className="font-bold text-primary text-xl md:text-2xl "
+      style={{ marginLeft: "16px" }}
+    >
       {dynamicTitle}
     </h1>
   );

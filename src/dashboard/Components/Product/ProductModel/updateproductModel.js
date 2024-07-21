@@ -84,8 +84,12 @@ const UpdateProductModel = (props) => {
   const [companys, setCompanys] = useState([]);
   const [categorys, setCategorys] = useState([]);
   const [subcategorys, setSubcategorys] = useState([]);
+  const [productClasses, setProductClasses] = useState([]);
+  const [productBrands, setProductBrands] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  const [selectedProductClass, setSelectedProductClass] = useState("");
+  const [selectedProductBrand, setSelectedProductBrand] = useState("");
   const token = Cookies.get("token");
 
   // ahndel ulpad images on frontend
@@ -116,6 +120,17 @@ const UpdateProductModel = (props) => {
   const { subcategories, loadsubcategory, errsubcategory } = useSelector(
     (state) => state.subcategory
   );
+  const {
+    loading: productclassLoading,
+    productclass: productclassData,
+    errorMessage: productclassError,
+  } = useSelector((state) => state.productclass);
+  const {
+    loading: loadbrand,
+    productbrand,
+    errorMessage,
+  } = useSelector((state) => state.productbrand);
+
   const [DBProductInfo, setDBProductInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [id, setId] = useState(null);
@@ -414,12 +429,42 @@ const UpdateProductModel = (props) => {
       label: comp?.user?.firstName,
     }));
 
+  const productclassSelect =
+    productclassData &&
+    productclassData?.map((productclass) => ({
+      value: productclass.id,
+      label: productclass.name,
+    }));
+
+  const selectedCategoryProductclass =
+    productclassData &&
+    categorys &&
+    categorys
+      .filter((cat) => cat.productClass == selectedProductClass)
+      .map((cat) => cat);
+
   const categorySelect =
     categorys &&
-    categorys?.map((cat) => ({
+    selectedCategoryProductclass?.map((cat) => ({
       value: cat?.id,
       label: cat?.name,
     }));
+
+  const selectBrandOption =
+    productbrand &&
+    productbrand
+      .filter((brand) => brand.productClass == selectedProductClass)
+      .map((brand) => ({
+        value: brand.id,
+        label: brand.name,
+      }));
+
+  // const categorySelect =
+  //   categorys &&
+  //   categorys?.map((cat) => ({
+  //     value: cat?.id,
+  //     label: cat?.name,
+  //   }));
 
   const selectedCategoryObj = categorys.find(
     (cat) => cat.id === selectedCategory
@@ -604,15 +649,19 @@ const UpdateProductModel = (props) => {
       });
 
     if (field === "stock")
-      setStock((prevstock) => {
-        const updatedStock = [...prevstock];
-        updatedStock[index] = {
-          ...updatedStock[index],
-          stock: parseInt(value),
-        };
+      try {
+        setStock((prevstock) => {
+          const updatedStock = [...prevstock];
+          updatedStock[index] = {
+            ...updatedStock[index],
+            stock: parseInt(value),
+          };
 
-        return updatedStock;
-      });
+          return updatedStock;
+        });
+      } catch (error) {
+        console.log("error while updating stock", error.message);
+      }
   };
 
   function handleonuploadOtherImages(error, result, widget) {
@@ -629,12 +678,17 @@ const UpdateProductModel = (props) => {
   // };
 
   let stockforproduct =
-    stock.length > 0 ? stock.reduce((acc, curr) => acc + curr.stock, 0) : 0;
+    stock.length > 0
+      ? stock.reduce((acc, curr) => acc + curr?.stock, 0)
+      : Object.keys(DBProductInfo).length !== 0 && DBProductInfo.stockQuantity;
 
+  console.log("stock", stock, stockforproduct);
   useEffect(() => {
     // Update form values if profileview changes
 
     if (Object.keys(DBProductInfo).length === 0) return;
+
+    stockforproduct = DBProductInfo.stockQuantity;
 
     setMainImageUrl(DBProductInfo.productImages.productThumbnail.url);
     setOtherImageUrls(
@@ -643,19 +697,23 @@ const UpdateProductModel = (props) => {
     setValue("name", DBProductInfo.name || "");
     setValue("price", DBProductInfo.price || "");
 
-    setValue("seller", DBProductInfo?.seller?.id || "");
+    setValue("seller", DBProductInfo?.seller || "");
     setValue(
       "productThumbnail",
       DBProductInfo.productImages.productThumbnail.url || ""
     );
 
-    setSelectedSubCategory(DBProductInfo?.subcategory?.id);
-    setSelectedCategory(DBProductInfo.category.id);
+    setSelectedSubCategory(DBProductInfo?.subcategory);
+    setSelectedCategory(DBProductInfo?.category);
+    setSelectedProductClass(DBProductInfo.productClass);
+    setSelectedProductBrand(DBProductInfo?.brand);
     setValue(
       "subcategory",
-      selectedSubCategory || DBProductInfo?.subcategory?.id
-    );
-    setValue("category", DBProductInfo.category.id || "");
+      DBProductInfo?.subCategory || selectedSubCategory || ""
+    ); // ||
+    setValue("category", DBProductInfo.category || "");
+    setValue("productClass", DBProductInfo.productClass || "");
+    setValue("brand", DBProductInfo?.brand || selectedProductBrand || "");
     setValue("description", DBProductInfo.description);
     setValue("currency", DBProductInfo.currency || "");
     setValue("discountPercentage", DBProductInfo?.discountPercentage || 0);
@@ -757,13 +815,57 @@ const UpdateProductModel = (props) => {
               md={11}
               className="border mb-3 border-[black] py-10 px-5 "
             >
+              <div>
+                <Controller
+                  name="productClass"
+                  control={control}
+                  defaultValue={
+                    Object.keys(DBProductInfo).length > 0
+                      ? DBProductInfo.productClass
+                      : ""
+                  }
+                  rules={{}}
+                  render={({ field }) => (
+                    <>
+                      <Form.Item label="Product Class">
+                        {productclassLoading ? (
+                          <p>loading...</p>
+                        ) : (
+                          <Select
+                            {...field}
+                            showSearch
+                            label="Text field"
+                            onSearch={onSearch}
+                            filterOption={filterOption}
+                            options={productclassSelect}
+                            onChange={(value) => {
+                              field.onChange(value); // Update the form field value
+                              setSelectedProductClass(value);
+                              setSelectedCategory("");
+                              setSelectedSubCategory("");
+                              setSelectedProductBrand("");
+                              setValue("category", "");
+                              setValue("subcategory", "");
+                              setValue("brand", "");
+                            }}
+                          />
+                        )}
+
+                        <p className="text-[red]">
+                          {errors?.productClass?.message}
+                        </p>
+                      </Form.Item>
+                    </>
+                  )}
+                />
+              </div>
               <div className="">
                 <Controller
                   name="category"
                   control={control}
                   defaultValue={
                     Object.keys(DBProductInfo).length > 0
-                      ? DBProductInfo.category.id
+                      ? DBProductInfo.category
                       : ""
                   }
                   rules={{}}
@@ -804,11 +906,15 @@ const UpdateProductModel = (props) => {
                 <Controller
                   name="subcategory"
                   control={control}
-                  defaultValue={selectedSubCategory}
+                  defaultValue={
+                    Object.keys(DBProductInfo).length > 0
+                      ? DBProductInfo.subcategory
+                      : ""
+                  }
                   rules={{}}
                   render={({ field }) => (
                     <>
-                      <Form.Item label={` sub-category `} className="">
+                      <Form.Item label={` Sub Category `} className="">
                         {loadcategory ? (
                           <p>loading...</p>
                         ) : (
@@ -1159,7 +1265,7 @@ const UpdateProductModel = (props) => {
                   )}
                 />
               )}
-              <Controller
+              {/* <Controller
                 name="brandName"
                 control={control}
                 rules={{}}
@@ -1173,6 +1279,39 @@ const UpdateProductModel = (props) => {
                     />
                     <p className="text-[red]">{errors?.brandName?.message}</p>
                   </Form.Item>
+                )}
+              /> */}
+
+              <Controller
+                name="brand"
+                control={control}
+                defaultValue={
+                  Object.keys(DBProductInfo).length > 0
+                    ? DBProductInfo.brand
+                    : ""
+                }
+                // rules={registerinput.brand}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Product brand" className="">
+                      {loadbrand ? (
+                        <p>loading...</p>
+                      ) : (
+                        <Select
+                          {...field}
+                          showSearch
+                          label="Text field"
+                          onSearch={onSearch}
+                          filterOption={filterOption}
+                          options={
+                            selectBrandOption?.length != 0 && selectBrandOption
+                          }
+                        />
+                      )}
+
+                      <p className="text-[red]">{errors?.brand?.message}</p>
+                    </Form.Item>
+                  </>
                 )}
               />
             </div>
