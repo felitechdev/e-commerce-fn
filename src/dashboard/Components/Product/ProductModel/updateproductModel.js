@@ -649,15 +649,19 @@ const UpdateProductModel = (props) => {
       });
 
     if (field === "stock")
-      setStock((prevstock) => {
-        const updatedStock = [...prevstock];
-        updatedStock[index] = {
-          ...updatedStock[index],
-          stock: parseInt(value),
-        };
+      try {
+        setStock((prevstock) => {
+          const updatedStock = [...prevstock];
+          updatedStock[index] = {
+            ...updatedStock[index],
+            stock: parseInt(value),
+          };
 
-        return updatedStock;
-      });
+          return updatedStock;
+        });
+      } catch (error) {
+        console.log("error while updating stock", error.message);
+      }
   };
 
   function handleonuploadOtherImages(error, result, widget) {
@@ -674,14 +678,17 @@ const UpdateProductModel = (props) => {
   // };
 
   let stockforproduct =
-    stock.length > 0 ? stock.reduce((acc, curr) => acc + curr.stock, 0) : 0;
+    stock.length > 0
+      ? stock.reduce((acc, curr) => acc + curr?.stock, 0)
+      : Object.keys(DBProductInfo).length !== 0 && DBProductInfo.stockQuantity;
 
-  console.log("DBProductInfo", DBProductInfo, DBProductInfo?.subCategory);
-
+  console.log("stock", stock, stockforproduct);
   useEffect(() => {
     // Update form values if profileview changes
 
     if (Object.keys(DBProductInfo).length === 0) return;
+
+    stockforproduct = DBProductInfo.stockQuantity;
 
     setMainImageUrl(DBProductInfo.productImages.productThumbnail.url);
     setOtherImageUrls(
