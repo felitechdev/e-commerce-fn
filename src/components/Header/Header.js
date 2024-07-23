@@ -128,59 +128,6 @@ const Header = (props) => {
               </select>
             </span>
           </li>
-          {!user && (
-            <>
-              <li>
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "w-full text-[#1D6F2B] bg-white px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5]  font-light md:inline-block lg:py-1 lg:px-2 text-center"
-                      : "w-full lg:hover:text-[#1D6F2B] rounded-md lg:hover:bg-[#E5E5E5] md:inline-block px-2 py-1  font-light lg:py-1 lg:px-2 text-center";
-                  }}
-                  to="/signin"
-                >
-                  Sign in
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "w-full text-[#1D6F2B] bg-white rounded-md px-2 py-1 lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-light  md:inline-block lg:py-1 lg:px-2 text-center"
-                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md px-2 py-1 rounded-md  font-light  md:inline-block lg:py-1 lg:px-2 text-center";
-                  }}
-                  to="/signup"
-                >
-                  Sign Up
-                </NavLink>
-              </li>
-            </>
-          )}
-
-          {user && (
-            <>
-              {/* <li>
-                <button
-                  onClick={handleSignOut}
-                  className="w-full  flex items-center gap-1.5 font-bold lg:py-1 lg:px-2"
-                >
-                  <MdLogout className="text-lg" />
-                  Sign out
-                </button>
-              </li>
-
-              <li>
-                <NavLink
-                  className="w-full bg-white text-[#1D6F2B] flex items-center gap-1.5 rounded px-2 py-1 font-bold"
-                  to="/user"
-                >
-                  <FaRegUser className="text-lg" />
-                  Settings
-                </NavLink>
-              </li> */}
-            </>
-          )}
 
           <li className="mx-3 lg:mx-6 relative">
             <NavLink
@@ -225,6 +172,20 @@ const Header = (props) => {
                 </p>
               }
             </NavLink>
+          </li>
+
+          <li className="ml-3">
+            {" "}
+            {user ? (
+              <UserAvatarDropdown
+                ismobileview={true}
+                userInfo={user}
+                isUser={true}
+                logOut={onLogout}
+              />
+            ) : (
+              <UserAvatarDropdown ismobileview={true} isUser={false} />
+            )}
           </li>
         </ul>
       </div>
