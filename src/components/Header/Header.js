@@ -105,8 +105,14 @@ const Header = (props) => {
     "inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-2.5 px-2";
   return (
     <div className="w-full h-100px bg-white sticky top-0  z-50 border-b-[1px] border-b-gray-200">
-      <div className="flex justify-end px-4 bg-[#1D6F2B] text-white py-1 md:hidden border-b-[1px] border-b-gray-200">
+      <div className="flex justify-end px-4 bg-[white] text-black py-1 md:hidden border-b-[1px] border-b-gray-200">
         <ul className="flex items-center md:max-w-[320px] lg:max-w-[400px] z-50 p-0 gap-1">
+          <div className="">
+            {" "}
+            <Link to="/">
+              <Image className=" " imgSrc={FeliTechLogo_transparent} />
+            </Link>
+          </div>
           <li>
             <span className="text-[#1D6F2B] hover:text-[#1D6F2B] mr-6 font-light  inline-block">
               <select
@@ -154,7 +160,7 @@ const Header = (props) => {
 
           {user && (
             <>
-              <li>
+              {/* <li>
                 <button
                   onClick={handleSignOut}
                   className="w-full  flex items-center gap-1.5 font-bold lg:py-1 lg:px-2"
@@ -172,7 +178,7 @@ const Header = (props) => {
                   <FaRegUser className="text-lg" />
                   Settings
                 </NavLink>
-              </li>
+              </li> */}
             </>
           )}
 
@@ -225,14 +231,21 @@ const Header = (props) => {
 
       <nav className="h-full px-4 max-w-container mx-auto relative gap-6 flex items-center md:items-center md:justify-between">
         <div className="flex space-x-5 ml-0">
-          <Link to="/">
-            <div className=" ">
-              <Image
-                className=" h-[100px] w-[250px] "
-                imgSrc={FeliTechLogo_transparent}
-              />
-            </div>
-          </Link>
+          <div className=" hidden md:inline-block">
+            {" "}
+            <Link to="/">
+              <div className=" ">
+                <Image
+                  className=" h-[100px] w-[250px] "
+                  imgSrc={FeliTechLogo_transparent}
+                />
+              </div>
+            </Link>
+          </div>
+
+          <div className="md:hidden !my-2 !ml-0">
+            <SearchBar ismobileview={true} />
+          </div>
 
           <ul className="flex items-center w-auto z-50 p-0 gap-3">
             <li>
@@ -294,6 +307,7 @@ const Header = (props) => {
           {search && (
             <div className="absolute top-0 w-full h-screen  bg-[#000000a3] p-3 z-20 flex gap-2">
               <Search />
+
               <FaTimes
                 className="w-[3rem] h-[3rem] cursor-pointer   rounded-full border border-gray p-2"
                 onClick={() => setSearch(false)}
@@ -301,9 +315,9 @@ const Header = (props) => {
             </div>
           )}
 
-          <div className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-10">
+          {/* <div className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-10">
             <FaSearch onClick={() => setSearch(true)} className="w-5 h-5" />
-          </div>
+          </div> */}
           <HiMenuAlt2
             onClick={() => setSidenav(!sidenav)}
             className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
@@ -408,50 +422,9 @@ const Header = (props) => {
                             <ProductBrandAccordion ismobile={true} />
                           </div>
                         </div>
-
-                        {/* {!isLoading &&
-                          categories &&
-                          categories.map((category) => (
-                            <>
-                              <a>
-                                {" "}
-                                <li className="headerSedenavLi">
-                                  <Link
-                                    to={`shop/?category=${category.id}`}
-                                    className="capitalize-first w-full p-2"
-                                  >
-                                    {category.name}
-                                  </Link>{" "}
-                                </li>
-                              </a>
-                            </>
-                          ))} */}
                       </motion.ul>
                     )}
                   </div>
-                  {/* <div className="mt-4">
-                    <h1
-                      onClick={() => setBrand(!brand)}
-                      className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
-                    >
-                      Shop by Brand
-                      <span className="text-lg">{brand ? "-" : "+"}</span>
-                    </h1>
-                    {brand && (
-                      <motion.ul
-                        initial={{ y: 15, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.4 }}
-                        className="text-sm flex flex-col gap-1"
-                      >
-                        <li className="headerSedenavLi">New Arrivals</li>
-                        <li className="headerSedenavLi">Gadgets</li>
-                        <li className="headerSedenavLi">Accessories</li>
-                        <li className="headerSedenavLi">Electronics</li>
-                        <li className="headerSedenavLi">Others</li>
-                      </motion.ul>
-                    )}
-                  </div> */}
                 </div>
                 <span
                   onClick={() => setSidenav(false)}
