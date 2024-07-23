@@ -5,10 +5,12 @@ import { useSelector } from "react-redux";
 export const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist);
 
-
   return (
     <PageLayout showFooter={true}>
-      {wishlist && <WishlistProducts products={wishlist} />}
+      <div className="max-w-container mx-auto px-4">
+        {" "}
+        {wishlist && <WishlistProducts products={wishlist} />}
+      </div>
     </PageLayout>
   );
 };

@@ -113,8 +113,8 @@ const Header = (props) => {
               <Image className=" " imgSrc={FeliTechLogo_transparent} />
             </Link>
           </div>
-          <li>
-            <span className="text-[#1D6F2B] hover:text-[#1D6F2B] mr-6 font-light  inline-block">
+          <li className="">
+            <span className="text-[#1D6F2B] hover:text-[#1D6F2B] mr-0 font-light  inline-block">
               <select
                 value={currentCurrency}
                 onChange={(e) => handleSetCurrenctCurrency(e.target.value)}
@@ -129,7 +129,7 @@ const Header = (props) => {
             </span>
           </li>
 
-          <li className="mx-3 lg:mx-6 relative">
+          <li className="mr-3 lg:mx-6 relative ">
             <NavLink
               className={({ isActive }) => {
                 return isActive
