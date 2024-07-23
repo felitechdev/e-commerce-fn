@@ -105,10 +105,16 @@ const Header = (props) => {
     "inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-2.5 px-2";
   return (
     <div className="w-full h-100px bg-white sticky top-0  z-50 border-b-[1px] border-b-gray-200">
-      <div className="flex justify-end px-4 bg-[#1D6F2B] text-white py-1 md:hidden border-b-[1px] border-b-gray-200">
+      <div className="flex justify-end px-4 bg-[white] text-black py-1 md:hidden border-b-[1px] border-b-gray-200">
         <ul className="flex items-center md:max-w-[320px] lg:max-w-[400px] z-50 p-0 gap-1">
-          <li>
-            <span className="text-[#1D6F2B] hover:text-[#1D6F2B] mr-6 font-light  inline-block">
+          <div className="">
+            {" "}
+            <Link to="/">
+              <Image className=" " imgSrc={FeliTechLogo_transparent} />
+            </Link>
+          </div>
+          <li className="">
+            <span className="text-[#1D6F2B] hover:text-[#1D6F2B] mr-0 font-light  inline-block">
               <select
                 value={currentCurrency}
                 onChange={(e) => handleSetCurrenctCurrency(e.target.value)}
@@ -122,61 +128,8 @@ const Header = (props) => {
               </select>
             </span>
           </li>
-          {!user && (
-            <>
-              <li>
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "w-full text-[#1D6F2B] bg-white px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5]  font-light md:inline-block lg:py-1 lg:px-2 text-center"
-                      : "w-full lg:hover:text-[#1D6F2B] rounded-md lg:hover:bg-[#E5E5E5] md:inline-block px-2 py-1  font-light lg:py-1 lg:px-2 text-center";
-                  }}
-                  to="/signin"
-                >
-                  Sign in
-                </NavLink>
-              </li>
 
-              <li>
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "w-full text-[#1D6F2B] bg-white rounded-md px-2 py-1 lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md  font-light  md:inline-block lg:py-1 lg:px-2 text-center"
-                      : "w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md px-2 py-1 rounded-md  font-light  md:inline-block lg:py-1 lg:px-2 text-center";
-                  }}
-                  to="/signup"
-                >
-                  Sign Up
-                </NavLink>
-              </li>
-            </>
-          )}
-
-          {user && (
-            <>
-              <li>
-                <button
-                  onClick={handleSignOut}
-                  className="w-full  flex items-center gap-1.5 font-bold lg:py-1 lg:px-2"
-                >
-                  <MdLogout className="text-lg" />
-                  Sign out
-                </button>
-              </li>
-
-              <li>
-                <NavLink
-                  className="w-full bg-white text-[#1D6F2B] flex items-center gap-1.5 rounded px-2 py-1 font-bold"
-                  to="/user"
-                >
-                  <FaRegUser className="text-lg" />
-                  Settings
-                </NavLink>
-              </li>
-            </>
-          )}
-
-          <li className="mx-3 lg:mx-6 relative">
+          <li className="mr-3 lg:mx-6 relative ">
             <NavLink
               className={({ isActive }) => {
                 return isActive
@@ -220,19 +173,40 @@ const Header = (props) => {
               }
             </NavLink>
           </li>
+
+          <li className="ml-3">
+            {" "}
+            {user ? (
+              <UserAvatarDropdown
+                ismobileview={true}
+                userInfo={user}
+                isUser={true}
+                logOut={onLogout}
+              />
+            ) : (
+              <UserAvatarDropdown ismobileview={true} isUser={false} />
+            )}
+          </li>
         </ul>
       </div>
 
       <nav className="h-full px-4 max-w-container mx-auto relative gap-6 flex items-center md:items-center md:justify-between">
         <div className="flex space-x-5 ml-0">
-          <Link to="/">
-            <div className=" ">
-              <Image
-                className=" h-[100px] w-[250px] "
-                imgSrc={FeliTechLogo_transparent}
-              />
-            </div>
-          </Link>
+          <div className=" hidden md:inline-block">
+            {" "}
+            <Link to="/">
+              <div className=" ">
+                <Image
+                  className=" h-[100px] w-[250px] "
+                  imgSrc={FeliTechLogo_transparent}
+                />
+              </div>
+            </Link>
+          </div>
+
+          <div className="md:hidden !my-2 !ml-0">
+            <SearchBar ismobileview={true} />
+          </div>
 
           <ul className="flex items-center w-auto z-50 p-0 gap-3">
             <li>
@@ -294,6 +268,7 @@ const Header = (props) => {
           {search && (
             <div className="absolute top-0 w-full h-screen  bg-[#000000a3] p-3 z-20 flex gap-2">
               <Search />
+
               <FaTimes
                 className="w-[3rem] h-[3rem] cursor-pointer   rounded-full border border-gray p-2"
                 onClick={() => setSearch(false)}
@@ -301,9 +276,9 @@ const Header = (props) => {
             </div>
           )}
 
-          <div className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-10">
+          {/* <div className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-10">
             <FaSearch onClick={() => setSearch(true)} className="w-5 h-5" />
-          </div>
+          </div> */}
           <HiMenuAlt2
             onClick={() => setSidenav(!sidenav)}
             className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
@@ -408,50 +383,9 @@ const Header = (props) => {
                             <ProductBrandAccordion ismobile={true} />
                           </div>
                         </div>
-
-                        {/* {!isLoading &&
-                          categories &&
-                          categories.map((category) => (
-                            <>
-                              <a>
-                                {" "}
-                                <li className="headerSedenavLi">
-                                  <Link
-                                    to={`shop/?category=${category.id}`}
-                                    className="capitalize-first w-full p-2"
-                                  >
-                                    {category.name}
-                                  </Link>{" "}
-                                </li>
-                              </a>
-                            </>
-                          ))} */}
                       </motion.ul>
                     )}
                   </div>
-                  {/* <div className="mt-4">
-                    <h1
-                      onClick={() => setBrand(!brand)}
-                      className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
-                    >
-                      Shop by Brand
-                      <span className="text-lg">{brand ? "-" : "+"}</span>
-                    </h1>
-                    {brand && (
-                      <motion.ul
-                        initial={{ y: 15, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.4 }}
-                        className="text-sm flex flex-col gap-1"
-                      >
-                        <li className="headerSedenavLi">New Arrivals</li>
-                        <li className="headerSedenavLi">Gadgets</li>
-                        <li className="headerSedenavLi">Accessories</li>
-                        <li className="headerSedenavLi">Electronics</li>
-                        <li className="headerSedenavLi">Others</li>
-                      </motion.ul>
-                    )}
-                  </div> */}
                 </div>
                 <span
                   onClick={() => setSidenav(false)}
