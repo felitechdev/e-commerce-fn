@@ -42,6 +42,7 @@ export const ProductBrand = () => {
       name: productbrand.name,
       createdAt: productbrand.createdAt,
       updatedAt: productbrand.updatedAt,
+      productClass: productbrand.productClass,
     }));
     setFilteredData(newData);
   }, [productbrand]);
@@ -139,6 +140,8 @@ export const ProductBrand = () => {
         <ActionButton
           handleUpdatestate={handleUpdatestate}
           categoryId={record.key}
+          name={record.name}
+          productClass={record.productClass}
         />
       ),
     },

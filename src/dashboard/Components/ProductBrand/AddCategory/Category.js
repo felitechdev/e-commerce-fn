@@ -17,6 +17,7 @@ export const ProductClassForm = (props) => {
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
   const [alertIndexonUpdate, setAlertIndexonUpdate] = useState(null);
+  const [productclas, setProductclass] = useState(null);
 
   const [alertDescription, setAlertDescription] = useState("");
   const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
@@ -40,6 +41,7 @@ export const ProductClassForm = (props) => {
   } = useForm({
     defaultValues: {
       name: props.name,
+      productclas: props.productClass,
     },
   });
   const token = Cookies.get("token");
@@ -48,6 +50,15 @@ export const ProductClassForm = (props) => {
   useEffect(() => {
     dispatch(fetchProductclass());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!productclassLoading && props.productClass) {
+      // let pclass = productclassData.filter((item) => {
+      //   return item.id == props.productClass;
+      // });
+      // setProductclass(pclass);
+    }
+  }, [props.productClass, productclassLoading]);
 
   const onSubmit = (data) => {
     dispatch(createProductBrand({ data: data }))

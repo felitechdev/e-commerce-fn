@@ -149,6 +149,7 @@ export const productClassSlice = createSlice({
             name: name,
           };
         }
+        state.loading = false;
       })
       .addCase(updateProductClass.rejected, (state, action) => {
         state.loading = false;
@@ -163,6 +164,7 @@ export const productClassSlice = createSlice({
         state.productclass = state.productclass.filter(
           (user) => user.id !== action.payload.id
         );
+        state.loading = false;
       })
       .addCase(deleteProductClass.rejected, (state, action) => {
         state.loading = false;
