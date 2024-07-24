@@ -8,7 +8,11 @@ import Cookies from "js-cookie";
 import Alerts from "../../Notifications&Alert/Alert";
 import { fetchProductclass } from "../../../Redux/ReduxSlice/ProductClass";
 
-import { createProductBrand } from "../../../Redux/ReduxSlice/ProductBrand.slice";
+import {
+  createProductBrand,
+  updateProductBrand,
+  deleteProductBrand,
+} from "../../../Redux/ReduxSlice/ProductBrand.slice";
 export const ProductClassForm = (props) => {
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
@@ -18,10 +22,16 @@ export const ProductClassForm = (props) => {
   const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
   const [isupdate, setIsupdate] = useState(false);
 
-  const { category, load, err } = useSelector((state) => state.createcategory);
-  const { updateloading, updaterror, updateCategory } = useSelector(
-    (state) => state.updatecat
+  const { productbrand, loading, errorMessage } = useSelector(
+    (state) => state.productbrand
   );
+
+  const {
+    loading: productclassLoading,
+    productclass: productclassData,
+    errorMessage: productclassError,
+  } = useSelector((state) => state.productclass);
+
   const {
     register,
     control,
@@ -34,12 +44,6 @@ export const ProductClassForm = (props) => {
   });
   const token = Cookies.get("token");
   const dispatch = useDispatch();
-
-  const {
-    loading: productclassLoading,
-    productclass: productclassData,
-    errorMessage: productclassError,
-  } = useSelector((state) => state.productclass);
 
   useEffect(() => {
     dispatch(fetchProductclass());
@@ -64,10 +68,9 @@ export const ProductClassForm = (props) => {
   const onSubmitUpdate = (data) => {
     const categoryId = props.categoryId;
     dispatch(
-      updatecategory({
+      updateProductBrand({
         Data: data,
         id: categoryId,
-        token: token,
       })
     )
       .unwrap()
@@ -105,10 +108,10 @@ export const ProductClassForm = (props) => {
 
   // Reset alertIndex to hide the alert
   useEffect(() => {
-    if (load) {
+    if (loading) {
       setAlertIndex(null);
     }
-  }, [load, dispatch, alertDescription, alertIndex]);
+  }, [loading, dispatch, alertDescription, alertIndex]);
   const handleAlertClose = () => {
     setAlertIndex(null);
   };
@@ -215,12 +218,12 @@ export const ProductClassForm = (props) => {
             className="text-light font-bold w-[100%]"
           >
             {!isupdate
-              ? load
+              ? loading
                 ? "Loading ..."
-                : "Create Class"
-              : updateloading
+                : "Create Brand"
+              : loading
               ? "Loading ..."
-              : "Update Class"}
+              : "Update Brand"}
           </Button>
         </div>
       </Form>

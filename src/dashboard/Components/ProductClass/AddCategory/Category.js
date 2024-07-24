@@ -22,11 +22,6 @@ export const ProductClassForm = (props) => {
   const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
   const [isupdate, setIsupdate] = useState(false);
 
-  const { category, load, err } = useSelector((state) => state.createcategory);
-  const { updateloading, updaterror, updateCategory } = useSelector(
-    (state) => state.updatecat
-  );
-
   const { productclass, loading, errorMessage } = useSelector(
     (state) => state.productclass
   );

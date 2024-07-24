@@ -54,14 +54,14 @@ export const createProductBrand = createAsyncThunk(
 
 export const updateProductBrand = createAsyncThunk(
   "productcbrand/updateProductBrand",
-  async ({ data, id }, { rejectWithValue }) => {
+  async ({ Data, id }, { rejectWithValue }) => {
     try {
       const Token = Cookies.get("token");
 
       const res = await axios.patch(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/brands/${id}`,
 
-        { data: data },
+        { data: Data },
         {
           headers: {
             Authorization: `Bearer ${Token}`,
@@ -116,7 +116,7 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(createProductBrand.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(createProductBrand.fulfilled, (state, action) => {
@@ -131,7 +131,7 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(updateProductBrand.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(updateProductBrand.fulfilled, (state, action) => {
@@ -153,7 +153,7 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(deleteProductBrand.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(deleteProductBrand.fulfilled, (state, action) => {
