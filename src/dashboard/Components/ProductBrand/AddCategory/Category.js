@@ -27,7 +27,11 @@ export const ProductClassForm = (props) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: props.name,
+    },
+  });
   const token = Cookies.get("token");
   const dispatch = useDispatch();
 

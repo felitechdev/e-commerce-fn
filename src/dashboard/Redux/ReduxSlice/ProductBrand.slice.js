@@ -51,6 +51,52 @@ export const createProductBrand = createAsyncThunk(
     }
   }
 );
+
+export const updateProductBrand = createAsyncThunk(
+  "productcbrand/updateProductBrand",
+  async ({ data, id }, { rejectWithValue }) => {
+    try {
+      const Token = Cookies.get("token");
+
+      const res = await axios.patch(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/brands/${id}`,
+
+        { data: data },
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }
+      );
+      return res;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const deleteProductBrand = createAsyncThunk(
+  "productcbrand/deleteProductBrand",
+  async (data, { rejectWithValue }) => {
+    try {
+      const Token = Cookies.get("token");
+
+      const res = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/brands/${data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }
+      );
+
+      return { res: res, id: data.id };
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 export const productBrandSlice = createSlice({
   name: "productbrand",
   initialState,
@@ -81,6 +127,42 @@ export const productBrandSlice = createSlice({
         ];
       })
       .addCase(createProductBrand.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateProductBrand.pending, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateProductBrand.fulfilled, (state, action) => {
+        const { id, name } = action.payload.data.data.brand;
+
+        const brandIndex = current(state).productbrand.findIndex(
+          (brand) => brand.id === id
+        );
+
+        if (brandIndex !== -1) {
+          state.productbrand[brandIndex] = {
+            ...state.productbrand[brandIndex],
+            name: name,
+          };
+        }
+      })
+      .addCase(updateProductBrand.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteProductBrand.pending, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(deleteProductBrand.fulfilled, (state, action) => {
+        const { id } = action.payload.id;
+        state.productbrand = state.productbrand.filter(
+          (brand) => brand.id !== action.payload.id
+        );
+      })
+      .addCase(deleteProductBrand.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
