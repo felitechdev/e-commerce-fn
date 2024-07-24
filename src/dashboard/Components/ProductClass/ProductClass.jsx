@@ -129,6 +129,7 @@ export const ProductClass = () => {
         <ActionButton
           handleUpdatestate={handleUpdatestate}
           categoryId={record.key}
+          name={record.name}
         />
       ),
     },
