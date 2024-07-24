@@ -13,6 +13,7 @@ import Alerts from "../../Notifications&Alert/Alert";
 
 import { createProductClass } from "../../../Redux/ReduxSlice/ProductClass";
 export const ProductClassForm = (props) => {
+  console.log("props", props);
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
   const [alertIndexonUpdate, setAlertIndexonUpdate] = useState(null);
@@ -34,7 +35,11 @@ export const ProductClassForm = (props) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: props.name,
+    },
+  });
   const token = Cookies.get("token");
   const dispatch = useDispatch();
 

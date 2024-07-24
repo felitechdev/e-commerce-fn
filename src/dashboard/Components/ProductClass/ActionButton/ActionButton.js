@@ -165,7 +165,11 @@ export const ActionButton = (props) => {
           <CloseOutlined onClick={handleCancelUppdate} className="text-[red]" />
         }
       >
-        <ProductClassForm openUPdate={true} categoryId={props.categoryId} />
+        <ProductClassForm
+          openUPdate={true}
+          categoryId={props.categoryId}
+          name={props.name}
+        />
       </Modal>
       <div div className="flex justify-start  space-x-5 text-lg  ">
         <EditFilled className=" text-icon2 mr-2" onClick={() => handleOpen()} />
