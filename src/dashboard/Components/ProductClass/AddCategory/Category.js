@@ -99,6 +99,7 @@ export const ProductClassForm = (props) => {
     setIsupdate(true);
   };
   useEffect(() => {
+    console.log("props.openUPdate", props.openUPdate);
     if (props.openUPdate) {
       handleUpdate();
     }

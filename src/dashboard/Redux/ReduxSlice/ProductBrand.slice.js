@@ -59,16 +59,17 @@ export const updateProductBrand = createAsyncThunk(
     try {
       const Token = Cookies.get("token");
 
-      const res = await axios.patch(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/brands/${id}`,
+      const res = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/brands/${id}`,
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${Token}`,
+        },
+        // data: { name: Data.name },
 
-        { data: Data },
-        {
-          headers: {
-            Authorization: `Bearer ${Token}`,
-          },
-        }
-      );
+        data: { name: Data.name, productClass: Data.productclass },
+      });
       return res;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);

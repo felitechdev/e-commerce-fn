@@ -141,7 +141,7 @@ export const ProductBrand = () => {
           handleUpdatestate={handleUpdatestate}
           categoryId={record.key}
           name={record.name}
-          productClass={record.productClass}
+          productclass={record.productClass}
         />
       ),
     },
