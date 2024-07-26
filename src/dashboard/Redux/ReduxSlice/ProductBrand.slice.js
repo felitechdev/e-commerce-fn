@@ -51,6 +51,54 @@ export const createProductBrand = createAsyncThunk(
     }
   }
 );
+
+export const updateProductBrand = createAsyncThunk(
+  "productcbrand/updateProductBrand",
+  async ({ Data, id }, { rejectWithValue }) => {
+    console.log("data on update", Data, id);
+    try {
+      const Token = Cookies.get("token");
+
+      const res = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/brands/${id}`,
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${Token}`,
+        },
+        // data: { name: Data.name },
+
+        data: { name: Data.name, productClass: Data.productclass },
+      });
+      return res;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const deleteProductBrand = createAsyncThunk(
+  "productcbrand/deleteProductBrand",
+  async (data, { rejectWithValue }) => {
+    try {
+      const Token = Cookies.get("token");
+
+      const res = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/brands/${data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }
+      );
+
+      return { res: res, id: data.id };
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 export const productBrandSlice = createSlice({
   name: "productbrand",
   initialState,
@@ -70,7 +118,7 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(createProductBrand.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(createProductBrand.fulfilled, (state, action) => {
@@ -81,6 +129,44 @@ export const productBrandSlice = createSlice({
         ];
       })
       .addCase(createProductBrand.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateProductBrand.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateProductBrand.fulfilled, (state, action) => {
+        const { id, name } = action.payload.data.data.brand;
+
+        const brandIndex = current(state).productbrand.findIndex(
+          (brand) => brand.id === id
+        );
+
+        if (brandIndex !== -1) {
+          state.productbrand[brandIndex] = {
+            ...state.productbrand[brandIndex],
+            name: name,
+          };
+        }
+        state.loading = false;
+      })
+      .addCase(updateProductBrand.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteProductBrand.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProductBrand.fulfilled, (state, action) => {
+        state.loading = false;
+        const { id } = action.payload.id;
+        state.productbrand = state.productbrand.filter(
+          (brand) => brand.id !== action.payload.id
+        );
+      })
+      .addCase(deleteProductBrand.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

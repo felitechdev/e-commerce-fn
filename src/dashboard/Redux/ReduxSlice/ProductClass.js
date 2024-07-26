@@ -118,7 +118,7 @@ export const productClassSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(createProductClass.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(createProductClass.fulfilled, (state, action) => {
@@ -133,7 +133,7 @@ export const productClassSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(updateProductClass.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(updateProductClass.fulfilled, (state, action) => {
@@ -149,13 +149,14 @@ export const productClassSlice = createSlice({
             name: name,
           };
         }
+        state.loading = false;
       })
       .addCase(updateProductClass.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
       .addCase(deleteProductClass.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
         state.error = null;
       })
       .addCase(deleteProductClass.fulfilled, (state, action) => {
@@ -163,6 +164,7 @@ export const productClassSlice = createSlice({
         state.productclass = state.productclass.filter(
           (user) => user.id !== action.payload.id
         );
+        state.loading = false;
       })
       .addCase(deleteProductClass.rejected, (state, action) => {
         state.loading = false;
