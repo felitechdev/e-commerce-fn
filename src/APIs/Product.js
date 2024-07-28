@@ -23,7 +23,13 @@ export const fetchProducts = createAsyncThunk(
 export const fetchProduct = async (productId) => {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${productId}`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${productId}`,
+      {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${Token}`, // Pass the token only if it exists
+        },
+      }
     );
 
     return res.data;

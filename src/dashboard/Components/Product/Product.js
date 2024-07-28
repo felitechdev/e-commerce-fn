@@ -323,7 +323,7 @@ export const DashProducts = () => {
       width: 100,
       render: (_, record) => (
         <div className="w-full text-start">
-          <span>{record?.commission}%</span>
+          <span>{record?.commission ? record?.commission + "%" : "No "}</span>
         </div>
       ),
     },
