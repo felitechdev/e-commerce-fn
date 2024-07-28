@@ -133,7 +133,6 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(updateProductBrand.pending, (state, action) => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(updateProductBrand.fulfilled, (state, action) => {
@@ -156,7 +155,6 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(deleteProductBrand.pending, (state, action) => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(deleteProductBrand.fulfilled, (state, action) => {
