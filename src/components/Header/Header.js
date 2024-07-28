@@ -204,7 +204,7 @@ const Header = (props) => {
             </Link>
           </div>
 
-          <div className="md:hidden !my-2 !ml-0">
+          <div className="md:hidden !my-2 !m-auto">
             <SearchBar ismobileview={true} />
           </div>
 

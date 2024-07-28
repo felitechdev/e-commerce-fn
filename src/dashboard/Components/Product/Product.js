@@ -124,6 +124,7 @@ export const DashProducts = () => {
             ],
             price: product.price,
             stock: product.stockQuantity,
+            commission: product?.seller_commission,
             // orders: product.deliveryInfo.length,
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product.brandName,
@@ -316,6 +317,17 @@ export const DashProducts = () => {
       sorter: (a, b) => a.age - b.age,
     },
     {
+      title: "Commission",
+      dataIndex: "commission",
+      key: "commission",
+      width: 100,
+      render: (_, record) => (
+        <div className="w-full text-start">
+          <span>{record?.commission}%</span>
+        </div>
+      ),
+    },
+    {
       title: "Action",
       dataIndex: "Action",
       key: "Action",
@@ -462,6 +474,7 @@ export const DashProducts = () => {
               product.description,
             ],
             price: product.price,
+            commission: product?.seller_commission,
             stock: product.stockQuantity,
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
@@ -500,6 +513,7 @@ export const DashProducts = () => {
               product.description,
             ],
             price: product.price,
+            commission: product?.seller_commission,
             stock: product.stockQuantity,
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
@@ -552,6 +566,7 @@ export const DashProducts = () => {
             ],
             price: product.price,
             stock: product.stockQuantity,
+            commission: product?.seller_commission,
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
@@ -562,6 +577,8 @@ export const DashProducts = () => {
     setDataSource(newData);
     setFilteredData(newData);
   }, [products]);
+
+  console.log("dashproduct", dashproduct.slice(0, 5));
 
   return (
     <Layout className="space-y-6   overflow-auto bg-[white]">

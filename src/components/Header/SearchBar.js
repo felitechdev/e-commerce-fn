@@ -65,10 +65,10 @@ const SearchBar = ({ ismobileview }) => {
   }, [products, searchQuery]);
 
   return (
-    <div className={` ${ismobileview ? "" : "hidden md:block w-[40%]"}`}>
+    <div className={` ${ismobileview ? " " : "hidden md:block w-[40%]"}`}>
       <div className="">
         <Flex className="flex lg:flex-row items-start lg:items-center justify-between max-w-max lg:pb-0 h-full lg:h-24">
-          <div className="relative w-full lg:w-[600px] h-[50px] text-base text-primeColor  flex items-center gap-2 justify-between px-6 rounded-md border-[2px]">
+          <div className="relative w-full lg:w-[600px] bg-primary h-[50px] text-base text-primeColor  flex items-center gap-2 justify-between px-6 rounded-full border-[2px]">
             <input
               className="flex-1 h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
               type="text"

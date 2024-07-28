@@ -303,6 +303,7 @@ const UpdateProductModel = (props) => {
       brandName: data.brandName,
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
+      seller_commission: parseInt(data.seller_commission),
       quantityParameter: data.quantityParameter,
       hasColors:
         colorVariations.length > 0 &&
@@ -712,6 +713,10 @@ const UpdateProductModel = (props) => {
       DBProductInfo?.subCategory || selectedSubCategory || ""
     ); // ||
     setValue("category", DBProductInfo.category || "");
+    setValue(
+      "seller_commission",
+      DBProductInfo?.seller_commission ? DBProductInfo?.seller_commission : ""
+    );
     setValue("productClass", DBProductInfo.productClass || "");
     setValue("brand", DBProductInfo?.brand || selectedProductBrand || "");
     setValue("description", DBProductInfo.description);
@@ -741,6 +746,8 @@ const UpdateProductModel = (props) => {
       })
     );
   }, [DBProductInfo, setValue]);
+
+  // console.log("DBProductInfo", DBProductInfo?.seller_commission);
 
   return (
     <>
@@ -1265,22 +1272,32 @@ const UpdateProductModel = (props) => {
                   )}
                 />
               )}
-              {/* <Controller
-                name="brandName"
-                control={control}
-                rules={{}}
-                render={({ field }) => (
-                  <Form.Item label=" Brand name" className=" w-[45%]">
-                    <Input
-                      type="text"
-                      name="brandName"
-                      {...field}
-                      placeholder="Enter Brand Name"
-                    />
-                    <p className="text-[red]">{errors?.brandName?.message}</p>
-                  </Form.Item>
-                )}
-              /> */}
+
+              {userRole == "admin" && (
+                <Controller
+                  name="seller_commission"
+                  control={control}
+                  rules={{}}
+                  defaultValue={
+                    Object.keys(DBProductInfo).length > 0 &&
+                    DBProductInfo?.seller_commission
+                      ? DBProductInfo.seller_commission
+                      : ""
+                  }
+                  render={({ field }) => (
+                    <Form.Item label="Commission" className=" w-[30%]">
+                      <InputNumber
+                        className="w-full"
+                        addonAfter="%"
+                        placeholder="Enter seller commission"
+                        name="seller_commission"
+                        {...field}
+                      />
+                      <p className="text-[red]">{}</p>
+                    </Form.Item>
+                  )}
+                />
+              )}
 
               <Controller
                 name="brand"
