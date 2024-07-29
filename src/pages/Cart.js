@@ -46,9 +46,7 @@ const OrderForm = ({
   const user = useUser().user;
   const navigate = useNavigate();
 
-  const onErrors = (errors) => {
-    console.log("errors on ", errors);
-  };
+  const onErrors = (errors) => {};
 
   const onSubmit = async (data) => {
     let requestData = {
@@ -81,7 +79,7 @@ const OrderForm = ({
         setIsLoading(false);
       }
 
-      console.log("response", res);
+   
       // if (res.status == "success") {
       //   var link = res?.data?.meta?.authorization?.redirect;
       //   navigate(link);
@@ -401,8 +399,6 @@ const Cart = () => {
   };
 
   let totalCost = cart.reduce((total, item) => {
-     
- 
     return total + Math.trunc(item.price) * item.items;
   }, 0);
 
@@ -431,7 +427,7 @@ const Cart = () => {
 
   const onErrors = (errors) => {
     if (errors) {
-      console.log("errors on ", errors);
+   
       setPayAllowed(false);
     }
   };
@@ -544,11 +540,7 @@ const Cart = () => {
                   <h2 className="col-span-2">Product</h2>
                   <h2>Price</h2>
                   <h2>Quantity</h2>
-                  <h2>Product Cost    </h2>
-
-            
-
-
+                  <h2>Product Cost </h2>
                 </div>
                 <div className="mt-5">
                   {cart.map((item) => (

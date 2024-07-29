@@ -32,7 +32,6 @@ export const createProductClass = createAsyncThunk(
   "productclass/createProductClass",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("data", data);
       const Token = Cookies.get("token");
 
       const res = await axios.post(

@@ -35,13 +35,12 @@ const RequestActivate = ({ setModel, setOpenModal, setEmailMessage }) => {
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/request-account-verification-email`,
         email
       );
-      console.log("result", result);
+
       if (result?.data?.status === "success") {
         setEmailMessage(result.data.data);
         setOpenModal(false);
       }
     } catch (error) {
-      console.log("error", error.response.data.message);
       if (error?.response?.data?.status === "fail") {
         setErrormessage(error.response.data.message);
       }

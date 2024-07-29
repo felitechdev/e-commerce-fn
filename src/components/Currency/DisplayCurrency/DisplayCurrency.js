@@ -57,19 +57,6 @@ const DisplayCurrency = ({ product, isDiscount }) => {
       ? convertCurrency(discountedPriceValue, currentCurrency)
       : discountedPriceValue;
 
-  console.log(
-    "Product Price:",
-    product.price,
-    "Discount Percentage:",
-    product?.discountPercentage,
-    "Discounted Price:",
-    discountedPriceValue,
-    "Final Display Price:",
-    finalDisplayPrice,
-    "Current Currency:",
-    currentCurrency
-  );
-
   return (
     <div className="space-x-2">
       {isDiscount ? (

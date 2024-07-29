@@ -61,7 +61,7 @@ const ProductMainInfo = ({
         <div>
           {product.discountPercentage <= 0 && (
             <div className="text-[#1D6F2B] font-semibold">
-              <DisplayCurrency product={product} isDiscount={false} />
+              <DisplayCurrency product={product} isDiscount={true} />
             </div>
           )}
           {product.discountPercentage > 0 && (

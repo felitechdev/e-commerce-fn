@@ -63,8 +63,6 @@ const OrderDetail = () => {
 
     setProductnames(productnames);
 
-    console.log("productname", sellers, customer, productnames);
-
     sellers =
       !loading &&
       products.map(
@@ -81,15 +79,6 @@ const OrderDetail = () => {
     if (orders && orders.items && !loading) {
       customer = users?.find((user) => user?.id == orders.customer);
 
-      console.log(
-        "single order",
-        users,
-        orders.customer,
-        sellers,
-        customer,
-        users,
-        users?.find((user) => user?.id == orders.customer)
-      );
       fetchProductData();
     }
   }, [orders, loading]);

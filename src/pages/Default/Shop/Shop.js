@@ -64,7 +64,6 @@ const Shop = () => {
   }, [data]);
 
   const handlefilterShow = () => {
-    console.log("clicked", showfilter);
     setShowFilter(!showfilter);
   };
 

@@ -132,7 +132,7 @@ export const ActionButton = (props) => {
           dispatch(deleteProductClass({ id: categoryId }))
             .unwrap()
             .then((response) => {
-              console.log("response", response);
+           
               if (response.res.status === 200) {
                 setOnSuccess("ProductClass deleted ");
 

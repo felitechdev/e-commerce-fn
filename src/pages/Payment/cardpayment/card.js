@@ -102,8 +102,6 @@ export const CardPayment = ({
 
     setPaymentdata(requestData);
 
-    console.log("data on card details", requestData);
-
     setIsLoading(true);
     setError("");
     try {
@@ -122,7 +120,6 @@ export const CardPayment = ({
         setIsLoading(false);
       }
 
-      console.log("response", res.data.data);
       if (res?.data?.data?.authorization?.mode == "pin") {
         setActivetab(2);
         setAuthmode("pin");
@@ -134,8 +131,6 @@ export const CardPayment = ({
 
         setPinpayload(res?.data?.data?.payment_payload);
       }
-
-      console.log("redirect url", res.data.status, res?.data?.data);
 
       if (res.data.status === "success" && res?.data?.data?.redirect_url) {
         setIsLoading(false);
@@ -217,8 +212,6 @@ export const CardPayment = ({
   };
 
   const onsubmitOtp = async (data) => {
-    console.log(data);
-
     let requestData = {
       otp: data?.otp,
       flw_ref: otppayload,

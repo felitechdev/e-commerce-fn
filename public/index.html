@@ -23,9 +23,9 @@
          type    : "GET",
          dataType: "text",
          data    : { data: params_to_sign},
-         complete: function() {console.log("complete")},
+         complete: function() {},
          success : function(signature, textStatus, xhr) { callback(signature); },
-         error   : function(xhr, status, error) { console.log(xhr, status, error); }
+         error   : function(xhr, status, error) {  }
         });
       }
     </script>

@@ -29,8 +29,6 @@ const SignInForm = (props) => {
   const [openactivatemodel, setOpenactivatemodel] = useState(false);
   const [emailMessage, setEmailMessage] = useState(null);
 
-  console.log("emailMessage", emailMessage);
-
   const navigate = useNavigate();
 
   const handleEmail = (e) => {
@@ -107,9 +105,6 @@ const SignInForm = (props) => {
           "Account not activated! Check your email to activate your account."
         ) {
           setIsAccountActivated(false);
-          console.log(
-            `Account not activated! Check your email to activate your account.`
-          );
         } else {
           setIsAccountActivated(true);
         }

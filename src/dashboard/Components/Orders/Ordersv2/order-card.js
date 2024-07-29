@@ -17,7 +17,7 @@ const OrderCard = ({ order }) => {
   const formattedDate = format(order.createdAt, "PPpp"); // e.g., "June 20th, 2020, 4:30 PM"
   const timeAgo = formatDistanceToNow(order.createdAt, { addSuffix: true }); // e.g., "about 2 months ago"
 
-  console.log("ordercard", order);
+
 
   return (
     <Card

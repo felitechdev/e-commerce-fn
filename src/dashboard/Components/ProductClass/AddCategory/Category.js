@@ -13,7 +13,7 @@ import Alerts from "../../Notifications&Alert/Alert";
 
 import { createProductClass } from "../../../Redux/ReduxSlice/ProductClass";
 export const ProductClassForm = (props) => {
-  console.log("props", props);
+
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
   const [alertIndexonUpdate, setAlertIndexonUpdate] = useState(null);
@@ -99,7 +99,7 @@ export const ProductClassForm = (props) => {
     setIsupdate(true);
   };
   useEffect(() => {
-    console.log("props.openUPdate", props.openUPdate);
+  
     if (props.openUPdate) {
       handleUpdate();
     }

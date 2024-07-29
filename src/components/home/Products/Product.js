@@ -187,7 +187,7 @@ const ProductPreview = ({ productInfo }) => {
                     <div className="text-[#1D6F2B] font-semibold">
                       <DisplayCurrency
                         product={productInfo}
-                        isDiscount={false}
+                        isDiscount={true}
                       />
                     </div>
                   )}
