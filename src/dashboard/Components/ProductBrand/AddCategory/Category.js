@@ -299,7 +299,7 @@ export const ProductClassForm = (props) => {
     }
   }, [props.productclass, productclassData]);
 
-  console.log("selectedProductClass", selectedProductClass);
+ 
 
   const onSubmit = (data) => {
     const action = isupdate ? updateProductBrand : createProductBrand;

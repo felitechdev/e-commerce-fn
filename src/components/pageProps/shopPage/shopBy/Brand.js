@@ -21,8 +21,6 @@ const Brand = ({ brands, handlefilterShow }) => {
     dispatch(fetchProductBrand());
   }, [dispatch]);
 
-  console.log("productbrand", productbrand);
-
   return (
     <div className="bg-white">
       <div

@@ -182,7 +182,7 @@ export const OrderTable = (...props) => {
     }
   }, [dispatch, token]);
 
-  console.log("orders", order);
+
 
   const FilterByNameInput = (
     <Input.Search

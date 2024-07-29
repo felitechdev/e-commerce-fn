@@ -16,7 +16,6 @@ const ProductImages = ({
 
   const [clicked, setClicked] = useState(false);
 
-  console.log("productInwhishlist", wishlist, productInwhishlist, productId);
   const onClickHeart = (event) => {
     event.stopPropagation();
     handleAddwishlist(productId);

@@ -9,7 +9,6 @@ import Alerts from "../../Notifications&Alert/Alert";
 import { updatesubcategory } from "../../../Apis/Categories";
 
 export const SubCategory = (props) => {
-  console.log("subcategory", props.categoryId, props);
   const [categorys, setCategorys] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -74,14 +73,6 @@ export const SubCategory = (props) => {
   //     value: cat?.id,
   //     label: cat?.name,
   //   }));
-
-  console.log(
-    "catregory ",
-    props.openUPdate,
-    categorySelect,
-    categories,
-    categorys
-  );
 
   const selectedCategoryObj = categorys.find(
     (cat) => cat._id === selectedCategory
@@ -158,7 +149,6 @@ export const SubCategory = (props) => {
     )
       .unwrap()
       .then((response) => {
-        console.log("response on update", response);
         if (response.status == 200) {
           setAlertIndex("success");
           setAlertDescription(`${"subcategory updated"}`);

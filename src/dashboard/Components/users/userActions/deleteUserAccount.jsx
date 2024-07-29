@@ -18,18 +18,7 @@ const DeleteUserAccountConfirmation = ({
   const [err, setErr] = useState("");
   const [onSuccess, setOnSuccess] = useState(null);
   const token = Cookies.get("token");
-  console.log(
-    "id",
-    id,
-    "token",
-    token,
-    "userToken",
 
-    "openDeleteModal",
-    openDeleteModal,
-    "setOpenDeleteModal",
-    setOpenDeleteModal
-  );
 
   const handleDelete = async () => {
     try {

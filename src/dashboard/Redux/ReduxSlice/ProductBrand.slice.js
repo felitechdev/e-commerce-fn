@@ -55,7 +55,6 @@ export const createProductBrand = createAsyncThunk(
 export const updateProductBrand = createAsyncThunk(
   "productcbrand/updateProductBrand",
   async ({ Data, id }, { rejectWithValue }) => {
-    console.log("data on update", Data, id);
     try {
       const Token = Cookies.get("token");
 
@@ -92,7 +91,7 @@ export const deleteProductBrand = createAsyncThunk(
         }
       );
 
-      return { res: res, id: data.id };
+      return { res: res, id: data.id, status: 204 };
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -133,6 +132,7 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(updateProductBrand.pending, (state, action) => {
+        state.loading = false;
         state.error = null;
       })
       .addCase(updateProductBrand.fulfilled, (state, action) => {
@@ -155,6 +155,7 @@ export const productBrandSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(deleteProductBrand.pending, (state, action) => {
+        state.loading = false;
         state.error = null;
       })
       .addCase(deleteProductBrand.fulfilled, (state, action) => {

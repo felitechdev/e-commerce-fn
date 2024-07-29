@@ -41,7 +41,7 @@ const SearchBar = ({ ismobileview }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const handleSearch = (e) => {
-    console.log(e.target.value);
+  
     setSearchQuery(e.target.value);
   };
 

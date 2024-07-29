@@ -41,8 +41,6 @@ export default function ProductDetails({ product, dispatch }) {
       // existingProduct.items += 0;
     }
 
-    console.log("clicked", existingProduct);
-
     // Dispatch the addTowishlist action to update the Redux state
     dispatch(addTowishlist(existingProduct));
 

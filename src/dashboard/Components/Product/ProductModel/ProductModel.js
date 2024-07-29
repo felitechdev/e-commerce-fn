@@ -479,8 +479,6 @@ const ProductModel = (props) => {
 
   const fileList = [];
 
-  console.log(productclassLoading, productclassData, productclassError);
-
   const selectOptions =
     companys &&
     companys?.map((comp) => ({
@@ -521,8 +519,6 @@ const ProductModel = (props) => {
   const selectedCategoryObj = categorys.find(
     (cat) => cat.id === selectedCategory
   );
-
-  console.log("selectedCategoryObj", selectedCategoryObj);
 
   let subcategory;
 
@@ -642,7 +638,6 @@ const ProductModel = (props) => {
 
   useEffect(() => {
     fetchseller(token).then((data) => {
-      console.log("selller", data?.data?.data?.users);
       setCompanys(data?.data?.data?.users);
     });
   }, []);
@@ -1478,7 +1473,6 @@ const ProductModel = (props) => {
                         field.onChange(value);
                         const commission = Math.trunc(value * 0.03);
                         setPercentage(commission);
-                        console.log("value onchange", value, commission);
                       }}
                     />
                     <p className="text-[red]">{errors?.price?.message}</p>

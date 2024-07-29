@@ -73,7 +73,6 @@ export const fetchSubCategory = createAsyncThunk(
 export const createcategory = createAsyncThunk(
   "category/createCategory",
   async ({ Data, token }, { rejectWithValue }) => {
-    console.log("data", Data);
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`,
@@ -172,7 +171,6 @@ export const createsubcategory = createAsyncThunk(
 export const updatesubcategory = createAsyncThunk(
   "subcategory/updatesubcategory",
   async ({ Data, id, token }, { rejectWithValue }) => {
-    console.log("data on update sub", Data, id);
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/subcategories/${id}`,

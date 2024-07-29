@@ -28,13 +28,6 @@ function discountedFinalPrice(price, discountRate) {
   price = parseFloat(price);
   discountRate = parseFloat(discountRate);
 
-  console.log(
-    "Calculating Discounted Price - Original Price:",
-    price,
-    "Discount Rate:",
-    discountRate
-  );
-
   // Check for invalid inputs
   if (isNaN(price) || isNaN(discountRate)) {
     console.error(
@@ -56,7 +49,7 @@ function discountedFinalPrice(price, discountRate) {
   const finalPrice = price - discountAmount;
 
   // Return the final price as a number
-  console.log("Final Discounted Price:", finalPrice.toFixed(2));
+
   return parseFloat(finalPrice.toFixed(2));
 }
 

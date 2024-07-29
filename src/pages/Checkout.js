@@ -521,7 +521,6 @@ const Checkout = () => {
 
   const onErrors = (errors) => {
     if (errors) {
-      console.log("errors on ", errors);
       setPayAllowed(false);
     }
   };
@@ -1102,7 +1101,6 @@ const Checkout = () => {
                           disabled={loading}
                           htmlType="submit"
                           onClick={() => {
-                            console.log("clicked");
                             setCardpay(false);
                           }}
                           className="h-10 flex bg-black items-center rounded-md bg-gradient-custom text-white disabled:opacity-50 px-2 duration-300"
@@ -1128,7 +1126,6 @@ const Checkout = () => {
                           htmlType="submit"
                           // type="button"
                           onClick={() => {
-                            console.log("clicked pay");
                             handlecancel();
                             handlecardpay();
                           }}

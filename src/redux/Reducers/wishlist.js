@@ -10,7 +10,6 @@ export const wishlistSlice = createSlice({
         (product) => product.id === action.payload.id
       );
 
-      console.log("existingProduct in wishlist", existingProduct);
       if (existingProduct) {
         existingProduct.items += 0;
         // state.push({ ...action.payload, items: 1 });

@@ -79,14 +79,7 @@ const SingleOrder = () => {
 
   if (orders && orders.items && !loading) {
     customer = users?.find((user) => user?.id == orders.customer);
-    console.log(
-      "single order",
-      orders.customer,
-      sellers,
-      customer,
-      users,
-      users?.find((user) => user?.id == orders.customer)
-    );
+  
     fetchProductData();
   }
   const singleorder = ord.length > 0 ? ord : [];

@@ -548,8 +548,6 @@ export const DashProducts = () => {
     }
   }, [dispatch]);
 
-  console.log("loading", loading);
-
   useEffect(() => {
     // Generate dataSource based on the current products state
     const newData =
@@ -577,8 +575,6 @@ export const DashProducts = () => {
     setDataSource(newData);
     setFilteredData(newData);
   }, [products]);
-
-  console.log("dashproduct", dashproduct.slice(0, 5));
 
   return (
     <Layout className="space-y-6   overflow-auto bg-[white]">
