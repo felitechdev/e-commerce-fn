@@ -63,18 +63,20 @@ const ProductPreview = ({ productInfo }) => {
             productInfo.discountPercentage
           )
         ),
-        productThumbnail: productInfo.productImages.productThumbnail,
+        productThumbnail: productInfo.productThumbnail.url,
         seller: productInfo.seller,
         discountPercentage: productInfo?.discountPercentage,
         items: 1,
       };
-      cart.push(existingProduct);
+      if (productInfo.hasMeasurements || productInfo.hasColors) {
+        navigate(`/products/${productInfo.id}`);
+      } else {
+        cart.push(existingProduct);
+        dispatch(addToCart(existingProduct));
+      }
     } else {
       existingProduct.items += 1;
     }
-
-    // Dispatch the addToCart action to update the Redux state
-    dispatch(addToCart(existingProduct));
 
     // Update localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
