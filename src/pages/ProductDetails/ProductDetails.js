@@ -35,6 +35,8 @@ export default function ProductDetails({ product, dispatch }) {
         seller: productInfo.seller,
         discountPercentage: productInfo?.discountPercentage,
         items: 1,
+        hasColors: productInfo.hasColors,
+        hasMeasurements: productInfo.hasMeasurements,
       };
       wishlist.push(existingProduct);
     } else {
