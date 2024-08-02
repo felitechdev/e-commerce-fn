@@ -16,7 +16,7 @@ export const fetchProducts = createAsyncThunk(
       (a, b) => b.createdAt - a.createdAt
     );
 
-    return sortedProducts;
+    return data?.data?.products;
   }
 );
 

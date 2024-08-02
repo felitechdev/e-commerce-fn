@@ -1,12 +1,12 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const Token = Cookies.get('token');
+const Token = Cookies.get("token");
 
 // Async thunk for fetching products  to handle asynchronous
 export const fetchProducts = createAsyncThunk(
-  'product/fetchProducts',
+  "product/fetchProducts",
   async () => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`
@@ -17,23 +17,21 @@ export const fetchProducts = createAsyncThunk(
       (a, b) => b.createdAt - a.createdAt
     );
 
-    return sortedProducts;
+    return data?.data?.products;
   }
 );
 
 // create product
 export const createProduct = createAsyncThunk(
-  'product/createProduct',
+  "product/createProduct",
   async ({ productData, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`,
-        method: 'POST',
+        method: "POST",
         headers: {
-          Authorization: token
-            ? `Bearer ${token}`
-            : `Bearer ${Token}`, // Pass the token only if it exists
-          'content-type': 'multipart/form-data',
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
+          "content-type": "multipart/form-data",
         },
         data: productData,
       });
@@ -57,17 +55,15 @@ export const createProduct = createAsyncThunk(
 );
 
 export const deleteproduct = createAsyncThunk(
-  'product/delete',
+  "product/delete",
   async ({ id, token }, { rejectWithValue }) => {
     try {
       const response = await axios({
         url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'content-type': 'application/json',
-          Authorization: token
-            ? `Bearer ${token}`
-            : `Bearer ${Token}`, // Pass the token only if it exists
+          "content-type": "application/json",
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`, // Pass the token only if it exists
         },
       });
 
