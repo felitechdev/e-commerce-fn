@@ -1,31 +1,23 @@
-import {
-  Button,
-  DatePicker,
-  Dropdown,
-  Form,
-  Input,
-  Modal,
-  Upload,
-} from 'antd';
+import { Button, DatePicker, Dropdown, Form, Input, Modal, Upload } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
   MoreOutlined,
   ExclamationCircleFilled,
   PlusOutlined,
-} from '@ant-design/icons';
-import { useState } from 'react';
+} from "@ant-design/icons";
+import { useState } from "react";
 
 const { confirm } = Modal;
 
 const ShowDeleteConfirm = () => {
   confirm({
-    title: 'Are you sure delete this Company?',
+    title: "Are you sure delete this Company?",
     icon: <ExclamationCircleFilled />,
-    content: 'Some descriptions',
-    okText: 'Yes',
-    okType: 'danger',
-    cancelText: 'No',
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
     onOk() {},
     onCancel() {},
   });
@@ -53,49 +45,36 @@ const UpdateModel = ({ setModel }) => {
   return (
     <>
       <Modal
-        title='Create company'
-        width='50rem'
+        title="Create company"
+        width="50rem"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Form
-          form={form}
-          layout='vertical'
-          initialValues={{}}
-        >
+        <Form form={form} layout="vertical" initialValues={{}}>
           <Form.Item
-            label=''
-            name='fileList'
-            valuePropName='fileList'
+            label=""
+            name="fileList"
+            valuePropName="fileList"
             getValueFromEvent={normFile}
           >
-            <Upload
-              action='/upload.do'
-              listType='picture-card'
-            >
+            <Upload action="/upload.do" listType="picture-card">
               <div>
                 <PlusOutlined />
                 <div style={{ marginTop: 8 }}>Upload</div>
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item
-            label='Company Name'
-            name='companyName'
-          >
-            <Input placeholder='Input placeholder' />
+          <Form.Item label="Company Name" name="companyName">
+            <Input placeholder="Input placeholder" />
           </Form.Item>
-          <Form.Item label='Email' name='email'>
-            <Input placeholder='Input placeholder' />
+          <Form.Item label="Email" name="email">
+            <Input placeholder="Input placeholder" />
           </Form.Item>
-          <Form.Item
-            label='Phone number'
-            name='phoneNumber'
-          >
-            <Input placeholder='+250 788 284 364' />
+          <Form.Item label="Phone number" name="phoneNumber">
+            <Input placeholder="+250 788 284 364" />
           </Form.Item>
-          <Form.Item label='Joined date' name='joinedDate'>
+          <Form.Item label="Joined date" name="joinedDate">
             <DatePicker />
           </Form.Item>
         </Form>
@@ -130,16 +109,17 @@ export const ActionMenuButton = (props) => {
           //   onClick: ShowDeleteConfirm,
           // },
         }}
-        className=''
+        className=""
         arrow={{ pointAtCenter: true }}
-        trigger={['click']}
+        trigger={["click"]}
         destroyPopupOnHide={true}
-        placement='bottomRight'
+        placement="bottomRight"
       >
         <Button
-          icon={<MoreOutlined />}
-          shape='circle'
-          type='text'
+          icon={<MoreOutlined size={30} />}
+          className="!bg-primary !text-white"
+          shape="circle"
+          type="text"
           onClick={(e) => e.preventDefault()}
         />
       </Dropdown>

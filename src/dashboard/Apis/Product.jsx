@@ -22,7 +22,7 @@ export const fetchadminproduct = createAsyncThunk(
       (a, b) => b.createdAt - a.createdAt
     );
 
-    return sortedProducts;
+    return data?.data?.products;
   }
 );
 
