@@ -705,7 +705,9 @@ const ProductModel = (props) => {
 
   return (
     <>
-      <Button onClick={showModal}>Add a product</Button>
+      {userRole == "admin" && (
+        <Button onClick={showModal}>Add a product</Button>
+      )}
 
       {/* open addnew category model */}
       {userRole == "admin" && addnew && (

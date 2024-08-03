@@ -75,9 +75,9 @@ const OrderCard = ({ order }) => {
       <div>
         {" "}
         <div className="order-header md:flex md:space-x-3">
-          <span className="flex">
+          <span className=" font-semibold  block md:flex ">
             #{order.id} -{" "}
-            <p className="font-semibold ml-2">
+            <p className="ml-0 md:ml-5">
               {user?.role == "admin" &&
                 order?.momo_payload &&
                 order?.momo_payload?.fullname}
@@ -171,7 +171,7 @@ const OrderCard = ({ order }) => {
 
       {user?.role == "admin" && (
         <div
-          className="absolute top-0 right-0"
+          className="absolute top-5 right-0"
           onClick={(e) => {
             e.stopPropagation();
           }}
