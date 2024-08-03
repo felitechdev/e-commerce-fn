@@ -147,10 +147,10 @@ const ProductPreview = ({ productInfo }) => {
   };
 
   let headerIconStyles =
-    "  ml-2  inline-block hover:text-[#1D6F2B] hover:bg-[#E5E5E5] hover:rounded-full py-1.5 px-2.5";
+    "  ml-2  inline-block hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5] rounded-full py-1.5 px-2.5";
   return (
     <div
-      className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
+      className="w-full h-fit relative group border-2 border-gray-100 rounded-md cursor-pointer"
       onClick={handleProductDetails}
     >
       {productInfo.productImages !== undefined ? (
