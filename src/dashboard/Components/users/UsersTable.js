@@ -378,10 +378,10 @@ export default function UsersTable({ users }) {
 
   return (
     <div className="flex w-full flex-col relative">
-      <div className=" absolute -top-10 left-1/2 right-1/2 bg-primary rounded-t-md">
+      <div className=" absolute -top-10 left-1/3 border-none right-1/2 bg-primary rounded-t-md">
         <input
           type="text"
-          className="rounded-t-md text-black bg-white"
+          className="rounded-t-md text-black bg-white border-2 border-primary"
           placeholder="Search by username or email"
           value={searchQuery}
           onChange={handleSearch}
