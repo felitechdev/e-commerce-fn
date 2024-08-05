@@ -55,10 +55,11 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       uploadPreset, // Ex: myuploadpreset
       // croppingAspectRatio: 1,
       // cropping: true,
+      // maxFileSize: 4 * 1024 * 1024,
+      // maxFileSize: 150 * 1024, // 150KB size limit
       folder: "felitechnologyimages",
       multiple: uploadmultiple,
       maxFiles: uploadmultiple ? 6 : 1,
-      // cropping: true,
 
       styles: {
         palette: {
@@ -91,6 +92,8 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       // only trigger when one of those are the case. You can additionally
       // create a separate handler such as onEvent and trigger it on
       // ever occurrence
+
+      console.log("result on image", result);
       if (
         (error || result.event === "success") &&
         typeof onUpload === "function"
@@ -106,6 +109,8 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
    */
 
   function open() {
+    console.log("widget", widget);
+
     if (!widget.current) {
       widget.current = createWidget();
     }

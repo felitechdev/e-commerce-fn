@@ -12,12 +12,20 @@ function App() {
    * handleOnUpload
    */
 
-  function handleOnUpload(error, result, widget) {
+  // function handleOnUpload(error, result, widget) {
+  //   if (error) {
+  //     updateError(error);
+  //     widget.close({
+  //       quiet: true,
+  //     });
+  //     return;
+  //   }
+  //   updateUrl(result?.info?.secure_url);
+  // }
+
+  function handleOnUpload(error, result) {
     if (error) {
-      updateError(error);
-      widget.close({
-        quiet: true,
-      });
+      updateError(error.message);
       return;
     }
     updateUrl(result?.info?.secure_url);
@@ -44,7 +52,8 @@ function App() {
           }}
         </UploadWidget>
 
-        {error && <p>{error}</p>}
+        {/* {error && <p>{error}</p>} */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
         {url && (
           <>
