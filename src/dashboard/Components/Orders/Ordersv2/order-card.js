@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { FaRegCopy } from "react-icons/fa6";
+
 import { Card, Badge, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { statusColors } from "../../../../common/statuscolor";
@@ -13,15 +15,25 @@ import { ActionMenuButton } from "../../Button/AvtionButton";
 import { DeleteFilled, EyeFilled, EditFilled } from "@ant-design/icons";
 import { UpdateOrderStatus } from "../Order/updateorderstatus";
 import { useSelector } from "react-redux";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { set } from "js-cookie";
 const OrderCard = ({ order }) => {
   const user = useUser().user;
   const [orderstatus, setOrderstatus] = useState(order.status);
   const navigate = useNavigate();
   const [orderid, setOrderid] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [copy, setCopy] = useState({
+    value: order.id,
+    copied: false,
+  });
   const { orders, loadorders, errorders } = useSelector(
     (state) => state.orders
   );
+
+  useEffect(() => {
+    setCopy({ value: order.id, copied: false });
+  }, []);
 
   const formattedDate = format(order.createdAt, "PPpp"); // e.g., "June 20th, 2020, 4:30 PM"
   const timeAgo = formatDistanceToNow(order.createdAt, { addSuffix: true }); // e.g., "about 2 months ago"
@@ -75,9 +87,30 @@ const OrderCard = ({ order }) => {
       <div>
         {" "}
         <div className="order-header md:flex md:space-x-3">
-          <span className="flex">
-            #{order.id} -{" "}
-            <p className="font-semibold ml-2">
+          <span className=" font-semibold  block md:flex ">
+            <span className="flex space-x-4">
+              {" "}
+              <span> #{order.id}</span>
+              <CopyToClipboard
+                text={order.id}
+                onCopy={(e) => {
+                  setCopy({ value: order.id, copied: true });
+                }}
+              >
+                <FaRegCopy
+                  size={30}
+                  className=" rounded-full cursor-pointer  text-primary hover:text-white hover:bg-primary p-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCopy({ value: order.id, copied: true });
+                  }}
+                />
+              </CopyToClipboard>
+              {/* {copy.copied ? (
+                <span style={{ color: "red" }}>Copied.</span>
+              ) : null} */}
+            </span>
+            <p className="ml-0 md:ml-5">
               {user?.role == "admin" &&
                 order?.momo_payload &&
                 order?.momo_payload?.fullname}
@@ -171,7 +204,7 @@ const OrderCard = ({ order }) => {
 
       {user?.role == "admin" && (
         <div
-          className="absolute top-0 right-0"
+          className="absolute top-5 right-0"
           onClick={(e) => {
             e.stopPropagation();
           }}
