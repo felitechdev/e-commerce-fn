@@ -27,7 +27,7 @@ const ProductImages = ({
       <div className="mt-4 inline-block w-container lg:w-[35%]">
         <div className="flex flex-col gap-3 items-center">
           {/* <div className="relative max-w-[428px] max-h-[418px] rounded-md overflow-hidden"> */}
-          <div className="relative  w-[428px] h-[418px] rounded-md overflow-hidden">
+          <div className="relative  w-[428px] flex items-center justify-center h-[418px] p-1 rounded-md overflow-hidden">
             {productInwhishlist || clicked ? (
               <FiHeart
                 className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
@@ -45,7 +45,7 @@ const ProductImages = ({
 
             <img
               src={activeImage.url}
-              className="w-full rounded-md object-scale-down"
+              className="w-auto h-[100%] text-center rounded-md object-fill "
               alt=""
             />
           </div>
