@@ -51,7 +51,7 @@ const ProductClassAccordion = (props) => {
   }, [dispatch]);
 
   return (
-    <div className=" text-sm bg-slate-100 border-2 py-1 rounded-md px-2 z-50   shadow-md">
+    <div className=" text-sm bg-slate-100 border-2 py-2 rounded-md px-2 z-50   shadow-md">
       <div
         onClick={() => setShowBrands(!showBrands)}
         className="cursor-pointer h-6 "
@@ -64,7 +64,7 @@ const ProductClassAccordion = (props) => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <ul className="flex flex-col gap-4 text-sm  text-[#767676]">
+          <ul className="flex flex-col gap-4 text-sm  py-2  text-[#767676]">
             {!productclassLoading &&
               productclassData &&
               productclassData?.map((item) =>
