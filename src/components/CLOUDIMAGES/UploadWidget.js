@@ -93,7 +93,7 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       // create a separate handler such as onEvent and trigger it on
       // ever occurrence
 
-      console.log("result on image", result);
+   
       if (
         (error || result.event === "success") &&
         typeof onUpload === "function"
