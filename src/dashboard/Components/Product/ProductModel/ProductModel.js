@@ -645,7 +645,7 @@ const ProductModel = (props) => {
   function handleOnUpload(error, result, widget) {
     if (error) {
       setImageError(error);
-      widget.close({ quiet: true });
+      // widget.close({ quiet: true });
       return;
     }
     // Assuming the main product image URL is stored in the secure_url property of the result object

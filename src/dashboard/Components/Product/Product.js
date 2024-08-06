@@ -23,7 +23,9 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
   SearchOutlined,
+  UndoOutlined,
   StarFilled,
+  CloseOutlined,
   EditFilled,
   DeleteFilled,
   EyeFilled,
@@ -77,7 +79,7 @@ export const DashProducts = () => {
   // handle view sible product
   const [singleId, setSingleId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isImageVisible, setIsImageVisible] = useState(true);
   const handleCancelview = () => {
     setIsModalOpen(false);
   };
@@ -258,21 +260,33 @@ export const DashProducts = () => {
                     onRotateRight,
                     onZoomOut,
                     onZoomIn,
+                    onReset,
                   },
+                  // actions: {
+                  //   onFlipY,
+                  //   onFlipX,
+                  //   onRotateLeft,
+                  //   onRotateRight,
+                  //   onZoomOut,
+                  //   onZoomIn,
+                  //   onClose,
+                  // },
                 }
               ) => (
-                <Space size={12} className="mx-w-full h-screen">
-                  <DownloadOutlined onClick={onDownload} />
+                <Space size={12} className="toolbar-wrapper">
+                  <DownloadOutlined onClick={() => onDownload(src)} />
                   <SwapOutlined rotate={90} onClick={onFlipY} />
                   <SwapOutlined onClick={onFlipX} />
                   <RotateLeftOutlined onClick={onRotateLeft} />
                   <RotateRightOutlined onClick={onRotateRight} />
                   <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
                   <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                  <UndoOutlined onClick={onReset} />
                 </Space>
               ),
             }}
           />
+
           <div className=" overflow-auto ">
             <Title level={5} className="w-full">
               {record.name[1]}
