@@ -47,6 +47,7 @@ import { updateuserProduct } from "../../../Redux/ReduxSlice/Slice";
 import { fetchProductclass } from "../../../Redux/ReduxSlice/ProductClass";
 import { fetchProductBrand } from "../../../Redux/ReduxSlice/ProductBrand.slice";
 
+import { Checkbox } from "antd";
 const normFile = (e) => {
   if (Array.isArray(e)) {
     return e;
@@ -163,12 +164,15 @@ const ProductModel = (props) => {
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [stock, setStock] = useState([]);
+  const [absordCustomerCharge, setAbsordCustomerCharge] = useState(false);
+  const [absorbhovered, setAbsorbhovered] = useState(false);
 
   const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
   const {
     register,
     control,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -292,8 +296,8 @@ const ProductModel = (props) => {
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       quantityParameter: data.quantityParameter,
-      seller_commission: data.seller_commission,
-      absorbCustomerCharge: data.absorbCustomerCharge,
+      seller_commission: data.seller_commission / 100,
+      absorbCustomerCharge: absordCustomerCharge,
       // hasColors:
       //   colorVariations.length > 0 && colorVariations[0]?.colorImageUrl !== null
       //     ? true
@@ -385,7 +389,11 @@ const ProductModel = (props) => {
       },
     },
     absorbCustomerCharge: {
-      required: "absorbCustomerCharge is required",
+      validate: {
+        isBoolean: (value) =>
+          typeof value === "boolean" ||
+          "absorbCustomerCharge must be a boolean",
+      },
     },
 
     price: {
@@ -621,38 +629,6 @@ const ProductModel = (props) => {
     }
   }, [dispatch, categorys, subcategorys, token]);
 
-  // // implement redux
-  // useEffect(() => {
-  //   if (loadcompany == true) {
-  //     dispatch(fetchCompany(token))
-  //       .unwrap()
-  //       .then((data) => {
-  //         if (data?.data?.sellers) setCompanys(data?.data?.sellers);
-  //       })
-  //       .catch((error) => {
-  //         // if (error.response && error.response.status === 401) {
-  //         //   navigate("/");
-  //         // }
-  //       });
-  //   }
-  // }, [loadcompany, dispatch]);
-
-  // // Fetch products only when the component mounts
-  // useEffect(() => {
-  //   if (!companys.length) {
-  //     dispatch(fetchCompany(token))
-  //       .unwrap()
-  //       .then((data) => {
-  //         if (data?.data?.sellers) setCompanys(data?.data?.sellers);
-  //       })
-  //       .catch((error) => {
-  //         // if (error.response && error.response.status === 401) {
-  //         //   navigate("/");
-  //         // }
-  //       });
-  //   }
-  // }, [dispatch, companys, token]);
-
   useEffect(() => {
     fetchseller(token).then((data) => {
       setCompanys(data?.data?.data?.users);
@@ -705,6 +681,14 @@ const ProductModel = (props) => {
 
         return updatedStock;
       });
+  };
+
+  const handleCustomerCharge = (e) => {
+    if (e.target.checked) {
+      setAbsordCustomerCharge(true);
+    }
+
+    e.target.checked === false && setAbsordCustomerCharge(false);
   };
 
   function handleonuploadOtherImages(error, result, widget) {
@@ -1312,7 +1296,7 @@ const ProductModel = (props) => {
 
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] p-3 mt-3  border  border-[black] rounded">
-            <div className="flex justify-between space-x-2 w-[100%]">
+            <div className="flex flex-wrap justify-start space-x-1 md:space-x-6 w-[100%]">
               {userRole == "seller" ? (
                 <div className=" flex justify-center items-center ">{`Seller : ${user?.firstName}`}</div>
               ) : (
@@ -1360,61 +1344,6 @@ const ProductModel = (props) => {
               )}
 
               <Controller
-                name="absorbCustomerCharge"
-                control={control}
-                defaultValue={true}
-                rules={registerinput.absorbCustomerCharge}
-                render={({ field }) => (
-                  <>
-                    <Form.Item label="absorbCustomerCharge" className=" ">
-                      {loadcompany ? (
-                        <p>loading...</p>
-                      ) : (
-                        <Select
-                          {...field}
-                          showSearch
-                          label="Text field"
-                          onSearch={onSearch}
-                          filterOption={filterOption}
-                          options={[
-                            {
-                              label: "True",
-                              value: true,
-                            },
-                            {
-                              value: "False",
-                              label: false,
-                            },
-                          ]}
-                        />
-                      )}
-
-                      <p className="text-[red]">{errors?.seller?.message}</p>
-                    </Form.Item>
-                  </>
-                )}
-              />
-
-              <Controller
-                name="seller_commission"
-                control={registerinput.seller_commission}
-                rules={{}}
-                defaultValue={3}
-                render={({ field }) => (
-                  <Form.Item label="Commission" className=" w-[30%]">
-                    <InputNumber
-                      className="w-full"
-                      addonAfter="%"
-                      placeholder="Enter seller commission"
-                      name="seller_commission"
-                      {...field}
-                    />
-                    <p className="text-[red]">{}</p>
-                  </Form.Item>
-                )}
-              />
-
-              <Controller
                 name="brand"
                 control={control}
                 defaultValue=""
@@ -1442,49 +1371,75 @@ const ProductModel = (props) => {
                   </>
                 )}
               />
-              {/* 
+
               <Controller
-                name="brandName"
+                name="absorbCustomerCharge"
                 control={control}
-                rules={{
-                  ...registerinput.brandName,
-                }}
+                defaultValue={false}
+                rules={registerinput.absorbCustomerCharge}
                 render={({ field }) => (
-                  <Form.Item label=" Brand name" className=" w-[45%]">
-                    <Input
-                      type="text"
-                      name="brandName"
-                      {...field}
-                      placeholder="Enter Brand Name"
-                    />
-                    <p className="text-[red]">{errors?.brandName?.message}</p>
-                  </Form.Item>
+                  <>
+                    <Form.Item label="CustomerCharge" className=" ">
+                      <div
+                        className="relative"
+                        onMouseEnter={() => setAbsorbhovered(true)}
+                        onMouseLeave={() => setAbsorbhovered(false)}
+                      >
+                        <Checkbox
+                          {...field}
+                          onChange={handleCustomerCharge}
+                          checked={
+                            field.value === true ||
+                            absordCustomerCharge === true
+                          }
+                        >
+                          I agree to absorb customer charge.
+                        </Checkbox>
+
+                        {absorbhovered && (
+                          <span className="absolute w-[180px] bg-primary text-white  rounded-md p-3  top-7 left-0 z-50">
+                            Select this if you wish to cover the cost charged to
+                            the customer for purchasing your product.
+                          </span>
+                        )}
+                      </div>
+
+                      <p className="text-[red]">
+                        {errors?.absorbCustomerCharge?.message}
+                      </p>
+                    </Form.Item>
+                  </>
                 )}
-              /> */}
+              />
+
+              {absordCustomerCharge && (
+                <Controller
+                  name="seller_commission"
+                  control={control}
+                  rules={
+                    absordCustomerCharge && registerinput.seller_commission
+                  }
+                  defaultValue={3}
+                  render={({ field }) => (
+                    <Form.Item label="Commission" className=" w-[30%]">
+                      <InputNumber
+                        className="w-full"
+                        addonBefore="%"
+                        placeholder="Enter seller commission"
+                        {...field}
+                      />
+                      <p className="text-[red]">
+                        {errors?.seller_commission?.message}
+                      </p>
+                    </Form.Item>
+                  )}
+                />
+              )}
             </div>
 
-            <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
-              {/* <Controller
-                name="stockQuantity"
-                control={control}
-                rules={{
-                  ...registerinput.stockQuantity,
-                }}
-                render={({ field }) => (
-                  <Form.Item label="stockQuantity" className="md:w-[48%]">
-                    <Input
-                      type="text"
-                      placeholder="stockQuantity"
-                      name="stockQuantity"
-                      {...field}
-                    />
-                    <p className="text-[red]">
-                      {errors?.stockQuantity?.message}
-                    </p>
-                  </Form.Item>
-                )}
-              /> */}
+            <div className="flex  justify-start space-x-2"></div>
 
+            <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
               {stockQuantity !== 0 ? (
                 <Form.Item
                   label={`stockQuantity:  ${stockforproduct} `}
@@ -1531,8 +1486,8 @@ const ProductModel = (props) => {
                     label={
                       <>
                         Price
-                        <p className="text-[red] ml-2"> 3% commission </p> (
-                        {percentage})
+                        {/* <p className="text-[red] ml-2"> 3% commission </p> (
+                        {percentage}) */}
                       </>
                     }
                     className="md:w-[48%]"
