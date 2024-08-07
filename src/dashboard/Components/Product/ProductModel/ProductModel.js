@@ -292,6 +292,8 @@ const ProductModel = (props) => {
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       quantityParameter: data.quantityParameter,
+      seller_commission: data.seller_commission,
+      absorbCustomerCharge: data.absorbCustomerCharge,
       // hasColors:
       //   colorVariations.length > 0 && colorVariations[0]?.colorImageUrl !== null
       //     ? true
@@ -382,6 +384,10 @@ const ProductModel = (props) => {
         message: "minimum length should be 2",
       },
     },
+    absorbCustomerCharge: {
+      required: "absorbCustomerCharge is required",
+    },
+
     price: {
       required: "price is required",
       min: {
@@ -411,6 +417,17 @@ const ProductModel = (props) => {
     },
     seller: {
       required: "seller is required",
+    },
+    seller_commission: {
+      required: "seller commission is required",
+      min: {
+        value: 0,
+        message: "seller commission must be greater than 0",
+      },
+      validate: {
+        isNumber: (value) =>
+          !isNaN(value) || "seller commission must be a number",
+      },
     },
     discountPercentage: {
       required: "discountPercentage is required",
@@ -1341,6 +1358,61 @@ const ProductModel = (props) => {
                   )}
                 />
               )}
+
+              <Controller
+                name="absorbCustomerCharge"
+                control={control}
+                defaultValue={true}
+                rules={registerinput.absorbCustomerCharge}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="absorbCustomerCharge" className=" ">
+                      {loadcompany ? (
+                        <p>loading...</p>
+                      ) : (
+                        <Select
+                          {...field}
+                          showSearch
+                          label="Text field"
+                          onSearch={onSearch}
+                          filterOption={filterOption}
+                          options={[
+                            {
+                              label: "True",
+                              value: true,
+                            },
+                            {
+                              value: "False",
+                              label: false,
+                            },
+                          ]}
+                        />
+                      )}
+
+                      <p className="text-[red]">{errors?.seller?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+
+              <Controller
+                name="seller_commission"
+                control={registerinput.seller_commission}
+                rules={{}}
+                defaultValue={3}
+                render={({ field }) => (
+                  <Form.Item label="Commission" className=" w-[30%]">
+                    <InputNumber
+                      className="w-full"
+                      addonAfter="%"
+                      placeholder="Enter seller commission"
+                      name="seller_commission"
+                      {...field}
+                    />
+                    <p className="text-[red]">{}</p>
+                  </Form.Item>
+                )}
+              />
 
               <Controller
                 name="brand"
