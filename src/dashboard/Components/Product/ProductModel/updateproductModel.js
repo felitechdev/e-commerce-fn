@@ -1244,7 +1244,7 @@ const UpdateProductModel = (props) => {
 
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] p-3 mt-3  border  border-[black] rounded">
-            <div className="flex justify-between space-x-2 w-[100%]">
+            <div className="flex flex-wrap justify-start space-x-1 md:space-x-6 w-[100%]">
               {userRole == "seller" ? (
                 <div className=" flex justify-center items-center ">{`Seller : ${
                   Object.keys(DBProductInfo).length > 0
@@ -1283,6 +1283,39 @@ const UpdateProductModel = (props) => {
                   )}
                 />
               )}
+
+              <Controller
+                name="brand"
+                control={control}
+                defaultValue={
+                  Object.keys(DBProductInfo).length > 0
+                    ? DBProductInfo.brand
+                    : ""
+                }
+                // rules={registerinput.brand}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Product brand" className="">
+                      {loadbrand ? (
+                        <p>loading...</p>
+                      ) : (
+                        <Select
+                          {...field}
+                          showSearch
+                          label="Text field"
+                          onSearch={onSearch}
+                          filterOption={filterOption}
+                          options={
+                            selectBrandOption?.length != 0 && selectBrandOption
+                          }
+                        />
+                      )}
+
+                      <p className="text-[red]">{errors?.brand?.message}</p>
+                    </Form.Item>
+                  </>
+                )}
+              />
 
               {userRole == "admin" && (
                 <>
@@ -1357,39 +1390,6 @@ const UpdateProductModel = (props) => {
                   />
                 </>
               )}
-
-              <Controller
-                name="brand"
-                control={control}
-                defaultValue={
-                  Object.keys(DBProductInfo).length > 0
-                    ? DBProductInfo.brand
-                    : ""
-                }
-                // rules={registerinput.brand}
-                render={({ field }) => (
-                  <>
-                    <Form.Item label="Product brand" className="">
-                      {loadbrand ? (
-                        <p>loading...</p>
-                      ) : (
-                        <Select
-                          {...field}
-                          showSearch
-                          label="Text field"
-                          onSearch={onSearch}
-                          filterOption={filterOption}
-                          options={
-                            selectBrandOption?.length != 0 && selectBrandOption
-                          }
-                        />
-                      )}
-
-                      <p className="text-[red]">{errors?.brand?.message}</p>
-                    </Form.Item>
-                  </>
-                )}
-              />
             </div>
 
             <div className="grid grid-cols-2  md:flex justify-between  md:space-x-4">
