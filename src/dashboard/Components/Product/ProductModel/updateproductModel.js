@@ -308,7 +308,7 @@ const UpdateProductModel = (props) => {
       discountPercentage: data.discountPercentage,
       seller_commission: absordCustomerCharge
         ? data.seller_commission / 100
-        : 3 / 100,
+        : DBProductInfo?.seller_commission && DBProductInfo?.seller_commission,
       quantityParameter: data.quantityParameter,
       absorbCustomerCharge: absordCustomerCharge,
       hasColors:
