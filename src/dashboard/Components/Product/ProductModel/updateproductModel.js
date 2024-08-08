@@ -12,6 +12,7 @@ import {
   Upload,
   Space,
   Image,
+  Checkbox,
 } from "antd";
 import "../style.css";
 import {
@@ -171,6 +172,8 @@ const UpdateProductModel = (props) => {
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [stock, setStock] = useState([]);
+  const [absordCustomerCharge, setAbsordCustomerCharge] = useState(false);
+  const [absorbhovered, setAbsorbhovered] = useState(false);
 
   const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
@@ -303,8 +306,11 @@ const UpdateProductModel = (props) => {
       brandName: data.brandName,
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
-      seller_commission: parseInt(data.seller_commission),
+      seller_commission: absordCustomerCharge
+        ? data.seller_commission / 100
+        : 3 / 100,
       quantityParameter: data.quantityParameter,
+      absorbCustomerCharge: absordCustomerCharge,
       hasColors:
         colorVariations.length > 0 &&
         colorVariations.every((variation) => variation.colorImageUrl),
@@ -384,7 +390,6 @@ const UpdateProductModel = (props) => {
   };
 
   const onErrors = (errors) => {};
-  console.error(errors);
 
   // handle add new category
   const handleOpenNewModel = () => {
@@ -660,9 +665,7 @@ const UpdateProductModel = (props) => {
 
           return updatedStock;
         });
-      } catch (error) {
-       
-      }
+      } catch (error) {}
   };
 
   function handleonuploadOtherImages(error, result, widget) {
@@ -674,15 +677,10 @@ const UpdateProductModel = (props) => {
     setOtherImageUrls((prevUrls) => [...prevUrls, result?.info?.secure_url]);
   }
 
-  // const handlestockQty = (index,value) => {
-  //   setStock(stock + value);
-  // };
-
   let stockforproduct =
     stock.length > 0
       ? stock.reduce((acc, curr) => acc + curr?.stock, 0)
       : Object.keys(DBProductInfo).length !== 0 && DBProductInfo.stockQuantity;
-
 
   useEffect(() => {
     // Update form values if profileview changes
@@ -697,6 +695,8 @@ const UpdateProductModel = (props) => {
     );
     setValue("name", DBProductInfo.name || "");
     setValue("price", DBProductInfo.price || "");
+
+    setAbsordCustomerCharge(DBProductInfo?.absorbCustomerCharge);
 
     setValue("seller", DBProductInfo?.seller || "");
     setValue(
@@ -715,8 +715,11 @@ const UpdateProductModel = (props) => {
     setValue("category", DBProductInfo.category || "");
     setValue(
       "seller_commission",
-      DBProductInfo?.seller_commission ? DBProductInfo?.seller_commission : ""
+      DBProductInfo?.seller_commission
+        ? DBProductInfo?.seller_commission * 100
+        : ""
     );
+    setValue("absorbCustomerCharge", DBProductInfo?.absorbCustomerCharge);
     setValue("productClass", DBProductInfo.productClass || "");
     setValue("brand", DBProductInfo?.brand || selectedProductBrand || "");
     setValue("description", DBProductInfo.description);
@@ -746,6 +749,14 @@ const UpdateProductModel = (props) => {
       })
     );
   }, [DBProductInfo, setValue]);
+
+  const handleAbsorbCustomerCharge = (e) => {
+    if (e.target.checked) {
+      setAbsordCustomerCharge(true);
+    }
+
+    e.target.checked === false && setAbsordCustomerCharge(false);
+  };
 
   // console.log("DBProductInfo", DBProductInfo?.seller_commission);
 
@@ -1274,29 +1285,77 @@ const UpdateProductModel = (props) => {
               )}
 
               {userRole == "admin" && (
-                <Controller
-                  name="seller_commission"
-                  control={control}
-                  rules={{}}
-                  defaultValue={
-                    Object.keys(DBProductInfo).length > 0 &&
-                    DBProductInfo?.seller_commission
-                      ? DBProductInfo.seller_commission
-                      : ""
-                  }
-                  render={({ field }) => (
-                    <Form.Item label="Commission" className=" w-[30%]">
-                      <InputNumber
-                        className="w-full"
-                        addonAfter="%"
-                        placeholder="Enter seller commission"
-                        name="seller_commission"
-                        {...field}
-                      />
-                      <p className="text-[red]">{}</p>
-                    </Form.Item>
+                <>
+                  {absordCustomerCharge && (
+                    <Controller
+                      name="seller_commission"
+                      control={control}
+                      rules={{}}
+                      defaultValue={
+                        Object.keys(DBProductInfo).length > 0 &&
+                        DBProductInfo?.seller_commission
+                          ? DBProductInfo.seller_commission * 100
+                          : ""
+                      }
+                      render={({ field }) => (
+                        <Form.Item label="Commission" className=" w-[30%]">
+                          <InputNumber
+                            className="w-full"
+                            addonAfter="%"
+                            placeholder="Enter seller commission"
+                            name="seller_commission"
+                            {...field}
+                          />
+                          <p className="text-[red]">{}</p>
+                        </Form.Item>
+                      )}
+                    />
                   )}
-                />
+
+                  <Controller
+                    name="absorbCustomerCharge"
+                    control={control}
+                    defaultValue={
+                      Object.keys(DBProductInfo).length > 0
+                        ? DBProductInfo.absorbCustomerCharge
+                        : false
+                    }
+                    rules={{}}
+                    render={({ field }) => (
+                      <>
+                        <Form.Item label="CustomerCharge" className=" ">
+                          <div
+                            className="relative"
+                            onMouseEnter={() => setAbsorbhovered(true)}
+                            onMouseLeave={() => setAbsorbhovered(false)}
+                          >
+                            <Checkbox
+                              {...field}
+                              onChange={(e) => {
+                                setAbsordCustomerCharge(!absordCustomerCharge);
+                              }}
+                              checked={absordCustomerCharge === true}
+                            >
+                              I agree to absorb customer charge.
+                            </Checkbox>
+
+                            {absorbhovered && (
+                              <span className="absolute w-[180px] bg-primary text-white  rounded-md p-3  top-7 left-0 z-50">
+                                Select this if you wish to cover the cost
+                                charged to the customer for purchasing your
+                                product.
+                              </span>
+                            )}
+                          </div>
+
+                          <p className="text-[red]">
+                            {errors?.absorbCustomerCharge?.message}
+                          </p>
+                        </Form.Item>
+                      </>
+                    )}
+                  />
+                </>
               )}
 
               <Controller
