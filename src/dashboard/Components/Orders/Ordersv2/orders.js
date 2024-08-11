@@ -1,84 +1,3 @@
-// import { Avatar, Button, Card, Col, Image, Layout } from "antd";
-// import { useSelector, useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import { Row, Space, Table, Typography, Input } from "antd";
-// // import "./styles.css";
-// import { SearchOutlined } from "@ant-design/icons";
-// import { useState, useEffect, useRef } from "react";
-// // import actions
-
-// import Cookies from "js-cookie";
-
-// const { Title, Paragraph, Text } = Typography;
-// export const OrdersV2 = () => {
-//   const { orders, loadorders, errorders } = useSelector(
-//     (state) => state.orders
-//   );
-//   const [selectedStatus, setSelectedStatus] = useState("All");
-//   const containerRef = useRef(null);
-
-//   const orderstatus = {
-//     1: "awaits payment",
-//     2: "pending",
-//     3: "processing",
-//     4: "shipped",
-//     5: "delivered",
-//     6: "cancelled",
-//     7: "transaction failed",
-//   };
-
-//   return (
-//     <Layout className="space-y-6 bg-light overflow-auto">
-//       <div className="w-full flex flex-col md:flex-row   md:space-x-4  bg-[white]">
-//         <Row className=" w-full md:w-[100%] p-0     ">
-//           <div className="bg-gray-200 w-full text-left space-y-4 p-2">
-//             <h1 className="text-xl font-bold ">Orders</h1>
-
-//             {/* status */}
-
-//             <div className="flex flex-row space-x-4 cursor-pointer overflow-auto">
-//               {/* underline active status  */}
-//               <span
-//                 className={`text-sm font-semibold text-primary
-
-//               ${selectedStatus === "All" ? "border-b-2 border-primary" : ""}
-
-//                 `}
-//                 onClick={() => setSelectedStatus("All")}
-//               >
-//                 All
-//               </span>
-
-//               {Object.keys(orderstatus).map((key) => (
-//                 <span
-//                   key={key}
-//                   className={`text-sm font-semibold  text-primary
-
-//                   ${
-//                     selectedStatus === orderstatus[key]
-//                       ? "border-b-2 border-primary"
-//                       : ""
-//                   }
-
-//                     `}
-//                   onClick={() => setSelectedStatus(orderstatus[key])}
-//                 >
-//                   {orderstatus[key]}
-//                 </span>
-//               ))}
-//             </div>
-//           </div>
-
-//           {/* order card */}
-
-//         </Row>
-//       </div>
-//     </Layout>
-//   );
-// };
-
-// // export default OrdersV2;
-
 import React, { useState, useRef, useEffect } from "react";
 import { Layout, Row, Col, Typography } from "antd";
 import { useSelector } from "react-redux";
@@ -102,7 +21,7 @@ export const OrdersV2 = () => {
   const [order, setOrder] = useState([]);
   const { orders, loadorders } = useSelector((state) => state.orders);
   const [selectedStatus, setSelectedStatus] = useState("All");
-
+  const [searchQuery, setSearchQuery] = useState("");
   const orderstatus = {
     1: "awaits payment",
     2: "pending",
@@ -148,12 +67,31 @@ export const OrdersV2 = () => {
     }
   }, [dispatch, token]);
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value.toLowerCase());
+  };
+  const Orders = filteredOrders.filter((item) =>
+    item.id.toLowerCase().includes(searchQuery)
+  );
+
   return (
     <Layout className="space-y-6 bg-light overflow-auto">
       <div className="w-full flex flex-col md:flex-row md:space-x-4 bg-white">
         <Row className="w-full md:w-[100%] p-0">
-          <div className="bg-gray-200 w-full text-left space-y-4 md:space-y-6 py-3 md:py-5 mb-4 p-2">
-            <h1 className="text-xl font-bold">Orders</h1>
+          <div className="bg-gray-200 w-full text-left space-y-0 md:space-y-6 py-3 md:py-5 mb-4 p-2">
+            <div className="flex items-center space-x-2">
+              <Title level={4}>Orders</Title>
+              <div className=" my-2 left-1/3 border-none  right-1/2  rounded-t-md">
+                <input
+                  type="text"
+                  className="rounded-t-md  text-black bg-white border-2 border-primary"
+                  placeholder="Search by orderId"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+              </div>
+            </div>
+
             <div className="flex flex-row space-x-4 cursor-pointer overflow-auto">
               <span
                 className={`text-sm font-semibold text-primary ${
@@ -187,7 +125,7 @@ export const OrdersV2 = () => {
             </>
           ) : (
             <Col span={24}>
-              {filteredOrders.map((order) => (
+              {Orders.map((order) => (
                 <OrderCard key={order.id} order={order} />
               ))}
             </Col>
