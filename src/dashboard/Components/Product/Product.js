@@ -612,7 +612,7 @@ export const DashProducts = () => {
 
       <Space className="flex justify-between">
         <Space className="flex justify-between">
-          <Title level={3}> All Products</Title>
+          <Title level={4}> All Products</Title>
         </Space>
         <div className="flex justify-center space-x-5">
           <UnorderedListOutlined
@@ -696,13 +696,7 @@ export const DashProducts = () => {
                   >
                     Category
                   </h3>
-                  {/* <h3 className="filterOption p-x-10 rounded-sm ">
-                    Subcategory
-                  </h3> */}
 
-                  {/* <h3 className="filterOption p-x-10 rounded-sm ">
-                    Arrival Date
-                  </h3> */}
                   <h3
                     className={`filterOption p-x-10 rounded-sm ${
                       activeFilter === "NewArrivals" ? "underline" : ""

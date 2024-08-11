@@ -1,16 +1,9 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Image,
-  Layout,
-} from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Row, Space, Table, Typography, Input } from 'antd';
-import { Chart } from '../Chart/Chart';
-import './styles.css';
+import { Avatar, Button, Card, Col, Image, Layout } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Row, Space, Table, Typography, Input } from "antd";
+import { Chart } from "../Chart/Chart";
+import "./styles.css";
 // import type { ColumnsType, TableProps } from 'antd/es/table';
 import {
   DownloadOutlined,
@@ -20,34 +13,30 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
   SearchOutlined,
-} from '@ant-design/icons';
-import Cookies from 'js-cookie';
-import { useState, useEffect, useRef } from 'react';
-import { handlecountorders } from '../../Common/handleOrderTotal';
-import { useUser } from '../../../context/UserContex';
+} from "@ant-design/icons";
+import Cookies from "js-cookie";
+import { useState, useEffect, useRef } from "react";
+import { handlecountorders } from "../../Common/handleOrderTotal";
+import { useUser } from "../../../context/UserContex";
 
-import { OrderTable } from './OrdersTable';
-import { GetMyOrders } from '../../../APIs/Oreders';
+import { OrderTable } from "./OrdersTable";
+import { GetMyOrders } from "../../../APIs/Oreders";
 
 // import actions
-import { fetchadminproduct } from '../../Apis/Product';
-import { Loader } from '../Loader/LoadingSpin';
-import {
-  DashboardTopCard,
-  OrdersLineCahrt,
-} from '../Chart/DashboardTopCard';
+import { fetchadminproduct } from "../../Apis/Product";
+import { Loader } from "../Loader/LoadingSpin";
+import { DashboardTopCard, OrdersLineCahrt } from "../Chart/DashboardTopCard";
 
 const { Title, Paragraph, Text } = Typography;
 
 const src =
-  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
+  "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";
 
 export const Dashboard = () => {
   const [products, setProducts] = useState([]);
-  const [viewallsellerproducts, setViewallsellerProducts] =
-    useState(false);
+  const [viewallsellerproducts, setViewallsellerProducts] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [seller, setSeller] = useState([]);
   const { user: userRole } = useUser();
@@ -55,81 +44,55 @@ export const Dashboard = () => {
   const { orders, loadorders, errorders } = useSelector(
     (state) => state.orders
   );
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
 
   const toalEarning =
-    orders &&
-    orders.reduce((acc, order) => acc + order.amount, 0);
+    orders && orders.reduce((acc, order) => acc + order.amount, 0);
   const now = new Date();
   const today = new Date(now.setDate(now.getDate()));
-  const oneDayAgo = new Date(
-    now.setDate(now.getDate() - 1)
-  );
-  const oneWeekAgo = new Date(
-    now.setDate(now.getDate() - 7)
-  );
-  const oneMonthAgo = new Date(
-    now.setMonth(now.getMonth() - 1)
-  );
-  const oneYearAgo = new Date(
-    now.setFullYear(now.getFullYear() - 1)
-  );
+  const oneDayAgo = new Date(now.setDate(now.getDate() - 1));
+  const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
+  const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
+  const oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
 
   const totalOrders = orders && orders.length;
   const totalEarning =
-    orders &&
-    orders.reduce((acc, order) => acc + order.amount, 0);
+    orders && orders.reduce((acc, order) => acc + order.amount, 0);
 
   const totalDailyOrders =
     orders &&
-    orders.filter(
-      (order) => new Date(order.createdAt) > oneDayAgo
-    ).length;
+    orders.filter((order) => new Date(order.createdAt) > oneDayAgo).length;
   const totalDailyEarning =
     orders &&
     orders
-      .filter(
-        (order) => new Date(order.createdAt) > oneDayAgo
-      )
+      .filter((order) => new Date(order.createdAt) > oneDayAgo)
       .reduce((acc, order) => acc + order.amount, 0);
 
   const totalWeeklyOrders =
     orders &&
-    orders.filter(
-      (order) => new Date(order.createdAt) > oneWeekAgo
-    ).length;
+    orders.filter((order) => new Date(order.createdAt) > oneWeekAgo).length;
   const totalWeeklyEarning =
     orders &&
     orders
-      .filter(
-        (order) => new Date(order.createdAt) > oneWeekAgo
-      )
+      .filter((order) => new Date(order.createdAt) > oneWeekAgo)
       .reduce((acc, order) => acc + order.amount, 0);
 
   const totalMonthlyOrders =
     orders &&
-    orders.filter(
-      (order) => new Date(order.createdAt) > oneMonthAgo
-    ).length;
+    orders.filter((order) => new Date(order.createdAt) > oneMonthAgo).length;
   const totalMonthlyEarning =
     orders &&
     orders
-      .filter(
-        (order) => new Date(order.createdAt) > oneMonthAgo
-      )
+      .filter((order) => new Date(order.createdAt) > oneMonthAgo)
       .reduce((acc, order) => acc + order.amount, 0);
 
   const totalYearlyOrders =
     orders &&
-    orders.filter(
-      (order) => new Date(order.createdAt) > oneYearAgo
-    ).length;
+    orders.filter((order) => new Date(order.createdAt) > oneYearAgo).length;
   const totalYearlyEarning =
     orders &&
     orders
-      .filter(
-        (order) => new Date(order.createdAt) > oneYearAgo
-      )
+      .filter((order) => new Date(order.createdAt) > oneYearAgo)
       .reduce((acc, order) => acc + order.amount, 0);
 
   const containerRef = useRef(null);
@@ -139,9 +102,7 @@ export const Dashboard = () => {
   const { dashproduct, status, err } = useSelector(
     (state) => state.adminProduct
   );
-  const { user, load } = useSelector(
-    (state) => state.userlogin
-  );
+  const { user, load } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
 
   const handleViewAllSellerProducts = () => {
@@ -152,11 +113,11 @@ export const Dashboard = () => {
   };
 
   const chartheader = [
-    { name: 'Orders', value: totalOrders },
-    { name: 'Earning', value: 1024 },
-    { name: 'Customers', value: 1024 },
+    { name: "Orders", value: totalOrders },
+    { name: "Earning", value: 1024 },
+    { name: "Customers", value: 1024 },
     {
-      name: 'Total Earning in General',
+      name: "Total Earning in General",
       value: totalEarning,
     },
   ];
@@ -168,9 +129,9 @@ export const Dashboard = () => {
       .then((response) => response.blob())
       .then((blob) => {
         const url = URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = url;
-        link.download = 'image.png';
+        link.download = "image.png";
         document.body.appendChild(link);
         link.click();
         URL.revokeObjectURL(url);
@@ -180,11 +141,11 @@ export const Dashboard = () => {
 
   const FilterByNameInput = (
     <Input.Search
-      placeholder='search product by name .......'
+      placeholder="search product by name ......."
       allowClear
-      enterButton='Search'
-      size='large'
-      className='w-[50%] my-0'
+      enterButton="Search"
+      size="large"
+      className="w-[50%] my-0"
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
@@ -200,15 +161,11 @@ export const Dashboard = () => {
             price: product.price,
             stock: product.stockQuantity,
             // orders: product.deliveryInfo.length,
-            published: new Date(
-              `${product.updatedAt}`
-            ).toLocaleDateString(),
+            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product.brandName,
           }))
           .filter((entry) =>
-            entry.name[1]
-              .toLowerCase()
-              .includes(currValue.toLowerCase())
+            entry.name[1].toLowerCase().includes(currValue.toLowerCase())
           );
 
         setFilteredData(newData);
@@ -220,16 +177,16 @@ export const Dashboard = () => {
   const Columns = [
     {
       // title: `Product ${FilterByNameInput}`,
-      title: 'Product',
-      dataIndex: 'name',
-      key: 'name',
-      colSpan: '1',
+      title: "Product",
+      dataIndex: "name",
+      key: "name",
+      colSpan: "1",
       render: (_, record, index) => (
-        <Space size={12} className='' key={index}>
-          <div className='image-preview-container'>
+        <Space size={12} className="" key={index}>
+          <div className="image-preview-container">
             <Image
               width={50}
-              className='rounded-md'
+              className="rounded-md"
               src={record.name[0]}
               // preview={{ getContainer: () => containerRef.current }}
               preview={{
@@ -247,24 +204,12 @@ export const Dashboard = () => {
                     },
                   }
                 ) => (
-                  <Space
-                    size={12}
-                    className='mx-w-full  h-screen'
-                  >
-                    <DownloadOutlined
-                      onClick={onDownload}
-                    />
-                    <SwapOutlined
-                      rotate={90}
-                      onClick={onFlipY}
-                    />
+                  <Space size={12} className="mx-w-full  h-screen">
+                    <DownloadOutlined onClick={onDownload} />
+                    <SwapOutlined rotate={90} onClick={onFlipY} />
                     <SwapOutlined onClick={onFlipX} />
-                    <RotateLeftOutlined
-                      onClick={onRotateLeft}
-                    />
-                    <RotateRightOutlined
-                      onClick={onRotateRight}
-                    />
+                    <RotateLeftOutlined onClick={onRotateLeft} />
+                    <RotateRightOutlined onClick={onRotateRight} />
                     <ZoomOutOutlined
                       disabled={scale === 1}
                       onClick={onZoomOut}
@@ -278,16 +223,15 @@ export const Dashboard = () => {
               }}
             />
           </div>
-          <div className='  '>
-            <Title level={5} className='w-full'>
+          <div className="  ">
+            <Title level={5} className="w-full">
               {record.name[1]}
             </Title>
-            <Text className='w-full'>
+            <Text className="w-full">
               {/* {record.name[2]} */}
               <div
                 dangerouslySetInnerHTML={{
-                  __html:
-                    record.name[2].slice(0, 30) + '....',
+                  __html: record.name[2].slice(0, 30) + "....",
                 }}
               ></div>
             </Text>
@@ -299,52 +243,46 @@ export const Dashboard = () => {
     },
 
     {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
 
     {
-      title: 'Orders',
-      dataIndex: 'orders',
-      key: 'orders',
-      alignItems: 'center',
+      title: "Orders",
+      dataIndex: "orders",
+      key: "orders",
+      alignItems: "center",
       width: 100,
 
       render: (_, record) => {
-        const order =
-          orders && handlecountorders(orders, record.key);
+        const order = orders && handlecountorders(orders, record.key);
         return (
-          <div className='w-full text-left '>
+          <div className="w-full text-left ">
             <span>total: {order}</span>
           </div>
         );
       },
     },
     {
-      title: 'Published',
-      dataIndex: 'published',
-      key: 'published',
+      title: "Published",
+      dataIndex: "published",
+      key: "published",
       width: 100,
       // sorter: (a, b) => a.age - b.age,
     },
     {
-      title: 'Brand Name',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Brand Name",
+      dataIndex: "address",
+      key: "address",
       filter: true,
       width: 100,
     },
   ];
 
-  const onChange = (
-    pagination,
-    filters,
-    sorter,
-    extra
-  ) => {};
+  const onChange = (pagination, filters, sorter, extra) => {};
 
   // implement redux
   useEffect(() => {
@@ -382,9 +320,7 @@ export const Dashboard = () => {
             price: product.price,
             stock: product.stockQuantity,
             // orders: product.deliveryInfo.length,
-            published: new Date(
-              `${product.updatedAt}`
-            ).toLocaleDateString(),
+            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product.brandName,
           }))
         : [];
@@ -395,8 +331,7 @@ export const Dashboard = () => {
       products.length > 0
         ? products.map((product) => ({
             key: product.id,
-            logo: product.productImages.productThumbnail
-              .url,
+            logo: product.productImages.productThumbnail.url,
             name: product.name,
             amount: product.price,
             stock: product.stockQuantity,
@@ -425,8 +360,8 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <Layout className='space-y-6  bg-light overflow-auto'>
-      <div ref={containerRef} className=''>
+    <Layout className="space-y-6  bg-light overflow-auto">
+      <div ref={containerRef} className="">
         <DashboardTopCard />
       </div>
       {/* <div className="w-full flex flex-col md:flex-row   md:space-x-4 p-3 bg-[white]"> */}
@@ -434,19 +369,19 @@ export const Dashboard = () => {
       {/* <OrdersLineCahrt /> */}
       {/* </div> */}
 
-      {userRole.role == 'admin' && (
-        <div className='w-full  space-x-4 p-3 bg-[white]'>
+      {userRole.role == "admin" && (
+        <div className="w-full  space-x-4 p-3 bg-[white]">
           {/* display loading spinner */}
-          {status == 'loading' ? (
+          {status == "loading" ? (
             <>
-              <Loader className=' text-primary flex items-center w-full justify-center' />
-              <span className=' text-primary flex items-center  justify-center'>
+              <Loader className=" text-primary flex items-center w-full justify-center" />
+              <span className=" text-primary flex items-center  justify-center">
                 Loading....
               </span>
             </>
           ) : (
-            <div className='w-full flex  flex-col-reverse lg:flex-row space-y-1    lg:space-x-4  '>
-              <Row className=' w-full lg:w-[50%] p-0   h-min     '>
+            <div className="w-full flex  flex-col-reverse lg:flex-row space-y-1    lg:space-x-4  ">
+              <Row className=" w-full lg:w-[50%] p-0   h-min     ">
                 {FilterByNameInput}
 
                 {/* <Space className="w-full p-4 mb-6 bg-tableborder rounded-md">
@@ -454,45 +389,43 @@ export const Dashboard = () => {
               </Space> */}
 
                 <Table
-                  rowClassName='even:bg-[#f1f5f9]  hover:cursor-pointer custom-table-row '
+                  rowClassName="even:bg-[#f1f5f9]  hover:cursor-pointer custom-table-row "
                   // rowSelection={{
                   //   type: "checkbox",
                   // }}
-                  size='small'
-                  tableLayout='fixed'
+                  size="small"
+                  tableLayout="fixed"
                   bordered={false}
                   style={{
-                    marginTop: '10px',
-                    position: 'sticky',
+                    marginTop: "10px",
+                    position: "sticky",
                     bottom: 0,
                     top: 0,
                     left: 0,
                     zIndex: 1,
 
                     // border: "2px solid #838383",
-                    padding: '5px',
+                    padding: "5px",
                   }}
                   dataSource={filteredData.sort(
-                    (a, b) =>
-                      new Date(b.published) -
-                      new Date(a.published)
+                    (a, b) => new Date(b.published) - new Date(a.published)
                   )}
                   columns={Columns}
                   scroll={{ x: 500 }}
-                  className='w-full   '
+                  className="w-full   "
                 />
               </Row>
 
-              <Row className=' w-full lg:w-[50%]  p-0   '>
+              <Row className=" w-full lg:w-[50%]  p-0   ">
                 <OrderTable
                   style={{
-                    position: 'sticky',
+                    position: "sticky",
                     bottom: 0,
                     top: 0,
                     left: 0,
                     zIndex: 1,
-                    border: '2px solid #838383',
-                    padding: '10px',
+                    border: "2px solid #838383",
+                    padding: "10px",
                   }}
                 />
               </Row>

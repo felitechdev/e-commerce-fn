@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { fetchUsers } from '../redux/Reducers/usersSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import UsersTable from '../dashboard/Components/users/UsersTable';
-import { Loader } from '../dashboard/Components/Loader/LoadingSpin';
+import React, { useEffect } from "react";
+import { fetchUsers } from "../redux/Reducers/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import UsersTable from "../dashboard/Components/users/UsersTable";
+import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
+import { Typography } from "antd";
+const { Title, Paragraph, Text } = Typography;
 
 export default function Users() {
-  const { loading, users } = useSelector(
-    (state) => state.users
-  );
+  const { loading, users } = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -15,14 +15,12 @@ export default function Users() {
   }, [dispatch]);
 
   return (
-    <div className='w-full flex flex-col'>
-      <div className='mb-4'>
-        <h2 className='text-gray-700 text-3xl font-[600] self-start '>
-          Users
-        </h2>
+    <div className="w-full flex flex-col">
+      <div className="mb-4">
+        <Title level={4}>Users</Title>
       </div>
       {loading && !users?.length && (
-        <div className='flex justify-center'>
+        <div className="flex justify-center">
           <Loader />
         </div>
       )}
