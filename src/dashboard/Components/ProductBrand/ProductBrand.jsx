@@ -18,7 +18,7 @@ export const ProductBrand = () => {
   const { categories, loadcategory, errcategory } = useSelector(
     (state) => state.category
   );
-  // const [userList, setUserList] = useState(users);
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const token = Cookies.get("token");

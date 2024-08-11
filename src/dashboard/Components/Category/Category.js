@@ -30,6 +30,7 @@ export const Category = () => {
   const { subcategories, loadsubcategory, errsubcategory } = useSelector(
     (state) => state.subcategory
   );
+  const [searchQuery, setSearchQuery] = useState("");
   const token = Cookies.get("token");
   const dispatch = useDispatch();
 
@@ -163,6 +164,13 @@ export const Category = () => {
     },
   ];
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value.toLowerCase());
+  };
+  const filteredcategory = filteredData.filter((category) =>
+    category.name.toLowerCase().includes(searchQuery)
+  );
+
   return (
     <Layout className=" space-y-6  bg-light overflow-auto">
       <Space className="flex justify-between">
@@ -179,24 +187,35 @@ export const Category = () => {
             </span>
           </>
         ) : (
-          <Table
-            rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
-            size="small"
-            tableLayout="fixed"
-            bordered={true}
-            columns={Columns}
-            dataSource={filteredData}
-            style={{
-              position: "sticky",
-              bottom: 0,
-              top: 0,
-              left: 0,
-              zIndex: 1,
-              border: "0px solid #838383",
-              padding: "0px",
-            }}
-            scroll={{ x: 500, y: 500 }}
-          />
+          <div className="flex w-full flex-col ">
+            <div className=" my-2 left-1/3 border-none right-1/2  rounded-t-md">
+              <input
+                type="text"
+                className="rounded-t-md  text-black bg-white border-2 border-primary"
+                placeholder="Search by name"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+            </div>
+            <Table
+              rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
+              size="small"
+              tableLayout="fixed"
+              bordered={true}
+              columns={Columns}
+              dataSource={filteredcategory}
+              style={{
+                position: "sticky",
+                bottom: 0,
+                top: 0,
+                left: 0,
+                zIndex: 1,
+                border: "0px solid #838383",
+                padding: "0px",
+              }}
+              scroll={{ x: 500, y: 500 }}
+            />
+          </div>
         )}
       </div>
     </Layout>
