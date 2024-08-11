@@ -117,7 +117,7 @@ const SignInForm = (props) => {
   };
 
   return (
-    <div className="">
+    <>
       {!isaccountActivated && (
         <div className="  text-center py-5 ">
           <h1> No email found </h1>
@@ -142,7 +142,7 @@ const SignInForm = (props) => {
       )}
 
       <form
-        className="w-full lgl:w-[400px] h-auto flex flex-col gap-4 items-center"
+        className="w-full md:w-[60%] lgl:w-[400px] h-auto flex flex-col gap-4 items-center"
         onKeyDown={(e) => {
           if (e.key === "Enter") return handleSignIn();
         }}
@@ -260,7 +260,7 @@ const SignInForm = (props) => {
           </div>
         </div>
       </form>
-    </div>
+    </>
   );
 };
 
