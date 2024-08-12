@@ -31,7 +31,7 @@ import ItemCard, { ItemCardCheckout } from "./Default/Cart/ItemCard";
 import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 import { CardPayment } from "./Payment/cardpayment/card";
-const OrderForm = ({
+export const OrderForm = ({
   token,
   cartTotl,
   totalCost,
@@ -39,6 +39,8 @@ const OrderForm = ({
   isModalOpen,
   deliveryPreference,
   handlecancel,
+  isrepay,
+  momo_payload,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -79,35 +81,72 @@ const OrderForm = ({
     localStorage.setItem("orderFormData", JSON.stringify(formData));
   });
 
+  useEffect(() => {
+    setValue("paymentphoneNumber", momo_payload.phone_number);
+    setValue("email", momo_payload.email);
+    setValue("fullname", momo_payload.fullname);
+    setValue("amount", momo_payload.amount);
+  }, [momo_payload]);
+
+  console.log("momo_payload", momo_payload);
+
   const onSubmit = async (data) => {
-    let requestData = {
-      // ...data,
-      shippingAddress: shippingAddress,
-      deliveryPreference: deliveryPreference.toLowerCase(),
-      items: cartTotl,
-      amount: totalCost,
+    let requestData = !isrepay
+      ? {
+          // ...data,
+          shippingAddress: shippingAddress,
+          deliveryPreference: deliveryPreference.toLowerCase(),
+          items: cartTotl,
+          amount: totalCost,
 
-      //
-      phoneNumber: data.paymentphoneNumber,
+          //
+          phoneNumber: data.paymentphoneNumber,
 
-      email: data.email,
-      fullname: data?.fullname,
-    };
+          email: data.email,
+          fullname: data?.fullname,
+        }
+      : {
+          momo_payload: {
+            // amount: momo_payload.amount,
+            // phone_number: data.paymentphoneNumber,
+            // email: data.email,
+            // fullname: data?.fullname,
+            // ...momo_payload,
+
+            tx_ref: "012ddcfd-3c9e-471c-a437-07c87a3d777d",
+            order_id: "668f816cf6c62f9f42beb7ab",
+            amount: 197,
+            currency: "RWF",
+            email: "oliviertech27@gmail.com",
+            phone_number: "0784448194",
+            fullname: "Eric NDUNGUTSE",
+          },
+        };
 
     setIsLoading(true);
     setError("");
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/momo`,
-        // /api/v1/payments`,
-        requestData,
-        {
-          headers: {
-            Authorization: ` Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = !isrepay
+        ? await axios.post(
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/momo`,
+            requestData,
+            {
+              headers: {
+                Authorization: ` Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        : await axios.post(
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/retry-momo`,
+            requestData,
+            {
+              headers: {
+                Authorization: ` Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
       if (res.data.status === "success") {
         setIsLoading(false);
       }
@@ -129,6 +168,7 @@ const OrderForm = ({
 
       // alert("Payment was successfull!");
     } catch (error) {
+      console.log("error on payment", error.response);
       if (error.response?.data?.message === "Payment not completed.")
         return setError(error.response?.data?.message);
       if (error.response?.data?.message === "Invalid phone number")

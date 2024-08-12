@@ -17,12 +17,14 @@ import { UpdateOrderStatus } from "../Order/updateorderstatus";
 import { useSelector } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { set } from "js-cookie";
+import { RepayOrder } from "../Order/repay-order";
 const OrderCard = ({ order }) => {
   const user = useUser().user;
   const [orderstatus, setOrderstatus] = useState(order.status);
   const navigate = useNavigate();
   const [orderid, setOrderid] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ispayopen, setIspayopen] = useState(false);
   const [copy, setCopy] = useState({
     value: order.id,
     copied: false,
@@ -42,6 +44,11 @@ const OrderCard = ({ order }) => {
     setOrderid(id);
     setIsModalOpen(state);
   };
+  const openPayModal = async (state, id) => {
+    setOrderid(id);
+    setIspayopen(state);
+  };
+
   const getItems = (record) => [
     // {
     //   label: <span className="font-bold text-primary">View</span>,
@@ -91,21 +98,26 @@ const OrderCard = ({ order }) => {
             <span className="flex space-x-4">
               {" "}
               <span> #{order.id}</span>
-              <CopyToClipboard
-                text={order.id}
-                onCopy={(e) => {
-                  setCopy({ value: order.id, copied: true });
-                }}
-              >
-                <FaRegCopy
-                  size={30}
-                  className=" rounded-full cursor-pointer  text-primary hover:text-white hover:bg-primary p-1"
-                  onClick={(e) => {
-                    e.stopPropagation();
+              <div className="relative">
+                <CopyToClipboard
+                  text={order.id}
+                  onCopy={(e) => {
                     setCopy({ value: order.id, copied: true });
                   }}
-                />
-              </CopyToClipboard>
+                >
+                  <FaRegCopy
+                    size={30}
+                    className=" rounded-full  cursor-pointer  text-primary hover:text-white hover:bg-primary p-1"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCopy({ value: order.id, copied: true });
+                    }}
+                  ></FaRegCopy>
+                </CopyToClipboard>
+                {/* <p className="bg-black z-50 absolute bottom-0 right-4 text-white p-2 rounded-sm">
+                  id copied
+                </p> */}
+              </div>
               {/* {copy.copied ? (
                 <span style={{ color: "red" }}>Copied.</span>
               ) : null} */}
@@ -117,15 +129,42 @@ const OrderCard = ({ order }) => {
             </p>
           </span>
 
-          <Tag
-            color={statusColors[orderstatus]}
-            style={{ color: "white", fontWeight: "bold" }}
-            className="capitalize"
-          >
-            {/* {order.status} */}
+          <div className="flex space-x-2">
+            <Tag
+              color={statusColors[orderstatus]}
+              style={{ color: "white", fontWeight: "bold" }}
+              className="capitalize"
+            >
+              {/* {order.status} */}
 
-            {orderstatus}
-          </Tag>
+              {orderstatus}
+            </Tag>
+
+            {orderstatus == "awaits payment" && (
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  setIspayopen(true);
+                }}
+              >
+                <Tag
+                  style={{ color: "black", fontWeight: "bold" }}
+                  className="capitalize  !text-white  !bg-primary"
+                >
+                  Repay
+                  {/* api/v1/payments/retry-momo */}
+                </Tag>
+
+                <RepayOrder
+                  setModel={ispayopen}
+                  order={order}
+                  openModal={openPayModal}
+                  handleupdatestate={handleupdatestate}
+                />
+              </div>
+            )}
+          </div>
         </div>
         <div className="order-header flex my-3 space-x-3">
           {order?.payment_type && (
