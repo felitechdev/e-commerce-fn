@@ -82,13 +82,13 @@ export const OrderForm = ({
   });
 
   useEffect(() => {
-    setValue("paymentphoneNumber", momo_payload.phone_number);
-    setValue("email", momo_payload.email);
-    setValue("fullname", momo_payload.fullname);
-    setValue("amount", momo_payload.amount);
-  }, [momo_payload]);
-
-  console.log("momo_payload", momo_payload);
+    if (momo_payload && isrepay) {
+      setValue("paymentphoneNumber", momo_payload.phone_number);
+      setValue("email", momo_payload.email);
+      setValue("fullname", momo_payload.fullname);
+      setValue("amount", momo_payload.amount);
+    }
+  }, [momo_payload, isrepay]);
 
   const onSubmit = async (data) => {
     let requestData = !isrepay
@@ -107,19 +107,11 @@ export const OrderForm = ({
         }
       : {
           momo_payload: {
-            // amount: momo_payload.amount,
-            // phone_number: data.paymentphoneNumber,
-            // email: data.email,
-            // fullname: data?.fullname,
-            // ...momo_payload,
-
-            tx_ref: "012ddcfd-3c9e-471c-a437-07c87a3d777d",
-            order_id: "668f816cf6c62f9f42beb7ab",
-            amount: 197,
-            currency: "RWF",
-            email: "oliviertech27@gmail.com",
-            phone_number: "0784448194",
-            fullname: "Eric NDUNGUTSE",
+            amount: momo_payload.amount,
+            phone_number: data.paymentphoneNumber,
+            email: data.email,
+            fullname: data?.fullname,
+            ...momo_payload,
           },
         };
 
@@ -148,27 +140,19 @@ export const OrderForm = ({
             }
           );
       if (res.data.status === "success") {
+        setError("");
         setIsLoading(false);
       }
-
       if (res.data.status === "success") {
         setIsLoading(false);
-
-        // Get the redirect link from the response
-        const redirectLink = res.data.data.meta.authorization.redirect;
-
-        // Open the redirect link in a new tab
+        const redirectLink = res.data.data.redirect;
         window.open(redirectLink, "_blank");
-
         handlecancel();
         handleclearCart();
-
-        // navigate("/", { replace: true });
       }
 
       // alert("Payment was successfull!");
     } catch (error) {
-      console.log("error on payment", error.response);
       if (error.response?.data?.message === "Payment not completed.")
         return setError(error.response?.data?.message);
       if (error.response?.data?.message === "Invalid phone number")

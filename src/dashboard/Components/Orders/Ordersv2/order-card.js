@@ -45,6 +45,7 @@ const OrderCard = ({ order }) => {
     setIsModalOpen(state);
   };
   const openPayModal = async (state, id) => {
+    console.log("state ", state);
     setOrderid(id);
     setIspayopen(state);
   };
@@ -118,9 +119,9 @@ const OrderCard = ({ order }) => {
                   id copied
                 </p> */}
               </div>
-              {/* {copy.copied ? (
+              {copy.copied ? (
                 <span style={{ color: "red" }}>Copied.</span>
-              ) : null} */}
+              ) : null}
             </span>
             <p className="ml-0 md:ml-5">
               {user?.role == "admin" &&
@@ -159,6 +160,7 @@ const OrderCard = ({ order }) => {
                 <RepayOrder
                   setModel={ispayopen}
                   order={order}
+                  setIspayopen={setIspayopen}
                   openModal={openPayModal}
                   handleupdatestate={handleupdatestate}
                 />

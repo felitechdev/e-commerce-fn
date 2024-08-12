@@ -28,18 +28,6 @@ export const RepayOrder = ({ ...props }) => {
     (state) => state.updateoreder
   );
 
-  console.log("oreder props", props.order);
-
-  // const {
-  //   tx_ref,
-  //   id: order_id,
-  //   amount,
-  //   currency,
-  //   email,
-  //   phone_number,
-  //   fullname,
-  // } = props.order;
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,10 +36,12 @@ export const RepayOrder = ({ ...props }) => {
   const handlecancel = () => {
     setOpenrepaymodel(false);
     setCardpay(false);
+    props.setIspayopen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
     props.openModal(false);
+    // setOpenrepaymodel(false);
   };
 
   const handleOk = (values) => {
