@@ -147,7 +147,7 @@ export const RepayOrder = ({ ...props }) => {
             </span>
           </button>
 
-          <button
+          {/* <button
             disabled={loading}
             htmlType="submit"
             // type="button"
@@ -158,11 +158,9 @@ export const RepayOrder = ({ ...props }) => {
             className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
           >
             <span className="flex items-center tracking-widest">
-              {/* <span className="mr-2 font-bold">Card</span> */}
-
               <img src={CardIcon} className="w-14 rounded" />
             </span>
-          </button>
+          </button> */}
         </div>
       </Modal>
     </div>

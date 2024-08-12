@@ -112,15 +112,17 @@ const OrderCard = ({ order }) => {
                     onClick={(e) => {
                       e.stopPropagation();
                       setCopy({ value: order.id, copied: true });
+
+                      setTimeout(() => {
+                        setCopy({ value: order.id, copied: false });
+                      }, 5000);
                     }}
                   ></FaRegCopy>
                 </CopyToClipboard>
-                {/* <p className="bg-black z-50 absolute bottom-0 right-4 text-white p-2 rounded-sm">
-                  id copied
-                </p> */}
               </div>
               {copy.copied ? (
-                <span style={{ color: "red" }}>Copied.</span>
+                // <span style={{ color: "red" ,  }}>Copied.</span>
+                <p className="bg-black rounded-md text-white p-1">id copied</p>
               ) : null}
             </span>
             <p className="ml-0 md:ml-5">
