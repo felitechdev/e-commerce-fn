@@ -204,7 +204,7 @@ const SignUpForm = (props) => {
   }, [signinSuccess]);
 
   return (
-    <form className="w-full lgl:w-[450px] h-auto flex flex-col items-center">
+    <form className="w-full md:w-[60%] lgl:w-[450px] h-auto flex flex-col items-center">
       <div className="px-6  w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
         {errorAlert.status && (
           <AlertComponent

@@ -11,16 +11,15 @@ import { fetchProductBrand } from "../../Redux/ReduxSlice/ProductBrand.slice";
 const { Title } = Typography;
 
 export const ProductBrand = () => {
-  const [filteredData, setFilteredData] = useState([]);
   const [gettoken, setGettoken] = useState(null);
-
   // udpate state change
   const [resetproductclass, setResetproductclass] = useState();
-
   //  access redux actions
   const { categories, loadcategory, errcategory } = useSelector(
     (state) => state.category
   );
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const token = Cookies.get("token");
   const dispatch = useDispatch();
@@ -31,6 +30,8 @@ export const ProductBrand = () => {
   const { loading, productbrand, errorMessage } = useSelector(
     (state) => state.productbrand
   );
+
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     dispatch(fetchProductBrand());
@@ -147,10 +148,19 @@ export const ProductBrand = () => {
     },
   ];
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value.toLowerCase());
+  };
+  const filteredBrands = filteredData.filter(
+    (brand) => brand.name.toLowerCase().includes(searchQuery)
+    //  ||
+    // user.email.toLowerCase().includes(searchQuery)
+  );
+
   return (
     <Layout className=" space-y-6  bg-light overflow-auto">
       <Space className="flex justify-between">
-        <Title level={3}>ProductBrand</Title>
+        <Title level={4}>ProductBrand</Title>
         <ProductclassModel />
       </Space>
 
@@ -163,24 +173,39 @@ export const ProductBrand = () => {
             </span>
           </>
         ) : (
-          <Table
-            rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
-            size="small"
-            tableLayout="fixed"
-            bordered={true}
-            columns={Columns}
-            dataSource={filteredData}
-            style={{
-              position: "sticky",
-              bottom: 0,
-              top: 0,
-              left: 0,
-              zIndex: 1,
-              border: "0px solid #838383",
-              padding: "0px",
-            }}
-            scroll={{ x: 500, y: 500 }}
-          />
+          <div className="flex w-full flex-col ">
+            <div className=" my-2 left-1/3 border-none right-1/2  rounded-t-md">
+              <input
+                type="text"
+                className="rounded-t-md  text-black bg-white border-2 border-primary"
+                placeholder="Search by brandname"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+            </div>
+            <div>
+              <Table
+                rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
+                size="small"
+                tableLayout="fixed"
+                bordered={true}
+                columns={Columns}
+                // dataSource={filteredData}
+                dataSource={filteredBrands}
+                style={{
+                  position: "sticky",
+                  bottom: 0,
+                  top: 0,
+                  left: 0,
+                  zIndex: 1,
+                  border: "0px solid #838383",
+                  backgroundColor: "",
+                  padding: "0px",
+                }}
+                scroll={{ x: 500, y: 500 }}
+              />
+            </div>
+          </div>
         )}
       </div>
     </Layout>

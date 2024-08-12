@@ -9,6 +9,7 @@ import { getorderDetail } from "../../../../../APIs/Oreders";
 import { GetMyOrders } from "../../../../../APIs/Oreders";
 import { statusColors } from "../../../../../common/statuscolor";
 import { fetchProduct } from "../../../../../APIs/Product";
+import { RepayOrder } from "../../Order/repay-order";
 
 const OrderDetail = () => {
   const token = Cookies.get("token");
@@ -151,6 +152,23 @@ const OrderDetail = () => {
             >
               {orders.status}
             </Tag>
+            {orders.status == "awaits payment" && (
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <Tag
+                  style={{ color: "black", fontWeight: "bold" }}
+                  className="capitalize  !text-white  !bg-primary"
+                >
+                  Repay
+                  {/* api/v1/payments/retry-momo */}
+                </Tag>
+
+                <RepayOrder />
+              </div>
+            )}
           </h2>
 
           <div className=" block bg-white  overflow-auto  m-0  md:flex ">
@@ -199,7 +217,7 @@ const OrderDetail = () => {
               dataSource={orders.items}
               columns={columns}
               rowKey="product"
-              style={{ width: "70%" }}
+              style={{ width: "100%" }}
             />
           </div>
         </div>

@@ -95,52 +95,72 @@ export const DashProducts = () => {
   );
   // const { user, load } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
-
+  const [searchQuery, setSearchQuery] = useState("");
   const { user, onLogout } = useUser();
   const userRole = user?.role;
 
   useEffect(() => {}, [filteredData]);
 
-  const FilterByNameInput = (
-    <Input.Search
-      placeholder="search product by name ......."
-      allowClear
-      enterButton="Search"
-      size="large"
-      className="w-[80%] md:w-[50%] my-2"
-      value={value}
-      onChange={(e) => {
-        const currValue = e.target.value;
-        setValue(currValue);
-        const newData = (
-          userRole == "seller"
-            ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
-            : dashproduct
-        )
-          .map((product) => ({
-            key: product.id,
-            name: [
-              product.productImages?.productThumbnail?.url,
-              product.name,
-              product.description,
-            ],
-            price: product.price,
-            stock: product.stockQuantity,
-            commission: product?.seller_commission,
-            // orders: product.deliveryInfo.length,
-            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product.brandName,
-            category: product?.category?.id,
-            seller: product?.seller?.id,
-          }))
-          .filter((entry) =>
-            entry.name[1].toLowerCase().includes(currValue.toLowerCase())
-          );
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value.toLowerCase());
+  };
+  const filteredProducts = filteredData.filter(
+    (product) =>
+      product.name[1].toLowerCase().toLowerCase().includes(searchQuery)
+    //  ||
+    // user.email.toLowerCase().includes(searchQuery)
+  );
 
-        setFilteredData(newData);
-      }}
-      onSearch={() => setDataSource(filteredData)} // Set the dataSource when searching
-    />
+  const FilterByNameInput = (
+    // <Input.Search
+    //   placeholder="search product by name ......."
+    //   allowClear
+    //   enterButton="Search"
+    //   size="large"
+    //   className="w-[80%] md:w-[50%] my-2"
+    //   value={value}
+    //   onChange={(e) => {
+    //     const currValue = e.target.value;
+    //     setValue(currValue);
+    //     const newData = (
+    //       userRole == "seller"
+    //         ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
+    //         : dashproduct
+    //     )
+    //       .map((product) => ({
+    //         key: product.id,
+    //         name: [
+    //           product.productImages?.productThumbnail?.url,
+    //           product.name,
+    //           product.description,
+    //         ],
+    //         price: product.price,
+    //         stock: product.stockQuantity,
+    //         commission: product?.seller_commission,
+    //         // orders: product.deliveryInfo.length,
+    //         published: new Date(`${product.updatedAt}`).toLocaleDateString(),
+    //         address: product.brandName,
+    //         category: product?.category?.id,
+    //         seller: product?.seller?.id,
+    //       }))
+    //       .filter((entry) =>
+    //         entry.name[1].toLowerCase().includes(currValue.toLowerCase())
+    //       );
+
+    //     setFilteredData(newData);
+    //   }}
+    //   onSearch={() => setDataSource(filteredData)} // Set the dataSource when searching
+    // />
+
+    <div className=" my-2 left-1/3 border-none right-1/2  rounded-t-md">
+      <input
+        type="text"
+        className="rounded-t-md  text-black bg-white border-2 border-primary"
+        placeholder="Search by name"
+        value={searchQuery}
+        onChange={handleSearch}
+      />
+    </div>
   );
 
   // select list or drid display
@@ -288,18 +308,15 @@ export const DashProducts = () => {
           />
 
           <div className=" overflow-auto ">
-            <Title level={5} className="w-full">
-              {record.name[1]}
-            </Title>
+            <strong className="w-full">{record.name[1]}</strong>
 
             {/* display value as html */}
-            <div
+            {/* <div
               className="w-full overflow-auto  "
               dangerouslySetInnerHTML={{
                 __html: record.name[2].slice(0, 30) + "...",
               }}
-            />
-            {/* {record.name[2].slice(0, 20) + "...."} */}
+            /> */}
           </div>
         </Space>
       ),
@@ -395,13 +412,6 @@ export const DashProducts = () => {
       key: "published",
       width: 100,
       // sorter: (a, b) => a.age - b.age,
-    },
-    {
-      title: "Brand Name",
-      dataIndex: "address",
-      key: "address",
-      filter: true,
-      width: 100,
     },
   ];
 
@@ -612,7 +622,7 @@ export const DashProducts = () => {
 
       <Space className="flex justify-between">
         <Space className="flex justify-between">
-          <Title level={3}> All Products</Title>
+          <Title level={4}> All Products</Title>
         </Space>
         <div className="flex justify-center space-x-5">
           <UnorderedListOutlined
@@ -696,13 +706,7 @@ export const DashProducts = () => {
                   >
                     Category
                   </h3>
-                  {/* <h3 className="filterOption p-x-10 rounded-sm ">
-                    Subcategory
-                  </h3> */}
 
-                  {/* <h3 className="filterOption p-x-10 rounded-sm ">
-                    Arrival Date
-                  </h3> */}
                   <h3
                     className={`filterOption p-x-10 rounded-sm ${
                       activeFilter === "NewArrivals" ? "underline" : ""
@@ -735,7 +739,7 @@ export const DashProducts = () => {
                   left: 0,
                   zIndex: 1,
                 }}
-                dataSource={filteredData.sort(
+                dataSource={filteredProducts.sort(
                   (a, b) => new Date(b.published) - new Date(a.published)
                 )}
                 columns={Columns}
@@ -753,7 +757,7 @@ export const DashProducts = () => {
                   }}
                   className="w-full "
                 >
-                  {filteredData.map((product) => {
+                  {filteredProducts.map((product) => {
                     return (
                       <Col
                         className="gutter-row text-center "

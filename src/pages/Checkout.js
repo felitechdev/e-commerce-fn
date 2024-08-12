@@ -31,7 +31,7 @@ import ItemCard, { ItemCardCheckout } from "./Default/Cart/ItemCard";
 import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 import { CardPayment } from "./Payment/cardpayment/card";
-const OrderForm = ({
+export const OrderForm = ({
   token,
   cartTotl,
   totalCost,
@@ -39,6 +39,8 @@ const OrderForm = ({
   isModalOpen,
   deliveryPreference,
   handlecancel,
+  isrepay,
+  momo_payload,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -79,52 +81,74 @@ const OrderForm = ({
     localStorage.setItem("orderFormData", JSON.stringify(formData));
   });
 
+  useEffect(() => {
+    if (momo_payload && isrepay) {
+      setValue("paymentphoneNumber", momo_payload.phone_number);
+      setValue("email", momo_payload.email);
+      setValue("fullname", momo_payload.fullname);
+      setValue("amount", momo_payload.amount);
+    }
+  }, [momo_payload, isrepay]);
+
   const onSubmit = async (data) => {
-    let requestData = {
-      // ...data,
-      shippingAddress: shippingAddress,
-      deliveryPreference: deliveryPreference.toLowerCase(),
-      items: cartTotl,
-      amount: totalCost,
+    let requestData = !isrepay
+      ? {
+          // ...data,
+          shippingAddress: shippingAddress,
+          deliveryPreference: deliveryPreference.toLowerCase(),
+          items: cartTotl,
+          amount: totalCost,
 
-      //
-      phoneNumber: data.paymentphoneNumber,
+          //
+          phoneNumber: data.paymentphoneNumber,
 
-      email: data.email,
-      fullname: data?.fullname,
-    };
+          email: data.email,
+          fullname: data?.fullname,
+        }
+      : {
+          momo_payload: {
+            amount: momo_payload.amount,
+            phone_number: data.paymentphoneNumber,
+            email: data.email,
+            fullname: data?.fullname,
+            ...momo_payload,
+          },
+        };
 
     setIsLoading(true);
     setError("");
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/momo`,
-        // /api/v1/payments`,
-        requestData,
-        {
-          headers: {
-            Authorization: ` Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = !isrepay
+        ? await axios.post(
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/momo`,
+            requestData,
+            {
+              headers: {
+                Authorization: ` Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        : await axios.post(
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/retry-momo`,
+            requestData,
+            {
+              headers: {
+                Authorization: ` Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
       if (res.data.status === "success") {
+        setError("");
         setIsLoading(false);
       }
-
       if (res.data.status === "success") {
         setIsLoading(false);
-
-        // Get the redirect link from the response
-        const redirectLink = res.data.data.meta.authorization.redirect;
-
-        // Open the redirect link in a new tab
+        const redirectLink = res.data.data.redirect;
         window.open(redirectLink, "_blank");
-
         handlecancel();
         handleclearCart();
-
-        // navigate("/", { replace: true });
       }
 
       // alert("Payment was successfull!");
