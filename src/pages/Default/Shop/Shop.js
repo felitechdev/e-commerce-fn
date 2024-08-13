@@ -17,7 +17,7 @@ import { fetchProductclass } from "../../../dashboard/Redux/ReduxSlice/ProductCl
 export async function fetchProducts(page, queryString) {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=10&page=${page}&fields=name,seller,price,discountPercentage,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=100&page=${page}&fields=name,seller,price,discountPercentage,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
