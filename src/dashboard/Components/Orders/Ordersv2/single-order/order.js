@@ -158,13 +158,13 @@ const OrderDetail = () => {
                   e.stopPropagation();
                 }}
               >
-                <Tag
+                {/* <Tag
                   style={{ color: "black", fontWeight: "bold" }}
                   className="capitalize  !text-white  !bg-primary"
                 >
                   Repay
-                  {/* api/v1/payments/retry-momo */}
-                </Tag>
+        
+                </Tag> */}
 
                 <RepayOrder />
               </div>

@@ -122,7 +122,9 @@ const OrderCard = ({ order }) => {
               </div>
               {copy.copied ? (
                 // <span style={{ color: "red" ,  }}>Copied.</span>
-                <p className="bg-black rounded-md text-white p-1">id copied</p>
+                <p className="bg-black z-50 !-ml-16 md:ml-0 rounded-md text-white p-1">
+                  id copied
+                </p>
               ) : null}
             </span>
             <p className="ml-0 md:ml-5">
@@ -132,14 +134,15 @@ const OrderCard = ({ order }) => {
             </p>
           </span>
 
-          <div className="flex space-x-2">
+          <div className="flex items-center space-x-2">
             <Tag
-              color={statusColors[orderstatus]}
-              style={{ color: "white", fontWeight: "bold" }}
-              className="capitalize"
+              // color={statusColors[orderstatus]}
+              style={{
+                color: `${statusColors[orderstatus]}`,
+                fontWeight: "bold",
+              }}
+              className={`capitalize border-2 !border-[${statusColors[orderstatus]}] `}
             >
-              {/* {order.status} */}
-
               {orderstatus}
             </Tag>
 
@@ -153,7 +156,7 @@ const OrderCard = ({ order }) => {
               >
                 <Tag
                   style={{ color: "black", fontWeight: "bold" }}
-                  className="capitalize  !text-white  !bg-primary"
+                  className="capitalize  !text-white p-1  !bg-primary "
                 >
                   Repay
                   {/* api/v1/payments/retry-momo */}
@@ -179,8 +182,8 @@ const OrderCard = ({ order }) => {
           )}
 
           <Tag
-            style={{ color: "black", fontWeight: "bold" }}
-            className="capitalize  !text-white  !bg-primary"
+            style={{ color: "", fontWeight: "bold" }}
+            className="capitalize  !text-primary  !border-primary"
           >
             {order.items.length} items
           </Tag>
@@ -215,7 +218,7 @@ const OrderCard = ({ order }) => {
 
                 <Tag
                   style={{ color: "black", fontWeight: "bold" }}
-                  className="capitalize !font-semibold !text-white !bg-primary "
+                  className="capitalize !font-semibold !text-[red] !border-primary "
                 >
                   <p className="">{order.deliveryPreference}</p>
                 </Tag>
