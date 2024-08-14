@@ -25,6 +25,8 @@ export const CardPayment = ({
   isModalOpen,
   deliveryPreference,
   handlecancel,
+  isrepay,
+  card_payload,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -69,6 +71,7 @@ export const CardPayment = ({
   };
   const {
     control,
+    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -77,45 +80,71 @@ export const CardPayment = ({
   const onErrors = (errors) => {};
 
   const onSubmit = async (data) => {
-    let requestData = await {
-      // ...data,
-      shippingAddress: shippingAddress,
-      deliveryPreference: deliveryPreference.toLowerCase(),
-      items: cartTotl,
-      amount: totalCost,
-      phoneNumber: data.paymentphoneNumber,
-      email: data.email,
-      // fullname: data?.fullname,
-
-      payment_payload: {
-        card_number: data?.cardNumber,
-        fullname: data?.accountHolderName,
-        phone_number: data?.paymentphoneNumber,
-        cvv: data?.cvv,
-        amount: totalCost,
-        currency: "RWF",
-        email: data?.email,
-        expiry_month: data?.expiryDate.split("/")[0],
-        expiry_year: data?.expiryDate.split("/")[1],
-      },
-    };
+    let requestData = !isrepay
+      ? {
+          // ...data,
+          shippingAddress: shippingAddress,
+          deliveryPreference: deliveryPreference.toLowerCase(),
+          items: cartTotl,
+          amount: totalCost,
+          phoneNumber: data.paymentphoneNumber,
+          email: data.email,
+          payment_payload: {
+            card_number: data?.cardNumber,
+            fullname: data?.accountHolderName,
+            phone_number: data?.paymentphoneNumber,
+            cvv: data?.cvv,
+            amount: totalCost,
+            currency: "RWF",
+            email: data?.email,
+            expiry_month: data?.expiryDate.split("/")[0],
+            expiry_year: data?.expiryDate.split("/")[1],
+          },
+        }
+      : {
+          order_id: card_payload?.order_id,
+          payload: {
+            card_number: data?.cardNumber,
+            fullname: data?.accountHolderName,
+            phone_number: data?.paymentphoneNumber,
+            cvv: data?.cvv,
+            amount: totalCost,
+            currency: "RWF",
+            expiry_month: data?.expiryDate.split("/")[0],
+            expiry_year: data?.expiryDate.split("/")[1],
+            email: data?.email,
+          },
+        };
 
     setPaymentdata(requestData);
 
     setIsLoading(true);
     setError("");
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/card`,
-        // /api/v1/payments`,
-        requestData,
-        {
-          headers: {
-            Authorization: ` Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = !isrepay
+        ? await axios.post(
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/card`,
+
+            requestData,
+            {
+              headers: {
+                Authorization: ` Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        : await axios.post(
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/retry-card`,
+
+            requestData,
+            {
+              headers: {
+                Authorization: ` Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
       if (res.data.status === "success") {
         setIsLoading(false);
       }
@@ -279,7 +308,7 @@ export const CardPayment = ({
             handleupdatetab(1);
           }}
           className={` ${
-            activetab == 1 && "bg-primary"
+            activetab == 1 && "bg-primary text-white"
           } h-full w-1/3 text-center  flex items-center justify-center `}
         >
           Card Details
@@ -289,7 +318,7 @@ export const CardPayment = ({
             handleupdatetab(2);
           }}
           className={` ${
-            activetab == 2 && "bg-primary"
+            activetab == 2 && "bg-primary text-white"
           } h-full w-1/3 text-center  flex items-center justify-center `}
         >
           PIN /Address
@@ -299,7 +328,7 @@ export const CardPayment = ({
             handleupdatetab(3);
           }}
           className={` ${
-            activetab == 3 && "bg-primary"
+            activetab == 3 && "bg-primary text-white"
           } h-full w-1/3 text-center  flex items-center justify-center `}
         >
           OTP
@@ -557,7 +586,10 @@ export const CardPayment = ({
       )}
 
       {activetab == 2 && authmode == "avs_noauth" && (
-        <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
+        <Form
+          layout={"vertical"}
+          onFinish={handleSubmit(onsubmitPin, onErrors)}
+        >
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
               {error}

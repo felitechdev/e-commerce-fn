@@ -111,7 +111,10 @@ export const OrderForm = ({
             phone_number: data.paymentphoneNumber,
             email: data.email,
             fullname: data?.fullname,
-            ...momo_payload,
+            tx_ref: momo_payload.tx_ref,
+            order_id: momo_payload.order_id,
+            currency: "RWF",
+            // ...momo_payload,
           },
         };
 
@@ -837,7 +840,6 @@ const Checkout = () => {
                   // display: ` ${fillorderform ? "block" : "none"}`,
                 }}
               >
-                deliveryPreference{deliveryPreference}
                 <div>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
