@@ -14,6 +14,7 @@ import AirtelIcon from "../../../../assets/images/Airtel.png";
 import CardIcon from "../../../../assets/images/visacard.png";
 import { CgFormatSlash } from "react-icons/cg";
 import { OrderForm } from "../../../../pages/Checkout";
+import { CardPayment } from "../../../../pages/Payment/cardpayment/card";
 const { confirm } = Modal;
 
 export const RepayOrder = ({ ...props }) => {
@@ -44,6 +45,10 @@ export const RepayOrder = ({ ...props }) => {
     // setOpenrepaymodel(false);
   };
 
+  const cancelCardpay = () => {
+    setCardpay(false);
+  };
+
   const handleOk = (values) => {
     if (token && values) {
       dispatch(
@@ -70,6 +75,7 @@ export const RepayOrder = ({ ...props }) => {
     }
   };
 
+  console.log("order", props.order);
   return (
     <div
       onClick={(e) => {
@@ -92,6 +98,37 @@ export const RepayOrder = ({ ...props }) => {
           e.stopPropagation();
         }}
       >
+        {/* {
+    "order_id": "668f799e3cc5dfc99e1e0285",
+    "payload": {
+        "card_number": "5438898014560229",
+        "cvv": "564",
+        "expiry_month": "09",
+        "expiry_year": "25",
+        "currency": "RWF",
+        "amount": "210000",
+        "fullname": "Flutterwave Developers",
+        "email": "dav.ndungutse@gmail.com",
+        "phone_number": "250785283007"
+    }
+} */}
+        {/* {cardpay && ( */}
+        <CardPayment
+          token={token}
+          totalCost={props.order?.amount}
+          isModalOpen={cardpay}
+          isrepay={true}
+          handlecancel={cancelCardpay}
+          card_payload={{
+            order_id: props.order.id,
+
+            payload: {
+              ...props.order,
+            },
+          }}
+        />
+        {/* )} */}
+
         {openrepaymodel && !cardpay && (
           <OrderForm
             token={token}
@@ -147,20 +184,21 @@ export const RepayOrder = ({ ...props }) => {
             </span>
           </button>
 
-          {/* <button
+          <button
             disabled={loading}
             htmlType="submit"
             // type="button"
             onClick={() => {
               // handlecancel();
               // handlecardpay();
+              setCardpay(true);
             }}
             className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
           >
             <span className="flex items-center tracking-widest">
               <img src={CardIcon} className="w-14 rounded" />
             </span>
-          </button> */}
+          </button>
         </div>
       </Modal>
     </div>

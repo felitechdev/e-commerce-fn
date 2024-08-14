@@ -837,7 +837,6 @@ const Checkout = () => {
                   // display: ` ${fillorderform ? "block" : "none"}`,
                 }}
               >
-                deliveryPreference{deliveryPreference}
                 <div>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>

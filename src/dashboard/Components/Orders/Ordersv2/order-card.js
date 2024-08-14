@@ -45,7 +45,6 @@ const OrderCard = ({ order }) => {
     setIsModalOpen(state);
   };
   const openPayModal = async (state, id) => {
-    console.log("state ", state);
     setOrderid(id);
     setIspayopen(state);
   };
