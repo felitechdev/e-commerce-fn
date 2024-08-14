@@ -75,7 +75,6 @@ export const RepayOrder = ({ ...props }) => {
     }
   };
 
-  console.log("order", props.order);
   return (
     <div
       onClick={(e) => {

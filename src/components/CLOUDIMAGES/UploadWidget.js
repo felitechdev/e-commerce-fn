@@ -93,7 +93,6 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       // create a separate handler such as onEvent and trigger it on
       // ever occurrence
 
-   
       if (
         (error || result.event === "success") &&
         typeof onUpload === "function"
@@ -109,7 +108,7 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
    */
 
   function open() {
-    console.log("widget", widget);
+    // console.log("widget", widget);
 
     if (!widget.current) {
       widget.current = createWidget();

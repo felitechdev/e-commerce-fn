@@ -111,7 +111,10 @@ export const OrderForm = ({
             phone_number: data.paymentphoneNumber,
             email: data.email,
             fullname: data?.fullname,
-            ...momo_payload,
+            tx_ref: momo_payload.tx_ref,
+            order_id: momo_payload.order_id,
+            currency: "RWF",
+            // ...momo_payload,
           },
         };
 

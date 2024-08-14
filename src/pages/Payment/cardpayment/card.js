@@ -89,8 +89,6 @@ export const CardPayment = ({
           amount: totalCost,
           phoneNumber: data.paymentphoneNumber,
           email: data.email,
-          // fullname: data?.fullname,
-
           payment_payload: {
             card_number: data?.cardNumber,
             fullname: data?.accountHolderName,
@@ -105,14 +103,13 @@ export const CardPayment = ({
         }
       : {
           order_id: card_payload?.order_id,
-
           payload: {
             card_number: data?.cardNumber,
             fullname: data?.accountHolderName,
             phone_number: data?.paymentphoneNumber,
             cvv: data?.cvv,
             amount: totalCost,
-
+            currency: "RWF",
             expiry_month: data?.expiryDate.split("/")[0],
             expiry_year: data?.expiryDate.split("/")[1],
             email: data?.email,
@@ -127,7 +124,7 @@ export const CardPayment = ({
       const res = !isrepay
         ? await axios.post(
             `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/card`,
-            // /api/v1/payments`,
+
             requestData,
             {
               headers: {
@@ -147,6 +144,7 @@ export const CardPayment = ({
               },
             }
           );
+
       if (res.data.status === "success") {
         setIsLoading(false);
       }
@@ -588,7 +586,10 @@ export const CardPayment = ({
       )}
 
       {activetab == 2 && authmode == "avs_noauth" && (
-        <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
+        <Form
+          layout={"vertical"}
+          onFinish={handleSubmit(onsubmitPin, onErrors)}
+        >
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
               {error}
