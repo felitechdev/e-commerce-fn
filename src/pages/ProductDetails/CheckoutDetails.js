@@ -240,7 +240,8 @@ const CheckoutDetails = ({ product }) => {
 
         <p className="text-xs text-gray-700">
           {product.productDetails.stockQuantity}{" "}
-          {product.productDetails.quantityParameter} available
+          {/* {product.productDetails.quantityParameter} */}
+          available
         </p>
       </div>
 
