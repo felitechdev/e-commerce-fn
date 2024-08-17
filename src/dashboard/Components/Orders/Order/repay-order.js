@@ -119,7 +119,7 @@ export const RepayOrder = ({ ...props }) => {
           isrepay={true}
           handlecancel={cancelCardpay}
           card_payload={{
-            order_id: props.order.id,
+            order_id: props?.order?.id,
 
             payload: {
               ...props.order,
