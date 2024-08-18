@@ -75,6 +75,12 @@ export const RepayOrder = ({ ...props }) => {
     }
   };
 
+  console.log(
+    "props.order props.order.momo_payload",
+    props.order?.tx_ref,
+    props.order
+  );
+
   return (
     <div
       onClick={(e) => {
@@ -141,6 +147,7 @@ export const RepayOrder = ({ ...props }) => {
               props.order.payment_type.type == "mobile_money"
                 ? {
                     ...props.order.momo_payload,
+
                     order_id: props.order?.id,
                   }
                 : {
