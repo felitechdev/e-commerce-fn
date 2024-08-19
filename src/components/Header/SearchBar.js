@@ -99,7 +99,7 @@ const SearchBar = ({ ismobileview }) => {
                   filteredProducts.map((item) => (
                     <div
                       onClick={() => {
-                        navigate(`/products/${item._id}`);
+                        navigate(`/products/${item.id}`);
 
                         setShowSearchBar(true);
                         setSearchQuery("");

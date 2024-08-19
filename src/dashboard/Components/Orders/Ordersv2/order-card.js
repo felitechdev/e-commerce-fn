@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa6";
-
+import {
+  SaveOutlined,
+  DownloadOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import { Card, Badge, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { statusColors } from "../../../../common/statuscolor";
@@ -18,12 +22,14 @@ import { useSelector } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { set } from "js-cookie";
 import { RepayOrder } from "../Order/repay-order";
+import { DownloadStatus } from "../Order/download-receipt";
 const OrderCard = ({ order }) => {
   const user = useUser().user;
   const [orderstatus, setOrderstatus] = useState(order.status);
   const navigate = useNavigate();
   const [orderid, setOrderid] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isreceiptopen, setIsreceiptopen] = useState(false);
   const [ispayopen, setIspayopen] = useState(false);
   const [copy, setCopy] = useState({
     value: order.id,
@@ -49,6 +55,11 @@ const OrderCard = ({ order }) => {
     setIspayopen(state);
   };
 
+  const openReceiptModal = async (state, id) => {
+    setOrderid(id);
+    setIsreceiptopen(state);
+  };
+
   const getItems = (record) => [
     // {
     //   label: <span className="font-bold text-primary">View</span>,
@@ -65,6 +76,15 @@ const OrderCard = ({ order }) => {
       icon: <EditFilled className=" text-icon2 mr-2" />,
       onClick: async () => {
         await openModal(true, record);
+      },
+    },
+
+    user?.role == "admin" && {
+      label: <span className="font-bold text-primary">Delivery Note</span>,
+      key: "download",
+      icon: <DownloadOutlined className=" text-primary font-bold mr-2" />,
+      onClick: async () => {
+        await openReceiptModal(true, record);
       },
     },
   ];
@@ -245,6 +265,13 @@ const OrderCard = ({ order }) => {
         order={order.id}
         openModal={openModal}
         handleupdatestate={handleupdatestate}
+      />
+
+      <DownloadStatus
+        setModel={isreceiptopen}
+        order={order.id}
+        openModal={openReceiptModal}
+        myorder={order}
       />
 
       {user?.role == "admin" && (
