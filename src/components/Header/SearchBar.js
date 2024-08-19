@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import HomePageCategories from "../homePageCategories/HomePageCategories";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "../ProductsCategories";
+import DisplayCurrency from "../Currency/DisplayCurrency/DisplayCurrency";
 import axios from "axios";
 export async function searchproduct(name) {
   try {
@@ -104,26 +105,57 @@ const SearchBar = ({ ismobileview }) => {
                         setSearchQuery("");
                       }}
                       key={item.id}
-                      className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3  break-words"
+                      className=" w-full px-2  bg-gray-100 mb-3 flex items-start gap-3  break-words"
                     >
                       <img
-                        className="w-24"
+                        className="w-24  h-24 object-fill border rounded-md"
                         src={item?.productImages?.productThumbnail?.url}
-                        alt="productImg"
+                        alt=""
                       />
-                      <div className="flex flex-col gap-1">
-                        <p className="font-semibold text-lg">{item.name}</p>
+                      <div className="flex flex-col gap-1 overflow-auto">
+                        <p className="font-medium text-sm md:text-md ">
+                          {item.name.length > 80
+                            ? item.name.slice(0, 80) + "..."
+                            : item.name}
+                        </p>
                         <p
                           className="text-xs overflow-auto break-words "
                           dangerouslySetInnerHTML={{
                             __html: item?.description?.slice(0, 80),
                           }}
                         ></p>
-                        <p className="text-sm">
+                        <p className="text-sm flex">
                           Price:{" "}
-                          <span className="text-primeColor font-semibold">
+                          {/* <span className="text-primeColor font-semibold">
                             {item.currency} {item.price}
-                          </span>
+                          </span> */}
+                          <div>
+                            {item.discountPercentage <= 0 && (
+                              <div className="text-[#1D6F2B] font-semibold">
+                                <DisplayCurrency
+                                  product={item}
+                                  isDiscount={true}
+                                />
+                              </div>
+                            )}
+                            {item.discountPercentage > 0 && (
+                              <>
+                                <div className=" text-[#1D6F2B] font-semibold  ">
+                                  <DisplayCurrency
+                                    product={item}
+                                    isDiscount={true}
+                                  />
+                                </div>
+
+                                <div className=" text-[#00000080] font-semibold line-through">
+                                  <DisplayCurrency
+                                    product={item}
+                                    isDiscount={false}
+                                  />
+                                </div>
+                              </>
+                            )}
+                          </div>
                         </p>
                       </div>
                     </div>
