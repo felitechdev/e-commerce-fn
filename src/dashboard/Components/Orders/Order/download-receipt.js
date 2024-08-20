@@ -63,6 +63,8 @@ const DeliveryNotePDF = ({ myorder }) => {
     }
   }, [myorder, loading]);
 
+  // console.log("customer", customer );
+
   const generatePDF = async () => {
     const doc = new jsPDF();
 
@@ -120,7 +122,8 @@ const DeliveryNotePDF = ({ myorder }) => {
     // Adding the item description table
     const items = await myorder.items.map((item) => [
       item.quantity,
-      productnames.find((p) => p.id === item.product)?.name,
+      // productnames.find((p) => p.id === item.product)?.name,
+      item?.product?.name || "",
       item?.variation?.color || "No color",
       item?.variation?.size || "No size",
       item.price.toString(),
@@ -396,7 +399,7 @@ export const DownloadStatus = ({ ...props }) => {
     (state) => state.updateoreder
   );
 
-  console.log("myorder", props.myorder);
+  // console.log("myorder", props.myorder);
 
   const dispatch = useDispatch();
 
