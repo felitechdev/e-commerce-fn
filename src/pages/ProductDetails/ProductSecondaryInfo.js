@@ -50,7 +50,8 @@ const ProductSecondaryInfo = ({ product }) => {
         <div className="flex-4 flex justify-start items-center">
           <img
             src={optimizedImageUrl}
-            style={{ width: "100%", height: "auto" }}
+            // style={{ width: "100%", height: "auto" }}
+            className="m-auto"
           />
         </div>
 
