@@ -209,7 +209,7 @@ const Header = (props) => {
           </div>
 
           <ul className="flex items-center w-auto z-50 p-0 gap-3">
-            <li>
+            {/* <li>
               <NavLink
                 to="/"
                 className={({ isActive }) => {
@@ -220,49 +220,7 @@ const Header = (props) => {
               >
                 Home
               </NavLink>
-            </li>
-            {/* <li>
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold hidden md:inline-block lg:py-1 lg:px-2'
-                      : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-bold hidden md:inline-block lg:py-1 lg:px-2';
-                  }}
-                  to='/shop'
-                  state={{ data: location.pathname.split('/')[1] }}
-                  end
-                >
-                  Shop
-                </NavLink>
-              </li> */}
-            {/* <li>
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold hidden md:inline-block lg:py-1 lg:px-2'
-                      : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-light hidden md:inline-block lg:py-1 lg:px-2';
-                  }}
-                  to='/about'
-                  state={{ data: location.pathname.split('/')[1] }}
-                  end
-                >
-                  About
-                </NavLink>
-              </li> */}
-            {/* <li>
-                <NavLink
-                  className={({ isActive }) => {
-                    return isActive
-                      ? 'w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-light hidden md:inline-block lg:py-1 lg:px-2'
-                      : 'w-full lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-light hidden md:inline-block lg:py-1 lg:px-2';
-                  }}
-                  to='/contact'
-                  state={{ data: location.pathname.split('/')[1] }}
-                  end
-                >
-                  Contact
-                </NavLink>
-              </li> */}
+            </li> */}
           </ul>
 
           {search && (
@@ -547,28 +505,6 @@ const Header = (props) => {
                         {"About"}
                       </Link>
                     </li>
-                    {/* <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
-                      <Link
-                        to="/contact"
-                        state={{
-                          data: location.pathname.split("/")[1],
-                        }}
-                        onClick={() => setSidenav(false)}
-                      >
-                        {"Contact"}
-                      </Link>
-                    </li> */}
-                    {/* <li className="font-normal hover:font-bold items-center text-lg text-gray-200 hover:underline underline-offset-[4px] decoration-[1px] hover:text-white md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0">
-                      <Link
-                        to="/journal"
-                        state={{
-                          data: location.pathname.split("/")[1],
-                        }}
-                        onClick={() => setSidenav(false)}
-                      >
-                        {"Journal"}
-                      </Link>
-                    </li> */}
                   </ul>
                   <div className="mt-4 bg-[#1D6F2B]">
                     <h1

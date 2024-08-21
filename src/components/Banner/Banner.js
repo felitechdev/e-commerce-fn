@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
-
+import { useQuery } from "@tanstack/react-query";
 import {
   bannerImgOne,
   bannerImgTwo,
@@ -9,28 +9,32 @@ import {
 import Image from "../designLayouts/Image";
 import ImageSlider from "../imageslider/ImageSlider";
 import HomePageCategories from "../homePageCategories/HomePageCategories";
+import { useFetchfeaturedproduct } from "../../APIs/react-query/featured-product";
+import { useNavigate } from "react-router-dom";
 
 // change i made
-const Banner = () => {
+const Banner = ({ ...props }) => {
   const [dotActive, setDocActive] = useState(0);
 
-  const ads = [
-    {
-      title: "Ad 1",
-      image:
-        "https://ae04.alicdn.com/kf/S0fb7b4c77ed149ad9beccbbfba436bf0B.jpg_480x480.jpg_.webp",
-    },
-    {
-      title: "Ad 2",
-      image:
-        "https://ae04.alicdn.com/kf/S8ef35537fd044a738375ff9c8cef6a63N.jpg_480x480.jpg_.webp",
-    },
-    {
-      title: "Ad 3",
-      image:
-        "https://ae04.alicdn.com/kf/Se810acbc45bb4153a2d05e7f60b52c22C.jpg_480x480.jpg_.webp",
-    },
-  ];
+  const navigate = useNavigate();
+
+  // const ads = [
+  //   {
+  //     title: "Ad 1",
+  //     image:
+  //       "https://ae04.alicdn.com/kf/S0fb7b4c77ed149ad9beccbbfba436bf0B.jpg_480x480.jpg_.webp",
+  //   },
+  //   {
+  //     title: "Ad 2",
+  //     image:
+  //       "https://ae04.alicdn.com/kf/S8ef35537fd044a738375ff9c8cef6a63N.jpg_480x480.jpg_.webp",
+  //   },
+  //   {
+  //     title: "Ad 3",
+  //     image:
+  //       "https://ae04.alicdn.com/kf/Se810acbc45bb4153a2d05e7f60b52c22C.jpg_480x480.jpg_.webp",
+  //   },
+  // ];
 
   const settings = {
     dots: true,
@@ -192,11 +196,14 @@ const Banner = () => {
                 />
               </div>
 
-              {ads.map((ad, index) => {
+              {props?.ads?.map((ad, index) => {
                 return (
                   <div
                     key={index}
                     className="w-1408 h-[15rem] mx-auto rounded-md border-gray-200"
+                    onClick={() => {
+                      navigate(`/products/${ad.id}`);
+                    }}
                   >
                     <Image
                       imgSrc={ad.image}
@@ -208,7 +215,7 @@ const Banner = () => {
             </Slider>
           </div>
           <div className="hidden lg:w-[20%] lg:block border-4 rounded-md">
-            <ImageSlider ads={ads} />
+            <ImageSlider ads={props?.ads} />
           </div>
         </div>
       </div>
