@@ -5,6 +5,8 @@ import MenuIconWhite from "../../assets/images/menu-white.png";
 import { FaSearch } from "react-icons/fa";
 import Flex from "../designLayouts/Flex";
 import { useNavigate } from "react-router-dom";
+import { IoCloseSharp } from "react-icons/io5";
+import { CloseOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { paginationItems } from "../../constants";
 import { useLocation } from "react-router-dom";
@@ -89,7 +91,17 @@ const SearchBar = ({ ismobileview }) => {
             value={searchQuery}
             placeholder="Search your products here"
           />
-          {!searchQuery ? <FaSearch className="w-5 h-5 text-white " /> : <></>}
+          {!searchQuery ? (
+            <FaSearch className="w-5 h-5 text-white " />
+          ) : (
+            <div className="">
+              <CloseOutlined
+                size={30}
+                className="w-7  font-bold h-7 text-lg text-[red] -mr-2"
+                onClick={() => setSearchQuery("")}
+              />
+            </div>
+          )}
 
           {searchQuery && (
             <div
