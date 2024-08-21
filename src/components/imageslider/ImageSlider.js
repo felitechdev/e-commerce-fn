@@ -1,10 +1,12 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import 'swiper/swiper-bundle.css';
-import './ImageSlider.css';
+import "swiper/swiper-bundle.css";
+import "./ImageSlider.css";
+import { useNavigate } from "react-router-dom";
 
 const ImageSlider = ({ ads }) => {
+  const navigate = useNavigate();
   return (
     <Swiper
       slidesPerView={1}
@@ -19,10 +21,19 @@ const ImageSlider = ({ ads }) => {
       modules={[Autoplay]}
       className="image-slider h-full"
     >
-      {ads.map((ad, index) => (
+      {ads?.map((ad, index) => (
         <SwiperSlide key={index}>
-          <div className="slider-item">
-            <img className='object-fit h-[15rem] rounded' src={ad.image} alt={ad.title} />
+          <div
+            className="slider-item"
+            onClick={() => {
+              navigate(`/products/${ad.id}`);
+            }}
+          >
+            <img
+              className="object-fit h-[15rem] rounded"
+              src={ad.image}
+              alt={ad.title}
+            />
             <div className="slider-title">{ad.title}</div>
           </div>
         </SwiperSlide>

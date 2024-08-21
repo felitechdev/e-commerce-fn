@@ -14,6 +14,7 @@ import ProductBrandAccordion from "./pageProps/shopPage/Accordions/productBrand"
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import MenuIconWhite from "../assets/images/menu-white.png";
+import { useFetchfeaturedproduct } from "../APIs/react-query/featured-product";
 export async function fetchProducts(page) {
   try {
     const response = await axios.get(
@@ -49,13 +50,26 @@ function ProductsCategories() {
     }, []);
   }, [data]);
 
+  const { data: featuredproducts, isLoading: isloading } =
+    useFetchfeaturedproduct();
+
+  const ads = featuredproducts?.data?.products.map((product) => {
+    return {
+      title: product.name,
+      id: product.id,
+      image: product.productImages.productThumbnail.url,
+    };
+  });
+
+  // console.log("featured product", data?.data?.products, "count", data?.count);
+
   return (
     <div className="w-full mx-auto ">
       {/* <MobileCategoryNav
         title="Shop by Categories  phone"
         categoryId={categoryId}
       /> */}
-      <Banner />
+      <Banner ads={ads} loading={isloading} />
 
       <div className="max-w-container mx-auto px-4">
         {isLoading && (
