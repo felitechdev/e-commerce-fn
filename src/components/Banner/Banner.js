@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
-
+import { useQuery } from "@tanstack/react-query";
 import {
   bannerImgOne,
   bannerImgTwo,
@@ -9,10 +9,18 @@ import {
 import Image from "../designLayouts/Image";
 import ImageSlider from "../imageslider/ImageSlider";
 import HomePageCategories from "../homePageCategories/HomePageCategories";
+import { useFetchfeaturedproduct } from "../../APIs/react-query/featured-product";
 
 // change i made
 const Banner = () => {
   const [dotActive, setDocActive] = useState(0);
+
+  const { data, isLoading } = useFetchfeaturedproduct();
+
+  // const ads = data?
+  //   tit
+
+  console.log("featured product", data);
 
   const ads = [
     {

@@ -166,6 +166,7 @@ const ProductModel = (props) => {
   const [stock, setStock] = useState([]);
   const [absordCustomerCharge, setAbsordCustomerCharge] = useState(false);
   const [absorbhovered, setAbsorbhovered] = useState(false);
+  const [isfeatured, setIsfeatured] = useState(false);
 
   const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
@@ -298,6 +299,7 @@ const ProductModel = (props) => {
       quantityParameter: data.quantityParameter,
       seller_commission: data.seller_commission / 100,
       absorbCustomerCharge: absordCustomerCharge,
+      featured: isfeatured,
       // hasColors:
       //   colorVariations.length > 0 && colorVariations[0]?.colorImageUrl !== null
       //     ? true
@@ -395,7 +397,12 @@ const ProductModel = (props) => {
           "absorbCustomerCharge must be a boolean",
       },
     },
-
+    featured: {
+      validate: {
+        isBoolean: (value) =>
+          typeof value === "boolean" || "featured must be a boolean",
+      },
+    },
     price: {
       required: "price is required",
       min: {
@@ -689,6 +696,13 @@ const ProductModel = (props) => {
     }
 
     e.target.checked === false && setAbsordCustomerCharge(false);
+  };
+
+  const handleIsFeatured = (e) => {
+    if (e.target.checked) {
+      setIsfeatured(true);
+    }
+    e.target.checked === false && setIsfeatured(false);
   };
 
   function handleonuploadOtherImages(error, result, widget) {
@@ -1435,6 +1449,35 @@ const ProductModel = (props) => {
                   )}
                 />
               )}
+
+              <Controller
+                name="featured"
+                control={control}
+                defaultValue={false}
+                rules={{}}
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Feature this product" className=" ">
+                      <div
+                        className="relative"
+                        // onMouseEnter={() => setAbsorbhovered(true)}
+                        // onMouseLeave={() => setAbsorbhovered(false)}
+                      >
+                        <Checkbox
+                          size={60}
+                          style={{
+                            color: isfeatured ? "#1D6F2B" : "#000000",
+                          }}
+                          className="!text-primary"
+                          {...field}
+                          onChange={handleIsFeatured}
+                          checked={field.value === true || isfeatured === true}
+                        ></Checkbox>
+                      </div>
+                    </Form.Item>
+                  </>
+                )}
+              />
             </div>
 
             <div className="flex  justify-start space-x-2"></div>

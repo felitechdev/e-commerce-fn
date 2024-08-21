@@ -7,6 +7,8 @@ import Flex from "../designLayouts/Flex";
 import { useNavigate } from "react-router-dom";
 import { IoCloseSharp } from "react-icons/io5";
 import { CloseOutlined } from "@ant-design/icons";
+import { FaWindowClose } from "react-icons/fa";
+
 import { useSelector } from "react-redux";
 import { paginationItems } from "../../constants";
 import { useLocation } from "react-router-dom";
@@ -95,9 +97,8 @@ const SearchBar = ({ ismobileview }) => {
             <FaSearch className="w-5 h-5 text-white " />
           ) : (
             <div className="">
-              <CloseOutlined
-                size={30}
-                className="w-7  font-bold h-7 text-lg text-[red] -mr-2"
+              <FaWindowClose
+                className="  font-bold  text-lg text-white -mr-2"
                 onClick={() => setSearchQuery("")}
               />
             </div>

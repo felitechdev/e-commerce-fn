@@ -174,6 +174,7 @@ const UpdateProductModel = (props) => {
   const [stock, setStock] = useState([]);
   const [absordCustomerCharge, setAbsordCustomerCharge] = useState(false);
   const [absorbhovered, setAbsorbhovered] = useState(false);
+  const [isfeatured, setIsfeatured] = useState(false);
 
   const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
@@ -311,6 +312,7 @@ const UpdateProductModel = (props) => {
         : DBProductInfo?.seller_commission && DBProductInfo?.seller_commission,
       quantityParameter: data.quantityParameter,
       absorbCustomerCharge: absordCustomerCharge,
+      featured: isfeatured,
       hasColors:
         colorVariations.length > 0 &&
         colorVariations.every((variation) => variation.colorImageUrl),
@@ -697,6 +699,7 @@ const UpdateProductModel = (props) => {
     setValue("price", DBProductInfo.price || "");
 
     setAbsordCustomerCharge(DBProductInfo?.absorbCustomerCharge);
+    setIsfeatured(DBProductInfo?.featured);
 
     setValue("seller", DBProductInfo?.seller || "");
     setValue(
@@ -723,6 +726,7 @@ const UpdateProductModel = (props) => {
     setValue("productClass", DBProductInfo.productClass || "");
     setValue("brand", DBProductInfo?.brand || selectedProductBrand || "");
     setValue("description", DBProductInfo.description);
+    setValue("featured", DBProductInfo.featured);
     setValue("currency", DBProductInfo.currency || "");
     setValue("discountPercentage", DBProductInfo?.discountPercentage || 0);
     setValue("otherImages", DBProductInfo.productImages.otherImages || "");
@@ -756,6 +760,13 @@ const UpdateProductModel = (props) => {
     }
 
     e.target.checked === false && setAbsordCustomerCharge(false);
+  };
+
+  const handleIsFeatured = (e) => {
+    if (e.target.checked) {
+      setIsfeatured(true);
+    }
+    e.target.checked === false && setIsfeatured(false);
   };
 
   // console.log("DBProductInfo", DBProductInfo?.seller_commission);
@@ -1384,6 +1395,39 @@ const UpdateProductModel = (props) => {
                           <p className="text-[red]">
                             {errors?.absorbCustomerCharge?.message}
                           </p>
+                        </Form.Item>
+                      </>
+                    )}
+                  />
+
+                  <Controller
+                    name="featured"
+                    control={control}
+                    defaultValue={false}
+                    rules={{}}
+                    render={({ field }) => (
+                      <>
+                        <Form.Item label="Feature this product" className=" ">
+                          <div
+                            className="relative"
+                            // onMouseEnter={() => setAbsorbhovered(true)}
+                            // onMouseLeave={() => setAbsorbhovered(false)}
+                          >
+                            <Checkbox
+                              size={60}
+                              style={{
+                                color: isfeatured ? "#1D6F2B" : "#000000",
+                              }}
+                              className="!text-primary"
+                              {...field}
+                              onChange={(e) => {
+                                setIsfeatured(!isfeatured);
+                              }}
+                              checked={
+                                field.value === true || isfeatured === true
+                              }
+                            ></Checkbox>
+                          </div>
                         </Form.Item>
                       </>
                     )}
