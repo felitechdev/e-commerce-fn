@@ -75,7 +75,7 @@ const SmallImagesContainer = ({
   };
 
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-row gap-4 bg-black">
       {feature === "colorImages" &&
         colorMeasurementVariations.map((variation) => {
           const colorMeasurementCombinationNotAvailable =
