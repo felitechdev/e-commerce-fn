@@ -30,7 +30,7 @@ const ImageSlider = ({ ads }) => {
             }}
           >
             <img
-              className="object-fit h-[15rem] rounded"
+              className="!object-fill  h-[15rem] rounded"
               src={ad.image}
               alt={ad.title}
             />

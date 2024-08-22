@@ -8,7 +8,7 @@ export async function featuredproducts() {
     const response = await axios.get(
       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/?featured=true`
     );
-    console.log("response ", response.data);
+
     return response.data;
   } catch (error) {
     return [];
