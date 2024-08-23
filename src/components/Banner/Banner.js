@@ -11,7 +11,7 @@ import ImageSlider from "../imageslider/ImageSlider";
 import HomePageCategories from "../homePageCategories/HomePageCategories";
 import { useFetchfeaturedproduct } from "../../APIs/react-query/featured-product";
 import { useNavigate } from "react-router-dom";
-
+import { getCloudinaryUrl } from "../imageslider/ImageSlider";
 // change i made
 const Banner = ({ ...props }) => {
   const [dotActive, setDocActive] = useState(0);
@@ -207,6 +207,7 @@ const Banner = ({ ...props }) => {
                   >
                     <Image
                       imgSrc={ad.image}
+                      // imgSrc={getCloudinaryUrl(ad.image, {})}
                       className="h-full w-full object-cover rounded-md m-auto"
                     />
                   </div>

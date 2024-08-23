@@ -1,4 +1,5 @@
 import React from "react";
+import { getCloudinaryUrl } from "../../components/imageslider/ImageSlider";
 
 function removeDuplicateImages(imgArr) {
   let uniqueImgs = [];
@@ -70,12 +71,34 @@ const SmallImagesContainer = ({
     }
   };
 
+  const handlemouseOver = (e) => {
+    const src = e.target.src;
+    const img = images.find((img) => img.url === src);
+
+    if (feature === "colorImages") {
+      dispatch({
+        type: "colorSelected",
+        payload: img.colorName,
+      });
+
+      dispatch({
+        type: "activeImageChanged",
+        payload: img,
+      });
+    } else {
+      dispatch({
+        type: "activeImageChanged",
+        payload: img,
+      });
+    }
+  };
+
   const handleInsufficientQuantityHover = (e) => {
     alert("Combination not available");
   };
 
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-row gap-4 ">
       {feature === "colorImages" &&
         colorMeasurementVariations.map((variation) => {
           const colorMeasurementCombinationNotAvailable =
@@ -119,6 +142,7 @@ const SmallImagesContainer = ({
               src={image.url}
               onClick={handleImageClick}
               alt=""
+              onMouseOver={handlemouseOver}
             />
           );
         })}

@@ -90,13 +90,10 @@ const OrderDetail = () => {
       dataIndex: "name",
       key: "name",
       render: (text, record) => {
-        let productname =
-          productnames && productnames?.find((p) => p.id === record.product);
-
         return (
           <div className="flex ">
             <h3 className="font-semibold capitalize">
-              {productname?.name || "No product name"}
+              {record?.product?.name || "No product name"}
             </h3>
           </div>
         );
