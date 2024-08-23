@@ -91,6 +91,7 @@ export const OrderForm = ({
   }, [momo_payload, isrepay]);
 
   const onSubmit = async (data) => {
+    let redirectLink;
     let requestData = !isrepay
       ? {
           // ...data,
@@ -146,9 +147,12 @@ export const OrderForm = ({
         setError("");
         setIsLoading(false);
       }
+
       if (res.data.status === "success") {
         setIsLoading(false);
-        const redirectLink = res.data.data.redirect;
+        redirectLink = res.data?.data?.meta
+          ? res.data?.data?.meta?.authorization?.redirect
+          : res.data.data.redirect;
         window.open(redirectLink, "_blank");
         handlecancel();
         handleclearCart();
