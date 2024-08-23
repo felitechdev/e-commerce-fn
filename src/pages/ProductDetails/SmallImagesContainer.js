@@ -71,6 +71,28 @@ const SmallImagesContainer = ({
     }
   };
 
+  const handlemouseOver = (e) => {
+    const src = e.target.src;
+    const img = images.find((img) => img.url === src);
+
+    if (feature === "colorImages") {
+      dispatch({
+        type: "colorSelected",
+        payload: img.colorName,
+      });
+
+      dispatch({
+        type: "activeImageChanged",
+        payload: img,
+      });
+    } else {
+      dispatch({
+        type: "activeImageChanged",
+        payload: img,
+      });
+    }
+  };
+
   const handleInsufficientQuantityHover = (e) => {
     alert("Combination not available");
   };
@@ -120,6 +142,7 @@ const SmallImagesContainer = ({
               src={image.url}
               onClick={handleImageClick}
               alt=""
+              onMouseOver={handlemouseOver}
             />
           );
         })}
