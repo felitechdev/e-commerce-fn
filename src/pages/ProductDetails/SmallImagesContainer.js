@@ -1,4 +1,5 @@
 import React from "react";
+import { getCloudinaryUrl } from "../../components/imageslider/ImageSlider";
 
 function removeDuplicateImages(imgArr) {
   let uniqueImgs = [];
@@ -75,7 +76,7 @@ const SmallImagesContainer = ({
   };
 
   return (
-    <div className="flex flex-row gap-4 bg-black">
+    <div className="flex flex-row gap-4 ">
       {feature === "colorImages" &&
         colorMeasurementVariations.map((variation) => {
           const colorMeasurementCombinationNotAvailable =
