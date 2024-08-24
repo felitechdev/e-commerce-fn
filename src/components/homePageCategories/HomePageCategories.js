@@ -90,7 +90,7 @@ export default function HomePageCategories() {
     >
       <div className="flex items-center gap-3 p-2 rounded-t  bg-[#1D6F2B]">
         <img src={MenuIconWhite} className="w-5 h-5" />
-        <h3 className=" text-white text-lg font-bold">Shop by Categories</h3>
+        <h3 className=" text-white  !bold_text">Shop by Categories</h3>
 
         {/* <h3 className=" text-white text-lg font-bold">Product Class</h3> */}
       </div>
