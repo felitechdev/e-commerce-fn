@@ -28,6 +28,8 @@ const ProductPreview = ({ productInfo }) => {
   const productInwhishlist = wishlist.find((product) => product.id === rootId);
   const currentPathName = location.pathname;
 
+  console.log("productInCart", productInCart && productInCart.items);
+
   const handleProductDetails = () => {
     const separatedRoute = currentPathName.split("/");
     if (separatedRoute[1] === "accounts") {
@@ -44,11 +46,7 @@ const ProductPreview = ({ productInfo }) => {
   const handleAddCart = async (event) => {
     event.stopPropagation();
 
-    let cart = JSON.parse(localStorage.getItem("cart"));
-
-    if (!cart) {
-      cart = [];
-    }
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     let existingProduct = cart.find((product) => product.id === productInfo.id);
 
@@ -72,14 +70,21 @@ const ProductPreview = ({ productInfo }) => {
         navigate(`/products/${productInfo.id}`);
       } else {
         cart.push(existingProduct);
+
+        // Update local storage immediately
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // Dispatch Redux action
         dispatch(addToCart(existingProduct));
       }
     } else {
+      // Update items count
       existingProduct.items += 1;
+      // Update local storage immediately
+      localStorage.setItem("cart", JSON.stringify(cart));
+      // Since we're updating the same product, we might need to update Redux with the new items count
+      dispatch(addToCart({ ...existingProduct }));
     }
-
-    // Update localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   const handleRemoveCart = (event) => {
@@ -226,7 +231,7 @@ const ProductPreview = ({ productInfo }) => {
                 ) : (
                   <div
                     className="absolute  bottom-2 right-2 flex items-center "
-                    onClick={(event) => event.stopPropagation()}
+                    onClick={(event) => {}}
                   >
                     <BiMinus
                       className="text-[red] font-bold ml-2    hover:bg-[#E5E5E5] hover:rounded-full"
@@ -239,7 +244,9 @@ const ProductPreview = ({ productInfo }) => {
                     <BiPlus
                       size={20}
                       className="text-primary font-bold  hover:bg-[#E5E5E5] ml-0 hover:rounded-full"
-                      onClick={(event) => handleAddCart(event)}
+                      onClick={(event) => {
+                        handleAddCart(event);
+                      }}
                     />
                   </div>
                 )}

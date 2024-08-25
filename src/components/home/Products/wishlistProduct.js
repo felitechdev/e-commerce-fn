@@ -76,8 +76,9 @@ const ProductPreview = ({ productInfo }) => {
       }
     } else {
       existingProduct.items += 1;
-    }
 
+      dispatch(addToCart({ ...existingProduct }));
+    }
     // Update localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
   };

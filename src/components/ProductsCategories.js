@@ -76,11 +76,8 @@ function ProductsCategories() {
 
   return (
     <div className="w-full mx-auto ">
-      {/* <MobileCategoryNav
-        title="Shop by Categories  phone"
-        categoryId={categoryId}
-      /> */}
       <Banner ads={ads} loading={isloading} />
+
       <div className="max-w-container mx-auto px-6 space-y-4 mt-10 ">
         <h1 className=" medium_text">Categories</h1>
         <CategoryImagesCards />
