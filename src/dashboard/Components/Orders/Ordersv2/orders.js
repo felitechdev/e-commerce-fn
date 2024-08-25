@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Layout, Row, Col, Typography } from "antd";
 import { useSelector } from "react-redux";
+import { FaSearch } from "react-icons/fa";
+import { FaWindowClose } from "react-icons/fa";
 import {
   BrowserRouter as Router,
   Route,
@@ -80,8 +82,31 @@ export const OrdersV2 = () => {
         <Row className="w-full md:w-[100%] p-0">
           <div className="bg-gray-200 w-full text-left space-y-0 md:space-y-6 py-3 md:py-5 mb-4 p-2">
             <div className="flex items-center space-x-2">
-              <Title level={4}>Orders</Title>
-              <div className=" my-2 left-1/3 border-none  right-1/2  rounded-t-md">
+              <h1 className="bold_text"> Orders</h1>
+
+              <div className="relative w-full lg:w-[400px] h-[40px] md:h-[45px] text-base   text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md border-[1px]">
+                <input
+                  className="flex-1 h-full rounded-l-md  w-[90%] md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
+                  type="text"
+                  onChange={handleSearch}
+                  value={searchQuery}
+                  placeholder="Search by orderId"
+                />
+                {!searchQuery ? (
+                  <div className=" absolute rounded-r-md bg-primary h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
+                    {" "}
+                    <FaSearch className=" w-5 h-5  m-auto text-white " />
+                  </div>
+                ) : (
+                  <div className=" absolute bg-primary rounded-r-md h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
+                    <FaWindowClose
+                      className="  font-bold   m-auto text-lg text-white "
+                      onClick={() => setSearchQuery("")}
+                    />
+                  </div>
+                )}
+              </div>
+              {/* <div className=" my-2 left-1/3 border-none  right-1/2  rounded-t-md">
                 <input
                   type="text"
                   className="rounded-t-md  text-black bg-white border-2 border-primary"
@@ -89,7 +114,7 @@ export const OrdersV2 = () => {
                   value={searchQuery}
                   onChange={handleSearch}
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-row space-x-4 cursor-pointer overflow-auto">

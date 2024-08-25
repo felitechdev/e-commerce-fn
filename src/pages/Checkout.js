@@ -46,9 +46,7 @@ export const OrderForm = ({
   const [error, setError] = useState("");
   const [isdelivery, setIsdelivery] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
-
   // check user
-
   const user = useUser().user;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -124,7 +122,7 @@ export const OrderForm = ({
     try {
       const res = !isrepay
         ? await axios.post(
-            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/checkout/momo`,
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/pay`,
             requestData,
             {
               headers: {
@@ -134,7 +132,7 @@ export const OrderForm = ({
             }
           )
         : await axios.post(
-            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/retry-momo`,
+            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/pay`,
             requestData,
             {
               headers: {
@@ -326,6 +324,7 @@ const Checkout = () => {
   const [loading, setLoadng] = useState(false);
   const [checkoutform, setCheckoutform] = useState(false);
   const token = Cookies.get("token");
+  const user = useUser().user;
   // const { handleSubmit, control, setValue, getValues } = useForm();
   const [selectedProvince, setSelectedProvince] = useState();
   const [selectedDistrict, setSelectedDistrict] = useState();
@@ -344,6 +343,9 @@ const Checkout = () => {
   const [orderDelivery, setOrderDelivery] = useState();
   const [deliveryPreference, setDeliveryPreference] = useState("");
   const [prevdeliveryprice, setPrevdeliveryprice] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
   const handlefillorderform = () => {
     setFillorderform(true);
@@ -551,12 +553,14 @@ const Checkout = () => {
   });
 
   const onErrors = (errors) => {
+    console.log("errors pn payment", errors);
     if (errors) {
       setPayAllowed(false);
     }
   };
 
   const onFinish = async (values) => {
+    setIsLoading(true);
     const payload = {};
     if (values.phoneNumber) {
       const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
@@ -570,44 +574,67 @@ const Checkout = () => {
         payload["phoneNumber"] = fullPhoneNumber;
       }
     }
-
-    let requestData = {
-      amount: totalCost,
-      currency: values.Currency,
-      phoneNumber: payload.phoneNumber,
-
-      items: cartTotl,
-      shippingAddress: {
-        country: values.Country,
-        city: values.City,
-        address: {
-          street: values.street,
-        },
-      },
-    };
     if (values) {
-      setPayAllowed(true);
-      setDeliveryPreference(values.orderDelivery);
-      setRequestData({
-        country: values.country,
-        city: values.District,
-        province: values.Province,
-        district: values.District,
-        sector: values.Sector,
-        cell: values.Cell,
-        village: values.Village,
-
-        address: {
-          street: values.Street,
-
-          // coordinates:{}
-        },
+      let requestData = {
+        amount: totalCost,
+        currency: values.Currency,
+        email: values.email,
         phoneNumber: payload.phoneNumber,
-      });
+        items: cartTotl,
+        shippingAddress: {
+          province: values.Province,
+          district: values.District,
+          sector: values.Sector,
+          street: values.Street,
+          phoneNumber: payload.phoneNumber,
+        },
+        deliveryPreference: values.orderDelivery.toLowerCase(),
+      };
 
-      setIsModalOpen(true);
-      //   await makepayment(requestData);
-      //   ispaymentsucces && setCheckoutform(!checkoutform);
+      // setPayAllowed(true);
+      setDeliveryPreference(values.orderDelivery);
+
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/pay`,
+          requestData,
+          {
+            headers: {
+              Authorization: ` Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (res.data.status === "success") {
+          setError("");
+          setIsLoading(false);
+        }
+
+        console.log("response on pay", res);
+
+        let redirectLink;
+
+        if (res.data.status === "success") {
+          setIsLoading(false);
+          redirectLink = res.data?.data?.link;
+
+          window.open(redirectLink, "_blank");
+          // handlecancel();
+          // handleclearCart();
+        }
+
+        // alert("Payment was successfull!");
+      } catch (error) {
+        console.log("on pay error", error);
+        if (error.response?.data?.message === "Payment not completed.")
+          return setError(error.response?.data?.message);
+        if (error.response?.data?.message === "Invalid phone number")
+          return setError("Invalid phone number");
+        setError("Unexpected error has occured. Please try again!");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -649,19 +676,10 @@ const Checkout = () => {
       setPayAllowed(true);
       setDeliveryPreference(values.orderDelivery);
       setRequestData({
-        country: values.country,
-        city: values.District,
         province: values.Province,
         district: values.District,
         sector: values.Sector,
-        cell: values.Cell,
-        village: values.Village,
-
-        address: {
-          street: values.Street,
-
-          // coordinates:{}
-        },
+        street: values.Street,
         phoneNumber: payload.phoneNumber,
       });
 
@@ -733,19 +751,6 @@ const Checkout = () => {
             </p>
           </div>
         </div>
-        // <div className=" fixed bottom-0 p-10  z-50  bg-[#fbe8e8] rounded-md  w-1/3 right-20 ">
-        //   {/* <Alert color="failure" type="Success" className=""> */}
-
-        //   <button className="font-bold text-[red] absolute flex items-center justify-center -top-3 bg-[#fbe8e8] border-2   -right-3 p-2 rounded-full ">
-        //     X
-        //   </button>
-        //   <p className="capitalize-first">
-        //     +250 798 697 197
-
-        //     info@felitechnology.com
-        //   </p>
-        //   {/* </Alert> */}
-        // </div>
       )}
       <div className="max-w-container mx-auto px-4  ">
         {cart && cart.length > 0 && (
@@ -977,56 +982,6 @@ const Checkout = () => {
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
-                        name="Cell"
-                        rules={{
-                          required: "Cell is required",
-                        }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label="Cell" className=" h-8">
-                              <Input
-                                {...field}
-                                type="text"
-                                placeholder="Enter your Cell"
-                              />
-                              <p className="text-[red]">
-                                {errors?.Cell?.message}
-                              </p>
-                            </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
-
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name="Village"
-                        rules={{
-                          required: "Village is required",
-                        }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label="Village" className=" h-8">
-                              <Input
-                                {...field}
-                                type="text"
-                                placeholder="Enter your Village"
-                              />
-                              <p className="text-[red]">
-                                {errors?.Village?.message}
-                              </p>
-                            </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
-                  </Row>
-                  <div className="mt-5"></div>
-                  <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
                         name="Street"
                         rules={{
                           required: "Street is required",
@@ -1068,7 +1023,32 @@ const Checkout = () => {
                         )}
                       />
                     </Col>
-
+                  </Row>
+                  <div className="mt-5"></div>
+                  <Row gutter={[16, 16]}>
+                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                      {" "}
+                      <Controller
+                        control={control}
+                        name="email"
+                        rules={{ required: "email is required" }}
+                        render={({ field }) => (
+                          <>
+                            <Form.Item
+                              label="Email"
+                              className="w-[100%] text-red-700 !mb-2"
+                            >
+                              <Input
+                                {...field}
+                                type="email"
+                                placeholder="og@gmail.com"
+                                className="text-gray-700 text-sm placeholder:text-sm "
+                              />
+                            </Form.Item>
+                          </>
+                        )}
+                      />
+                    </Col>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -1113,60 +1093,21 @@ const Checkout = () => {
                   <p className="font-bold my-2">Choose payment method </p>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      {/* <button
-                        disabled={loading}
-                        htmlType="submit"
-                        className="h-10 rounded-full bg-[#1D6F2B] text-white disabled:opacity-50 px-5 duration-300"
-                      >
-                        <span className="flex items-center tracking-widest">
-                          <span className="mr-2">Pay With</span>
-                          <span>
-                            <img src={MtnIcon} className="w-14 rounded" />
-                          </span>
-                         
-                        </span>
-                      </button> */}
                       <div className=" flex items-center">
-                        <button
-                          disabled={loading}
+                        <Button
+                          disabled={isLoading}
                           htmlType="submit"
                           onClick={() => {
-                            setCardpay(false);
+                            if (user == null) {
+                              navigate("/signin", { replace: true });
+                            }
                           }}
-                          className="h-10 flex bg-black items-center rounded-md bg-gradient-custom text-white disabled:opacity-50 px-2 duration-300"
+                          className="h-10  px-20 flex bg-black items-center rounded-md bg-gradient-custom text-white disabled:opacity-50  duration-300"
+                          style={{ background: "#1D6F2B", color: "#FFFFFF" }}
                         >
-                          <span className="flex items-center tracking-widest">
-                            {/* <span className="mr-2 font-bold">Mobile money </span> */}
-
-                            <img src={MtnIcon} className="w-14 rounded" />
-                          </span>
-                          <CgFormatSlash
-                            style={{
-                              color: "#ffffff",
-                              fontSize: "1.8rem",
-                            }}
-                          />
-                          <span>
-                            <img src={AirtelIcon} className="w-14 rounded" />
-                          </span>
-                        </button>
-
-                        <button
-                          disabled={loading}
-                          htmlType="submit"
-                          // type="button"
-                          onClick={() => {
-                            handlecancel();
-                            handlecardpay();
-                          }}
-                          className="h-10 rounded-md bg-gradient-custom-card ml-2 text-white disabled:opacity-50 px-5 duration-300"
-                        >
-                          <span className="flex items-center tracking-widest">
-                            {/* <span className="mr-2 font-bold">Card</span> */}
-
-                            <img src={CardIcon} className="w-14 rounded" />
-                          </span>
-                        </button>
+                          {(isLoading && "Processing...") ||
+                            `Pay ${totalCost} Rwf`}
+                        </Button>
                       </div>
                     </Col>
                   </Row>

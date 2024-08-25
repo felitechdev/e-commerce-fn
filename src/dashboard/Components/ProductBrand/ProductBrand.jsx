@@ -160,7 +160,7 @@ export const ProductBrand = () => {
   return (
     <Layout className=" space-y-6  bg-light overflow-auto">
       <Space className="flex justify-between">
-        <Title level={4}>ProductBrand</Title>
+        <h1 className="bold_text">ProductBrand</h1>
         <ProductclassModel />
       </Space>
 

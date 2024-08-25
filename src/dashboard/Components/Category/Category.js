@@ -174,7 +174,7 @@ export const Category = () => {
   return (
     <Layout className=" space-y-6  bg-light overflow-auto">
       <Space className="flex justify-between">
-        <Title level={4}>Categories</Title>
+        <h1 className="bold_text">Categories</h1>
         <CategoryModel />
       </Space>
 

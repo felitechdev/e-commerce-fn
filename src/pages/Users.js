@@ -17,7 +17,7 @@ export default function Users() {
   return (
     <div className="w-full flex flex-col">
       <div className="mb-4">
-        <Title level={4}>Users</Title>
+        <h1 className="bold_text">Users</h1>
       </div>
       {loading && !users?.length && (
         <div className="flex justify-center">

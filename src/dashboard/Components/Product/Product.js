@@ -622,7 +622,7 @@ export const DashProducts = () => {
 
       <Space className="flex justify-between">
         <Space className="flex justify-between">
-          <Title level={4}> All Products</Title>
+        <h1 className="bold_text"> All Products</h1>
         </Space>
         <div className="flex justify-center space-x-5">
           <UnorderedListOutlined

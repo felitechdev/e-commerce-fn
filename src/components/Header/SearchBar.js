@@ -3,14 +3,10 @@ import { motion } from "framer-motion";
 import MenuIcon from "../../assets/images/menu.png";
 import MenuIconWhite from "../../assets/images/menu-white.png";
 import { FaSearch } from "react-icons/fa";
+import { FaWindowClose } from "react-icons/fa";
 import Flex from "../designLayouts/Flex";
 import { useNavigate } from "react-router-dom";
-import { IoCloseSharp } from "react-icons/io5";
-import { CloseOutlined } from "@ant-design/icons";
-import { FaWindowClose } from "react-icons/fa";
 
-import { useSelector } from "react-redux";
-import { paginationItems } from "../../constants";
 import { useLocation } from "react-router-dom";
 import HomePageCategories from "../homePageCategories/HomePageCategories";
 import { useQuery } from "@tanstack/react-query";

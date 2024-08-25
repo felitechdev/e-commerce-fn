@@ -144,7 +144,7 @@ export const ProductClass = () => {
   return (
     <Layout className=" space-y-6  bg-light overflow-auto">
       <Space className="flex justify-between">
-        <Title level={4}>ProductClass</Title>
+        <h1 className="bold_text">ProductClass</h1>
         <ProductclassModel />
       </Space>
 
