@@ -8,6 +8,7 @@ import { ActionButtonSubCategory } from "./ActionButtonSubcategory/ActionButton"
 import { fetchCategory } from "../../Apis/Categories";
 import Cookies from "js-cookie";
 import { Loader } from "../Loader/LoadingSpin";
+import { DashBoardSearch } from "../Orders/Ordersv2/orders";
 
 const { Title } = Typography;
 // const token = Cookies.get("token");
@@ -188,15 +189,13 @@ export const Category = () => {
           </>
         ) : (
           <div className="flex w-full flex-col ">
-            <div className=" my-2 left-1/3 border-none right-1/2  rounded-t-md">
-              <input
-                type="text"
-                className="rounded-t-md  text-black bg-white border-2 border-primary"
-                placeholder="Search by name"
-                value={searchQuery}
-                onChange={handleSearch}
-              />
-            </div>
+            <DashBoardSearch
+              handleSearch={handleSearch}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              placeholder="Search by name"
+            />
+
             <Table
               rowClassName="even:bg-[#f1f5f9]   hover:cursor-pointer custom-table-row "
               size="small"

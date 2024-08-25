@@ -64,6 +64,8 @@ function ProductsCategories() {
     };
   });
 
+  console.log("featuredproducts", ads, featuredproducts);
+
   const containerRef = useRef(null);
 
   const scrollLeft = () => {

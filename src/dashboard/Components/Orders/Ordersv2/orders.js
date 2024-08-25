@@ -17,6 +17,38 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { GetMyOrders } from "../../../../APIs/Oreders";
 
+export const DashBoardSearch = ({
+  handleSearch,
+  searchQuery,
+  setSearchQuery,
+  placeholder,
+}) => {
+  return (
+    <div className="relative w-full lg:w-[400px] h-[40px] md:h-[45px] text-base   text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md border-[1px]">
+      <input
+        className="flex-1 h-full rounded-l-md  w-[90%] md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
+        type="text"
+        onChange={handleSearch}
+        value={searchQuery}
+        placeholder={placeholder}
+      />
+      {!searchQuery ? (
+        <div className=" absolute rounded-r-md bg-primary h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
+          {" "}
+          <FaSearch className=" w-5 h-5  m-auto text-white " />
+        </div>
+      ) : (
+        <div className=" absolute bg-primary rounded-r-md h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
+          <FaWindowClose
+            className="  font-bold   m-auto text-lg text-white "
+            onClick={() => setSearchQuery("")}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
 const { Title } = Typography;
 
 export const OrdersV2 = () => {
@@ -84,28 +116,13 @@ export const OrdersV2 = () => {
             <div className="flex items-center space-x-2">
               <h1 className="bold_text"> Orders</h1>
 
-              <div className="relative w-full lg:w-[400px] h-[40px] md:h-[45px] text-base   text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md border-[1px]">
-                <input
-                  className="flex-1 h-full rounded-l-md  w-[90%] md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
-                  type="text"
-                  onChange={handleSearch}
-                  value={searchQuery}
-                  placeholder="Search by orderId"
-                />
-                {!searchQuery ? (
-                  <div className=" absolute rounded-r-md bg-primary h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
-                    {" "}
-                    <FaSearch className=" w-5 h-5  m-auto text-white " />
-                  </div>
-                ) : (
-                  <div className=" absolute bg-primary rounded-r-md h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
-                    <FaWindowClose
-                      className="  font-bold   m-auto text-lg text-white "
-                      onClick={() => setSearchQuery("")}
-                    />
-                  </div>
-                )}
-              </div>
+              <DashBoardSearch
+                handleSearch={handleSearch}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                placeholder={"Search by orderId"}
+              />
+
               {/* <div className=" my-2 left-1/3 border-none  right-1/2  rounded-t-md">
                 <input
                   type="text"

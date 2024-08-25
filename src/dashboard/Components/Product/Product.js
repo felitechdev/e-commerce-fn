@@ -51,6 +51,7 @@ import { SellerList } from "../filterproducts/sellerlist";
 import { useUser } from "../../../context/UserContex";
 import { ActionMenuButton } from "../Button/AvtionButton";
 import UpdateProductModel from "./ProductModel/updateproductModel";
+import { DashBoardSearch } from "../Orders/Ordersv2/orders";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -152,15 +153,22 @@ export const DashProducts = () => {
     //   onSearch={() => setDataSource(filteredData)} // Set the dataSource when searching
     // />
 
-    <div className=" my-2 left-1/3 border-none right-1/2  rounded-t-md">
-      <input
-        type="text"
-        className="rounded-t-md  text-black bg-white border-2 border-primary"
-        placeholder="Search by name"
-        value={searchQuery}
-        onChange={handleSearch}
-      />
-    </div>
+    <DashBoardSearch
+      handleSearch={handleSearch}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
+      placeholder={"Search by name"}
+    />
+
+    // <div className=" my-2 left-1/3 border-none right-1/2  rounded-t-md">
+    //   <input
+    //     type="text"
+    //     className="rounded-t-md  text-black bg-white border-2 border-primary"
+    //     placeholder="Search by name"
+    //     value={searchQuery}
+    //     onChange={handleSearch}
+    //   />
+    // </div>
   );
 
   // select list or drid display
@@ -622,7 +630,7 @@ export const DashProducts = () => {
 
       <Space className="flex justify-between">
         <Space className="flex justify-between">
-        <h1 className="bold_text"> All Products</h1>
+          <h1 className="bold_text"> All Products</h1>
         </Space>
         <div className="flex justify-center space-x-5">
           <UnorderedListOutlined
