@@ -3,6 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import ShopProducts from "../../pages/Default/Shop/ShopProducts";
 import Paginator from "../Paginator";
 import axios from "axios";
+import { Loader } from "../../dashboard/Components/Loader/LoadingSpin";
 
 export const ProductSection = ({
   productClassId,
@@ -50,9 +51,11 @@ export const ProductSection = ({
 
   return (
     <div className="mt-2 space-y-4">
-      {(isLoading && <div>Loading...</div>) || (
-        <ShopProducts products={products} hidetop={true} />
-      )}
+      {(isLoading && (
+        <div className="flex justify-center">
+          <Loader />
+        </div>
+      )) || <ShopProducts products={products} hidetop={true} />}
 
       {error && <div>Error: {error.message}</div>}
 

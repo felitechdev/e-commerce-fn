@@ -86,7 +86,7 @@ function ProductsCategories() {
         <CategoryImagesCards />
       </div>
 
-      <div className=" mx-auto px-6 space-y-4 my-10">
+      <div className=" max-w-container mx-auto px-6 space-y-4 my-10">
         <h1 className="medium_text">New Arrivals</h1>
         <div className="relative bg-[#f8f8f8] rounded-md p-4 h-72 ">
           <button
@@ -101,7 +101,7 @@ function ProductsCategories() {
           >
             {isLoading ? (
               <div className="flex justify-center">
-                <Loader fontSize={38} />
+                <Loader />
               </div>
             ) : (
               products?.map((product, index) => (
@@ -122,9 +122,10 @@ function ProductsCategories() {
           </button>
         </div>
       </div>
-
-      <h1 className=" medium_text m-6 ">Our Products</h1>
-      <ProductDisplay />
+      <div className="max-w-container mx-auto px-6 space-y-4 mt-10 ">
+        <h1 className=" medium_text m-6 ">Our Products</h1>
+        <ProductDisplay />
+      </div>
     </div>
   );
 }
