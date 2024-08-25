@@ -84,98 +84,96 @@ const SearchBar = ({ ismobileview }) => {
 
   return (
     <div className={` ${ismobileview ? " " : "hidden md:block w-[40%]"}`}>
-      <div className="">
-        <div className="relative w-full lg:w-[600px]  h-[50px] text-base bg-primary text-primeColor  flex items-center gap-2 justify-between px-0 pr-6 rounded-md border-[2px]">
-          <input
-            className="flex-1 h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
-            type="text"
-            onChange={handleSearch}
-            value={searchQuery}
-            placeholder="Search your products here"
-          />
-          {!searchQuery ? (
-            <FaSearch className="w-5 h-5 text-white " />
-          ) : (
-            <div className="">
-              <FaWindowClose
-                className="  font-bold  text-lg text-white -mr-2"
-                onClick={() => setSearchQuery("")}
-              />
-            </div>
-          )}
+      <div className="relative w-full lg:w-[400px] h-[40px] md:h-[45px] text-base   text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md border-[1px]">
+        <input
+          className="flex-1 h-full rounded-l-md  w-[90%] md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
+          type="text"
+          onChange={handleSearch}
+          value={searchQuery}
+          placeholder="Search your products here"
+        />
+        {!searchQuery ? (
+          <div className=" absolute rounded-r-md bg-primary h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
+            {" "}
+            <FaSearch className=" w-5 h-5  m-auto text-white " />
+          </div>
+        ) : (
+          <div className=" absolute bg-primary rounded-r-md h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
+            <FaWindowClose
+              className="  font-bold   m-auto text-lg text-white "
+              onClick={() => setSearchQuery("")}
+            />
+          </div>
+        )}
 
-          {searchQuery && (
-            <div
-              className={`w-full mx-auto h-96  bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}
-            >
-              {searchQuery &&
-                filteredProducts.map((item) => (
-                  <div
-                    onClick={() => {
-                      navigate(`/products/${item.id}`);
+        {searchQuery && (
+          <div
+            className={`w-full mx-auto h-96  bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}
+          >
+            {searchQuery &&
+              filteredProducts.map((item) => (
+                <div
+                  onClick={() => {
+                    navigate(`/products/${item.id}`);
 
-                      setShowSearchBar(true);
-                      setSearchQuery("");
-                    }}
-                    key={item.id}
-                    className=" w-full px-2  bg-gray-100 mb-3 flex items-start gap-3  break-words"
-                  >
-                    <img
-                      className="w-24  h-24 object-fill border rounded-md"
-                      src={item?.productImages?.productThumbnail?.url}
-                      alt=""
-                    />
-                    <div className="flex flex-col gap-1 overflow-auto">
-                      <p className="font-medium text-sm md:text-md ">
-                        {item.name.length > 80
-                          ? item.name.slice(0, 80) + "..."
-                          : item.name}
-                      </p>
-                      <p
-                        className="text-xs overflow-auto break-words "
-                        dangerouslySetInnerHTML={{
-                          __html: item?.description?.slice(0, 80),
-                        }}
-                      ></p>
-                      <p className="text-sm flex">
-                        Price:{" "}
-                        {/* <span className="text-primeColor font-semibold">
+                    setShowSearchBar(true);
+                    setSearchQuery("");
+                  }}
+                  key={item.id}
+                  className=" w-full px-2  bg-gray-100 mb-3 flex items-start gap-3  break-words"
+                >
+                  <img
+                    className="w-24  h-24 object-fill border rounded-md"
+                    src={item?.productImages?.productThumbnail?.url}
+                    alt=""
+                  />
+                  <div className="flex flex-col gap-1 overflow-auto">
+                    <p className="font-medium text-sm md:text-md ">
+                      {item.name.length > 80
+                        ? item.name.slice(0, 80) + "..."
+                        : item.name}
+                    </p>
+                    <p
+                      className="text-xs overflow-auto break-words "
+                      dangerouslySetInnerHTML={{
+                        __html: item?.description?.slice(0, 80),
+                      }}
+                    ></p>
+                    <p className="text-sm flex">
+                      Price:{" "}
+                      {/* <span className="text-primeColor font-semibold">
                             {item.currency} {item.price}
                           </span> */}
-                        <div>
-                          {item.discountPercentage <= 0 && (
-                            <div className="text-[#1D6F2B] font-semibold">
+                      <div>
+                        {item.discountPercentage <= 0 && (
+                          <div className="text-[#1D6F2B] font-semibold">
+                            <DisplayCurrency product={item} isDiscount={true} />
+                          </div>
+                        )}
+                        {item.discountPercentage > 0 && (
+                          <>
+                            <div className=" text-[#1D6F2B] font-semibold  ">
                               <DisplayCurrency
                                 product={item}
                                 isDiscount={true}
                               />
                             </div>
-                          )}
-                          {item.discountPercentage > 0 && (
-                            <>
-                              <div className=" text-[#1D6F2B] font-semibold  ">
-                                <DisplayCurrency
-                                  product={item}
-                                  isDiscount={true}
-                                />
-                              </div>
 
-                              <div className=" text-[#00000080] font-semibold line-through">
-                                <DisplayCurrency
-                                  product={item}
-                                  isDiscount={false}
-                                />
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </p>
-                    </div>
+                            <div className=" text-[#00000080] font-semibold line-through">
+                              <DisplayCurrency
+                                product={item}
+                                isDiscount={false}
+                              />
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </p>
                   </div>
-                ))}
-            </div>
-          )}
-        </div>
+                </div>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );
