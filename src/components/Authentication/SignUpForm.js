@@ -383,7 +383,7 @@ const SignUpForm = (props) => {
               type="checkbox"
             />
             <p className="text-sm text-primeColor">
-              I agree to the "company name"{" "}
+              I agree to the Feli Technology{" "}
               <a className="text-[#1E61CC]">Terms of Service </a>
               and <a className="text-[#1E61CC]">Privacy Policy</a>.
             </p>
