@@ -80,12 +80,12 @@ function ProductsCategories() {
     <div className="w-full mx-auto ">
       <Banner ads={ads} loading={isloading} />
 
-      <div className="max-w-container mx-auto px-6 space-y-4 mt-10 ">
+      <div className="max-w-container mx-auto px-2 md:px-6 space-y-4 mt-10 ">
         <h1 className=" medium_text">Categories</h1>
         <CategoryImagesCards />
       </div>
 
-      <div className=" max-w-container mx-auto px-6 space-y-4 my-10">
+      <div className=" max-w-container mx-auto px-2 md:px-6 space-y-4 my-10">
         <h1 className="medium_text">New Arrivals</h1>
         <div className="relative bg-[#f8f8f8] rounded-md p-4 h-72 ">
           <button
@@ -121,7 +121,7 @@ function ProductsCategories() {
           </button>
         </div>
       </div>
-      <div className="max-w-container mx-auto px-6 space-y-4 mt-10 ">
+      <div className="max-w-container mx-auto px-1 md:px-6 space-y-4 mt-10 ">
         <h1 className=" medium_text m-6 ">Our Products</h1>
         <ProductDisplay />
       </div>
