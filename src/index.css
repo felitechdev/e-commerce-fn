@@ -315,3 +315,18 @@ nav .active li {
 .product-display {
   padding: 20px;
 }
+
+/* product details */
+
+.zoom-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.zoom-container img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.zoom-container:hover img {
+  transform: scale(2); /* Adjust the scale value as needed */
+}

@@ -95,11 +95,11 @@ function ProductsCategories() {
             <BsArrowLeft />
           </button>
           <div
-            className="flex gap-4 overflow-hidden no-scrollbar text-center"
+            className="flex gap-4 overflow-hidden no-scrollbar items-center justify-center text-center"
             ref={containerRef}
           >
             {isLoading ? (
-              <div className="flex justify-center">
+              <div className=" w-full h-[100%] m-auto  flex items-center justify-center">
                 <Loader />
               </div>
             ) : (

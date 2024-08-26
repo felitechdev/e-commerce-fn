@@ -52,7 +52,7 @@ export const ProductSection = ({
   return (
     <div className="mt-2 space-y-4">
       {(isLoading && (
-        <div className="flex justify-center">
+        <div className="flex w-full h-full justify-center">
           <Loader />
         </div>
       )) || <ShopProducts products={products} hidetop={true} />}
