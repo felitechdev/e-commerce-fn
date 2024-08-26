@@ -158,22 +158,19 @@ const ProductImages = ({
 
   const handleMouseMove = (e) => {
     if (imgRef.current) {
-      const rect = imgRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const moveX = (x / rect.width) * 200 - 100; // Increased sensitivity
-      const moveY = (y / rect.height) * 200 - 100; // Increased sensitivity
-      // const moveX = (x / rect.width) * 300 - 150; // Further increased sensitivity
-      // const moveY = (y / rect.height) * 300 - 150; // Further increased sensitivity
-
-      imgRef.current.style.transform = `translate(${-moveX}%, ${-moveY}%) scale(2)`;
+      const { left, top, width, height } =
+        imgRef.current.getBoundingClientRect();
+      const x = ((e.pageX - left) / width) * 100;
+      const y = ((e.pageY - top) / height) * 100;
+      imgRef.current.style.transformOrigin = `${x}% ${y}%`;
+      imgRef.current.style.transform = "scale(2)";
     }
   };
 
-  const handleMouseLeave = (e) => {
+  const handleMouseLeave = () => {
     if (imgRef.current) {
-      imgRef.current.style.transform = "translate(0, 0) scale(1)";
+      imgRef.current.style.transform = "scale(1)";
+      imgRef.current.style.transformOrigin = "center center";
     }
     setIsMouseMoveOnImage(false);
   };

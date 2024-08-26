@@ -312,7 +312,7 @@ export const Company = () => {
   return (
     <Layout className="space-y-6 S bg-light">
       <Space className="flex justify-between">
-        <Title level={4}>Company's</Title>
+        <h1 className="bold_text">Company's</h1>
         <CompanyModel />
       </Space>
       {loadcompany == true ? (

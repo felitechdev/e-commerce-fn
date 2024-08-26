@@ -9,6 +9,7 @@ import { Modal } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { DashBoardSearch } from "../Orders/Ordersv2/orders";
 
 const { confirm } = Modal;
 
@@ -142,15 +143,12 @@ export default function UsersTable({ users }) {
 
   return (
     <div className="flex w-full flex-col relative">
-      <div className=" absolute -top-10 left-1/3 border-none right-1/2 bg-primary rounded-t-md">
-        <input
-          type="text"
-          className="rounded-t-md text-black bg-white border-2 border-primary"
-          placeholder="Search by username or email"
-          value={searchQuery}
-          onChange={handleSearch}
-        />
-      </div>
+      <DashBoardSearch
+        handleSearch={handleSearch}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        placeholder={"Search by username or email"}
+      />
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
           <div className="overflow-hidden border border-s-gray-200 rounded-md">

@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import Banner from "./Banner/Banner";
 import AllProducts from "./home/AllProducts/AllProducts";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 // import MobileCategoryNav from "./MobileCategoryNav";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -15,11 +16,13 @@ import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import MenuIconWhite from "../assets/images/menu-white.png";
 import { useFetchfeaturedproduct } from "../APIs/react-query/featured-product";
+import { CategoryImagesCards } from "./category-images-cards/category";
+import ProductDisplay from "./our-products/ourproduct-display";
+import ProductPreview from "./home/Products/Product";
 export async function fetchProducts(page) {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?&page=${page}`
-      // ?limit=100&page=${page}&fields=name,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?limit=20&page=${page}&fields=name,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
@@ -31,7 +34,7 @@ export async function fetchProducts(page) {
 function ProductsCategories() {
   const { data, isFetching, isLoading, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
-      queryKey: ["products"],
+      queryKey: ["Arrivarls"],
       queryFn: ({ pageParam = 1 }) => {
         return fetchProducts(pageParam);
       },
@@ -61,31 +64,66 @@ function ProductsCategories() {
     };
   });
 
-  // console.log("featured product", data?.data?.products, "count", data?.count);
+  console.log("featuredproducts", ads, featuredproducts);
+
+  const containerRef = useRef(null);
+
+  const scrollLeft = () => {
+    containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+  };
 
   return (
     <div className="w-full mx-auto ">
-      {/* <MobileCategoryNav
-        title="Shop by Categories  phone"
-        categoryId={categoryId}
-      /> */}
       <Banner ads={ads} loading={isloading} />
 
-      <div className="max-w-container mx-auto px-4">
-        {isLoading && (
-          <div className="flex justify-center p-16">
-            <Loader />
+      <div className="max-w-container mx-auto px-6 space-y-4 mt-10 ">
+        <h1 className=" medium_text">Categories</h1>
+        <CategoryImagesCards />
+      </div>
+
+      <div className=" max-w-container mx-auto px-6 space-y-4 my-10">
+        <h1 className="medium_text">New Arrivals</h1>
+        <div className="relative bg-[#f8f8f8] rounded-md p-4 h-72 ">
+          <button
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10"
+          >
+            <BsArrowLeft />
+          </button>
+          <div
+            className="flex gap-4 overflow-hidden no-scrollbar items-center justify-center text-center"
+            ref={containerRef}
+          >
+            {isLoading ? (
+              <div className=" w-full h-[100%] m-auto  flex items-center justify-center">
+                <Loader />
+              </div>
+            ) : (
+              products?.map((product, index) => (
+                <div className="min-w-[200px] max-w-[250px] h-64 ">
+                  <ProductPreview
+                    key={product.id + index}
+                    productInfo={product}
+                  />
+                </div>
+              ))
+            )}
           </div>
-        )}
-
-        {products && <AllProducts products={products} />}
-
-        <Paginator
-          isFetching={isFetching}
-          isLoading={isLoading}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-        />
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10"
+          >
+            <BsArrowRight />
+          </button>
+        </div>
+      </div>
+      <div className="max-w-container mx-auto px-6 space-y-4 mt-10 ">
+        <h1 className=" medium_text m-6 ">Our Products</h1>
+        <ProductDisplay />
       </div>
     </div>
   );

@@ -28,6 +28,8 @@ const ProductPreview = ({ productInfo }) => {
   const productInwhishlist = wishlist.find((product) => product.id === rootId);
   const currentPathName = location.pathname;
 
+  console.log("productInCart", productInCart && productInCart.items);
+
   const handleProductDetails = () => {
     const separatedRoute = currentPathName.split("/");
     if (separatedRoute[1] === "accounts") {
@@ -44,11 +46,7 @@ const ProductPreview = ({ productInfo }) => {
   const handleAddCart = async (event) => {
     event.stopPropagation();
 
-    let cart = JSON.parse(localStorage.getItem("cart"));
-
-    if (!cart) {
-      cart = [];
-    }
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     let existingProduct = cart.find((product) => product.id === productInfo.id);
 
@@ -72,14 +70,21 @@ const ProductPreview = ({ productInfo }) => {
         navigate(`/products/${productInfo.id}`);
       } else {
         cart.push(existingProduct);
+
+        // Update local storage immediately
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // Dispatch Redux action
         dispatch(addToCart(existingProduct));
       }
     } else {
+      // Update items count
       existingProduct.items += 1;
+      // Update local storage immediately
+      localStorage.setItem("cart", JSON.stringify(cart));
+      // Since we're updating the same product, we might need to update Redux with the new items count
+      dispatch(addToCart({ ...existingProduct }));
     }
-
-    // Update localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   const handleRemoveCart = (event) => {
@@ -147,10 +152,10 @@ const ProductPreview = ({ productInfo }) => {
   };
 
   let headerIconStyles =
-    "  ml-2  inline-block hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5] rounded-full py-1.5 px-2.5";
+    "ml-2  inline-block hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5]   rounded-full py-1.5 px-2.5 absolute  bottom-3 right-2";
   return (
     <div
-      className="w-full h-fit relative group border-2 border-gray-100 rounded-md cursor-pointer"
+      className="w-full h-64  relative group border-2 bg-white border-gray-100 rounded-md cursor-pointer"
       onClick={handleProductDetails}
     >
       {productInfo.productImages !== undefined ? (
@@ -169,9 +174,9 @@ const ProductPreview = ({ productInfo }) => {
                 onClick={(event) => handleAddwishlist(event)}
               />
             )}
-            <div className="m-2 ">
+            <div className="m-2   !h-full  ">
               <Image
-                className=" w-full h-full object-cover  rounded-tl-md rounded-tr-md"
+                className=" !w-full !h-full object-fill  rounded-tl-md rounded-tr-md"
                 imgSrc={productInfo.productImages.productThumbnail.url}
               />
             </div>
@@ -184,7 +189,9 @@ const ProductPreview = ({ productInfo }) => {
           <div className="max-w-80 bg-white py-2 flex flex-col gap-1 rounded-bl-md rounded-br-md border-t-0 px-2">
             <div className="flex flex-col  font-titleFont">
               <h2 className="text-xs text-primeColor font-[500] text-ellipsis overflow-hidden hover:underline capitalize">
-                {productInfo.name}
+                {productInfo.name.length > 60
+                  ? productInfo.name.substring(0, 60) + "..."
+                  : productInfo.name}
               </h2>
               <div className="text-sm flex justify-between ">
                 <div>
@@ -222,23 +229,26 @@ const ProductPreview = ({ productInfo }) => {
                     size={40}
                   />
                 ) : (
-                  <>
+                  <div
+                    className="absolute  bottom-2 right-2 flex items-center "
+                    onClick={(event) => {}}
+                  >
                     <BiMinus
                       className="text-[red] font-bold ml-2    hover:bg-[#E5E5E5] hover:rounded-full"
                       size={20}
                       onClick={(event) => handleRemoveCart(event)}
                     />
-
                     <p className=" mx-0 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
                       {productInCart && productInCart.items}
                     </p>
-
                     <BiPlus
                       size={20}
                       className="text-primary font-bold  hover:bg-[#E5E5E5] ml-0 hover:rounded-full"
-                      onClick={(event) => handleAddCart(event)}
+                      onClick={(event) => {
+                        handleAddCart(event);
+                      }}
                     />
-                  </>
+                  </div>
                 )}
               </div>
             </div>

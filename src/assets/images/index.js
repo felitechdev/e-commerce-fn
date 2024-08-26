@@ -33,6 +33,9 @@ import emptyCart from "../images/emptyCart.png";
 
 import whatsappIcon from "./whatsappicon.png";
 
+import playstore from "./playstore.png";
+import applestore from "./applestore.png";
+
 export {
   FeliTechLogo_transparent,
   FeliTechWhiteLogo,
@@ -69,4 +72,8 @@ export {
 
   // Whatsapp Icon
   whatsappIcon,
+
+  // Playstore and Applestore
+  playstore,
+  applestore,
 };

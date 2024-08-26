@@ -256,3 +256,77 @@ nav .active li {
   background: white;
   margin-bottom: 10px; /* gutter size */
 }
+
+.bold_text {
+  /* @apply  */
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.medium_text {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 19px;
+}
+.medium2_text {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.caregory_text {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.product-class-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.product-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.product-class-name {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+}
+
+.category-name {
+  font-size: 1rem;
+  color: #555;
+}
+
+.product-section {
+  margin-top: 20px;
+}
+
+.product-display {
+  padding: 20px;
+}
+
+/* product details */
+
+.zoom-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.zoom-container img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.zoom-container:hover img {
+  transform: scale(2); /* Adjust the scale value as needed */
+}

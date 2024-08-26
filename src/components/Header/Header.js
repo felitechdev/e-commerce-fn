@@ -190,8 +190,8 @@ const Header = (props) => {
         </ul>
       </div>
 
-      <nav className="h-full px-4 max-w-container mx-auto relative gap-6 flex items-center md:items-center md:justify-between">
-        <div className="flex space-x-5 ml-0">
+      <nav className="h-full px-4 max-w-container  mx-auto relative gap-6 flex items-center md:items-center md:justify-between">
+        <div className="flex space-x-5 ml-0  w-[90%] md:!w-[250px]   ">
           <div className=" hidden md:inline-block">
             {" "}
             <Link to="/">
@@ -204,35 +204,9 @@ const Header = (props) => {
             </Link>
           </div>
 
-          <div className="md:hidden !my-2 !m-auto">
+          <div className="md:hidden  !my-2 !m-auto !w-[90%]">
             <SearchBar ismobileview={true} />
           </div>
-
-          <ul className="flex items-center w-auto z-50 p-0 gap-3">
-            {/* <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) => {
-                  return isActive
-                    ? "w-full text-[#1D6F2B] lg:hover:text-[#1D6F2B] font-bold lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    hidden md:inline-block lg:py-1 lg:px-2"
-                    : "w-full lg:hover:text-[#1D6F2B] font-bold lg:hover:bg-[#E5E5E5] lg:hover:rounded-md     hidden md:inline-block lg:py-1 lg:px-2";
-                }}
-              >
-                Home
-              </NavLink>
-            </li> */}
-          </ul>
-
-          {search && (
-            <div className="absolute top-0 w-full h-screen  bg-[#000000a3] p-3 z-20 flex gap-2">
-              <Search />
-
-              <FaTimes
-                className="w-[3rem] h-[3rem] cursor-pointer   rounded-full border border-gray p-2"
-                onClick={() => setSearch(false)}
-              />
-            </div>
-          )}
 
           {/* <div className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-10">
             <FaSearch onClick={() => setSearch(true)} className="w-5 h-5" />

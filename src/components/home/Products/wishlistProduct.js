@@ -76,8 +76,9 @@ const ProductPreview = ({ productInfo }) => {
       }
     } else {
       existingProduct.items += 1;
-    }
 
+      dispatch(addToCart({ ...existingProduct }));
+    }
     // Update localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
   };
@@ -170,9 +171,9 @@ const ProductPreview = ({ productInfo }) => {
     "  ml-2  inline-block hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5] rounded-full py-1.5 px-2.5";
   return (
     <div
-      // className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
+      className="w-full h-64 relative group border-2 border-gray-100 rounded-md cursor-pointer"
       // onClick={handleProductDetails}
-      className="w-full h-fit relative group border-2 border-gray-100 rounded-md cursor-pointer"
+      // className="w-full h-fit relative group border-2 border-gray-100 rounded-md cursor-pointer"
       onClick={handleProductDetails}
     >
       {productInfo.productThumbnail !== undefined ? (
@@ -211,7 +212,9 @@ const ProductPreview = ({ productInfo }) => {
           <div className="max-w-80 bg-white py-2 flex flex-col gap-1 rounded-bl-md rounded-br-md border-t-0 px-2">
             <div className="flex flex-col  font-titleFont">
               <h2 className="text-xs text-primeColor font-[500] text-ellipsis overflow-hidden hover:underline capitalize">
-                {productInfo.name}
+                {productInfo.name.length > 40
+                  ? productInfo.name.substring(0, 40) + "..."
+                  : productInfo.name}
               </h2>
               <div className="text-sm flex justify-between ">
                 <div>
