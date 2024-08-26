@@ -21,11 +21,13 @@ export const CategoryImagesCards = ({ ...props }) => {
                   key={pclass.id}
                   className=" w-[88px] h-fit space-y-2 text-center "
                 >
-                  <img
-                    src="https://placehold.jp/88x99.png"
-                    alt={pclass.name}
-                    className=" object-cover h-90"
-                  />
+                  <div className="w-[88px] h-[88px] border-2 border-[#cd5c07] rounded-full flex items-center justify-center p-5  ">
+                    <img
+                      src="https://placehold.jp/80x80.png"
+                      alt={pclass.name}
+                      className=" object-fill  "
+                    />
+                  </div>
                   <p className="text-sm">{pclass.name}</p>
                 </div>
               </Link>

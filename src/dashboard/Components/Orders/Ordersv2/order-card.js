@@ -89,21 +89,12 @@ const OrderCard = ({ order }) => {
     },
   ];
 
+  console.log("order card ", order);
+
   const handleupdatestate = async (id, status) => {
     const updatedOrder =
       (await orders) && orders.find((order) => order.id === id);
     setOrderstatus(status);
-    // setFilteredData((prevData) =>
-    //   prevData.map((orderItem) => {
-    //     if (orderItem.key === id) {
-    //       return {
-    //         ...orderItem,
-    //         status: status,
-    //       };
-    //     }
-    //     return orderItem;
-    //   })
-    // );
   };
 
   return (
@@ -213,13 +204,13 @@ const OrderCard = ({ order }) => {
               {" "}
               <span className="flex ">
                 <BiBuildingHouse size={20} />
-                <p className="">{order.shippingAddress.country}</p>
+                <p className="">{order.shippingAddress.district}</p>
               </span>
               <span className="flex">
                 <IoLocationSharp size={20} />
                 <p className="">
-                  {order.shippingAddress.province} -{" "}
-                  {order.shippingAddress.district}
+                  {order.shippingAddress.sector} -{" "}
+                  {order.shippingAddress.street}
                 </p>
               </span>
             </div>

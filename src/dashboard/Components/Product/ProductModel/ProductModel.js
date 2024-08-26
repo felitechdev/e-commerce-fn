@@ -167,6 +167,8 @@ const ProductModel = (props) => {
   const [absordCustomerCharge, setAbsordCustomerCharge] = useState(false);
   const [absorbhovered, setAbsorbhovered] = useState(false);
   const [isfeatured, setIsfeatured] = useState(false);
+  const [featuredImageUrl, setFeaturedImageUrl] = useState("");
+  const [featuredError, setFeaturedError] = useState("");
 
   const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
@@ -299,7 +301,7 @@ const ProductModel = (props) => {
       quantityParameter: data.quantityParameter,
       seller_commission: data.seller_commission / 100,
       absorbCustomerCharge: absordCustomerCharge,
-      featured: isfeatured,
+      featured: { featured: isfeatured, image: featuredImageUrl },
       // hasColors:
       //   colorVariations.length > 0 && colorVariations[0]?.colorImageUrl !== null
       //     ? true
@@ -652,6 +654,15 @@ const ProductModel = (props) => {
     setMainImageUrl(result?.info?.secure_url);
     setImageError("");
   }
+
+  const handlefeaturedImage = (error, result, widget) => {
+    if (error) {
+      setFeaturedError("");
+      return;
+    }
+    setFeaturedImageUrl(result?.info?.secure_url);
+    setFeaturedError("");
+  };
 
   const handleColorChange = (index, field, value) => {
     setColorVariations((prevVariations) => {
@@ -1308,6 +1319,100 @@ const ProductModel = (props) => {
             </div>
           </div>
 
+          <div className="flex justify-between">
+            {/* 
+          "featured": {
+                    "featured": true,
+                    "image": "string"
+                }, */}
+
+            {/* featuredImage  */}
+
+            {/* const handlefeaturedImage = (error, result, widget) => {
+        if (error) {
+          setFeaturedError("");
+          return;
+        } featuredImage
+        setFeaturedImageUrl(result?.info?.secure_url);
+        setFeaturedError("");
+      };
+      feat */}
+
+            <div className="flex flex-col justify-center items-center border rounded ">
+              <>
+                <Form.Item
+                  label=""
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
+                  className=" text-center mt-2 "
+                >
+                  <span className="">
+                    Drop Featured image here or click to upload.
+                  </span>
+
+                  <UploadWidget onUpload={handlefeaturedImage}>
+                    {({ open }) => (
+                      <Button
+                        className=""
+                        icon={<FileImageOutlined />}
+                        onClick={open}
+                      >
+                        Upload
+                      </Button>
+                    )}
+                  </UploadWidget>
+
+                  {!featuredImageUrl && (
+                    <p className="text-[red]">{featuredError}</p>
+                  )}
+                </Form.Item>
+
+                <div className=" relative ">
+                  {featuredImageUrl && (
+                    <>
+                      <Image width={70} height={70} src={featuredImageUrl} />
+                      <MinusCircleOutlined
+                        className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                        onClick={() => {
+                          setFeaturedImageUrl("");
+                        }}
+                      />
+                    </>
+                  )}
+                </div>
+              </>
+            </div>
+
+            <Controller
+              name="featured"
+              control={control}
+              defaultValue={false}
+              rules={{}}
+              render={({ field }) => (
+                <>
+                  <Form.Item label="Feature this product" className=" ">
+                    <div
+                      className="relative"
+                      // onMouseEnter={() => setAbsorbhovered(true)}
+                      // onMouseLeave={() => setAbsorbhovered(false)}
+                    >
+                      <Checkbox
+                        size={60}
+                        style={{
+                          color: isfeatured ? "#1D6F2B" : "#000000",
+                        }}
+                        className="!text-primary"
+                        {...field}
+                        onChange={handleIsFeatured}
+                        checked={field.value === true || isfeatured === true}
+                      ></Checkbox>
+                    </div>
+                  </Form.Item>
+                </>
+              )}
+            />
+          </div>
+
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] p-3 mt-3  border  border-[black] rounded">
             <div className="flex flex-wrap justify-start space-x-1 md:space-x-6 w-[100%]">
@@ -1449,35 +1554,6 @@ const ProductModel = (props) => {
                   )}
                 />
               )}
-
-              <Controller
-                name="featured"
-                control={control}
-                defaultValue={false}
-                rules={{}}
-                render={({ field }) => (
-                  <>
-                    <Form.Item label="Feature this product" className=" ">
-                      <div
-                        className="relative"
-                        // onMouseEnter={() => setAbsorbhovered(true)}
-                        // onMouseLeave={() => setAbsorbhovered(false)}
-                      >
-                        <Checkbox
-                          size={60}
-                          style={{
-                            color: isfeatured ? "#1D6F2B" : "#000000",
-                          }}
-                          className="!text-primary"
-                          {...field}
-                          onChange={handleIsFeatured}
-                          checked={field.value === true || isfeatured === true}
-                        ></Checkbox>
-                      </div>
-                    </Form.Item>
-                  </>
-                )}
-              />
             </div>
 
             <div className="flex  justify-start space-x-2"></div>

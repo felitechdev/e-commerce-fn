@@ -163,9 +163,9 @@ const FooterBottom = () => {
 
             <div className=" flex md:flex-row  md:space-x-4">
               <img src={playstore} className="w-7 h-7" alt="Google Play" />{" "}
-              <p className="text-black medium_text">Google Play</p>
+              <p className="text-black md:medium_text">Google Play</p>
               <img src={applestore} className="w-7 h-7" alt="App Store" />{" "}
-              <p className="text-black medium_text">App Store</p>
+              <p className="text-black md:medium_text">App Store</p>
             </div>
           </div>
         </div>

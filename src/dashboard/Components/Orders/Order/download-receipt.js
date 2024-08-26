@@ -112,7 +112,7 @@ const DeliveryNotePDF = ({ myorder }) => {
       body: [
         [
           `Name: ${myorder?.momo_payload?.fullname}\nEmail: ${myorder.email}\nPhone: ${myorder?.momo_payload?.phone_number}`,
-          `Address: ${myorder.shippingAddress.address.street}, ${myorder.shippingAddress.sector}, ${myorder.shippingAddress.district}, ${myorder.shippingAddress.province}, ${myorder.shippingAddress.country}\nPhone: ${myorder.shippingAddress.phoneNumber}`,
+          `Address: ${myorder.shippingAddress?.street}, ${myorder.shippingAddress?.sector}, ${myorder.shippingAddress?.district}\nPhone: ${myorder.shippingAddress?.phoneNumber}`,
         ],
       ],
       headStyles: headerStyles,
@@ -124,8 +124,8 @@ const DeliveryNotePDF = ({ myorder }) => {
       item.quantity,
       // productnames.find((p) => p.id === item.product)?.name,
       item?.product?.name || "",
-      item?.variation?.color || "No color",
-      item?.variation?.size || "No size",
+      item?.variation?.color || "--",
+      item?.variation?.size || "--",
       item.price.toString(),
     ]);
 
