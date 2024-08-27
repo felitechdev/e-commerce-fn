@@ -287,7 +287,7 @@ const ProductModel = (props) => {
 
     // AllfieldValidation();
 
-    const payload = {
+    let payload = {
       name: data.name,
       seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
@@ -301,7 +301,7 @@ const ProductModel = (props) => {
       quantityParameter: data.quantityParameter,
       seller_commission: data.seller_commission / 100,
       absorbCustomerCharge: absordCustomerCharge,
-      featured: { featured: isfeatured, image: featuredImageUrl },
+
       // hasColors:
       //   colorVariations.length > 0 && colorVariations[0]?.colorImageUrl !== null
       //     ? true
@@ -350,6 +350,15 @@ const ProductModel = (props) => {
         }),
       },
     };
+
+    isfeatured && featuredImageUrl !== null
+      ? (payload = {
+          ...payload,
+          featured: { isFeatured: isfeatured, featuredImage: featuredImageUrl },
+        })
+      : (payload = {
+          ...payload,
+        });
 
     dispatch(createProduct({ productData: payload, token: token }))
       .unwrap()
@@ -1319,32 +1328,14 @@ const ProductModel = (props) => {
             </div>
           </div>
 
-          <div className="flex justify-between">
-            {/* 
-          "featured": {
-                    "featured": true,
-                    "image": "string"
-                }, */}
-
-            {/* featuredImage  */}
-
-            {/* const handlefeaturedImage = (error, result, widget) => {
-        if (error) {
-          setFeaturedError("");
-          return;
-        } featuredImage
-        setFeaturedImageUrl(result?.info?.secure_url);
-        setFeaturedError("");
-      };
-      feat */}
-
+          <div className="flex flex-col justify-between">
             <div className="flex flex-col justify-center items-center border rounded ">
               <>
                 <Form.Item
                   label=""
                   valuePropName="fileList"
                   getValueFromEvent={normFile}
-                  className=" text-center mt-2 "
+                  className=" text-center mt-2 p-3 "
                 >
                   <span className="">
                     Drop Featured image here or click to upload.
