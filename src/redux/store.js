@@ -36,6 +36,7 @@ import usersSlice from "./Reducers/usersSlice";
 import { productClassReducers } from "../dashboard/Redux/ReduxSlice/ProductClass";
 import { productBrandReducers } from "../dashboard/Redux/ReduxSlice/ProductBrand.slice";
 import wishlistSlice from "./Reducers/wishlist";
+import { profileAddressReducer } from "./Reducers/user-address";
 const rootReducer = {
   productsReducer,
   userReducer,
@@ -67,6 +68,8 @@ const rootReducer = {
   deleteproduct: deleteProductReducer,
   updateoreder: updateOrderReducer,
   users: usersSlice,
+
+  myaddress: profileAddressReducer,
 
   // orders: getorders,
 };

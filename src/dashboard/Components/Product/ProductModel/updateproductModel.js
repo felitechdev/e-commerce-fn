@@ -206,8 +206,8 @@ const UpdateProductModel = (props) => {
     }
 
     if (
-      (!isfeatured && featuredImageUrl !== null) ||
-      (isfeatured && featuredImageUrl === null)
+      (!isfeatured && featuredImageUrl !== "") ||
+      (isfeatured && featuredImageUrl === "")
     ) {
       setFeaturedError(
         " please check and  image  combination is required or ignore all"
@@ -324,7 +324,7 @@ const UpdateProductModel = (props) => {
         : DBProductInfo?.seller_commission && DBProductInfo?.seller_commission,
       quantityParameter: data.quantityParameter,
       absorbCustomerCharge: absordCustomerCharge,
-      featured: isfeatured,
+
       hasColors:
         colorVariations.length > 0 &&
         colorVariations.every((variation) => variation.colorImageUrl),
@@ -366,7 +366,7 @@ const UpdateProductModel = (props) => {
       },
     };
 
-    isfeatured && featuredImageUrl !== null
+    isfeatured && featuredImageUrl !== ""
       ? (payload = {
           ...payload,
           featured: { isFeatured: isfeatured, featuredImage: featuredImageUrl },
@@ -720,7 +720,7 @@ const UpdateProductModel = (props) => {
 
     stockforproduct = DBProductInfo.stockQuantity;
 
-    if (DBProductInfo?.featured.isFeatured) {
+    if (DBProductInfo?.featured?.isFeatured) {
       setFeaturedImageUrl(DBProductInfo.featured.image);
       setIsfeatured(DBProductInfo.featured.isFeatured);
     }

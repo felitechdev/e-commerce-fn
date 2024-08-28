@@ -7,7 +7,7 @@ import { FaUser } from "react-icons/fa6";
 import { RiEdit2Fill } from "react-icons/ri";
 import { EyeFilled } from "@ant-design/icons";
 import CompanyModel from "./CompanyModel/CompanyModel";
-import { GetMyprofilebyId } from "../../../APIs/UserAPIs";
+import { GetMyprofilebyId, getprofileAddress } from "../../../APIs/UserAPIs";
 import { ImageUpload } from "../../../components/profile/photoupdate/Updateimage";
 import Cookies from "js-cookie";
 import { LoaderComponent } from "../../../components/Loaders/Getloader";
@@ -19,23 +19,31 @@ import { App } from "./Googlemap/getLocation";
 import MyMapComponent from "./Googlemap/GoogleMap";
 import { DeleteFilled } from "@ant-design/icons";
 import DeleteConfirmation from "./Actions/deleteAccount";
-
+import PersonalAddressInfoModel from "./my-address-modal";
 const SellerProfile = () => {
   const [isLoading, setLoading] = useState(true);
   const token = Cookies.get("token");
   // const [user, onSetProfile] = useUser();
-
+  const [myaddress, setMyaddress] = useState();
   const user = useUser().user;
   const setUser = useUser().setUser;
   const onSetProfile = useUser().onSetProfile;
 
+  const { address, loadaddress, erraddress } = useSelector(
+    (state) => state.myaddress
+  );
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openmodel, setOpenmodel] = useState(false);
   const [usenameopenmodel, setUsernameopenmodel] = useState(false);
-
+  const [openaddressmodel, setOpenaddressmodel] = useState(false);
   const handleCancel = () => {
     setUsernameopenmodel(false);
     setIsModalOpen(false);
+  };
+
+  const handlecloseaddressmodel = () => {
+    setOpenaddressmodel(false);
   };
 
   const handleopenmodel = () => {
@@ -63,6 +71,13 @@ const SellerProfile = () => {
     onSetProfile(data);
   };
 
+  useEffect(() => {
+    dispatch(getprofileAddress({ token: token, id: user?.id }))
+      .unwrap()
+      .then((data) => {})
+      .catch((error) => {});
+  }, []);
+
   // view profile
   useEffect(() => {
     async function fetchProfile() {
@@ -87,9 +102,11 @@ const SellerProfile = () => {
     fetchProfile();
   }, []);
 
+  // console.log("address", address, loadaddress);
+
   return (
     // <div className=" flex   justify-center  w-full h-min">
-    <div className="bg-white border shadow-md rounded-md w-full lg:w-1/2 h-min  pb-3">
+    <div className="bg-white   w-full  md:w-[70%]  h-min  pb-3">
       <div className="   bg-[white] rounded-md w-full pr-3 min-h-[500px] pb-3">
         <div className=" rounded-t-md flex  justify-between space-x-3 font-normal md:pl-10  py-3  px-2 text-xl">
           <div className="flex flex-col   ">
@@ -239,6 +256,62 @@ const SellerProfile = () => {
               <DeleteConfirmation id={user?.id} token={token} />
             </div>
 
+            <div className="flex mt-3  md:pl-10 justify-between pr-2">
+              <div className="flex-col justify-between">
+                <h1>
+                  {" "}
+                  <span className="text-border font-bold text-md">
+                    phoneNumber :{" "}
+                  </span>
+                  {}
+                  {address?.data?.profile?.phoneNumber}
+                </h1>
+                <h1>
+                  {" "}
+                  <span className="text-border font-bold text-md">
+                    District:{" "}
+                  </span>
+                  {}
+                  {address?.data?.profile?.address?.district}
+                </h1>
+
+                <h1>
+                  {" "}
+                  <span className="text-border font-bold text-md">
+                    Sector:{" "}
+                  </span>
+                  {}
+                  {address?.data?.profile?.address?.sector}
+                </h1>
+
+                <h1>
+                  {" "}
+                  <span className="text-border font-bold text-md">
+                    Street:{" "}
+                  </span>
+                  {}
+                  {address?.data?.profile?.address?.street}
+                </h1>
+              </div>
+              <PersonalAddressInfoModel
+                isModalOpen={openaddressmodel}
+                handleCancel={handlecloseaddressmodel}
+                address={{
+                  ...address?.data?.profile,
+                  address: address?.data?.profile?.address,
+                }}
+              />
+
+              <div
+                className="flex space-x-2 cursor-pointer font-bold  text-primary  "
+                onClick={() => {
+                  setOpenaddressmodel(true);
+                }}
+              >
+                <RiEdit2Fill size={20} />
+                <h1 className="text-sm">Edit My Address</h1>
+              </div>
+            </div>
             <hr className=" mt-4" />
 
             {user != null && user?.role == "seller" && (

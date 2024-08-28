@@ -100,6 +100,71 @@ export const UpdateprofileInage = createAsyncThunk(
   }
 );
 
+// /api/v1/users/<user-id>/user-profiles
+
+export const getprofileAddress = createAsyncThunk(
+  "profile/getprofileAddress",
+  async ({ token, id }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users/${id}/user-profiles`,
+        {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          },
+        }
+      );
+
+      if (response?.data && response.status === 200) {
+        return response?.data;
+      } else {
+        // Handle unexpected
+        return rejectWithValue({
+          status: response.status,
+          message: response?.data?.data,
+        });
+      }
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response.status,
+        message: err.response?.data?.message,
+      });
+    }
+  }
+);
+
+export const updateprofileAddress = createAsyncThunk(
+  "profile/updateprofileAddress",
+  async ({ data, token, id }, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users/${id}/user-profiles`,
+        method: "PATCH",
+        headers: {
+          Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
+          "content-type": "application/json",
+        },
+        data: data,
+      });
+
+      if (response?.data) {
+        return response?.data;
+      } else {
+        // Handle unexpected
+        return rejectWithValue({
+          status: response.status,
+          message: response?.data?.data,
+        });
+      }
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response.status,
+        message: err.response?.data?.message,
+      });
+    }
+  }
+);
+
 //- Async thunk for  get logged in user profile  info
 export const GetMyprofile = createAsyncThunk(
   "user/getuser",

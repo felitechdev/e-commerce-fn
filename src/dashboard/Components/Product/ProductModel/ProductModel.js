@@ -198,8 +198,8 @@ const ProductModel = (props) => {
     }
 
     if (
-      (!isfeatured && featuredImageUrl !== null) ||
-      (isfeatured && featuredImageUrl === null)
+      (!isfeatured && featuredImageUrl !== "") ||
+      (isfeatured && featuredImageUrl === "")
     ) {
       setFeaturedError(
         " please check and  image  combination is required or ignore all"

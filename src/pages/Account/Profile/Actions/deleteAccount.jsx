@@ -69,7 +69,7 @@ const DeleteConfirmation = ({ id, token }) => {
 
   return (
     <div
-      className=" cursor-pointer md:flex items-center md:border p-1 rounded-md  md:space-x-2 font-bold text-[red] "
+      className=" cursor-pointer md:flex items-center  p-1 rounded-md  md:space-x-2 font-bold text-[red] "
       onClick={showDeleteConfirm}
     >
       <DeleteFilled className=" text-icon3" />
