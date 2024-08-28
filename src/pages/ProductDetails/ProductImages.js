@@ -177,17 +177,20 @@ const ProductImages = ({
 
   return (
     <>
-      <div className="mt-4 inline-block w-container lg:w-[35%]">
+      <div
+        className="mt-4 inline-block  
+       lg:w-[35%]"
+      >
         <div className="flex flex-col gap-3 items-center">
-          <div className="relative w-[428px] flex items-center justify-center h-[418px] p-1 rounded-md overflow-hidden">
+          <div className="relative md:w-[428px]  flex items-center justify-center h-[418px] p-1 rounded-md overflow-hidden">
             {productInwhishlist || clicked ? (
               <FiHeart
-                className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5 cursor-pointer"
+                className="absolute z-30 text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5 cursor-pointer"
                 size={40}
               />
             ) : (
               <FiHeart
-                className="absolute right-2 top-2 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5 cursor-pointer"
+                className="absolute z-30 right-2 top-2 bg-white hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5 cursor-pointer"
                 size={40}
                 onClick={onClickHeart}
               />
