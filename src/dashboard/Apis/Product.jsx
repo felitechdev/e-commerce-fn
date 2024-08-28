@@ -9,7 +9,7 @@ export const fetchadminproduct = createAsyncThunk(
   "product/fetchProducts",
   async () => {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products`,
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?limit=300&page=1`,
       {
         headers: {
           "content-type": "application/json",
