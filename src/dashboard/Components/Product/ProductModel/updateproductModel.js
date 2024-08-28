@@ -205,6 +205,16 @@ const UpdateProductModel = (props) => {
       return;
     }
 
+    if (
+      (!isfeatured && featuredImageUrl !== null) ||
+      (isfeatured && featuredImageUrl === null)
+    ) {
+      setFeaturedError(
+        " please check and  image  combination is required or ignore all"
+      );
+      return;
+    }
+
     // // Validate otherImageUrls
     // if (otherImageUrls.length === 0) {
     //   setOtherimagesError("At least one product image is required");
@@ -213,6 +223,7 @@ const UpdateProductModel = (props) => {
 
     setOtherimagesError("");
     setImageError("");
+    setFeaturedError("");
 
     // Convert stockQuantity to a number if it's not already
     const stockQty =
@@ -298,7 +309,7 @@ const UpdateProductModel = (props) => {
       }
     }
 
-    const payload = {
+    let payload = {
       name: data.name,
       // seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
@@ -691,7 +702,7 @@ const UpdateProductModel = (props) => {
 
   const handlefeaturedImage = (error, result, widget) => {
     if (error) {
-      setFeaturedError("");
+      setFeaturedError("something wrong with the image");
       return;
     }
     setFeaturedImageUrl(result?.info?.secure_url);
@@ -702,7 +713,6 @@ const UpdateProductModel = (props) => {
       ? stock.reduce((acc, curr) => acc + curr?.stock, 0)
       : Object.keys(DBProductInfo).length !== 0 && DBProductInfo.stockQuantity;
 
-  console.log("DBProductInfo", DBProductInfo);
   useEffect(() => {
     // Update form values if profileview changes
 
@@ -1301,11 +1311,10 @@ const UpdateProductModel = (props) => {
                     )}
                   </UploadWidget>
 
-                  {!featuredImageUrl && (
+                  {/* {!featuredImageUrl && (
                     <p className="text-[red]">{featuredError}</p>
-                  )}
+                  )} */}
                 </Form.Item>
-
                 <div className=" relative ">
                   {featuredImageUrl && (
                     <>
@@ -1318,7 +1327,8 @@ const UpdateProductModel = (props) => {
                       />
                     </>
                   )}
-                </div>
+                </div>{" "}
+                {featuredError && <p className="text-[red]">{featuredError}</p>}
               </>
             </div>
 
