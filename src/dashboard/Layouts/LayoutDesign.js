@@ -284,7 +284,7 @@ export const LayoutDesign = ({ userprofile }) => {
           </Sider>
         )}
         <Layout className="overflow-auto scrollbar-hidden bg-light">
-          <Header className="fixed z-50 w-[100%] top-0 left- right-0 border shadow-md bg-white !text-primary flex justify-between pl-0  pr-5">
+          <Header className="fixed z-50 w-[100%] top-0 left- right-0 border shadow-md bg-white !text-primary flex justify-between pl-0 pr-1  md:pr-5">
             <div className="flex items-center ">
               <Button
                 type="text"
@@ -297,7 +297,7 @@ export const LayoutDesign = ({ userprofile }) => {
                   fontSize: "35px",
                   width: 64,
                   height: 64,
-                  fontWeight: "bold",
+                  fontWeight: "",
                   color: "#1D6F2B",
                   // backgroundColor: "red",
                   display: "flex",
@@ -306,19 +306,19 @@ export const LayoutDesign = ({ userprofile }) => {
                 }}
               >
                 {collapsed ? (
-                  <MenuFoldOutlined size={80} />
+                  <MenuFoldOutlined size={30} />
                 ) : (
-                  <CloseSquareFilled />
+                  <CloseSquareFilled size={30} />
                 )}
               </Button>
 
               <TitleDisplay />
             </div>
-
-            <div className="">
+            <div className="ml-auto flex items-center">
               <Dropdown
+                className=" "
                 menu={{ items }}
-                placement="bottomLeft"
+                placement="bottomRight"
                 arrow
                 overlay={
                   <Menu>
@@ -331,26 +331,26 @@ export const LayoutDesign = ({ userprofile }) => {
                   </Menu>
                 }
               >
-                <Space wrap size={16} className="">
+                <div className="  pr-0 flex justify-end ">
                   {user?.photo || user?.profileImageUrl == "default.jpg" ? (
                     <>
                       <Avatar
                         shape="square"
                         size={50}
                         icon={<UserOutlined />}
-                        className="bg-[#1D6F2B]"
+                        className="bg-[#1D6F2B] mr-0"
                       />
                     </>
                   ) : (
                     <>
                       <img
                         src={`${user && user?.photo}`}
-                        className="h-14 w-14 rounded-full mt-1 mb-1 "
+                        className=" rounded-full mt-1 mb-1 "
                         alt={user?.firstName}
                       />
                     </>
                   )}
-                </Space>
+                </div>
               </Dropdown>
             </div>
           </Header>
@@ -363,7 +363,7 @@ export const LayoutDesign = ({ userprofile }) => {
               // alignItems: "center",
               display: "flex",
             }}
-            className="h-full md:py-2 px-5 mt-20"
+            className="h-full md:py-2 px-2 md:px-5 mt-20"
           >
             <Outlet />
           </Content>

@@ -19,7 +19,7 @@ const address = createSlice({
       })
       .addCase(getprofileAddress.fulfilled, (state, action) => {
         state.loadaddress = false;
-        console.log("action.payload", action.payload);
+
         state.address = action.payload;
       })
       .addCase(getprofileAddress.rejected, (state, action) => {

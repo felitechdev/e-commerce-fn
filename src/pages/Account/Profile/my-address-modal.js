@@ -90,7 +90,6 @@ const PersonalAddressInfoModel = (props) => {
     )
       .unwrap()
       .then((res) => {
-        console.log("response", res);
         props.handleCancel();
       })
       .catch((err) => {
