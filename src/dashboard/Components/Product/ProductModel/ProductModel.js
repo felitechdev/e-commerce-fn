@@ -167,6 +167,8 @@ const ProductModel = (props) => {
   const [absordCustomerCharge, setAbsordCustomerCharge] = useState(false);
   const [absorbhovered, setAbsorbhovered] = useState(false);
   const [isfeatured, setIsfeatured] = useState(false);
+  const [featuredImageUrl, setFeaturedImageUrl] = useState("");
+  const [featuredError, setFeaturedError] = useState("");
 
   const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
@@ -195,8 +197,19 @@ const ProductModel = (props) => {
       return;
     }
 
+    if (
+      (!isfeatured && featuredImageUrl !== "") ||
+      (isfeatured && featuredImageUrl === "")
+    ) {
+      setFeaturedError(
+        " please check and  image  combination is required or ignore all"
+      );
+      return;
+    }
+
     setOtherimagesError("");
     setImageError("");
+    setFeaturedError("");
 
     // Convert stockQuantity to a number if it's not already
     const stockQty =
@@ -285,7 +298,7 @@ const ProductModel = (props) => {
 
     // AllfieldValidation();
 
-    const payload = {
+    let payload = {
       name: data.name,
       seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
@@ -299,7 +312,7 @@ const ProductModel = (props) => {
       quantityParameter: data.quantityParameter,
       seller_commission: data.seller_commission / 100,
       absorbCustomerCharge: absordCustomerCharge,
-      featured: isfeatured,
+
       // hasColors:
       //   colorVariations.length > 0 && colorVariations[0]?.colorImageUrl !== null
       //     ? true
@@ -348,6 +361,15 @@ const ProductModel = (props) => {
         }),
       },
     };
+
+    isfeatured && featuredImageUrl !== null
+      ? (payload = {
+          ...payload,
+          featured: { isFeatured: isfeatured, featuredImage: featuredImageUrl },
+        })
+      : (payload = {
+          ...payload,
+        });
 
     dispatch(createProduct({ productData: payload, token: token }))
       .unwrap()
@@ -652,6 +674,15 @@ const ProductModel = (props) => {
     setMainImageUrl(result?.info?.secure_url);
     setImageError("");
   }
+
+  const handlefeaturedImage = (error, result, widget) => {
+    if (error) {
+      setFeaturedError("some thing wrong with the image");
+      return;
+    }
+    setFeaturedImageUrl(result?.info?.secure_url);
+    setFeaturedError("");
+  };
 
   const handleColorChange = (index, field, value) => {
     setColorVariations((prevVariations) => {
@@ -1308,6 +1339,80 @@ const ProductModel = (props) => {
             </div>
           </div>
 
+          <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-center items-center border rounded ">
+              <>
+                <Form.Item
+                  label=""
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
+                  className=" text-center mt-2 p-3 "
+                >
+                  <span className="">
+                    Drop Featured image here or click to upload.
+                  </span>
+
+                  <UploadWidget onUpload={handlefeaturedImage}>
+                    {({ open }) => (
+                      <Button
+                        className=""
+                        icon={<FileImageOutlined />}
+                        onClick={open}
+                      >
+                        Upload
+                      </Button>
+                    )}
+                  </UploadWidget>
+                </Form.Item>
+
+                <div className=" relative ">
+                  {featuredImageUrl && (
+                    <>
+                      <Image width={70} height={70} src={featuredImageUrl} />
+                      <MinusCircleOutlined
+                        className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                        onClick={() => {
+                          setFeaturedImageUrl("");
+                        }}
+                      />
+                    </>
+                  )}
+                </div>
+
+                {featuredError && <p className="text-[red]">{featuredError}</p>}
+              </>
+            </div>
+
+            <Controller
+              name="featured"
+              control={control}
+              defaultValue={false}
+              rules={{}}
+              render={({ field }) => (
+                <>
+                  <Form.Item label="Feature this product" className=" ">
+                    <div
+                      className="relative"
+                      // onMouseEnter={() => setAbsorbhovered(true)}
+                      // onMouseLeave={() => setAbsorbhovered(false)}
+                    >
+                      <Checkbox
+                        size={60}
+                        style={{
+                          color: isfeatured ? "#1D6F2B" : "#000000",
+                        }}
+                        className="!text-primary"
+                        {...field}
+                        onChange={handleIsFeatured}
+                        checked={field.value === true || isfeatured === true}
+                      ></Checkbox>
+                    </div>
+                  </Form.Item>
+                </>
+              )}
+            />
+          </div>
+
           <span className="my-5 font-bold">More info</span>
           <div className="w-[100%] p-3 mt-3  border  border-[black] rounded">
             <div className="flex flex-wrap justify-start space-x-1 md:space-x-6 w-[100%]">
@@ -1449,35 +1554,6 @@ const ProductModel = (props) => {
                   )}
                 />
               )}
-
-              <Controller
-                name="featured"
-                control={control}
-                defaultValue={false}
-                rules={{}}
-                render={({ field }) => (
-                  <>
-                    <Form.Item label="Feature this product" className=" ">
-                      <div
-                        className="relative"
-                        // onMouseEnter={() => setAbsorbhovered(true)}
-                        // onMouseLeave={() => setAbsorbhovered(false)}
-                      >
-                        <Checkbox
-                          size={60}
-                          style={{
-                            color: isfeatured ? "#1D6F2B" : "#000000",
-                          }}
-                          className="!text-primary"
-                          {...field}
-                          onChange={handleIsFeatured}
-                          checked={field.value === true || isfeatured === true}
-                        ></Checkbox>
-                      </div>
-                    </Form.Item>
-                  </>
-                )}
-              />
             </div>
 
             <div className="flex  justify-start space-x-2"></div>

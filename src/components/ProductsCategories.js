@@ -64,7 +64,7 @@ function ProductsCategories() {
     };
   });
 
-  console.log("featuredproducts", ads, featuredproducts);
+  // console.log("featuredproducts", ads, featuredproducts);
 
   const containerRef = useRef(null);
 
