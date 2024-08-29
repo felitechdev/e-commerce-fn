@@ -104,7 +104,7 @@ function ProductsCategories() {
               </div>
             ) : (
               products?.map((product, index) => (
-                <div className="min-w-[200px] max-w-[250px] h-64 ">
+                <div className="min-w-[200px] mb-3 max-w-[250px] h-68 ">
                   <ProductPreview
                     key={product.id + index}
                     productInfo={product}

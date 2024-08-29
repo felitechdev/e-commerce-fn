@@ -306,6 +306,7 @@ nav .active li {
 .category-name {
   font-size: 1rem;
   color: #555;
+  white-space: nowrap !important;
 }
 
 .product-section {
