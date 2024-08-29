@@ -43,7 +43,11 @@ export const CategoryImagesCards = ({ ...props }) => {
                 >
                   <div className="w-[88px] h-[88px] border-2 border-[#cd5c07] rounded-full flex items-center justify-center p-5">
                     <img
-                      src="https://placehold.jp/80x80.png"
+                      src={`${
+                        pclass?.icon
+                          ? pclass.icon
+                          : "https://placehold.jp/80x80.png"
+                      } `}
                       alt={pclass.name}
                       className="object-fill"
                     />
