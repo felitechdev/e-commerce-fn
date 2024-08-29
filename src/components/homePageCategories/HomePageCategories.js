@@ -116,8 +116,17 @@ export default function HomePageCategories() {
               >
                 <Link
                   to={`shop/?productClass=${hoveredproductclass}`}
-                  className="capitalize-first w-full  p-2"
+                  className="capitalize-first w-full flex  gap-2  p-2"
                 >
+                  <img
+                    src={`${
+                      category?.icon
+                        ? category.icon
+                        : "https://placehold.jp/80x80.png"
+                    } `}
+                    alt=""
+                    className="object-fill w-5 h-5"
+                  />
                   {category.name}
                 </Link>{" "}
                 {hoveredproductclass === category.id && <HiChevronRight />}

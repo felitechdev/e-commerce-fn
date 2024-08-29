@@ -1,4 +1,4 @@
-import { Layout, Space, Typography, Table } from "antd";
+import { Layout, Space, Typography, Table, Image } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ProductclassModel from "./CategoryModel/CategoryModel";
@@ -8,7 +8,25 @@ import Cookies from "js-cookie";
 import { Loader } from "../Loader/LoadingSpin";
 import { fetchProductclass } from "../../Redux/ReduxSlice/ProductClass";
 import { DashBoardSearch } from "../Orders/Ordersv2/orders";
-
+import {
+  DownloadOutlined,
+  RotateLeftOutlined,
+  RotateRightOutlined,
+  SwapOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+  SearchOutlined,
+  UndoOutlined,
+  StarFilled,
+  CloseOutlined,
+  EditFilled,
+  DeleteFilled,
+  EyeFilled,
+  UnorderedListOutlined,
+  filters,
+  FilterFilled,
+  AppstoreFilled,
+} from "@ant-design/icons";
 const { Title } = Typography;
 
 export const ProductClass = () => {
@@ -50,6 +68,7 @@ export const ProductClass = () => {
     const newData = productclassData?.map((productclass) => ({
       key: `${productclass.id}`,
       name: productclass.name,
+      icon: productclass?.icon,
       categories: productclass.categories,
       brands: productclass.brands,
     }));
@@ -68,6 +87,39 @@ export const ProductClass = () => {
               {record.name}
             </Title>
           </div>
+
+          <Image
+            width={50}
+            className="rounded-md"
+            src={record.icon}
+            preview={{
+              toolbarRender: (
+                _,
+                {
+                  transform: { scale },
+                  actions: {
+                    onFlipY,
+                    onFlipX,
+                    onRotateLeft,
+                    onRotateRight,
+                    onZoomOut,
+                    onZoomIn,
+                    onReset,
+                  },
+                }
+              ) => (
+                <Space size={12} className="toolbar-wrapper">
+                  <SwapOutlined rotate={90} onClick={onFlipY} />
+                  <SwapOutlined onClick={onFlipX} />
+                  <RotateLeftOutlined onClick={onRotateLeft} />
+                  <RotateRightOutlined onClick={onRotateRight} />
+                  <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
+                  <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                  <UndoOutlined onClick={onReset} />
+                </Space>
+              ),
+            }}
+          />
         </Space>
       ),
       width: 200,
@@ -131,6 +183,7 @@ export const ProductClass = () => {
           handleUpdatestate={handleUpdatestate}
           categoryId={record.key}
           name={record.name}
+          icon={record.icon}
         />
       ),
     },
