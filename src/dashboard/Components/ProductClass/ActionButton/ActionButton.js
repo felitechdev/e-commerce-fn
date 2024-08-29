@@ -85,9 +85,10 @@ export const ActionButton = (props) => {
   const [isupdate, setIsupdate] = useState(false);
 
   // reducer state
-  const { deletedCategory, loading, error } = useSelector(
+  const { deletedCategory, loaddelete, error } = useSelector(
     (state) => state.deletecat
   );
+
   const token = Cookies.get("token");
   const dispatch = useDispatch();
 
@@ -114,7 +115,7 @@ export const ActionButton = (props) => {
       icon: <ExclamationCircleFilled />,
       content: (
         <span>
-          {loading ? (
+          {loaddelete ? (
             <p>loading...</p>
           ) : error ? (
             `Error: ${err}`
@@ -132,7 +133,6 @@ export const ActionButton = (props) => {
           dispatch(deleteProductClass({ id: categoryId }))
             .unwrap()
             .then((response) => {
-           
               if (response.res.status === 200) {
                 setOnSuccess("ProductClass deleted ");
 
@@ -169,6 +169,7 @@ export const ActionButton = (props) => {
           openUPdate={true}
           categoryId={props.categoryId}
           name={props.name}
+          icon={props.icon}
         />
       </Modal>
       <div div className="flex justify-start  space-x-5 text-lg  ">

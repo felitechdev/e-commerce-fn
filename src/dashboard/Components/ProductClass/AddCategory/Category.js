@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
-import { Button, Form, Input, Modal } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Button, Form, Image, Input, Modal } from "antd";
+import {
+  CloseOutlined,
+  FileImageOutlined,
+  MinusCircleOutlined,
+} from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createcategory, updatecategory } from "../../../Apis/Categories";
@@ -12,8 +16,16 @@ import {
 import Alerts from "../../Notifications&Alert/Alert";
 
 import { createProductClass } from "../../../Redux/ReduxSlice/ProductClass";
-export const ProductClassForm = (props) => {
+import UploadWidget from "../../../../components/CLOUDIMAGES/UploadWidget";
 
+const normFile = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+
+  return e?.fileList;
+};
+export const ProductClassForm = (props) => {
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
   const [alertIndexonUpdate, setAlertIndexonUpdate] = useState(null);
@@ -21,18 +33,22 @@ export const ProductClassForm = (props) => {
   const [alertDescription, setAlertDescription] = useState("");
   const [alertDescriptiononUpdate, setAlertDescriptiononUpdate] = useState("");
   const [isupdate, setIsupdate] = useState(false);
+  const [iconurl, setIconurl] = useState("");
+  const [iconError, setIconError] = useState("");
 
-  const { productclass, loading, errorMessage } = useSelector(
+  const { productclass, loadupdate, loading, errorMessage } = useSelector(
     (state) => state.productclass
   );
   const {
     register,
     control,
+    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm({
     defaultValues: {
       name: props.name,
+      icon: props.icon,
     },
   });
   const token = Cookies.get("token");
@@ -76,11 +92,16 @@ export const ProductClassForm = (props) => {
         setAlertDescriptiononUpdate("Error : " + er.message);
       });
   };
-  const onErrors = (errors) => {};
+  const onErrors = (errors) => {
+    console.log("err", errors);
+  };
 
   const validateMessages = {
     name: {
       required: "product class is required!",
+    },
+    icon: {
+      required: "Category Icon is Required",
     },
   };
 
@@ -99,11 +120,22 @@ export const ProductClassForm = (props) => {
     setIsupdate(true);
   };
   useEffect(() => {
-  
     if (props.openUPdate) {
+      setIconurl(props.icon);
+      setValue("icon", props.icon);
       handleUpdate();
     }
   }, [isupdate]);
+
+  const handleIconImage = (error, result, widget) => {
+    if (error) {
+      setIconError("some thing wrong with the image");
+      return;
+    }
+    setIconurl(result?.info?.secure_url);
+    setValue("icon", result?.info?.secure_url);
+    setIconError("");
+  };
 
   return (
     <div className="">
@@ -156,6 +188,58 @@ export const ProductClassForm = (props) => {
             )}
           />
 
+          <div className="flex flex-col justify-center items-center border rounded ">
+            <Controller
+              control={control}
+              name="icon"
+              rules={validateMessages.icon}
+              render={({ field }) => (
+                <>
+                  <Form.Item
+                    label=""
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                    className=" text-center mt-2 p-3 "
+                  >
+                    <span className="">
+                      Drop Category Icon here or click to upload.
+                    </span>
+
+                    <UploadWidget onUpload={handleIconImage}>
+                      {({ open }) => (
+                        <Button
+                          className=""
+                          icon={<FileImageOutlined />}
+                          onClick={open}
+                        >
+                          Upload
+                        </Button>
+                      )}
+                    </UploadWidget>
+                  </Form.Item>
+
+                  <div className=" relative ">
+                    {iconurl && (
+                      <>
+                        <Image width={70} height={70} src={iconurl} />
+                        <MinusCircleOutlined
+                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          onClick={() => {
+                            setIconurl("");
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+
+                  {iconError && <p className="text-[red]">{iconError}</p>}
+
+                  <p className="text-[red]">{errors?.icon?.message}</p>
+                </>
+              )}
+            />
+          </div>
+
           <Button
             htmlType="submit"
             style={{
@@ -168,7 +252,7 @@ export const ProductClassForm = (props) => {
               ? loading
                 ? "Loading ..."
                 : "Create Class"
-              : loading
+              : loadupdate
               ? "Loading ..."
               : "Update Class"}
           </Button>

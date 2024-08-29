@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 const initialState = {
   productclass: [],
   loading: false,
+  loadupdate: false,
+  loaddelete: false,
   errorMessage: null,
 };
 
@@ -38,6 +40,7 @@ export const createProductClass = createAsyncThunk(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/product-classes`,
         {
           name: data.data.name,
+          icon: data?.data?.icon,
         },
         {
           headers: {
@@ -62,6 +65,7 @@ export const updateProductClass = createAsyncThunk(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/product-classes/${data.id}`,
         {
           name: data?.Data?.name,
+          icon: data?.Data?.icon,
         },
         {
           headers: {
@@ -132,7 +136,7 @@ export const productClassSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(updateProductClass.pending, (state, action) => {
-        state.loading = true;
+        state.loadupdate = true;
         state.error = null;
       })
       .addCase(updateProductClass.fulfilled, (state, action) => {
@@ -148,14 +152,14 @@ export const productClassSlice = createSlice({
             name: name,
           };
         }
-        state.loading = false;
+        state.loadupdate = false;
       })
       .addCase(updateProductClass.rejected, (state, action) => {
-        state.loading = false;
+        state.loadupdate = false;
         state.error = action.error.message;
       })
       .addCase(deleteProductClass.pending, (state, action) => {
-        state.loading = true;
+        state.loaddelete = true;
         state.error = null;
       })
       .addCase(deleteProductClass.fulfilled, (state, action) => {
@@ -163,10 +167,10 @@ export const productClassSlice = createSlice({
         state.productclass = state.productclass.filter(
           (user) => user.id !== action.payload.id
         );
-        state.loading = false;
+        state.loaddelete = false;
       })
       .addCase(deleteProductClass.rejected, (state, action) => {
-        state.loading = false;
+        state.loaddelete = false;
         state.error = action.error.message;
       });
   },
