@@ -48,6 +48,7 @@ import { fetchProductclass } from "../../../Redux/ReduxSlice/ProductClass";
 import { fetchProductBrand } from "../../../Redux/ReduxSlice/ProductBrand.slice";
 
 import { Checkbox } from "antd";
+import { ImageResizer } from "./image-resizer";
 const normFile = (e) => {
   if (Array.isArray(e)) {
     return e;
@@ -1340,6 +1341,8 @@ const ProductModel = (props) => {
           </div>
 
           <div className="flex flex-col justify-between">
+            <ImageResizer />
+
             <div className="flex flex-col justify-center items-center border rounded ">
               <>
                 <Form.Item

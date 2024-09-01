@@ -331,3 +331,7 @@ nav .active li {
 .zoom-container:hover img {
   transform: scale(2); /* Adjust the scale value as needed */
 }
+
+.no-scroll {
+  overflow: hidden;
+}

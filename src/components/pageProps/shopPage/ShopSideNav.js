@@ -34,10 +34,10 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
         e.stopPropagation();
       }}
     >
-      <CloseSquareFilled
+      {/* <CloseSquareFilled
         onClick={handlefilterShow}
-        className="text-[red] absolute z-40  mdl:hidden text-4xl  cursor-pointer -right-5 -top-2"
-      />
+        className="text-primary fixed z-50  mdl:hidden text-4xl  cursor-pointer -right-5 "
+      /> */}
       <Price handlefilterShow={() => handlefilterShow()} />
 
       <div

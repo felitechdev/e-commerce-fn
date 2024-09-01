@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { fetchProductBrand } from "../../../../dashboard/Redux/ReduxSlice/ProductBrand.slice";
 import { useDispatch } from "react-redux";
 import { fetchProductclass } from "../../../../dashboard/Redux/ReduxSlice/ProductClass";
-const ProductCategoryAccordion = ({ brands, handlefilterShow }) => {
+const ProductCategoryAccordion = (props) => {
   const [showCategory, setShowCategory] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
@@ -54,6 +54,10 @@ const ProductCategoryAccordion = ({ brands, handlefilterShow }) => {
                 <li
                   key={item.id}
                   onClick={() => {
+                    if (props.ismobile) {
+                      console.log(props, props?.setSidenav);
+                      // props.setSidenav(false);
+                    }
                     handleOnClickBrand(item);
                   }}
                   className={`border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer

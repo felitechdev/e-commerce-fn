@@ -153,7 +153,7 @@ export const MobileCategoryNav = ({ title, categoryId }) => {
       <div className="md:hidden px-4 fixed top-32 right-0 z-20  sm:left-0 w-[100%] py-4">
         {/* <div className="md:hidden px-4 "> */}
         <div
-          className="flex items-center gap-3 p-2 rounded-t   bg-[#1D6F2B] cursor-pointer"
+          className="flex items-center gap-3 p-2 rounded-t   bg-[red] cursor-pointer"
           onClick={handleShowCategories}
         >
           <img src={MenuIconWhite} className="w-5 h-5" />
