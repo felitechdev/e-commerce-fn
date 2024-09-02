@@ -122,6 +122,10 @@ const ProductClassAccordion = (props) => {
                             ? " border-b-primary text-primary font-bold"
                             : ""
                         }`}
+                        onClick={() => {
+                          if (props.ismobile && props.isSidebar)
+                            props.setSidenav(false);
+                        }}
                       >
                         {item.name}
                       </Link>

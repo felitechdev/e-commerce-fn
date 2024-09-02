@@ -125,6 +125,8 @@ const Banner = ({ ...props }) => {
       },
     ],
   };
+
+  console.log("props", props);
   return (
     <div className=" bg-white w-full flex justify-center h-64">
       <div className="w-full lg:container">
@@ -140,7 +142,32 @@ const Banner = ({ ...props }) => {
 
           <div className="hidden lg:flex          w-[60%]  ">
             <Slider {...settings} className="px-4 w-full">
-              <div className="w-1408 h-[15rem] mx-auto rounded-md">
+              {props?.ads.length > 0 ? (
+                props?.ads?.map((ad, index) => {
+                  return (
+                    <div
+                      key={index + 1}
+                      className="w-1408 h-[15rem] mx-auto rounded-md"
+                      onClick={() => {
+                        navigate(`/products/${ad.id}`);
+                      }}
+                    >
+                      <Image
+                        imgSrc={ad.image}
+                        className="w-full h-full object-cover rounded-md"
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="w-1408 h-[15rem] mx-auto rounded-md">
+                  <Image
+                    imgSrc={bannerImgOne}
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                </div>
+              )}
+              {/* <div className="w-1408 h-[15rem] mx-auto rounded-md">
                 <Image
                   imgSrc={bannerImgOne}
                   className="w-full h-full object-cover rounded-md"
@@ -164,7 +191,7 @@ const Banner = ({ ...props }) => {
                   imgSrc={bannerImgThree}
                   className="w-full h-full object-cover rounded-md"
                 />
-              </div>
+              </div> */}
             </Slider>
           </div>
 

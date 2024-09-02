@@ -301,18 +301,31 @@ const Header = (props) => {
                         <div className="flex-col w-full space-y-2  overflow-auto mdl:overflow-hidden ">
                           {" "}
                           <div className=" z-0 ">
-                            <ProductClassAccordion ismobile={true} />
+                            <ProductClassAccordion
+                              setSidenav={setSidenav}
+                              isSidebar={sidenav}
+                              ismobile={true}
+                            />
                           </div>
                           <div className="z-0">
-                            <ProductCategoryAccordion ismobile={true} />
+                            <ProductCategoryAccordion
+                              ismobile={true}
+                              setSidenav={setSidenav}
+                            />
                           </div>
                           {categoryId && (
                             <div className="z-0">
-                              <ProductSubCategoryAccordion ismobile={true} />
+                              <ProductSubCategoryAccordion
+                                setSidenav={setSidenav}
+                                ismobile={true}
+                              />
                             </div>
                           )}
                           <div className="z-0 ">
-                            <ProductBrandAccordion ismobile={true} />
+                            <ProductBrandAccordion
+                              setSidenav={setSidenav}
+                              ismobile={true}
+                            />
                           </div>
                         </div>
                       </motion.ul>
@@ -488,20 +501,6 @@ const Header = (props) => {
                       Shop by Category{" "}
                       <span className="text-lg">{category ? "-" : "+"}</span>
                     </h1>
-                    {category && (
-                      <motion.ul
-                        initial={{ y: 15, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.4 }}
-                        className="text-sm flex flex-col gap-1"
-                      >
-                        <li className="headerSedenavLi">New Arrivals</li>
-                        <li className="headerSedenavLi">Gudgets</li>
-                        <li className="headerSedenavLi">Accessories</li>
-                        <li className="headerSedenavLi">Electronics</li>
-                        <li className="headerSedenavLi">Others</li>
-                      </motion.ul>
-                    )}
                   </div>
                   <div className="mt-4">
                     <h1

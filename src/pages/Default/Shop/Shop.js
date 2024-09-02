@@ -8,6 +8,7 @@ import { fetchCategories } from "../../../components/homePageCategories/HomePage
 import ProductBanner from "../../../components/pageProps/shopPage/ProductBanner";
 import ShopSideNav from "../../../components/pageProps/shopPage/ShopSideNav";
 import ShopProducts from "./ShopProducts.js";
+import { CloseSquareFilled } from "@ant-design/icons";
 import MobileCategoryNav from "../../../components/MobileCategoryNav.js";
 import Paginator from "../../../components/Paginator.js";
 import { Loader } from "../../../dashboard/Components/Loader/LoadingSpin.jsx";
@@ -89,41 +90,58 @@ const Shop = () => {
         )
       : null;
 
+  useEffect(() => {
+    // Toggle body scroll when the sidebar is shown/hidden
+    if (showfilter) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    // Cleanup on component unmount
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [showfilter]);
+
   return (
     <PageLayout showFooter={false}>
       {/* <MobileCategoryNav title="Products Filters" categoryId={categoryId} /> */}
 
       <div className="max-w-container mx-auto px-4 mt-5">
-        {/* <Breadcrumbs title='Products' /> */}
-        <div className="relative w-full h-full flex pb-20 gap-10">
-          {/* <div className="w-[20%] lgl:w-[25%] hidden mdl:inline-flex h-full">
-            <ShopSideNav brands={category && category.brands} />
-          </div> */}
-
+        <div className="relative w-full h-full flex pb-20 gap-2">
           {showfilter && (
-            <div className="w-[300px] lgl:w-[25%] bg-[white]  opacity-100    absolute mdl:relative mdl:hidden z-20 mdl:z-0 left-0 top-0  h-full">
+            <div
+              className="w-[300px] -mt-5 lgl:w-[25%] bg-[white] fixed mdl:relative mdl:hidden z-20 mdl:z-0 left-0 overflow-y-auto pb-10 h-[90vh]"
+              onMouseOver={(e) => e.stopPropagation()}
+            >
+              <CloseSquareFilled
+                onClick={handlefilterShow}
+                className="text-primary fixed z-50 mdl:hidden text-4xl cursor-pointer left-[300px]"
+              />
               <ShopSideNav
                 brands={category && category.brands}
                 handlefilterShow={handlefilterShow}
               />
             </div>
           )}
-          <div className="w-[200px] lgl:w-[25%] bg-[white]  hidden mdl:block z-10 mdl:z-0   h-full">
+
+          <div className="w-[200px] lgl:w-[25%] bg-[white] hidden mdl:block z-10 mdl:z-0 h-full">
             <ShopSideNav brands={category && category.brands} />
           </div>
-          <div className="w-full   mdl:w-[80%] lgl:w-[75%] h-full flex border  relative flex-col gap-10">
-            <div className=" fixed z-10">
-              {" "}
+
+          <div className="w-full mdl:w-[80%] lgl:w-[75%] h-full flex mdl:border relative flex-col gap-10">
+            <div className="fixed z-10">
               <ProductBanner
                 showfilter={showfilter}
                 handlefilterShow={handlefilterShow}
               />
             </div>
-            {(isLoading && (
+            {isLoading ? (
               <div className="flex justify-center">
                 <Loader fontSize={38} />
               </div>
-            )) || (
+            ) : (
               <ShopProducts
                 products={products}
                 productClass={productclass}
