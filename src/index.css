@@ -332,6 +332,7 @@ nav .active li {
   transform: scale(2); /* Adjust the scale value as needed */
 }
 
+/* hide scroll when scrolling  sidebar on shoppage */
 .no-scroll {
   overflow: hidden;
 }
