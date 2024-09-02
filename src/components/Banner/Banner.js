@@ -142,7 +142,7 @@ const Banner = ({ ...props }) => {
 
           <div className="hidden lg:flex          w-[60%]  ">
             <Slider {...settings} className="px-4 w-full">
-              {props?.ads.length > 0 ? (
+              {props?.ads && props?.ads.length > 0 ? (
                 props?.ads?.map((ad, index) => {
                   return (
                     <div
