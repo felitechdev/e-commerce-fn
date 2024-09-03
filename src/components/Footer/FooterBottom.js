@@ -35,11 +35,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { FeliTechWhiteLogo } from "../../assets/images";
+import { whatsappIcon, FeliTechLogo_transparent } from "../../assets/images";
 import { applestore } from "../../assets/images";
 import { playstore } from "../../assets/images";
 const FooterBottom = () => {
   return (
-    <section className="bg-[#1D6F2B] text-white px-2 cursor-pointer">
+    <section className="bg-[#1D6F2B] text-white px-2 cursor-pointer absolute">
+      <a
+        href="https://wa.me//+250798697197"
+        target="_blanck"
+        className="fixed text-white  z-50   bottom-10 w-12 h-12 hover:animate-bounce "
+      >
+        <img src={whatsappIcon} className="w-[100%] h-[100%]" />
+      </a>
+
       <div className="max-w-container mx-auto py-12">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8  max-w-fit m-auto  ">
           <div className="flex flex-col items-center md:items-start">

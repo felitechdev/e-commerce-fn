@@ -147,13 +147,14 @@ const Banner = ({ ...props }) => {
                   return (
                     <div
                       key={index + 1}
-                      className="w-1408 h-[15rem] mx-auto rounded-md"
+                      className="w-1408 h-[15rem] mx-auto  rounded-md"
                       onClick={() => {
                         navigate(`/products/${ad.id}`);
                       }}
                     >
                       <Image
                         imgSrc={ad.image}
+                        // className="w-[800px] h-[240px]  object-cover rounded-md"
                         className="w-full h-full object-cover rounded-md"
                       />
                     </div>
@@ -235,7 +236,7 @@ const Banner = ({ ...props }) => {
                     <Image
                       imgSrc={ad.image}
                       // imgSrc={getCloudinaryUrl(ad.image, {})}
-                      className="h-full w-full object-cover rounded-md m-auto"
+                      className="h-full w-full object-fill rounded-md m-auto"
                     />
                   </div>
                 );

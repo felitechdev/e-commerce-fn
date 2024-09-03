@@ -52,7 +52,9 @@ export const CategoryImagesCards = ({ ...props }) => {
                       className="object-fill rounded-full h-[98%] w-[98%]   "
                     />
                   </div>
-                  <p className="text-sm">{pclass.name}</p>
+                  <p className="text-sm hover:text-primary hover:underline ">
+                    {pclass.name}
+                  </p>
                 </div>
               </Link>
             );
