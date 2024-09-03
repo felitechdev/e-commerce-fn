@@ -126,9 +126,8 @@ const Banner = ({ ...props }) => {
     ],
   };
 
-  console.log("props", props);
   return (
-    <div className=" bg-white w-full flex justify-center h-64">
+    <div className=" bg-white max-w-container px-2  md:px-6 m-auto flex justify-center h-64">
       <div className="w-full lg:container">
         <div className="relative w-full flex gap-4 py-2 h-full">
           <div className="hidden lg:w-[20%] lg:block">
@@ -147,50 +146,50 @@ const Banner = ({ ...props }) => {
                   return (
                     <div
                       key={index + 1}
-                      className="w-1408 h-[15rem] mx-auto  rounded-md"
+                      className="w-1408 h-[15rem] mx-auto  rounded-[15px]"
                       onClick={() => {
                         navigate(`/products/${ad.id}`);
                       }}
                     >
                       <Image
                         imgSrc={ad.image}
-                        // className="w-[800px] h-[240px]  object-cover rounded-md"
-                        className="w-full h-full object-cover rounded-md"
+                        // className="w-[800px] h-[240px]  object-cover rounded-[15px]"
+                        className="w-full h-full object-cover rounded-[15px]"
                       />
                     </div>
                   );
                 })
               ) : (
-                <div className="w-1408 h-[15rem] mx-auto rounded-md">
+                <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                   <Image
                     imgSrc={bannerImgOne}
-                    className="w-full h-full object-cover rounded-md"
+                    className="w-full h-full object-cover rounded-[15px]"
                   />
                 </div>
               )}
-              {/* <div className="w-1408 h-[15rem] mx-auto rounded-md">
+              {/* <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgOne}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
-              <div className="w-1432 h-[15rem] mx-auto rounded-md">
+              <div className="w-1432 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgTwo}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
-              <div className="w-1408 h-[15rem] mx-auto rounded-md">
+              <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgThree}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
 
-              <div className="w-1408 h-[15rem] mx-auto rounded-md">
+              <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgThree}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div> */}
             </Slider>
@@ -198,29 +197,29 @@ const Banner = ({ ...props }) => {
 
           <div className="w-full lg:hidden  ">
             <Slider {...settings} className="px-4 w-full">
-              <div className="w-1408 h-[15rem] mx-auto rounded-md">
+              <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgOne}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
-              <div className="w-1432 h-[15rem] mx-auto rounded-md">
+              <div className="w-1432 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgTwo}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
-              <div className="w-1408 h-[15rem] mx-auto rounded-md">
+              <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgThree}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
 
-              <div className="w-1408 h-[15rem] mx-auto rounded-md">
+              <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgThree}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
 
@@ -228,7 +227,7 @@ const Banner = ({ ...props }) => {
                 return (
                   <div
                     key={index}
-                    className="w-1408 h-[15rem] mx-auto rounded-md border-gray-200"
+                    className="w-1408 h-[15rem] mx-auto rounded-[15px] border-gray-200"
                     onClick={() => {
                       navigate(`/products/${ad.id}`);
                     }}
@@ -236,14 +235,14 @@ const Banner = ({ ...props }) => {
                     <Image
                       imgSrc={ad.image}
                       // imgSrc={getCloudinaryUrl(ad.image, {})}
-                      className="h-full w-full object-fill rounded-md m-auto"
+                      className="h-full w-full object-fill rounded-[15px] m-auto"
                     />
                   </div>
                 );
               })}
             </Slider>
           </div>
-          <div className="hidden lg:w-[20%] lg:block border-4 rounded-md">
+          <div className="hidden lg:w-[20%] lg:block  rounded-[15px]   ">
             <ImageSlider ads={props?.ads} />
           </div>
         </div>

@@ -44,7 +44,7 @@ const FooterBottom = () => {
       <a
         href="https://wa.me//+250798697197"
         target="_blanck"
-        className="fixed text-white  z-50   bottom-10 w-12 h-12 hover:animate-bounce "
+        className="fixed text-white  z-50  right-2  bottom-10 w-12 h-12 hover:animate-bounce "
       >
         <img src={whatsappIcon} className="w-[100%] h-[100%]" />
       </a>

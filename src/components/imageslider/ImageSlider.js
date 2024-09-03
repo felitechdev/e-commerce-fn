@@ -54,7 +54,7 @@ const ImageSlider = ({ ads }) => {
       {ads?.map((ad, index) => (
         <SwiperSlide key={index}>
           <div
-            className="slider-item"
+            className="slider-item !rounded-[15px]"
             onClick={() => {
               navigate(`/products/${ad.id}`);
             }}
@@ -67,7 +67,7 @@ const ImageSlider = ({ ads }) => {
               })}
               alt={ad.title}
             />
-            <div className="slider-title">{ad.title}</div>
+            <div className="slider-title m-4">{ad.title}</div>
           </div>
         </SwiperSlide>
       ))}
