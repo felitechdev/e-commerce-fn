@@ -40,7 +40,7 @@ import { applestore } from "../../assets/images";
 import { playstore } from "../../assets/images";
 const FooterBottom = () => {
   return (
-    <section className="bg-[#1D6F2B] text-white px-2 cursor-pointer absolute">
+    <section className="bg-[#1D6F2B] text-white px-2 cursor-pointer absolute max-w-container mx-auto ">
       <a
         href="https://wa.me//+250798697197"
         target="_blanck"
