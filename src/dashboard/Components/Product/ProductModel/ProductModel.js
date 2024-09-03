@@ -366,7 +366,7 @@ const ProductModel = (props) => {
     isfeatured && featuredImageUrl !== null
       ? (payload = {
           ...payload,
-          featured: { isFeatured: isfeatured, featuredImage: featuredImageUrl },
+          featured: { isFeatured: isfeatured, image: featuredImageUrl },
         })
       : (payload = {
           ...payload,
