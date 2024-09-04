@@ -99,7 +99,7 @@ export const CategoryImagesCards = ({ ...props }) => {
 
 const FooterBottom = () => {
   return (
-    <div>
+    <div className="bg-primary w-[100%]">
       <section className="bg-[#1D6F2B] text-white px-4 py-8 cursor-pointer max-w-container mx-auto">
         {/* WhatsApp Floating Button */}
         <a
@@ -251,29 +251,31 @@ const FooterBottom = () => {
           </div>
         </div>
       </section>
-      <div className=" flex flex-col md:flex-row  justify-between text-white px-4 py-8 cursor-pointer max-w-container mx-auto bg-[#498952]">
-        <div className="flex  justify-center items-center space-x-2">
-          <h3 className="">Powered by </h3>
-          <h3 className="medium2_text">
-            <a
-              href="https://felitechnology.com/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Felitechnology
-            </a>
-          </h3>
-        </div>
-        <div className="flex  justify-center items-center space-x-2">
-          <h3 className="">Browse by Category</h3>
-          <div className="flex md:space-x-4 space-x-2">
-            <div className="flex items-center space-x-2">
-              <img src={playstore} className="w-7 h-7" alt="Google Play" />
-              <p className="text-black md:medium_text">Google Play</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <img src={applestore} className="w-7 h-7" alt="App Store" />
-              <p className="text-black md:medium_text">App Store</p>
+      <div className="w-[100%] bg-[#498952]">
+        <div className=" flex flex-col md:flex-row  justify-between text-white px-4 py-8 cursor-pointer max-w-container mx-auto bg-[#498952]">
+          <div className="flex  justify-center items-center space-x-2">
+            <h3 className="">Powered by </h3>
+            <h3 className="medium2_text">
+              <a
+                href="https://felitechnology.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Felitechnology
+              </a>
+            </h3>
+          </div>
+          <div className="flex  justify-center items-center space-x-2">
+            <h3 className="">Browse by Category</h3>
+            <div className="flex md:space-x-4 space-x-2">
+              <div className="flex items-center space-x-2">
+                <img src={playstore} className="w-7 h-7" alt="Google Play" />
+                <p className="text-black md:medium_text">Google Play</p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <img src={applestore} className="w-7 h-7" alt="App Store" />
+                <p className="text-black md:medium_text">App Store</p>
+              </div>
             </div>
           </div>
         </div>
