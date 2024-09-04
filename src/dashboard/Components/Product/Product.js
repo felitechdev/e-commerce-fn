@@ -597,8 +597,6 @@ export const DashProducts = () => {
     setFilteredData(newData);
   }, [products]);
 
-  console.log("filteredData", filteredData);
-
   return (
     <Layout className="space-y-6 p-2    overflow-auto bg-[white]">
       {/* handle open update product model  */}

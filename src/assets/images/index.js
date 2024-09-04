@@ -38,6 +38,8 @@ import applestore from "./applestore.png";
 
 import mtn from "./MTN.png";
 import aitel from "./Airtel.png";
+import visa from "./visa.png";
+import mastercard from "./mastercard.png";
 
 export {
   FeliTechLogo_transparent,
@@ -81,4 +83,6 @@ export {
   applestore,
   mtn,
   aitel,
+  visa,
+  mastercard,
 };
