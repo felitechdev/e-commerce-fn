@@ -318,6 +318,11 @@ nav .active li {
   align-items: center;
   margin-bottom: 10px;
 }
+@media screen and (max-width: 665px) {
+  .product-class {
+    display: block;
+  }
+}
 
 .product-class-name {
   font-weight: 600;

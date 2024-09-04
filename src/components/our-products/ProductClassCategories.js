@@ -66,7 +66,7 @@ export const ProductClassCategories = () => {
                     {productClass.name}
                   </h2>
                   <div
-                    className="  w-[50%] categories caregory_text capitalize space-x-4 overflow-auto !no-scrollbar"
+                    className="  md:w-[50%] categories caregory_text capitalize space-x-4 overflow-auto !no-scrollbar"
                     ref={containerRef}
                   >
                     {productClass.categories.map((category) => (

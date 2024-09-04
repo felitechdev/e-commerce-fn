@@ -59,27 +59,28 @@ const Banner = ({ ...props }) => {
       </div>
     ),
     customPaging: (i) => (
-      <div
-        style={
-          i === dotActive
-            ? {
-                width: "30px",
-                color: "#65a30d",
-                borderRight: "3px #65a30d solid",
-                padding: "8px 0",
-                cursor: "pointer",
-              }
-            : {
-                width: "30px",
-                color: "transparent",
-                borderRight: "3px white solid",
-                padding: "8px 0",
-                cursor: "pointer",
-              }
-        }
-      >
-        0{i + 1}
-      </div>
+      // <div
+      //   style={
+      //     i === dotActive
+      //       ? {
+      //           width: "30px",
+      //           color: "#65a30d",
+      //           borderRight: "3px #65a30d solid",
+      //           padding: "8px 0",
+      //           cursor: "pointer",
+      //         }
+      //       : {
+      //           width: "30px",
+      //           color: "transparent",
+      //           borderRight: "3px white solid",
+      //           padding: "8px 0",
+      //           cursor: "pointer",
+      //         }
+      //   }
+      // >
+      //   0{i + 1}
+      // </div>
+      <></>
     ),
     responsive: [
       {
@@ -99,27 +100,28 @@ const Banner = ({ ...props }) => {
             </div>
           ),
           customPaging: (i) => (
-            <div
-              style={
-                i === dotActive
-                  ? {
-                      width: "25px",
-                      color: "#65a30d",
-                      borderRight: "3px #65a30d solid",
-                      cursor: "pointer",
-                      fontSize: "12px",
-                    }
-                  : {
-                      width: "25px",
-                      color: "transparent",
-                      borderRight: "3px white solid",
-                      cursor: "pointer",
-                      fontSize: "12px",
-                    }
-              }
-            >
-              0{i + 1}
-            </div>
+            // <div
+            //   style={
+            //     i === dotActive
+            //       ? {
+            //           width: "25px",
+            //           color: "#65a30d",
+            //           borderRight: "3px #65a30d solid",
+            //           cursor: "pointer",
+            //           fontSize: "12px",
+            //         }
+            //       : {
+            //           width: "25px",
+            //           color: "transparent",
+            //           borderRight: "3px white solid",
+            //           cursor: "pointer",
+            //           fontSize: "12px",
+            //         }
+            //   }
+            // >
+            //   0{i + 1}
+            // </div>
+            <></>
           ),
         },
       },
@@ -139,28 +141,32 @@ const Banner = ({ ...props }) => {
             <HomePageCategories />
           </div>
 
-          <div className="hidden lg:flex          w-[60%]  ">
-            <Slider {...settings} className="px-4 w-full">
+          <div className="hidden lg:flex   w-[60%] ">
+            <Slider {...settings} className="px-4 w-full  ">
               {props?.ads && props?.ads.length > 0 ? (
                 props?.ads?.map((ad, index) => {
                   return (
                     <div
                       key={index + 1}
-                      className="w-1408 h-[15rem] mx-auto  rounded-[15px]"
+                      className="w-1408 h-[15rem] mx-auto  rounded-[15px]  border"
                       onClick={() => {
                         navigate(`/products/${ad.id}`);
                       }}
                     >
+                      {/* getCloudinaryUrl(ad.image, {
+                width: 240, // 15rem
+                height: 240, // 15rem
+              }) */}
                       <Image
                         imgSrc={ad.image}
                         // className="w-[800px] h-[240px]  object-cover rounded-[15px]"
-                        className="w-full h-full object-cover rounded-[15px]"
+                        className="w-full h-full object-cover rounded-[15px]  "
                       />
                     </div>
                   );
                 })
               ) : (
-                <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
+                <div className="w-1408 h-[15rem] mx-auto rounded-[15px] ">
                   <Image
                     imgSrc={bannerImgOne}
                     className="w-full h-full object-cover rounded-[15px]"
@@ -196,7 +202,7 @@ const Banner = ({ ...props }) => {
           </div>
 
           <div className="w-full lg:hidden  ">
-            <Slider {...settings} className="px-4 w-full">
+            <Slider {...settings} className="px-4 w-full rounded-[15px]">
               <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgOne}
@@ -227,7 +233,7 @@ const Banner = ({ ...props }) => {
                 return (
                   <div
                     key={index}
-                    className="w-1408 h-[15rem] mx-auto rounded-[15px] border-gray-200"
+                    className="w-1408 h-[15rem] mx-auto rounded-[15px] border"
                     onClick={() => {
                       navigate(`/products/${ad.id}`);
                     }}
@@ -242,7 +248,7 @@ const Banner = ({ ...props }) => {
               })}
             </Slider>
           </div>
-          <div className="hidden lg:w-[20%] lg:block  rounded-[15px]   ">
+          <div className="hidden lg:w-[20%] lg:block  rounded-[15px]  border  ">
             <ImageSlider ads={props?.ads} />
           </div>
         </div>

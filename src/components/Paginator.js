@@ -27,7 +27,7 @@ export default function Paginator({
         <>
           {isLoading ? null : (
             <div
-              class="flex items-center bg-[#1D6F2B] text-white text-sm font-bold px-4 py-3"
+              class="flex items-center bg-[#1D6F2B] text-white text-xs font-bold px-2 py-1"
               role="alert"
             >
               <svg

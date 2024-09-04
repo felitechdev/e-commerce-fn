@@ -49,18 +49,19 @@ const ImageSlider = ({ ads }) => {
         reverseDirection: false,
       }}
       modules={[Autoplay]}
-      className="image-slider h-full"
+      className="image-slider rounded-[15px]  h-full"
     >
       {ads?.map((ad, index) => (
         <SwiperSlide key={index}>
           <div
-            className="slider-item !rounded-[15px]"
+            className="slider-item "
             onClick={() => {
               navigate(`/products/${ad.id}`);
             }}
           >
             <img
               // className="!object-fill  h-[15rem] rounded"
+              // className=" rounded-[15px] h-[15rem] w-full object-cover"
               src={getCloudinaryUrl(ad.image, {
                 width: 240, // 15rem
                 height: 240, // 15rem
