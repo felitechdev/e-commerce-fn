@@ -6,13 +6,14 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
+  height: 5px;
   border-radius: 10px;
   background-color: #97909070;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 10px;
+  border-radius: 10px !important;
   background-color: #1d6f2b;
 }
 
@@ -263,20 +264,45 @@ nav .active li {
   font-size: 20px;
 }
 
+.bold_text1 {
+  /* @apply  */
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+@media screen and (max-width: 665px) {
+  .medium_text {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    /* line-height: 45px; */
+    height: 45px;
+  }
+  .medium2_text {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+  }
+}
+
 .medium_text {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size: 19px;
+  font-size: 25px;
+  /* line-height: 45px; */
+  height: 45px;
 }
 .medium2_text {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .caregory_text {
   font-family: "Poppins", sans-serif;
-  font-weight: 300;
+  font-weight: 400;
+  /* line-height: 22.5px; */
   font-size: 15px;
 }
 
@@ -291,6 +317,11 @@ nav .active li {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+@media screen and (max-width: 665px) {
+  .product-class {
+    display: block;
+  }
 }
 
 .product-class-name {
@@ -314,7 +345,7 @@ nav .active li {
 }
 
 .product-display {
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 /* product details */

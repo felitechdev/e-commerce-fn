@@ -36,6 +36,11 @@ import whatsappIcon from "./whatsappicon.png";
 import playstore from "./playstore.png";
 import applestore from "./applestore.png";
 
+import mtn from "./MTN.png";
+import aitel from "./Airtel.png";
+import visa from "./visa.png";
+import mastercard from "./mastercard.png";
+
 export {
   FeliTechLogo_transparent,
   FeliTechWhiteLogo,
@@ -76,4 +81,8 @@ export {
   // Playstore and Applestore
   playstore,
   applestore,
+  mtn,
+  aitel,
+  visa,
+  mastercard,
 };

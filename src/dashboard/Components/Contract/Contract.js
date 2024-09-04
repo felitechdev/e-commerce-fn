@@ -269,7 +269,7 @@ export const Contract = () => {
   const onChange = (pagination, filters, sorter, extra) => {};
 
   return (
-    <Layout className="space-y-6 bg-white overflow-auto">
+    <Layout className="space-y-6 p-2 bg-white overflow-auto">
       <Space className="flex justify-between">
         <Title level={4}>Contract</Title>
         <ContractModel />

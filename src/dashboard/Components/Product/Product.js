@@ -113,62 +113,12 @@ export const DashProducts = () => {
   );
 
   const FilterByNameInput = (
-    // <Input.Search
-    //   placeholder="search product by name ......."
-    //   allowClear
-    //   enterButton="Search"
-    //   size="large"
-    //   className="w-[80%] md:w-[50%] my-2"
-    //   value={value}
-    //   onChange={(e) => {
-    //     const currValue = e.target.value;
-    //     setValue(currValue);
-    //     const newData = (
-    //       userRole == "seller"
-    //         ? dashproduct?.filter((product) => product?.seller?.id == user?.id)
-    //         : dashproduct
-    //     )
-    //       .map((product) => ({
-    //         key: product.id,
-    //         name: [
-    //           product.productImages?.productThumbnail?.url,
-    //           product.name,
-    //           product.description,
-    //         ],
-    //         price: product.price,
-    //         stock: product.stockQuantity,
-    //         commission: product?.seller_commission,
-    //         // orders: product.deliveryInfo.length,
-    //         published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-    //         address: product.brandName,
-    //         category: product?.category?.id,
-    //         seller: product?.seller?.id,
-    //       }))
-    //       .filter((entry) =>
-    //         entry.name[1].toLowerCase().includes(currValue.toLowerCase())
-    //       );
-
-    //     setFilteredData(newData);
-    //   }}
-    //   onSearch={() => setDataSource(filteredData)} // Set the dataSource when searching
-    // />
-
     <DashBoardSearch
       handleSearch={handleSearch}
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
       placeholder={"Search by name"}
     />
-
-    // <div className=" my-2 left-1/3 border-none right-1/2  rounded-t-md">
-    //   <input
-    //     type="text"
-    //     className="rounded-t-md  text-black bg-white border-2 border-primary"
-    //     placeholder="Search by name"
-    //     value={searchQuery}
-    //     onChange={handleSearch}
-    //   />
-    // </div>
   );
 
   // select list or drid display
@@ -350,10 +300,37 @@ export const DashProducts = () => {
       width: 100,
       render: (_, record) => (
         <div className="w-full text-start">
-          <span>{record.price} RWF</span>
+          <span>{record.price.toLocaleString()} RWF</span>
         </div>
       ),
       sorter: (a, b) => a.age - b.age,
+    },
+    {
+      title: "Enabled",
+      dataIndex: "Enabled",
+      key: "Enabled",
+      width: 60,
+      render: (_, record) => () => {
+        return (
+          <Tag color="green" key={record.key}>
+            Enabled
+          </Tag>
+        );
+      },
+    },
+    {
+      title: "Featured",
+      dataIndex: "featured",
+      key: "featured",
+      width: 60,
+      render: (_, record) => {
+        return (
+          <span>
+            Featured:
+            <Checkbox onChange={() => {}} checked={record.featured}></Checkbox>
+          </span>
+        );
+      },
     },
     {
       title: "Commission",
@@ -362,7 +339,9 @@ export const DashProducts = () => {
       width: 100,
       render: (_, record) => (
         <div className="w-full text-start">
-          <span>{record?.commission ? record?.commission + "%" : "No "}</span>
+          <span>
+            {record?.commission ? record?.commission * 100 + "%" : "No "}
+          </span>
         </div>
       ),
     },
@@ -511,8 +490,10 @@ export const DashProducts = () => {
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
-            category: product?.category?.id,
+            category: product?.category,
+            productClass: product?.productClass,
             seller: product?.seller,
+            featured: product?.featured?.isFeatured ? true : false,
           }))
         : [];
 
@@ -550,8 +531,10 @@ export const DashProducts = () => {
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
-            category: product?.category?.id,
+            category: product?.category,
+            productClass: product?.productClass,
             seller: product?.seller,
+            featured: product?.featured?.isFeatured ? true : false,
           }))
         : [];
 
@@ -587,29 +570,35 @@ export const DashProducts = () => {
         ? (userRole == "seller"
             ? products?.filter((product) => product?.seller == user?.id)
             : products
-          ).map((product) => ({
-            key: product.id,
-            name: [
-              product.productImages?.productThumbnail?.url,
-              product.name,
-              product.description,
-            ],
-            price: product.price,
-            stock: product.stockQuantity,
-            commission: product?.seller_commission,
-            orders: handlecountorders(product.id),
-            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product?.brandName,
-            category: product?.category?.id,
-            seller: product?.seller,
-          }))
+          ).map((product) => {
+            return {
+              key: product.id,
+              name: [
+                product.productImages?.productThumbnail?.url,
+                product.name,
+                product.description,
+              ],
+              price: product.price,
+              stock: product.stockQuantity,
+              commission: product?.seller_commission,
+              orders: handlecountorders(product.id),
+              published: new Date(`${product.updatedAt}`).toLocaleDateString(),
+              address: product?.brandName,
+              category: product?.category,
+              productClass: product?.productClass,
+
+              seller: product?.seller,
+              featured: product?.featured?.isFeatured ? true : false,
+            };
+          })
         : [];
     setDataSource(newData);
+
     setFilteredData(newData);
   }, [products]);
 
   return (
-    <Layout className="space-y-6   overflow-auto bg-[white]">
+    <Layout className="space-y-6 p-2    overflow-auto bg-[white]">
       {/* handle open update product model  */}
 
       {showUpdateModel && productId && (

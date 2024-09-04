@@ -66,7 +66,7 @@ export const ProductClassCategories = () => {
                     {productClass.name}
                   </h2>
                   <div
-                    className="categories md:caregory_text capitalize space-x-4 overflow-auto no-scrollbar"
+                    className="  md:w-[50%] categories caregory_text capitalize space-x-4 overflow-auto !no-scrollbar"
                     ref={containerRef}
                   >
                     {productClass.categories.map((category) => (
@@ -74,7 +74,7 @@ export const ProductClassCategories = () => {
                         key={`${productClass.id}-${category.id}`}
                         className={`category-name !text-sm  ${
                           categoryIds[productClass.id] === category.id
-                            ? "!text-primary font-medium border-b-2 border-primary"
+                            ? "!text-primary font-medium border px-2 "
                             : ""
                         }`}
                         onClick={() =>

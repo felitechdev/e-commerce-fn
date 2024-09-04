@@ -13,9 +13,9 @@ export default function PageLayout({ children, showFooter, userInfo }) {
       <div className="mt-6">{children}</div>
 
       {showFooter && (
-        <div className="max-w-container mx-auto">
-          <FooterBottom />
-        </div>
+        // <div className="max-w-container mx-auto">
+        <FooterBottom />
+        // </div>
       )}
     </>
   );

@@ -28,8 +28,6 @@ const ProductPreview = ({ productInfo }) => {
   const productInwhishlist = wishlist.find((product) => product.id === rootId);
   const currentPathName = location.pathname;
 
-  console.log("productInCart", productInCart && productInCart.items);
-
   const handleProductDetails = () => {
     const separatedRoute = currentPathName.split("/");
     if (separatedRoute[1] === "accounts") {

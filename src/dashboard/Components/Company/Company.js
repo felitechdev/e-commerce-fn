@@ -310,7 +310,7 @@ export const Company = () => {
   const onChange = (pagination, filters, sorter, extra) => {};
 
   return (
-    <Layout className="space-y-6 S bg-light">
+    <Layout className="space-y-6 p-2 S bg-light">
       <Space className="flex justify-between">
         <h1 className="bold_text">Company's</h1>
         <CompanyModel />

@@ -109,7 +109,7 @@ export const OrdersV2 = () => {
   );
 
   return (
-    <Layout className="space-y-6 bg-light overflow-auto">
+    <Layout className="space-y-6 p-2 bg-light overflow-auto">
       <div className="w-full flex flex-col md:flex-row md:space-x-4 bg-white">
         <Row className="w-full md:w-[100%] p-0">
           <div className="bg-gray-200 w-full text-left space-y-0 md:space-y-6 py-3 md:py-5 mb-4 p-2">
