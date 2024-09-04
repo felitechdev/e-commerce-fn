@@ -51,13 +51,13 @@ const UserAvatarDropdown = (props) => {
         {props.userInfo ? (
           (!props?.userInfo?.photo && props.userInfo?.firstName) ||
           props?.userInfo?.photo == "default.jpg" ? (
-            <h1 className="bg-[#1D6F2B] grid place-content-center rounded-full text-white font-bold px-1 py-1 h-12 w-12 text-2xl">
+            <h1 className="bg-[#1D6F2B] grid place-content-center rounded-full text-white font-bold px-1 py-1 h-8 w-8 text-lg">
               {props.userInfo?.firstName[0]}
             </h1>
           ) : (
             <img
               src={props?.userInfo?.photo}
-              className=" w-12 h-12 rounded-full border-1 border-primary shadow"
+              className=" w-10 h-10 rounded-full border-1 border-primary shadow"
             />
           )
         ) : (
@@ -83,7 +83,7 @@ const UserAvatarDropdown = (props) => {
                 <li className="w-[100%] text-center py-2 px-2 hover:bg-[#E5E5E5] rounded-md cursor-pointer">
                   <NavLink
                     to="/user"
-                    className="font-semibold text-white hover:text-[#1D6F2B]"
+                    className="font-medium text-white hover:text-[#1D6F2B]"
                   >
                     Settings
                   </NavLink>
@@ -95,7 +95,7 @@ const UserAvatarDropdown = (props) => {
                   <NavLink
                     to=""
                     state={{ data: location.pathname.split("/")[1] }}
-                    className="hover:text-[#1D6F2B] text-white"
+                    className="hover:text-[#1D6F2B] text-white font-medium"
                   >
                     Sign out
                   </NavLink>

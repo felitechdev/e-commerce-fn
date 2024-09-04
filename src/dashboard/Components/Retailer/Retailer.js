@@ -264,7 +264,7 @@ export const Retailer = () => {
   const onChange = (pagination, filters, sorter, extra) => {};
 
   return (
-    <Layout className="space-y-6 bg-white">
+    <Layout className="space-y-6 p-2 bg-white">
       <Space className="flex justify-between">
         <Title level={4}>Retailers</Title>
         <RetailerModel />

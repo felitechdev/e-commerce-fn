@@ -195,10 +195,13 @@ export default function HomePageCategories() {
                           class="list-disc"
                           key={subCat.id}
                           className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex text-gray-700 justify-start hover:underline font-medium cursor-pointer"
-                          onMouseEnter={() => handleMouseEnterSub(subCat.id)}
+                          onMouseEnter={() => {
+                            handleMouseEnterSub(subCat.id);
+                            // console.log(subCat);
+                          }}
                         >
                           <Link
-                            to={`shop/?productClass=${hoveredproductclass}&category=${hoveredCategory}&subCategory=${subCat.id}`}
+                            to={`shop/?productClass=${hoveredproductclass}&category=${subCat?.category}&subCategory=${subCat.id}`}
                             className="capitalize flex"
                           >
                             {subCat.name}

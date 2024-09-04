@@ -38,9 +38,151 @@ import { FeliTechWhiteLogo } from "../../assets/images";
 import { whatsappIcon, FeliTechLogo_transparent } from "../../assets/images";
 import { applestore } from "../../assets/images";
 import { playstore } from "../../assets/images";
+import { mtn, aitel } from "../../assets/images";
+// const FooterBottom = () => {
+//   return (
+//     <section className="bg-[#1D6F2B] text-white px-2 cursor-pointer absolute max-w-container mx-auto ">
+
+//       <div className="max-w-container mx-auto py-12">
+//         <div className="grid grid-cols-2 md:grid-cols-3 gap-8  max-w-fit m-auto  ">
+//           <div className="flex flex-col items-center md:items-start">
+//             <h3 className="medium2_text">Shopping with us</h3>
+//             <ul>
+//               <li>
+//                 <Link to="/">Making payments</Link>
+//               </li>
+//               <li>
+//                 <Link to="/">Delivery Options</Link>
+//               </li>
+//               <li>
+//                 <Link to="/">Buyers Protection</Link>
+//               </li>
+//             </ul>
+//           </div>
+//           <div className="flex flex-col items-center md:items-start md:mx-10">
+//             <h3 className="medium2_text">Customer Service</h3>
+//             <ul>
+//               <li>
+//                 <Link to="/">Help center</Link>
+//               </li>
+//               <li>
+//                 <Link to="/">Translation service</Link>
+//               </li>
+//               <li>
+//                 <Link to="/">Terms and conditions</Link>
+//               </li>
+//             </ul>
+//           </div>
+//           <div className="flex flex-col items-center md:items-start">
+//             <h3 className="medium2_text">Collaborate with us</h3>
+//             <ul>
+//               <li>
+//                 <Link to="/">Help center</Link>
+//               </li>
+//               <li>
+//                 <Link to="/">Translation service</Link>
+//               </li>
+//               <li>
+//                 <Link to="/">Terms and conditions</Link>
+//               </li>
+//             </ul>
+//           </div>
+//         </div>
+
+//         <div className=" max-w-container  md:px-12 lg:px-14 grid grid-cols-2 md:grid-cols-4 gap-4   m-auto  ">
+//           <div className="flex justify-center items-center">
+//             <img
+//               src={FeliTechWhiteLogo}
+//               alt="Felitechnology Logo"
+//               className="  mb-4"
+//             />
+//           </div>
+
+//           <div className="flex flex-col items-center justify-center  space-y-2 ">
+//             <h3 className="medium2_text"> About</h3>
+//             <p className="text-center md:text-left">
+//               We are felitechnology. Trying to make an effort to put the right
+//               people for you to get the best results. Just insight.
+//             </p>
+//           </div>
+
+//           <div className="flex flex-col items-center justify-center space-y-2 ">
+//             <h3 className="medium2_text"> Contact </h3>
+//             <div className="flex space-x-4 px-3">
+//               <button className="bg-[#3CB043] text-white py-2 px-4 rounded-full shadow-lg">
+//                 Insights
+//               </button>
+//               <button className="bg-[#3CB043] text-white py-2 px-4 rounded-full shadow-lg">
+//                 Contact
+//               </button>
+//             </div>
+//           </div>
+
+//           <div className="flex justify-between items-center mt-8">
+//             <div className="flex flex-col justify-start space-y-2 ">
+//               <h3 className="medium2_text"> Get intouch with us </h3>
+//               <div className="flex  items-center justify-start space-x-2 ">
+//                 <a
+//                   href="https://web.facebook.com/FeliTechnology"
+//                   className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
+//                 >
+//                   <FaFacebookF />
+//                 </a>
+
+//                 <p>Facebook</p>
+//               </div>
+//               <div className="flex  items-center justify-start space-x-2 ">
+//                 {" "}
+//                 <a
+//                   href="https://www.linkedin.com/company/feli-technology"
+//                   className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
+//                 >
+//                   <FaLinkedinIn />
+//                 </a>{" "}
+//                 <p>Linkedin</p>
+//               </div>
+//               <div className="flex  items-center justify-start space-x-2 ">
+//                 {" "}
+//                 <a
+//                   href="#"
+//                   className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
+//                 >
+//                   <FaTwitter />
+//                 </a>{" "}
+//                 <p>Twitter</p>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className=" m-auto flex  justify-around items-center mt-8 border-t pt-8">
+//           <div className="flex flex-col justify-center items-center space-y-2 ">
+//             <h3 className="medium2_text"> Felitechnology Language sites </h3>
+//             <p> English, Kinyarwanda</p>
+//           </div>
+
+//           <div className="flex flex-col justify-center items-center  space-y-2 ">
+//             <h3 className="medium2_text"> Browse by Category </h3>
+
+//             <div className=" flex md:flex-row  md:space-x-4">
+//               <img src={playstore} className="w-7 h-7" alt="Google Play" />{" "}
+//               <p className="text-black md:medium_text">Google Play</p>
+//               <img src={applestore} className="w-7 h-7" alt="App Store" />{" "}
+//               <p className="text-black md:medium_text">App Store</p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       {/* <FooterBottom /> */}
+//     </section>
+//   );
+// };
+
+// export default FooterBottom;
+
 const FooterBottom = () => {
   return (
-    <section className="bg-[#1D6F2B] text-white px-2 cursor-pointer absolute max-w-container mx-auto ">
+    <section className="bg-[#1D6F2B] text-white px-2 cursor-pointer absolute max-w-container mx-auto">
       <a
         href="https://wa.me//+250798697197"
         target="_blanck"
@@ -48,138 +190,101 @@ const FooterBottom = () => {
       >
         <img src={whatsappIcon} className="w-[100%] h-[100%]" />
       </a>
-
+      ;
       <div className="max-w-container mx-auto py-12">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8  max-w-fit m-auto  ">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-fit m-auto">
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="medium2_text">Shopping with us</h3>
+            <h3 className="medium2_text">Explore</h3>
             <ul>
               <li>
-                <Link to="/">Making payments</Link>
+                <Link to="/">Search</Link>
               </li>
               <li>
-                <Link to="/">Delivery Options</Link>
-              </li>
-              <li>
-                <Link to="/">Buyers Protection</Link>
+                <Link to="/">About us</Link>
               </li>
             </ul>
           </div>
+
           <div className="flex flex-col items-center md:items-start md:mx-10">
-            <h3 className="medium2_text">Customer Service</h3>
+            <h3 className="medium2_text">Our Categories</h3>
             <ul>
               <li>
-                <Link to="/">Help center</Link>
+                <Link to="/">Clothes</Link>
               </li>
               <li>
-                <Link to="/">Translation service</Link>
+                <Link to="/">Electronics</Link>
               </li>
               <li>
-                <Link to="/">Terms and conditions</Link>
+                <Link to="/">Home appliances</Link>
+              </li>
+              <li>
+                <Link to="/">Watches & Jewelry</Link>
+              </li>
+              <li>
+                <Link to="/">Shoes</Link>
+              </li>
+              <li>
+                <Link to="/">Hair extensions & Wigs</Link>
               </li>
             </ul>
           </div>
+
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="medium2_text">Collaborate with us</h3>
-            <ul>
-              <li>
-                <Link to="/">Help center</Link>
-              </li>
-              <li>
-                <Link to="/">Translation service</Link>
-              </li>
-              <li>
-                <Link to="/">Terms and conditions</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className=" max-w-container  md:px-12 lg:px-14 grid grid-cols-2 md:grid-cols-4 gap-4   m-auto  ">
-          <div className="flex justify-center items-center">
-            <img
-              src={FeliTechWhiteLogo}
-              alt="Felitechnology Logo"
-              className="  mb-4"
-            />
-          </div>
-
-          <div className="flex flex-col items-center justify-center  space-y-2 ">
-            <h3 className="medium2_text"> About</h3>
-            <p className="text-center md:text-left">
-              We are felitechnology. Trying to make an effort to put the right
-              people for you to get the best results. Just insight.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center justify-center space-y-2 ">
-            <h3 className="medium2_text"> Contact </h3>
-            <div className="flex space-x-4 px-3">
-              <button className="bg-[#3CB043] text-white py-2 px-4 rounded-full shadow-lg">
-                Insights
-              </button>
-              <button className="bg-[#3CB043] text-white py-2 px-4 rounded-full shadow-lg">
-                Contact
-              </button>
+            <h3 className="medium2_text">Payment methods</h3>
+            <div className="flex space-x-2">
+              <img src={mtn} alt="Payment Method 1" className="w-8 h-8" />
+              <img src={aitel} alt="Payment Method 2" className="w-8 h-8" />
+              <img src={mtn} alt="Payment Method 3" className="w-8 h-8" />
             </div>
           </div>
 
-          <div className="flex justify-between items-center mt-8">
-            <div className="flex flex-col justify-start space-y-2 ">
-              <h3 className="medium2_text"> Get intouch with us </h3>
-              <div className="flex  items-center justify-start space-x-2 ">
-                <a
-                  href="https://web.facebook.com/FeliTechnology"
-                  className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
-                >
-                  <FaFacebookF />
-                </a>
-
-                <p>Facebook</p>
-              </div>
-              <div className="flex  items-center justify-start space-x-2 ">
-                {" "}
-                <a
-                  href="https://www.linkedin.com/company/feli-technology"
-                  className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
-                >
-                  <FaLinkedinIn />
-                </a>{" "}
-                <p>Linkedin</p>
-              </div>
-              <div className="flex  items-center justify-start space-x-2 ">
-                {" "}
-                <a
-                  href="#"
-                  className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
-                >
-                  <FaTwitter />
-                </a>{" "}
-                <p>Twitter</p>
-              </div>
+          <div className="flex flex-col items-center md:items-start">
+            <h3 className="medium2_text">Connect</h3>
+            <div className="flex space-x-2">
+              <a
+                href="https://web.facebook.com/FeliTechnology"
+                className="text-white"
+              >
+                <FaFacebookF />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/feli-technology"
+                className="text-white"
+              >
+                <FaLinkedinIn />
+              </a>
+              <a href="#" className="text-white">
+                <FaTwitter />
+              </a>
             </div>
           </div>
         </div>
 
-        <div className=" m-auto flex  justify-around items-center mt-8 border-t pt-8">
-          <div className="flex flex-col justify-center items-center space-y-2 ">
-            <h3 className="medium2_text"> Felitechnology Language sites </h3>
-            <p> English, Kinyarwanda</p>
+        <div className="flex flex-col items-center justify-center space-y-2 mt-8">
+          <h3 className="medium2_text">Who we are</h3>
+          <p className="text-center md:text-left">
+            We are felitechnology, trying to make an effort to put the right
+            people for you to get the best results. Just insight.
+          </p>
+        </div>
+
+        <div className="flex justify-between items-center mt-8 border-t pt-8">
+          <div className="flex flex-col justify-center items-center space-y-2">
+            <h3 className="medium2_text">Felitechnology Language sites</h3>
+            <p>English, Kinyarwanda</p>
           </div>
 
-          <div className="flex flex-col justify-center items-center  space-y-2 ">
-            <h3 className="medium2_text"> Browse by Category </h3>
-
-            <div className=" flex md:flex-row  md:space-x-4">
-              <img src={playstore} className="w-7 h-7" alt="Google Play" />{" "}
+          <div className="flex flex-col justify-center items-center space-y-2">
+            <h3 className="medium2_text">Browse by Category</h3>
+            <div className="flex md:flex-row md:space-x-4">
+              <img src={playstore} className="w-7 h-7" alt="Google Play" />
               <p className="text-black md:medium_text">Google Play</p>
-              <img src={applestore} className="w-7 h-7" alt="App Store" />{" "}
+              <img src={applestore} className="w-7 h-7" alt="App Store" />
               <p className="text-black md:medium_text">App Store</p>
             </div>
           </div>
         </div>
       </div>
-      {/* <FooterBottom /> */}
     </section>
   );
 };

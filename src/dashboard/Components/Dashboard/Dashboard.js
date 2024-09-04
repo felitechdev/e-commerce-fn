@@ -360,7 +360,7 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <Layout className="space-y-6  bg-light overflow-auto">
+    <Layout className="space-y-6 p-2  bg-light overflow-auto">
       <div ref={containerRef} className="">
         <DashboardTopCard />
       </div>

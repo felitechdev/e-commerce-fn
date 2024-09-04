@@ -197,7 +197,7 @@ const Header = (props) => {
             <Link to="/">
               <div className=" ">
                 <Image
-                  className=" h-[100px] w-[250px] "
+                  className=" h-[80px] w-[156px] "
                   imgSrc={FeliTechLogo_transparent}
                 />
               </div>
