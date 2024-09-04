@@ -306,6 +306,33 @@ export const DashProducts = () => {
       sorter: (a, b) => a.age - b.age,
     },
     {
+      title: "Enabled",
+      dataIndex: "Enabled",
+      key: "Enabled",
+      width: 60,
+      render: (_, record) => () => {
+        return (
+          <Tag color="green" key={record.key}>
+            Enabled
+          </Tag>
+        );
+      },
+    },
+    {
+      title: "Featured",
+      dataIndex: "featured",
+      key: "featured",
+      width: 60,
+      render: (_, record) => {
+        return (
+          <span>
+            Featured:
+            <Checkbox onChange={() => {}} checked={record.featured}></Checkbox>
+          </span>
+        );
+      },
+    },
+    {
       title: "Commission",
       dataIndex: "commission",
       key: "commission",
@@ -463,8 +490,10 @@ export const DashProducts = () => {
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
-            category: product?.category?.id,
+            category: product?.category,
+            productClass: product?.productClass,
             seller: product?.seller,
+            featured: product?.featured?.isFeatured ? true : false,
           }))
         : [];
 
@@ -502,8 +531,10 @@ export const DashProducts = () => {
             orders: handlecountorders(product.id),
             published: new Date(`${product.updatedAt}`).toLocaleDateString(),
             address: product?.brandName,
-            category: product?.category?.id,
+            category: product?.category,
+            productClass: product?.productClass,
             seller: product?.seller,
+            featured: product?.featured?.isFeatured ? true : false,
           }))
         : [];
 
@@ -539,26 +570,34 @@ export const DashProducts = () => {
         ? (userRole == "seller"
             ? products?.filter((product) => product?.seller == user?.id)
             : products
-          ).map((product) => ({
-            key: product.id,
-            name: [
-              product.productImages?.productThumbnail?.url,
-              product.name,
-              product.description,
-            ],
-            price: product.price,
-            stock: product.stockQuantity,
-            commission: product?.seller_commission,
-            orders: handlecountorders(product.id),
-            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product?.brandName,
-            category: product?.category?.id,
-            seller: product?.seller,
-          }))
+          ).map((product) => {
+            return {
+              key: product.id,
+              name: [
+                product.productImages?.productThumbnail?.url,
+                product.name,
+                product.description,
+              ],
+              price: product.price,
+              stock: product.stockQuantity,
+              commission: product?.seller_commission,
+              orders: handlecountorders(product.id),
+              published: new Date(`${product.updatedAt}`).toLocaleDateString(),
+              address: product?.brandName,
+              category: product?.category,
+              productClass: product?.productClass,
+
+              seller: product?.seller,
+              featured: product?.featured?.isFeatured ? true : false,
+            };
+          })
         : [];
     setDataSource(newData);
+
     setFilteredData(newData);
   }, [products]);
+
+  console.log("filteredData", filteredData);
 
   return (
     <Layout className="space-y-6 p-2    overflow-auto bg-[white]">
