@@ -162,6 +162,12 @@ const ProductModel = (props) => {
       colorImageUrl: null, // URL of the color image
     },
   ]);
+  const [attributes, setAttributes] = useState([
+    {
+      key: null,
+      value: null,
+    },
+  ]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [stock, setStock] = useState([]);
@@ -361,6 +367,8 @@ const ProductModel = (props) => {
           };
         }),
       },
+
+      attributes: attributes,
     };
 
     isfeatured && featuredImageUrl !== null
@@ -722,6 +730,19 @@ const ProductModel = (props) => {
       });
   };
 
+  const handleAttributeChange = (index, field, value) => {
+    setAttributes((prevAttributes) => {
+      const updatedAttributes = [...prevAttributes.slice(0)];
+
+      updatedAttributes[index] = {
+        ...updatedAttributes[index],
+        [field]: value,
+      };
+
+      return updatedAttributes;
+    });
+  };
+
   const handleCustomerCharge = (e) => {
     if (e.target.checked) {
       setAbsordCustomerCharge(true);
@@ -994,6 +1015,95 @@ const ProductModel = (props) => {
                 />
               </div>
             </Col>
+          </div>
+
+          <span className="mt-2 font-bold ">
+            Is the product has details need to be viewed as a table
+          </span>
+          <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
+            <div className="flex  w-[100%] md:p-5 flex-col justify-center  md:border    items-center rounded ">
+              <Form.List
+                name="attributes"
+                style={{
+                  backgroundColor: "red ! important ",
+                  width: "50%",
+                }}
+              >
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map(({ key, name, ...restField }, index) => (
+                      <>
+                        <Space
+                          key={key}
+                          style={{
+                            display: "flex",
+                            marginBottom: 2,
+                          }}
+                        >
+                          {/* Input for color name */}
+                          <Form.Item {...restField} name={[name, "key"]}>
+                            <Input
+                              placeholder="Enter  Key"
+                              onChange={(e) =>
+                                handleAttributeChange(
+                                  index,
+                                  "key",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </Form.Item>
+
+                          <Form.Item {...restField} name={[name, "value"]}>
+                            <Input
+                              placeholder="Enter data"
+                              onChange={(e) =>
+                                handleAttributeChange(
+                                  index,
+                                  "value",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </Form.Item>
+
+                          {/* Button to remove color entry */}
+                          <MinusCircleOutlined
+                            size={90}
+                            className="text-[red] "
+                            onClick={() => {
+                              remove(name);
+                              setIndex(index - 1);
+                              attributes.length > 0 &&
+                                attributes.splice(index, 1);
+
+                              setAttributes([...attributes]);
+                            }}
+                          />
+                        </Space>
+                      </>
+                    ))}
+                    {/* Button to add new color entry */}
+
+                    <Form.Item>
+                      <Button
+                        type="default"
+                        onClick={() => {
+                          add();
+
+                          setIndex(index + 1);
+                        }}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        + fields
+                      </Button>
+                    </Form.Item>
+                    {}
+                  </>
+                )}
+              </Form.List>
+            </div>
           </div>
 
           <span className=" font-bold">Add Images</span>
