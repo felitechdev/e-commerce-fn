@@ -605,8 +605,6 @@ const UpdateProductModel = (props) => {
     }
   }, [dispatch, companys, token]);
 
-  console.log("attributes", attributes);
-
   function handleOnUpload(error, result, widget) {
     if (error) {
       setImageError(error);
@@ -807,6 +805,8 @@ const UpdateProductModel = (props) => {
         };
       })
     );
+
+    setValue("attributes", attributes);
 
     setAttributes(DBProductInfo?.attributes && DBProductInfo?.attributes);
   }, [DBProductInfo, setValue]);
@@ -1045,58 +1045,70 @@ const UpdateProductModel = (props) => {
               >
                 {(fields, { add, remove }) => (
                   <>
-                    {fields.map(({ key, name, ...restField }, index) => (
-                      <>
-                        <Space
-                          key={key}
-                          style={{
-                            display: "flex",
-                            marginBottom: 2,
-                          }}
-                        >
-                          {/* Input for color name */}
-                          <Form.Item {...restField} name={[name, "key"]}>
-                            <Input
-                              placeholder="Enter  Key"
-                              onChange={(e) =>
-                                handleAttributeChange(
-                                  index,
-                                  "key",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </Form.Item>
-
-                          <Form.Item {...restField} name={[name, "value"]}>
-                            <Input
-                              placeholder="Enter data"
-                              onChange={(e) =>
-                                handleAttributeChange(
-                                  index,
-                                  "value",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </Form.Item>
-
-                          {/* Button to remove color entry */}
-                          <MinusCircleOutlined
-                            size={90}
-                            className="text-[red] "
-                            onClick={() => {
-                              remove(name);
-                              setIndex(index - 1);
-                              attributes.length > 0 &&
-                                attributes.splice(index, 1);
-
-                              setAttributes([...attributes]);
+                    {attributes.length > 0 &&
+                      attributes?.map((variation, index) => (
+                        <>
+                          <Space
+                            key={index}
+                            style={{
+                              display: "flex",
+                              marginBottom: 2,
                             }}
-                          />
-                        </Space>
-                      </>
-                    ))}
+                          >
+                            {/* Input for color name */}
+                            <Form.Item name={[index, "key"]}>
+                              <p>{"key" in variation && ""}</p>
+                              <Input
+                                placeholder="Enter  Key"
+                                value={"key" in variation && variation?.key}
+                                onChange={(e) =>
+                                  handleAttributeChange(
+                                    index,
+                                    "key",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Form.Item>
+
+                            <Form.Item name={[index, "value"]}>
+                              <p>{"value" in variation && ""}</p>
+                              <Input
+                                placeholder="Enter data"
+                                value={"value" in variation && variation?.value}
+                                onChange={(e) =>
+                                  handleAttributeChange(
+                                    index,
+                                    "value",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Form.Item>
+
+                            {/* Button to remove color entry */}
+                            <MinusCircleOutlined
+                              size={90}
+                              className="text-[red] "
+                              onClick={() => {
+                                remove(index);
+                                setIndex(index - 1);
+                                attributes.length > 0 &&
+                                  attributes.splice(index, 1);
+
+                                // setAttributes([...attributes]);
+                              }}
+
+                              // onClick={() => {
+                              //   remove(index);
+                              //   const newVariations = [...colorVariations];
+                              //   newVariations.splice(index, 1);
+                              //   setColorVariations(newVariations);
+                              // }}
+                            />
+                          </Space>
+                        </>
+                      ))}
                     {/* Button to add new color entry */}
 
                     <Form.Item>
@@ -1106,6 +1118,14 @@ const UpdateProductModel = (props) => {
                           add();
 
                           setIndex(index + 1);
+
+                          setAttributes([
+                            ...attributes,
+                            {
+                              key: null,
+                              value: null,
+                            },
+                          ]);
                         }}
                         block
                         icon={<PlusOutlined />}
