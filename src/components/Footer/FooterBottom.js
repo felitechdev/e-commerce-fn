@@ -111,7 +111,38 @@ const FooterBottom = () => {
         </a>
 
         <div className="max-w-container mx-auto grid grid-cols-1  md:grid-cols-4 gap-2">
-          <div className="flex flex-col  items-center md:items-start">
+          <div className="flex md:hidden justify-around">
+            <div className="flex flex-col  items-center md:items-start">
+              <h3 className="medium2_text mx-auto">Explore</h3>
+              <ul className="border-t  mx-auto border-white py-4">
+                <li>
+                  <Link to="/">Search</Link>
+                </li>
+                <li>
+                  <Link to="/">About us</Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className=" flex flex-col items-center md:items-start">
+              <h3 className="medium2_text mx-auto">About</h3>
+              <ul className="border-t  mx-auto border-white py-4 ">
+                <li>
+                  <Link to="/">Delivery</Link>
+                </li>
+                <li>
+                  <Link to="/">Returns</Link>
+                </li>
+                <li>
+                  <Link to="/">Tems</Link>
+                </li>
+                <li>
+                  <Link to="/">Contact Us</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="hidden md:flex flex-col  items-center md:items-start">
             <h3 className="medium2_text mx-auto">Explore</h3>
             <ul className="border-t  mx-auto border-white py-4">
               <li>
@@ -123,7 +154,7 @@ const FooterBottom = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col items-center md:items-start">
+          <div className=" hidden md:flex flex-col items-center md:items-start">
             <h3 className="medium2_text mx-auto">About</h3>
             <ul className="border-t  mx-auto border-white py-4 ">
               <li>

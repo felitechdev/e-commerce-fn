@@ -177,6 +177,12 @@ const UpdateProductModel = (props) => {
   const [isfeatured, setIsfeatured] = useState(false);
   const [featuredImageUrl, setFeaturedImageUrl] = useState("");
   const [featuredError, setFeaturedError] = useState("");
+  const [attributes, setAttributes] = useState([
+    {
+      key: null,
+      value: null,
+    },
+  ]);
   const [index, setIndex] = useState(-1); //index for  color and size variations
   // use react from hook
   const {
@@ -364,6 +370,8 @@ const UpdateProductModel = (props) => {
           };
         }),
       },
+
+      attributes: attributes,
     };
 
     isfeatured && featuredImageUrl !== ""
@@ -691,6 +699,18 @@ const UpdateProductModel = (props) => {
       } catch (error) {}
   };
 
+  const handleAttributeChange = (index, field, value) => {
+    setAttributes((prevAttributes) => {
+      const updatedAttributes = [...prevAttributes.slice(0)];
+
+      updatedAttributes[index] = {
+        ...updatedAttributes[index],
+        [field]: value,
+      };
+
+      return updatedAttributes;
+    });
+  };
   function handleonuploadOtherImages(error, result, widget) {
     if (error) {
       setImageError(error);
@@ -785,6 +805,10 @@ const UpdateProductModel = (props) => {
         };
       })
     );
+
+    setValue("attributes", attributes);
+
+    setAttributes(DBProductInfo?.attributes && DBProductInfo?.attributes);
   }, [DBProductInfo, setValue]);
 
   const handleAbsorbCustomerCharge = (e) => {
@@ -1005,6 +1029,115 @@ const UpdateProductModel = (props) => {
                 />
               </div>
             </Col>
+          </div>
+
+          <span className="mt-2 font-bold ">
+            Is the product has details need to be viewed as a table
+          </span>
+          <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
+            <div className="flex  w-[100%] md:p-5 flex-col justify-center  md:border    items-center rounded ">
+              <Form.List
+                name="attributes"
+                style={{
+                  backgroundColor: "red ! important ",
+                  width: "50%",
+                }}
+              >
+                {(fields, { add, remove }) => (
+                  <>
+                    {attributes.length > 0 &&
+                      attributes?.map((variation, index) => (
+                        <>
+                          <Space
+                            key={index}
+                            style={{
+                              display: "flex",
+                              marginBottom: 2,
+                            }}
+                          >
+                            {/* Input for color name */}
+                            <Form.Item name={[index, "key"]}>
+                              <p>{"key" in variation && ""}</p>
+                              <Input
+                                placeholder="Enter  Key"
+                                value={"key" in variation && variation?.key}
+                                onChange={(e) =>
+                                  handleAttributeChange(
+                                    index,
+                                    "key",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Form.Item>
+
+                            <Form.Item name={[index, "value"]}>
+                              <p>{"value" in variation && ""}</p>
+                              <Input
+                                placeholder="Enter data"
+                                value={"value" in variation && variation?.value}
+                                onChange={(e) =>
+                                  handleAttributeChange(
+                                    index,
+                                    "value",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Form.Item>
+
+                            {/* Button to remove color entry */}
+                            <MinusCircleOutlined
+                              size={90}
+                              className="text-[red] "
+                              onClick={() => {
+                                remove(index);
+                                setIndex(index - 1);
+                                attributes.length > 0 &&
+                                  attributes.splice(index, 1);
+
+                                // setAttributes([...attributes]);
+                              }}
+
+                              // onClick={() => {
+                              //   remove(index);
+                              //   const newVariations = [...colorVariations];
+                              //   newVariations.splice(index, 1);
+                              //   setColorVariations(newVariations);
+                              // }}
+                            />
+                          </Space>
+                        </>
+                      ))}
+                    {/* Button to add new color entry */}
+
+                    <Form.Item>
+                      <Button
+                        type="default"
+                        onClick={() => {
+                          add();
+
+                          setIndex(index + 1);
+
+                          setAttributes([
+                            ...attributes,
+                            {
+                              key: null,
+                              value: null,
+                            },
+                          ]);
+                        }}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        + fields
+                      </Button>
+                    </Form.Item>
+                    {}
+                  </>
+                )}
+              </Form.List>
+            </div>
           </div>
 
           <span className=" font-bold">Add Images</span>
