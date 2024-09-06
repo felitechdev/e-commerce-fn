@@ -41,7 +41,7 @@ const ProductSecondaryInfo = ({ product }) => {
 
       <div className="border-2 border-t-0 rounded-bl-md rounded-br-md py-3 px-4 capitalize-first flex-col sml:flex gap-5">
         {product?.attributes?.length > 0 && (
-          <table className="w-[200px] border table-auto  ">
+          <table className=" border table-auto  ">
             {product?.attributes.map((attribute, index) => {
               return (
                 <tr className="border">
