@@ -23,6 +23,9 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { set } from "js-cookie";
 import { RepayOrder } from "../Order/repay-order";
 import { DownloadStatus } from "../Order/download-receipt";
+import Cookies from "js-cookie";
+import axios from "axios";
+
 const OrderCard = ({ order }) => {
   const user = useUser().user;
   const [orderstatus, setOrderstatus] = useState(order.status);
@@ -31,6 +34,7 @@ const OrderCard = ({ order }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isreceiptopen, setIsreceiptopen] = useState(false);
   const [ispayopen, setIspayopen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [copy, setCopy] = useState({
     value: order.id,
     copied: false,
@@ -38,6 +42,8 @@ const OrderCard = ({ order }) => {
   const { orders, loadorders, errorders } = useSelector(
     (state) => state.orders
   );
+
+  const token = Cookies.get("token");
 
   useEffect(() => {
     setCopy({ value: order.id, copied: false });
@@ -89,7 +95,39 @@ const OrderCard = ({ order }) => {
     },
   ];
 
-  console.log("order card ", order);
+  const onSubmit = async (id) => {
+    let redirectLink;
+    setLoading(true);
+    // setError("");
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/retry/${id}`,
+        {
+          headers: {
+            Authorization: ` Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      redirectLink = await res?.data?.data?.link;
+
+      if (res?.data.status === "success") {
+        setLoading(false);
+        window.open(redirectLink, "_blank");
+      }
+    } catch (error) {
+      setLoading(false);
+
+      // if (error.response?.data?.message === "Payment not completed.")
+      //   return setError(error.response?.data?.message);
+      // if (error.response?.data?.message === "Invalid phone number")
+      //   return setError("Invalid phone number");
+      // setError("Unexpected error has occured. Please try again!");
+    } finally {
+      // setIsLoading(false);
+    }
+  };
 
   const handleupdatestate = async (id, status) => {
     const updatedOrder =
@@ -157,29 +195,41 @@ const OrderCard = ({ order }) => {
             </Tag>
 
             {orderstatus == "awaits payment" && (
-              <div
+              <button
+                disabled={loading}
+                className=""
                 onClick={(e) => {
                   e.stopPropagation();
+                  onSubmit(order.id);
 
-                  setIspayopen(true);
+                  // setIspayopen(true);
                 }}
               >
-                <Tag
-                  style={{ color: "black", fontWeight: "bold" }}
-                  className="capitalize  !text-white p-1  !bg-primary "
-                >
-                  Repay
-                  {/* api/v1/payments/retry-momo */}
-                </Tag>
+                {!loading ? (
+                  <Tag
+                    style={{ color: "black", fontWeight: "bold" }}
+                    className="capitalize  !text-white p-1  !bg-primary "
+                  >
+                    Repay
+                    {/* api/v1/payments/retry-momo */}
+                  </Tag>
+                ) : (
+                  <Tag
+                    style={{ color: "black", fontWeight: "bold" }}
+                    className="capitalize  !text-white p-1  !bg-primary "
+                  >
+                    Processing ...
+                  </Tag>
+                )}
 
-                <RepayOrder
+                {/* <RepayOrder
                   setModel={ispayopen}
                   order={order}
                   setIspayopen={setIspayopen}
                   openModal={openPayModal}
                   handleupdatestate={handleupdatestate}
-                />
-              </div>
+                /> */}
+              </button>
             )}
           </div>
         </div>

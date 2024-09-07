@@ -75,12 +75,6 @@ export const RepayOrder = ({ ...props }) => {
     }
   };
 
-  console.log(
-    "props.order props.order.momo_payload",
-    props.order?.tx_ref,
-    props.order
-  );
-
   return (
     <div
       onClick={(e) => {
@@ -88,7 +82,7 @@ export const RepayOrder = ({ ...props }) => {
       }}
     >
       <Modal
-        title="Pay Order"
+        title={`Pay Order`}
         // width="50rem"
         open={isModalOpen}
         closeIcon={
@@ -103,20 +97,6 @@ export const RepayOrder = ({ ...props }) => {
           e.stopPropagation();
         }}
       >
-        {/* {
-    "order_id": "668f799e3cc5dfc99e1e0285",
-    "payload": {
-        "card_number": "5438898014560229",
-        "cvv": "564",
-        "expiry_month": "09",
-        "expiry_year": "25",
-        "currency": "RWF",
-        "amount": "210000",
-        "fullname": "Flutterwave Developers",
-        "email": "dav.ndungutse@gmail.com",
-        "phone_number": "250785283007"
-    }
-} */}
         {/* {cardpay && ( */}
         <CardPayment
           token={token}
