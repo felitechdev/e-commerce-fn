@@ -25,6 +25,7 @@ export const ProductCatery = (props) => {
   const {
     register,
     control,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -40,6 +41,7 @@ export const ProductCatery = (props) => {
         if (response.status == 201) {
           setAlertIndex("success"); // Display success alert on success
           setAlertDescription(`${"category created"}`);
+          reset();
           dispatch(fetchCategory());
         }
         // refetch categories
@@ -76,6 +78,7 @@ export const ProductCatery = (props) => {
         if (response.status == 200) {
           setAlertIndexonUpdate("success"); // Display success alert on success
           setAlertDescriptiononUpdate(`${"category updated"}`);
+          reset();
           // dispatch(fetchCategory(token));
         }
       })

@@ -418,6 +418,7 @@ const Cart = () => {
 
   const {
     control,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({

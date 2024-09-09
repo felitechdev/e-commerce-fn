@@ -13,6 +13,7 @@ import Image from "../../designLayouts/Image";
 import { FiHeart } from "react-icons/fi";
 import { addTowishlist } from "../../../redux/Reducers/wishlist";
 import discountedFinalPrice from "../../../util/discountedFinalPrice";
+import { newimage } from "../../../assets/images";
 // change i made
 const ProductPreview = ({ productInfo }) => {
   const rootId = productInfo.id;
@@ -22,6 +23,13 @@ const ProductPreview = ({ productInfo }) => {
 
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist);
+
+  const createdAtDate = new Date(productInfo?.createdAt);
+  const currentDate = new Date();
+  const timeDifference = currentDate - createdAtDate;
+  const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+  const isCreatedinthreedays = daysDifference <= 20;
 
   // check if product is in cart
   const productInCart = cart.find((product) => product.id === rootId);
@@ -159,6 +167,13 @@ const ProductPreview = ({ productInfo }) => {
       {productInfo.productImages !== undefined ? (
         <>
           <div className="max-w-80 h-[70%]  relative overflow-y-hidden ">
+            {isCreatedinthreedays && (
+              <img
+                src={newimage}
+                alt=""
+                className="w-15 h-12 absolute -top-1 -left-1 z-40"
+              />
+            )}
             {productInwhishlist ? (
               <FiHeart
                 className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"

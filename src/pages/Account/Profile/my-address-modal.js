@@ -38,6 +38,7 @@ const PersonalAddressInfoModel = (props) => {
     register,
     control,
     setValue,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({ defaultValues: props.profileview });
@@ -90,6 +91,7 @@ const PersonalAddressInfoModel = (props) => {
     )
       .unwrap()
       .then((res) => {
+        reset();
         props.handleCancel();
       })
       .catch((err) => {

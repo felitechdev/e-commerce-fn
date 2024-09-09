@@ -41,6 +41,8 @@ export const OrderTable = (...props) => {
   );
   const dispatch = useDispatch();
 
+  console.log("orders", orders);
+
   const getItems = (record) => [
     {
       label: <span className="font-bold text-primary">View</span>,
@@ -181,8 +183,6 @@ export const OrderTable = (...props) => {
         .catch((error) => {});
     }
   }, [dispatch, token]);
-
-
 
   const FilterByNameInput = (
     <Input.Search
