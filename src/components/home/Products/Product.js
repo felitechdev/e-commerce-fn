@@ -171,7 +171,7 @@ const ProductPreview = ({ productInfo }) => {
               <img
                 src={newimage}
                 alt=""
-                className="w-15 h-12 absolute -top-1 -left-1 z-40"
+                className="w-15 h-12 absolute -top-1.5 -left-1.5 z-40  rounded-tl-lg "
               />
             )}
             {productInwhishlist ? (
