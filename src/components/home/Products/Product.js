@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Badge from "./Badge";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -13,8 +13,12 @@ import Image from "../../designLayouts/Image";
 import { FiHeart } from "react-icons/fi";
 import { addTowishlist } from "../../../redux/Reducers/wishlist";
 import discountedFinalPrice from "../../../util/discountedFinalPrice";
+import { newimage } from "../../../assets/images";
+import { ImageSkeleton } from "../../SkeletonSpinner";
+
 // change i made
 const ProductPreview = ({ productInfo }) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const rootId = productInfo.id;
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,6 +26,13 @@ const ProductPreview = ({ productInfo }) => {
 
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist);
+
+  const createdAtDate = new Date(productInfo?.createdAt);
+  const currentDate = new Date();
+  const timeDifference = currentDate - createdAtDate;
+  const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+  const isCreatedinthreedays = daysDifference <= 20;
 
   // check if product is in cart
   const productInCart = cart.find((product) => product.id === rootId);
@@ -149,6 +160,9 @@ const ProductPreview = ({ productInfo }) => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
 
+  const handleImageLoad = () => {
+    setIsImageLoading(false);
+  };
   let headerIconStyles =
     "hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5]   w-7 h-7  !rounded-full p-1 ";
   return (
@@ -159,6 +173,13 @@ const ProductPreview = ({ productInfo }) => {
       {productInfo.productImages !== undefined ? (
         <>
           <div className="max-w-80 h-[70%]  relative overflow-y-hidden ">
+            {isCreatedinthreedays && (
+              <img
+                src={newimage}
+                alt=""
+                className="w-15 h-12 absolute -top-1.5 -left-1.5 z-40  rounded-tl-lg "
+              />
+            )}
             {productInwhishlist ? (
               <FiHeart
                 className="absolute text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5  cursor-pointer"
@@ -172,10 +193,15 @@ const ProductPreview = ({ productInfo }) => {
                 onClick={(event) => handleAddwishlist(event)}
               />
             )}
-            <div className="m-2   !h-full  ">
+
+            <div className="m-2 !h-full">
+              {isImageLoading && <ImageSkeleton />}{" "}
               <Image
-                className=" !w-full !h-full !object-contain  rounded-tl-md rounded-tr-md"
+                className={`!w-full !h-full !object-contain rounded-tl-md rounded-tr-md ${
+                  isImageLoading ? "hidden" : ""
+                }`}
                 imgSrc={productInfo.productImages.productThumbnail.url}
+                onLoad={handleImageLoad} // Call when the image loads
               />
             </div>
             <div className="absolute  text-[red] top-3 left-4">

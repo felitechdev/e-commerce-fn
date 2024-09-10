@@ -544,6 +544,7 @@ const Checkout = () => {
 
   const {
     control,
+    reset,
     formState: { errors },
     handleSubmit,
     setValue,

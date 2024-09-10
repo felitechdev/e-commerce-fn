@@ -1,62 +1,60 @@
-import { Button, Form, Input, Select } from 'antd';
-import { Controller, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategory } from '../../../Apis/Categories';
-import { createsubcategory } from '../../../Apis/Categories';
-import Cookies from 'js-cookie';
-import Alerts from '../../Notifications&Alert/Alert';
+import { Button, Form, Input, Select } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategory } from "../../../Apis/Categories";
+import { createsubcategory } from "../../../Apis/Categories";
+import Cookies from "js-cookie";
+import Alerts from "../../Notifications&Alert/Alert";
 
 export const SubCategory = () => {
   const [categorys, setCategorys] = useState([]);
-  const [selectedCategory, setSelectedCategory] =
-    useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   // State to control alert display
   const [alertIndex, setAlertIndex] = useState(null);
-  const [alertDescription, setAlertDescription] =
-    useState('');
+  const [alertDescription, setAlertDescription] = useState("");
 
-  const { categories, loadcategory, errcategory } =
-    useSelector((state) => state.category);
+  const { categories, loadcategory, errcategory } = useSelector(
+    (state) => state.category
+  );
 
   const { subcategory, loadsub, errsub } = useSelector(
     (state) => state.createsubcategory
   );
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   const dispatch = useDispatch();
   const {
     register,
     control,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(
-      createsubcategory({ Data: data, token: token })
-    )
+    dispatch(createsubcategory({ Data: data, token: token }))
       .unwrap()
       .then((response) => {
         if (response.status == 201) {
-          setAlertIndex('success'); // Display success alert on success
-          setAlertDescription(`${'subcategory created'}`);
+          setAlertIndex("success"); // Display success alert on success
+          setAlertDescription(`${"subcategory created"}`);
           dispatch(fetchCategory(token));
         }
       })
       .catch((er) => {
-        setAlertIndex('error'); // Display error alert on error
-        setAlertDescription('Error : ' + er.message);
+        setAlertIndex("error"); // Display error alert on error
+        setAlertDescription("Error : " + er.message);
       });
   };
   const onErrors = (errors) => {};
 
   const validateMessages = {
     category: {
-      required: 'category is required',
+      required: "category is required",
     },
     name: {
-      required: 'subcategory is required',
+      required: "subcategory is required",
     },
   };
 
@@ -81,9 +79,7 @@ export const SubCategory = () => {
     if (!option || !option.label) {
       return false;
     }
-    return option.label
-      .toLowerCase()
-      .includes(input.toLowerCase());
+    return option.label.toLowerCase().includes(input.toLowerCase());
   };
   const onSearch = (value) => {};
 
@@ -93,24 +89,19 @@ export const SubCategory = () => {
       dispatch(fetchCategory(token))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == 'sucess') {
+          if (data?.data && data.status == "sucess") {
             setCategorys(data?.data?.categories);
           }
         })
         .catch((error) => {
-          setAlertIndex('error');
-          setAlertDescription('Error : ' + error.message);
+          setAlertIndex("error");
+          setAlertDescription("Error : " + error.message);
           // if (error.response && error.response.status === 401) {
           //   navigate("/");
           // }
         });
     }
-  }, [
-    loadcategory,
-    dispatch,
-    alertDescription,
-    alertIndex,
-  ]);
+  }, [loadcategory, dispatch, alertDescription, alertIndex]);
 
   // Fetch products only when the component mounts
   useEffect(() => {
@@ -118,13 +109,13 @@ export const SubCategory = () => {
       dispatch(fetchCategory(token))
         .unwrap()
         .then((data) => {
-          if (data?.data && data.status == 'sucess') {
+          if (data?.data && data.status == "sucess") {
             setCategorys(data?.data?.categories);
           }
         })
         .catch((error) => {
-          setAlertIndex('error');
-          setAlertDescription('Error : ' + error.message);
+          setAlertIndex("error");
+          setAlertDescription("Error : " + error.message);
         });
     }
   }, [dispatch, categorys, token]);
@@ -141,39 +132,34 @@ export const SubCategory = () => {
           type={alertIndex}
           description={alertDescription}
           onClose={handleAlertClose}
-          className='w-[60%] m-auto'
+          className="w-[60%] m-auto"
         />
       )}
       <Form
-        layout={'vertical'}
-        initialValues={''}
-        onValuesChange={''}
-        className='mt-10 mb-10'
+        layout={"vertical"}
+        initialValues={""}
+        onValuesChange={""}
+        className="mt-10 mb-10"
         onFinish={handleSubmit(onSubmit, onErrors)}
       >
-        <div className='w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5'>
-          <span className='text-primary font-bold'>
-            Add Sub-category
-          </span>
+        <div className="w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5">
+          <span className="text-primary font-bold">Add Sub-category</span>
 
           <Controller
-            name='category'
+            name="category"
             control={control}
-            defaultValue=''
+            defaultValue=""
             rules={validateMessages.category}
             render={({ field }) => (
               <>
-                <Form.Item
-                  label='Enter category'
-                  className=' w-[100%]'
-                >
+                <Form.Item label="Enter category" className=" w-[100%]">
                   {loadcategory ? (
                     <p>loading...</p>
                   ) : (
                     <Select
                       {...field}
                       showSearch
-                      label='Text field'
+                      label="Text field"
                       onSearch={onSearch}
                       filterOption={filterOption}
                       options={categorySelect}
@@ -185,41 +171,31 @@ export const SubCategory = () => {
                     />
                   )}
 
-                  <p className='text-[red]'>
-                    {errors?.category?.message}
-                  </p>
+                  <p className="text-[red]">{errors?.category?.message}</p>
                 </Form.Item>
               </>
             )}
           />
           <Controller
-            name='name'
+            name="name"
             control={control}
             rules={validateMessages.name}
             render={({ field }) => (
-              <Form.Item
-                label='Enter Sub category'
-                className=' w-[100%]'
-              >
-                <Input
-                  {...field}
-                  placeholder='Enter product name'
-                />
-                <p className='text-[red]'>
-                  {errors?.name?.message}
-                </p>
+              <Form.Item label="Enter Sub category" className=" w-[100%]">
+                <Input {...field} placeholder="Enter product name" />
+                <p className="text-[red]">{errors?.name?.message}</p>
               </Form.Item>
             )}
           />
           <Button
-            htmlType='submit'
+            htmlType="submit"
             style={{
-              background: '#1D6F2B',
-              color: 'white',
+              background: "#1D6F2B",
+              color: "white",
             }}
-            className='text-light font-bold w-[100%]'
+            className="text-light font-bold w-[100%]"
           >
-            {loadsub ? 'Loading ...' : 'Add sub-category'}
+            {loadsub ? "Loading ..." : "Add sub-category"}
           </Button>
         </div>
       </Form>

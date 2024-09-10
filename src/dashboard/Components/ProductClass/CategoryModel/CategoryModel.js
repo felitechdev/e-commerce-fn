@@ -33,7 +33,7 @@ const ProductclassModel = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <ProductClassForm />
+        <ProductClassForm handleCancel={handleCancel} />
       </Modal>
     </>
   );

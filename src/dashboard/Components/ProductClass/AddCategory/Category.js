@@ -43,6 +43,8 @@ export const ProductClassForm = (props) => {
     register,
     control,
     setValue,
+
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -61,7 +63,9 @@ export const ProductClassForm = (props) => {
         if (response.status == 201) {
           setAlertIndex("success");
           setAlertDescription(`${"product class created"}`);
-          // dispatch(fetchCategory());
+          reset();
+          props.handleCancel();
+          setIconurl("");
         }
       })
       .catch((er) => {
@@ -84,7 +88,8 @@ export const ProductClassForm = (props) => {
         if (response.status == 200) {
           setAlertIndexonUpdate("success"); // Display success alert on success
           setAlertDescriptiononUpdate(`${"product class updated"}`);
-          // dispatch(fetchCategory(token));
+          reset();
+          props.handleCancel();
         }
       })
       .catch((er) => {

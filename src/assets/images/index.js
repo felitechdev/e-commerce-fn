@@ -40,6 +40,7 @@ import mtn from "./MTN.png";
 import aitel from "./Airtel.png";
 import visa from "./visa.png";
 import mastercard from "./mastercard.png";
+import newimage from "./new.png";
 
 export {
   FeliTechLogo_transparent,
@@ -85,4 +86,5 @@ export {
   aitel,
   visa,
   mastercard,
+  newimage,
 };

@@ -182,8 +182,6 @@ export const OrderTable = (...props) => {
     }
   }, [dispatch, token]);
 
-
-
   const FilterByNameInput = (
     <Input.Search
       placeholder="search orderID ......."

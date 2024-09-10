@@ -119,7 +119,7 @@
 // export default ProductImages;
 
 import { FiHeart } from "react-icons/fi";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import SmallImagesContainer from "./SmallImagesContainer";
 import { useSelector } from "react-redux";
 import { getCloudinaryUrl } from "../../components/imageslider/ImageSlider";
@@ -147,13 +147,21 @@ const ProductImages = ({
 
   const [hoveredImage, setHoveredImage] = useState(null);
   const [isMouseMoveOnImage, setIsMouseMoveOnImage] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const handleImageHover = (e) => {
-    const optimizedImageUrl = getCloudinaryUrl(e.target.src, {
-      width: 500,
-      height: 500,
-    });
-    setHoveredImage(optimizedImageUrl);
+    // const optimizedImageUrl = getCloudinaryUrl(e.target.src, {
+    //   width: 500,
+    //   height: 500,
+    // });
+    // setHoveredImage(optimizedImageUrl);
+    if (!isSmallScreen) {
+      const optimizedImageUrl = getCloudinaryUrl(e.target.src, {
+        width: 500,
+        height: 500,
+      });
+      setHoveredImage(optimizedImageUrl);
+    }
   };
 
   const handleMouseMove = (e) => {
@@ -174,6 +182,18 @@ const ProductImages = ({
     }
     setIsMouseMoveOnImage(false);
   };
+
+  // Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 768); // Set breakpoint for small screens
+    };
+
+    handleResize(); // Check screen size on mount
+    window.addEventListener("resize", handleResize); // Update on resize
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
@@ -198,8 +218,8 @@ const ProductImages = ({
 
             <div
               className="overflow-hidden cursor-pointer hover:border hover:rounded-md hover:border-primary  w-full h-full"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              onMouseMove={isSmallScreen ? null : handleMouseMove}
+              onMouseLeave={isSmallScreen ? null : handleMouseLeave}
             >
               <img
                 ref={imgRef}
@@ -214,8 +234,8 @@ const ProductImages = ({
         <div className="flex flex-row gap-1">
           <SmallImagesContainer
             images={[
-              productImages.productThumbnail,
-              ...productImages.otherImages,
+              productImages?.productThumbnail,
+              ...productImages?.otherImages,
             ]}
             activeImage={activeImage}
             dispatch={dispatch}

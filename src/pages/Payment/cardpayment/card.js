@@ -72,6 +72,7 @@ export const CardPayment = ({
   const {
     control,
     setValue,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({

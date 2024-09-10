@@ -28,6 +28,7 @@ export const SubCategory = (props) => {
   const {
     register,
     control,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -42,6 +43,7 @@ export const SubCategory = (props) => {
           setAlertIndex("success"); // Display success alert on success
           setAlertDescription(`${"subcategory created"}`);
           dispatch(fetchCategory(token));
+          reset();
         }
       })
       .catch((er) => {

@@ -184,6 +184,7 @@ const ProductModel = (props) => {
     control,
     setValue,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     // use mode to specify the event that triggers each input field

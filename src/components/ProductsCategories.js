@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useEffect, useState } from "react";
 import Banner from "./Banner/Banner";
 import AllProducts from "./home/AllProducts/AllProducts";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
@@ -13,16 +13,16 @@ import ProductCategoryAccordion from "./pageProps/shopPage/Accordions/productCat
 import ProductSubCategoryAccordion from "./pageProps/shopPage/Accordions/ProductSubCategory";
 import ProductBrandAccordion from "./pageProps/shopPage/Accordions/productBrand";
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
 import MenuIconWhite from "../assets/images/menu-white.png";
 import { useFetchfeaturedproduct } from "../APIs/react-query/featured-product";
 import { CategoryImagesCards } from "./category-images-cards/category";
 import ProductDisplay from "./our-products/ourproduct-display";
 import ProductPreview from "./home/Products/Product";
+import { newimage } from "../assets/images";
 export async function fetchProducts(page) {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?limit=20&page=${page}&fields=name,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?limit=30&page=${page}&fields=name,price,seller,discountPercentage,createdAt,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
@@ -66,6 +66,9 @@ function ProductsCategories() {
 
   // console.log("featuredproducts", ads, featuredproducts);
 
+  const [isLeftDisabled, setIsLeftDisabled] = useState(true); // Left button disabled state
+  const [isRightDisabled, setIsRightDisabled] = useState(false); // Right button disabled state
+
   const containerRef = useRef(null);
 
   const scrollLeft = () => {
@@ -75,6 +78,41 @@ function ProductsCategories() {
   const scrollRight = () => {
     containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
   };
+
+  const checkScrollPosition = () => {
+    const container = containerRef.current;
+
+    if (container) {
+      // Round the scrollLeft and maxScrollLeft values to prevent rounding issues
+      const scrollLeft = Math.ceil(container.scrollLeft);
+      const maxScrollLeft = Math.floor(
+        container.scrollWidth - container.clientWidth
+      );
+
+      // Set disabled states
+      setIsLeftDisabled(scrollLeft === 0);
+      setIsRightDisabled(scrollLeft >= maxScrollLeft);
+    }
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    // Add event listener for scroll
+    container.addEventListener("scroll", checkScrollPosition);
+
+    // Perform the initial check on component mount
+    checkScrollPosition();
+
+    return () => {
+      container.removeEventListener("scroll", checkScrollPosition);
+    };
+  }, []);
+
+  // Add an effect to recheck scroll position after images/products load
+  useEffect(() => {
+    checkScrollPosition(); // Run again once products have been loaded
+  }, [products]); // Trigger when products data changes
 
   return (
     <div className="w-full mx-auto ">
@@ -90,7 +128,8 @@ function ProductsCategories() {
         <div className="relative bg-[#f8f8f8] rounded-md p-4 h-72 ">
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10"
+            disabled={isLeftDisabled}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50 "
           >
             <BsArrowLeft />
           </button>
@@ -104,7 +143,7 @@ function ProductsCategories() {
               </div>
             ) : (
               products?.map((product, index) => (
-                <div className="min-w-[200px] mb-3 max-w-[250px] h-68 ">
+                <div className="min-w-[200px] mb-3 max-w-[250px] h-68  relative ">
                   <ProductPreview
                     key={product.id + index}
                     productInfo={product}
@@ -115,7 +154,8 @@ function ProductsCategories() {
           </div>
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10"
+            disabled={isRightDisabled}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50"
           >
             <BsArrowRight />
           </button>
