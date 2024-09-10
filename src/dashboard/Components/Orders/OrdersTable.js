@@ -41,8 +41,6 @@ export const OrderTable = (...props) => {
   );
   const dispatch = useDispatch();
 
-  console.log("orders", orders);
-
   const getItems = (record) => [
     {
       label: <span className="font-bold text-primary">View</span>,

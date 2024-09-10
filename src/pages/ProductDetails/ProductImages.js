@@ -183,8 +183,6 @@ const ProductImages = ({
     setIsMouseMoveOnImage(false);
   };
 
-  console.log("small screen", isSmallScreen);
-
   // Detect screen size
   useEffect(() => {
     const handleResize = () => {

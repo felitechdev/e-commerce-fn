@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Badge from "./Badge";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -14,8 +14,11 @@ import { FiHeart } from "react-icons/fi";
 import { addTowishlist } from "../../../redux/Reducers/wishlist";
 import discountedFinalPrice from "../../../util/discountedFinalPrice";
 import { newimage } from "../../../assets/images";
+import { ImageSkeleton } from "../../SkeletonSpinner";
+
 // change i made
 const ProductPreview = ({ productInfo }) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const rootId = productInfo.id;
   const navigate = useNavigate();
   const location = useLocation();
@@ -157,6 +160,9 @@ const ProductPreview = ({ productInfo }) => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
 
+  const handleImageLoad = () => {
+    setIsImageLoading(false);
+  };
   let headerIconStyles =
     "hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5]   w-7 h-7  !rounded-full p-1 ";
   return (
@@ -187,10 +193,15 @@ const ProductPreview = ({ productInfo }) => {
                 onClick={(event) => handleAddwishlist(event)}
               />
             )}
-            <div className="m-2   !h-full  ">
+
+            <div className="m-2 !h-full">
+              {isImageLoading && <ImageSkeleton />}{" "}
               <Image
-                className=" !w-full !h-full !object-contain  rounded-tl-md rounded-tr-md"
+                className={`!w-full !h-full !object-contain rounded-tl-md rounded-tr-md ${
+                  isImageLoading ? "hidden" : ""
+                }`}
                 imgSrc={productInfo.productImages.productThumbnail.url}
+                onLoad={handleImageLoad} // Call when the image loads
               />
             </div>
             <div className="absolute  text-[red] top-3 left-4">

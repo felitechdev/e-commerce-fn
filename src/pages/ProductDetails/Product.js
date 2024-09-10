@@ -1,37 +1,38 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from "react";
 
-import PageLayout from '../../components/designLayouts/PageLayout';
-import ProductDetails from './ProductDetails';
-import { fetchProduct } from '../../APIs/Product';
-import { useParams } from 'react-router-dom';
-import SkeletonSpinner from '../../components/SkeletonSpinner';
+import PageLayout from "../../components/designLayouts/PageLayout";
+import ProductDetails from "./ProductDetails";
+import { fetchProduct } from "../../APIs/Product";
+import { useParams } from "react-router-dom";
+import SkeletonSpinner, {
+  ImageSkeleton,
+} from "../../components/SkeletonSpinner";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'dataReceived':
+    case "dataReceived":
       return {
         ...state,
         productDetails: action.payload,
-        status: 'ready',
+        status: "ready",
         price: action.payload.price,
         id: action.payload.id,
-        activeImage:
-          action.payload.productImages.productThumbnail,
+        activeImage: action.payload.productImages.productThumbnail,
       };
 
-    case 'activeImageChanged':
+    case "activeImageChanged":
       return {
         ...state,
         activeImage: action.payload,
       };
 
-    case 'sizeSelected':
+    case "sizeSelected":
       return {
         ...state,
         selectedMeasurement: action.payload,
       };
 
-    case 'colorSelected':
+    case "colorSelected":
       return {
         ...state,
         selectedColor: action.payload,
@@ -52,15 +53,12 @@ const initialState = {
   id: null,
   activeImage: null,
   // 'loading', 'ready', 'error
-  status: 'loading',
+  status: "loading",
 };
 
 const Product = () => {
   const { id } = useParams();
-  const [product, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [product, dispatch] = useReducer(reducer, initialState);
 
   // Fetch Product
   useEffect(() => {
@@ -69,7 +67,7 @@ const Product = () => {
         const product = await fetchProduct(id);
 
         dispatch({
-          type: 'dataReceived',
+          type: "dataReceived",
           payload: product,
         });
       } catch (error) {
@@ -83,17 +81,14 @@ const Product = () => {
   return (
     <>
       <PageLayout>
-        {product.status === 'loading' && (
-          <div className='max-w-container mx-auto px-4'>
+        {product.status === "loading" && (
+          <div className="max-w-container mx-auto px-4">
             <SkeletonSpinner />
           </div>
         )}
 
-        {product.status === 'ready' && (
-          <ProductDetails
-            product={product}
-            dispatch={dispatch}
-          />
+        {product.status === "ready" && (
+          <ProductDetails product={product} dispatch={dispatch} />
         )}
       </PageLayout>
     </>
