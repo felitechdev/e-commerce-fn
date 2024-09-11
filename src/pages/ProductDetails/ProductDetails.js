@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductImages from "./ProductImages";
 import ProductMainInfo from "./ProductMainInfo";
 import CheckoutDetails from "./CheckoutDetails";
@@ -7,7 +7,10 @@ import { useDispatch } from "react-redux";
 import { addTowishlist } from "../../redux/Reducers/wishlist";
 import { removeTowishlist } from "../../redux/Reducers/wishlist";
 import discountedFinalPrice from "../../util/discountedFinalPrice";
+import { ProductSection } from "../../components/our-products/ProductSection";
 export default function ProductDetails({ product, dispatch }) {
+  const [sectionHasProducts, setSectionHasProducts] = useState({});
+
   const handleAddwishlist = async (id) => {
     // event.stopPropagation();
 
@@ -50,6 +53,13 @@ export default function ProductDetails({ product, dispatch }) {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
 
+  const handleSectionProductStatus = (productClassId, hasProducts) => {
+    setSectionHasProducts((prevState) => ({
+      ...prevState,
+      [productClassId]: hasProducts,
+    }));
+  };
+
   return (
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
       <div className="max-w-container mx-auto p-4 mt-10">
@@ -77,6 +87,22 @@ export default function ProductDetails({ product, dispatch }) {
               </>
             </div>
           </div>
+
+          <div className="max-w-container mx-auto px-2 md:px-6 space-y-4 mt-10 ">
+            <h1 className="medium2_text my-6 ">Related Products</h1>
+            <ProductSection
+              // key={`${productClass.id}`}
+              productClassId={product?.productDetails?.productClass}
+              category={product?.productDetails?.category}
+              setIsSectionHasProduct={(hasProducts) =>
+                handleSectionProductStatus(
+                  product?.productDetails?.productClass,
+                  hasProducts
+                )
+              }
+            />
+          </div>
+
           {/* For testing similar products slider only */}
           {/* <ProductsSection heading='Similar Products'>
             <ProductsSliderContainer>
