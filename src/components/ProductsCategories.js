@@ -68,7 +68,7 @@ function ProductsCategories() {
     return {
       title: product.name,
       id: product.id,
-      image: product.productImages.productThumbnail.url,
+      image: product.featured.image,
     };
   });
 
