@@ -15,6 +15,7 @@ import { addTowishlist } from "../../../redux/Reducers/wishlist";
 import discountedFinalPrice from "../../../util/discountedFinalPrice";
 import { newimage } from "../../../assets/images";
 import { ImageSkeleton } from "../../SkeletonSpinner";
+import { getCloudinaryUrl } from "../../imageslider/ImageSlider";
 
 // change i made
 const ProductPreview = ({ productInfo }) => {
@@ -163,6 +164,14 @@ const ProductPreview = ({ productInfo }) => {
   const handleImageLoad = () => {
     setIsImageLoading(false);
   };
+
+  const optimizedImageUrl = getCloudinaryUrl(
+    productInfo.productImages.productThumbnail.url,
+    {
+      width: 230,
+      height: 240,
+    }
+  );
   let headerIconStyles =
     "hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5]   w-7 h-7  !rounded-full p-1 ";
   return (
@@ -197,10 +206,11 @@ const ProductPreview = ({ productInfo }) => {
             <div className="m-2 !h-full">
               {isImageLoading && <ImageSkeleton />}{" "}
               <Image
-                className={`!w-full !h-full !object-contain rounded-tl-md rounded-tr-md ${
+                className={`!w-[95%] m-auto !h-full  rounded-tl-md rounded-tr-md ${
                   isImageLoading ? "hidden" : ""
                 }`}
-                imgSrc={productInfo.productImages.productThumbnail.url}
+                imgSrc={optimizedImageUrl}
+                // imgSrc={productInfo.productImages.productThumbnail.url}
                 onLoad={handleImageLoad} // Call when the image loads
               />
             </div>

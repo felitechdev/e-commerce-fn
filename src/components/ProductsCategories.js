@@ -19,10 +19,18 @@ import { CategoryImagesCards } from "./category-images-cards/category";
 import ProductDisplay from "./our-products/ourproduct-display";
 import ProductPreview from "./home/Products/Product";
 import { newimage } from "../assets/images";
+import { format } from "date-fns";
+
 export async function fetchProducts(page) {
+  let today = format(new Date(), "yyyy-MM-dd");
+  let prevTwodayago = format(
+    new Date().setDate(new Date().getDate() - 3),
+    "yyyy-MM-dd"
+  );
+
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?limit=30&page=${page}&fields=name,price,seller,discountPercentage,createdAt,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${today}`
     );
 
     return response.data.data.products;

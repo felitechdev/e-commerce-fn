@@ -128,6 +128,8 @@ const Banner = ({ ...props }) => {
     ],
   };
 
+  const optimizedImageUrl = "";
+
   return (
     <div className=" bg-white max-w-container px-2  md:px-6 m-auto flex justify-center h-64">
       <div className="w-full lg:container">
@@ -153,14 +155,13 @@ const Banner = ({ ...props }) => {
                         navigate(`/products/${ad.id}`);
                       }}
                     >
-                      {/* getCloudinaryUrl(ad.image, {
-                width: 240, // 15rem
-                height: 240, // 15rem
-              }) */}
                       <Image
-                        imgSrc={ad.image}
+                        imgSrc={getCloudinaryUrl(ad.image, {
+                          width: 800,
+                          height: 240,
+                        })}
                         // className="w-[800px] h-[240px]  object-cover rounded-[15px]"
-                        className="w-full h-full object-cover rounded-[15px]  "
+                        className="w-full h-full object-fill rounded-[15px]  "
                       />
                     </div>
                   );

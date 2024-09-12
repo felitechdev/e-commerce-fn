@@ -12,7 +12,7 @@ export function getCloudinaryUrl(imageUrl, options = {}) {
   const defaultQuality = "auto:best"; // Ensures the highest quality
   const defaultWidth = "auto";
   const defaultHeight = "auto";
-  const cropMode = "fill"; // Ensures the image is cropped and resized to fit the specified dimensions
+  const cropMode = "thumb"; // Ensures the image is cropped and resized to fit the specified dimensions
 
   // Construct the transformation string
   const transformations = [

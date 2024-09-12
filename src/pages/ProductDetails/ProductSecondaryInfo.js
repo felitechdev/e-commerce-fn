@@ -11,8 +11,8 @@ const ProductSecondaryInfo = ({ product }) => {
     // Construct the transformation string
     const transformations = [
       `q_${quality || defaultQuality}`,
-      // `w_${width || defaultWidth}`,
-      // `h_${height || defaultHeight}`,
+      `w_${width || defaultWidth}`,
+      `h_${height || defaultHeight}`,
       `c_${cropMode}`,
     ].join(",");
 
@@ -24,10 +24,15 @@ const ProductSecondaryInfo = ({ product }) => {
   const optimizedImageUrl = getCloudinaryUrl(
     product?.productImages?.productThumbnail?.url,
     {
-      width: 500,
-      height: 1500,
+      width: 400,
+      height: 400,
     }
   );
+
+  // <img
+  //   src="https://res.cloudinary.com/dccszmlim/image/upload/q_auto:best,c_fill/v1725021396/felitechnology_E-commerce_HAHA/dazhuyyquvyvdauio5cy.png"
+  //   class="m-auto"
+  // ></img>;
 
   return (
     <div className="w-container w-full  flex flex-col">
@@ -45,8 +50,8 @@ const ProductSecondaryInfo = ({ product }) => {
             {product?.attributes.map((attribute, index) => {
               return (
                 <tr className="border">
-                  <td>{attribute.key}</td>
-                  <td>{attribute.value}</td>
+                  <td className="border border-black">{attribute.key}</td>
+                  <td className="border border-black">{attribute.value}</td>
                 </tr>
               );
             })}
