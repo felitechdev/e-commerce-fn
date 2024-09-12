@@ -15,7 +15,6 @@ import { addTowishlist } from "../../../redux/Reducers/wishlist";
 import discountedFinalPrice from "../../../util/discountedFinalPrice";
 import { newimage } from "../../../assets/images";
 import { ImageSkeleton } from "../../SkeletonSpinner";
-import { getCloudinaryUrl } from "../../imageslider/ImageSlider";
 
 // change i made
 const ProductPreview = ({ productInfo }) => {
@@ -165,12 +164,23 @@ const ProductPreview = ({ productInfo }) => {
     setIsImageLoading(false);
   };
 
+  function getCloudinaryUrl(imageUrl) {
+    // Default values
+    const defaultQuality = "auto:best"; // Ensures the highest quality
+
+    const cropMode = "thumb"; // Ensures the image is cropped and resized to fit the specified dimensions
+
+    // Construct the transformation string
+    const transformations = [`q_${defaultQuality}`, `c_${cropMode}`].join(",");
+
+    const url = imageUrl.replace("/upload/", `/upload/${transformations}/`);
+
+    // Insert transformations into the image URL
+    return url;
+  }
+
   const optimizedImageUrl = getCloudinaryUrl(
-    productInfo.productImages.productThumbnail.url,
-    {
-      width: 230,
-      height: 240,
-    }
+    productInfo.productImages.productThumbnail.url
   );
   let headerIconStyles =
     "hover:text-[#1D6F2B] bg-[#E5E5E5] hover:bg-[#E5E5E5]   w-7 h-7  !rounded-full p-1 ";
@@ -206,7 +216,7 @@ const ProductPreview = ({ productInfo }) => {
             <div className="m-2 !h-full">
               {isImageLoading && <ImageSkeleton />}{" "}
               <Image
-                className={`!w-[95%] m-auto !h-full  rounded-tl-md rounded-tr-md ${
+                className={`!w-full !h-full !object-contain rounded-tl-md rounded-tr-md ${
                   isImageLoading ? "hidden" : ""
                 }`}
                 imgSrc={optimizedImageUrl}
