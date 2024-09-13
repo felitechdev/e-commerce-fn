@@ -172,7 +172,12 @@
 //     const cropMode = "thumb"; // Ensures the image is cropped and resized to fit the specified dimensions
 
 //     // Construct the transformation string
-//     const transformations = [`q_${defaultQuality}`, `c_${cropMode}`].join(",");
+//     const transformations = [
+//       `q_${defaultQuality}`,
+//       `c_${cropMode}`,
+//       `w_240`,
+//       `h_240`,
+//     ].join(",");
 
 //     const url = imageUrl.replace("/upload/", `/upload/${transformations}/`);
 
@@ -192,7 +197,7 @@
 //     >
 //       {productInfo.productImages !== undefined ? (
 //         <>
-//           <div className="max-w-80 h-[70%]  relative overflow-y-hidden ">
+//           <div className="max-w-70  h-[70%]  relative overflow-y-hidden ">
 //             {isCreatedinthreedays && (
 //               <img
 //                 src={newimage}
@@ -217,7 +222,7 @@
 //             <div className="m-2 !h-full">
 //               {isImageLoading && <ImageSkeleton />}{" "}
 //               <Image
-//                 className={`!w-[95%] m-auto !h-full  rounded-tl-md rounded-tr-md ${
+//                 className={`!w-[100%] m-auto !h-full  rounded-tl-md rounded-tr-md ${
 //                   isImageLoading ? "hidden" : ""
 //                 }`}
 //                 imgSrc={optimizedImageUrl}

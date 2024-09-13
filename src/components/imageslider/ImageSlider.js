@@ -62,7 +62,7 @@ const ImageSlider = ({ ads }) => {
             <img
               // className="!object-fill  h-[15rem] rounded"
               // className=" rounded-[15px] h-[15rem] w-full object-cover"
-              src={getCloudinaryUrl(ad.image, {
+              src={getCloudinaryUrl(ad?.image, {
                 width: 240, // 15rem
                 height: 240, // 15rem
               })}

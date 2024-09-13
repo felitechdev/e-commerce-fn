@@ -382,6 +382,10 @@ const UpdateProductModel = (props) => {
         })
       : (payload = {
           ...payload,
+          featured: {
+            isFeatured: isfeatured,
+            image: "https://placehold.jp/80x80.png",
+          },
         });
 
     setLoading(true);
