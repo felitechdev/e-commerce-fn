@@ -1,28 +1,45 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import { format } from "date-fns";
 const Token = Cookies.get("token");
 
-// Async thunk for fetching products  to handle asynchronous
 export const fetchadminproduct = createAsyncThunk(
   "product/fetchProducts",
-  async () => {
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?limit=300&page=1`,
-      {
+  async (
+    { page, pageSize, productClass, SellerId, Arrivarls },
+    { rejectWithValue }
+  ) => {
+    let today = format(new Date(), "yyyy-MM-dd");
+    let prevTwodayago = format(
+      new Date().setDate(new Date().getDate() - 3),
+      "yyyy-MM-dd"
+    );
+    try {
+      let url = `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?limit=${pageSize}&page=${page} `;
+      if (productClass) {
+        url += `&productClass=${productClass}`;
+      }
+
+      if (SellerId) {
+        url += `&seller=${SellerId}`;
+      }
+
+      if (Arrivarls) {
+        url += `&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${today}`;
+      }
+
+      const { data } = await axios.get(url, {
         headers: {
           "content-type": "application/json",
-          Authorization: `Bearer ${Token}`, // Pass the token only if it exists
+          Authorization: `Bearer ${Token}`,
         },
-      }
-    );
+      });
 
-    const sortedProducts = data?.data?.products.sort(
-      (a, b) => b.createdAt - a.createdAt
-    );
-
-    return data?.data?.products;
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 

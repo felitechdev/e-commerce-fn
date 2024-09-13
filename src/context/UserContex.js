@@ -41,7 +41,6 @@ function UserProvider({ children }) {
           token,
         });
       } catch (error) {
-        console.error(error);
       } finally {
         setIsCheckingAuth(false);
       }
@@ -56,12 +55,9 @@ function UserProvider({ children }) {
       try {
         if (!token) return;
         await getprofileAddress({ token: token, id: user?.id }).then((res) => {
-          console.log("response", res.data);
           setAddress(res.data);
         });
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     }
 
     checkaddress();

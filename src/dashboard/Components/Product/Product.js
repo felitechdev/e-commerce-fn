@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Button,
   Image,
@@ -16,16 +18,6 @@ import { useSelector, useDispatch } from "react-redux";
 // import type { TableProps } from 'antd/es/table';
 import { useEffect } from "react";
 import {
-  DownloadOutlined,
-  RotateLeftOutlined,
-  RotateRightOutlined,
-  SwapOutlined,
-  ZoomInOutlined,
-  ZoomOutOutlined,
-  SearchOutlined,
-  UndoOutlined,
-  StarFilled,
-  CloseOutlined,
   EditFilled,
   DeleteFilled,
   EyeFilled,
@@ -34,7 +26,7 @@ import {
   FilterFilled,
   AppstoreFilled,
 } from "@ant-design/icons";
-
+import { Columns } from "./columns";
 import { useState } from "react";
 import ProductModel from "./ProductModel/ProductModel";
 import {
@@ -52,7 +44,9 @@ import { useUser } from "../../../context/UserContex";
 import { ActionMenuButton } from "../Button/AvtionButton";
 import UpdateProductModel from "./ProductModel/updateproductModel";
 import { DashBoardSearch } from "../Orders/Ordersv2/orders";
-
+import { CategoryImagesCards } from "./Category-Filter";
+import { SellerFilters } from "./Seller-Filter";
+import { set } from "js-cookie";
 const { Title, Paragraph, Text } = Typography;
 
 export const DashProducts = () => {
@@ -71,6 +65,11 @@ export const DashProducts = () => {
   const [activeFilter, setActiveFilter] = useState(null);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [selectedlist, setSelectedlist] = useState(true);
+  const [productClass, setProductClass] = useState("");
+  const [SellerId, setSellerId] = useState("");
+  const [Arrivarls, setArrivals] = useState(false);
+  const [currentpage, setCurrentpage] = useState(1);
+  const [totalProduct, setTotalProduct] = useState(10);
   // handle update product model
   const [showUpdateModel, setShowUpdateModel] = useState(false);
   const [productId, setProductId] = useState(null);
@@ -159,9 +158,23 @@ export const DashProducts = () => {
     if (e.target.checked) {
       setSelectedCategoryId(null);
       setSelectedsellerId(null);
-      setIsViewAllChecked(true); // Check the checkbox
+      setSellerId("");
+      setProductClass("");
+      setArrivals(false);
+      setIsViewAllChecked(true);
+    } else {
+      setIsViewAllChecked(false);
     }
   };
+
+  useEffect(() => {
+    if (Arrivarls || SellerId !== "" || productClass !== "") {
+      setIsViewAllChecked(false);
+    } else {
+      setIsViewAllChecked(true);
+    }
+  }, [Arrivarls, SellerId, productClass]);
+
   const handleFilterClickactive = (filter) => {
     if (filter === activeFilter) {
       setActiveFilter(null);
@@ -178,19 +191,16 @@ export const DashProducts = () => {
   };
 
   const handleNewArrivals = () => {
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-    const filteredProducts = products.filter(
-      (product) => new Date(product.updatedAt) >= oneWeekAgo
-    );
-
-    setFilteredData(filteredProducts);
+    setArrivals(true);
   };
 
-  if (activeFilter === "NewArrivals") {
-    handleNewArrivals();
-  }
+  useEffect(() => {
+    if (activeFilter === "NewArrivals") {
+      setArrivals(true);
+    } else {
+      setArrivals(false);
+    }
+  }, [activeFilter]);
 
   // -calcurate order fo each product
   const handlecountorders = (productId) => {
@@ -212,195 +222,6 @@ export const DashProducts = () => {
 
     return totalQuantity;
   };
-
-  const Columns = [
-    {
-      // title: `Product ${FilterByNameInput}`,
-      title: "Product",
-      dataIndex: "name",
-      key: "name",
-      colSpan: "1",
-      render: (_, record, index) => (
-        <Space size={12} className="" key={index}>
-          <Image
-            width={50}
-            className="rounded-md"
-            src={record.name[0]}
-            preview={{
-              toolbarRender: (
-                _,
-                {
-                  transform: { scale },
-                  actions: {
-                    onFlipY,
-                    onFlipX,
-                    onRotateLeft,
-                    onRotateRight,
-                    onZoomOut,
-                    onZoomIn,
-                    onReset,
-                  },
-                  // actions: {
-                  //   onFlipY,
-                  //   onFlipX,
-                  //   onRotateLeft,
-                  //   onRotateRight,
-                  //   onZoomOut,
-                  //   onZoomIn,
-                  //   onClose,
-                  // },
-                }
-              ) => (
-                <Space size={12} className="toolbar-wrapper">
-                  <DownloadOutlined onClick={() => onDownload(src)} />
-                  <SwapOutlined rotate={90} onClick={onFlipY} />
-                  <SwapOutlined onClick={onFlipX} />
-                  <RotateLeftOutlined onClick={onRotateLeft} />
-                  <RotateRightOutlined onClick={onRotateRight} />
-                  <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
-                  <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
-                  <UndoOutlined onClick={onReset} />
-                </Space>
-              ),
-            }}
-          />
-
-          <div className=" overflow-auto ">
-            <strong className="w-full">{record.name[1]}</strong>
-
-            {/* display value as html */}
-            {/* <div
-              className="w-full overflow-auto  "
-              dangerouslySetInnerHTML={{
-                __html: record.name[2].slice(0, 30) + "...",
-              }}
-            /> */}
-          </div>
-        </Space>
-      ),
-
-      width: 100,
-    },
-    {
-      title: "Stock",
-      dataIndex: { stock },
-      key: "Stock",
-      width: 60,
-      render: (_, record) => (
-        <div className="w-full text-start">
-          <span>{record.stock} units</span>
-        </div>
-      ),
-      sorter: (a, b) => a.age - b.age,
-    },
-    {
-      title: "Price",
-      dataIndex: "Price",
-      key: "Price",
-      width: 100,
-      render: (_, record) => (
-        <div className="w-full text-start">
-          <span>{record.price.toLocaleString()} RWF</span>
-        </div>
-      ),
-      sorter: (a, b) => a.age - b.age,
-    },
-    {
-      title: "Enabled",
-      dataIndex: "Enabled",
-      key: "Enabled",
-      width: 60,
-      render: (_, record) => () => {
-        return (
-          <Tag color="green" key={record.key}>
-            Enabled
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "Featured",
-      dataIndex: "featured",
-      key: "featured",
-      width: 60,
-      render: (_, record) => {
-        return (
-          <span>
-            Featured:
-            <Checkbox onChange={() => {}} checked={record.featured}></Checkbox>
-          </span>
-        );
-      },
-    },
-    {
-      title: "Commission",
-      dataIndex: "commission",
-      key: "commission",
-      width: 100,
-      render: (_, record) => (
-        <div className="w-full text-start">
-          <span>
-            {record?.commission ? record?.commission * 100 + "%" : "No "}
-          </span>
-        </div>
-      ),
-    },
-    {
-      title: "Action",
-      dataIndex: "Action",
-      key: "Action",
-      width: 100,
-      render: (_, record) => (
-        <>
-          <ActionButton
-            handleUpdatestate={handleUpdatestate}
-            productId={record.key}
-          />
-          {/* <EditFilled className=" text-icon2 mr-2" />
-          <EyeFilled className=" text-icon1 mr-2" />
-          <DeleteFilled className=" text-icon3" /> */}
-
-          {/* <ActionButton /> */}
-        </>
-      ),
-    },
-    {
-      title: "Orders",
-      dataIndex: "orders",
-      key: "orders",
-      width: 30,
-      render: (_, record) => {
-        const orders = handlecountorders(record.key);
-
-        return (
-          <div className="w-full text-start">
-            <span>total: {orders}</span>
-          </div>
-        );
-      },
-    },
-    {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
-      width: 50,
-      render: (_, record) => (
-        <div className="w-full text-start">
-          <span>
-            **
-            <StarFilled className="text-icon1" />
-          </span>
-        </div>
-      ),
-    },
-    {
-      title: "Published",
-      dataIndex: "published",
-      key: "published",
-      width: 100,
-      // sorter: (a, b) => a.age - b.age,
-    },
-  ];
 
   const getItems = (record) => [
     {
@@ -460,108 +281,62 @@ export const DashProducts = () => {
     setProducts((prevProducts) => [...prevProducts, data]);
   };
 
-  //- filter product by category
-  useEffect(() => {
-    let filteredProducts;
-    if (selectedCategoryId) {
-      filteredProducts = dashproduct.filter(
-        (product) => product?.category?.id == selectedCategoryId
-      );
-    } else {
-      filteredProducts = dashproduct;
-      setIsViewAllChecked(true); // Check the checkbox
-    }
-
-    const formattedFilteredProducts =
-      filteredProducts.length > 0
-        ? (userRole == "seller"
-            ? filteredProducts?.filter((product) => product?.seller == user?.id)
-            : filteredProducts
-          ).map((product) => ({
-            key: product.id,
-            name: [
-              product.productImages?.productThumbnail?.url,
-              product.name,
-              product.description,
-            ],
-            price: product.price,
-            commission: product?.seller_commission,
-            stock: product.stockQuantity,
-            orders: handlecountorders(product.id),
-            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product?.brandName,
-            category: product?.category,
-            productClass: product?.productClass,
-            seller: product?.seller,
-            featured: product?.featured?.isFeatured ? true : false,
-          }))
-        : [];
-
-    setFilteredData(formattedFilteredProducts);
-  }, [selectedCategoryId]);
-
-  //- filter product by seller
-  useEffect(() => {
-    let filteredProducts;
-
-    if (selectedsellerId) {
-      filteredProducts = dashproduct.filter(
-        (product) => product?.seller?.id == selectedsellerId
-      );
-    } else {
-      filteredProducts = dashproduct;
-      setIsViewAllChecked(true); // Check the checkbox
-    }
-
-    const formattedFilteredProducts =
-      filteredProducts.length > 0
-        ? (userRole == "seller"
-            ? filteredProducts?.filter((product) => product?.seller == user?.id)
-            : filteredProducts
-          ).map((product) => ({
-            key: product.id,
-            name: [
-              product.productImages?.productThumbnail?.url,
-              product.name,
-              product.description,
-            ],
-            price: product.price,
-            commission: product?.seller_commission,
-            stock: product.stockQuantity,
-            orders: handlecountorders(product.id),
-            published: new Date(`${product.updatedAt}`).toLocaleDateString(),
-            address: product?.brandName,
-            category: product?.category,
-            productClass: product?.productClass,
-            seller: product?.seller,
-            featured: product?.featured?.isFeatured ? true : false,
-          }))
-        : [];
-
-    setFilteredData(formattedFilteredProducts);
-  }, [selectedsellerId]);
-
   // implement redux
-  useEffect(() => {
-    if (loading) {
-      dispatch(fetchadminproduct())
-        .unwrap()
-        .then((data) => {
-          setProducts(data);
-        });
-    }
-  }, [loading, dispatch]);
+  // useEffect(() => {
+  //   if (loading) {
+  //     dispatch(fetchadminproduct(1, 10, productClass))
+  //       .unwrap()
+  //       .then((data) => {
+  //         setProducts(data);
+  //       });
+  //   }
+  // }, [loading, dispatch, productClass]);
+
+  // const fetchRecords = (page, pageSize) => {
+  //   dispatch(fetchadminproduct(page, pageSize, productClass))
+  //     .unwrap()
+  //     .then((data) => {
+  //       setProducts(data);
+  //     });
+  // };
+
+  // Fetch products only when the component mounts
+  // useEffect(() => {
+  //   if (!products.length) {
+  //     dispatch(fetchadminproduct(1, 10, productClass))
+  //       .unwrap()
+  //       .then((data) => {
+  //         setProducts(data);
+  //       });
+  //   }
+  // }, [dispatch, productClass]);
 
   // Fetch products only when the component mounts
   useEffect(() => {
-    if (!products.length) {
-      dispatch(fetchadminproduct())
-        .unwrap()
-        .then((data) => {
-          setProducts(data);
-        });
-    }
-  }, [dispatch]);
+    dispatch(
+      fetchadminproduct({
+        page: 1,
+        pageSize: 10,
+        productClass,
+        SellerId,
+        Arrivarls,
+      })
+    )
+      .unwrap()
+      .then((data) => {
+        setTotalProduct(data?.totalProducts);
+        setProducts(data?.data?.products);
+      });
+  }, [productClass, dispatch, SellerId, Arrivarls]);
+
+  // useEffect(() => {
+  //   if (!loading) {
+  //     dispatch(fetchadminproduct({ page: 1, pageSize: 10, productClass }))
+  //       .unwrap()
+  //       .then((data) => setProducts(data))
+  //       .catch((err) => console.error(err));
+  //   }
+  // }, [dispatch, loading, productClass]);
 
   useEffect(() => {
     // Generate dataSource based on the current products state
@@ -708,17 +483,23 @@ export const DashProducts = () => {
                     className={`filterOption p-x-10 rounded-sm ${
                       activeFilter === "NewArrivals" ? "underline" : ""
                     }`}
-                    onClick={() => handleFilterClick("NewArrivals")}
+                    onClick={() => handleFilterClickactive("NewArrivals")}
                   >
                     New Arrivals
                   </h3>
                 </div>
 
                 {activeFilter === "Category" && (
-                  <CategoryList onCategorySelect={handleCategorySelect} />
+                  <CategoryImagesCards
+                    productClass={productClass}
+                    setProductClass={setProductClass}
+                  />
                 )}
                 {activeFilter === "Seller" && (
-                  <SellerList onSellersellect={handleSellerSelect} />
+                  <SellerFilters
+                    SellerId={SellerId}
+                    setSellerId={setSellerId}
+                  />
                 )}
               </Card>
             )}
@@ -739,8 +520,40 @@ export const DashProducts = () => {
                 dataSource={filteredProducts.sort(
                   (a, b) => new Date(b.published) - new Date(a.published)
                 )}
-                columns={Columns}
-                onChange={onChange}
+                // columns={Columns}
+                columns={Columns({
+                  onDownload,
+                  handleUpdatestate,
+                  handlecountorders,
+                  src,
+                  stock,
+                })}
+                // onChange={onChange}
+
+                pagination={{
+                  total: totalProduct,
+                  defaultPageSize: 10,
+                  current: currentpage,
+                  defaultCurrent: 1,
+                  style: {},
+                  onChange: (page, pageSize) => {
+                    setCurrentpage(page);
+                    dispatch(
+                      fetchadminproduct({
+                        page: page,
+                        pageSize: pageSize,
+                        productClass,
+                        SellerId,
+                        Arrivarls,
+                      })
+                    )
+                      .unwrap()
+                      .then((data) => {
+                        setTotalProduct(data?.totalProducts);
+                        setProducts(data?.data?.products);
+                      });
+                  },
+                }}
                 scroll={{ x: 1500, y: 1200 }}
               />
             ) : (

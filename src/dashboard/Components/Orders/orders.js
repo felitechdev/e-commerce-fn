@@ -10,10 +10,6 @@ import { useState, useEffect, useRef } from "react";
 
 import { OrderTable } from "./OrdersTable";
 
-// import actions
-import { fetchadminproduct } from "../../Apis/Product";
-import { Loader } from "../Loader/LoadingSpin";
-
 import Cookies from "js-cookie";
 
 const { Title, Paragraph, Text } = Typography;
