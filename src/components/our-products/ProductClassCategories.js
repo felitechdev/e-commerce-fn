@@ -61,12 +61,12 @@ export const ProductClassCategories = () => {
                 key={productClass.id}
                 className={shouldHideSection ? "hidden" : ""}
               >
-                <div className="product-class border-b-2">
+                <div className="product-class border-b-2 mb-5  py-1">
                   <h2 className="medium2_text capitalize mr-3">
                     {productClass.name}
                   </h2>
                   <div
-                    className="  md:w-[50%] categories caregory_text capitalize space-x-4 overflow-auto !no-scrollbar"
+                    className="  md:w-[50%]  py-2 categories caregory_text capitalize space-x-4 overflow-auto !no-scrollbar"
                     ref={containerRef}
                   >
                     {productClass.categories.map((category) => (

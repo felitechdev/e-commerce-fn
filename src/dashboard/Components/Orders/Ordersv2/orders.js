@@ -24,9 +24,9 @@ export const DashBoardSearch = ({
   placeholder,
 }) => {
   return (
-    <div className="relative w-full lg:w-[400px] h-[40px] md:h-[45px] text-base   text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md border-[1px]">
+    <div className="relative w-full lg:w-[400px] h-[30px] md:h-[35px] text-base   text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md border-[1px] mb-2">
       <input
-        className="flex-1 h-full rounded-l-md  w-[90%] md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
+        className="flex-1 h-full rounded-md !w-[90%] !md:w-[85%]   outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none"
         type="text"
         onChange={handleSearch}
         value={searchQuery}

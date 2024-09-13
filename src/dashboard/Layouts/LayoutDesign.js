@@ -285,7 +285,7 @@ export const LayoutDesign = ({ userprofile }) => {
         )}
         <Layout className="overflow-auto scrollbar-hidden bg-light">
           <Header className="fixed z-50 w-[100%] top-0 left- right-0 border shadow-md bg-white !text-primary flex justify-between pl-0 pr-1  md:pr-5">
-            <div className="flex items-center ">
+            <div className="flex items-center pl-2 ">
               <Button
                 type="text"
                 // icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -294,9 +294,9 @@ export const LayoutDesign = ({ userprofile }) => {
                   toggleSidebar();
                 }}
                 style={{
-                  fontSize: "35px",
-                  width: 64,
-                  height: 64,
+                  fontSize: "30px",
+                  width: 50,
+                  height: 50,
                   fontWeight: "",
                   color: "#1D6F2B",
                   // backgroundColor: "red",
@@ -306,9 +306,9 @@ export const LayoutDesign = ({ userprofile }) => {
                 }}
               >
                 {collapsed ? (
-                  <MenuFoldOutlined size={30} />
+                  <MenuFoldOutlined size={20} />
                 ) : (
-                  <CloseSquareFilled size={30} />
+                  <CloseSquareFilled size={20} />
                 )}
               </Button>
 

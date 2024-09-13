@@ -80,7 +80,7 @@ const Product = () => {
 
   return (
     <>
-      <PageLayout>
+      <PageLayout showFooter={true}>
         {product.status === "loading" && (
           <div className="max-w-container mx-auto px-4">
             <SkeletonSpinner />

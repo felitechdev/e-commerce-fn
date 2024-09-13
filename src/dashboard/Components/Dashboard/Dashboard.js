@@ -370,7 +370,7 @@ export const Dashboard = () => {
       {/* </div> */}
 
       {userRole.role == "admin" && (
-        <div className="w-full  space-x-4 p-3 bg-[white]">
+        <div className=" hidden w-full  space-x-4 p-3 bg-[white]">
           {/* display loading spinner */}
           {status == "loading" ? (
             <>
