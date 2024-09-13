@@ -60,6 +60,8 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       folder: "felitechnologyimages",
       multiple: uploadmultiple,
       maxFiles: uploadmultiple ? 6 : 1,
+      cropping: true,
+      croppingCoordinatesMode: "custom",
 
       styles: {
         palette: {
