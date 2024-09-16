@@ -169,7 +169,8 @@ const Banner = ({ ...props }) => {
               ) : (
                 <div className="w-1408 h-[15rem] mx-auto rounded-[15px] ">
                   <Image
-                    imgSrc={bannerImgOne}
+                    // imgSrc={bannerImgOne}
+                    imgSrc="https://lh3.googleusercontent.com/p/AF1QipOo2Z1hb_PERwY_EBItgdpdoUYPPZfqqfQPCMr1=s680-w680-h510"
                     className="w-full h-full object-cover rounded-[15px]"
                   />
                 </div>
@@ -202,9 +203,9 @@ const Banner = ({ ...props }) => {
             </Slider>
           </div>
 
-          <div className="w-full lg:hidden  ">
+          <div className="w-full lg:hidden   ">
             <Slider {...settings} className="px-4 w-full rounded-[15px]">
-              <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
+              {/* <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgOne}
                   className="w-full h-full object-cover rounded-[15px]"
@@ -228,25 +229,34 @@ const Banner = ({ ...props }) => {
                   imgSrc={bannerImgThree}
                   className="w-full h-full object-cover rounded-[15px]"
                 />
-              </div>
+              </div> */}
 
-              {props?.ads?.map((ad, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="w-1408 h-[15rem] mx-auto rounded-[15px] border"
-                    onClick={() => {
-                      navigate(`/products/${ad.id}`);
-                    }}
-                  >
-                    <Image
-                      imgSrc={ad.image}
-                      // imgSrc={getCloudinaryUrl(ad.image, {})}
-                      className="h-full w-full object-fill rounded-[15px] m-auto"
-                    />
-                  </div>
-                );
-              })}
+              {props?.ads && props?.ads.length > 0 ? (
+                props?.ads?.map((ad, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="w-1408 h-[15rem] mx-auto rounded-[15px] border"
+                      onClick={() => {
+                        navigate(`/products/${ad.id}`);
+                      }}
+                    >
+                      <Image
+                        imgSrc={ad.image}
+                        // imgSrc={getCloudinaryUrl(ad.image, {})}
+                        className="h-full w-full object-fill rounded-[15px] m-auto"
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="w-1408 h-[15rem] mx-auto rounded-[15px] border">
+                  <Image
+                    imgSrc="https://lh3.googleusercontent.com/p/AF1QipOo2Z1hb_PERwY_EBItgdpdoUYPPZfqqfQPCMr1=s680-w680-h510"
+                    className="h-full w-full object-fill rounded-[15px] m-auto"
+                  />
+                </div>
+              )}
             </Slider>
           </div>
           <div className="hidden lg:w-[20%] lg:block  rounded-[15px]  border  ">
