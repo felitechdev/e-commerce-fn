@@ -170,7 +170,7 @@ const Banner = ({ ...props }) => {
                 <div className="w-1408 h-[15rem] mx-auto rounded-[15px] ">
                   <Image
                     // imgSrc={bannerImgOne}
-                    imgSrc="https://lh3.googleusercontent.com/p/AF1QipOo2Z1hb_PERwY_EBItgdpdoUYPPZfqqfQPCMr1=s680-w680-h510"
+                    imgSrc="https://res.cloudinary.com/dccszmlim/image/upload/v1726477123/felitechnology_E-commerce_HAHA/imdfmiu38l17nkjxoxnl.png"
                     className="w-full h-full object-cover rounded-[15px]"
                   />
                 </div>
@@ -252,7 +252,7 @@ const Banner = ({ ...props }) => {
               ) : (
                 <div className="w-1408 h-[15rem] mx-auto rounded-[15px] border">
                   <Image
-                    imgSrc="https://lh3.googleusercontent.com/p/AF1QipOo2Z1hb_PERwY_EBItgdpdoUYPPZfqqfQPCMr1=s680-w680-h510"
+                    imgSrc="https://res.cloudinary.com/dccszmlim/image/upload/v1726477123/felitechnology_E-commerce_HAHA/imdfmiu38l17nkjxoxnl.png"
                     className="h-full w-full object-fill rounded-[15px] m-auto"
                   />
                 </div>
