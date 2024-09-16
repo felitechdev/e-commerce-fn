@@ -583,7 +583,7 @@ const Cart = () => {
                     <p className="flex items-center justify-between border-b py-1.5  px-4 font-medium">
                       <span>Subtotal</span>
                       <span className="  tracking-wide  font-bold ">
-                        {totalCost} RWF
+                        {totalCost.toLocaleString()} RWF
                       </span>
                     </p>
                     {/* <p className="flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
@@ -595,7 +595,7 @@ const Cart = () => {
                     <p className="flex items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
                       Total
                       <span className="font-bold tracking-wide text-lg font-titleFont">
-                        {totalCost + deliveryprice} RWF
+                        {(totalCost + deliveryprice).toLocaleString()} RWF
                       </span>
                     </p>
                   </div>

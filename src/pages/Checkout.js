@@ -758,7 +758,7 @@ const Checkout = () => {
           <div className="pb-20">
             <div className="flex flex-col-reverse md:flex-row  justify-between items-start gap-8">
               {/* bg-[#F5F7F7] */}
-              <div className=" w-[100%] md:w-[40%] bg-[#F5F7F7] rounded text-primeColor   place-content-center px-2 md:px-2 text-lg font-titleFont font-semibold">
+              <div className=" w-[100%] md:w-[40%] bg-[#F5F7F7] rounded text-primeColor   place-content-center px-2 md:px-2 text-lg font-titleFont ">
                 <h2 className="mt-2">Ordered products</h2>
 
                 <div className="mt-5">
@@ -781,10 +781,10 @@ const Checkout = () => {
                     Summary
                   </h1>
                   <div className="border rounded">
-                    <p className="flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
+                    <p className="flex flex-wrap items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
                       <span>Subtotal</span>
                       <span className="font-semibold tracking-wide font-titleFont">
-                        {totalCost} RWF
+                        {totalCost.toLocaleString()} RWF
                       </span>
                     </p>
                     {/* <p className="flex items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
@@ -793,10 +793,10 @@ const Checkout = () => {
                         {deliveryprice} RWF
                       </span>
                     </p> */}
-                    <p className="flex items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
+                    <p className="flex  flex-wrap items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
                       Total
                       <span className="font-bold tracking-wide text-lg font-titleFont">
-                        {totalCost + deliveryprice} RWF
+                        {(totalCost + deliveryprice).toLocaleString()} RWF
                       </span>
                     </p>
                   </div>
@@ -1107,7 +1107,7 @@ const Checkout = () => {
                           style={{ background: "#1D6F2B", color: "#FFFFFF" }}
                         >
                           {(isLoading && "Processing...") ||
-                            `Pay ${totalCost} Rwf`}
+                            `Pay ${totalCost.toLocaleString()} Rwf`}
                         </Button>
                       </div>
                     </Col>
