@@ -33,6 +33,7 @@ import {
   ActionButton,
   SingleproductModel,
 } from "./ActionButton copy/ActionButton";
+import axios from "axios";
 import { CategoryList } from "../filterproducts/categorylist";
 import { useNavigate } from "react-router-dom";
 // import actions
@@ -48,6 +49,18 @@ import { CategoryImagesCards } from "./Category-Filter";
 import { SellerFilters } from "./Seller-Filter";
 import { set } from "js-cookie";
 const { Title, Paragraph, Text } = Typography;
+
+export async function searchproduct(name) {
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/search?name=${name}`
+    );
+
+    return response.data.data.products;
+  } catch (error) {
+    return [];
+  }
+}
 
 export const DashProducts = () => {
   const [products, setProducts] = useState([]);
@@ -69,6 +82,9 @@ export const DashProducts = () => {
   const [SellerId, setSellerId] = useState("");
   const [Arrivarls, setArrivals] = useState(false);
   const [currentpage, setCurrentpage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [issearch, setIssearch] = useState(false);
+  const [searchProduct, setSearchProduct] = useState([]);
   const [totalProduct, setTotalProduct] = useState(10);
   // handle update product model
   const [showUpdateModel, setShowUpdateModel] = useState(false);
@@ -84,6 +100,52 @@ export const DashProducts = () => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    if (searchQuery.length > 0) {
+      setIssearch(true);
+      searchproduct(searchQuery).then((data) => {
+        const newData =
+          data.length > 0
+            ? (userRole == "seller"
+                ? data?.filter((product) => product?.seller == user?.id)
+                : data
+              ).map((product) => {
+                return {
+                  key: product.id,
+                  name: [
+                    product.productImages?.productThumbnail?.url,
+                    product.name,
+                    product.description,
+                  ],
+                  price: product.price,
+                  stock: product.stockQuantity,
+                  commission: product?.seller_commission,
+                  orders: handlecountorders(product.id),
+                  published: new Date(
+                    `${product.updatedAt}`
+                  ).toLocaleDateString(),
+                  address: product?.brandName,
+                  category: product?.category,
+                  productClass: product?.productClass,
+
+                  seller: product?.seller,
+                  featured: product?.featured?.isFeatured ? true : false,
+                };
+              })
+            : [];
+
+        setSearchProduct(newData);
+
+        // setFilteredData(newData);
+        // setDataSource(newData);
+        // setFilteredProducts(data);
+      });
+    } else {
+      setIssearch(false);
+      setSearchProduct([]);
+    }
+  }, [searchQuery]);
+
   // redux
   const dispatch = useDispatch();
   const { dashproduct, loading, err } = useSelector(
@@ -95,7 +157,7 @@ export const DashProducts = () => {
   );
   // const { user, load } = useSelector((state) => state.userlogin);
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   const { user, onLogout } = useUser();
   const userRole = user?.role;
 
@@ -280,36 +342,6 @@ export const DashProducts = () => {
   const handlecreateproduct = (data) => {
     setProducts((prevProducts) => [...prevProducts, data]);
   };
-
-  // implement redux
-  // useEffect(() => {
-  //   if (loading) {
-  //     dispatch(fetchadminproduct(1, 10, productClass))
-  //       .unwrap()
-  //       .then((data) => {
-  //         setProducts(data);
-  //       });
-  //   }
-  // }, [loading, dispatch, productClass]);
-
-  // const fetchRecords = (page, pageSize) => {
-  //   dispatch(fetchadminproduct(page, pageSize, productClass))
-  //     .unwrap()
-  //     .then((data) => {
-  //       setProducts(data);
-  //     });
-  // };
-
-  // Fetch products only when the component mounts
-  // useEffect(() => {
-  //   if (!products.length) {
-  //     dispatch(fetchadminproduct(1, 10, productClass))
-  //       .unwrap()
-  //       .then((data) => {
-  //         setProducts(data);
-  //       });
-  //   }
-  // }, [dispatch, productClass]);
 
   // Fetch products only when the component mounts
   useEffect(() => {
@@ -517,9 +549,13 @@ export const DashProducts = () => {
                   left: 0,
                   zIndex: 1,
                 }}
-                dataSource={filteredProducts.sort(
-                  (a, b) => new Date(b.published) - new Date(a.published)
-                )}
+                dataSource={
+                  !issearch ? filteredData : searchProduct
+                  // filteredProducts
+                  //   .sort(
+                  //   (a, b) => new Date(b.published) - new Date(a.published)
+                  // )
+                }
                 // columns={Columns}
                 columns={Columns({
                   onDownload,
@@ -567,7 +603,7 @@ export const DashProducts = () => {
                   }}
                   className="w-full "
                 >
-                  {filteredProducts.map((product) => {
+                  {filteredData.map((product) => {
                     return (
                       <Col
                         className="gutter-row text-center "
