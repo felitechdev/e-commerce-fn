@@ -29,14 +29,13 @@ export const getdashproductslice = createSlice({
       })
       .addCase(updateuserProduct, (state, action) => {
         const updatedProduct = action.payload;
-
-        const currentDashProduct = current(state).dashproduct;
+        const currentDashProduct =
+          current(state).dashproduct?.data?.products || [];
 
         const updatedDashProduct = [
           updatedProduct.product,
           ...currentDashProduct,
         ];
-
         state.dashproduct = updatedDashProduct;
       });
   },
