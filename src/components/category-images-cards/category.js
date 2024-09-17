@@ -52,7 +52,7 @@ export const CategoryImagesCards = ({ ...props }) => {
                           : "https://placehold.jp/80x80.png"
                       } `}
                       alt={pclass.name}
-                      className="object-fill rounded-full h-[90%] w-[90%]   "
+                      className="object-cover rounded-full h-full w-full"
                     />
                   </div>
                   <p className="text-sm hover:text-primary hover:underline ">

@@ -497,7 +497,8 @@ const ProductPreview = ({ productInfo }) => {
     // Construct the transformation string
     const transformations = [`q_${defaultQuality}`, `c_${cropMode}`].join(",");
 
-    const url = imageUrl.replace("/upload/", `/upload/${transformations}/`);
+    const url =
+      imageUrl && imageUrl?.replace("/upload/", `/upload/${transformations}/`);
 
     // Insert transformations into the image URL
     return url;

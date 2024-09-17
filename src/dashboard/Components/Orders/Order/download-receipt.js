@@ -92,10 +92,10 @@ const DeliveryNotePDF = ({ myorder }) => {
     // Adding the invoice and order details table
     doc.autoTable({
       startY: 40,
-      head: [["INVOICE NO", "ORDER ID", "ORDER DATE", "DELIVERY DATE"]],
+      head: [["ORDER ID", "ORDER DATE", "DELIVERY DATE"]],
       body: [
         [
-          myorder.tx_ref,
+          // myorder.tx_ref,
           myorder.id,
           format(myorder.createdAt, "dd/MM/yyyy HH:mm:ss"),
           "",
@@ -108,7 +108,7 @@ const DeliveryNotePDF = ({ myorder }) => {
     // Adding the 'INVOICE TO' and 'SHIP TO' sections
     doc.autoTable({
       startY: doc.autoTable.previous.finalY + 10,
-      head: [["INVOICE TO", "SHIP TO"]],
+      head: [["Delived TO", "SHIP TO"]],
       body: [
         [
           `Name: ${myorder?.momo_payload?.fullname}\nEmail: ${myorder.email}\nPhone: ${myorder?.momo_payload?.phone_number}`,
@@ -201,191 +201,6 @@ const DeliveryNotePDF = ({ myorder }) => {
     </Button>
   );
 };
-
-const DeliveryNotePDF1 = ({ myorder, FeliTechWhiteLogo }) => {
-  const generatePDF = () => {
-    const doc = new jsPDF();
-
-    // Adding the header background color
-    doc.setFillColor("#1D6F2B");
-    doc.rect(0, 0, doc.internal.pageSize.width, 30, "F");
-
-    // Adding the logo image on the left
-    if (FeliTechWhiteLogo) {
-      doc.addImage(FeliTechWhiteLogo, "PNG", 10, 5, 50, 20);
-    }
-
-    // Adding the "DELIVERY NOTE" text aligned to the right
-    doc.setFontSize(18);
-    doc.setTextColor(255, 255, 255); // White text color
-    doc.text("DELIVERY NOTE", 200, 20, { align: "right" }); // Right-aligned
-
-    // Setting header style for tables
-    const headerStyles = {
-      fillColor: "#1D6F2B", // Header background color
-      textColor: 255, // White text color
-      halign: "center", // Center alignment for text
-      valign: "middle", // Vertical alignment for text
-    };
-
-    // Adding the invoice and order details table
-    doc.autoTable({
-      startY: 40,
-      head: [["INVOICE NO", "ORDER NO", "ORDER DATE", "DELIVERY DATE"]],
-      body: [[myorder.tx_ref, myorder.id, myorder.createdAt, "00/00/2024"]],
-      headStyles: headerStyles,
-      theme: "grid",
-    });
-
-    // Adding the 'INVOICE TO' and 'SHIP TO' sections
-    doc.autoTable({
-      startY: doc.autoTable.previous.finalY + 10,
-      head: [["INVOICE TO", "SHIP TO"]],
-      body: [
-        [
-          `Name: ${myorder.momo_payload.fullname}\nEmail: ${myorder.email}\nPhone: ${myorder.momo_payload.phone_number}`,
-          `Address: ${myorder.shippingAddress.address.street}, ${myorder.shippingAddress.sector}, ${myorder.shippingAddress.district}, ${myorder.shippingAddress.province}, ${myorder.shippingAddress.country}\nPhone: ${myorder.shippingAddress.phoneNumber}`,
-        ],
-      ],
-      headStyles: headerStyles,
-      theme: "grid",
-    });
-
-    // Adding the item description table
-    const items = myorder.items.map((item) => [
-      item.quantity,
-      item.product,
-      "", // Placeholder for 'CHECKED' column
-    ]);
-
-    doc.autoTable({
-      startY: doc.autoTable.previous.finalY + 10,
-      head: [["QTY DEL", "ITEM DESCRIPTION", "CHECKED"]],
-      body: items,
-      headStyles: headerStyles,
-      theme: "grid",
-    });
-
-    // Adding the delivery and customer signature section
-    doc.autoTable({
-      startY: doc.autoTable.previous.finalY + 10,
-      head: [["DELIVERY BY:", "CUSTOMER:"]],
-      body: [
-        [
-          "SIGNATURE: ____________________\nPRINT NAME: ___________________\nDATE: ___________________",
-          "SIGNATURE: ___________________\nPRINT NAME: ___________________\nDATE: ___________________",
-        ],
-      ],
-      headStyles: headerStyles,
-      theme: "grid",
-    });
-
-    const company = {
-      name: "FeliTechnology",
-      address: "Kigali,kicukiro, sonatube KK 506 st",
-      // address2: "Rwanda",
-      telephone: "+250 798 697 197",
-      email: "info@felitechnology.com",
-      country: "Rwanda",
-
-      city: "Kigali",
-    };
-
-    // Adding the company details at the bottom    Address Line 2: ${company.address2},
-    doc.setFontSize(10);
-    doc.text(
-      `YOUR COMPANY NAME: ${company.name}
-      \nAddress Line 1: ${company.address},
-       \nTown/City: ${company.city},
-         \n County: ${company.country}
-        \nTelephone: ${company.telephone}
-        \nE-mail: ${company.email}`,
-      10,
-      doc.autoTable.previous.finalY + 20
-    );
-
-    doc.save("delivery_note.pdf");
-  };
-
-  return (
-    <Button type="primary" onClick={generatePDF}>
-      Generate Delivery Note
-    </Button>
-  );
-};
-
-// const DeliveryNotePDF = ({ myorder }) => {
-//   const generatePDF = () => {
-//     const doc = new jsPDF();
-
-//     // Adding the header
-//     doc.setFontSize(18);
-//     doc.text("DELIVERY NOTE", 105, 20, { align: "center" });
-
-//     // Adding the invoice and order details table
-//     doc.setFontSize(12);
-//     doc.autoTable({
-//       startY: 30,
-//       head: [["INVOICE NO", "ORDER NO", "ORDER DATE", "DELIVERY DATE"]],
-//       body: [["#01234", "#01234", "00/00/2021", "00/00/2021"]],
-//       theme: "grid",
-//     });
-
-//     // Adding the 'INVOICE TO' and 'SHIP TO' sections
-//     doc.autoTable({
-//       startY: doc.autoTable.previous.finalY + 10,
-//       head: [["INVOICE TO", "SHIP TO"]],
-//       body: [
-//         [
-//           `Customer Name\nCustomer Address Line 1\nAddress Line 2\nTown/City\nCounty\nPost Code`,
-//           `Shipping Name\nShipping Address Line 1\nAddress Line 2\nTown/City\nCounty\nPost Code`,
-//         ],
-//       ],
-//       theme: "grid",
-//     });
-
-//     // Adding the item description table
-//     doc.autoTable({
-//       startY: doc.autoTable.previous.finalY + 10,
-//       head: [["QTY DEL", "ITEM DESCRIPTION", "CHECKED"]],
-//       body: [
-//         // Populate this table based on the items in myorder
-//         ["1", "Item Description Example", ""],
-//         // You can add more rows here dynamically
-//       ],
-//       theme: "grid",
-//     });
-
-//     // Adding the delivery and customer signature section
-//     doc.autoTable({
-//       startY: doc.autoTable.previous.finalY + 10,
-//       head: [["DELIVERY BY:", "CUSTOMER:"]],
-//       body: [
-//         [
-//           "SIGNATURE: ___________________\nPRINT NAME: ___________________\nDATE: ___________________",
-//           "SIGNATURE: ___________________\nPRINT NAME: ___________________\nDATE: ___________________",
-//         ],
-//       ],
-//       theme: "grid",
-//     });
-
-//     // Adding the company details at the bottom
-//     doc.setFontSize(10);
-//     doc.text(
-//       "YOUR COMPANY NAME\nAddress Line 1, Address Line 2,\nTown/City, County, POSTAL CODE\nTelephone: 01234 567890\nE-mail: Examples@templates.co.uk\nVAT REG NO. 123456789",
-//       10,
-//       doc.autoTable.previous.finalY + 20
-//     );
-
-//     doc.save("delivery_note.pdf");
-//   };
-
-//   return (
-//     <Button type="primary" onClick={generatePDF}>
-//       Download as PDF
-//     </Button>
-//   );
-// };
 
 export default DeliveryNotePDF;
 

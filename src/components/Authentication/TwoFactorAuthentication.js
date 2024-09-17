@@ -10,7 +10,7 @@ import { useUser } from "../../context/UserContex";
 
 import RequestActivate from "./requestActivationEmail";
 
-const SignInForm = (props) => {
+const TwoFactor = (props) => {
   const { onLogin } = useUser();
 
   const [email, setEmail] = useState("");
@@ -28,6 +28,8 @@ const SignInForm = (props) => {
   const [isaccountActivated, setIsAccountActivated] = useState(true);
   const [openactivatemodel, setOpenactivatemodel] = useState(false);
   const [emailMessage, setEmailMessage] = useState(null);
+  const [is2FAEnabled, setIs2FAEnabled] = useState(true);
+  const [otp, setOtp] = useState("");
 
   const navigate = useNavigate();
 
@@ -48,6 +50,68 @@ const SignInForm = (props) => {
     setErrPassword("");
     setSignInError("");
   };
+
+  const handleOtpVerification = async () => {
+    setLoading(true);
+    try {
+      const result = await axios.post(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/verify-otp`,
+        { otp }
+      );
+
+      setLoading(false);
+
+      Cookies.set("token", result.data.token);
+      onLogin(result.data.user);
+    } catch (err) {
+      setLoading(false);
+      alert("Invalid OTP");
+    }
+  };
+
+  return (
+    <>
+      {/* OTP Input if 2FA is enabled */}
+      {is2FAEnabled ? (
+        <div className="space-y-2 m-auto w-full h-full ">
+          {/* <input type="text" placeholder="Enter OTP" value={otp} /> */}
+
+          <input
+            onChange={(e) => setOtp(e.target.value)}
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium 
+                placeholder:font-normal placeholder:text-[#C4C4C4] rounded border-[1px] border-gray-400 outline-none"
+          />
+
+          <button
+            type="button"
+            onClick={handleOtpVerification}
+            className={
+              loading
+                ? "bg-[#81b48a] text-gray-200 hover:text-white w-full text-base font-medium h-8 rounded duration-300 disabled"
+                : "bg-[#1D6F2B] hover:bg-[#437a4c] text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-8 rounded duration-300"
+            }
+          >
+            {loading ? (
+              <>
+                <Spinner className="inline-block mr-3" />
+                Verify OTP
+              </>
+            ) : (
+              "Verify OTP"
+            )}
+          </button>
+        </div>
+      ) : (
+        // Normal login form
+        <form onSubmit={{}}>
+          {/* Email, password input, and submit button */}
+        </form>
+      )}
+    </>
+  );
 
   const handleSignIn = async () => {
     if (!email) {
@@ -79,13 +143,16 @@ const SignInForm = (props) => {
         data: userData,
       });
 
+      console.log("result ", result?.data?.message == "OTP sent to your email");
+
       if (
         result.status === 200 &&
         result?.data?.message == "OTP sent to your email"
       ) {
+        console.log("otp");
         setSignInError("");
         setTwoFactorEnabled(true);
-        navigate("/otp", { replace: true });
+        // navigate("/otp", { replace: true });
       }
 
       if (result.status === 200) {
@@ -93,6 +160,7 @@ const SignInForm = (props) => {
         setPassword("");
         setLoading(false);
         Cookies.set("token", result?.data?.token);
+
         onLogin({
           ...result.data.data.user,
           token: result.data.token,
@@ -107,11 +175,6 @@ const SignInForm = (props) => {
     } catch (err) {
       if (err?.response?.data?.status === "fail") {
         setSignInError(err.response.data.message);
-
-        console.log(
-          err.response.data.message ==
-            "Account not activated! Check your email to activate your account."
-        );
 
         if (
           err.response.data.message ===
@@ -140,7 +203,7 @@ const SignInForm = (props) => {
 
               // setIsAccountActivated(true);
             }}
-            className="bg-[#1D6F2B] hover:bg-[#437a4c] px-5 text-gray-200 hover:text-white cursor-pointer w-fit text-base font-medium h-8 rounded duration-300"
+            className="bg-[#1D6F2B] hover:bg-[#437a4c] px-5 text-gray-200 hover:text-white cursor-pointer w-[50%] text-base font-medium h-8 rounded duration-300"
           >
             {" "}
             Request Email{" "}
@@ -277,4 +340,4 @@ const SignInForm = (props) => {
   );
 };
 
-export default SignInForm;
+export default TwoFactor;

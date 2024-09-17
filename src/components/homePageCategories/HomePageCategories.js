@@ -161,55 +161,58 @@ export default function HomePageCategories() {
         </div>
       )} */}
 
-      {hoveredproductclass && (
-        // bg-gray-200
-        <div className=" bg-gray-200 shadow-md ml-0      py-6  w-[700px]  sm:w-[1000px]     b-0 absolute min-h-full rounded left-full z-10 text-[13px] ">
-          {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
-          <ul className="  grid grid-cols-4 gap-2 ">
-            {productclassData
-              .find((cat) => {
-                return cat.id === hoveredproductclass;
-              })
-              .categories.map((Cat) => (
-                <div className="  flex-col  text-center justify-start  items-center">
-                  <li
-                    key={Cat.id}
-                    // className="w-full px-4 hover:underline font-medium cursor-pointer"
-                    className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex justify-start hover:underline font-bold cursor-pointer"
-                    onMouseEnter={() => handleMouseEnter(Cat.id)}
-                  >
-                    <Link
-                      // to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
-                      to={`shop/?productClass=${hoveredproductclass}&category=${Cat.id}`}
-                      className="capitalize flex"
+      {hoveredproductclass &&
+        productclassData.find((cat) => {
+          return cat.id === hoveredproductclass;
+        }).categories.length > 0 && (
+          // bg-gray-200
+          <div className=" bg-gray-200 shadow-md ml-0      py-6  w-[700px]  sm:w-[1000px]     b-0 absolute min-h-full rounded left-full z-10 text-[13px] ">
+            {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
+            <ul className="  grid grid-cols-4 gap-2 ">
+              {productclassData
+                .find((cat) => {
+                  return cat.id === hoveredproductclass;
+                })
+                .categories.map((Cat) => (
+                  <div className="  flex-col  text-center justify-start  items-center">
+                    <li
+                      key={Cat.id}
+                      // className="w-full px-4 hover:underline font-medium cursor-pointer"
+                      className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex justify-start hover:underline font-bold cursor-pointer"
+                      onMouseEnter={() => handleMouseEnter(Cat.id)}
                     >
-                      {Cat.name}
-                    </Link>
-                  </li>
+                      <Link
+                        // to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
+                        to={`shop/?productClass=${hoveredproductclass}&category=${Cat.id}`}
+                        className="capitalize flex"
+                      >
+                        {Cat.name}
+                      </Link>
+                    </li>
 
-                  <div>
-                    {categories
-                      .find((cat) => cat.id === Cat.id)
-                      .subCategories?.map((subCat) => (
-                        <li
-                          class="list-disc"
-                          key={subCat.id}
-                          className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex text-gray-700 justify-start hover:underline font-medium cursor-pointer"
-                          onMouseEnter={() => {
-                            handleMouseEnterSub(subCat.id);
-                            // console.log(subCat);
-                          }}
-                        >
-                          <Link
-                            to={`shop/?productClass=${hoveredproductclass}&category=${subCat?.category}&subCategory=${subCat.id}`}
-                            className="capitalize flex"
+                    <div>
+                      {categories
+                        .find((cat) => cat.id === Cat.id)
+                        .subCategories?.map((subCat) => (
+                          <li
+                            class="list-disc"
+                            key={subCat.id}
+                            className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex text-gray-700 justify-start hover:underline font-medium cursor-pointer"
+                            onMouseEnter={() => {
+                              handleMouseEnterSub(subCat.id);
+                              // console.log(subCat);
+                            }}
                           >
-                            {subCat.name}
-                          </Link>
-                        </li>
-                      ))}
+                            <Link
+                              to={`shop/?productClass=${hoveredproductclass}&category=${subCat?.category}&subCategory=${subCat.id}`}
+                              className="capitalize flex"
+                            >
+                              {subCat.name}
+                            </Link>
+                          </li>
+                        ))}
 
-                    {/* <ul className=" px-4 flex-col justify-start ">
+                      {/* <ul className=" px-4 flex-col justify-start ">
                       {sub_sub_category.map((sub) => {
                         return (
                           <li className=" hover:underline hover:text-black text-left text-sm text-gray-500">
@@ -218,12 +221,12 @@ export default function HomePageCategories() {
                         );
                       })}
                     </ul> */}
+                    </div>
                   </div>
-                </div>
-              ))}
-          </ul>
-        </div>
-      )}
+                ))}
+            </ul>
+          </div>
+        )}
     </div>
   );
 }

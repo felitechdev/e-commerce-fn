@@ -53,7 +53,7 @@ const RequestActivate = ({ setModel, setOpenModal, setEmailMessage }) => {
   return (
     <>
       <Modal
-        title="Update Role"
+        title="Request Activation Email"
         width="20rem"
         open={setModel}
         onOk={handleOk}

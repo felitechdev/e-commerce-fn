@@ -26,11 +26,12 @@ import {
   clearCart,
   clearitemCart,
 } from "../redux/Reducers/cartRecuder";
-import Cookies from "js-cookie";
+import Cookies, { set } from "js-cookie";
 import ItemCard, { ItemCardCheckout } from "./Default/Cart/ItemCard";
 import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 import { CardPayment } from "./Payment/cardpayment/card";
+import { SignInFormModal } from "../components/Authentication/Signinmodal";
 export const OrderForm = ({
   token,
   cartTotl,
@@ -43,130 +44,6 @@ export const OrderForm = ({
   momo_payload,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [isdelivery, setIsdelivery] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // check user
-  const user = useUser().user;
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const onErrors = (errors) => {};
-  const { handleSubmit, control, setValue, getValues } = useForm();
-
-  const handleclearCart = () => {
-    let existingCart = JSON.parse(localStorage.getItem("cart"));
-
-    dispatch(clearCart());
-    if (existingCart) {
-      existingCart = [];
-    }
-    localStorage.setItem("cart", JSON.stringify(existingCart));
-  };
-
-  // Load saved form data from localStorage on mount
-  useEffect(() => {
-    const savedFormData = JSON.parse(localStorage.getItem("orderFormData"));
-    if (savedFormData) {
-      Object.keys(savedFormData).forEach((key) => {
-        setValue(key, savedFormData[key]);
-      });
-    }
-  }, [setValue]);
-
-  // Save form data to localStorage on change
-  useEffect(() => {
-    const formData = getValues();
-    localStorage.setItem("orderFormData", JSON.stringify(formData));
-  });
-
-  useEffect(() => {
-    if (momo_payload && isrepay) {
-      setValue("paymentphoneNumber", momo_payload.phone_number);
-      setValue("email", momo_payload.email);
-      setValue("fullname", momo_payload.fullname);
-      setValue("amount", momo_payload.amount);
-    }
-  }, [momo_payload, isrepay]);
-
-  const onSubmit = async (data) => {
-    let redirectLink;
-    let requestData = !isrepay
-      ? {
-          // ...data,
-          shippingAddress: shippingAddress,
-          deliveryPreference: deliveryPreference.toLowerCase(),
-          items: cartTotl,
-          amount: totalCost,
-
-          //
-          phoneNumber: data.paymentphoneNumber,
-
-          email: data.email,
-          fullname: data?.fullname,
-        }
-      : {
-          momo_payload: {
-            amount: momo_payload.amount,
-            phone_number: data.paymentphoneNumber,
-            email: data.email,
-            fullname: data?.fullname,
-            tx_ref: momo_payload.tx_ref,
-            order_id: momo_payload.order_id,
-            currency: "RWF",
-            // ...momo_payload,
-          },
-        };
-
-    setIsLoading(true);
-    setError("");
-    try {
-      const res = !isrepay
-        ? await axios.post(
-            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/pay`,
-            requestData,
-            {
-              headers: {
-                Authorization: ` Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          )
-        : await axios.post(
-            `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/payments/pay`,
-            requestData,
-            {
-              headers: {
-                Authorization: ` Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-      if (res.data.status === "success") {
-        setError("");
-        setIsLoading(false);
-      }
-
-      if (res.data.status === "success") {
-        setIsLoading(false);
-        redirectLink = res.data?.data?.meta
-          ? res.data?.data?.meta?.authorization?.redirect
-          : res.data.data.redirect;
-        window.open(redirectLink, "_blank");
-        handlecancel();
-        handleclearCart();
-      }
-
-      // alert("Payment was successfull!");
-    } catch (error) {
-      if (error.response?.data?.message === "Payment not completed.")
-        return setError(error.response?.data?.message);
-      if (error.response?.data?.message === "Invalid phone number")
-        return setError("Invalid phone number");
-      setError("Unexpected error has occured. Please try again!");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Modal
@@ -177,144 +54,7 @@ export const OrderForm = ({
       }}
       open={isModalOpen}
       closeIcon={<IoCloseSharp onClick={handlecancel} className="text-[red]" />}
-    >
-      {error && error === "Payment not completed." && (
-        <div className="flex flex-col justify-start rounded">
-          <h4 className="text-gray-700 mb-4 text-sm">
-            Payment was not completed. Deal to complete!
-          </h4>
-          <div className="flex gap-3 items-center  mb-1">
-            <img src={MtnIcon} className="h-4 block" />
-            <p>
-              <span class="inline-flex tracking-widest items-center  bg-green-50 px-2  text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">
-                *182*7*1#
-              </span>
-            </p>
-          </div>
-          <div className="flex gap-3 items-center">
-            <img src={AirtelIcon} className="h-4 block" />
-            <p>
-              <span class="inline-flex tracking-widest items-center  bg-green-50 px-2  text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">
-                *182*7*1#
-              </span>
-            </p>
-          </div>
-        </div>
-      )}
-
-      {error !== "Payment not completed." && (
-        <Form layout={"vertical"} onFinish={handleSubmit(onSubmit, onErrors)}>
-          <Controller
-            control={control}
-            name="paymentphoneNumber"
-            rules={{ required: "Phone number is required" }}
-            render={({ field }) => (
-              <>
-                <Form.Item
-                  label="Phone number"
-                  className="w-[100%] text-red-700 !mb-2"
-                >
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="Ex 078/9/XXXXXXX"
-                    className="text-gray-700 text-sm placeholder:text-sm "
-                  />
-                  <p className="text-red-500 text-xs">
-                    {error && error !== "Payment not completed." && error}
-                  </p>
-                </Form.Item>
-              </>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="email"
-            // rules={{ required: "Phone number is required" }}
-            render={({ field }) => (
-              <>
-                <Form.Item
-                  label="Email"
-                  className="w-[100%] text-red-700 !mb-2"
-                >
-                  <Input
-                    {...field}
-                    type="email"
-                    placeholder="og@gmail.com"
-                    className="text-gray-700 text-sm placeholder:text-sm "
-                  />
-                </Form.Item>
-              </>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="fullname"
-            render={({ field }) => (
-              <>
-                <Form.Item
-                  label="Full Name"
-                  className="w-[100%] text-red-700 !mb-2"
-                >
-                  <Input
-                    {...field}
-                    type="text"
-                    placeholder="Joseph kanye "
-                    className="text-gray-700 text-sm placeholder:text-sm "
-                  />
-                </Form.Item>
-              </>
-            )}
-          />
-
-          <div className="flex flex-col gap-2">
-            {/* {isLoading && (
-              <span className="text-xs font-bold leadin-5 text-gray-700">
-                Follow instructions on your phone to proceed.
-              </span>
-            )} */}
-            Make sure that the account balance is greater than {totalCost} RWF,
-            otherwise the payment will not be completed.
-            <div className="flex gap-2">
-              <Button
-                disabled={isLoading}
-                onClick={handlecancel}
-                className="flex items-center justify-center font-thin disabled:opacity-40"
-                style={
-                  {
-                    // borderRadius: "9999px",
-                  }
-                }
-              >
-                <span className="flex">
-                  <h2 className=" flex  items-center justify-center">Cancel</h2>
-                </span>{" "}
-              </Button>
-
-              <Button
-                disabled={isLoading}
-                htmlType="submit"
-                onClick={() => {
-                  if (user == null) {
-                    navigate("/signin", { replace: true });
-                  }
-                }}
-                className="flex items-center justify-center disabled:opacity-40"
-                style={{
-                  background: "#1D6F2B",
-                  color: "#FFFFFF",
-                  // borderRadius: "9999px",
-                }}
-              >
-                {(isLoading && "Processing...") || `Pay ${totalCost} Rwf`}
-              </Button>
-            </div>
-          </div>
-        </Form>
-      )}
-    </Modal>
+    ></Modal>
   );
 };
 
@@ -345,6 +85,7 @@ const Checkout = () => {
   const [prevdeliveryprice, setPrevdeliveryprice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isNouser, setIsNouser] = useState(false);
 
   const navigate = useNavigate();
   const handlefillorderform = () => {
@@ -554,7 +295,6 @@ const Checkout = () => {
   });
 
   const onErrors = (errors) => {
-    console.log("errors pn payment", errors);
     if (errors) {
       setPayAllowed(false);
     }
@@ -583,7 +323,7 @@ const Checkout = () => {
         phoneNumber: payload.phoneNumber,
         items: cartTotl,
         shippingAddress: {
-          province: values.Province,
+          // province: values.Province,
           district: values.District,
           sector: values.Sector,
           street: values.Street,
@@ -657,64 +397,8 @@ const Checkout = () => {
     localStorage.setItem("shippingInfoFormData", JSON.stringify(formData));
   });
 
-  // handle pay with card
-  const onFinishCard = async (values) => {
-    const payload = {};
-    if (values.phoneNumber) {
-      const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
-      const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
-      if (
-        fullPhoneNumber.includes("null") ||
-        fullPhoneNumber.includes("undefined")
-      ) {
-        return;
-      } else {
-        payload["phoneNumber"] = fullPhoneNumber;
-      }
-    }
-
-    if (values) {
-      setPayAllowed(true);
-      setDeliveryPreference(values.orderDelivery);
-      setRequestData({
-        province: values.Province,
-        district: values.District,
-        sector: values.Sector,
-        street: values.Street,
-        phoneNumber: payload.phoneNumber,
-      });
-
-      setIsModalOpen(false);
-      setCardpay(true);
-    }
-  };
-
   return (
     <PageLayout>
-      {cardpay && !isModalOpen && payAllowed && (
-        <CardPayment
-          token={token}
-          cartTotl={cartTotl}
-          totalCost={totalCost}
-          isModalOpen={cardpay}
-          shippingAddress={requestData}
-          deliveryPreference={deliveryPreference}
-          handlecancel={cancelCardpay}
-        />
-      )}
-
-      {isModalOpen && !cardpay && (
-        <OrderForm
-          token={token}
-          cartTotl={cartTotl}
-          totalCost={totalCost}
-          isModalOpen={isModalOpen}
-          shippingAddress={requestData}
-          deliveryPreference={deliveryPreference}
-          handlecancel={handlecancel}
-        />
-      )}
-
       {isdelivery && (
         <div className="fixed bottom-0 p-2 z-50 pb-5 bg-[#fbe8e8] rounded-md w-[90%] md:w-1/3 right-5 md:right-20 shadow-lg border border-red-500">
           <button
@@ -838,9 +522,7 @@ const Checkout = () => {
               <Form
                 layout={"vertical"}
                 onFinish={
-                  cardpay
-                    ? handleSubmit(onFinishCard, onErrors)
-                    : handleSubmit(onFinish, onErrors)
+                  cardpay ? handleSubmit() : handleSubmit(onFinish, onErrors)
                 }
                 style={{
                   width: "100%",
@@ -852,37 +534,6 @@ const Checkout = () => {
               >
                 <div>
                   <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name="country"
-                        rules={{
-                          required: "Country is required",
-                        }}
-                        defaultValue={"Rwanda"}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label="Country">
-                              <Select
-                                {...field}
-                                placeholder="Select your country"
-                              >
-                                <Select.Option
-                                  value="Rwanda"
-                                  className="border"
-                                >
-                                  Rwanda
-                                </Select.Option>
-                              </Select>
-                              <p className="text-[red]">
-                                {errors?.country?.message}
-                              </p>
-                            </Form.Item>
-                          </>
-                        )}
-                      />
-                    </Col>
-
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -943,8 +594,6 @@ const Checkout = () => {
                         )}
                       />
                     </Col>
-                  </Row>
-                  <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -979,14 +628,13 @@ const Checkout = () => {
                         )}
                       />
                     </Col>
-
+                  </Row>
+                  <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
                         name="Street"
-                        rules={{
-                          required: "Street is required",
-                        }}
+                        rules={{}}
                         render={({ field }) => (
                           <>
                             <Form.Item label="Street" className=" h-8">
@@ -1004,7 +652,6 @@ const Checkout = () => {
                         )}
                       />
                     </Col>
-
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -1023,10 +670,7 @@ const Checkout = () => {
                           </>
                         )}
                       />
-                    </Col>
-                  </Row>
-                  <div className="mt-5"></div>
-                  <Row gutter={[16, 16]}>
+                    </Col>{" "}
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       {" "}
                       <Controller
@@ -1050,6 +694,9 @@ const Checkout = () => {
                         )}
                       />
                     </Col>
+                  </Row>
+                  <div className="mt-5"></div>
+                  <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -1091,7 +738,12 @@ const Checkout = () => {
                     </Col>
                   </Row>
                   <div className="mb-12"></div>
-                  <p className="font-bold my-2">Choose payment method </p>
+
+                  <SignInFormModal
+                    isNouser={isNouser}
+                    setIsNouser={setIsNouser}
+                  />
+
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <div className=" flex items-center">
@@ -1100,7 +752,9 @@ const Checkout = () => {
                           htmlType="submit"
                           onClick={() => {
                             if (user == null) {
-                              navigate("/signin", { replace: true });
+                              // navigate("/signin", { replace: true });
+
+                              setIsNouser(true);
                             }
                           }}
                           className="h-10  px-20 flex bg-black items-center rounded-md bg-gradient-custom text-white disabled:opacity-50  duration-300"

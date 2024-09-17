@@ -5,7 +5,6 @@ import SearchBar from "../Header/SearchBar";
 import FooterBottom from "../Footer/FooterBottom";
 import { whatsappIcon, FeliTechLogo_transparent } from "../../assets/images";
 import Image from "./Image";
-
 export default function PageLayout({ children, showFooter, userInfo }) {
   return (
     <>
@@ -17,6 +16,14 @@ export default function PageLayout({ children, showFooter, userInfo }) {
         <FooterBottom />
         // </div>
       )}
+
+      <a
+        href="https://wa.me//+250798697197"
+        target="_blank"
+        className="fixed text-white z-50 right-4 bottom-10 w-12 h-12 hover:animate-bounce"
+      >
+        <img src={whatsappIcon} className="w-full h-full" alt="WhatsApp" />
+      </a>
     </>
   );
 }

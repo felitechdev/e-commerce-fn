@@ -220,209 +220,213 @@ const SignUpForm = (props) => {
             message={successAlert.message}
           />
         )}
-        <h1 className="font-titleFont decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4 text-center">
-          Create your account
-        </h1>
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-row gap-3">
-            {/* First name */}
-            <div className="flex flex-col gap-.5">
-              <p className="font-titleFont text-base font-semibold text-gray-600">
-                First Name
-              </p>
-              <input
-                onChange={handleFirstName}
-                value={firstName}
-                className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-                type="text"
-                placeholder="eg.John"
-              />
-              {errFirstName && (
-                <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                  <span className="font-bold italic mr-1">!</span>
-                  {errFirstName}
-                </p>
-              )}
-            </div>
-            {/* Last name */}
-            <div className="flex flex-col gap-.5">
-              <p className="font-titleFont text-base font-semibold text-gray-600">
-                Last Name
-              </p>
-              <input
-                onChange={handleLastName}
-                value={lastName}
-                className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-                type="text"
-                placeholder=" eg: Doe"
-              />
-              {errLastName && (
-                <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                  <span className="font-bold italic mr-1">!</span>
-                  {errLastName}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Email */}
-          <div className="flex flex-col gap-.5">
-            <p className="font-titleFont text-base font-semibold text-gray-600">
-              Email
-            </p>
-            <input
-              onChange={handleEmail}
-              value={email}
-              className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-              type="email"
-              placeholder="johndoe@example.com"
-            />
-            {errEmail && (
-              <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
-                {errEmail}
-              </p>
-            )}
-          </div>
-
-          {/* Password */}
-          <div className="flex flex-col gap-.5">
-            <p className="font-titleFont text-base font-semibold text-gray-600">
-              Password
-            </p>
-
-            <div className="relative">
-              <input
-                onChange={handlePassword}
-                value={password}
-                className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-                type={showPassword ? "text" : "password"}
-                placeholder="Your password"
-              />
-
-              <div
-                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeInvisibleFilled /> : <EyeFilled />}
+        {!successAlert.status && (
+          <>
+            <h1 className="font-titleFont decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4 text-center">
+              Create your account
+            </h1>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-row gap-3">
+                {/* First name */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    First Name
+                  </p>
+                  <input
+                    onChange={handleFirstName}
+                    value={firstName}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder="eg.John"
+                  />
+                  {errFirstName && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errFirstName}
+                    </p>
+                  )}
+                </div>
+                {/* Last name */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Last Name
+                  </p>
+                  <input
+                    onChange={handleLastName}
+                    value={lastName}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder=" eg: Doe"
+                  />
+                  {errLastName && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errLastName}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {errPassword && (
-              <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
-                {errPassword}
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col gap-.5">
-            <p className="font-titleFont text-base font-semibold text-gray-600">
-              Re-enter the password
-            </p>
-
-            <div className="relative">
-              <input
-                onChange={handleconfirmPassword}
-                value={confirmPassword}
-                className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-                type={showPassword ? "text" : "password"}
-                placeholder="Your  confirmPassword"
-              />
-
-              <div
-                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeInvisibleFilled /> : <EyeFilled />}
+              {/* Email */}
+              <div className="flex flex-col gap-.5">
+                <p className="font-titleFont text-base font-semibold text-gray-600">
+                  Email
+                </p>
+                <input
+                  onChange={handleEmail}
+                  value={email}
+                  className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                  type="email"
+                  placeholder="johndoe@example.com"
+                />
+                {errEmail && (
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
+                    {errEmail}
+                  </p>
+                )}
               </div>
+
+              {/* Password */}
+              <div className="flex flex-col gap-.5">
+                <p className="font-titleFont text-base font-semibold text-gray-600">
+                  Password
+                </p>
+
+                <div className="relative">
+                  <input
+                    onChange={handlePassword}
+                    value={password}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Your password"
+                  />
+
+                  <div
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeInvisibleFilled /> : <EyeFilled />}
+                  </div>
+                </div>
+
+                {errPassword && (
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
+                    {errPassword}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col gap-.5">
+                <p className="font-titleFont text-base font-semibold text-gray-600">
+                  Re-enter the password
+                </p>
+
+                <div className="relative">
+                  <input
+                    onChange={handleconfirmPassword}
+                    value={confirmPassword}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Your  confirmPassword"
+                  />
+
+                  <div
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeInvisibleFilled /> : <EyeFilled />}
+                  </div>
+                </div>
+
+                {errPassword && (
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
+                    {errPassword}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-.5">
+                <p className="font-titleFont text-base font-semibold text-gray-600">
+                  Sign up as
+                </p>
+
+                <select
+                  name="role"
+                  ref={roleSelectRef}
+                  value={selectedRole} // Set the selected value
+                  onChange={(e) => setSelectedRole(e.target.value)}
+                  className="w-full align-middle h-10 placeholder:text-sm placeholder:tracking-wide px-4 py-2 text-sm font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                >
+                  <option value="" disabled selected hidden>
+                    Select an account type
+                  </option>
+                  <option value="customer" className="text-sm">
+                    Customer
+                  </option>
+                  <option value="seller" className="text-sm">
+                    Seller
+                  </option>
+                </select>
+                {errType && (
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
+                    {errType}
+                  </p>
+                )}
+              </div>
+
+              {/* Checkbox */}
+              <div className="flex items-start mdl:items-center gap-2">
+                <input
+                  onChange={() => setChecked(!checked)}
+                  className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer bg-[#fff]"
+                  type="checkbox"
+                />
+                <p className="text-sm text-primeColor">
+                  I agree to the Feli Technology{" "}
+                  <a className="text-[#1E61CC]">Terms of Service </a>
+                  and <a className="text-[#1E61CC]">Privacy Policy</a>.
+                </p>
+              </div>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={handleSignUp}
+                className={`${
+                  checked
+                    ? "bg-[#1D6F2B] hover:bg-[#437a4c] cursor-pointer"
+                    : "bg-[#81b48a] disabled "
+                } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300 mt-3`}
+              >
+                {loading ? (
+                  <>
+                    <Spinner className="inline-block mr-3" />
+                    Creating your account
+                  </>
+                ) : (
+                  "Create Account"
+                )}
+              </button>
+              <div className="ml-[5%]">
+                <hr className="inline-block w-[40%] align-middle"></hr>
+                <span className="inline-block mx-4">or</span>
+                <hr className="inline-block w-[40%] align-middle"></hr>
+              </div>
+
+              <p className="text-sm text-center font-titleFont font-medium">
+                Already have an account?{" "}
+                <Link
+                  className="text-[#1E61CC] Bduration-300 cursor-pointer"
+                  to="/signin"
+                >
+                  Sign in
+                </Link>
+              </p>
             </div>
-
-            {errPassword && (
-              <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
-                {errPassword}
-              </p>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-.5">
-            <p className="font-titleFont text-base font-semibold text-gray-600">
-              Sign up as
-            </p>
-
-            <select
-              name="role"
-              ref={roleSelectRef}
-              value={selectedRole} // Set the selected value
-              onChange={(e) => setSelectedRole(e.target.value)}
-              className="w-full align-middle h-10 placeholder:text-sm placeholder:tracking-wide px-4 py-2 text-sm font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-            >
-              <option value="" disabled selected hidden>
-                Select an account type
-              </option>
-              <option value="customer" className="text-sm">
-                Customer
-              </option>
-              <option value="seller" className="text-sm">
-                Seller
-              </option>
-            </select>
-            {errType && (
-              <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
-                {errType}
-              </p>
-            )}
-          </div>
-
-          {/* Checkbox */}
-          <div className="flex items-start mdl:items-center gap-2">
-            <input
-              onChange={() => setChecked(!checked)}
-              className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer bg-[#fff]"
-              type="checkbox"
-            />
-            <p className="text-sm text-primeColor">
-              I agree to the Feli Technology{" "}
-              <a className="text-[#1E61CC]">Terms of Service </a>
-              and <a className="text-[#1E61CC]">Privacy Policy</a>.
-            </p>
-          </div>
-          <button
-            type="button"
-            disabled={loading}
-            onClick={handleSignUp}
-            className={`${
-              checked
-                ? "bg-[#1D6F2B] hover:bg-[#437a4c] cursor-pointer"
-                : "bg-[#81b48a] disabled "
-            } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300 mt-3`}
-          >
-            {loading ? (
-              <>
-                <Spinner className="inline-block mr-3" />
-                Creating your account
-              </>
-            ) : (
-              "Create Account"
-            )}
-          </button>
-          <div className="ml-[5%]">
-            <hr className="inline-block w-[40%] align-middle"></hr>
-            <span className="inline-block mx-4">or</span>
-            <hr className="inline-block w-[40%] align-middle"></hr>
-          </div>
-
-          <p className="text-sm text-center font-titleFont font-medium">
-            Already have an account?{" "}
-            <Link
-              className="text-[#1E61CC] Bduration-300 cursor-pointer"
-              to="/signin"
-            >
-              Sign in
-            </Link>
-          </p>
-        </div>
+          </>
+        )}
       </div>
     </form>
   );

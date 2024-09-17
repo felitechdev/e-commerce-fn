@@ -14,12 +14,34 @@ import { LoaderComponent } from "../../../components/Loaders/Getloader";
 import PersonalInfoModel from "./userinfo";
 import { useUser } from "../../../context/UserContex";
 import axios from "axios";
+import { Checkbox } from "antd";
 import Mymap from "./Googlemap/getLocation";
 import { App } from "./Googlemap/getLocation";
 import MyMapComponent from "./Googlemap/GoogleMap";
 import { DeleteFilled } from "@ant-design/icons";
 import DeleteConfirmation from "./Actions/deleteAccount";
 import PersonalAddressInfoModel from "./my-address-modal";
+
+const enableTwoFactorAuth = async () => {
+  try {
+    const result = await axios.patch(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/enable-2fa`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
+
+    if (result.status === 200) {
+      alert("2FA enabled successfully");
+    }
+  } catch (err) {
+    alert("Failed to enable 2FA");
+  }
+};
+
 const SellerProfile = () => {
   const [isLoading, setLoading] = useState(true);
   const token = Cookies.get("token");
@@ -101,6 +123,8 @@ const SellerProfile = () => {
 
     fetchProfile();
   }, []);
+
+  console.log("user", user);
 
   // console.log("address", address, loadaddress);
 
@@ -311,6 +335,20 @@ const SellerProfile = () => {
                 <RiEdit2Fill size={20} />
                 <h1 className="text-sm">Edit My Address</h1>
               </div>
+            </div>
+
+            <div className="flex mt-3  md:pl-10 justify-between pr-2">
+              {/* <h1 className="text-sm"></h1> */}
+
+              <button
+                className="bg-primary text-white rounded-md p-1"
+                onClick={enableTwoFactorAuth}
+              >
+                Enable 2 Factor Authentication
+              </button>
+              <Checkbox onChange={{}} checked={{}}>
+                Enable 2 Factor Authentication
+              </Checkbox>
             </div>
             <hr className=" mt-4" />
 
