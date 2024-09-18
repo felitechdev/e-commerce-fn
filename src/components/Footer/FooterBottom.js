@@ -102,13 +102,6 @@ const FooterBottom = () => {
     <div className="bg-primary w-[100%]">
       <section className="bg-[#1D6F2B] text-white px-4 py-8 cursor-pointer max-w-container mx-auto">
         {/* WhatsApp Floating Button */}
-        <a
-          href="https://wa.me//+250798697197"
-          target="_blank"
-          className="fixed text-white z-50 right-4 bottom-10 w-12 h-12 hover:animate-bounce"
-        >
-          <img src={whatsappIcon} className="w-full h-full" alt="WhatsApp" />
-        </a>
 
         <div className="max-w-container mx-auto grid grid-cols-1  md:grid-cols-4 gap-2">
           <div className="flex md:hidden justify-around">

@@ -62,7 +62,7 @@ export const ProductClassCategories = () => {
                 className={shouldHideSection ? "hidden" : ""}
               >
                 <div className="product-class border-b-2 mb-5  py-1">
-                  <h2 className="medium2_text capitalize mr-3">
+                  <h2 className="medium_text capitalize mr-3">
                     {productClass.name}
                   </h2>
                   <div
@@ -72,7 +72,7 @@ export const ProductClassCategories = () => {
                     {productClass.categories.map((category) => (
                       <span
                         key={`${productClass.id}-${category.id}`}
-                        className={`category-name !text-sm  ${
+                        className={`category-name !text-md ${
                           categoryIds[productClass.id] === category.id
                             ? "!text-primary font-medium border px-2 "
                             : ""

@@ -23,7 +23,7 @@ const SignInForm = (props) => {
   const [signInError, setSignInError] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const [twofactorenabled, setTwoFactorEnabled] = useState(false);
   // email activation state
   const [isaccountActivated, setIsAccountActivated] = useState(true);
   const [openactivatemodel, setOpenactivatemodel] = useState(false);
@@ -79,12 +79,20 @@ const SignInForm = (props) => {
         data: userData,
       });
 
+      if (
+        result.status === 200 &&
+        result?.data?.message == "OTP sent to your email"
+      ) {
+        setSignInError("");
+        setTwoFactorEnabled(true);
+        navigate("/otp", { replace: true });
+      }
+
       if (result.status === 200) {
         setEmail("");
         setPassword("");
         setLoading(false);
         Cookies.set("token", result?.data?.token);
-
         onLogin({
           ...result.data.data.user,
           token: result.data.token,
@@ -99,6 +107,11 @@ const SignInForm = (props) => {
     } catch (err) {
       if (err?.response?.data?.status === "fail") {
         setSignInError(err.response.data.message);
+
+        console.log(
+          err.response.data.message ==
+            "Account not activated! Check your email to activate your account."
+        );
 
         if (
           err.response.data.message ===
@@ -117,7 +130,7 @@ const SignInForm = (props) => {
   };
 
   return (
-    <>
+    <div className="">
       {!isaccountActivated && (
         <div className="  text-center py-5 ">
           <h1> No email found </h1>
@@ -127,7 +140,7 @@ const SignInForm = (props) => {
 
               // setIsAccountActivated(true);
             }}
-            className="bg-[#1D6F2B] hover:bg-[#437a4c] px-5 text-gray-200 hover:text-white cursor-pointer w-[50%] text-base font-medium h-8 rounded duration-300"
+            className="bg-[#1D6F2B] hover:bg-[#437a4c] px-5 text-gray-200 hover:text-white cursor-pointer w-fit text-base font-medium h-8 rounded duration-300"
           >
             {" "}
             Request Email{" "}
@@ -260,7 +273,7 @@ const SignInForm = (props) => {
           </div>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

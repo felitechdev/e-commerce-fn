@@ -139,7 +139,7 @@ import Shop from "./pages/Default/Shop/Shop";
 import Home from "./pages/Home";
 
 import SignIn from "./pages/SignIn";
-
+import OTP from "./pages/Otp-2FA";
 import Protect from "./components/Protect";
 
 import {
@@ -185,6 +185,8 @@ const App = () => {
     localStorage.setItem("prevPath", location.pathname);
   }, [location.pathname]);
 
+  //  if user is on checkout keep checkout
+
   if (isCheckingAuth) {
     return (
       <div className="fixed top-0 left-0 w-full h-screen bg-white z-50 flex justify-center items-center flex-wrap ">
@@ -201,6 +203,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="signin" element={<SignIn />} />
       <Route path="signup" element={<SignUp />} />
+      <Route path="otp" element={<OTP />} />
       <Route path="cart" element={<Cart />} />
       <Route path="wishlist" element={<Wishlist />} />
       <Route path="checkout" element={<Checkout />} />

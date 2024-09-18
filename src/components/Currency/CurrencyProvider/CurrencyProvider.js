@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-const currencies = ["RWF", "USD", "EUR", "GBP"];
+const currencies = ["RWF"]; //, "USD", "EUR", "GBP"
 const baseCurrency = "RWF";
 const apiKey = "01ea8c1299a54ca2a772e4eb7eacde1d";
 const CurrencyContext = createContext();

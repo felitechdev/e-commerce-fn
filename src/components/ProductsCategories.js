@@ -111,15 +111,14 @@ function ProductsCategories() {
   useEffect(() => {
     const container = containerRef.current;
 
-    if (container) {
-      container.addEventListener("scroll", checkScrollPosition);
-      checkScrollPosition();
-
-      return () => {
-        container.removeEventListener("scroll", checkScrollPosition);
-      };
-    }
-  }, []);
+    // if (container && !isLoading) {
+    container.addEventListener("scroll", checkScrollPosition);
+    checkScrollPosition();
+    return () => {
+      container.removeEventListener("scroll", checkScrollPosition);
+    };
+    // }
+  }, []); // Trigger when products data changes
 
   // Add an effect to recheck scroll position after images/products load
   useEffect(() => {
@@ -141,46 +140,44 @@ function ProductsCategories() {
         </div>
       )}
 
-      {products && products.length > 0 && (
-        <div className="  max-w-container mx-auto px-2 md:px-6 space-y-4 my-10">
-          <h1 className="medium_text">New Arrivals</h1>
-          <div className="relative bg-[#f8f8f8] rounded-md p-4 h-72 ">
-            <button
-              onClick={scrollLeft}
-              disabled={isLeftDisabled}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50 "
-            >
-              <BsArrowLeft />
-            </button>
-            <div
-              className="flex gap-4 overflow-hidden no-scrollbar items-center justify-center text-center"
-              ref={containerRef}
-            >
-              {isLoading ? (
-                <div className=" w-full h-[100%] m-auto  flex items-center justify-center">
-                  <Loader />
+      <div className="  max-w-container mx-auto px-2 md:px-6 space-y-4 my-10">
+        <h1 className="medium_text">New Arrivals</h1>
+        <div className="relative bg-[#f8f8f8] rounded-md p-4 h-72 ">
+          <button
+            onClick={scrollLeft}
+            disabled={isLeftDisabled}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50 "
+          >
+            <BsArrowLeft />
+          </button>
+          <div
+            className="flex gap-4 overflow-hidden no-scrollbar items-center justify-center text-center"
+            ref={containerRef}
+          >
+            {isLoading ? (
+              <div className=" w-full h-[100%] m-auto  flex items-center justify-center">
+                <Loader />
+              </div>
+            ) : (
+              products?.map((product, index) => (
+                <div className="min-w-[200px] mb-3 max-w-[250px] h-68  relative ">
+                  <ProductPreview
+                    key={product.id + index}
+                    productInfo={product}
+                  />
                 </div>
-              ) : (
-                products?.map((product, index) => (
-                  <div className="min-w-[200px] mb-3 max-w-[250px] h-68  relative ">
-                    <ProductPreview
-                      key={product.id + index}
-                      productInfo={product}
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-            <button
-              onClick={scrollRight}
-              disabled={isRightDisabled}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50"
-            >
-              <BsArrowRight />
-            </button>
+              ))
+            )}
           </div>
+          <button
+            onClick={scrollRight}
+            disabled={isRightDisabled}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50"
+          >
+            <BsArrowRight />
+          </button>
         </div>
-      )}
+      </div>
 
       <div className="max-w-container mx-auto px-2 md:px-6 space-y-4 mt-10 ">
         <h1 className="medium_text my-6 ">Our Products</h1>
