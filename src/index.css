@@ -367,3 +367,12 @@ nav .active li {
 .no-scroll {
   overflow: hidden;
 }
+
+/* 2fa */
+
+.twofabg {
+  background-image: url("./assets/images/2fa.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}

@@ -203,7 +203,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="signin" element={<SignIn />} />
       <Route path="signup" element={<SignUp />} />
-      {/* <Route path="otp" element={<OTP />} /> */}
+      <Route path="otp" element={<OTP />} />
       <Route path="cart" element={<Cart />} />
       <Route path="wishlist" element={<Wishlist />} />
       <Route path="checkout" element={<Checkout />} />

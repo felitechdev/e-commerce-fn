@@ -41,6 +41,8 @@ import aitel from "./Airtel.png";
 import visa from "./visa.png";
 import mastercard from "./mastercard.png";
 import newimage from "./new.png";
+import twofabg from "./2fa.png";
+import twofaicon from "./2fa1.png";
 
 export {
   FeliTechLogo_transparent,
@@ -87,4 +89,6 @@ export {
   visa,
   mastercard,
   newimage,
+  twofabg,
+  twofaicon,
 };

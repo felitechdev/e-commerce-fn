@@ -124,8 +124,6 @@ const SellerProfile = () => {
     fetchProfile();
   }, []);
 
-  console.log("user", user);
-
   // console.log("address", address, loadaddress);
 
   return (
@@ -340,15 +338,21 @@ const SellerProfile = () => {
             <div className="flex mt-3  md:pl-10 justify-between pr-2">
               {/* <h1 className="text-sm"></h1> */}
 
-              <button
-                className="bg-primary text-white rounded-md p-1"
-                onClick={enableTwoFactorAuth}
-              >
-                Enable 2 Factor Authentication
-              </button>
-              <Checkbox onChange={{}} checked={{}}>
-                Enable 2 Factor Authentication
-              </Checkbox>
+              {user.twoFactorAuthEnabled ? (
+                <Checkbox
+                  onChange={() => {}}
+                  checked={user.twoFactorAuthEnabled}
+                >
+                  2 Factor Authentication Enabled
+                </Checkbox>
+              ) : (
+                <button
+                  className="bg-primary text-white rounded-md p-1 px-2"
+                  onClick={enableTwoFactorAuth}
+                >
+                  Enable 2 Factor Authentication
+                </button>
+              )}
             </div>
             <hr className=" mt-4" />
 
