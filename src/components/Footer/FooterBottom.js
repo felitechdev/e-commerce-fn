@@ -99,25 +99,25 @@ export const CategoryImagesCards = ({ ...props }) => {
 
 const FooterBottom = () => {
   return (
-    <div className="bg-primary w-[100%]">
+    <div className="bg-primary w-[100%] ">
       <section className="bg-[#1D6F2B] text-white px-4 py-8 cursor-pointer max-w-container mx-auto">
         {/* WhatsApp Floating Button */}
 
-        <div className="max-w-container mx-auto grid grid-cols-1  md:grid-cols-4 gap-2">
+        <div className="max-w-container mx-auto grid grid-cols-1 items-center text-center  md:grid-cols-4 gap-2">
           <div className="flex md:hidden justify-around">
             <div className="flex flex-col  items-center md:items-start">
               <h3 className="medium2_text mx-auto">Explore</h3>
               <ul className="border-t  mx-auto border-white py-4">
-                <li>
+                {/* <li>
                   <Link to="/">Search</Link>
-                </li>
+                </li> */}
                 <li>
-                  <Link to="/">About us</Link>
+                  <Link to="/about">About us</Link>
                 </li>
               </ul>
             </div>
 
-            <div className=" flex flex-col items-center md:items-start">
+            {/* <div className=" flex flex-col items-center md:items-start">
               <h3 className="medium2_text mx-auto">About</h3>
               <ul className="border-t  mx-auto border-white py-4 ">
                 <li>
@@ -133,21 +133,18 @@ const FooterBottom = () => {
                   <Link to="/">Contact Us</Link>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
           <div className="hidden md:flex flex-col  items-center md:items-start">
             <h3 className="medium2_text mx-auto">Explore</h3>
             <ul className="border-t  mx-auto border-white py-4">
               <li>
-                <Link to="/">Search</Link>
-              </li>
-              <li>
-                <Link to="/">About us</Link>
+                <Link to="/about">About us</Link>
               </li>
             </ul>
           </div>
 
-          <div className=" hidden md:flex flex-col items-center md:items-start">
+          {/* <div className=" hidden md:flex flex-col items-center md:items-start">
             <h3 className="medium2_text mx-auto">About</h3>
             <ul className="border-t  mx-auto border-white py-4 ">
               <li>
@@ -160,10 +157,10 @@ const FooterBottom = () => {
                 <Link to="/">Tems</Link>
               </li>
               <li>
-                <Link to="/">Contact Us</Link>
+                <Link to="/about">About Us</Link>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           <div className="flex flex-col items-center md:items-start">
             <h3 className="medium2_text mx-auto">Connect</h3>
@@ -189,14 +186,13 @@ const FooterBottom = () => {
                 {/* <p>Linkedin</p> */}
               </div>
               <div className="flex  items-center justify-start space-x-2 ">
-                {" "}
-                <a
+                {/* <a
                   href="#"
                   className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
                 >
                   <FaTwitter />
-                </a>{" "}
-                {/* <p>Twitter</p> */}
+                </a>
+                 */}
               </div>
             </div>
           </div>
@@ -220,26 +216,6 @@ const FooterBottom = () => {
         <div className=" max-w-container mx-auto flex flex-col   justify-start  mt-8 border-t border-white py-4 space-y-4 md:space-y-0">
           <h3 className="medium2_text">Our Categories</h3>
           <CategoryImagesCards />
-          {/* <ul className="flex flex-wrap  gap-8 ">
-            <li>
-              <Link to="/">Clothes</Link>
-            </li>
-            <li>
-              <Link to="/">Electronics</Link>
-            </li>
-            <li>
-              <Link to="/">Home appliances</Link>
-            </li>
-            <li>
-              <Link to="/">Watches & Jewelry</Link>
-            </li>
-            <li>
-              <Link to="/">Shoes</Link>
-            </li>
-            <li>
-              <Link to="/">Hair extensions & Wigs</Link>
-            </li>
-          </ul> */}
         </div>
 
         {/* Footer Bottom */}
@@ -260,7 +236,7 @@ const FooterBottom = () => {
             </p>
           </div>
 
-          <div className="flex flex-col items-center md:items-start">
+          {/* <div className="flex flex-col items-center md:items-start">
             <h3 className="medium2_text">Subscribe</h3>
             <p>
               Sign up to unlock exclusive discounts and one-of-a-kind
@@ -272,7 +248,7 @@ const FooterBottom = () => {
               placeholder="Enter your email"
               className="border border-white text-black w-full p-2 rounded-md"
             />
-          </div>
+          </div> */}
         </div>
       </section>
       <div className="w-[100%] bg-[#498952]">

@@ -85,11 +85,6 @@ const Header = (props) => {
     }
   };
 
-  const handleSignOut = () => {
-    onLogout();
-    navigate("/", { replace: true });
-  };
-
   // implementation of  Shop by Category
 
   const {
@@ -370,9 +365,9 @@ const Header = (props) => {
                 <li>
                   <NavLink
                     className={({ isActive }) => {
-                      return isActive
-                        ? "w-full text-[#1D6F2B] text-[14px] lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md   font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] text-[14px] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md    font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
+                      return location.pathname.split("/")[1] === "signin"
+                        ? "w-full text-white bg-[#1D6F2B] text-[14px] px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
+                        : "w-full lg:hover:text-[#1D6F2B] text-[14px] text-primary bg-[white] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
                     }}
                     to="/signin"
                   >
@@ -383,9 +378,9 @@ const Header = (props) => {
                 <li>
                   <NavLink
                     className={({ isActive }) => {
-                      return isActive
+                      return location.pathname.split("/")[1] === "signup"
                         ? "w-full text-white bg-[#1D6F2B] text-[14px] px-2 py-1 rounded-md lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] font-bold  md:inline-block lg:py-1 lg:px-2 text-center"
-                        : "w-full lg:hover:text-[#1D6F2B] text-[14px] text-white bg-[#1D6F2B] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
+                        : "w-full lg:hover:text-[#1D6F2B] text-[14px] text-primary bg-[white] px-2 py-1 rounded-md lg:hover:bg-[#E5E5E5]  font-bold  md:inline-block lg:py-1 lg:px-2 text-center";
                     }}
                     to="/signup"
                   >

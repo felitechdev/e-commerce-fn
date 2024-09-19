@@ -22,26 +22,6 @@ import { DeleteFilled } from "@ant-design/icons";
 import DeleteConfirmation from "./Actions/deleteAccount";
 import PersonalAddressInfoModel from "./my-address-modal";
 
-const enableTwoFactorAuth = async () => {
-  try {
-    const result = await axios.patch(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/enable-2fa`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      }
-    );
-
-    if (result.status === 200) {
-      alert("2FA enabled successfully");
-    }
-  } catch (err) {
-    alert("Failed to enable 2FA");
-  }
-};
-
 const SellerProfile = () => {
   const [isLoading, setLoading] = useState(true);
   const token = Cookies.get("token");
@@ -335,25 +315,6 @@ const SellerProfile = () => {
               </div>
             </div>
 
-            <div className="flex mt-3  md:pl-10 justify-between pr-2">
-              {/* <h1 className="text-sm"></h1> */}
-
-              {user.twoFactorAuthEnabled ? (
-                <Checkbox
-                  onChange={() => {}}
-                  checked={user.twoFactorAuthEnabled}
-                >
-                  2 Factor Authentication Enabled
-                </Checkbox>
-              ) : (
-                <button
-                  className="bg-primary text-white rounded-md p-1 px-2"
-                  onClick={enableTwoFactorAuth}
-                >
-                  Enable 2 Factor Authentication
-                </button>
-              )}
-            </div>
             <hr className=" mt-4" />
 
             {user != null && user?.role == "seller" && (

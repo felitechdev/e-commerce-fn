@@ -10,7 +10,7 @@ const About = () => {
   //   setPrevLocation(location.state.data);
   // }, [location]);
   return (
-    <PageLayout showFooter={true}>
+    <PageLayout showFooter={false}>
       <div className="max-w-container mx-auto text-center px-4">
         <Breadcrumbs title="About Us" prevLocation={prevLocation} />
         <div className="max-w-[600px] text-center  m-auto text-base text-lightText mb-2">
