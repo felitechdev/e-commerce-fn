@@ -82,8 +82,12 @@ const Product = () => {
     <>
       <PageLayout showFooter={true}>
         {product.status === "loading" && (
-          <div className="max-w-container mx-auto px-4">
+          <div className="max-w-container mx-auto h-[80vh] px-4">
             <SkeletonSpinner />
+
+            <div className="w-[50%] h-[50%] m-auto ">
+              <ImageSkeleton />
+            </div>
           </div>
         )}
 

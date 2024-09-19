@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Button, Form, Input, Row, Select, Space, Col, Modal } from "antd";
 import { IoCloseSharp } from "react-icons/io5";
-import Cookies from "js-cookie";
+
 import AlertComponent from "../designLayouts/AlertComponent";
+import { useUser } from "../../context/UserContex";
 
 export const Enable2FaModal = ({
   showEnable2fa,
@@ -14,6 +16,7 @@ export const Enable2FaModal = ({
 
   res,
 }) => {
+  const { onLogin } = useUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [is2faclosed, setIs2faclosed] = useState(false);
@@ -47,7 +50,14 @@ export const Enable2FaModal = ({
     }
   };
 
-  const handlecancel = () => {
+  const handlecancel = async () => {
+    const token = await Cookies.get("token");
+
+    Cookies.set("token", token);
+    onLogin({
+      ...res,
+      token: token,
+    });
     setIs2faclosed(true);
     setShowEnable2fa(!showEnable2fa);
     if (res?.role === "customer") {
@@ -56,17 +66,6 @@ export const Enable2FaModal = ({
       navigate("/user", { replace: true });
     }
   };
-
-  useEffect(() => {
-    if (is2faclosed) {
-      console.log(res?.data?.data?.user?.role);
-      if (res?.role === "customer") {
-        navigate("/", { replace: true });
-      } else {
-        navigate("/user", { replace: true });
-      }
-    }
-  }, [is2faclosed]);
 
   return (
     <Modal

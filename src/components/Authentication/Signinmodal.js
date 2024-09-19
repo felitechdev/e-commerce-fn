@@ -131,7 +131,8 @@ export const SignInFormModal = ({ isNouser, setIsNouser }) => {
   };
   return (
     <Modal
-      width="50%"
+      className="  w-[100%]  md:w-[50%]"
+      // width="50%"
       styles={{
         backgroundColor: "red",
         position: "relative",

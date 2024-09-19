@@ -151,7 +151,7 @@ function ProductsCategories() {
             <BsArrowLeft />
           </button>
           <div
-            className="flex gap-4 overflow-hidden no-scrollbar items-center justify-center text-center"
+            className="flex gap-4 overflow-hidden  no-scrollbar items-start justify-center text-center"
             ref={containerRef}
           >
             {isLoading ? (
@@ -160,7 +160,7 @@ function ProductsCategories() {
               </div>
             ) : (
               products?.map((product, index) => (
-                <div className="min-w-[200px] mb-3 max-w-[250px] h-68  relative ">
+                <div className=" w-full  relative ">
                   <ProductPreview
                     key={product.id + index}
                     productInfo={product}
