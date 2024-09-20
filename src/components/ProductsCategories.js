@@ -141,11 +141,13 @@ function ProductsCategories() {
       )}
 
       <div className="  max-w-container mx-auto px-2 md:px-6 space-y-4 my-10">
-        {products.length > 0 && <h1 className="medium_text">New Arrivals</h1>}
+        {products && products?.length > 0 && (
+          <h1 className="medium_text">New Arrivals</h1>
+        )}
         <div
           className={`relative bg-[#f8f8f8] rounded-md p-4 h-72 
 
-        ${products.length > 0 ? "" : "hidden"}
+        ${products && products?.length > 0 ? "" : "hidden"}
           
           
           `}
