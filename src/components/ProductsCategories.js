@@ -36,6 +36,7 @@ export async function fetchProducts(page) {
   try {
     const response = await axios.get(
       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`
+      // `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
@@ -145,7 +146,9 @@ function ProductsCategories() {
           <h1 className="medium_text">New Arrivals</h1>
         )}
         <div
-          className={`relative bg-[#f8f8f8] rounded-md p-4 h-72 
+          className={`relative  rounded-md p-4 
+
+           
 
         ${products && products?.length > 0 ? "" : "hidden"}
           
@@ -168,14 +171,16 @@ function ProductsCategories() {
                 <Loader />
               </div>
             ) : (
-              products?.map((product, index) => (
-                <div className=" w-full  relative ">
-                  <ProductPreview
-                    key={product.id + index}
-                    productInfo={product}
-                  />
-                </div>
-              ))
+              <div className="  flex items-start flex-cols-[repeat(auto-fill,_minmax(200px,_1fr))] gap-6 m-auto max-w-[1400px] w-[90%]">
+                {products?.map((product, index) => (
+                  <div className="   relative  ">
+                    <ProductPreview
+                      key={product.id + index}
+                      productInfo={product}
+                    />
+                  </div>
+                ))}
+              </div>
             )}
           </div>
           <button
