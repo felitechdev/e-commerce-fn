@@ -7,12 +7,18 @@ import { Typography } from "antd";
 const { Title, Paragraph, Text } = Typography;
 
 export default function Users() {
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState();
+
+  // { page, pageSize, productClass, SellerId, Arrivarls }
   const { loading, users } = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
+    dispatch(fetchUsers({ page, pageSize }));
+  }, [dispatch, page, pageSize]);
+
+  console.log("users", users);
 
   return (
     <div className="w-full flex flex-col">
@@ -24,7 +30,15 @@ export default function Users() {
           <Loader />
         </div>
       )}
-      {users.length > 0 && <UsersTable users={users} />}
+      {users.length > 0 && (
+        <UsersTable
+          users={users}
+          page={page}
+          setPage={setPage}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
+      )}
     </div>
   );
 }

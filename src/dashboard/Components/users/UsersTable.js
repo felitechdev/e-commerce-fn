@@ -13,7 +13,13 @@ import { DashBoardSearch } from "../Orders/Ordersv2/orders";
 
 const { confirm } = Modal;
 
-export default function UsersTable({ users }) {
+export default function UsersTable({
+  users,
+  page,
+  setPage,
+  pageSize,
+  setPageSize,
+}) {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = React.useState(false);
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
@@ -221,6 +227,21 @@ export default function UsersTable({ users }) {
                 })}
               </tbody>
             </table>
+          </div>
+
+          <div className="flex justify-end space-x-2 w-full pr-6 mt-2 ">
+            <button
+              className="bg-primary text-white p-1 rounded-md"
+              onClick={() => setPage(page - 1)}
+            >
+              Prev
+            </button>
+            <button
+              className="bg-primary text-white p-1 rounded-md"
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
