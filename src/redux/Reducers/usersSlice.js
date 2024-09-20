@@ -9,20 +9,23 @@ const initialState = {
   errorMessage: null,
 };
 
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const Token = Cookies.get("token");
+export const fetchUsers = createAsyncThunk(
+  "users/fetchUsers",
+  async ({ page, pageSize }, { rejectWithValue }) => {
+    const Token = Cookies.get("token");
 
-  const res = await axios(
-    `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users`,
-    {
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      },
-    }
-  );
+    const res = await axios(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users?limit=${pageSize}&page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
 
-  return res.data.data.users;
-});
+    return res.data.data.users;
+  }
+);
 
 export const usersSlice = createSlice({
   name: "users",
