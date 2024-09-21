@@ -1036,7 +1036,7 @@ const UpdateProductModel = (props) => {
             </Col>
           </div>
 
-          <span className="mt-2 font-bold ">
+          <span className="mt-2 font-semibold ">
             Is the product has details need to be viewed as a table
           </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
@@ -1145,7 +1145,7 @@ const UpdateProductModel = (props) => {
             </div>
           </div>
 
-          <span className=" font-bold">Add Images</span>
+          <span className=" font-semibold">Add Images</span>
           <div className="md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 ">
             <div className="w-full md:w-[40%] ">
               <span>Main product image</span>
@@ -1184,7 +1184,7 @@ const UpdateProductModel = (props) => {
                       <>
                         <Image width={70} height={70} src={mainImageUrl} />
                         <MinusCircleOutlined
-                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          className="text-[red] text-xl absolute -top-3 font-semibold -right-2"
                           onClick={() => {
                             setMainImageUrl("");
                           }}
@@ -1246,7 +1246,7 @@ const UpdateProductModel = (props) => {
                           alt="otherimages"
                         />
                         <MinusCircleOutlined
-                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          className="text-[red] text-xl absolute -top-3 font-semibold -right-2"
                           onClick={() => {
                             setOtherImageUrls(
                               otherImageUrls.filter((_, i) => i !== index)
@@ -1260,7 +1260,7 @@ const UpdateProductModel = (props) => {
               </div>
             </div>
           </div>
-          <span className="mt-2 font-bold ">
+          <span className="mt-2 font-semibold ">
             Add Colors images here or Available Sizes
           </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
@@ -1462,7 +1462,7 @@ const UpdateProductModel = (props) => {
                     <>
                       <Image width={70} height={70} src={featuredImageUrl} />
                       <MinusCircleOutlined
-                        className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                        className="text-[red] text-xl absolute -top-3 font-semibold -right-2"
                         onClick={() => {
                           setFeaturedImageUrl("");
                         }}
@@ -1506,7 +1506,7 @@ const UpdateProductModel = (props) => {
             />
           </div>
 
-          <span className="my-5 font-bold">More info</span>
+          <span className="my-5 font-semibold">More info</span>
           <div className="w-[100%] p-3 mt-3  border  border-[black] rounded">
             <div className="flex flex-wrap justify-start space-x-1 md:space-x-6 w-[100%]">
               {userRole == "seller" ? (

@@ -32,7 +32,7 @@ export const CategoryImagesCards = ({ ...props }) => {
     <>
       {/* h-[142px] */}
       <div
-        className="flex space-x-5 md:space-x-8 overflow-x-auto scrollbar-none "
+        className="flex space-x-2 overflow-x-auto scrollbar-none "
         ref={containerRef}
       >
         {!productclassLoading &&
@@ -42,9 +42,9 @@ export const CategoryImagesCards = ({ ...props }) => {
               <Link to={`/shop/?productClass=${pclass.id}`} key={index + 1}>
                 <div
                   key={pclass.id}
-                  className="w-[90px] flex-col items-center justify-center h-fit space-y-2 text-center"
+                  className="w-[110px] hover:bg-gray-200 gap-2 flex flex-col rounded p-2 h-full items-center justify-center text-center"
                 >
-                  <div className="w-[55px] h-[55px] border m-auto border-black  hover:border-[#cd5c07] rounded-full flex items-center justify-center p-0">
+                  <div className="w-[65px] h-[65px] border m-auto rounded-full flex items-center justify-center p-0">
                     <img
                       src={`${
                         pclass?.icon
@@ -52,10 +52,10 @@ export const CategoryImagesCards = ({ ...props }) => {
                           : "https://placehold.jp/80x80.png"
                       } `}
                       alt={pclass.name}
-                      className="object-fill rounded-full h-[90%] w-[90%]   "
+                      className="object-cover rounded-full w-full h-full   "
                     />
                   </div>
-                  <p className="text-sm hover:text-primary hover:underline ">
+                  <p className="text-xs capitalize font-semibold hover:underline ">
                     {pclass.name}
                   </p>
                 </div>

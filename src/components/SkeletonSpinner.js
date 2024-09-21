@@ -34,7 +34,7 @@ export const ImageSkeleton = () => {
   return (
     <div
       role="status"
-      className="rounded-tl-md rounded-tr-md  !w-full !h-full !object-contain space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center "
+      className="rounded-tl-md rounded-tr-md  w-full h-full !object-contain space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center "
     >
       <div className="flex items-center justify-center w-full h-full bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
         <svg

@@ -271,7 +271,7 @@ export const OrderForm = ({
 
           <div className="flex flex-col gap-2">
             {/* {isLoading && (
-              <span className="text-xs font-bold leadin-5 text-gray-700">
+              <span className="text-xs font-semibold leadin-5 text-gray-700">
                 Follow instructions on your phone to proceed.
               </span>
             )} */}
@@ -718,7 +718,7 @@ const Checkout = () => {
       {isdelivery && (
         <div className="fixed bottom-0 p-2 z-50 pb-5 bg-[#fbe8e8] rounded-md w-[90%] md:w-1/3 right-5 md:right-20 shadow-lg border border-red-500">
           <button
-            className="font-bold text-[red] absolute flex items-center justify-center -top-3 bg-[#fbe8e8] border-2   -right-3 p-2 rounded-full "
+            className="font-semibold text-[red] absolute flex items-center justify-center -top-3 bg-[#fbe8e8] border-2   -right-3 p-2 rounded-full "
             onClick={() => {
               setIsdelivery(false);
             }}
@@ -726,7 +726,7 @@ const Checkout = () => {
             X
           </button>
           <div className="text-center">
-            <h3 className="text-lg font-bold mb-2">
+            <h3 className="text-lg font-semibold mb-2">
               Need Assistance with Delivery?
             </h3>
             <p className="mb-4">
@@ -734,10 +734,10 @@ const Checkout = () => {
               contact us via:
             </p>
             <p className="mb-2">
-              <span className="font-bold">Phone:</span> +250 798 697 197
+              <span className="font-semibold">Phone:</span> +250 798 697 197
             </p>
             <p className="mb-2">
-              <span className="font-bold">Email:</span>
+              <span className="font-semibold">Email:</span>
               <a
                 href="mailto:info@felitechnology.com"
                 className="text-blue-500 underline"
@@ -795,7 +795,7 @@ const Checkout = () => {
                     </p> */}
                     <p className="flex  flex-wrap items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
                       Total
-                      <span className="font-bold tracking-wide text-lg font-titleFont">
+                      <span className="font-semibold tracking-wide text-lg font-titleFont">
                         {(totalCost + deliveryprice).toLocaleString()} RWF
                       </span>
                     </p>
@@ -1091,7 +1091,7 @@ const Checkout = () => {
                     </Col>
                   </Row>
                   <div className="mb-12"></div>
-                  <p className="font-bold my-2">Choose payment method </p>
+                  <p className="font-semibold my-2">Choose payment method </p>
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <div className=" flex items-center">

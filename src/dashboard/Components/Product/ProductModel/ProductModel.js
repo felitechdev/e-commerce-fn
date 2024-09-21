@@ -813,7 +813,7 @@ const ProductModel = (props) => {
       <Modal
         title={
           <>
-            <h1 className="text-[#1D6F2B] font-bold text-lg text-center">
+            <h1 className="text-[#1D6F2B] font-semibold text-lg text-center">
               Add product
             </h1>
 
@@ -931,7 +931,7 @@ const ProductModel = (props) => {
                 {userRole == "admin" && (
                   <button
                     onClick={handleOpenNewModel}
-                    className="absolute right-5 font-bold  z-50 underline text-primary"
+                    className="absolute right-5 font-semibold  z-50 underline text-primary"
                   >
                     Add New
                   </button>
@@ -977,7 +977,7 @@ const ProductModel = (props) => {
                   <button
                     type="button"
                     onClick={handleOpenNewSubModel}
-                    className="absolute right-5 font-bold z-50 underline text-primary"
+                    className="absolute right-5 font-semibold z-50 underline text-primary"
                   >
                     Add New
                   </button>
@@ -1018,7 +1018,7 @@ const ProductModel = (props) => {
             </Col>
           </div>
 
-          <span className="mt-2 font-bold ">
+          <span className="mt-2 font-semibold ">
             Is the product has details need to be viewed as a table
           </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
@@ -1107,7 +1107,7 @@ const ProductModel = (props) => {
             </div>
           </div>
 
-          <span className=" font-bold">Add Images</span>
+          <span className=" font-semibold">Add Images</span>
           <div className="md:space-x-2  border  border-[black]  my-3 rounded  md:flex justify-between mt-3 p-3 ">
             <div className="w-full md:w-[40%] ">
               <span>Main product image</span>
@@ -1146,7 +1146,7 @@ const ProductModel = (props) => {
                       <>
                         <Image width={70} height={70} src={mainImageUrl} />
                         <MinusCircleOutlined
-                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          className="text-[red] text-xl absolute -top-3 font-semibold -right-2"
                           onClick={() => {
                             setMainImageUrl("");
                           }}
@@ -1208,7 +1208,7 @@ const ProductModel = (props) => {
                           alt="otherimages"
                         />
                         <MinusCircleOutlined
-                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          className="text-[red] text-xl absolute -top-3 font-semibold -right-2"
                           onClick={() => {
                             setOtherImageUrls(
                               otherImageUrls.filter((_, i) => i !== index)
@@ -1222,7 +1222,7 @@ const ProductModel = (props) => {
               </div>
             </div>
           </div>
-          <span className="mt-2 font-bold ">
+          <span className="mt-2 font-semibold ">
             Add Colors images here or Available Sizes
           </span>
           <div className="w-[100%] border  border-[black] my-3 p-3 rounded ">
@@ -1487,7 +1487,7 @@ const ProductModel = (props) => {
                     <>
                       <Image width={70} height={70} src={featuredImageUrl} />
                       <MinusCircleOutlined
-                        className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                        className="text-[red] text-xl absolute -top-3 font-semibold -right-2"
                         onClick={() => {
                           setFeaturedImageUrl("");
                         }}
@@ -1530,7 +1530,7 @@ const ProductModel = (props) => {
             />
           </div>
 
-          <span className="my-5 font-bold">More info</span>
+          <span className="my-5 font-semibold">More info</span>
           <div className="w-[100%] p-3 mt-3  border  border-[black] rounded">
             <div className="flex flex-wrap justify-start space-x-1 md:space-x-6 w-[100%]">
               {userRole == "seller" ? (

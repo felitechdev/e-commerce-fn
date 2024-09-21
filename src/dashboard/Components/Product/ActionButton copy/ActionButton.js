@@ -135,7 +135,7 @@ export const SingleproductModel = (props) => {
           <Loader />
         ) : DBProductInfo != null && Object.keys(DBProductInfo)?.length > 0 ? (
           <div className="p-4 w-full overflow-auto  ">
-            <h1 className="text-xl font-bold">
+            <h1 className="text-xl font-semibold">
               {DBProductInfo ? DBProductInfo?.name : ""}
             </h1>
             <p className="text-gray-500">

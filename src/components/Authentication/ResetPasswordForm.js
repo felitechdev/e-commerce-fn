@@ -140,7 +140,7 @@ const ResetPasswordForm = () => {
 
                 {error.passwordError && (
                   <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                    <span className="font-bold italic mr-1">!</span>
+                    <span className="font-semibold italic mr-1">!</span>
                     {error.passwordError}
                   </p>
                 )}
@@ -172,7 +172,7 @@ const ResetPasswordForm = () => {
 
                 {error.confirmPasswordError && (
                   <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                    <span className="font-bold italic mr-1">!</span>
+                    <span className="font-semibold italic mr-1">!</span>
                     {error.confirmPasswordError}
                   </p>
                 )}

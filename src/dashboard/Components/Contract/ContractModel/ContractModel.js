@@ -76,7 +76,7 @@ const ContractModel = () => {
               >
                 <span className="font-light">Companies Involved</span>
                 <br />
-                <span className="font-bold">Import Logo</span>
+                <span className="font-semibold">Import Logo</span>
                 <Upload action="/upload.do" listType="picture-card">
                   <Button icon={<FileImageOutlined />}>Upload</Button>
                 </Upload>

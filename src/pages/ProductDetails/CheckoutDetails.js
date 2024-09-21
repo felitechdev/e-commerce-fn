@@ -214,7 +214,7 @@ const CheckoutDetails = ({ product }) => {
         <div className="flex w-full flex-row mb-1 text-center ">
           <button
             disabled={!productInTheCart}
-            className="border border-gray-400 px-4 border-r-0 text-base font-bold cursor-pointer hover:bg-[#c8c9ca] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="border border-gray-400 px-4 border-r-0 text-base font-semibold cursor-pointer hover:bg-[#c8c9ca] disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleRemoveCart}
           >
             -
@@ -231,7 +231,7 @@ const CheckoutDetails = ({ product }) => {
           />
 
           <button
-            className="border border-gray-400 border-l-0 px-4 text-base font-bold cursor-pointer hover:bg-[#c8c9ca]"
+            className="border border-gray-400 border-l-0 px-4 text-base font-semibold cursor-pointer hover:bg-[#c8c9ca]"
             onClick={handleAddToCart}
           >
             +

@@ -159,9 +159,9 @@ export const ProductCatery = (props) => {
       >
         <div className="w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5">
           {isupdate ? (
-            <span className="text-primary font-bold">Update Category</span>
+            <span className="text-primary font-semibold">Update Category</span>
           ) : (
-            <span className="text-primary font-bold">Add Category</span>
+            <span className="text-primary font-semibold">Add Category</span>
           )}
 
           {!isupdate && (
@@ -218,7 +218,7 @@ export const ProductCatery = (props) => {
               background: "#1D6F2B",
               color: "white",
             }}
-            className="text-light font-bold w-[100%]"
+            className="text-light font-semibold w-[100%]"
           >
             {!isupdate
               ? load

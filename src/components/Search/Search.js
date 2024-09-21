@@ -115,10 +115,10 @@ export const Search = () => {
   }, [dispatch, productstate]);
 
   return (
-    <div className='relative w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl border-[2px]'>
+    <div className='relative w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl '>
       <input
         ref={ref}
-        className='flex-1 h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] border-none'
+        className='flex-1 h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px]'
         type='text'
         onChange={handleSearch}
         value={searchQuery}

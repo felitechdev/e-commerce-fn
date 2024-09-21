@@ -87,7 +87,7 @@ const ProductMainInfo = ({
           ''
         )} */}
         {product?.discountPercentage > 0 && (
-          <p className="inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[4px] px-[10px] ml-3 rounded-2xl text-[#FF4747] font-bold">
+          <p className="inline-block text-xs bg-[rgba(201,195,195,0.39)] py-[4px] px-[10px] ml-3 rounded-2xl text-[#FF4747] font-semibold">
             {product?.discountPercentage + "% off"}
           </p>
         )}

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Card, Col, Row, Statistic } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { Line } from '@ant-design/charts';
-import Chart from 'react-apexcharts';
-import { groupBy } from 'lodash';
-import { fetchUsers } from '../../../redux/Reducers/usersSlice';
-import { useEffect } from 'react';
-import { useUser } from '../../../context/UserContex';
+import React, { useState } from "react";
+import { Card, Col, Row, Statistic } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { Line } from "@ant-design/charts";
+import Chart from "react-apexcharts";
+import { groupBy } from "lodash";
+import { fetchUsers } from "../../../redux/Reducers/usersSlice";
+import { useEffect } from "react";
+import { useUser } from "../../../context/UserContex";
 
 // percentages for daily and monthly orders and earnings based on weekly and yearly data, respectively.
 
@@ -25,28 +25,20 @@ export const DashboardTopCard = ({ className }) => {
   const now = new Date();
   const today = new Date(now.setDate(now.getDate()));
   const thisweek = new Date(now.setDate(now.getDate() - 7));
-  const oneYearAgo = new Date(
-    now.setFullYear(now.getFullYear() - 1)
-  );
+  const oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
 
   const totalDailyOrders = orders.filter(
     (order) =>
-      new Date(order.createdAt).getDate() ==
-        today.getDate() &&
-      new Date(order.createdAt).getMonth() ==
-        today.getMonth() &&
-      today.getFullYear() ==
-        new Date(order.createdAt).getFullYear()
+      new Date(order.createdAt).getDate() == today.getDate() &&
+      new Date(order.createdAt).getMonth() == today.getMonth() &&
+      today.getFullYear() == new Date(order.createdAt).getFullYear()
   ).length;
   const totalDailyEarning = orders
     .filter(
       (order) =>
-        new Date(order.createdAt).getDate() ==
-          today.getDate() &&
-        new Date(order.createdAt).getMonth() ==
-          today.getMonth() &&
-        today.getFullYear() ==
-          new Date(order.createdAt).getFullYear()
+        new Date(order.createdAt).getDate() == today.getDate() &&
+        new Date(order.createdAt).getMonth() == today.getMonth() &&
+        today.getFullYear() == new Date(order.createdAt).getFullYear()
     )
     .reduce((acc, order) => acc + order.amount, 0);
 
@@ -61,48 +53,35 @@ export const DashboardTopCard = ({ className }) => {
   //   .filter((order) => new Date(order.createdAt) > thisweek)
   //   .reduce((acc, order) => acc + order.amount, 0);
   const totalWeeklyEarning = orders
-    .filter((order) =>
-      isInCurrentWeek(new Date(order.createdAt))
-    )
+    .filter((order) => isInCurrentWeek(new Date(order.createdAt)))
     .reduce((acc, order) => acc + order.amount, 0);
 
   const totalMonthlyOrders = orders.filter(
     (order) =>
-      new Date(order.createdAt).getMonth() ==
-        today.getMonth() &&
-      today.getFullYear() ==
-        new Date(order.createdAt).getFullYear()
+      new Date(order.createdAt).getMonth() == today.getMonth() &&
+      today.getFullYear() == new Date(order.createdAt).getFullYear()
   ).length;
   const totalMonthlyEarning = orders
     .filter(
       (order) =>
-        new Date(order.createdAt).getMonth() ==
-          today.getMonth() &&
-        today.getFullYear() ==
-          new Date(order.createdAt).getFullYear()
+        new Date(order.createdAt).getMonth() == today.getMonth() &&
+        today.getFullYear() == new Date(order.createdAt).getFullYear()
     )
     .reduce((acc, order) => acc + order.amount, 0);
 
   const totalYearlyOrders = orders.filter(
-    (order) =>
-      new Date(order.createdAt).getFullYear() ==
-      today.getFullYear()
+    (order) => new Date(order.createdAt).getFullYear() == today.getFullYear()
   ).length;
   const totalYearlyEarning = orders
     .filter(
-      (order) =>
-        new Date(order.createdAt).getFullYear() ==
-        today.getFullYear()
+      (order) => new Date(order.createdAt).getFullYear() == today.getFullYear()
     )
     .reduce((acc, order) => acc + order.amount, 0);
 
   // Calculate percentages
-  const dailyOrdersPercentage =
-    (totalDailyOrders / totalWeeklyOrders) * 100;
-  const dailyEarningPercentage =
-    (totalDailyEarning / totalWeeklyEarning) * 100;
-  const weeklyOrdersPercentage =
-    (totalWeeklyOrders / totalMonthlyOrders) * 100;
+  const dailyOrdersPercentage = (totalDailyOrders / totalWeeklyOrders) * 100;
+  const dailyEarningPercentage = (totalDailyEarning / totalWeeklyEarning) * 100;
+  const weeklyOrdersPercentage = (totalWeeklyOrders / totalMonthlyOrders) * 100;
   const weeklyEarningPercentage =
     (totalWeeklyEarning / totalMonthlyEarning) * 100;
   const monthlyOrdersPercentage =
@@ -110,8 +89,7 @@ export const DashboardTopCard = ({ className }) => {
   const monthlyEarningPercentage =
     (totalMonthlyEarning / totalYearlyEarning) * 100;
 
-  const yearlyOrdersPercentage =
-    (totalYearlyOrders / totalYearlyOrders) * 100;
+  const yearlyOrdersPercentage = (totalYearlyOrders / totalYearlyOrders) * 100;
   const yearlyEarningPercentage =
     (totalYearlyEarning / totalYearlyEarning) * 100;
 
@@ -144,27 +122,23 @@ export const DashboardTopCard = ({ className }) => {
   const yearlyEarningBgColor = `rgb(230, 244, 254)`;
 
   return (
-    <Row gutter={[16, 16]} className='w-full'>
+    <Row gutter={[16, 16]} className="w-full">
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-semibold  shadow-lg text-gray-700'
+          className="dashboard-top-card font-semibold  shadow-lg text-gray-700"
           style={{ background: dailyOrdersBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold '>
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold ">
               Daily Orders
             </h3>
           </div>
-          <div className='dashboard-top-card__value '>
-            Total: {totalDailyOrders}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f4a535' }}
-            >
-              Orders
-            </span>
+          <div className="dashboard-top-card__value ">
+            Total: {totalDailyOrders}{" "}
+            <span style={{ fontSize: "12px", color: "#f4a535" }}>Orders</span>
           </div>
-          <div className='dashboard-top-card__subtitle'>
-            Percentage:{' '}
+          <div className="dashboard-top-card__subtitle">
+            Percentage:{" "}
             {isNaN(dailyOrdersPercentage.toFixed(2))
               ? 0
               : dailyOrdersPercentage.toFixed(2)}
@@ -174,25 +148,20 @@ export const DashboardTopCard = ({ className }) => {
       </Col>
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-bold shadow-lg text-gray-700'
+          className="dashboard-top-card font-semibold shadow-lg text-gray-700"
           style={{ background: dailyEarningBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold'>
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold">
               Daily Earnings
             </h3>
           </div>
-          <div className='dashboard-top-card__value'>
-            Amount: {totalDailyEarning}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f75d81' }}
-            >
-              {' '}
-              Rwf
-            </span>
+          <div className="dashboard-top-card__value">
+            Amount: {totalDailyEarning}{" "}
+            <span style={{ fontSize: "12px", color: "#f75d81" }}> Rwf</span>
           </div>
-          <div className='dashboard-top-card__subtitle'>
-            Percentage:{' '}
+          <div className="dashboard-top-card__subtitle">
+            Percentage:{" "}
             {isNaN(dailyEarningPercentage.toFixed(2))
               ? 0
               : dailyEarningPercentage.toFixed(2)}
@@ -203,24 +172,20 @@ export const DashboardTopCard = ({ className }) => {
 
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-bold shadow-lg text-gray-700'
+          className="dashboard-top-card font-semibold shadow-lg text-gray-700"
           style={{ background: weeklyOrdersBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold'>
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold">
               Weekly Orders
             </h3>
           </div>
-          <div className='dashboard-top-card__value '>
-            Total: {totalWeeklyOrders}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f4a535' }}
-            >
-              Orders
-            </span>
+          <div className="dashboard-top-card__value ">
+            Total: {totalWeeklyOrders}{" "}
+            <span style={{ fontSize: "12px", color: "#f4a535" }}>Orders</span>
           </div>
-          <div className='dashboard-top-card__subtitle'>
-            Percentage:{' '}
+          <div className="dashboard-top-card__subtitle">
+            Percentage:{" "}
             {isNaN(weeklyOrdersPercentage.toFixed(2))
               ? 0
               : weeklyOrdersPercentage.toFixed(2)}
@@ -231,26 +196,21 @@ export const DashboardTopCard = ({ className }) => {
 
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-bold shadow-lg text-gray-700'
+          className="dashboard-top-card font-semibold shadow-lg text-gray-700"
           style={{ background: weeklyEarningBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold'>
-              {' '}
-              Weakly Earnings{' '}
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold">
+              {" "}
+              Weakly Earnings{" "}
             </h3>
           </div>
-          <div className='dashboard-top-card__value '>
-            Amount: {totalWeeklyEarning}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f75d81' }}
-            >
-              {' '}
-              Rwf
-            </span>
+          <div className="dashboard-top-card__value ">
+            Amount: {totalWeeklyEarning}{" "}
+            <span style={{ fontSize: "12px", color: "#f75d81" }}> Rwf</span>
           </div>
-          <div className='dashboard-top-card__subtitle'>
-            Percentage:{' '}
+          <div className="dashboard-top-card__subtitle">
+            Percentage:{" "}
             {isNaN(weeklyEarningPercentage.toFixed(2))
               ? 0
               : weeklyEarningPercentage.toFixed(2)}
@@ -261,24 +221,20 @@ export const DashboardTopCard = ({ className }) => {
 
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-bold shadow-lg text-gray-700'
+          className="dashboard-top-card font-semibold shadow-lg text-gray-700"
           style={{ background: monthlyOrdersBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold'>
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold">
               Monthly Orders
             </h3>
           </div>
-          <div className='dashboard-top-card__value '>
-            Total: {totalMonthlyOrders}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f4a535' }}
-            >
-              Orders
-            </span>
+          <div className="dashboard-top-card__value ">
+            Total: {totalMonthlyOrders}{" "}
+            <span style={{ fontSize: "12px", color: "#f4a535" }}>Orders</span>
           </div>
-          <div className='dashboard-top-card__subtitle'>
-            Percentage:{' '}
+          <div className="dashboard-top-card__subtitle">
+            Percentage:{" "}
             {isNaN(monthlyOrdersPercentage.toFixed(2))
               ? 0
               : monthlyOrdersPercentage.toFixed(2)}
@@ -288,25 +244,20 @@ export const DashboardTopCard = ({ className }) => {
       </Col>
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-bold shadow-lg text-gray-700'
+          className="dashboard-top-card font-semibold shadow-lg text-gray-700"
           style={{ background: monthlyEarningBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold'>
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold">
               Monthly Earnings
             </h3>
           </div>
-          <div className='dashboard-top-card__value '>
-            Amount: {totalMonthlyEarning}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f75d81' }}
-            >
-              {' '}
-              Rwf
-            </span>
+          <div className="dashboard-top-card__value ">
+            Amount: {totalMonthlyEarning}{" "}
+            <span style={{ fontSize: "12px", color: "#f75d81" }}> Rwf</span>
           </div>
-          <div className='dashboard-top-card__subtitle'>
-            Percentage:{' '}
+          <div className="dashboard-top-card__subtitle">
+            Percentage:{" "}
             {isNaN(monthlyEarningPercentage.toFixed(2))
               ? 0
               : monthlyEarningPercentage.toFixed(2)}
@@ -316,44 +267,35 @@ export const DashboardTopCard = ({ className }) => {
       </Col>
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-bold shadow-lg '
+          className="dashboard-top-card font-semibold shadow-lg "
           style={{ background: monthlyEarningBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold'>
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold">
               Yearly Orders
             </h3>
           </div>
 
-          <div className='dashboard-top-card__subtitle'>
-            Total: {totalYearlyOrders}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f4a535' }}
-            >
-              Orders
-            </span>
+          <div className="dashboard-top-card__subtitle">
+            Total: {totalYearlyOrders}{" "}
+            <span style={{ fontSize: "12px", color: "#f4a535" }}>Orders</span>
           </div>
         </Card>
       </Col>
       <Col xs={24} sm={12} md={6}>
         <Card
-          className='dashboard-top-card font-bold shadow-lg bg-primary'
+          className="dashboard-top-card font-semibold shadow-lg bg-primary"
           style={{ background: monthlyEarningBgColor }}
         >
-          <div className='dashboard-top-card__title'>
-            <h3 className=' text-[black] text-xl  font-extrabold'>
+          <div className="dashboard-top-card__title">
+            <h3 className=" text-[black] text-xl  font-extrabold">
               Yearly Earnings
             </h3>
           </div>
 
-          <div className='dashboard-top-card__subtitle'>
-            Amount: {totalYearlyEarning}{' '}
-            <span
-              style={{ fontSize: '12px', color: '#f75d81' }}
-            >
-              {' '}
-              Rwf
-            </span>
+          <div className="dashboard-top-card__subtitle">
+            Amount: {totalYearlyEarning}{" "}
+            <span style={{ fontSize: "12px", color: "#f75d81" }}> Rwf</span>
           </div>
         </Card>
       </Col>
@@ -365,51 +307,37 @@ export const OrdersLineCahrt = () => {
   const { orders } = useSelector((state) => state.orders);
   const now = new Date();
   const today = new Date(now.setDate(now.getDate()));
-  const yesterday = new Date(
-    now.setDate(now.getDate() - 1)
-  );
+  const yesterday = new Date(now.setDate(now.getDate() - 1));
   const { user } = useUser();
 
   const totalYesterdayOrders = orders.filter(
     (order) =>
-      new Date(order.createdAt).getDate() ==
-        yesterday.getDate() &&
-      new Date(order.createdAt).getMonth() ==
-        yesterday.getMonth() &&
-      yesterday.getFullYear() ==
-        new Date(order.createdAt).getFullYear()
+      new Date(order.createdAt).getDate() == yesterday.getDate() &&
+      new Date(order.createdAt).getMonth() == yesterday.getMonth() &&
+      yesterday.getFullYear() == new Date(order.createdAt).getFullYear()
   )?.length;
 
   const totalDailyOrders = orders?.filter(
     (order) =>
-      new Date(order.createdAt).getDate() ==
-        today.getDate() &&
-      new Date(order.createdAt).getMonth() ==
-        today.getMonth() &&
-      today.getFullYear() ==
-        new Date(order.createdAt).getFullYear()
+      new Date(order.createdAt).getDate() == today.getDate() &&
+      new Date(order.createdAt).getMonth() == today.getMonth() &&
+      today.getFullYear() == new Date(order.createdAt).getFullYear()
   ).length;
   const totalDailyEarning = orders
     .filter(
       (order) =>
-        new Date(order.createdAt).getDate() ==
-          today.getDate() &&
-        new Date(order.createdAt).getMonth() ==
-          today.getMonth() &&
-        today.getFullYear() ==
-          new Date(order.createdAt).getFullYear()
+        new Date(order.createdAt).getDate() == today.getDate() &&
+        new Date(order.createdAt).getMonth() == today.getMonth() &&
+        today.getFullYear() == new Date(order.createdAt).getFullYear()
     )
     .reduce((acc, order) => acc + order.amount, 0);
 
   const totayesterdayEarnings = orders
     ?.filter(
       (order) =>
-        new Date(order.createdAt).getDate() ==
-          yesterday.getDate() &&
-        new Date(order.createdAt).getMonth() ==
-          yesterday.getMonth() &&
-        yesterday.getFullYear() ==
-          new Date(order.createdAt).getFullYear()
+        new Date(order.createdAt).getDate() == yesterday.getDate() &&
+        new Date(order.createdAt).getMonth() == yesterday.getMonth() &&
+        yesterday.getFullYear() == new Date(order.createdAt).getFullYear()
     )
     .reduce((acc, order) => acc + order.amount, 0);
 
@@ -429,7 +357,7 @@ export const OrdersLineCahrt = () => {
   const [orderdata, setOrderdata] = useState({
     options: {
       chart: {
-        id: 'basic-bar',
+        id: "basic-bar",
       },
       xaxis: {
         categories: [],
@@ -464,25 +392,25 @@ export const OrdersLineCahrt = () => {
 
     series: [
       {
-        name: 'Yesterday',
+        name: "Yesterday",
         data: [],
-        color: '#0d8ffb',
+        color: "#0d8ffb",
       },
       {
-        name: 'Today',
+        name: "Today",
         data: [],
-        color: '#78e4a3',
+        color: "#78e4a3",
       },
     ],
     chart: {
       height: 350,
-      type: 'area',
+      type: "area",
     },
     dataLabels: {
       enabled: false,
     },
     stroke: {
-      curve: 'smooth',
+      curve: "smooth",
     },
   });
 
@@ -490,9 +418,7 @@ export const OrdersLineCahrt = () => {
     // Calculate today's and yesterday's data
     const now = new Date();
     const today = new Date(now.setDate(now.getDate()));
-    const yesterday = new Date(
-      now.setDate(now.getDate() - 1)
-    );
+    const yesterday = new Date(now.setDate(now.getDate() - 1));
     const todayData = [];
     const yesterdayData = [];
     for (let hour = 0; hour < 24; hour++) {
@@ -528,10 +454,7 @@ export const OrdersLineCahrt = () => {
         ...prevState.options,
         xaxis: {
           ...prevState.options.xaxis,
-          categories: Array.from(
-            { length: 24 },
-            (_, i) => `${i} h:00`
-          ),
+          categories: Array.from({ length: 24 }, (_, i) => `${i} h:00`),
         },
       },
       series: [
@@ -548,99 +471,99 @@ export const OrdersLineCahrt = () => {
   }, [orders]);
 
   return (
-    <div className='   '>
+    <div className="   ">
       {/* <div className="bg-gradient-to-r  w-[100%]   from-primary  via-icon2 to-primeColor  shadow-lg rounded-md  "> */}
-      <div className='bg-gradient-to-r  w-[100%]  bg-[#e1e7f1]  shadow-lg rounded-md pt-5 '>
-        <Row gutter={[16, 16]} className='mt-0 mx-2'>
-          <Col sm={24} md={8} className=''>
-            <p className='text-icon1 flex items-center pl-3 font-bold text-xl mb-1'>
+      <div className="bg-gradient-to-r  w-[100%]  bg-[#e1e7f1]  shadow-lg rounded-md pt-5 ">
+        <Row gutter={[16, 16]} className="mt-0 mx-2">
+          <Col sm={24} md={8} className="">
+            <p className="text-icon1 flex items-center pl-3 font-semibold text-xl mb-1">
               Orders Vs Hours
             </p>
           </Col>
           <Col sm={12} md={6}>
-            <p className='text-[#f75d81] font-bold text-lg mb-1'>
+            <p className="text-[#f75d81] font-semibold text-lg mb-1">
               Orders / {today.getHours()} h:00
             </p>
             <Statistic
               value={totalDailyOrders}
               valueStyle={{
-                fontSize: '18px',
-                fontWeight: 'bold',
+                fontSize: "18px",
+                fontWeight: "bold",
               }}
               suffix={
                 <span
                   style={{
-                    fontSize: '12px',
-                    color: '#f4a535',
+                    fontSize: "12px",
+                    color: "#f4a535",
                   }}
                 >
                   Orders
                 </span>
               }
-              prefix=' Today:'
+              prefix=" Today:"
             />
 
             <Statistic
               value={totalYesterdayOrders}
               valueStyle={{
-                fontSize: '18px',
-                fontWeight: 'bold',
+                fontSize: "18px",
+                fontWeight: "bold",
               }}
               suffix={
                 <span
                   style={{
-                    fontSize: '12px',
-                    color: '#f4a535',
+                    fontSize: "12px",
+                    color: "#f4a535",
                   }}
                 >
                   Orders
                 </span>
               }
-              prefix='YesterDay:'
+              prefix="YesterDay:"
             />
           </Col>
-          <Col sm={12} md={8} className=''>
-            <p className='text-[#f75d81] font-bold text-lg mb-1'>
-              Earnings / {today.getHours()} h:00{' '}
+          <Col sm={12} md={8} className="">
+            <p className="text-[#f75d81] font-semibold text-lg mb-1">
+              Earnings / {today.getHours()} h:00{" "}
             </p>
             <Statistic
               value={totalDailyEarning}
               valueStyle={{
-                fontSize: '18px',
-                fontWeight: 'bold',
+                fontSize: "18px",
+                fontWeight: "bold",
               }}
               suffix={
                 <span
                   style={{
-                    fontSize: '12px',
-                    color: '#f75d81',
+                    fontSize: "12px",
+                    color: "#f75d81",
                   }}
                 >
-                  {' '}
+                  {" "}
                   Rwf
                 </span>
               }
-              prefix=' Today:'
+              prefix=" Today:"
             />
 
             <Statistic
               value={totayesterdayEarnings}
               valueStyle={{
-                fontSize: '18px',
-                fontWeight: 'bold',
+                fontSize: "18px",
+                fontWeight: "bold",
               }}
               suffix={
                 <span
                   style={{
-                    fontSize: '12px',
-                    color: '#f75d81',
+                    fontSize: "12px",
+                    color: "#f75d81",
                   }}
                 >
-                  {' '}
+                  {" "}
                   Rwf
                 </span>
               }
-              prefix='YesterDay:'
+              prefix="YesterDay:"
             />
           </Col>
         </Row>
@@ -648,16 +571,16 @@ export const OrdersLineCahrt = () => {
           options={orderdata.options}
           series={orderdata.series}
           // type="line"
-          type='area'
+          type="area"
           height={400}
-          width='100%'
+          width="100%"
           style={{
-            background: '#e1e7f1',
+            background: "#e1e7f1",
           }}
         />
       </div>
-      <div className='sm:flex-col md:flex-row flex justify-between'>
-        {user?.role == 'admin' && <SellerPieChart />}
+      <div className="sm:flex-col md:flex-row flex justify-between">
+        {user?.role == "admin" && <SellerPieChart />}
         <OrdersBarChart />
       </div>
     </div>
@@ -667,13 +590,13 @@ export const OrdersLineCahrt = () => {
 export const OrdersBarChart = () => {
   const { orders } = useSelector((state) => state.orders);
   const daysOfWeek = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
   const ordersPerDayOfWeek = new Array(7).fill(0);
 
@@ -690,23 +613,21 @@ export const OrdersBarChart = () => {
   // const colors = new Array(7).fill("#1D6F2B");
   // colors[minOrdersIndex] = "#de5f5f";
 
-  const ordersNotZero = ordersPerDayOfWeek.filter(
-    (order) => order > 0
-  );
+  const ordersNotZero = ordersPerDayOfWeek.filter((order) => order > 0);
   const minOrders = Math.min(...ordersNotZero);
   const colors = ordersPerDayOfWeek.map((order) =>
-    order === minOrders ? '#de5f5f' : '#1D6F2B'
+    order === minOrders ? "#de5f5f" : "#1D6F2B"
   );
 
   const [orderdata, setOrderdata] = useState({
     options: {
       colors: colors,
       title: {
-        text: 'Weekly Orders',
-        align: 'center',
+        text: "Weekly Orders",
+        align: "center",
         style: {
-          fontSize: '20px',
-          color: '#263238',
+          fontSize: "20px",
+          color: "#263238",
         },
       },
 
@@ -724,7 +645,7 @@ export const OrdersBarChart = () => {
     },
     series: [
       {
-        name: 'orders',
+        name: "orders",
         data: ordersPerDayOfWeek,
       },
     ],
@@ -739,7 +660,7 @@ export const OrdersBarChart = () => {
       },
       series: [
         {
-          name: 'orders',
+          name: "orders",
           data: ordersPerDayOfWeek,
         },
       ],
@@ -747,13 +668,13 @@ export const OrdersBarChart = () => {
   }, [orders]);
 
   return (
-    <div className='shadow-lg border w-[100%] md:w-[58%]  mt-5 overflow-auto rounded-lg px-3 bg-[#e1e7f1]'>
+    <div className="shadow-lg border w-[100%] md:w-[58%]  mt-5 overflow-auto rounded-lg px-3 bg-[#e1e7f1]">
       <Chart
         options={orderdata.options}
         series={orderdata.series}
-        type='bar'
-        width='100%'
-        height='500'
+        type="bar"
+        width="100%"
+        height="500"
       />
     </div>
   );
@@ -762,13 +683,13 @@ export const OrdersBarChart = () => {
 export const OrdersBarChart1 = () => {
   const { orders } = useSelector((state) => state.orders);
   const daysOfWeek = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
   const ordersPerDayOfWeek = new Array(7).fill(0);
   orders?.forEach((order) => {
@@ -785,20 +706,20 @@ export const OrdersBarChart1 = () => {
     },
     series: [
       {
-        name: 'orders',
+        name: "orders",
         data: ordersPerDayOfWeek,
       },
     ],
   });
 
   return (
-    <div className='shadow-lg border w-[100%] md:w-[40%]  mt-5 overflow-auto rounded-lg px-3 bg-[#e1e7f1]'>
+    <div className="shadow-lg border w-[100%] md:w-[40%]  mt-5 overflow-auto rounded-lg px-3 bg-[#e1e7f1]">
       <Chart
         options={orderdata.options}
         series={orderdata.series}
-        type='bar'
-        width='400'
-        height='500'
+        type="bar"
+        width="400"
+        height="500"
       />
     </div>
   );
@@ -806,17 +727,13 @@ export const OrdersBarChart1 = () => {
 
 export const SellerPieChart = () => {
   const { orders } = useSelector((state) => state.orders);
-  const { loading, users } = useSelector(
-    (state) => state.users
-  );
-  const groupeduser = groupBy(users, 'role');
+  const { loading, users } = useSelector((state) => state.users);
+  const groupeduser = groupBy(users, "role");
 
-  const grouped = groupBy(users, 'role');
+  const grouped = groupBy(users, "role");
 
   const options = { labels: Object.keys(grouped) };
-  const series = Object.values(grouped).map(
-    (users) => users?.length
-  );
+  const series = Object.values(grouped).map((users) => users?.length);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -824,22 +741,22 @@ export const SellerPieChart = () => {
   }, []);
 
   return (
-    <div className=' shadow-lg border w-[100%] md:w-[40%]  mt-5    overflow-auto rounded-lg px-3   bg-[#e1e7f1]'>
-      <Row gutter={[16, 16]} className=''>
+    <div className=" shadow-lg border w-[100%] md:w-[40%]  mt-5    overflow-auto rounded-lg px-3   bg-[#e1e7f1]">
+      <Row gutter={[16, 16]} className="">
         {Object.keys(groupeduser).map((role) => (
           <Col sm={24} md={12} key={role}>
             {/* <p
               style={{ fontSize: "12px", color: "#f75d81" }}
-              className="font-bold text-md mb-1"
+              className="font-semibold text-md mb-1"
             >
               {role}
             </p> */}
             <Statistic
               value={groupeduser[role].length || 0}
               valueStyle={{
-                fontSize: '1.25rem',
-                fontWeight: 'bold',
-                color: 'black',
+                fontSize: "1.25rem",
+                fontWeight: "bold",
+                color: "black",
               }}
               prefix={`${role}:`}
             />
@@ -850,9 +767,9 @@ export const SellerPieChart = () => {
       <Chart
         options={options}
         series={series}
-        type='pie'
-        width='400'
-        height='500'
+        type="pie"
+        width="400"
+        height="500"
       />
     </div>
   );

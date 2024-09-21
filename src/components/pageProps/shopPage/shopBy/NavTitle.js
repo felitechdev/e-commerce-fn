@@ -7,12 +7,14 @@ const NavTitle = ({ title, icons, classname }) => {
       {icons ? (
         <>
           {/* text-lg underline lg:text-xl */}
-          <h2 className={`font-bold ${classname}  text-primeColor`}>{title}</h2>
+          <h2 className={`font-semibold ${classname}  text-primeColor`}>
+            {title}
+          </h2>
           {icons && <BiCaretDown className="text-black" zise={24} />}
         </>
       ) : (
         <>
-          <h2 className="font-bold text-lg lg:text-xl text-primeColor">
+          <h2 className="font-semibold text-lg lg:text-xl text-primeColor">
             {title}
           </h2>
         </>

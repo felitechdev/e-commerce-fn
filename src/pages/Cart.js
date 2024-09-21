@@ -168,7 +168,7 @@ const OrderForm = ({
 
           <div className="flex flex-col gap-2">
             {isLoading && (
-              <span className="text-xs font-bold leadin-5 text-gray-700">
+              <span className="text-xs font-semibold leadin-5 text-gray-700">
                 Follow instructions on your phone to proceed.
               </span>
             )}
@@ -514,7 +514,7 @@ const Cart = () => {
                 />
               </div>
               <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
-                <h1 className="font-titleFont text-xl font-bold uppercase">
+                <h1 className="font-titleFont text-xl font-semibold uppercase">
                   Your Cart feels lonely.
                 </h1>
                 <p className="text-sm text-center px-10 -mt-2">
@@ -582,7 +582,7 @@ const Cart = () => {
                   <div className="border rounded">
                     <p className="flex items-center justify-between border-b py-1.5  px-4 font-medium">
                       <span>Subtotal</span>
-                      <span className="  tracking-wide  font-bold ">
+                      <span className="  tracking-wide  font-semibold ">
                         {totalCost.toLocaleString()} RWF
                       </span>
                     </p>
@@ -594,7 +594,7 @@ const Cart = () => {
                     </p> */}
                     <p className="flex items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
                       Total
-                      <span className="font-bold tracking-wide text-lg font-titleFont">
+                      <span className="font-semibold tracking-wide text-lg font-titleFont">
                         {(totalCost + deliveryprice).toLocaleString()} RWF
                       </span>
                     </p>

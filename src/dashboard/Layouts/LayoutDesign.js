@@ -253,7 +253,7 @@ export const LayoutDesign = ({ userprofile }) => {
               defaultSelectedKeys={[selectedKey]}
               onClick={handleMenuClick}
               style={{ color: "black" }}
-              className="font-bold !text-black h-full"
+              className="font-semibold !text-black h-full"
             >
               {Menus.map((item, index) => {
                 return (
@@ -379,7 +379,7 @@ const TitleDisplay = () => {
 
   return (
     <h1
-      className="font-bold text-primary text-xl md:text-2xl "
+      className="font-semibold text-primary text-xl md:text-2xl "
       style={{ marginLeft: "16px" }}
     >
       {dynamicTitle}

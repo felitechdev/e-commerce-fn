@@ -14,7 +14,7 @@ export default function ShopProducts({
     <div>
       {!hidetop && (
         <>
-          <h2 className="capitalize m-2 font-bold leading-tight text-[#1D6F2B]">
+          <h2 className="capitalize m-2 font-semibold leading-tight text-[#1D6F2B]">
             {productClass?.name || ""} {`: ${category?.name || ""}`}{" "}
             {subcategory?.name ? `: ${subcategory.name}` : ""}
           </h2>

@@ -50,7 +50,7 @@ export const ProductSection = ({
   }, [products]);
 
   return (
-    <div className=" mt-8  space-y-4">
+    <div className="space-y-4">
       {(isLoading && (
         <div className="flex w-full h-full justify-center">
           <Loader />

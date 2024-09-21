@@ -33,7 +33,7 @@ const Price = ({ handlefilterShow }) => {
           <div class=" mdl:flex mdl:gap-4 mdl:items-end space-y-2 ">
             <div class="md:w-1/2 mb-6 md:mb-0">
               <label
-                class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+                class="block tracking-wide text-gray-700 text-xs font-semibold mb-2"
                 for="grid-first-name"
               >
                 Min ({currentCurrency})
@@ -51,7 +51,7 @@ const Price = ({ handlefilterShow }) => {
             </div>
             <div class=" md:w-1/2">
               <label
-                class="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+                class="block tracking-wide text-gray-700 text-xs font-semibold mb-2"
                 for="grid-last-name"
               >
                 Max ({currentCurrency})
@@ -68,7 +68,7 @@ const Price = ({ handlefilterShow }) => {
               />
             </div>
             <button
-              class="shadow bg-[#1D6F2B]  hover:bg-[#1d6f2ba4] focus:shadow-outline focus:outline-none !focus:border-[#1D6F2B] text-white font-bold py-2 px-4 rounded"
+              class="shadow bg-[#1D6F2B]  hover:bg-[#1d6f2ba4] focus:shadow-outline focus:outline-none !focus:border-[#1D6F2B] text-white font-semibold py-2 px-4 rounded"
               onClick={() => handlefilterShow()}
             >
               Ok

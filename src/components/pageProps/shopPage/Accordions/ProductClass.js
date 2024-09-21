@@ -80,7 +80,7 @@ const ProductClassAccordion = (props) => {
 
                       ${
                         item.id === categoryId
-                          ? " border-b-primary text-primary font-bold"
+                          ? " border-b-primary text-primary font-semibold"
                           : ""
                       }
                       
@@ -102,7 +102,7 @@ const ProductClassAccordion = (props) => {
                           
                           ${
                             item.id === categoryId
-                              ? " border-b-primary text-primary font-bold"
+                              ? " border-b-primary text-primary font-semibold"
                               : ""
                           }
                           
@@ -119,7 +119,7 @@ const ProductClassAccordion = (props) => {
                         to={`/shop/?productClass=${item.id}`}
                         className={`border-b-[1px] capitalize  border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer ${
                           item.id === categoryId
-                            ? " border-b-primary text-primary font-bold"
+                            ? " border-b-primary text-primary font-semibold"
                             : ""
                         }`}
                         onClick={() => {

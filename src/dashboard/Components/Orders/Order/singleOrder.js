@@ -79,7 +79,7 @@ const SingleOrder = () => {
 
   if (orders && orders.items && !loading) {
     customer = users?.find((user) => user?.id == orders.customer);
-  
+
     fetchProductData();
   }
   const singleorder = ord.length > 0 ? ord : [];
@@ -107,7 +107,9 @@ const SingleOrder = () => {
           <>
             <div className="flex justify-between p-4 border ">
               <div>
-                <h1 className="text-md font-bold">Order ID : {orders.id}</h1>
+                <h1 className="text-md font-semibold">
+                  Order ID : {orders.id}
+                </h1>
 
                 <p className="text-gray-400">
                   Order Date :
@@ -115,7 +117,7 @@ const SingleOrder = () => {
                 </p>
               </div>
               <div>
-                <h1 className="text-md font-bold">
+                <h1 className="text-md font-semibold">
                   Total: {orders.amount} Rwf
                 </h1>
                 <p className="text-gray-400">
@@ -134,7 +136,7 @@ const SingleOrder = () => {
                   {orders.status}
                 </Tag>
 
-                <h1 className="text-md font-bold">
+                <h1 className="text-md font-semibold">
                   Choice : {orders?.deliveryPreference}
                 </h1>
               </div>
@@ -142,7 +144,7 @@ const SingleOrder = () => {
 
             <div className="flex justify-between p-4 border ">
               <div>
-                <h1 className="text-md font-bold">Payment</h1>
+                <h1 className="text-md font-semibold">Payment</h1>
                 <h1 className="text-sm text-gray-400">
                   {`${
                     orders?.payment_type?.details ||
@@ -156,7 +158,7 @@ ${orders?.payment_type?.type}`}
 
             <div className="flex justify-between p-4 border ">
               <div>
-                <h1 className="text-md font-bold">shippingAddress</h1>
+                <h1 className="text-md font-semibold">shippingAddress</h1>
                 <h1 className="text-sm text-gray-400">
                   Tel : {orders?.shippingAddress?.phoneNumber}
                 </h1>
@@ -180,7 +182,7 @@ ${orders?.payment_type?.type}`}
               <div>
                 {UserRole !== "seller" && (
                   <>
-                    <h1 className="text-md font-bold">
+                    <h1 className="text-md font-semibold">
                       {" "}
                       {UserRole !== "customer" ? " Cutomer" : "My phone"}
                     </h1>
@@ -220,31 +222,31 @@ ${orders?.payment_type?.type}`}
 
                     <div>
                       <div className=" ">
-                        <h1 className="text-md font-bold">{item?.name}</h1>
-                        <h1 className="text-md font-bold text-gray-400">
+                        <h1 className="text-md font-semibold">{item?.name}</h1>
+                        <h1 className="text-md font-semibold text-gray-400">
                           price: {item?.price} Rwf
                         </h1>
-                        {/* <p className="text-gray-400 font-bold text-md">
+                        {/* <p className="text-gray-400 font-semibold text-md">
                       quantity : {item.quantity}
                     </p> */}
                       </div>
 
                       <div>
-                        <p className="text-gray-400 font-bold text-md">
+                        <p className="text-gray-400 font-semibold text-md">
                           quantity : {item.quantity}
                         </p>
-                        <p className="text-gray-400 font-bold text-md">
+                        <p className="text-gray-400 font-semibold text-md">
                           color : {item?.variation?.color}
                         </p>
-                        <p className="text-gray-400 font-bold text-md">
+                        <p className="text-gray-400 font-semibold text-md">
                           zize : {item?.variation?.size}
                         </p>
                       </div>
 
                       {UserRole == "admin" && (
                         <>
-                          <h1 className="text-md font-bold">seller:{}</h1>
-                          {/* <p className="text-gray-400 font-bold text-md">
+                          <h1 className="text-md font-semibold">seller:{}</h1>
+                          {/* <p className="text-gray-400 font-semibold text-md">
                           Tel : {}
                         </p> */}
                         </>

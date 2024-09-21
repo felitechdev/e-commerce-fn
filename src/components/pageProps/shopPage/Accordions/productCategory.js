@@ -66,7 +66,7 @@ const ProductCategoryAccordion = (props) => {
 
                     ${
                       item.id === categoryId
-                        ? " border-b-primary text-primary font-bold"
+                        ? " border-b-primary text-primary font-semibold"
                         : ""
                     }
                     

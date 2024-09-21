@@ -75,7 +75,7 @@ const ProductSubCategoryAccordion = ({ brands, handlefilterShow }) => {
 
                     ${
                       item.id === subcategoryId
-                        ? " border-b-primary text-primary font-bold"
+                        ? " border-b-primary text-primary font-semibold"
                         : ""
                     }
                     

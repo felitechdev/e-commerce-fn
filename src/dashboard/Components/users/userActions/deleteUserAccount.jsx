@@ -19,7 +19,6 @@ const DeleteUserAccountConfirmation = ({
   const [onSuccess, setOnSuccess] = useState(null);
   const token = Cookies.get("token");
 
-
   const handleDelete = async () => {
     try {
       setLoading(true);
@@ -76,7 +75,7 @@ const DeleteUserAccountConfirmation = ({
   };
 
   return (
-    <div className=" cursor-pointer md:flex items-center md:border p-1  md:space-x-2 font-bold text-[red] ">
+    <div className=" cursor-pointer md:flex items-center md:border p-1  md:space-x-2 font-semibold text-[red] ">
       {openDeleteModal && showDeleteConfirm}
     </div>
   );

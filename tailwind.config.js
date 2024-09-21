@@ -19,10 +19,6 @@ module.exports = {
         lgl: "1024px",
         xl: "1280px",
       },
-      fontFamily: {
-        bodyFont: ["DM Sans", "sans-serif"],
-        titleFont: ["Poppins", "sans-serif"],
-      },
       colors: {
         primary: "#1D6F2B",
         // secondary: "#EEEEEE",

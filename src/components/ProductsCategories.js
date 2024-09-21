@@ -131,7 +131,7 @@ function ProductsCategories() {
       <Banner ads={ads} loading={isloading} />
 
       <div className="max-w-container mx-auto px-2  md:px-6 space-y-4 mt-10 ">
-        <h1 className=" medium_text">Categories</h1>
+        <h1 className=" text-base font-semibold">Categories</h1>
         <CategoryImagesCards />
       </div>
 
@@ -143,17 +143,17 @@ function ProductsCategories() {
 
       {products && products.length > 0 && (
         <div className="  max-w-container mx-auto px-2 md:px-6 space-y-4 my-10">
-          <h1 className="medium_text">New Arrivals</h1>
-          <div className="relative bg-[#f8f8f8] rounded-md p-4 h-72 ">
+          <h1 className="text-base font-semibold">New Arrivals</h1>
+          <div className="relative rounded-md h-fit">
             <button
               onClick={scrollLeft}
               disabled={isLeftDisabled}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50 "
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50 "
             >
               <BsArrowLeft />
             </button>
             <div
-              className="flex gap-4 overflow-hidden no-scrollbar items-center justify-center text-center"
+              className="flex gap-4 overflow-hidden no-scrollbar items-center text-center"
               ref={containerRef}
             >
               {isLoading ? (
@@ -162,7 +162,7 @@ function ProductsCategories() {
                 </div>
               ) : (
                 products?.map((product, index) => (
-                  <div className="min-w-[200px] mb-3 max-w-[250px] h-68  relative ">
+                  <div className="min-w-[200px] max-w-[250px] relative ">
                     <ProductPreview
                       key={product.id + index}
                       productInfo={product}
@@ -174,7 +174,7 @@ function ProductsCategories() {
             <button
               onClick={scrollRight}
               disabled={isRightDisabled}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50"
             >
               <BsArrowRight />
             </button>
@@ -182,8 +182,8 @@ function ProductsCategories() {
         </div>
       )}
 
-      <div className="max-w-container mx-auto px-2 md:px-6 space-y-4 mt-10 ">
-        <h1 className="medium_text my-6 ">Our Products</h1>
+      <div className="max-w-container mx-auto px-2 gap-2 flex flex-col md:px-6 ">
+        {/* <h1 className=" text-base font-semibold">Our Products</h1> */}
         <ProductDisplay />
       </div>
     </div>

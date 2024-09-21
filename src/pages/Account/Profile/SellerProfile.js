@@ -124,7 +124,7 @@ const SellerProfile = () => {
 
                   {user?.profileImageUrl == "default.jpg" ||
                   user?.photo == "default.jpg" ? (
-                    <h1 className="bg-primary text-white font-bold px-1 rounded-sm text-2xl">
+                    <h1 className="bg-primary text-white font-semibold px-1 rounded-sm text-2xl">
                       {user?.firstName[0]}
                     </h1>
                   ) : (
@@ -135,7 +135,7 @@ const SellerProfile = () => {
                     />
                   )}
 
-                  <h1 className="font-bold text-xl">{user?.firstName}</h1>
+                  <h1 className="font-semibold text-xl">{user?.firstName}</h1>
                 </div>
 
                 <h1
@@ -171,7 +171,7 @@ const SellerProfile = () => {
               />
 
               <div
-                className="flex space-x-2 cursor-pointer font-bold  text-primary  "
+                className="flex space-x-2 cursor-pointer font-semibold  text-primary  "
                 onClick={showusernamemodel}
               >
                 <RiEdit2Fill size={20} />
@@ -180,7 +180,7 @@ const SellerProfile = () => {
             </>
           ) : (
             <div
-              className="flex space-x-2 cursor-pointer  text-primary text-md font-bold"
+              className="flex space-x-2 cursor-pointer  text-primary text-md font-semibold"
               onClick={showModal}
             >
               <RiEdit2Fill size={20} />
@@ -195,21 +195,21 @@ const SellerProfile = () => {
               <div className="">
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-md">
+                  <span className="text-border font-semibold text-md">
                     Email :{" "}
                   </span>{" "}
                   {user.email}
                 </h1>
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-md">
+                  <span className="text-border font-semibold text-md">
                     firstName :{" "}
                   </span>{" "}
                   {user.firstName}
                 </h1>
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-md">
+                  <span className="text-border font-semibold text-md">
                     lastName :{" "}
                   </span>{" "}
                   {user.lastName}
@@ -247,7 +247,7 @@ const SellerProfile = () => {
               </div>
 
               {/* <div
-                className=" cursor-pointer md:flex items-center md:border p-1  md:space-x-2 font-bold text-[red] "
+                className=" cursor-pointer md:flex items-center md:border p-1  md:space-x-2 font-semibold text-[red] "
                 onClick={() => ShowDeleteConfirm(user?._id, token)}
               >
                 <DeleteFilled className=" text-icon3" />
@@ -260,7 +260,7 @@ const SellerProfile = () => {
               <div className="flex-col justify-between">
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-md">
+                  <span className="text-border font-semibold text-md">
                     phoneNumber :{" "}
                   </span>
                   {}
@@ -268,7 +268,7 @@ const SellerProfile = () => {
                 </h1>
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-md">
+                  <span className="text-border font-semibold text-md">
                     District:{" "}
                   </span>
                   {}
@@ -277,7 +277,7 @@ const SellerProfile = () => {
 
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-md">
+                  <span className="text-border font-semibold text-md">
                     Sector:{" "}
                   </span>
                   {}
@@ -286,7 +286,7 @@ const SellerProfile = () => {
 
                 <h1>
                   {" "}
-                  <span className="text-border font-bold text-md">
+                  <span className="text-border font-semibold text-md">
                     Street:{" "}
                   </span>
                   {}
@@ -303,7 +303,7 @@ const SellerProfile = () => {
               />
 
               <div
-                className="flex space-x-2 cursor-pointer font-bold  text-primary  "
+                className="flex space-x-2 cursor-pointer font-semibold  text-primary  "
                 onClick={() => {
                   setOpenaddressmodel(true);
                 }}
@@ -316,7 +316,7 @@ const SellerProfile = () => {
 
             {user != null && user?.role == "seller" && (
               <div className="pl-2 md:pl-10 mt-1  ">
-                <h1 className=" text-border font-bold text-lg underline mb-3">
+                <h1 className=" text-border font-semibold text-lg underline mb-3">
                   More Information
                 </h1>
 
@@ -331,10 +331,10 @@ const SellerProfile = () => {
                       xl={8}
                       className=" flex md:block"
                     >
-                      <span className="text-border font-bold text-md ">
+                      <span className="text-border font-semibold text-md ">
                         companyEmail:{" "}
                       </span>
-                      <h1 className="font-bold">
+                      <h1 className="font-semibold">
                         {user?.data?.profile.companyEmail &&
                           user?.data?.profile.companyEmail}
                       </h1>
@@ -347,10 +347,10 @@ const SellerProfile = () => {
                       xl={8}
                       className=" flex md:block"
                     >
-                      <span className="text-border font-bold text-md">
+                      <span className="text-border font-semibold text-md">
                         companyName:{" "}
                       </span>
-                      <h1 className="font-bold">
+                      <h1 className="font-semibold">
                         {user?.data?.profile.companyName &&
                           user?.data?.profile.companyName}
                       </h1>
@@ -363,10 +363,10 @@ const SellerProfile = () => {
                       xl={8}
                       className=" flex md:block"
                     >
-                      <span className="text-border font-bold text-md">
+                      <span className="text-border font-semibold text-md">
                         phoneNumber:{" "}
                       </span>
-                      <h1 className="font-bold">
+                      <h1 className="font-semibold">
                         {user?.data?.profile.phoneNumber &&
                           user?.data?.profile.phoneNumber}
                       </h1>
@@ -379,10 +379,10 @@ const SellerProfile = () => {
                       xl={8}
                       className=" flex md:block"
                     >
-                      <span className="text-border font-bold text-md">
+                      <span className="text-border font-semibold text-md">
                         website:{" "}
                       </span>
-                      <h1 className="font-bold  disabled:bg-black">
+                      <h1 className="font-semibold  disabled:bg-black">
                         <a
                           className="bg-primary rounded-sm p-1 text-white"
                           target="_blank"
@@ -407,11 +407,11 @@ const SellerProfile = () => {
                           xl={8}
                           className=" flex md:block"
                         >
-                          <span className="text-border font-bold text-md">
+                          <span className="text-border font-semibold text-md">
                             bank:{" "}
                           </span>
 
-                          <h1 className="font-bold">
+                          <h1 className="font-semibold">
                             {/* {user?.data?.profile?.bankAccount &&
                               JSON.parse(user?.data?.profile?.bankAccount).bank} */}
 
@@ -431,10 +431,10 @@ const SellerProfile = () => {
                           xl={8}
                           className=" flex md:block"
                         >
-                          <span className="text-border font-bold text-md">
+                          <span className="text-border font-semibold text-md">
                             accountName:{" "}
                           </span>
-                          <h1 className="font-bold">
+                          <h1 className="font-semibold">
                             {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
                                 .accountName} */}
@@ -454,10 +454,10 @@ const SellerProfile = () => {
                           xl={8}
                           className=" flex md:block"
                         >
-                          <span className="text-border font-bold text-md">
+                          <span className="text-border font-semibold text-md">
                             accountNumber:{" "}
                           </span>
-                          <h1 className="font-bold">
+                          <h1 className="font-semibold">
                             {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
                                 .accountNumber} */}
@@ -478,10 +478,10 @@ const SellerProfile = () => {
                           xl={8}
                           className=" flex md:block"
                         >
-                          <span className="text-border font-bold text-md">
+                          <span className="text-border font-semibold text-md">
                             accountHolderName:{" "}
                           </span>
-                          <h1 className="font-bold">
+                          <h1 className="font-semibold">
                             {/* {user?.data?.profile.bankAccount &&
                               JSON.parse(user?.data?.profile.bankAccount)
                                 .accountHolderName} */}
@@ -505,10 +505,10 @@ const SellerProfile = () => {
                       xl={8}
                       className=" flex md:block"
                     >
-                      <span className="text-border font-bold text-md">
+                      <span className="text-border font-semibold text-md">
                         cardNumber:
                       </span>
-                      <h1 className="font-bold">
+                      <h1 className="font-semibold">
                         {user?.data?.profile.cardNumber &&
                           user?.data?.profile.cardNumber}
                       </h1>
@@ -517,10 +517,10 @@ const SellerProfile = () => {
                     {user?.data?.profile.locations &&
                       user?.data?.profile.locations.length > 0 && (
                         <Col span={24} className=" flex md:block">
-                          <span className="text-border font-bold text-md">
+                          <span className="text-border font-semibold text-md">
                             address:{" "}
                           </span>
-                          <h1 className="font-bold">
+                          <h1 className="font-semibold">
                             {user?.data?.profile.locations[0].address}
                           </h1>
                         </Col>
@@ -530,7 +530,7 @@ const SellerProfile = () => {
               </div>
             )}
             {/* <div className=" p-0  md:pl-10 mt-1  ">
-              <h1 className=" text-border font-bold text-lg  underline mb-3">
+              <h1 className=" text-border font-semibold text-lg  underline mb-3">
                 My location
               </h1> */}
 

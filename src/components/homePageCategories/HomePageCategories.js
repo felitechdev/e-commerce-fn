@@ -88,11 +88,11 @@ export default function HomePageCategories() {
       className="hidden lg:flex flex-col gap-2 w-full bg-[#D9D9D970] h-full relative rounded-t-[15px]"
       onMouseLeave={handleMouseLeaveproductclass}
     >
-      <div className="flex items-center gap-3 p-2 rounded-t-[15px]  bg-[#1D6F2B]">
+      <div className="flex items-center gap-3 p-2 rounded-t bg-[#1D6F2B]">
         <IoMdMenu className="w-5 h-5 text-white" />
-        <h3 className=" text-white  bold_text1">Shop by Categories</h3>
+        <h3 className=" text-white font-medium text-sm">Shop by Categories</h3>
 
-        {/* <h3 className=" text-white text-lg font-bold">Product Class</h3> */}
+        {/* <h3 className=" text-white text-lg font-semibold">Product Class</h3> */}
       </div>
 
       {productclassLoading && (
@@ -106,7 +106,7 @@ export default function HomePageCategories() {
           <ul className="w-full flex flex-col rounded-b">
             {productclassData?.map((category) => (
               <li
-                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#1D6F2B] hover:text-white text-[14px] ${
+                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#239636] hover:text-white text-[14px] ${
                   hoveredproductclass === category.name &&
                   "bg-[#1D6F2B] text-white "
                 }`}
@@ -116,7 +116,7 @@ export default function HomePageCategories() {
               >
                 <Link
                   to={`shop/?productClass=${hoveredproductclass}`}
-                  className="capitalize-first w-full flex  gap-2  p-2"
+                  className="capitalize-first capitalize w-full flex  gap-2  p-2"
                 >
                   <img
                     src={`${
@@ -125,7 +125,7 @@ export default function HomePageCategories() {
                         : "https://placehold.jp/80x80.png"
                     } `}
                     alt=""
-                    className="object-fill w-5 h-5"
+                    className="object-cover w-5 h-5"
                   />
                   {category.name}
                 </Link>{" "}
@@ -141,7 +141,7 @@ export default function HomePageCategories() {
           <ul className="w-full flex flex-col rounded-b">
             {categories?.map((category) => (
               <li
-                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#1D6F2B] hover:text-white text-[14px] ${
+                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#239636] hover:text-white text-[14px] ${
                   hoveredCategory === category.name &&
                   "bg-[#1D6F2B] text-white "
                 }`}
@@ -175,7 +175,7 @@ export default function HomePageCategories() {
                   <li
                     key={Cat.id}
                     // className="w-full px-4 hover:underline font-medium cursor-pointer"
-                    className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex justify-start hover:underline font-bold cursor-pointer"
+                    className="w-full hover:bg-[#239636] hover:text-white px-4 flex justify-start hover:underline font-semibold cursor-pointer"
                     onMouseEnter={() => handleMouseEnter(Cat.id)}
                   >
                     <Link
@@ -194,7 +194,7 @@ export default function HomePageCategories() {
                         <li
                           class="list-disc"
                           key={subCat.id}
-                          className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex text-gray-700 justify-start hover:underline font-medium cursor-pointer"
+                          className="w-full hover:bg-[#239636] hover:text-white px-4 flex text-gray-700 justify-start hover:underline font-medium cursor-pointer"
                           onMouseEnter={() => {
                             handleMouseEnterSub(subCat.id);
                             // console.log(subCat);

@@ -239,7 +239,7 @@ const SignUpForm = (props) => {
               />
               {errFirstName && (
                 <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                  <span className="font-bold italic mr-1">!</span>
+                  <span className="font-semibold italic mr-1">!</span>
                   {errFirstName}
                 </p>
               )}
@@ -258,7 +258,7 @@ const SignUpForm = (props) => {
               />
               {errLastName && (
                 <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                  <span className="font-bold italic mr-1">!</span>
+                  <span className="font-semibold italic mr-1">!</span>
                   {errLastName}
                 </p>
               )}
@@ -279,7 +279,7 @@ const SignUpForm = (props) => {
             />
             {errEmail && (
               <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
+                <span className="font-semibold italic mr-1">!</span>
                 {errEmail}
               </p>
             )}
@@ -310,7 +310,7 @@ const SignUpForm = (props) => {
 
             {errPassword && (
               <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
+                <span className="font-semibold italic mr-1">!</span>
                 {errPassword}
               </p>
             )}
@@ -339,7 +339,7 @@ const SignUpForm = (props) => {
 
             {errPassword && (
               <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
+                <span className="font-semibold italic mr-1">!</span>
                 {errPassword}
               </p>
             )}
@@ -369,7 +369,7 @@ const SignUpForm = (props) => {
             </select>
             {errType && (
               <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                <span className="font-bold italic mr-1">!</span>
+                <span className="font-semibold italic mr-1">!</span>
                 {errType}
               </p>
             )}

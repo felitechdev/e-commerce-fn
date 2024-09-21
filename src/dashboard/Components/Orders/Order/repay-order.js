@@ -155,7 +155,7 @@ export const RepayOrder = ({ ...props }) => {
             className="h-10 flex bg-black items-center rounded-md bg-gradient-custom text-white disabled:opacity-50 px-2 duration-300"
           >
             <span className="flex items-center tracking-widest">
-              {/* <span className="mr-2 font-bold">Mobile money </span> */}
+              {/* <span className="mr-2 font-semibold">Mobile money </span> */}
 
               <img src={MtnIcon} className="w-14 rounded" />
             </span>

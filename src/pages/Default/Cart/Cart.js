@@ -450,7 +450,7 @@ const Cart = () => {
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                   Total
-                  <span className="font-bold tracking-wide text-lg font-titleFont">
+                  <span className="font-semibold tracking-wide text-lg font-titleFont">
                     {totalCost} RWF
                   </span>
                 </p>
@@ -498,7 +498,7 @@ const Cart = () => {
             />
           </div>
           <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
-            <h1 className="font-titleFont text-xl font-bold uppercase">
+            <h1 className="font-titleFont text-xl font-semibold uppercase">
               Your Cart feels lonely.
             </h1>
             <p className="text-sm text-center px-10 -mt-2">

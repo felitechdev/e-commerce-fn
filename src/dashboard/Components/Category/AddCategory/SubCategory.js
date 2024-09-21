@@ -187,9 +187,11 @@ export const SubCategory = (props) => {
       >
         <div className="w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5">
           {isupdate ? (
-            <span className="text-primary font-bold">Update Sub Category</span>
+            <span className="text-primary font-semibold">
+              Update Sub Category
+            </span>
           ) : (
-            <span className="text-primary font-bold">Add Sub-category</span>
+            <span className="text-primary font-semibold">Add Sub-category</span>
           )}
 
           {!isupdate && (
@@ -244,7 +246,7 @@ export const SubCategory = (props) => {
               background: "#1D6F2B",
               color: "white",
             }}
-            className="text-light font-bold w-[100%]"
+            className="text-light font-semibold w-[100%]"
           >
             {!isupdate
               ? loadsub
