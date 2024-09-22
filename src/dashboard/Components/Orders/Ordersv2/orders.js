@@ -16,6 +16,7 @@ import { Loader } from "../../Loader/LoadingSpin";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { GetMyOrders } from "../../../../APIs/Oreders";
+import Pagination from "../../pagination/pagination";
 
 export const DashBoardSearch = ({
   handleSearch,
@@ -53,7 +54,12 @@ const { Title } = Typography;
 
 export const OrdersV2 = () => {
   const [order, setOrder] = useState([]);
-  const { orders, loadorders } = useSelector((state) => state.orders);
+  const { orders, loadorders, totalCount } = useSelector(
+    (state) => state.orders
+  );
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(5);
+  const [totalElements, setTotalElements] = React.useState(50);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const orderstatus = {
@@ -74,10 +80,10 @@ export const OrdersV2 = () => {
     selectedStatus === "All"
       ? order
       : order?.filter((order) => order.status === selectedStatus);
-
+  const totalPages = Math.ceil(totalElements / pageSize);
   useEffect(() => {
     if (loadorders == true) {
-      dispatch(GetMyOrders(token))
+      dispatch(GetMyOrders({ page, pageSize, token }))
         .unwrap()
         .then((data) => {
           if (data?.data && data?.status == "success") {
@@ -86,11 +92,11 @@ export const OrdersV2 = () => {
         })
         .catch((error) => {});
     }
-  }, [loadorders, dispatch, token]);
+  }, [loadorders, dispatch, token, page, pageSize]);
 
   useEffect(() => {
     if (!order.length) {
-      dispatch(GetMyOrders(token))
+      dispatch(GetMyOrders({ page, pageSize, token }))
         .unwrap()
         .then((data) => {
           if (data?.data && data?.status == "success") {
@@ -99,7 +105,24 @@ export const OrdersV2 = () => {
         })
         .catch((error) => {});
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, page, pageSize]);
+
+  useEffect(() => {
+    dispatch(GetMyOrders({ page, pageSize, token }))
+      .unwrap()
+      .then((data) => {
+        if (data?.data && data?.status == "success") {
+          setOrder(data?.data?.orders);
+        }
+      })
+      .catch((error) => {});
+  }, [dispatch, page, pageSize]);
+
+  useEffect(() => {
+    if (totalCount) {
+      setTotalElements(totalCount);
+    }
+  }, [totalCount]);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value.toLowerCase());
@@ -174,6 +197,8 @@ export const OrdersV2 = () => {
           )}
         </Row>
       </div>
+
+      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
     </Layout>
   );
 };

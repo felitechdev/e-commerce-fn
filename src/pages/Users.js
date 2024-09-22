@@ -8,17 +8,23 @@ const { Title, Paragraph, Text } = Typography;
 
 export default function Users() {
   const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState();
+  const [pageSize, setPageSize] = React.useState(10);
+  const [totalElements, setTotalElements] = React.useState(50);
 
-  // { page, pageSize, productClass, SellerId, Arrivarls }
-  const { loading, users } = useSelector((state) => state.users);
+  const [userlist, setUserlist] = React.useState([]);
 
+  // const { loading, users } = useSelector((state) => state.users);
+  const { loading, users, totalCount } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers({ page, pageSize }));
   }, [dispatch, page, pageSize]);
 
-  console.log("users", users);
+  useEffect(() => {
+    if (totalCount) {
+      setTotalElements(totalCount);
+    }
+  }, [totalCount]);
 
   return (
     <div className="w-full flex flex-col">
@@ -37,6 +43,7 @@ export default function Users() {
           setPage={setPage}
           pageSize={pageSize}
           setPageSize={setPageSize}
+          totalElements={totalElements}
         />
       )}
     </div>

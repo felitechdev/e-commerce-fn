@@ -7,6 +7,7 @@ const initialState = {
   users: [],
   loading: false,
   errorMessage: null,
+  totalCount: 0,
 };
 
 export const fetchUsers = createAsyncThunk(
@@ -23,7 +24,7 @@ export const fetchUsers = createAsyncThunk(
       }
     );
 
-    return res.data.data.users;
+    return res.data;
   }
 );
 
@@ -39,7 +40,9 @@ export const usersSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
+        // state.totalCount = action.payload.count;
+        state.totalCount = 30;
+        state.users = state.users = action.payload?.data?.users;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
