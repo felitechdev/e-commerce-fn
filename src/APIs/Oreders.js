@@ -5,7 +5,7 @@ const Token = sessionStorage.getItem("userToken");
 
 export const GetMyOrders = createAsyncThunk(
   "user/orders",
-  async (token, { rejectWithValue }) => {
+  async ({ page, pageSize, token }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -13,7 +13,7 @@ export const GetMyOrders = createAsyncThunk(
         },
       };
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders`,
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders?limit=${pageSize}&page=${page}`,
         config
       );
 

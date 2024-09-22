@@ -10,7 +10,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { DashBoardSearch } from "../Orders/Ordersv2/orders";
-
+import Pagination from "../pagination/pagination";
 const { confirm } = Modal;
 
 export default function UsersTable({
@@ -19,6 +19,7 @@ export default function UsersTable({
   setPage,
   pageSize,
   setPageSize,
+  totalElements,
 }) {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = React.useState(false);
@@ -26,6 +27,8 @@ export default function UsersTable({
   const [userId, setUserId] = React.useState();
 
   const user = useUser().user;
+
+  const totalPages = Math.ceil(totalElements / pageSize);
 
   const getItems = (record) => [
     user?.role == "admin" && {
@@ -141,11 +144,14 @@ export default function UsersTable({
     setSearchQuery(event.target.value.toLowerCase());
   };
 
-  const filteredUsers = userList.filter(
+  let filteredUsers = userList.filter(
     (user) =>
       user.firstName.toLowerCase().includes(searchQuery) ||
       user.email.toLowerCase().includes(searchQuery)
   );
+  useEffect(() => {
+    setUserList(users);
+  }, users);
 
   return (
     <div className="flex w-full flex-col relative">
@@ -229,7 +235,9 @@ export default function UsersTable({
             </table>
           </div>
 
-          <div className="flex justify-end space-x-2 w-full pr-6 mt-2 ">
+          <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+
+          {/* <div className="flex justify-end space-x-2 w-full pr-6 mt-2 ">
             <button
               className="bg-primary text-white p-1 rounded-md"
               onClick={() => setPage(page - 1)}
@@ -242,7 +250,7 @@ export default function UsersTable({
             >
               Next
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
