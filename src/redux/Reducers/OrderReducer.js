@@ -1,17 +1,15 @@
-import {
-  GetMyOrders,
-  getorderDetail,
-} from '../../APIs/Oreders';
-import { createSlice, current } from '@reduxjs/toolkit';
-import { createAction } from '@reduxjs/toolkit';
-import { UpdateOrder } from '../../APIs/Oreders';
+import { GetMyOrders, getorderDetail } from "../../APIs/Oreders";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
+import { UpdateOrder } from "../../APIs/Oreders";
 
 export const getorder = createSlice({
-  name: 'orders',
+  name: "orders",
   initialState: {
     orders: [],
     loadorders: false,
     errororders: null,
+    totalCount: 0,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -21,6 +19,8 @@ export const getorder = createSlice({
       })
       .addCase(GetMyOrders.fulfilled, (state, action) => {
         state.loadorders = false;
+        // console.log("totalCount", action.payload);
+        state.totalCount = 50;
         state.orders = action.payload.data.orders;
       })
       .addCase(GetMyOrders.rejected, (state, action) => {
@@ -44,7 +44,7 @@ export const getorder = createSlice({
 });
 
 export const getorderdetail = createSlice({
-  name: 'order',
+  name: "order",
   initialState: {
     order: null,
     loadorder: false,
@@ -56,13 +56,10 @@ export const getorderdetail = createSlice({
       .addCase(getorderDetail.pending, (state, action) => {
         state.loadorder = true;
       })
-      .addCase(
-        getorderDetail.fulfilled,
-        (state, action) => {
-          state.loadorder = false;
-          state.order = action.payload;
-        }
-      )
+      .addCase(getorderDetail.fulfilled, (state, action) => {
+        state.loadorder = false;
+        state.order = action.payload;
+      })
       .addCase(getorderDetail.rejected, (state, action) => {
         state.loadorder = false;
         state.errororder = action.error;
@@ -71,7 +68,7 @@ export const getorderdetail = createSlice({
 });
 
 export const updateOrder = createSlice({
-  name: 'update',
+  name: "update",
   initialState: {
     order: [],
     loadorder: false,
@@ -94,9 +91,7 @@ export const updateOrder = createSlice({
       });
   },
 });
-export const updateOrderStatus = createAction(
-  'updateOrderStatus'
-);
+export const updateOrderStatus = createAction("updateOrderStatus");
 export const getSingleOrderReducer = getorderdetail.reducer;
 
 export const updateOrderReducer = updateOrder.reducer;
