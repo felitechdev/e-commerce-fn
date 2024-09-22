@@ -254,18 +254,18 @@ const ProductPreview = ({ productInfo }) => {
                 ) : (
                   <>
                     <BiMinus
-                      className="text-[red] font-bold ml-2    hover:bg-[#E5E5E5] hover:rounded-full"
+                      className="text-[red] font-semibold ml-2    hover:bg-[#E5E5E5] hover:rounded-full"
                       size={20}
                       onClick={(event) => handleRemoveCart(event)}
                     />
 
-                    <p className=" mx-0 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-bold  border-[0.5px] border-[#fff]">
+                    <p className=" mx-0 bg-[#1D6F2B] text-white text-[12px] w-6 h-6 rounded-full  flex justify-center items-center  font-semibold  border-[0.5px] border-[#fff]">
                       {productInCart && productInCart.items}
                     </p>
 
                     <BiPlus
                       size={20}
-                      className="text-primary font-bold  hover:bg-[#E5E5E5] ml-0 hover:rounded-full"
+                      className="text-primary font-semibold  hover:bg-[#E5E5E5] ml-0 hover:rounded-full"
                       onClick={(event) => handleAddCart(event)}
                     />
                   </>

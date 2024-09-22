@@ -52,7 +52,7 @@ export const ProductClassCategories = () => {
         </div>
       ) : (
         <div className="product-class-section cursor-pointer">
-          {productclassData?.map((productClass) => {
+          {productclassData?.map((productClass, index) => {
             const shouldHideSection =
               sectionHasProducts[productClass.id] === false;
 
@@ -61,20 +61,20 @@ export const ProductClassCategories = () => {
                 key={productClass.id}
                 className={shouldHideSection ? "hidden" : ""}
               >
-                <div className="product-class border-b-2 mb-5  py-1">
-                  <h2 className="medium_text capitalize mr-3">
+                <div className="product-class mb-5 py-1 text-sm">
+                  <h2 className="mr-3 text-base font-semibold capitalize">
                     {productClass.name}
                   </h2>
-                  <div
-                    className="  md:w-[50%]  py-2 categories caregory_text capitalize space-x-4 overflow-auto !no-scrollbar"
+                  {/* <div
+                    className="categories caregory_text !no-scrollbar hidden space-x-4 overflow-auto py-2 capitalize md:w-[50%]"
                     ref={containerRef}
                   >
                     {productClass.categories.map((category) => (
                       <span
                         key={`${productClass.id}-${category.id}`}
-                        className={`category-name !text-md ${
+                        className={`category-name !text-sm ${
                           categoryIds[productClass.id] === category.id
-                            ? "!text-primary font-medium border px-2 "
+                            ? "px-2 font-medium !text-primary"
                             : ""
                         }`}
                         onClick={() =>
@@ -84,7 +84,7 @@ export const ProductClassCategories = () => {
                         {category.name}
                       </span>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
 
                 <ProductSection

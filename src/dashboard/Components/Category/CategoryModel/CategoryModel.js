@@ -62,7 +62,7 @@ const CategoryModel = () => {
             key="1"
           >
             {" "}
-            <span className="text-primary m-auto flex p-3 text-xl  justify-center  font-bold">
+            <span className="text-primary m-auto flex p-3 text-xl  justify-center  font-semibold">
               Product's Category
             </span>
             <ProductCatery />
@@ -84,7 +84,7 @@ const CategoryModel = () => {
             key="2"
           >
             {" "}
-            <span className="text-primary m-auto flex p-3 text-xl  justify-center  font-bold">
+            <span className="text-primary m-auto flex p-3 text-xl  justify-center  font-semibold">
               Product's Category
             </span>
             <SubCategory />

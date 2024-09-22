@@ -25,18 +25,17 @@ export async function fetchProducts(page) {
   let today = format(new Date().getDate(), "yyyy-MM-dd");
   let tomorrow = format(
     new Date().setDate(new Date().getDate() + 1),
-    "yyyy-MM-dd"
+    "yyyy-MM-dd",
   );
 
   let prevTwodayago = format(
     new Date().setDate(new Date().getDate() - 3),
-    "yyyy-MM-dd"
+    "yyyy-MM-dd",
   );
 
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`
-      // `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`,
     );
 
     return response.data.data.products;
@@ -100,7 +99,7 @@ function ProductsCategories() {
       // Round the scrollLeft and maxScrollLeft values to prevent rounding issues
       const scrollLeft = Math.ceil(container.scrollLeft);
       const maxScrollLeft = Math.floor(
-        container.scrollWidth - container.clientWidth
+        container.scrollWidth - container.clientWidth,
       );
 
       // Set disabled states
@@ -112,14 +111,15 @@ function ProductsCategories() {
   useEffect(() => {
     const container = containerRef.current;
 
-    // if (container && !isLoading) {
-    container.addEventListener("scroll", checkScrollPosition);
-    checkScrollPosition();
-    return () => {
-      container.removeEventListener("scroll", checkScrollPosition);
-    };
-    // }
-  }, []); // Trigger when products data changes
+    if (container) {
+      container.addEventListener("scroll", checkScrollPosition);
+      checkScrollPosition();
+
+      return () => {
+        container.removeEventListener("scroll", checkScrollPosition);
+      };
+    }
+  }, []);
 
   // Add an effect to recheck scroll position after images/products load
   useEffect(() => {
@@ -127,74 +127,63 @@ function ProductsCategories() {
   }, [products]); // Trigger when products data changes
 
   return (
-    <div className="w-full mx-auto ">
+    <div className="mx-auto w-full">
       <Banner ads={ads} loading={isloading} />
 
-      <div className="max-w-container mx-auto px-2  md:px-6 space-y-4 mt-10 ">
-        <h1 className=" medium_text">Categories</h1>
+      <div className="mx-auto mt-10 max-w-container space-y-4 px-2 md:px-6">
+        <h1 className="text-base font-semibold">Categories</h1>
         <CategoryImagesCards />
       </div>
 
       {isLoading && (
-        <div className=" w-full h-[100%] m-auto  flex items-center justify-center">
+        <div className="m-auto flex h-[100%] w-full items-center justify-center">
           <Loader />
         </div>
       )}
 
-      <div className="  max-w-container mx-auto px-2 md:px-6 space-y-4 my-10">
-        {products && products?.length > 0 && (
-          <h1 className="medium_text">New Arrivals</h1>
-        )}
-        <div
-          className={`relative  rounded-md p-4 
-
-           
-
-        ${products && products?.length > 0 ? "" : "hidden"}
-          
-          
-          `}
-        >
-          <button
-            onClick={scrollLeft}
-            disabled={isLeftDisabled}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50 "
-          >
-            <BsArrowLeft />
-          </button>
-          <div
-            className="flex gap-4 overflow-hidden  no-scrollbar items-start justify-center text-center"
-            ref={containerRef}
-          >
-            {isLoading ? (
-              <div className=" w-full h-[100%] m-auto  flex items-center justify-center">
-                <Loader />
-              </div>
-            ) : (
-              <div className="  flex items-start flex-cols-[repeat(auto-fill,_minmax(200px,_1fr))] gap-6 m-auto max-w-[1400px] w-[90%]">
-                {products?.map((product, index) => (
-                  <div className="   relative  ">
+      {products && products.length > 0 && (
+        <div className="mx-auto my-10 max-w-container space-y-4 px-2 md:px-6">
+          <h1 className="text-base font-semibold">New Arrivals</h1>
+          <div className="relative h-fit rounded-md">
+            <button
+              onClick={scrollLeft}
+              disabled={isLeftDisabled}
+              className="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-primary p-2 text-white shadow-lg disabled:opacity-50"
+            >
+              <BsArrowLeft />
+            </button>
+            <div
+              className="no-scrollbar flex items-center gap-4 overflow-hidden text-center"
+              ref={containerRef}
+            >
+              {isLoading ? (
+                <div className="m-auto flex h-[100%] w-full items-center justify-center">
+                  <Loader />
+                </div>
+              ) : (
+                products?.map((product, index) => (
+                  <div className="relative min-w-[200px] max-w-[250px]">
                     <ProductPreview
                       key={product.id + index}
                       productInfo={product}
                     />
                   </div>
-                ))}
-              </div>
-            )}
+                ))
+              )}
+            </div>
+            <button
+              onClick={scrollRight}
+              disabled={isRightDisabled}
+              className="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-primary p-2 text-white shadow-lg disabled:opacity-50"
+            >
+              <BsArrowRight />
+            </button>
           </div>
-          <button
-            onClick={scrollRight}
-            disabled={isRightDisabled}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full shadow-lg z-10 disabled:opacity-50"
-          >
-            <BsArrowRight />
-          </button>
         </div>
-      </div>
+      )}
 
-      <div className="max-w-container mx-auto px-2 md:px-6 space-y-4 mt-10 ">
-        <h1 className="medium_text my-6 ">Our Products</h1>
+      <div className="mx-auto flex max-w-container flex-col gap-2 px-2 md:px-6">
+        {/* <h1 className=" text-base font-semibold">Our Products</h1> */}
         <ProductDisplay />
       </div>
     </div>
@@ -222,20 +211,20 @@ export const MobileCategoryNav = ({ title, categoryId }) => {
   };
   return (
     <>
-      <div className="md:hidden px-4 fixed top-32 right-0 z-20  sm:left-0 w-[100%] py-4">
+      <div className="fixed right-0 top-32 z-20 w-[100%] px-4 py-4 sm:left-0 md:hidden">
         {/* <div className="md:hidden px-4 "> */}
         <div
-          className="flex items-center gap-3 p-2 rounded-t   bg-[#1D6F2B] cursor-pointer"
+          className="flex cursor-pointer items-center gap-3 rounded-t bg-[#1D6F2B] p-2"
           onClick={handleShowCategories}
         >
-          <img src={MenuIconWhite} className="w-5 h-5" />
-          <h3 className=" text-white text-lg">{title}</h3>
+          <img src={MenuIconWhite} className="h-5 w-5" />
+          <h3 className="text-lg text-white">{title}</h3>
         </div>
         {showCategories && (
           <>
-            <div className="     flex  space-x-2 w-full  overflow-auto mdl:overflow-hidden ">
+            <div className="flex w-full space-x-2 overflow-auto mdl:overflow-hidden">
               {" "}
-              <div className=" z-0 ">
+              <div className="z-0">
                 <ProductClassAccordion ismobile={true} />
               </div>
               <div className="z-0">
@@ -246,7 +235,7 @@ export const MobileCategoryNav = ({ title, categoryId }) => {
                   <ProductSubCategoryAccordion ismobile={true} />
                 </div>
               )}
-              <div className="z-0 ">
+              <div className="z-0">
                 <ProductBrandAccordion ismobile={true} />
               </div>
             </div>

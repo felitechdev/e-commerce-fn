@@ -261,7 +261,8 @@ const CompanyModel = (props) => {
           onFinish={handleSubmit(onFinish, onErrors)}
           // initialValues={userprofile}
         >
-          <h1 className=" font-bold">Business Info</h1> <hr className="h-2 " />
+          <h1 className=" font-semibold">Business Info</h1>{" "}
+          <hr className="h-2 " />
           <Row
             gutter={[16, 16]}
             // className="flex justify-between space-x-2  "

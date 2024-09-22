@@ -43,7 +43,7 @@ export const OrderTable = (...props) => {
 
   const getItems = (record) => [
     {
-      label: <span className="font-bold text-primary">View</span>,
+      label: <span className="font-semibold text-primary">View</span>,
       key: "view",
       icon: <EyeFilled className=" text-icon1 mr-2" />,
       onClick: () => {
@@ -52,7 +52,7 @@ export const OrderTable = (...props) => {
     },
     // || user?.role == "customer"
     user?.role == "admin" && {
-      label: <span className="font-bold text-primary">Update</span>,
+      label: <span className="font-semibold text-primary">Update</span>,
       key: "edit",
       icon: <EditFilled className=" text-icon2 mr-2" />,
       onClick: async () => {

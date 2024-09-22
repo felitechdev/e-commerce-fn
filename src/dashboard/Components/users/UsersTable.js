@@ -29,7 +29,7 @@ export default function UsersTable({
 
   const getItems = (record) => [
     user?.role == "admin" && {
-      label: <span className="font-bold text-primary">Update</span>,
+      label: <span className="font-semibold text-primary">Update</span>,
       key: "edit",
       icon: <EditFilled className=" text-icon2 mr-2" />,
       onClick: async () => {
@@ -38,7 +38,7 @@ export default function UsersTable({
       },
     },
     {
-      label: <span className="font-bold text-primary">Deactivate </span>,
+      label: <span className="font-semibold text-primary">Deactivate </span>,
       key: "view",
       icon: <EditFilled className=" text-icon3 mr-2" />,
       onClick: () => {
@@ -46,7 +46,7 @@ export default function UsersTable({
       },
     },
     {
-      label: <span className="font-bold text-primary">Activate </span>,
+      label: <span className="font-semibold text-primary">Activate </span>,
       key: "activate",
       icon: <EditFilled className=" text-icon1 mr-2" />,
       onClick: () => {
@@ -54,7 +54,7 @@ export default function UsersTable({
       },
     },
     {
-      label: <span className="font-bold text-primary">Delete</span>,
+      label: <span className="font-semibold text-primary">Delete</span>,
       key: "delete",
       icon: <DeleteFilled className=" text-icon3 mr-2" />,
       onClick: () => {

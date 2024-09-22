@@ -12,7 +12,7 @@ import { IoMdMenu } from "react-icons/io";
 export async function fetchCategories() {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/categories`,
     );
 
     return response.data.data.categories;
@@ -85,14 +85,14 @@ export default function HomePageCategories() {
 
   return (
     <div
-      className="hidden lg:flex flex-col gap-2 w-full bg-[#D9D9D970] h-full relative rounded-t-[15px]"
+      className="relative hidden h-full w-full flex-col gap-2 rounded-t-[15px] bg-[#D9D9D970] lg:flex"
       onMouseLeave={handleMouseLeaveproductclass}
     >
-      <div className="flex items-center gap-3 p-2 rounded-t-[15px]  bg-[#1D6F2B]">
-        <IoMdMenu className="w-5 h-5 text-white" />
-        <h3 className=" text-white  bold_text1">Shop by Categories</h3>
+      <div className="flex items-center gap-3 rounded-t bg-[#1D6F2B] p-2">
+        <IoMdMenu className="h-5 w-5 text-white" />
+        <h3 className="text-sm font-medium text-white">Shop by Categories</h3>
 
-        {/* <h3 className=" text-white text-lg font-bold">Product Class</h3> */}
+        {/* <h3 className=" text-white text-lg font-semibold">Product Class</h3> */}
       </div>
 
       {productclassLoading && (
@@ -102,13 +102,13 @@ export default function HomePageCategories() {
       )}
 
       {!productclassLoading && (
-        <div className="flex relative rounded h-full overflow-auto">
-          <ul className="w-full flex flex-col rounded-b">
+        <div className="relative flex h-full overflow-auto rounded">
+          <ul className="flex w-full flex-col rounded-b">
             {productclassData?.map((category) => (
               <li
-                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#1D6F2B] hover:text-white text-[14px] ${
+                className={`flex cursor-pointer items-center justify-between gap-4 text-[14px] font-medium hover:bg-[#239636] hover:font-semibold hover:text-white ${
                   hoveredproductclass === category.name &&
-                  "bg-[#1D6F2B] text-white "
+                  "bg-[#1D6F2B] text-white"
                 }`}
                 key={category.name}
                 onMouseEnter={() => handlemoauseEnterproductclass(category.id)}
@@ -116,7 +116,7 @@ export default function HomePageCategories() {
               >
                 <Link
                   to={`shop/?productClass=${hoveredproductclass}`}
-                  className="capitalize-first w-full flex  gap-2  p-2"
+                  className="capitalize-first flex w-full gap-2 p-2 capitalize"
                 >
                   <img
                     src={`${
@@ -125,7 +125,7 @@ export default function HomePageCategories() {
                         : "https://placehold.jp/80x80.png"
                     } `}
                     alt=""
-                    className="object-fill w-5 h-5"
+                    className="h-5 w-5 object-cover"
                   />
                   {category.name}
                 </Link>{" "}
@@ -141,7 +141,7 @@ export default function HomePageCategories() {
           <ul className="w-full flex flex-col rounded-b">
             {categories?.map((category) => (
               <li
-                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#1D6F2B] hover:text-white text-[14px] ${
+                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#239636] hover:text-white text-[14px] ${
                   hoveredCategory === category.name &&
                   "bg-[#1D6F2B] text-white "
                 }`}
@@ -161,58 +161,55 @@ export default function HomePageCategories() {
         </div>
       )} */}
 
-      {hoveredproductclass &&
-        productclassData.find((cat) => {
-          return cat.id === hoveredproductclass;
-        }).categories.length > 0 && (
-          // bg-gray-200
-          <div className=" bg-gray-200 shadow-md ml-0      py-6  w-[700px]  sm:w-[1000px]     b-0 absolute min-h-full rounded left-full z-10 text-[13px] ">
-            {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
-            <ul className="  grid grid-cols-4 gap-2 ">
-              {productclassData
-                .find((cat) => {
-                  return cat.id === hoveredproductclass;
-                })
-                .categories.map((Cat) => (
-                  <div className="  flex-col  text-center justify-start  items-center">
-                    <li
-                      key={Cat.id}
-                      // className="w-full px-4 hover:underline font-medium cursor-pointer"
-                      className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex justify-start hover:underline font-bold cursor-pointer"
-                      onMouseEnter={() => handleMouseEnter(Cat.id)}
+      {hoveredproductclass && (
+        // bg-gray-200
+        <div className="b-0 absolute left-full z-10 ml-0 min-h-full w-[700px] rounded bg-gray-200 py-6 text-[13px] shadow-md sm:w-[1000px]">
+          {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
+          <ul className="grid grid-cols-4 gap-2">
+            {productclassData
+              .find((cat) => {
+                return cat.id === hoveredproductclass;
+              })
+              .categories.map((Cat) => (
+                <div className="flex-col items-center justify-start text-center">
+                  <li
+                    key={Cat.id}
+                    // className="w-full px-4 hover:underline font-medium cursor-pointer"
+                    className="flex w-full cursor-pointer justify-start px-4 font-semibold hover:bg-[#239636] hover:text-white hover:underline"
+                    onMouseEnter={() => handleMouseEnter(Cat.id)}
+                  >
+                    <Link
+                      // to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
+                      to={`shop/?productClass=${hoveredproductclass}&category=${Cat.id}`}
+                      className="flex capitalize"
                     >
-                      <Link
-                        // to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
-                        to={`shop/?productClass=${hoveredproductclass}&category=${Cat.id}`}
-                        className="capitalize flex"
-                      >
-                        {Cat.name}
-                      </Link>
-                    </li>
+                      {Cat.name}
+                    </Link>
+                  </li>
 
-                    <div>
-                      {categories
-                        .find((cat) => cat.id === Cat.id)
-                        .subCategories?.map((subCat) => (
-                          <li
-                            class="list-disc"
-                            key={subCat.id}
-                            className="w-full hover:bg-[#1D6F2B] hover:text-white px-4 flex text-gray-700 justify-start hover:underline font-medium cursor-pointer"
-                            onMouseEnter={() => {
-                              handleMouseEnterSub(subCat.id);
-                              // console.log(subCat);
-                            }}
+                  <div>
+                    {categories
+                      .find((cat) => cat.id === Cat.id)
+                      .subCategories?.map((subCat) => (
+                        <li
+                          class="list-disc"
+                          key={subCat.id}
+                          className="flex w-full cursor-pointer justify-start px-4 font-medium text-gray-700 hover:bg-[#239636] hover:text-white hover:underline"
+                          onMouseEnter={() => {
+                            handleMouseEnterSub(subCat.id);
+                            // console.log(subCat);
+                          }}
+                        >
+                          <Link
+                            to={`shop/?productClass=${hoveredproductclass}&category=${subCat?.category}&subCategory=${subCat.id}`}
+                            className="flex capitalize"
                           >
-                            <Link
-                              to={`shop/?productClass=${hoveredproductclass}&category=${subCat?.category}&subCategory=${subCat.id}`}
-                              className="capitalize flex"
-                            >
-                              {subCat.name}
-                            </Link>
-                          </li>
-                        ))}
+                            {subCat.name}
+                          </Link>
+                        </li>
+                      ))}
 
-                      {/* <ul className=" px-4 flex-col justify-start ">
+                    {/* <ul className=" px-4 flex-col justify-start ">
                       {sub_sub_category.map((sub) => {
                         return (
                           <li className=" hover:underline hover:text-black text-left text-sm text-gray-500">
@@ -221,12 +218,12 @@ export default function HomePageCategories() {
                         );
                       })}
                     </ul> */}
-                    </div>
                   </div>
-                ))}
-            </ul>
-          </div>
-        )}
+                </div>
+              ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

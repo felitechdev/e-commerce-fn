@@ -68,7 +68,7 @@ const OrderCard = ({ order }) => {
 
   const getItems = (record) => [
     // {
-    //   label: <span className="font-bold text-primary">View</span>,
+    //   label: <span className="font-semibold text-primary">View</span>,
     //   key: "view",
     //   icon: <EyeFilled className=" text-icon1 mr-2" />,
     //   onClick: () => {
@@ -77,7 +77,7 @@ const OrderCard = ({ order }) => {
     // },
     // || user?.role == "customer"
     user?.role == "admin" && {
-      label: <span className="font-bold text-primary">Update</span>,
+      label: <span className="font-semibold text-primary">Update</span>,
       key: "edit",
       icon: <EditFilled className=" text-icon2 mr-2" />,
       onClick: async () => {
@@ -86,9 +86,9 @@ const OrderCard = ({ order }) => {
     },
 
     user?.role == "admin" && {
-      label: <span className="font-bold text-primary">Delivery Note</span>,
+      label: <span className="font-semibold text-primary">Delivery Note</span>,
       key: "download",
-      icon: <DownloadOutlined className=" text-primary font-bold mr-2" />,
+      icon: <DownloadOutlined className=" text-primary font-semibold mr-2" />,
       onClick: async () => {
         await openReceiptModal(true, record);
       },

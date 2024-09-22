@@ -55,7 +55,7 @@ export const ImageUpload = ({
     <>
       {openmodel && (
         <div className="w-full h-screen z-50 fixed top-0 left-0 opacity-95  space-x-5 md:space-x-10 flex items-center justify-center bg-[#f4f4f4] ">
-          {/* <div className="form-group  bg-primary p-1 font-bold rounded-md relative">
+          {/* <div className="form-group  bg-primary p-1 font-semibold rounded-md relative">
             <IoCloseSharp
               onClick={() => handleupdateprofileModel(false)}
               className="text-[red] bg-white rounded-md absolute -right-2 -top-5"
@@ -90,7 +90,7 @@ export const ImageUpload = ({
             </div>
           </div>
 
-          <div className="form-group bg-primary px-4 py-1 font-bold rounded-md relative">
+          <div className="form-group bg-primary px-4 py-1 font-semibold rounded-md relative">
             <IoCloseSharp
               onClick={() => {
                 handleupdateprofileModel(false);

@@ -62,7 +62,7 @@ const ProductBrandAccordion = ({ brands, handlefilterShow }) => {
 
                     ${
                       item.id === brandId
-                        ? " border-b-primary text-primary font-bold"
+                        ? " border-b-primary text-primary font-semibold"
                         : ""
                     }
                     

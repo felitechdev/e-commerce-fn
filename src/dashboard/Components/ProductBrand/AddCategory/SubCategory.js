@@ -143,7 +143,7 @@ export const SubCategory = () => {
         onFinish={handleSubmit(onSubmit, onErrors)}
       >
         <div className="w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5">
-          <span className="text-primary font-bold">Add Sub-category</span>
+          <span className="text-primary font-semibold">Add Sub-category</span>
 
           <Controller
             name="category"
@@ -193,7 +193,7 @@ export const SubCategory = () => {
               background: "#1D6F2B",
               color: "white",
             }}
-            className="text-light font-bold w-[100%]"
+            className="text-light font-semibold w-[100%]"
           >
             {loadsub ? "Loading ..." : "Add sub-category"}
           </Button>

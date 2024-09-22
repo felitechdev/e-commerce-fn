@@ -6,13 +6,15 @@ import { FaSearch } from "react-icons/fa";
 import { FaWindowClose } from "react-icons/fa";
 import Flex from "../designLayouts/Flex";
 import { useNavigate } from "react-router-dom";
-
+import { CiSearch } from "react-icons/ci";
 import { useLocation } from "react-router-dom";
 import HomePageCategories from "../homePageCategories/HomePageCategories";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "../ProductsCategories";
 import DisplayCurrency from "../Currency/DisplayCurrency/DisplayCurrency";
 import axios from "axios";
+import { RxCross2 } from "react-icons/rx";
+
 export async function searchproduct(name) {
   try {
     const response = await axios.get(
@@ -84,23 +86,23 @@ const SearchBar = ({ ismobileview }) => {
         ismobileview ? " " : "hidden md:block w-[50%]  rounded-md"
       }`}
     >
-      <div className="relative w-full lg:w-[90%] h-[40px] md:h-[40px] m-auto text-base   text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md border-[1px]">
+      <div className="relative w-full lg:w-[90%] h-[40px] md:h-[40px] m-auto text-sm text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md">
         <input
-          className="flex-1 h-full rounded-l-md  focus:border-none mr-3 !w-[90%] !md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] "
+          className="flex-1 h-full rounded-l-md text-sm  mr-3 !w-[90%] border-gray-400 !md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] "
           type="text"
           onChange={handleSearch}
           value={searchQuery}
           placeholder="Search your products here"
         />
         {!searchQuery ? (
-          <div className=" absolute rounded-r-md bg-primary h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
-            {" "}
-            <FaSearch className=" w-5 h-5  m-auto text-white " />
+          <div className=" absolute rounded-r-md bg-primary h-full justify-center items-center flex right-0 w-20 md:w-10 ">
+            <CiSearch size={20} className=" text-white" />
           </div>
         ) : (
-          <div className=" absolute bg-primary rounded-r-md h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
-            <FaWindowClose
-              className="  font-bold   m-auto text-lg text-white "
+          <div className=" absolute bg-primary rounded-r-md h-full justify-center items-center flex right-0 w-20 md:w-10 ">
+            <RxCross2
+              size={20}
+              className=" text-white"
               onClick={() => setSearchQuery("")}
             />
           </div>

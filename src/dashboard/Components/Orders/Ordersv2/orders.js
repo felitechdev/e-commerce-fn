@@ -40,7 +40,7 @@ export const DashBoardSearch = ({
       ) : (
         <div className=" absolute bg-primary rounded-r-md h-full justify-end items-center flex right-0 w-[20%] md:w-[15%] ">
           <FaWindowClose
-            className="  font-bold   m-auto text-lg text-white "
+            className="  font-semibold   m-auto text-lg text-white "
             onClick={() => setSearchQuery("")}
           />
         </div>

@@ -60,7 +60,7 @@ const UpdateRole = ({ setModel, setOpenModal, id }) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <h1 className="font-bold">
+        <h1 className="font-semibold">
           User :{id?.firstName} Current role :{id?.role}
         </h1>
         <Form

@@ -14,15 +14,15 @@ export default function ShopProducts({
     <div>
       {!hidetop && (
         <>
-          <h2 className="capitalize m-2 font-bold leading-tight text-[#1D6F2B]">
+          <h2 className="m-2 font-semibold capitalize leading-tight text-[#1D6F2B]">
             {productClass?.name || ""} {`: ${category?.name || ""}`}{" "}
             {subcategory?.name ? `: ${subcategory.name}` : ""}
           </h2>
-          <hr class="h-px mb-8 mt-6 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+          <hr class="mb-8 mt-6 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
         </>
       )}
 
-      <>
+      <div>
         <ProductsGridContainer>
           {products &&
             products?.map((product, index) => (
@@ -63,7 +63,7 @@ export default function ShopProducts({
             <></>
           )}
         </ProductsGridContainer>
-      </>
+      </div>
     </div>
   );
 }

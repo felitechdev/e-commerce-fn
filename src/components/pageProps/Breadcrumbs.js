@@ -11,7 +11,7 @@ const Breadcrumbs = ({ prevLocation, title }) => {
 
   return (
     <div className="w-full py-2 xl:py-10 flex flex-col gap-3">
-      <h1 className="text-3xl text-primeColor font-titleFont font-bold">
+      <h1 className="text-3xl text-primeColor font-titleFont font-semibold">
         {title}
       </h1>
       {/* <p className="text-sm font-normal text-lightText capitalize flex items-center">

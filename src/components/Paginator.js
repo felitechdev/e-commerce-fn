@@ -8,7 +8,7 @@ export default function Paginator({
   hasNextPage,
 }) {
   return (
-    <div className="flex justify-center pb-8 items-center">
+    <div className="flex justify-center py-4 items-center">
       {hasNextPage ? (
         <>
           {isFetching ? (
@@ -27,7 +27,7 @@ export default function Paginator({
         <>
           {isLoading ? null : (
             <div
-              class="flex items-center bg-[#1D6F2B] text-white text-xs font-bold px-2 py-1"
+              class="flex items-center bg-[#1D6F2B] text-white text-xs font-semibold px-2 py-1"
               role="alert"
             >
               <svg

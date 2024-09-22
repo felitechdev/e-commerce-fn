@@ -289,7 +289,7 @@ export const DashProducts = () => {
     {
       label: (
         <span
-          className="font-bold text-primary"
+          className="font-semibold text-primary"
           onClick={() => {
             setShowUpdateModel(true);
             setProductId(record.key);
@@ -315,7 +315,7 @@ export const DashProducts = () => {
     {
       label: (
         <span
-          className="font-bold text-primary"
+          className="font-semibold text-primary"
           onClick={() => {
             setIsModalOpen(true);
             setSingleId(record.key);
@@ -637,7 +637,7 @@ export const DashProducts = () => {
                               __html: product?.name[2]?.slice(0, 150) + "...",
                             }}
                           />
-                          <div className="font-bold text-primary text-lg">
+                          <div className="font-semibold text-primary text-lg">
                             $ {product.price}
                           </div>
                         </div>

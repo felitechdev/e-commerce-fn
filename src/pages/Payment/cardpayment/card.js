@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Button, Col, Form, Input, Modal, Row } from "antd";
 import axios from "axios";
-import { CgFormatSlash } from "react-icons/cg";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button, Form, Input, Row, Select, Space, Col, Modal } from "antd";
 import { IoCloseSharp } from "react-icons/io5";
-import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
-import { useUser } from "../../../context/UserContex";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Cookies, { set } from "js-cookie";
 import AlertComponent from "../../../components/designLayouts/AlertComponent";
+import { useUser } from "../../../context/UserContex";
+import { clearCart } from "../../../redux/Reducers/cartRecuder";
 import {
   formvalidation,
   formvalidation2,
   formvalidation3,
   formvalidation4,
 } from "./validation";
-import { clearCart } from "../../../redux/Reducers/cartRecuder";
 export const CardPayment = ({
   token,
   cartTotl,
@@ -305,7 +302,7 @@ export const CardPayment = ({
       open={isModalOpen}
       closeIcon={<IoCloseSharp onClick={handlecancel} className="text-[red]" />}
     >
-      <div className=" mb-10 flex justify-between items-center font-bold w-[75%] cursor-pointer rounded-t-md m-auto  border border-primary  h-10 ">
+      <div className=" mb-10 flex justify-between items-center font-semibold w-[75%] cursor-pointer rounded-t-md m-auto  border border-primary  h-10 ">
         <h1
           onClick={() => {
             handleupdatetab(1);

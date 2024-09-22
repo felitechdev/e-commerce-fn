@@ -24,7 +24,7 @@ const ItemCard = ({
               <span className="bg-[#1D6F2B]  text-white font-base me-2 px-2.5 py-0.5 rounded">
                 Color:
               </span>
-              <span className="font-bold text-gray-600 capitalize">
+              <span className="font-semibold text-gray-600 capitalize">
                 {itemInfo.variations.color}
               </span>
             </h2>
@@ -99,7 +99,7 @@ export const ItemCardCheckout = ({ itemInfo }) => {
               <span className="bg-[#1D6F2B]  text-white font-base me-2 px-2.5 py-0.5 rounded">
                 Color:
               </span>
-              <span className="font-bold text-gray-600 capitalize">
+              <span className="font-semibold text-gray-600 capitalize">
                 {itemInfo.variations.color}
               </span>
             </h2>

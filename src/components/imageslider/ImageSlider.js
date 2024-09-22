@@ -55,21 +55,18 @@ const ImageSlider = ({ ads }) => {
       {ads?.map((ad, index) => (
         <SwiperSlide key={index}>
           <div
-            className="slider-item "
+            className="slider-item h-full w-full"
             onClick={() => {
               navigate(`/products/${ad.id}`);
             }}
           >
             <img
               // className="!object-fill  h-[15rem] rounded"
-              // className=" rounded-[15px] h-[15rem] w-full object-cover"
-              src={getCloudinaryUrl(ad?.image, {
-                width: 240, // 15rem
-                height: 240, // 15rem
-              })}
+              className=" rounded-[15px] h-full w-full object-cover"
+              src={ad?.image}
               alt={ad.title}
             />
-            <div className="slider-title m-4">{ad.title}</div>
+            <div className="slider-title mx-auto">{ad.title}</div>
           </div>
         </SwiperSlide>
       ))}

@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import Slider from "react-slick";
-import { useQuery } from "@tanstack/react-query";
-import {
-  bannerImgOne,
-  bannerImgTwo,
-  bannerImgThree,
-} from "../../assets/images";
-import Image from "../designLayouts/Image";
-import ImageSlider from "../imageslider/ImageSlider";
-import HomePageCategories from "../homePageCategories/HomePageCategories";
-import { useFetchfeaturedproduct } from "../../APIs/react-query/featured-product";
 import { useNavigate } from "react-router-dom";
-import { getCloudinaryUrl } from "../imageslider/ImageSlider";
+import Slider from "react-slick";
+import Image from "../designLayouts/Image";
+import HomePageCategories from "../homePageCategories/HomePageCategories";
+import ImageSlider, { getCloudinaryUrl } from "../imageslider/ImageSlider";
 // change i made
 const Banner = ({ ...props }) => {
   const [dotActive, setDocActive] = useState(0);

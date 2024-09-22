@@ -128,7 +128,7 @@ export const Category = () => {
               <ul class="list-disc">
                 {record?.subcategories?.map((sub) => (
                   <div className="flex my-3">
-                    <li className="w-full hover:font-bold" key={sub.id}>
+                    <li className="w-full hover:font-semibold" key={sub.id}>
                       {sub.name}
                     </li>
 

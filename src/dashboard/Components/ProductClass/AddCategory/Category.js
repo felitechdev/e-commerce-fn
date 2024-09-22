@@ -174,9 +174,13 @@ export const ProductClassForm = (props) => {
       >
         <div className="w-[60%] border  flex flex-col items-center justify-center rounded m-auto p-5">
           {isupdate ? (
-            <span className="text-primary font-bold">Update Product Class</span>
+            <span className="text-primary font-semibold">
+              Update Product Class
+            </span>
           ) : (
-            <span className="text-primary font-bold">Add Product Class</span>
+            <span className="text-primary font-semibold">
+              Add Product Class
+            </span>
           )}
 
           <Controller
@@ -228,7 +232,7 @@ export const ProductClassForm = (props) => {
                       <>
                         <Image width={70} height={70} src={iconurl} />
                         <MinusCircleOutlined
-                          className="text-[red] text-xl absolute -top-3 font-bold -right-2"
+                          className="text-[red] text-xl absolute -top-3 font-semibold -right-2"
                           onClick={() => {
                             setIconurl("");
                           }}
@@ -251,7 +255,7 @@ export const ProductClassForm = (props) => {
               background: "#1D6F2B",
               color: "white",
             }}
-            className="text-light font-bold w-[100%]"
+            className="text-light font-semibold w-[100%]"
           >
             {!isupdate
               ? loading

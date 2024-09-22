@@ -51,7 +51,7 @@ const UserAvatarDropdown = (props) => {
         {props.userInfo ? (
           (!props?.userInfo?.photo && props.userInfo?.firstName) ||
           props?.userInfo?.photo == "default.jpg" ? (
-            <h1 className="bg-[#1D6F2B] grid place-content-center rounded-full text-white font-bold px-1 py-1 h-8 w-8 text-lg">
+            <h1 className="bg-[#1D6F2B] grid place-content-center rounded-full text-white font-semibold px-1 py-1 h-8 w-8 text-lg">
               {props.userInfo?.firstName[0]}
             </h1>
           ) : (
