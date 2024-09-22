@@ -176,7 +176,7 @@ const SignUpForm = (props) => {
     e.preventDefault();
     return window.open(
       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/google`,
-      "_self",
+      "_self"
     );
   };
 
@@ -204,8 +204,8 @@ const SignUpForm = (props) => {
   }, [signinSuccess]);
 
   return (
-    <form className="flex h-auto w-full flex-col items-center md:w-[60%] lgl:w-[450px]">
-      <div className="flex w-full flex-col justify-center overflow-y-scroll px-6 scrollbar-thin scrollbar-thumb-primeColor">
+    <form className="w-full md:w-[60%] lgl:w-[450px] h-auto flex flex-col items-center">
+      <div className="px-6  w-full flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
         {errorAlert.status && (
           <AlertComponent
             color="failure"
@@ -220,48 +220,47 @@ const SignUpForm = (props) => {
             message={successAlert.message}
           />
         )}
-
         {!successAlert.status && (
           <>
-            <h1 className="font-titleFont mb-4 text-center text-2xl font-semibold decoration-[1px] mdl:text-3xl">
+            <h1 className="font-titleFont decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4 text-center">
               Create your account
             </h1>
             <div className="flex flex-col gap-3">
               <div className="flex flex-row gap-3">
                 {/* First name */}
-                <div className="gap-.5 flex flex-col">
+                <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
                     First Name
                   </p>
                   <input
                     onChange={handleFirstName}
                     value={firstName}
-                    className="h-8 w-full rounded-md border-[1px] border-gray-400 px-4 text-base font-medium outline-none placeholder:text-sm placeholder:font-normal placeholder:tracking-wide"
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
                     placeholder="eg.John"
                   />
                   {errFirstName && (
-                    <p className="font-titleFont px-4 text-sm font-semibold text-red-500">
-                      <span className="mr-1 font-bold italic">!</span>
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
                       {errFirstName}
                     </p>
                   )}
                 </div>
                 {/* Last name */}
-                <div className="gap-.5 flex flex-col">
+                <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
                     Last Name
                   </p>
                   <input
                     onChange={handleLastName}
                     value={lastName}
-                    className="h-8 w-full rounded-md border-[1px] border-gray-400 px-4 text-base font-medium outline-none placeholder:text-sm placeholder:font-normal placeholder:tracking-wide"
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
                     placeholder=" eg: Doe"
                   />
                   {errLastName && (
-                    <p className="font-titleFont px-4 text-sm font-semibold text-red-500">
-                      <span className="mr-1 font-bold italic">!</span>
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
                       {errLastName}
                     </p>
                   )}
@@ -269,27 +268,27 @@ const SignUpForm = (props) => {
               </div>
 
               {/* Email */}
-              <div className="gap-.5 flex flex-col">
+              <div className="flex flex-col gap-.5">
                 <p className="font-titleFont text-base font-semibold text-gray-600">
                   Email
                 </p>
                 <input
                   onChange={handleEmail}
                   value={email}
-                  className="h-8 w-full rounded-md border-[1px] border-gray-400 px-4 text-base font-medium outline-none placeholder:text-sm placeholder:font-normal placeholder:tracking-wide"
+                  className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                   type="email"
                   placeholder="johndoe@example.com"
                 />
                 {errEmail && (
-                  <p className="font-titleFont px-4 text-sm font-semibold text-red-500">
-                    <span className="mr-1 font-bold italic">!</span>
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
                     {errEmail}
                   </p>
                 )}
               </div>
 
               {/* Password */}
-              <div className="gap-.5 flex flex-col">
+              <div className="flex flex-col gap-.5">
                 <p className="font-titleFont text-base font-semibold text-gray-600">
                   Password
                 </p>
@@ -298,13 +297,13 @@ const SignUpForm = (props) => {
                   <input
                     onChange={handlePassword}
                     value={password}
-                    className="h-8 w-full rounded-md border-[1px] border-gray-400 px-4 text-base font-medium outline-none placeholder:text-sm placeholder:font-normal placeholder:tracking-wide"
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type={showPassword ? "text" : "password"}
                     placeholder="Your password"
                   />
 
                   <div
-                    className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeInvisibleFilled /> : <EyeFilled />}
@@ -312,13 +311,13 @@ const SignUpForm = (props) => {
                 </div>
 
                 {errPassword && (
-                  <p className="font-titleFont px-4 text-sm font-semibold text-red-500">
-                    <span className="mr-1 font-bold italic">!</span>
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
                     {errPassword}
                   </p>
                 )}
               </div>
-              <div className="gap-.5 flex flex-col">
+              <div className="flex flex-col gap-.5">
                 <p className="font-titleFont text-base font-semibold text-gray-600">
                   Re-enter the password
                 </p>
@@ -327,13 +326,13 @@ const SignUpForm = (props) => {
                   <input
                     onChange={handleconfirmPassword}
                     value={confirmPassword}
-                    className="h-8 w-full rounded-md border-[1px] border-gray-400 px-4 text-base font-medium outline-none placeholder:text-sm placeholder:font-normal placeholder:tracking-wide"
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type={showPassword ? "text" : "password"}
                     placeholder="Your  confirmPassword"
                   />
 
                   <div
-                    className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeInvisibleFilled /> : <EyeFilled />}
@@ -341,14 +340,14 @@ const SignUpForm = (props) => {
                 </div>
 
                 {errPassword && (
-                  <p className="font-titleFont px-4 text-sm font-semibold text-red-500">
-                    <span className="mr-1 font-bold italic">!</span>
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
                     {errPassword}
                   </p>
                 )}
               </div>
 
-              <div className="gap-.5 flex flex-col">
+              <div className="flex flex-col gap-.5">
                 <p className="font-titleFont text-base font-semibold text-gray-600">
                   Sign up as
                 </p>
@@ -358,7 +357,7 @@ const SignUpForm = (props) => {
                   ref={roleSelectRef}
                   value={selectedRole} // Set the selected value
                   onChange={(e) => setSelectedRole(e.target.value)}
-                  className="h-10 w-full rounded-md border-[1px] border-gray-400 px-4 py-2 align-middle text-sm font-medium outline-none placeholder:text-sm placeholder:font-normal placeholder:tracking-wide"
+                  className="w-full align-middle h-10 placeholder:text-sm placeholder:tracking-wide px-4 py-2 text-sm font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                 >
                   <option value="" disabled selected hidden>
                     Select an account type
@@ -371,18 +370,18 @@ const SignUpForm = (props) => {
                   </option>
                 </select>
                 {errType && (
-                  <p className="font-titleFont px-4 text-sm font-semibold text-red-500">
-                    <span className="mr-1 font-bold italic">!</span>
+                  <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                    <span className="font-bold italic mr-1">!</span>
                     {errType}
                   </p>
                 )}
               </div>
 
               {/* Checkbox */}
-              <div className="flex items-start gap-2 mdl:items-center">
+              <div className="flex items-start mdl:items-center gap-2">
                 <input
                   onChange={() => setChecked(!checked)}
-                  className="mt-1 h-4 w-4 cursor-pointer bg-[#fff] mdl:mt-0"
+                  className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer bg-[#fff]"
                   type="checkbox"
                 />
                 <p className="text-sm text-primeColor">
@@ -397,13 +396,13 @@ const SignUpForm = (props) => {
                 onClick={handleSignUp}
                 className={`${
                   checked
-                    ? "cursor-pointer bg-[#1D6F2B] hover:bg-[#437a4c]"
-                    : "disabled bg-[#81b48a]"
-                } mt-3 h-10 w-full rounded-md text-base font-medium text-gray-200 duration-300 hover:text-white`}
+                    ? "bg-[#1D6F2B] hover:bg-[#437a4c] cursor-pointer"
+                    : "bg-[#81b48a] disabled "
+                } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300 mt-3`}
               >
                 {loading ? (
                   <>
-                    <Spinner className="mr-3 inline-block" />
+                    <Spinner className="inline-block mr-3" />
                     Creating your account
                   </>
                 ) : (
@@ -412,14 +411,14 @@ const SignUpForm = (props) => {
               </button>
               <div className="ml-[5%]">
                 <hr className="inline-block w-[40%] align-middle"></hr>
-                <span className="mx-4 inline-block">or</span>
+                <span className="inline-block mx-4">or</span>
                 <hr className="inline-block w-[40%] align-middle"></hr>
               </div>
 
-              <p className="font-titleFont text-center text-sm font-medium">
+              <p className="text-sm text-center font-titleFont font-medium">
                 Already have an account?{" "}
                 <Link
-                  className="Bduration-300 cursor-pointer text-[#1E61CC]"
+                  className="text-[#1E61CC] Bduration-300 cursor-pointer"
                   to="/signin"
                 >
                   Sign in
