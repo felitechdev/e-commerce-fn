@@ -17,6 +17,8 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { GetMyOrders } from "../../../../APIs/Oreders";
 import Pagination from "../../pagination/pagination";
+import axios from "axios";
+
 
 export const DashBoardSearch = ({
   handleSearch,
@@ -61,6 +63,7 @@ export const OrdersV2 = () => {
   const [pageSize, setPageSize] = React.useState(5);
   const [totalElements, setTotalElements] = React.useState(50);
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [issearch, setIssearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const orderstatus = {
     1: "awaits payment",
@@ -76,39 +79,61 @@ export const OrdersV2 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+  async function searchorder(name) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders/search?query=${name}`,
+
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+       
+      );
+  
+      return response.data;
+    } catch (error) {
+      return [];
+    }
+  }
+
+
   const filteredOrders =
     selectedStatus === "All"
       ? order
       : order?.filter((order) => order.status === selectedStatus);
   const totalPages = Math.ceil(totalElements / pageSize);
-  useEffect(() => {
-    if (loadorders == true) {
-      dispatch(GetMyOrders({ page, pageSize, token }))
-        .unwrap()
-        .then((data) => {
-          if (data?.data && data?.status == "success") {
-            setOrder(data?.data?.orders);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [loadorders, dispatch, token, page, pageSize]);
+  // useEffect(() => {
+  //   if (loadorders == true) {
+  //     dispatch(GetMyOrders({ page, pageSize, token }))
+  //       .unwrap()
+  //       .then((data) => {
+  //         if (data?.data && data?.status == "success") {
+  //           setOrder(data?.data?.orders);
+  //         }
+  //       })
+  //       .catch((error) => {});
+  //   }
+  // }, [loadorders, dispatch, token, page, pageSize]);
+
+  // useEffect(() => {
+  //   if (!order.length) {
+  //     dispatch(GetMyOrders({ page, pageSize, token , selectedStatus }))
+  //       .unwrap()
+  //       .then((data) => {
+  //         if (data?.data && data?.status == "success") {
+  //           setOrder(data?.data?.orders);
+  //         }
+  //       })
+  //       .catch((error) => {});
+  //   }
+  // }, [dispatch, token, page, pageSize, selectedStatus]);
 
   useEffect(() => {
-    if (!order.length) {
-      dispatch(GetMyOrders({ page, pageSize, token }))
-        .unwrap()
-        .then((data) => {
-          if (data?.data && data?.status == "success") {
-            setOrder(data?.data?.orders);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [dispatch, token, page, pageSize]);
-
-  useEffect(() => {
-    dispatch(GetMyOrders({ page, pageSize, token }))
+    dispatch(GetMyOrders({ page, pageSize, token , selectedStatus }))
       .unwrap()
       .then((data) => {
         if (data?.data && data?.status == "success") {
@@ -116,7 +141,7 @@ export const OrdersV2 = () => {
         }
       })
       .catch((error) => {});
-  }, [dispatch, page, pageSize]);
+  }, [dispatch, page, pageSize , selectedStatus]);
 
   useEffect(() => {
     if (totalCount) {
@@ -124,12 +149,32 @@ export const OrdersV2 = () => {
     }
   }, [totalCount]);
 
+  useEffect(() => {
+    if (searchQuery.length > 0) {
+
+      setIssearch(true);
+      searchorder(searchQuery).then((data) => {
+        console.log("data", data?.data?.orders);
+        if (data?.data?.orders) {
+          setOrder(data?.data?.orders);
+        }
+      
+      
+      });
+    } else {
+      setIssearch(false);
+      setOrder(orders);
+     
+    }
+  }, [searchQuery]);
+
+
   const handleSearch = (event) => {
     setSearchQuery(event.target.value.toLowerCase());
   };
-  const Orders = filteredOrders.filter((item) =>
-    item.id.toLowerCase().includes(searchQuery)
-  );
+  // const Orders = filteredOrders.filter((item) =>
+  //   item.id.toLowerCase().includes(searchQuery)
+  // );
 
   return (
     <Layout className="space-y-6 p-2 bg-light overflow-auto">
@@ -190,7 +235,7 @@ export const OrdersV2 = () => {
             </>
           ) : (
             <Col span={24}>
-              {Orders.map((order) => (
+              {orders.map((order) => (
                 <OrderCard key={order.id} order={order} />
               ))}
             </Col>
@@ -198,7 +243,7 @@ export const OrdersV2 = () => {
         </Row>
       </div>
 
-      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+    {!issearch &&   <Pagination page={page} setPage={setPage} totalPages={totalPages} />}
     </Layout>
   );
 };
