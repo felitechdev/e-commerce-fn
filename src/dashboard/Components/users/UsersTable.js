@@ -162,7 +162,6 @@ export default function UsersTable({
         if (data?.data?.users) {
           setUserList(data?.data?.users);
         }
-      
       });
     } else {
       setIssearch(false);

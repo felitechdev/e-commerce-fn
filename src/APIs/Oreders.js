@@ -5,17 +5,23 @@ const Token = sessionStorage.getItem("userToken");
 
 export const GetMyOrders = createAsyncThunk(
   "user/orders",
-  async ({ page, pageSize, token }, { rejectWithValue }) => {
+  async ({ page, pageSize, token , selectedStatus }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
           Authorization: token ? `Bearer ${token}` : `Bearer ${Token}`,
         },
       };
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders?limit=${pageSize}&page=${page}`,
-        config
-      );
+
+        // Default URL
+        let url = `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders?limit=${pageSize}&page=${page}`;
+
+        // Append status if selectedStatus is not "All"
+        if (selectedStatus && selectedStatus !== "All") {
+          url += `&status=${selectedStatus}`;
+        }
+        // Make the API call
+        const response = await axios.get(url, config);
 
       if (response?.data && response.status == 200) {
         return response?.data;
