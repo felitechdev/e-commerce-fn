@@ -20,7 +20,7 @@ export const getorder = createSlice({
       .addCase(GetMyOrders.fulfilled, (state, action) => {
         state.loadorders = false;
         // console.log("totalCount", action.payload);
-        state.totalCount = 50;
+        state.totalCount = action?.payload?.totalOrders;
         state.orders = action.payload.data.orders;
       })
       .addCase(GetMyOrders.rejected, (state, action) => {

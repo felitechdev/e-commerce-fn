@@ -41,7 +41,7 @@ export const usersSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false;
         // state.totalCount = action.payload.count;
-        state.totalCount = 30;
+        state.totalCount = action.payload?.totalUsers
         state.users = state.users = action.payload?.data?.users;
       })
       .addCase(fetchUsers.rejected, (state, action) => {

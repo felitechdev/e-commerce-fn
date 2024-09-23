@@ -72,7 +72,7 @@ export default function UsersTable({
   const [err, setErr] = useState("");
   const [onSuccess, setOnSuccess] = useState(null);
   const token = Cookies.get("token");
-
+  const [issearch, setIssearch] = useState(false);
   const [userList, setUserList] = useState(users);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -109,6 +109,26 @@ export default function UsersTable({
     }
   };
 
+   async function searchuser(name) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users/search?query=${name}`,
+
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+       
+      );
+  
+      return response.data;
+    } catch (error) {
+      return [];
+    }
+  }
+
   const showDeleteConfirm = (id) => {
     confirm({
       title: "Are you sure delete this Account?",
@@ -135,6 +155,24 @@ export default function UsersTable({
   };
 
   useEffect(() => {
+    if (searchQuery.length > 0) {
+      setIssearch(true);
+      searchuser(searchQuery).then((data) => {
+      
+        if (data?.data?.users) {
+          setUserList(data?.data?.users);
+        }
+      
+      });
+    } else {
+      setIssearch(false);
+      setUserList(users);
+     
+    }
+  }, [searchQuery]);
+
+
+  useEffect(() => {
     if (openDeleteModal) {
       showDeleteConfirm(userId.id);
     }
@@ -144,11 +182,11 @@ export default function UsersTable({
     setSearchQuery(event.target.value.toLowerCase());
   };
 
-  let filteredUsers = userList.filter(
-    (user) =>
-      user.firstName.toLowerCase().includes(searchQuery) ||
-      user.email.toLowerCase().includes(searchQuery)
-  );
+  // let filteredUsers = userList.filter(
+  //   (user) =>
+  //     user.firstName.toLowerCase().includes(searchQuery) ||
+  //     user.email.toLowerCase().includes(searchQuery)
+  // );
   useEffect(() => {
     setUserList(users);
   }, users);
@@ -191,10 +229,10 @@ export default function UsersTable({
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map((user, index) => {
+                {userList.map((user, index) => {
                   return (
                     <tr
-                      key={user.id}
+                      key={user?.id}
                       className="border-b dark:border-neutral-500"
                     >
                       <td className="whitespace-nowrap px-6 py-4 font-medium">
@@ -212,11 +250,11 @@ export default function UsersTable({
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         {user.role}
                       </td>
-                      <td className="whitespace-nowrap px-6 py-4 capitalize">
+                    {user?.createdAt && <td className="whitespace-nowrap px-6 py-4 capitalize">
                         {new Intl.DateTimeFormat("en-UK").format(
-                          new Date(user.createdAt)
+                          new Date(user?.createdAt)
                         )}
-                      </td>
+                      </td>}
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         <button onClick={() => {}}>
                           <ActionMenuButton items={getItems(user)} />
@@ -235,22 +273,9 @@ export default function UsersTable({
             </table>
           </div>
 
-          <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+          {!issearch   && <Pagination page={page} setPage={setPage} totalPages={totalPages} />}
 
-          {/* <div className="flex justify-end space-x-2 w-full pr-6 mt-2 ">
-            <button
-              className="bg-primary text-white p-1 rounded-md"
-              onClick={() => setPage(page - 1)}
-            >
-              Prev
-            </button>
-            <button
-              className="bg-primary text-white p-1 rounded-md"
-              onClick={() => setPage(page + 1)}
-            >
-              Next
-            </button>
-          </div> */}
+        
         </div>
       </div>
     </div>
