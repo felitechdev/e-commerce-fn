@@ -6,11 +6,11 @@ import axios from "axios";
 import { Loader } from "../../dashboard/Components/Loader/LoadingSpin";
 
 export const ProductSection = (
-//   {
-//   productClassId,
-//   category,
-//   setIsSectionHasProduct,
-// }
+  {
+  productClassId,
+  // category,
+  // setIsSectionHasProduct,
+}
 ) => {
   async function fetchProducts(page, queryString) {
     try {
@@ -31,7 +31,7 @@ export const ProductSection = (
       queryFn: ({ pageParam = 1 }) =>
         fetchProducts(
           pageParam,
-          "sort=name"
+          `sort=name${productClassId ? `&productClass=${productClassId}` : ""}`
           // `productClass=${productClassId}${
           //   category ? `&category=${category}` : ""
           // }`

@@ -101,13 +101,13 @@ export default function ProductDetails({ product, dispatch }) {
             <ProductSection
               // key={`${productClass.id}`}
               productClassId={product?.productDetails?.productClass}
-              category={product?.productDetails?.category}
-              setIsSectionHasProduct={(hasProducts) =>
-                handleSectionProductStatus(
-                  product?.productDetails?.productClass,
-                  hasProducts
-                )
-              }
+              // category={product?.productDetails?.category}
+              // setIsSectionHasProduct={(hasProducts) =>
+              //   handleSectionProductStatus(
+              //     product?.productDetails?.productClass,
+              //     hasProducts
+              //   )
+              // }
             />
           </div>
 
