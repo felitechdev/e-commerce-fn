@@ -31,7 +31,7 @@ export const ProductSection = (
       queryFn: ({ pageParam = 1 }) =>
         fetchProducts(
           pageParam,
-          "sort=<productClass or category or subcategory> not order"
+          "sort=name"
           // `productClass=${productClassId}${
           //   category ? `&category=${category}` : ""
           // }`
