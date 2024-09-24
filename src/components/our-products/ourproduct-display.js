@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 const ProductDisplay = () => {
   return (
     <div className="product-display">
-      <ProductClassCategories />
+      {/* <ProductClassCategories /> */}
+      <ProductSection />
     </div>
   );
 };

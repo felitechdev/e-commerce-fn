@@ -82,8 +82,13 @@ export const OrdersV2 = () => {
 
   async function searchorder(name) {
     try {
+      const url = `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders/search?query=${name}`;
+
+      if (selectedStatus && selectedStatus !== "All") {
+        url += `&status=${selectedStatus}`;
+      }
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/orders/search?query=${name}`,
+        url,
 
         {
           headers: {
@@ -105,32 +110,9 @@ export const OrdersV2 = () => {
     selectedStatus === "All"
       ? order
       : order?.filter((order) => order.status === selectedStatus);
-  const totalPages = Math.ceil(totalElements / pageSize);
-  // useEffect(() => {
-  //   if (loadorders == true) {
-  //     dispatch(GetMyOrders({ page, pageSize, token }))
-  //       .unwrap()
-  //       .then((data) => {
-  //         if (data?.data && data?.status == "success") {
-  //           setOrder(data?.data?.orders);
-  //         }
-  //       })
-  //       .catch((error) => {});
-  //   }
-  // }, [loadorders, dispatch, token, page, pageSize]);
 
-  // useEffect(() => {
-  //   if (!order.length) {
-  //     dispatch(GetMyOrders({ page, pageSize, token , selectedStatus }))
-  //       .unwrap()
-  //       .then((data) => {
-  //         if (data?.data && data?.status == "success") {
-  //           setOrder(data?.data?.orders);
-  //         }
-  //       })
-  //       .catch((error) => {});
-  //   }
-  // }, [dispatch, token, page, pageSize, selectedStatus]);
+  const totalPages = Math.ceil(totalElements / pageSize);
+ 
 
   useEffect(() => {
     dispatch(GetMyOrders({ page, pageSize, token , selectedStatus }))
@@ -141,7 +123,7 @@ export const OrdersV2 = () => {
         }
       })
       .catch((error) => {});
-  }, [dispatch, page, pageSize , selectedStatus]);
+  }, [dispatch, page, pageSize , selectedStatus , token]);
 
   useEffect(() => {
     if (totalCount) {
@@ -151,20 +133,15 @@ export const OrdersV2 = () => {
 
   useEffect(() => {
     if (searchQuery.length > 0) {
-
       setIssearch(true);
-      searchorder(searchQuery).then((data) => {
-        console.log("data", data?.data?.orders);
+      searchorder(searchQuery ).then((data) => {
         if (data?.data?.orders) {
           setOrder(data?.data?.orders);
         }
-      
-      
       });
     } else {
       setIssearch(false);
-      setOrder(orders);
-     
+      setOrder(order);
     }
   }, [searchQuery]);
 
@@ -188,7 +165,7 @@ export const OrdersV2 = () => {
                 handleSearch={handleSearch}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                placeholder={"Search by orderId"}
+                placeholder={"Search by username or email"}
               />
 
               {/* <div className=" my-2 left-1/3 border-none  right-1/2  rounded-t-md">
@@ -202,9 +179,9 @@ export const OrdersV2 = () => {
               </div> */}
             </div>
 
-            <div className="flex flex-row space-x-4 cursor-pointer overflow-auto">
+            <div className="flex flex-row space-x-4 cursor-pointer overflow-auto break-words">
               <span
-                className={`text-sm font-semibold text-primary ${
+                className={`text-sm font-semibold text-primary py-1 ${
                   selectedStatus === "All"
                     ? "border-b-2 border-primary bg-white rounded-t-md px-2 md:px-5"
                     : ""
@@ -216,7 +193,7 @@ export const OrdersV2 = () => {
               {Object.keys(orderstatus).map((key) => (
                 <span
                   key={key}
-                  className={`text-sm font-semibold text-primary ${
+                  className={`text-sm font-semibold text-primary  whitespace-nowrap !break-keep w-fit py-1 ${
                     selectedStatus === orderstatus[key]
                       ? "border-b-2 border-primary bg-white rounded-t-md px-2 md:px-5"
                       : ""
@@ -235,8 +212,12 @@ export const OrdersV2 = () => {
             </>
           ) : (
             <Col span={24}>
-              {orders.map((order) => (
-                <OrderCard key={order.id} order={order} />
+              {order
+              
+              
+              
+              .map((order) => (
+                <OrderCard key={order.id || order?._id} order={order} />
               ))}
             </Col>
           )}
