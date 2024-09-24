@@ -36,7 +36,7 @@ const OrderCard = ({ order }) => {
   const [ispayopen, setIspayopen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [copy, setCopy] = useState({
-    value: order.id,
+    value: order.id || order?._id,
     copied: false,
   });
   const { orders, loadorders, errorders } = useSelector(
@@ -46,7 +46,7 @@ const OrderCard = ({ order }) => {
   const token = Cookies.get("token");
 
   useEffect(() => {
-    setCopy({ value: order.id, copied: false });
+    setCopy({ value: order.id || order?._id, copied: false });
   }, []);
 
   const formattedDate = format(order.createdAt, "PPpp"); // e.g., "June 20th, 2020, 4:30 PM"
@@ -131,14 +131,14 @@ const OrderCard = ({ order }) => {
 
   const handleupdatestate = async (id, status) => {
     const updatedOrder =
-      (await orders) && orders.find((order) => order.id === id);
+      (await orders) && orders.find((order) => order.id|| order?._id === id);
     setOrderstatus(status);
   };
 
   return (
     <Card
       className="order-card mb-3 cursor-pointer bg-[#f5fafc]"
-      onClick={() => navigate(`${order.id}`)}
+      onClick={() => navigate(`${order.id || order?._id}`)}
     >
       <div>
         {" "}
@@ -149,9 +149,9 @@ const OrderCard = ({ order }) => {
               <span> #{order.id ||  order?._id}</span>
               <div className="relative">
                 <CopyToClipboard
-                  text={order.id}
+                  text={order.id || order?._id}
                   onCopy={(e) => {
-                    setCopy({ value: order.id, copied: true });
+                    setCopy({ value: order.id|| order?._id, copied: true });
                   }}
                 >
                   <FaRegCopy
@@ -159,10 +159,10 @@ const OrderCard = ({ order }) => {
                     className=" rounded-full  cursor-pointer  text-primary hover:text-white hover:bg-primary p-1"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCopy({ value: order.id, copied: true });
+                      setCopy({ value: order.id|| order?._id, copied: true });
 
                       setTimeout(() => {
-                        setCopy({ value: order.id, copied: false });
+                        setCopy({ value: order.id|| order?._id, copied: false });
                       }, 5000);
                     }}
                   ></FaRegCopy>
@@ -200,7 +200,7 @@ const OrderCard = ({ order }) => {
                 className=""
                 onClick={(e) => {
                   e.stopPropagation();
-                  onSubmit(order.id);
+                  onSubmit(order.id || order?._id);
 
                   // setIspayopen(true);
                 }}
@@ -303,14 +303,14 @@ const OrderCard = ({ order }) => {
       </div>
       <UpdateOrderStatus
         setModel={isModalOpen}
-        order={order.id}
+        order={order.id || order?._id}
         openModal={openModal}
         handleupdatestate={handleupdatestate}
       />
 
       <DownloadStatus
         setModel={isreceiptopen}
-        order={order.id}
+        order={order.id || order?._id}
         openModal={openReceiptModal}
         myorder={order}
       />

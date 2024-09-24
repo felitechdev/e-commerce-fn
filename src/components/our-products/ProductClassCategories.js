@@ -86,7 +86,7 @@ export const ProductClassCategories = () => {
                     ))}
                   </div> */}
                 </div>
-
+{/* 
                 <ProductSection
                   key={`${productClass.id}`}
                   productClassId={productClass.id}
@@ -94,7 +94,7 @@ export const ProductClassCategories = () => {
                   setIsSectionHasProduct={(hasProducts) =>
                     handleSectionProductStatus(productClass.id, hasProducts)
                   }
-                />
+                /> */}
               </div>
             );
           })}

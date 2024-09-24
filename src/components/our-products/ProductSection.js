@@ -5,11 +5,13 @@ import Paginator from "../Paginator";
 import axios from "axios";
 import { Loader } from "../../dashboard/Components/Loader/LoadingSpin";
 
-export const ProductSection = ({
-  productClassId,
-  category,
-  setIsSectionHasProduct,
-}) => {
+export const ProductSection = (
+//   {
+//   productClassId,
+//   category,
+//   setIsSectionHasProduct,
+// }
+) => {
   async function fetchProducts(page, queryString) {
     try {
       const response = await axios.get(
@@ -25,13 +27,14 @@ export const ProductSection = ({
 
   const { data, isFetching, isLoading, hasNextPage, error, fetchNextPage } =
     useInfiniteQuery({
-      queryKey: [`products-${productClassId}-${category}`],
+      queryKey: [`products`],
       queryFn: ({ pageParam = 1 }) =>
         fetchProducts(
           pageParam,
-          `productClass=${productClassId}${
-            category ? `&category=${category}` : ""
-          }`
+          "sort=<productClass or category or subcategory> not order"
+          // `productClass=${productClassId}${
+          //   category ? `&category=${category}` : ""
+          // }`
         ),
       getNextPageParam: (lastPage, allPages) =>
         lastPage.length ? allPages.length + 1 : undefined,
@@ -41,13 +44,13 @@ export const ProductSection = ({
     return data?.pages.reduce((acc, page) => [...acc, ...page], []);
   }, [data]);
 
-  useEffect(() => {
-    if ((products && products.length > 0) || category !== undefined) {
-      setIsSectionHasProduct(true);
-    } else {
-      setIsSectionHasProduct(false);
-    }
-  }, [products]);
+  // useEffect(() => {
+  //   if ((products && products.length > 0) || category !== undefined) {
+  //     setIsSectionHasProduct(true);
+  //   } else {
+  //     setIsSectionHasProduct(false);
+  //   }
+  // }, [products]);
 
   return (
     <div className="space-y-4">
