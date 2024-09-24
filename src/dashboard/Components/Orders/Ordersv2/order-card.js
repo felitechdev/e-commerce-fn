@@ -146,7 +146,7 @@ const OrderCard = ({ order }) => {
           <span className=" font-semibold  block md:flex ">
             <span className="flex space-x-4">
               {" "}
-              <span> #{order.id}</span>
+              <span> #{order.id ||  order?._id}</span>
               <div className="relative">
                 <CopyToClipboard
                   text={order.id}
