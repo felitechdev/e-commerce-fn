@@ -23,7 +23,7 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
   const [category, setCategory] = useState(false);
   return (
     <div
-      className="w-full px-6 py-4 flex flex-col gap-6 relative border z-30   bg-white   "
+      className="w-full px-6 py-4 flex flex-col gap-6 relative  z-30   bg-white   "
       onMouseMove={(e) => {
         e.stopPropagation();
       }}
@@ -41,13 +41,7 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
       <Price handlefilterShow={() => handlefilterShow()} />
 
       <div
-        className={`mt-4 !m-0  overflow-auto
-                       ${
-                         // categoryId  ? "hidden" : "blocks"
-                         ""
-                       }
-                       
-                    `}
+        className={`mt-4 !m-0  overflow-auto`}
         onMouseMove={(e) => {
           e.stopPropagation();
         }}
@@ -60,9 +54,9 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
       >
         <h1
           onClick={() => setCategory(!category)}
-          className="flex justify-between text-base font-semibold cursor-pointer items-center font-titleFont mb-2"
+          className="flex justify-between  p-1 rounded-md text-base font-semibold cursor-pointer items-center font-titleFont mb-2"
         >
-          Shop by Category{" "}
+          Shop by Categories & Brands
           <span className="text-lg">{category ? "-" : "+"}</span>
         </h1>
         {category && (
@@ -75,18 +69,18 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
             <div className="flex-col w-full space-y-2  overflow-auto mdl:overflow-hidden ">
               {" "}
               <div className=" z-0 ">
-                <ProductClassAccordion ismobile={true} />
+                <ProductClassAccordion ismobile={false} />
               </div>
               <div className="z-0">
-                <ProductCategoryAccordion ismobile={true} />
+                <ProductCategoryAccordion ismobile={false} />
               </div>
               {categoryId && (
                 <div className="z-0">
-                  <ProductSubCategoryAccordion ismobile={true} />
+                  <ProductSubCategoryAccordion ismobile={false} />
                 </div>
               )}
               <div className="z-0 ">
-                <ProductBrandAccordion ismobile={true} />
+                <ProductBrandAccordion ismobile={false} />
               </div>
             </div>
           </motion.ul>

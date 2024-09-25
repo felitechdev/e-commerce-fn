@@ -11,7 +11,7 @@ export default function ShopProducts({
   hidetop,
 }) {
   return (
-    <div>
+    <div className="p-2">
       {!hidetop && (
         <>
           <h2 className="m-2 font-semibold capitalize leading-tight text-[#1D6F2B]">

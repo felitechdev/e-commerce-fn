@@ -18,7 +18,7 @@ import { fetchProductclass } from "../../../dashboard/Redux/ReduxSlice/ProductCl
 export async function fetchProducts(page, queryString) {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=50&page=${page}&fields=name,seller,price,discountPercentage,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=50&page=${page}&fields=name,colorMeasurementVariations,seller,price,discountPercentage,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
@@ -95,8 +95,10 @@ const Shop = () => {
     if (showfilter) {
       document.body.classList.add("no-scroll");
     } else {
-      document.body.classList.remove("no-scroll");
+      // document.body.classList.remove("no-scroll");
+      document.body.classList.add("no-scroll");
     }
+
 
     // Cleanup on component unmount
     return () => {
@@ -106,31 +108,29 @@ const Shop = () => {
 
   return (
     <PageLayout showFooter={false}>
-      {/* <MobileCategoryNav title="Products Filters" categoryId={categoryId} /> */}
+      <div className="max-w-container mx-auto px-4 mdl:-mt-5">
+        <div className="relative w-full overflow-hidden scrollbar-none h-[90vh] flex pb-0 gap-2">
+        {showfilter && (
+  <div
+    className="w-[300px] border -mt-5 lgl:w-[25%] bg-[white] fixed mdl:relative mdl:hidden z-20 mdl:z-0 left-0 overflow-y-auto pb-10 h-[90vh]"
+    onMouseOver={(e) => e.stopPropagation()}
+  >
+    <CloseSquareFilled
+      onClick={handlefilterShow}
+      className="text-primary fixed z-50 mdl:hidden text-4xl cursor-pointer left-[300px]"
+    />
+    <ShopSideNav
+      brands={category && category.brands}
+      handlefilterShow={handlefilterShow}
+    />
+  </div>
+)}
 
-      <div className="max-w-container mx-auto px-4 mt-5">
-        <div className="relative w-full h-full flex pb-20 gap-2">
-          {showfilter && (
-            <div
-              className="w-[300px] -mt-5 lgl:w-[25%] bg-[white] fixed mdl:relative mdl:hidden z-20 mdl:z-0 left-0 overflow-y-auto pb-10 h-[90vh]"
-              onMouseOver={(e) => e.stopPropagation()}
-            >
-              <CloseSquareFilled
-                onClick={handlefilterShow}
-                className="text-primary fixed z-50 mdl:hidden text-4xl cursor-pointer left-[300px]"
-              />
-              <ShopSideNav
-                brands={category && category.brands}
-                handlefilterShow={handlefilterShow}
-              />
-            </div>
-          )}
-
-          <div className="w-[200px] lgl:w-[25%] bg-[white] hidden mdl:block z-10 mdl:z-0 h-full">
+          <div className="fixed pb-20 flex-1 overflow-auto border bg-white w-[200px] hidden mdl:block mdl:w-1/4 max-w-[360px] z-10 mdl:z-0 h-full">
             <ShopSideNav brands={category && category.brands} />
           </div>
 
-          <div className="w-full mdl:w-[80%] lgl:w-[75%] h-full flex mdl:border relative flex-col gap-10">
+          <div className="w-full mdl:ml-[26%] flex-auto overflow-auto  h-full flex mdl:border relative flex-col gap-10">
             <div className="fixed z-10">
               <ProductBanner
                 showfilter={showfilter}
@@ -166,3 +166,5 @@ const Shop = () => {
 };
 
 export default Shop;
+
+
