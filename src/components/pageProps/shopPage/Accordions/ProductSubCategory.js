@@ -44,7 +44,7 @@ const ProductSubCategoryAccordion = ({ brands, handlefilterShow }) => {
   const subcategory =
     categoryId &&
     subcategories.length != null &&
-    subcategories.filter((sub) => sub.category.id == categoryId);
+    subcategories.filter((sub) => sub?.category?.id == categoryId);
 
   return (
     <div className=" text-sm bg-slate-100 border-2 py-1 rounded-md px-2 z-50   shadow-md ">

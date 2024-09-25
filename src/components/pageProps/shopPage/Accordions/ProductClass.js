@@ -50,6 +50,8 @@ const ProductClassAccordion = (props) => {
     dispatch(fetchProductclass());
   }, [dispatch]);
 
+ 
+
   return (
     <div className=" text-sm bg-slate-100 border-2 py-2 rounded-md px-2 z-50   shadow-md">
       <div
@@ -87,7 +89,16 @@ const ProductClassAccordion = (props) => {
                       
                       `}
                   >
-                    {item.name}
+                     <img
+                      src={`${
+                      item?.icon
+                        ? item.icon
+                        : "https://placehold.jp/80x80.png"
+                      } `}
+                    alt=""
+                    className="h-5 w-5 object-cover"
+                  />
+                    {item.name} 
                   </li>
                 ) : (
                   <>
@@ -109,7 +120,16 @@ const ProductClassAccordion = (props) => {
                           
                           `}
                       >
-                        {" "}
+                       
+                        {/* <img
+                      src={`${
+                      item?.icon
+                        ? item.icon
+                        : "https://placehold.jp/80x80.png"
+                      } `}
+                    alt=""
+                    className="h-5 w-5 object-cover"
+                  /> */}
                         {item.name}
                       </li>
                     )}
