@@ -30,7 +30,7 @@ const ProductPreview = ({ productInfo }) => {
   const timeDifference = currentDate - createdAtDate;
   const daysDifference = timeDifference / (1000 * 3600 * 24);
 
-  const isCreatedinthreedays = daysDifference <= 20;
+  const isCreatedinthreedays = daysDifference <= 5;
 
   // check if product is in cart
   const productInCart = cart.find((product) => product.id === rootId);

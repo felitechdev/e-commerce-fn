@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavTitle from "./NavTitle";
 import { useCurrency } from "../../../Currency/CurrencyProvider/CurrencyProvider";
 import { useSearchParams } from "react-router-dom";
@@ -8,8 +8,9 @@ const Price = ({ handlefilterShow }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [priceRange, setPriceRange] = useState({
     min: 0,
-    max: null,
+    max: 0,
   });
+  const [isOkDisabled, setIsOkDisabled] = useState(true);
 
   const handleOnChange = (e) => {
     setPriceRange({
@@ -18,12 +19,22 @@ const Price = ({ handlefilterShow }) => {
     });
   };
 
+  useEffect(() => {
+    if ( parseInt(priceRange.min) ==  parseInt(priceRange.max) ||  parseInt(priceRange.min) >  parseInt(priceRange.max)) {
+      setIsOkDisabled(true);
+    } else {
+      setIsOkDisabled(false);
+    }
+  }, [priceRange , priceRange.min , priceRange.max]);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    searchParams.set("price[gte]", priceRange.min);
-    searchParams.set("price[lte]", priceRange.max);
+    searchParams.set(`price[gte]`,priceRange.min);
+    searchParams.set("price[lte]=", priceRange.max);
     setSearchParams(searchParams);
   };
+  // http://localhost:3000/shop/?productClass=6655a5cade2c788b8f520e81&price[gte]=50000
 
   return (
     <div className="cursor-pointer">
@@ -42,6 +53,7 @@ const Price = ({ handlefilterShow }) => {
                 class="appearance-none  w-full bg-white text-gray-700 border border-gray-200  rounded py-2 px-4 leading-tight focus:outline-none placeholder:text-[#C4C4C4]"
                 id="grid-first-name"
                 type="number"
+                defaultValue={0}
                 placeholder="Min"
                 name="min"
                 value={priceRange.min}
@@ -62,14 +74,17 @@ const Price = ({ handlefilterShow }) => {
                 type="number"
                 placeholder="Max"
                 onChange={handleOnChange}
+                defaultValue={0}
                 name="max"
                 min={1}
                 value={priceRange.max}
               />
             </div>
             <button
-              class="shadow bg-[#1D6F2B]  hover:bg-[#1d6f2ba4] focus:shadow-outline focus:outline-none !focus:border-[#1D6F2B] text-white font-semibold py-2 px-4 rounded"
-              onClick={() => handlefilterShow()}
+              type="submit"
+              disabled={ isOkDisabled }
+              class="shadow bg-[#1D6F2B]   focus:shadow-outline focus:outline-none !focus:border-[#1D6F2B] text-white font-semibold py-2 px-4 rounded disabled:opacity-50"
+              // onClick={() => handlefilterShow()}
             >
               Ok
             </button>
