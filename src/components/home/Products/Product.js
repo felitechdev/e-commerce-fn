@@ -327,9 +327,7 @@ return (
           />
         </div>
       )} */}
-      {/* <button className="bg-green-800 text-white p-2 inline-block rounded-xl text-base">
-                    Add to cat
-                  </button> */}
+    
     </div>
   </div>
 );

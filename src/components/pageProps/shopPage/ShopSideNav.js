@@ -23,7 +23,7 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
   const [category, setCategory] = useState(false);
   return (
     <div
-      className="w-full px-6 py-4 flex flex-col gap-6 relative border z-30   bg-white   "
+      className="w-full px-6 py-4 flex flex-col gap-6 relative  z-30   bg-white   "
       onMouseMove={(e) => {
         e.stopPropagation();
       }}
