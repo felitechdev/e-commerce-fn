@@ -25,17 +25,18 @@ export async function fetchProducts(page) {
   let today = format(new Date().getDate(), "yyyy-MM-dd");
   let tomorrow = format(
     new Date().setDate(new Date().getDate() + 1),
-    "yyyy-MM-dd",
+    "yyyy-MM-dd"
   );
 
   let prevTwodayago = format(
     new Date().setDate(new Date().getDate() - 3),
-    "yyyy-MM-dd",
+    "yyyy-MM-dd"
   );
 
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`,
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`
+      // `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
@@ -99,7 +100,7 @@ function ProductsCategories() {
       // Round the scrollLeft and maxScrollLeft values to prevent rounding issues
       const scrollLeft = Math.ceil(container.scrollLeft);
       const maxScrollLeft = Math.floor(
-        container.scrollWidth - container.clientWidth,
+        container.scrollWidth - container.clientWidth
       );
 
       // Set disabled states
@@ -108,18 +109,30 @@ function ProductsCategories() {
     }
   };
 
+  // useEffect(() => {
+  //   const container = containerRef.current;
+
+  //   // if (container && !isLoading) {
+  //   container.addEventListener("scroll", checkScrollPosition);
+  //   checkScrollPosition();
+  //   return () => {
+  //     container.removeEventListener("scroll", checkScrollPosition);
+  //   };
+  //   // }
+  // }, []); // Trigger when products data changes
+
   useEffect(() => {
     const container = containerRef.current;
-
     if (container) {
       container.addEventListener("scroll", checkScrollPosition);
-      checkScrollPosition();
-
+      checkScrollPosition(); // Trigger the check on mount
+  
       return () => {
         container.removeEventListener("scroll", checkScrollPosition);
       };
     }
-  }, []);
+  }, [products]); // Run when products change or component mounts
+  
 
   // Add an effect to recheck scroll position after images/products load
   useEffect(() => {
