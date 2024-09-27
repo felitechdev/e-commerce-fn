@@ -12,8 +12,7 @@ import MtnIcon from "../assets/images/MTN.png";
 import CardIcon from "../assets/images/visacard.png";
 import AdvertiseImage from "../assets/images/checkoutimage.png";
 import MotivationWord from "../assets/images/specialsale-removedbg.png";
-import AirtelIcon from "../assets/images/Airtel.png";
-import { FaSave } from "react-icons/fa";
+
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
 import { useUser } from "../context/UserContex";
 import { useNavigate } from "react-router-dom";
@@ -32,16 +31,11 @@ import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 import { CardPayment } from "./Payment/cardpayment/card";
 import { SignInFormModal } from "../components/Authentication/Signinmodal";
+import { getprofileAddress } from "../APIs/UserAPIs";
 export const OrderForm = ({
-  token,
-  cartTotl,
-  totalCost,
-  shippingAddress,
   isModalOpen,
-  deliveryPreference,
   handlecancel,
-  isrepay,
-  momo_payload,
+
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -72,13 +66,16 @@ const Checkout = () => {
   const [deliveryprice, setDeliveryprice] = useState(0);
   const [isdelivery, setIsdelivery] = useState(false);
   const [isdeliveryapproved, setIsdeliveryapproved] = useState(false);
+ const  [useraddress, setUseraddress] = useState(
+    {
+      phoneNumber: "",
+      District: "",
+      Sector: "",
+      Street: "",
 
-  const [showOrderForm, setShowOrderForm] = useState(false);
-  const [fillorderform, setFillorderform] = useState(false);
-  const [location, setLocation] = useState(false);
-  const [nodelivery, setNodelivery] = useState(true);
-  const [payAllowed, setPayAllowed] = useState(false);
-  const [requestData, setRequestData] = useState();
+    }
+ );
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderDelivery, setOrderDelivery] = useState();
   const [deliveryPreference, setDeliveryPreference] = useState("");
@@ -88,36 +85,16 @@ const Checkout = () => {
   const [isNouser, setIsNouser] = useState(false);
 
   const navigate = useNavigate();
-  const handlefillorderform = () => {
-    setFillorderform(true);
-    setLocation(false);
-    setNodelivery(false);
-  };
-  const handlenodelivery = () => {
-    setDeliveryprice(0);
-    setFillorderform(false);
-    setLocation(false);
-    setNodelivery(true);
-  };
-  const handlelocation = () => {
-    setFillorderform(true);
-    setLocation(false);
-    setNodelivery(false);
-  };
 
-  const handleShowOrderForm = () => {
-    setShowOrderForm(true);
-  };
+
+
 
   const handleProvinceChange = (value) => {
     setSelectedProvince(value);
     setSelectedDistrict();
     setSelectedSector();
   };
-  // close payment model
-  const handlecancel = () => {
-    setIsModalOpen(false);
-  };
+
 
   const [cardpay, setCardpay] = useState(false);
   const handlecardpay = () => {
@@ -286,24 +263,36 @@ const Checkout = () => {
   const {
     control,
     reset,
-    formState: { errors },
-    handleSubmit,
     setValue,
     getValues,
+    formState: { errors },
+    handleSubmit,
+    
   } = useForm({
-    defaultValues: "", // Set default values from profileview
+    defaultValues: 
+    {
+
+      ...useraddress,
+      email: user?.email,
+      Province: "",
+      deliveryPreference: "",
+      
+
+    }
   });
 
   const onErrors = (errors) => {
     if (errors) {
-      setPayAllowed(false);
+
+     
     }
   };
 
   const onFinish = async (values) => {
     setIsLoading(true);
     const payload = {};
-    if (values.phoneNumber) {
+    
+    if (values.phoneNumber && typeof values.phoneNumber === "object") {
       const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
       const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
       if (
@@ -314,7 +303,17 @@ const Checkout = () => {
       } else {
         payload["phoneNumber"] = fullPhoneNumber;
       }
+    }else if ( values.phoneNumber && typeof  values.phoneNumber === "string" && values.phoneNumber.length > 9 )
+
+    
+    {
+      payload["phoneNumber"] =values.phoneNumber
     }
+    
+
+
+
+
     if (values) {
       let requestData = {
         amount: totalCost,
@@ -351,9 +350,6 @@ const Checkout = () => {
           setError("");
           setIsLoading(false);
         }
-
-        console.log("response on pay", res);
-
         let redirectLink;
 
         if (res.data.status === "success") {
@@ -367,7 +363,7 @@ const Checkout = () => {
 
         // alert("Payment was successfull!");
       } catch (error) {
-        console.log("on pay error", error);
+       
         if (error.response?.data?.message === "Payment not completed.")
           return setError(error.response?.data?.message);
         if (error.response?.data?.message === "Invalid phone number")
@@ -386,18 +382,61 @@ const Checkout = () => {
     );
     if (savedFormData) {
       Object.keys(savedFormData).forEach((key) => {
+        if (key === "phoneNumber") {
+          if ( typeof savedFormData[key] === "object") {
+            const { countryCode, areaCode, phoneNumber } = savedFormData[key];
+            const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
+            setValue("phoneNumber", fullPhoneNumber );
+          } else
+          {
+            setValue(key, savedFormData[key]);
+          }  
+        } else
         setValue(key, savedFormData[key]);
       });
+
     }
   }, [setValue]);
 
   // Save form data to localStorage on change
   useEffect(() => {
-    const formData = getValues();
+    const formData = getValues(); 
     localStorage.setItem("shippingInfoFormData", JSON.stringify(formData));
   });
 
+  useEffect(() => {
+    if (user && token) {
+      dispatch(getprofileAddress({ token: token, id: user?.id }))
+        .unwrap()
+        .then((data) => {
+          const fetchedAddress = data?.data?.profile?.address || {};
+          const fetchedPhoneNumber = data?.data?.profile?.phoneNumber || "";
+          
+          setUseraddress({
+            phoneNumber: fetchedPhoneNumber,
+            District: fetchedAddress.district,
+            Sector: fetchedAddress.sector,
+            Street: fetchedAddress.street,
+          });
+        
+          setValue("phoneNumber", fetchedPhoneNumber);
+          setValue("District", fetchedAddress.district);
+          setValue("Sector", fetchedAddress.sector);
+          setValue("Street", fetchedAddress.street);
+        })
+        .catch((error) => {
+        
+        });
+    }
+  }, [user, token, setValue]);
+
+  
+
+
   return (
+
+ 
+
     <PageLayout>
       {isdelivery && (
         <div className="fixed bottom-0 p-2 z-50 pb-5 bg-[#fbe8e8] rounded-md w-[90%] md:w-1/3 right-5 md:right-20 shadow-lg border border-red-500">
@@ -520,9 +559,10 @@ const Checkout = () => {
 
             <div className="bg-[#F5F7F7] mt-4">
               <Form
+              initialValues={useraddress}
                 layout={"vertical"}
                 onFinish={
-                  cardpay ? handleSubmit() : handleSubmit(onFinish, onErrors)
+                  handleSubmit(onFinish, onErrors)
                 }
                 style={{
                   width: "100%",
@@ -533,13 +573,14 @@ const Checkout = () => {
                 }}
               >
                 <div>
+
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
                         name="Province"
                         rules={{
-                          required: "Province is required",
+                          // required: "Province is required",
                         }}
                         defaultValue=""
                         render={({ field }) => (
@@ -653,23 +694,27 @@ const Checkout = () => {
                       />
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <Controller
-                        control={control}
-                        name="phoneNumber"
-                        rules={{
-                          required: "Phone number is required",
-                        }}
-                        render={({ field }) => (
-                          <>
-                            <Form.Item label="Phone number" className=" h-5">
-                              <PhoneInput {...field} enableSearch />
-                              <p className="text-[red]">
-                                {errors?.phoneNumber?.message}
-                              </p>
-                            </Form.Item>
-                          </>
-                        )}
-                      />
+
+                    <Controller
+                control={control}
+                name="phoneNumber"
+                rules={
+                  {
+                      required: "Phone number is required",
+                  }
+                }
+                render={({ field }) => (
+                  <>
+                    <Form.Item label="Phone number" className=" h-5">
+                      <PhoneInput {...field} enableSearch />
+                      <p className="text-[red]">
+                        {errors?.phoneNumber?.message}
+                      </p>
+                    </Form.Item>
+                  </>
+                )}
+              />
+                     
                     </Col>{" "}
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       {" "}
