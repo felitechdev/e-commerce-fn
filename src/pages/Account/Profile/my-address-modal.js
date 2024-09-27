@@ -8,14 +8,6 @@ import Cookies from "js-cookie";
 import { updateprofileAddress } from "../../../APIs/UserAPIs";
 import PhoneInput from "antd-phone-input";
 import { useUser } from "../../../context/UserContex";
-
-// "phoneNumber": "<new-phone-number>",
-// "address": {
-//     "district": "<new-district-value>",
-//     "sector": "<new-sector-value>",
-//     "street": "<new-street-name>"
-// }
-
 const PersonalAddressInfoModel = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -122,6 +114,9 @@ const PersonalAddressInfoModel = (props) => {
   useEffect(() => {}, []);
 
   useEffect(() => {
+
+ 
+   
     setValue("phoneNumber", props.address?.phoneNumber);
     setValue("district", props.address?.address?.district);
     setValue("sector", props.address?.address?.sector);
