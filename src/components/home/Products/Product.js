@@ -222,7 +222,7 @@ return (
       <img
         src={productThumbnail && productThumbnail}
         alt=""
-        // onLoad={handleImageLoad}
+        onLoad={handleImageLoad}
         className="object-cover h-full w-full"
       />
     </div>
@@ -255,6 +255,31 @@ return (
             )}
           </div>
         </div>
+
+        {
+          productInCart && <div
+          className=" flex w-fit gap-2 px-2 sml:hidden items-center rounded-full border bg-white p-1"
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          <BiMinus
+            className="font-semibold text-[red] hover:rounded-full"
+            size={18}
+            onClick={(event) => handleRemoveCart(event)}
+          />
+          <p className="mx-0 flex h-4 w-4 items-center justify-center rounded-full border-[0.5px] border-[#fff] text-sm font-semibold text-black">
+            {productInCart && productInCart.items}
+          </p>
+          <BiPlus
+            size={18}
+            className="ml-0 font-semibold text-primary hover:rounded-full"
+            onClick={(event) => {
+              handleAddCart(event);
+            }}
+          />
+        </div>
+        }
       </div>
 
       {!productInCart || productInCart.items === 0 ? (
@@ -270,7 +295,7 @@ return (
                 </div>
               ) : (
                 <div
-                  className="gap- absolute right-1 bottom-2 flex items-center rounded-full border bg-white p-1"
+                  className=" hidden absolute  right-1 bottom-2 sml:flex items-center rounded-full border bg-white p-1"
                   onClick={(event) => {
                     event.stopPropagation();
                   }}
