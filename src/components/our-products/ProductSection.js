@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ShopProducts from "../../pages/Default/Shop/ShopProducts";
 import Paginator from "../Paginator";
@@ -8,14 +8,16 @@ import { Loader } from "../../dashboard/Components/Loader/LoadingSpin";
 export const ProductSection = (
   {
   productClassId,
-  // category,
+  // category, 
   // setIsSectionHasProduct,
 }
 ) => {
+
+  const paginatorRef = useRef(null);
   async function fetchProducts(page, queryString) {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=300&page=${page}&fields=name,seller,createdAt,price,discountPercentage,productImages.productThumbnail.url`
+        `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=50&page=${page}&fields=name,seller,createdAt,price,discountPercentage,productImages.productThumbnail.url`
       );
       return response.data.data.products;
     } catch (error) {
@@ -44,6 +46,8 @@ export const ProductSection = (
     return data?.pages.reduce((acc, page) => [...acc, ...page], []);
   }, [data]);
 
+  
+
   // useEffect(() => {
   //   if ((products && products.length > 0) || category !== undefined) {
   //     setIsSectionHasProduct(true);
@@ -51,6 +55,30 @@ export const ProductSection = (
   //     setIsSectionHasProduct(false);
   //   }
   // }, [products]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        root: null, // Use the viewport as the root
+        rootMargin: "0px",
+        threshold: 1.0, // Trigger when 100% of the target is visible
+      }
+    );
+
+    if (paginatorRef.current) {
+      observer.observe(paginatorRef.current);
+    }
+
+    return () => {
+      if (paginatorRef.current) {
+        observer.unobserve(paginatorRef.current);
+      }
+    };
+  }, [fetchNextPage, hasNextPage]);
 
   return (
     <div className="space-y-4">
@@ -62,12 +90,14 @@ export const ProductSection = (
 
       {error && <div>Error: {error.message}</div>}
 
+      <div ref={paginatorRef}  >
       <Paginator
         isFetching={isFetching}
         isLoading={isLoading}
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}
       />
+      </div>
     </div>
   );
 };
