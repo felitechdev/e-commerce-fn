@@ -8,7 +8,7 @@ const ProductsGridContainer = (props) => {
   //   {props.children}
   // </div>
 
-  <div className="grid items-start gap-2 grid-cols-2  sml:grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))] sml:gap-6 m-auto max-w-[1400px] w-full">
+  <div className="grid items-start gap-2 gap-y-4 sml:gap-y-4 grid-cols-2  sml:grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))] sml:gap-6 m-auto max-w-[1400px] w-full">
   {props.children}
 </div>
 

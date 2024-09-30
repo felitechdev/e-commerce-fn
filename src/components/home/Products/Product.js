@@ -258,7 +258,7 @@ return (
 
         {
           productInCart && <div
-          className=" flex w-fit gap-2 px-2 sml:hidden items-center rounded-full border bg-white p-1"
+          className=" my-2 flex w-fit gap-2 px-2 sml:hidden items-center rounded-full border bg-white p-1"
           onClick={(event) => {
             event.stopPropagation();
           }}
