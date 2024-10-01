@@ -93,7 +93,7 @@ export const ProductSection = (
       <div ref={paginatorRef}  >
       <Paginator
         isFetching={isFetching}
-        isLoading={isLoading}
+        isLoading={isLoading} 
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}
       />

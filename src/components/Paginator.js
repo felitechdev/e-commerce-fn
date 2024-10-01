@@ -6,9 +6,10 @@ export default function Paginator({
   isFetching,
   fetchNextPage,
   hasNextPage,
+
 }) {
   return (
-    <div className="flex justify-center py-4 items-center">
+    <div className="flex justify-center py-4 items-center " >
       {hasNextPage ? (
         <>
           {isFetching ? (

@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useRef } from "react";
 import React, { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +19,7 @@ import { fetchProductclass } from "../../../dashboard/Redux/ReduxSlice/ProductCl
 export async function fetchProducts(page, queryString) {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=50&page=${page}&fields=name,colorMeasurementVariations,seller,price,discountPercentage,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?${queryString}&limit=10&page=${page}&fields=name,colorMeasurementVariations,seller,price,discountPercentage,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
@@ -26,6 +27,7 @@ export async function fetchProducts(page, queryString) {
     return [];
   }
 }
+
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
@@ -36,6 +38,8 @@ const Shop = () => {
   const [showfilter, setShowFilter] = React.useState(false);
   const dispatch = useDispatch();
   const queryString = query && `${query}`;
+
+  const paginatorRef = useRef(null);
 
   const {
     loading: productclassLoading,
@@ -106,6 +110,40 @@ const Shop = () => {
     };
   }, [showfilter]);
 
+
+  
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          console.log("Paginator in view, fetching next page...");
+        }
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+      }
+    );
+  
+    if (paginatorRef.current) {
+      observer.observe(paginatorRef.current);
+    }
+  
+    return () => {
+      if (paginatorRef.current) {
+        observer.unobserve(paginatorRef.current);
+      }
+    };
+  }, [fetchNextPage, hasNextPage]);
+  
+  
+
+
   return (
     <PageLayout showFooter={false}>
       <div className="max-w-container mx-auto px-4 mdl:-mt-5">
@@ -131,7 +169,7 @@ const Shop = () => {
           </div>
 
           <div className="w-full mdl:ml-[26%] flex-auto overflow-auto  h-full flex mdl:border relative flex-col gap-10">
-            <div className="fixed z-10">
+            <div className="fixed z-10 bg-black">
               <ProductBanner
                 showfilter={showfilter}
                 handlefilterShow={handlefilterShow}
@@ -142,7 +180,7 @@ const Shop = () => {
                 <Loader fontSize={38} />
               </div>
             ) : (
-              <ShopProducts
+              <ShopProducts 
                 products={products}
                 productClass={productclass}
                 category={category}
@@ -152,12 +190,15 @@ const Shop = () => {
 
             {error && <span>{error?.message}</span>}
 
-            <Paginator
-              isFetching={isFetching}
-              isLoading={isLoading}
-              hasNextPage={hasNextPage}
-              fetchNextPage={fetchNextPage}
-            />
+            <div ref={paginatorRef}  >
+      <Paginator
+        isFetching={isFetching}
+        isLoading={isLoading} 
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+      />
+      </div>
+         
           </div>
         </div>
       </div>
