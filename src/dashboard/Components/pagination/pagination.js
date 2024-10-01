@@ -22,7 +22,7 @@ export default function Pagination({ page, setPage, totalPages }) {
   };
 
   return (
-    <div className="flex justify-end space-x-2 w-full pr-6 mt-2">
+    <div className="flex  flex-wrap justify-end space-x-2 w-full pr-6 mt-2">
       <button
         className={`bg-primary text-white p-1 rounded-md ${
           page === 1 ? "opacity-50 cursor-not-allowed" : ""
@@ -55,7 +55,7 @@ export default function Pagination({ page, setPage, totalPages }) {
         onClick={handleNext}
         disabled={page === totalPages}
       >
-        Next
+        Next 
       </button>
     </div>
   );

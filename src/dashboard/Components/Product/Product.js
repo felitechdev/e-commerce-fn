@@ -33,6 +33,7 @@ import {
   ActionButton,
   SingleproductModel,
 } from "./ActionButton copy/ActionButton";
+import Pagination from "../pagination/pagination";
 import axios from "axios";
 import { CategoryList } from "../filterproducts/categorylist";
 import { useNavigate } from "react-router-dom";
@@ -343,12 +344,17 @@ export const DashProducts = () => {
     setProducts((prevProducts) => [...prevProducts, data]);
   };
 
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [totalElements, setTotalElements] = React.useState(50);
+  const totalPages = Math.ceil(totalProduct / pageSize);
   // Fetch products only when the component mounts
+  // console.log("totalProduct", totalProduct, pageSize, page);
   useEffect(() => {
     dispatch(
       fetchadminproduct({
-        page: 1,
-        pageSize: 10,
+        page: `${page}`,
+        pageSize: `${pageSize}`,
         productClass,
         SellerId,
         Arrivarls,
@@ -359,7 +365,7 @@ export const DashProducts = () => {
         setTotalProduct(data?.totalProducts);
         setProducts(data?.data?.products);
       });
-  }, [productClass, dispatch, SellerId, Arrivarls]);
+  }, [productClass, dispatch, SellerId, Arrivarls ,page]);
 
   // useEffect(() => {
   //   if (!loading) {
@@ -458,7 +464,7 @@ export const DashProducts = () => {
         ) : (
           <>
             <div className="flex  w-full justify-start space-x-5 ">
-              {FilterByNameInput}
+              { selectedlist && FilterByNameInput}
               <FilterFilled
                 className="text-[green] text-2xl"
                 onClick={handleFilterClick}
@@ -615,7 +621,12 @@ export const DashProducts = () => {
                       >
                         <div
                           style={{}}
-                          className=" rounded    shadow-md  p-2 m-3"
+                          className=" cursor-pointer rounded    shadow-md  p-2 m-3"
+
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setSingleId(product.key);
+                          }}
                         >
                           <Image
                             width="80%"
@@ -638,13 +649,15 @@ export const DashProducts = () => {
                             }}
                           />
                           <div className="font-semibold text-primary text-lg">
-                            $ {product.price}
+                             {product.price} RWF
                           </div>
                         </div>
                       </Col>
                     );
                   })}
                 </Row>
+
+                {!issearch &&   <Pagination page={page} setPage={setPage} totalPages={totalPages} />}
               </div>
             )}
           </>
