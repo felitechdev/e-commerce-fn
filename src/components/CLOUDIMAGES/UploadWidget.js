@@ -62,6 +62,7 @@ const UploadWidget = ({ children, onUpload, uploadmultiple }) => {
       maxFiles: uploadmultiple ? 6 : 1,
       cropping: true,
       croppingCoordinatesMode: "custom",
+      // background_removal:'cloudinary_ai',
 
       styles: {
         palette: {

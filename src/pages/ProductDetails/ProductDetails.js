@@ -82,13 +82,7 @@ export default function ProductDetails({ product, dispatch }) {
                   productId={product.productDetails.id}
                   handleAddwishlist={handleAddwishlist}
                 />
-                <ProductMainInfo
-                  product={product.productDetails}
-                  dispatch={dispatch}
-                  selectedMeasurement={product.selectedMeasurement}
-                  selectedColor={product.selectedColor}
-                  activeImage={product.activeImage}
-                />
+               
                 <CheckoutDetails product={product} />
 
                 <ProductSecondaryInfo product={product.productDetails} />
