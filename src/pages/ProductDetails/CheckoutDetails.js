@@ -18,18 +18,18 @@ const CheckoutDetails = ({ product }) => {
 
   // Look for the current product in cart
   const productInTheCart = cart.find(
-    (item) => item.id === product.productDetails.id
+    (item) => item.id === product?.id
   );
 
   const ValidateCartInfo = () => {
     if (productInTheCart?.items === 0) {
       setErrorMessage("Please select the quantity before proceeding.");
       return false;
-    } else if (product.productDetails.hasColors && !product.selectedColor) {
+    } else if (product.hasColors && !product.selectedColor) {
       setErrorMessage("Please select color.");
       return false;
     } else if (
-      product.productDetails.hasMeasurements &&
+      product.hasMeasurements &&
       !product.selectedMeasurement
     ) {
       setErrorMessage("Please select size.");
@@ -53,23 +53,23 @@ const CheckoutDetails = ({ product }) => {
     }
 
     let existingProduct = cart.find(
-      (item) => item.id === product.productDetails.id
+      (item) => item.id === product.id
     );
 
     if (
       existingProduct &&
-      existingProduct.items + 1 > product.productDetails.stockQuantity
+      existingProduct.items + 1 > product.stockQuantity
     ) {
       setErrorMessage(
-        `Quantity cannot exceed ${product.productDetails.stockQuantity} availble`
+        `Quantity cannot exceed ${product.stockQuantity} availble`
       );
       return false;
     }
 
     if (!existingProduct) {
       existingProduct = {
-        id: product.productDetails.id,
-        name: product.productDetails.name,
+        id: product.id,
+        name: product.name,
         ...(product.selectedColor || product.selectedMeasurement
           ? {
               variations: {
@@ -78,19 +78,19 @@ const CheckoutDetails = ({ product }) => {
                 }),
 
                 ...(product.selectedMeasurement && {
-                  [product.productDetails.colorMeasurementVariations
+                  [product.colorMeasurementVariations
                     .measurementType]: product.selectedMeasurement,
                 }),
               },
             }
           : null),
         price: discountedFinalPrice(
-          product.productDetails.price,
-          product.productDetails.discountPercentage
+          product.price,
+          product.discountPercentage
         ),
-        productThumbnail: product.productDetails.productImages.productThumbnail,
+        productThumbnail: product.productImages.productThumbnail,
         items: 1,
-        seller: product.productDetails.seller,
+        seller: product.seller,
       };
       cart.push(existingProduct);
     } else {
@@ -107,7 +107,7 @@ const CheckoutDetails = ({ product }) => {
   const handleRemoveCart = () => {
     let existingCart = JSON.parse(localStorage.getItem("cart"));
     let existingProduct = existingCart.find(
-      (item) => item.id === product.productDetails.id
+      (item) => item.id === product.id
     );
 
     // Dispatch the removeToCart action to update the Redux state
@@ -125,9 +125,9 @@ const CheckoutDetails = ({ product }) => {
   };
 
   const handleOnChange = (e) => {
-    if (+e.target.value > product.productDetails.stockQuantity) {
+    if (+e.target.value > product.stockQuantity) {
       setErrorMessage(
-        `Quantity cannot exceed ${product.productDetails.stockQuantity} available`
+        `Quantity cannot exceed ${product.stockQuantity} available`
       );
       return false;
     }
@@ -138,7 +138,7 @@ const CheckoutDetails = ({ product }) => {
       cart = [];
     }
     let existingProduct = cart.find(
-      (item) => item.id === product.productDetails.id
+      (item) => item.id === product.id
     );
 
     // Value = 0, remove item
@@ -155,19 +155,19 @@ const CheckoutDetails = ({ product }) => {
 
     if (
       existingProduct &&
-      existingProduct.items + 1 > product.productDetails.stockQuantity &&
+      existingProduct.items + 1 > product.stockQuantity &&
       !(e.nativeEvent.inputType === "deleteContentBackward")
     ) {
       setErrorMessage(
-        `Quantity cannot exceed ${product.productDetails.stockQuantity} available`
+        `Quantity cannot exceed ${product.stockQuantity} available`
       );
       return false;
     }
 
     if (!existingProduct) {
       existingProduct = {
-        id: product.productDetails.id,
-        name: product.productDetails.name,
+        id: product.id,
+        name: product.name,
         ...(product.selectedColor || product.selectedMeasurement
           ? {
               variations: {
@@ -176,16 +176,16 @@ const CheckoutDetails = ({ product }) => {
                 }),
 
                 ...(product.selectedMeasurement && {
-                  [product.productDetails.colorMeasurementVariations
+                  [product.colorMeasurementVariations
                     .measurementType]: product.selectedMeasurement,
                 }),
               },
             }
           : null),
-        price: product.productDetails.price,
-        productThumbnail: product.productDetails.productImages.productThumbnail,
+        price: product.price,
+        productThumbnail: product.productImages.productThumbnail,
         items: Number(e.target.value),
-        seller: product.productDetails.seller,
+        seller: product.seller,
       };
 
       cart.push(existingProduct);
@@ -239,8 +239,8 @@ const CheckoutDetails = ({ product }) => {
         </div>
 
         <p className="text-xs text-gray-700">
-          {product.productDetails.stockQuantity}{" "}
-          {/* {product.productDetails.quantityParameter} */}
+          {product.stockQuantity}{" "}
+          {/* {product.quantityParameter} */}
           available
         </p>
       </div>
