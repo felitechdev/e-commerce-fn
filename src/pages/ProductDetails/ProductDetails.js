@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import ProductImages from "./ProductImages";
 import ProductMainInfo from "./ProductMainInfo";
 import CheckoutDetails from "./CheckoutDetails";
@@ -12,14 +12,32 @@ export default function ProductDetails({ product, dispatch }) {
   const [sectionHasProducts, setSectionHasProducts] = useState({});
 
   const topDivRef = useRef(null);
-  const scrollToTop = () => {
-    if (topDivRef.current) {
-      setTimeout(() => {
-        topDivRef.current.scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
-     
-    }
+ 
+
+  const [visible, setVisible] = useState(false);
+
+
+  const toggleVisible = () => {
+      const scrolled = document.documentElement.scrollTop;
+      if (scrolled > 300) {
+          setVisible(true);
+      } else if (scrolled <= 300) {
+          setVisible(false);
+      }
   };
+
+  const scrollToTop = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+     
+    }); 
+    }, 2000);
+      
+  };
+
+  window.addEventListener("scroll", toggleVisible);
   const handleAddwishlist = async (id) => {
     // event.stopPropagation();
 
@@ -72,10 +90,12 @@ export default function ProductDetails({ product, dispatch }) {
     <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
       <div className="max-w-container mx-auto p-4 mt-10">
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
-          <div className="flex flex-col gap-14 ">
-            <div  ref={topDivRef} className="flex flex-col   sml:flex-row sml:flex-wrap gap-12 items-start ">
+          <div className="flex flex-col gap-1 ">
+            <div  ref={topDivRef} className="h-1"></div>
+            <div   className="flex flex-col   sml:flex-row sml:flex-wrap gap-12 items-start ">
               
                 <ProductImages
+               
                   productImages={product.productDetails.productImages}
                   activeImage={product.activeImage}
                   dispatch={dispatch}
