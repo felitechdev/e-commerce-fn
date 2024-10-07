@@ -83,8 +83,8 @@ const ProductImages = ({
         className="mt-4 inline-block  
        lg:w-[35%]"
       >
-        <div className="flex flex-col gap-3 items-center">
-          <div className="relative md:w-[428px]  flex items-center justify-center h-[418px] p-1 rounded-md overflow-hidden">
+        <div className="flex flex-col gap-3 items-center justify-center">
+          <div className="relative md:w-[428px] k  flex items-center justify-center h-[418px] p-1 rounded-md overflow-hidden">
             {productInwhishlist || clicked ? (
               <FiHeart
                 className="absolute z-30 text-[red] right-2 top-2 bg-red-100 hover:text-[#1D6F2B] hover:bg-[#E5E5E5] rounded-full py-2.5 px-2.5 cursor-pointer"
@@ -99,7 +99,7 @@ const ProductImages = ({
             )}
 
             <div
-              className="overflow-hidden cursor-pointer hover:border hover:rounded-md hover:border-primary  w-full h-full"
+              className="overflow-hidden cursor-pointer hover:border  flex justify-center  hover:rounded-md hover:border-primary  w-full h-full"
               onMouseMove={isSmallScreen ? null : handleMouseMove}
               onMouseLeave={isSmallScreen ? null : handleMouseLeave}
             >
@@ -113,7 +113,7 @@ const ProductImages = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-row gap-1">
+        <div className="flex flex-row gap-1 justify-center ">
           <SmallImagesContainer
             images={[
               productImages?.productThumbnail,

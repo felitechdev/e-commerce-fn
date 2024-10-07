@@ -73,8 +73,8 @@ export default function ProductDetails({ product, dispatch }) {
       <div className="max-w-container mx-auto p-4 mt-10">
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-14 ">
-            <div  ref={topDivRef} className="flex flex-col  mdl:flex-row mdl:flex-wrap gap-12 items-center">
-              <>
+            <div  ref={topDivRef} className="flex flex-col   sml:flex-row sml:flex-wrap gap-12 items-start ">
+              
                 <ProductImages
                   productImages={product.productDetails.productImages}
                   activeImage={product.activeImage}
@@ -82,11 +82,18 @@ export default function ProductDetails({ product, dispatch }) {
                   productId={product.productDetails.id}
                   handleAddwishlist={handleAddwishlist}
                 />
+                 <ProductMainInfo
+                  product={product.productDetails}
+                  dispatch={dispatch}
+                  selectedMeasurement={product.selectedMeasurement}
+                  selectedColor={product.selectedColor}
+                  activeImage={product.activeImage}
+                />
                
-                <CheckoutDetails product={product} />
+                {/* <CheckoutDetails product={product} /> */}
 
-                <ProductSecondaryInfo product={product.productDetails} />
-              </>
+                {/* <ProductSecondaryInfo product={product.productDetails} /> */}
+              
             </div>
           </div>
 

@@ -82,12 +82,15 @@ const Product = () => {
     <>
       <PageLayout showFooter={true}>
         {product.status === "loading" && (
-          <div className="max-w-container mx-auto h-[80vh] px-4">
+          <div className="max-w-container mx-auto h-[100vh] px-4 space-y-4 items-center text-center">
             <SkeletonSpinner />
+            
+            <SkeletonSpinner />
+         
 
-            <div className="w-[50%] h-[50%] m-auto ">
-              <ImageSkeleton />
-            </div>
+            {/* <div className=" hidden sml:flex w-[50%] h-[50%] m-auto  ">
+              <ImageSkeleton />  <ImageSkeleton />  <ImageSkeleton /> 
+            </div> */}
           </div>
         )}
 

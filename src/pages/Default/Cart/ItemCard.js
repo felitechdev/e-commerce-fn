@@ -41,7 +41,7 @@ const ItemCard = ({
           )}
         </div>
       </div>
-      <div className="   flex items-center col-span-5  w-auto justify-between py-4 mdl:py-0 px-2 mdl:px-0 gap-6 mdl:gap-0">
+      <div className="   flex items-center flex-wrap sml:flex-nowrap col-span-5  w-auto justify-between py-4 mdl:py-0 px-2 mdl:px-0 gap-6 mdl:gap-0">
         <span className=" whitespace-nowrap ">
           {itemInfo.price.toLocaleString() + " RWF"}
         </span>{" "}
@@ -69,7 +69,7 @@ const ItemCard = ({
         </div>
         <div className=" flex flex-col justify-center w-full font-titleFont">
           <p className="items-center  font-semibold text-">
-            {(itemInfo.price * itemInfo.items).toLocaleString()} RWF
+         Tot:   {(itemInfo.price * itemInfo.items).toLocaleString()} RWF
           </p>
           <p className="text-xs">
             {/* {itemInfo.deliveryFee > 0
@@ -84,7 +84,7 @@ const ItemCard = ({
 
 export const ItemCardCheckout = ({ itemInfo }) => {
   return (
-    <div className="w-full flex flex-wrap   mb-4 h-fit border py-2 px-2 rounded-lg">
+    <div className="w-full flex flex-wrap bg-white   mb-4 h-fit border py-2 px-2 rounded-lg">
       <div className="flex  flex-wrap  col-span-5  mdl:col-span-2  ml-4 ">
         <img
           className=" w-1/2 md:w-32 rounded-md  h-32"
