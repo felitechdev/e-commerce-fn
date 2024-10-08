@@ -92,7 +92,6 @@ export default function HomePageCategories() {
         <IoMdMenu className="h-5 w-5 text-white" />
         <h3 className="text-sm font-medium text-white">Shop by Categories</h3>
 
-        {/* <h3 className=" text-white text-lg font-semibold">Product Class</h3> */}
       </div>
 
       {productclassLoading && (
@@ -136,34 +135,11 @@ export default function HomePageCategories() {
         </div>
       )}
 
-      {/* {!productclassLoading && (
-        <div className="flex relative rounded h-full overflow-auto">
-          <ul className="w-full flex flex-col rounded-b">
-            {categories?.map((category) => (
-              <li
-                className={`flex gap-4 cursor-pointer  font-medium  hover:font-semibold items-center justify-between hover:bg-[#239636] hover:text-white text-[14px] ${
-                  hoveredCategory === category.name &&
-                  "bg-[#1D6F2B] text-white "
-                }`}
-                key={category.name}
-                onMouseEnter={() => handleMouseEnter(category.id)}
-              >
-                <Link
-                  to={`shop/?category=${hoveredCategory}`}
-                  className="capitalize-first w-full  p-2"
-                >
-                  {category.name}
-                </Link>{" "}
-                {hoveredCategory === category.id && <HiChevronRight />}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )} */}
+     
 
       {hoveredproductclass && (
         // bg-gray-200
-        <div className="b-0 absolute left-full z-10 ml-0 min-h-full w-[700px] rounded bg-gray-200 py-6 text-[13px] shadow-md sm:w-[1000px]">
+        <div className="b-0 absolute left-full z-10 ml-0 min-h-full w-[700px]   sm:w-[1000px] rounded bg-gray-200 py-6 text-[13px] shadow-md ">
           {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
           <ul className="grid grid-cols-4 gap-2">
             {productclassData
@@ -181,7 +157,7 @@ export default function HomePageCategories() {
                     <Link
                       // to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
                       to={`shop/?productClass=${hoveredproductclass}&category=${Cat.id}`}
-                      className="flex capitalize"
+                      className="flex capitalize whitespace-nowrap"
                     >
                       {Cat.name}
                     </Link>
@@ -209,15 +185,7 @@ export default function HomePageCategories() {
                         </li>
                       ))}
 
-                    {/* <ul className=" px-4 flex-col justify-start ">
-                      {sub_sub_category.map((sub) => {
-                        return (
-                          <li className=" hover:underline hover:text-black text-left text-sm text-gray-500">
-                            {sub}
-                          </li>
-                        );
-                      })}
-                    </ul> */}
+                  
                   </div>
                 </div>
               ))}
