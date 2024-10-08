@@ -287,7 +287,7 @@ const Header = (props) => {
                       className="font-titleFont mb-2 flex cursor-pointer items-center justify-between text-base"
                     >
                       Shop by Category{" "}
-                      <span className="text-lg">{category ? "-" : "+"}</span>
+                      <span className="text-xl">{category ? "-" : "+"}</span>
                     </h1>
                     {category && !isLoading && (
                       <motion.ul
@@ -305,7 +305,7 @@ const Header = (props) => {
                               ismobile={true}
                             />
                           </div>
-                          <div className="z-0">
+                          {/* <div className="z-0">
                             <ProductCategoryAccordion
                               ismobile={true}
                               setSidenav={setSidenav}
@@ -324,7 +324,7 @@ const Header = (props) => {
                               setSidenav={setSidenav}
                               ismobile={true}
                             />
-                          </div>
+                          </div> */}
                         </div>
                       </motion.ul>
                     )}
@@ -512,7 +512,7 @@ const Header = (props) => {
                       className="font-titleFont mb-2 flex cursor-pointer items-center justify-between text-base"
                     >
                       Shop by Category{" "}
-                      <span className="text-lg">{category ? "-" : "+"}</span>
+                      <span className="text-xl">{category ? "-" : "+"}</span>
                     </h1>
                   </div>
                   <div className="mt-4">

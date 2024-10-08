@@ -9,7 +9,7 @@ import { fetchProductclass } from "../../../../dashboard/Redux/ReduxSlice/Produc
 const ProductCategoryAccordion = (props) => {
   const [showCategory, setShowCategory] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const categoryId = searchParams.get("category");
   const subcategoryId = searchParams.get("subCategory");
   const productclassId = searchParams.get("productClass");

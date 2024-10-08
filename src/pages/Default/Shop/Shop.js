@@ -168,7 +168,7 @@ const Shop = () => {
             <ShopSideNav brands={category && category.brands} />
           </div>
 
-          <div className="w-full mdl:ml-[26%] flex-auto overflow-auto  h-full flex mdl:border relative flex-col gap-10">
+          <div className="w-full mdl:ml-[26%] flex-auto overflow-auto  scrollbar-hide h-full flex mdl:border relative flex-col gap-5">
             <div className="fixed z-10 bg-black">
               <ProductBanner
                 showfilter={showfilter}

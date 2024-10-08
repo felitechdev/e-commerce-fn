@@ -1,7 +1,7 @@
 import React from "react";
-import { BiCaretDown } from "react-icons/bi";
+import { BiCaretDown, BiCaretUp } from "react-icons/bi";
 
-const NavTitle = ({ title, icons, classname }) => {
+const NavTitle = ({ title, icons, classname , showBrands }) => {
   return (
     <div className="flex items-center justify-between pb-5">
       {icons ? (
@@ -10,7 +10,12 @@ const NavTitle = ({ title, icons, classname }) => {
           <h2 className={`font-semibold ${classname}  text-primeColor`}>
             {title}
           </h2>
-          {icons && <BiCaretDown className="text-black" zise={24} />}
+          {icons && showBrands? 
+
+
+<BiCaretUp className="text-black text-xl" zise={24} />: <BiCaretDown className="text-black text-xl" zise={24} />
+          
+        }
         </>
       ) : (
         <>
