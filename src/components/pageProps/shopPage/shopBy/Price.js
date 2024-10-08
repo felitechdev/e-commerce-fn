@@ -38,7 +38,7 @@ const Price = ({ handlefilterShow }) => {
 
   return (
     <div className="cursor-pointer">
-      <NavTitle title="Shop by Price" icons={true} />
+      <NavTitle title="Shop by Price" icons={false} />
       <div className="font-titleFont">
         <form class="w-full max-w-lg" onSubmit={handleSubmit}>
           <div class=" mdl:flex mdl:gap-4 mdl:items-end space-y-2 ">

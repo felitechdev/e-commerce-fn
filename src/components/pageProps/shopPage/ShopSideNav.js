@@ -21,6 +21,8 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
   const query = searchParams.toString();
   const categoryId = searchParams.get("category");
   const [category, setCategory] = useState(false);
+  const [brandOfProductClass, setBrandOfProductClass]= useState([])
+
   return (
     <div
       className="w-full px-6 py-4 flex flex-col gap-6 relative  z-30   bg-white   "
@@ -57,7 +59,7 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
           className="flex justify-between  p-1 rounded-md text-base font-semibold cursor-pointer items-center font-titleFont mb-2"
         >
           Shop by Categories & Brands
-          <span className="text-lg">{category ? "-" : "+"}</span>
+          <span className="text-xl">{category ? "-" : "+"}</span>
         </h1>
         {category && (
           <motion.ul
@@ -69,9 +71,9 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
             <div className="flex-col w-full space-y-2  overflow-auto mdl:overflow-hidden ">
               {" "}
               <div className=" z-0 ">
-                <ProductClassAccordion ismobile={false} />
+                <ProductClassAccordion ismobile={false} setBrandOfProductClass={setBrandOfProductClass} />
               </div>
-              <div className="z-0">
+              {/* <div className="z-0">
                 <ProductCategoryAccordion ismobile={false} />
               </div>
               {categoryId && (
@@ -81,12 +83,14 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
               )}
               <div className="z-0 ">
                 <ProductBrandAccordion ismobile={false} />
-              </div>
+              </div> */}
             </div>
           </motion.ul>
         )}
       </div>
-      <Brand brands={brands} handlefilterShow={() => handlefilterShow()} />
+    {brandOfProductClass.length>0 &&
+     <Brand brands={brandOfProductClass} handlefilterShow={() => handlefilterShow()} />
+     }  
       {/* <Category icons={true} /> */}
       <Color />
     </div>

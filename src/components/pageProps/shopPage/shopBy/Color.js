@@ -49,7 +49,7 @@ const Color = () => {
         onClick={() => setShowColors(!showColors)}
         className='cursor-pointer'
       >
-        <NavTitle title='Shop by Color' icons={true} />
+        <NavTitle title='Shop by Color' icons={true} showBrands={showColors} />
       </div>
       {showColors && (
         <motion.div

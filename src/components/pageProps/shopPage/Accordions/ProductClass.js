@@ -5,12 +5,17 @@ import { useSelector } from "react-redux";
 import { useSearchParams, Link } from "react-router-dom";
 import { fetchProductBrand } from "../../../../dashboard/Redux/ReduxSlice/ProductBrand.slice";
 import { useDispatch } from "react-redux";
+import { BiCaretDown, BiCaretUp } from "react-icons/bi";
+
 import { fetchProductclass } from "../../../../dashboard/Redux/ReduxSlice/ProductClass";
 const ProductClassAccordion = (props) => {
   const [showBrands, setShowBrands] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [clickCount, setClickCount] = useState(0);
   const [selectedProductClass, setSelectedProductClass] = useState(null);
+  const [isdropdownOpen, setIsdropdownOpen] = useState(false);
+  const [dropdownState, setDropdownState] = useState({}); // State to track dropdowns
+  
   const dispatch = useDispatch();
   // const handleOnClickBrand = (productclass) => {
   //   searchParams.set("productClass", productclass.id);
@@ -23,22 +28,28 @@ const ProductClassAccordion = (props) => {
     setSearchParams(newSearchParams);
   };
 
-  const categoryId = searchParams.get("productClass");
+
+  const handleOnClickCategory = (category) => {
+    const newSearchParams = new URLSearchParams();
+    newSearchParams.set("productClass", category.productClass);
+    newSearchParams.set("category", category.id);
+    setSearchParams(newSearchParams);
+  };
+  const categoryId = searchParams.get("category");
+  const productClassId = searchParams.get("productClass");
 
   const handleOnClickBrand2 = (productclass) => {
     setClickCount(clickCount + 1);
-    // if (clickCount === 0) {
-    //   setSelectedProductClass(productclass.id);
-    //   setClickCount(1);
-    //   // Update props here
-    // } else if (clickCount === 1 && productclass.id === selectedProductClass) {
-    //   const newSearchParams = new URLSearchParams();
-    //   newSearchParams.set("productClass", productclass.id);
-    //   setSearchParams(newSearchParams);
-    //   // Navigate to new page
-    //   props.history.push(`/shop/?productClass=${productclass.id}`);
-    // }
+  
   };
+
+  const toggleDropdown = (id) => {
+    setDropdownState((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id], // Toggle dropdown for the specific item
+    }));
+  };
+
 
   const {
     loading: productclassLoading,
@@ -50,38 +61,62 @@ const ProductClassAccordion = (props) => {
     dispatch(fetchProductclass());
   }, [dispatch]);
 
+  const handleDropdown = (
+e
+  ) => {
+    e.preventDefault();
+    setIsdropdownOpen(!isdropdownOpen);
+
+  };
+
+
+  console.log("productclassData", productclassData);
+
+  //  get brands from productclass
+  useEffect(() => {
+    if (productclassData && productClassId && productClassId !== "") {
+    
+      let pclass=   productclassData.find((item) => item.id === productClassId)
+
+      props.setBrandOfProductClass && props.setBrandOfProductClass(pclass?.brands)
+      
+    }
+  },[productclassData, productClassId]);
+
+
+
+
  
 
   return (
-    <div className=" text-sm bg-slate-100 border-2 py-2 rounded-md px-2 z-50   shadow-md">
-      <div
+    <div className=" text-sm  py-2 rounded-md px-2 z-50   shadow-md">
+      {/* <div
         onClick={() => setShowBrands(!showBrands)}
         className="cursor-pointer h-6 "
       >
         <NavTitle title="Category1 " icons={true} classname={""} />
-      </div>
-      {showBrands && (
+      </div> */}
+      {true && (
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <ul className="flex flex-col gap-4 text-sm  py-2  text-[#767676]">
+          <ul className="flex flex-col gap-4 text-sm  py-2  ">
             {!productclassLoading &&
               productclassData &&
               productclassData?.map((item) =>
                 props.ismobile == false ? (
+                  <>
                   <li
                     key={item}
-                    onClick={() => {
-                      handleOnClickBrand(item);
-                    }}
-                    className={`border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer
+                   
+                    className={`border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center justify-between gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer
                       
                       
 
                       ${
-                        item.id === categoryId
+                        item.id === productClassId
                           ? " border-b-primary text-primary font-semibold"
                           : ""
                       }
@@ -89,7 +124,14 @@ const ProductClassAccordion = (props) => {
                       
                       `}
                   >
-                     <img
+                    <span  className=" space-x-2  flex items-center " 
+
+                     onClick={() => {
+                          handleOnClickBrand(item);
+                     }}
+                    
+                    
+                    >  <img
                       src={`${
                       item?.icon
                         ? item.icon
@@ -98,8 +140,47 @@ const ProductClassAccordion = (props) => {
                     alt=""
                     className="h-5 w-5 object-cover"
                   />
-                    {item.name} 
+                  <h1>  {item.name} </h1>
+                   </span>
+                   
+                    {true &&
+                    
+                     dropdownState[item.id] ?
+                    
+                    <BiCaretUp className="text-black text-xl "  key={item.id}  onClick={(e) =>{
+                      toggleDropdown(item.id)
+                    }}/>:
+                    
+                    <BiCaretDown className="text-black text-xl "  key={item.id}
+
+                    onClick={(e) =>{
+                      toggleDropdown(item.id)
+                    }}
+                    
+                    
+                    />
+                    
+                    
+                    }
                   </li>
+
+                  {dropdownState[item.id] && (
+                    <ul className="flex flex-col gap-4 text-sm py-2 list-disc text-[#767676] ml-2">
+                      {item?.categories.map((subitem) => (
+                        <li
+                          key={subitem.id}
+                          className={`border-b-[1px] list-disc capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer
+                            ${subitem.id === categoryId ? "border-b-primary text-primary font-semibold" : ""}
+                          `}
+                          onClick={() => handleOnClickCategory(subitem)}
+                        >
+                          {subitem.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  </>
                 ) : (
                   <>
                     {clickCount < 1 && (
@@ -121,15 +202,7 @@ const ProductClassAccordion = (props) => {
                           `}
                       >
                        
-                        {/* <img
-                      src={`${
-                      item?.icon
-                        ? item.icon
-                        : "https://placehold.jp/80x80.png"
-                      } `}
-                    alt=""
-                    className="h-5 w-5 object-cover"
-                  /> */}
+                        
                         {item.name}
                       </li>
                     )}
@@ -148,6 +221,7 @@ const ProductClassAccordion = (props) => {
                         }}
                       >
                         {item.name}
+
                       </Link>
                     )}
                   </>
