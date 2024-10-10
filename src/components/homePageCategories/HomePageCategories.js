@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { HiChevronRight } from "react-icons/hi2";
@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductclass } from "../../dashboard/Redux/ReduxSlice/ProductClass";
 import { IoMdMenu } from "react-icons/io";
+import { IoCloseSharp } from "react-icons/io5";
 export async function fetchCategories() {
   try {
     const response = await axios.get(
@@ -34,7 +35,7 @@ const sub_sub_category = [
   "Digital Pen Tablet",
 ];
 
-export default function HomePageCategories() {
+export default function HomePageCategories( props) {
   const {
     isLoading,
     data: categories,
@@ -58,7 +59,7 @@ export default function HomePageCategories() {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [hoveredproductclass, setHoveredproductclass] = useState(null);
   const [hoveredSubCategory, setHoveredSubCategory] = useState(null);
-
+ 
   const handleMouseEnter = (element) => {
     setHoveredCategory(element);
   };
@@ -83,14 +84,24 @@ export default function HomePageCategories() {
     setHoveredproductclass(null);
   };
 
+
+  // h-100px
+
   return (
     <div
       className="relative hidden h-full w-full flex-col gap-2 rounded-t-[15px] bg-[#D9D9D970] lg:flex"
       onMouseLeave={handleMouseLeaveproductclass}
     >
-      <div className="flex items-center gap-3 rounded-t bg-[#1D6F2B] p-2">
+      <div className="flex items-center gap-3 rounded-t bg-[#1D6F2B] p-2 relative">
         <IoMdMenu className="h-5 w-5 text-white" />
         <h3 className="text-sm font-medium text-white">Shop by Categories</h3>
+
+
+        {
+          props.showcategory && <IoCloseSharp onClick={()=>{
+            props.handleCategoryMenu && props.handleCategoryMenu()
+          }} className="text-[red] text-xl  absolute right-2" />
+        }
 
       </div>
 

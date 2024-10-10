@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import Image from "../designLayouts/Image";
 import HomePageCategories from "../homePageCategories/HomePageCategories";
 import ImageSlider, { getCloudinaryUrl } from "../imageslider/ImageSlider";
+import { IoMdMenu } from "react-icons/io";
 // change i made
 const Banner = ({ ...props }) => {
   const [dotActive, setDocActive] = useState(0);
+ 
 
   const navigate = useNavigate();
 
@@ -120,15 +122,82 @@ const Banner = ({ ...props }) => {
     ],
   };
 
+ 
+
+
+
+  const [showcategory, setShowCategory] = useState(false); // Control visibility of shopcategory
+  const [categoryMenuIsOpen, setCategoryMenuIsOpen] = useState(false); // Control menu toggle
+
+  // Handle category menu toggle
+  const handleCategoryMenu = () => {
+    setCategoryMenuIsOpen(!categoryMenuIsOpen);
+
+    if (categoryMenuIsOpen) {
+      document.querySelector(".shopcategory").style.position = "relative";
+      document.querySelector(".shopcategory").style.zIndex = "0";
+      document.querySelector(".shopcategory").style.height = "100%";
+      setShowCategory(false
+      );
+    }
+
+  };
+
+  // Handle scroll behavior to fix the category menu after 300px
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300 && !categoryMenuIsOpen) {
+        document.querySelector(".shopcategory").style.position = "fixed";
+        document.querySelector(".shopcategory").style.zIndex = "1000";
+        document.querySelector(".shopcategory").style.height = "300px";
+        setShowCategory(true);
+      } else {
+        document.querySelector(".shopcategory").style.position = "relative";
+        document.querySelector(".shopcategory").style.zIndex = "0";
+        document.querySelector(".shopcategory").style.height = "100%";
+        setShowCategory(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [categoryMenuIsOpen]);
+
+  // Control the visibility of the `show-hide` toggle button
+  useEffect(() => {
+    const showHideButton = document.querySelector(".show-hide");
+    if (categoryMenuIsOpen) {
+      showHideButton.style.display = "block";
+      showHideButton.style.position = "fixed";
+      showHideButton.style.top = "0";
+      showHideButton.style.right = "0";
+      showHideButton.style.zIndex = "1000";
+    } else {
+      showHideButton.style.display = "none";
+    }
+  }, [categoryMenuIsOpen]);
+
+      
+
+
   const optimizedImageUrl = "";
 
   return (
     <div className=" bg-white max-w-container px-2  md:px-6 m-auto flex justify-center h-64">
       <div className="w-full lg:container">
         <div className="relative w-full flex gap-4 py-2 h-full">
-          <div className="hidden lg:w-[20%] lg:block">
-            {" "}
-            <HomePageCategories />
+       
+            
+        <div className="hidden lg:w-[20%] lg:block show-hide cursor-pointer bg-[red]">
+            <IoMdMenu className="h-5 w-5 text-primary" onClick={handleCategoryMenu} />
+          </div>
+              
+            
+          <div className="hidden lg:w-[20%] lg:block bg-white  shopcategory" >
+            <HomePageCategories  showcategory={showcategory}  handleCategoryMenu={handleCategoryMenu} />
           </div>
           <div className="block lg:w-[20%] lg:hidden absolute z-10 left-4 w-[30%]  opacity-0.5 ">
             {" "}
