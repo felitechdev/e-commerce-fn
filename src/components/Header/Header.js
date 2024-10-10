@@ -107,11 +107,11 @@ const Header = (props) => {
   return (
     <div className="h-100px sticky top-0 z-50 w-full border-b-[1px] border-b-gray-200 bg-white">
       <div className="flex justify-end border-b-[1px] border-b-gray-200 bg-[white] px-4 py-1 text-black md:hidden">
-        <ul className="z-50 flex items-center gap-1 p-0 md:max-w-[320px] lg:max-w-[400px]">
+        <ul className="z-50 flex items-center w-full  justify-between  gap-1 p-0 md:max-w-[320px] lg:max-w-[400px]">
           <div className="">
             {" "}
             <Link to="/">
-              <Image className=" " imgSrc={FeliTechLogo_transparent} />
+              <Image className="h-[80px] w-[156px]" imgSrc={FeliTechLogo_transparent} />
             </Link>
           </div>
           <li className="">
