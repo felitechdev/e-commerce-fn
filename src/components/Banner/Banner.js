@@ -126,22 +126,44 @@ const Banner = ({ ...props }) => {
 
 
 
-  const [showcategory, setShowCategory] = useState(false); // Control visibility of shopcategory
+  const [showCategory, setShowCategory] = useState(false); // Control visibility of shopcategory
   const [categoryMenuIsOpen, setCategoryMenuIsOpen] = useState(false); // Control menu toggle
 
   // Handle category menu toggle
-  const handleCategoryMenu = () => {
+  const handleCategoryMenu = async () => {
     setCategoryMenuIsOpen(!categoryMenuIsOpen);
-
     if (categoryMenuIsOpen) {
       document.querySelector(".shopcategory").style.position = "relative";
       document.querySelector(".shopcategory").style.zIndex = "0";
       document.querySelector(".shopcategory").style.height = "100%";
-      setShowCategory(false
-      );
+      document.querySelector(".shopcategory").style.display="block";
+    
+    }
+    else{
+      document.querySelector(".shopcategory").style.display="none";
+
     }
 
+    const showHideButton = await document.querySelector(".show-hide");
+    if (window.scrollY > 300 && showHideButton.style.display == "none" ) {
+      document.querySelector(".shopcategory").style.position = "fixed";
+      document.querySelector(".shopcategory").style.zIndex = "1000";
+      document.querySelector(".shopcategory").style.height = "300px";
+      document.querySelector(".shopcategory").style.marginTop = "-30px";
+   
+    }
+
+
   };
+
+  useEffect(()=>{
+    const showHideButton = document.querySelector(".show-hide");
+    if (window.scrollY < 300) {
+      showHideButton.style.display = "none";
+      showHideButton.style.zIndex = "auto";
+    }
+  } , [window.scrollY])
+
 
   // Handle scroll behavior to fix the category menu after 300px
   useEffect(() => {
@@ -150,10 +172,13 @@ const Banner = ({ ...props }) => {
         document.querySelector(".shopcategory").style.position = "fixed";
         document.querySelector(".shopcategory").style.zIndex = "1000";
         document.querySelector(".shopcategory").style.height = "300px";
+        document.querySelector(".shopcategory").style.marginTop = "-30px";
         setShowCategory(true);
+
       } else {
+        document.querySelector(".shopcategory").style.display="block";
         document.querySelector(".shopcategory").style.position = "relative";
-        document.querySelector(".shopcategory").style.zIndex = "0";
+        document.querySelector(".shopcategory").style.zIndex = "auto";
         document.querySelector(".shopcategory").style.height = "100%";
         setShowCategory(false);
       }
@@ -169,16 +194,18 @@ const Banner = ({ ...props }) => {
   // Control the visibility of the `show-hide` toggle button
   useEffect(() => {
     const showHideButton = document.querySelector(".show-hide");
-    if (categoryMenuIsOpen) {
+    if (categoryMenuIsOpen && window.scrollY > 300 ) {
       showHideButton.style.display = "block";
       showHideButton.style.position = "fixed";
-      showHideButton.style.top = "0";
-      showHideButton.style.right = "0";
+      showHideButton.style.marginTop ="-30px";
+  
       showHideButton.style.zIndex = "1000";
     } else {
       showHideButton.style.display = "none";
+      showHideButton.style.zIndex = "auto";
+      setCategoryMenuIsOpen(false);
     }
-  }, [categoryMenuIsOpen]);
+  }, [categoryMenuIsOpen,window.scrollY ]);
 
       
 
@@ -191,13 +218,13 @@ const Banner = ({ ...props }) => {
         <div className="relative w-full flex gap-4 py-2 h-full">
        
             
-        <div className="hidden lg:w-[20%] lg:block show-hide cursor-pointer bg-[red]">
-            <IoMdMenu className="h-5 w-5 text-primary" onClick={handleCategoryMenu} />
+         <div className="hidden  lg:w-fit lg:flex show-hide cursor-pointer "  onClick={handleCategoryMenu}>
+            <span className="bg-primary  rounded-md p-1  text-white flex justify-between items-center space-x-2"> <span> <IoMdMenu className="h-5 w-5 "  /></span> <p> Shop by Categories</p> </span>
           </div>
               
             
           <div className="hidden lg:w-[20%] lg:block bg-white  shopcategory" >
-            <HomePageCategories  showcategory={showcategory}  handleCategoryMenu={handleCategoryMenu} />
+            <HomePageCategories  showcategory={showCategory}  handleCategoryMenu={handleCategoryMenu} />
           </div>
           <div className="block lg:w-[20%] lg:hidden absolute z-10 left-4 w-[30%]  opacity-0.5 ">
             {" "}
