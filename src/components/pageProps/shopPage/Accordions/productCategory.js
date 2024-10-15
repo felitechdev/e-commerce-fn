@@ -55,7 +55,7 @@ const ProductCategoryAccordion = (props) => {
                   key={item.id}
                   onClick={() => {
                     if (props.ismobile) {
-                      console.log(props, props?.setSidenav);
+
                       // props.setSidenav(false);
                     }
                     handleOnClickBrand(item);

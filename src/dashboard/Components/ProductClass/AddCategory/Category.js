@@ -98,7 +98,6 @@ export const ProductClassForm = (props) => {
       });
   };
   const onErrors = (errors) => {
-    console.log("err", errors);
   };
 
   const validateMessages = {

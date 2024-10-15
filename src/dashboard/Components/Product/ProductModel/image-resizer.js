@@ -79,14 +79,14 @@ export const ImageResizer = () => {
         0,
         (uri) => {
           setNewImage(uri);
-          console.log("url", uri);
+     
         },
         "base64",
         width,
         height
       );
     } catch (err) {
-      console.log("error on image resizer", err);
+  
     }
   };
 

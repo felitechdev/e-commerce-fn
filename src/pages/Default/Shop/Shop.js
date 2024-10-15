@@ -117,7 +117,6 @@ const Shop = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          console.log("Paginator in view, fetching next page...");
         }
         if (entries[0].isIntersecting && hasNextPage) {
           fetchNextPage();
