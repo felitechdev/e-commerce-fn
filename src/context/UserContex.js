@@ -11,6 +11,7 @@ function UserProvider({ children }) {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   function onLogin(user) {
+   
     setUser(user);
   }
 

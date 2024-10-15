@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 
-import Cookies from "js-cookie";
+import Cookies, { set } from "js-cookie";
 import AlertComponent from "../designLayouts/AlertComponent";
 import { useUser } from "../../context/UserContex";
 import { Enable2FaModal } from "./Enable2Fa";
 import RequestActivate from "./requestActivationEmail";
 import { Alert } from "flowbite-react";
+
 
 export const AlertComp = (props) => {
   const [loading, setLoading] = useState(false);
@@ -67,7 +68,7 @@ export const AlertComp = (props) => {
 };
 
 const SignInForm = (props) => {
-  const { onLogin } = useUser();
+  const { onLogin, onLogout } = useUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,6 +86,7 @@ const SignInForm = (props) => {
   const [openactivatemodel, setOpenactivatemodel] = useState(false);
   const [emailMessage, setEmailMessage] = useState(null);
   const [showEnable2fa, setShowEnable2fa] = useState(false);
+  const [is2faCancelled, setIs2faCancelled] = useState(false);
 
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -148,8 +150,8 @@ const SignInForm = (props) => {
       }
 
       if (result.status === 200) {
-        setEmail("");
-        setPassword("");
+        // setEmail("");
+        // setPassword("");
         setLoading(false);
         Cookies.set("token", result?.data?.token);
         onLogin({
@@ -160,6 +162,10 @@ const SignInForm = (props) => {
         setUser(result.data.data.user);
 
         if (result.data.data.user?.twoFactorAuthEnabled === false) {
+          onLogin({
+            ...result.data.data.user,
+            token: result.data.token,
+          });
           setShowEnable2fa(true);
         }
       }
@@ -188,6 +194,85 @@ const SignInForm = (props) => {
       setLoading(false);
     }
   };
+
+  const signuserin = async (email, password) => {
+    await onLogout();
+   try {
+    setLoading(true);
+    let userData = {
+      email: email,
+      password: password,
+    };
+    const result = await axios({
+      url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/login`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: userData,
+    });
+
+    if (result.status === 200) {
+      setEmail("");
+      setPassword("");
+      setLoading(false);
+      Cookies.set("token", result?.data?.token);
+      onLogin({
+        ...result.data.data.user,
+        token: result.data.token,
+      });
+      setUser(result.data.data.user);
+
+
+      if (user?.role === "customer") {
+        navigate("/", { replace: true });
+      } else if (user?.role === "seller"|| user?.role === "admin") {
+        navigate("/user", { replace: true });
+      }
+
+      
+    }
+    
+   }  catch (err) {
+    if (err?.response?.data?.status === "fail") {
+      setSignInError(err.response.data.message);
+
+      console.log(
+        "Email not verified!",
+        err.response.data.message ===
+          "Your email has not been verified yet. Please check your inbox for the verification link or click here to resend the verification email."
+      );
+
+      if (
+        err.response.data.message ===
+        "Your email has not been verified yet. Please check your inbox for the verification link or click here to resend the verification email."
+      ) {
+        setIsAccountActivated(false);
+      } else {
+        setIsAccountActivated(true);
+      }
+    } else {
+      setSignInError("Unable to sign you in! Try again later.");
+    }
+  } finally {
+    setLoading(false);
+  }
+
+  }
+
+  useEffect(() => {
+    if (is2faCancelled) {
+  signuserin(email, password);
+      setShowEnable2fa(false);
+      // setIs2faCancelled(false);
+      // if (user?.role === "customer") {
+      //   navigate("/", { replace: true });
+      // } else if (user?.role === "seller"|| user?.role === "admin") {
+      //   navigate("/user", { replace: true });
+      // }
+    }
+  }
+  ,[is2faCancelled])
   return (
     <div className=" w-full  text-center ">
       {showEnable2fa && (
@@ -195,6 +280,7 @@ const SignInForm = (props) => {
           showEnable2fa={showEnable2fa}
           setShowEnable2fa={setShowEnable2fa}
           res={user}
+          setIs2faCancelled={setIs2faCancelled}
         />
       )}
       {/* {!isaccountActivated && (

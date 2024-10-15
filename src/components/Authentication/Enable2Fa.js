@@ -9,12 +9,14 @@ import { IoCloseSharp } from "react-icons/io5";
 
 import AlertComponent from "../designLayouts/AlertComponent";
 import { useUser } from "../../context/UserContex";
+import { checkAuthentication } from "../../APIs/UserAPIs";
 
 export const Enable2FaModal = ({
   showEnable2fa,
   setShowEnable2fa,
 
   res,
+  setIs2faCancelled
 }) => {
   const { onLogin } = useUser();
   const navigate = useNavigate();
@@ -50,24 +52,57 @@ export const Enable2FaModal = ({
     }
   };
 
-  const handlecancel = async () => {
+  const handlecancel1 = async () => {
     const token = await Cookies.get("token");
+
+    // const response = await checkAuthentication(token).then((res) => res?.data?.user);
 
     console.log("token", token, "res", res);
 
     // Cookies.set("token", token);
-    // onLogin({
-    //   ...res,
-    //   token: token,
-    // });
-    // setIs2faclosed(true);
-    // setShowEnable2fa(!showEnable2fa);
-    // if (res?.role === "customer") {
-    //   navigate("/", { replace: true });
-    // } else {
-    //   navigate("/user", { replace: true });
+    await onLogin({
+      ...res,
+      token:token,
+    })
+    setIs2faclosed(true);
+    setShowEnable2fa(!showEnable2fa);
+    
+    if (res?.role === "customer") {
+      navigate("/", { replace: true });
+    } else if (res?.role === "seller"|| res?.role === "admin") {
+      navigate("/user", { replace: true });
+    }
+  };
+
+  const handlecancel = async () => {
+    setIs2faCancelled(true);
+    // try {
+    //   const token = Cookies.get("token");
+    //   if (!token) throw new Error("No token found");
+  
+    //   console.log("Token fetched:", token);
+  
+    //   // Use the current `res` structure properly.
+    //   const user = { ...res, token }; 
+    //   await onLogin(user); // Ensure the context updates properly before navigating
+  
+    //   setIs2faclosed(true); 
+    //   setShowEnable2fa(false); // Close the modal on cancel
+  
+    //   // Redirect based on user role
+    //   if (user?.role === "customer") {
+    //     navigate("/", { replace: true });
+    //   } else if (["seller", "admin"].includes(user?.role)) {
+    //     navigate("/user", { replace: true });
+    //   } else {
+    //     throw new Error("Invalid user role");
+    //   }
+    // } catch (error) {
+    //   console.error("Cancel error:", error.message);
+    //   alert("An error occurred during cancellation");
     // }
   };
+  
 
   return (
     <Modal
