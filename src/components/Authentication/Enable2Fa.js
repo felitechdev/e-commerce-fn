@@ -53,18 +53,20 @@ export const Enable2FaModal = ({
   const handlecancel = async () => {
     const token = await Cookies.get("token");
 
-    Cookies.set("token", token);
-    onLogin({
-      ...res,
-      token: token,
-    });
-    setIs2faclosed(true);
-    setShowEnable2fa(!showEnable2fa);
-    if (res?.role === "customer") {
-      navigate("/", { replace: true });
-    } else {
-      navigate("/user", { replace: true });
-    }
+    console.log("token", token, "res", res);
+
+    // Cookies.set("token", token);
+    // onLogin({
+    //   ...res,
+    //   token: token,
+    // });
+    // setIs2faclosed(true);
+    // setShowEnable2fa(!showEnable2fa);
+    // if (res?.role === "customer") {
+    //   navigate("/", { replace: true });
+    // } else {
+    //   navigate("/user", { replace: true });
+    // }
   };
 
   return (

@@ -218,7 +218,7 @@ return (
               />
             )}
      
-      {/* {isImageLoading && <ImageSkeleton />}{" "} */}
+      {isImageLoading && <ImageSkeleton />}{" "}
       <img
         src={productThumbnail && productThumbnail}
         alt=""
