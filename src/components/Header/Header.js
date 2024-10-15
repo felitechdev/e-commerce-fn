@@ -27,9 +27,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { MobileCategoryNav } from "../ProductsCategories";
 import ProductClassAccordion from "../pageProps/shopPage/Accordions/ProductClass";
-import ProductCategoryAccordion from "../pageProps/shopPage/Accordions/productCategory";
-import ProductSubCategoryAccordion from "../pageProps/shopPage/Accordions/ProductSubCategory";
-import ProductBrandAccordion from "../pageProps/shopPage/Accordions/productBrand";
+
 
 // let cart = JSON.parse(localStorage.getItem("cart"));
 

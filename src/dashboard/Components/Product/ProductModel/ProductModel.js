@@ -877,7 +877,7 @@ const ProductModel = (props) => {
                       onReady={(editor) => {}}
                       onChange={(event, editor) => {
                         const data = editor.getData();
-                        console.log({ event, editor, data });
+                       
                         field.onChange(data); // Update the form field value
                       }}
                     />

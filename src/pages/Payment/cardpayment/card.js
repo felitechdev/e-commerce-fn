@@ -143,7 +143,6 @@ export const CardPayment = ({
             }
           );
 
-      console.log("response on card", res);
 
       if (res.data.status === "success") {
         setIsLoading(false);

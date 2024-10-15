@@ -91,7 +91,7 @@ export default function ProductDetails({ product, dispatch }) {
       <div className="max-w-container mx-auto p-4 mt-10">
         <div className="w-full  h-full -mt-5 xl:-mt-8 pb-10">
           <div className="flex flex-col gap-1 ">
-            <div  ref={topDivRef} className="h-1"></div>
+            <div  ref={topDivRef} className="h-1 cursor-pointer"></div>
             <div   className="flex flex-col   sml:flex-row sml:flex-wrap gap-12 items-start ">
               
                 <ProductImages

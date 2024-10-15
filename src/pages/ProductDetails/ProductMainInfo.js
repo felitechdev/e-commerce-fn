@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useState} from "react";
 import SmallImagesContainer from "./SmallImagesContainer";
 import DisplayCurrency from "../../components/Currency/DisplayCurrency/DisplayCurrency";
 import CheckoutDetails from "./CheckoutDetails";
+import { useEffect } from "react";
 
 function removeDuplicateMeasurement(variations) {
   const measuremts = variations.reduce((acc, variation) => {
@@ -41,13 +42,24 @@ const ProductMainInfo = ({
       payload: e.target.textContent,
     });
   };
-
+const [productImages, setProductImages] = useState([]);
   // Notify User when color size combination selected is not available
   const handleInsufficientQuantityHover = (e) => {
     alert(
       `${product.name}: ${selectedColor} : ${e.target.textContent} not available.`
     );
   };
+
+  useEffect(() => {
+    if (product?.colorMeasurementVariations.variations.length>0) {
+     
+      setProductImages(product?.colorMeasurementVariations.variations);
+      
+    }
+  }
+  , [product?.colorMeasurementVariations]);
+
+
 
   
 
@@ -112,7 +124,7 @@ const ProductMainInfo = ({
 
       <div className="flex flex-wrap gap-4 justify-between items-start">
       {product.hasColors &&
-        product?.colorMeasurementVariations.variations.length > 0 && (
+        productImages.length > 0 && (
           <div>
             <p className="text-lg font-semibold flex items-center mb-4 capitalize">
               <span className="bg-[#1D6F2B] text-white text-base font-medium me-2 px-2.5 py-0.5 rounded">
@@ -121,14 +133,10 @@ const ProductMainInfo = ({
               {selectedColor}
             </p>
             <SmallImagesContainer
-              images={[
-                ...product?.colorMeasurementVariations.variations.map(
-                  (variation) => variation.colorImg
-                ),
-              ]}
+              images={productImages.map((variation) => variation.colorImg)}
               activeImage={activeImage}
               dispatch={dispatch}
-              variations={product?.colorMeasurementVariations.variations}
+              variations={productImages}
               feature="colorImages"
               selectedMeasurement={selectedMeasurement}
             />

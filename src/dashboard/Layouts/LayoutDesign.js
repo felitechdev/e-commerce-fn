@@ -75,10 +75,17 @@ export const LayoutDesign = ({ userprofile }) => {
 
   let selectedKey = localStorage.getItem("selectedKey");
 
-  if (selectedKey === null) {
+  if (selectedKey === null && userRole!=="customer") {
     localStorage.setItem("selectedKey", "0");
   }
+  else if (selectedKey === null && userRole==="customer") {
+    localStorage.setItem("selectedKey", "7");
+  }
   let keyselected = parseInt(selectedKey);
+
+
+  // useEffect(() => {
+   
 
   useEffect(() => {
     switch (keyselected) {
