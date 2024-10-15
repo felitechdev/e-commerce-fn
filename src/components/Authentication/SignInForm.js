@@ -314,12 +314,12 @@ const SignInForm = (props) => {
                 )}
 
                 <p className="text-xs pt-1">
-                  Forgot password?{" "}
+                
                   <Link
                     className="text-[#1E61CC] duration-300 cursor-pointer hover:underline"
                     to="/forgot-password"
                   >
-                    Forgot Password
+                    Forgot Password ?
                   </Link>
                 </p>
               </div>

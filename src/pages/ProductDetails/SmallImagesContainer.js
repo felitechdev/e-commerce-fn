@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getCloudinaryUrl } from "../../components/imageslider/ImageSlider";
 
 function removeDuplicateImages(imgArr) {
@@ -46,8 +46,14 @@ const SmallImagesContainer = ({
   selectedColor,
   productName,
 }) => {
-  const colorMeasurementVariations =
+  let colorMeasurementVariations =
     feature === "colorImages" && processColorImages(variations);
+
+  useEffect(() => {
+    if (variations?.length > 0) {
+      colorMeasurementVariations = processColorImages(variations);
+    }
+  }, [variations]);
 
   const handleImageClick = (e) => {
     const src = e.target.src;
@@ -107,7 +113,7 @@ const SmallImagesContainer = ({
 
           return (
             <button
-              key={variation.quantity}
+              key={variation.imageUrl}
               disabled={colorMeasurementCombinationNotAvailable}
               className={`border-[2px] rounded-lg p-0.5 cursor-pointer text-sm disabled:opacity-30 disabled:cursor-not-allowed ${
                 activeImage.url === variation.imageUrl

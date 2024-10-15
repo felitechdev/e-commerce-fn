@@ -192,7 +192,7 @@ const ProductPreview = ({ productInfo }) => {
   );
 return (
   <div
-    className="w-full border rounded-xl overflow-hidden hover:shadow-lg  relative "
+    className="w-full border rounded-xl overflow-hidden hover:shadow-lg  relative cursor-pointer "
     onClick={handleProductDetails}
   >
     {isCreatedinthreedays && (
