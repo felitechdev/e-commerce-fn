@@ -130,17 +130,17 @@
 
 // export default App;
 
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useUser } from "./context/UserContex";
 import About from "./pages/Default/About/About";
 import Contact from "./pages/Default/Contact/Contact";
 import Shop from "./pages/Default/Shop/Shop";
 import Home from "./pages/Home";
 
-import SignIn from "./pages/SignIn";
-import OTP from "./pages/Otp-2FA";
 import Protect from "./components/Protect";
+import OTP from "./pages/Otp-2FA";
+import SignIn from "./pages/SignIn";
 
 import {
   Category,
@@ -148,13 +148,12 @@ import {
   Contract,
   DashProducts,
   Dashboard,
-  Orders,
   OrdersV2,
-  Retailer,
   ProductClass,
+  Retailer,
 } from "./dashboard/Components";
 
-import SingleOrder from "./dashboard/Components/Orders/Order/singleOrder";
+import { ProductBrand } from "./dashboard/Components/ProductBrand/ProductBrand";
 import { LayoutDesign } from "./dashboard/Layouts/LayoutDesign";
 import SellerProfile from "./pages/Account/Profile/SellerProfile";
 import ActivateAccount from "./pages/ActivateAccount";
@@ -166,15 +165,13 @@ import VerifyPaymentPage from "./pages/ProductDetails/VerifyPaymentPage";
 import ResetPassword from "./pages/ReserPassword";
 import SignUp from "./pages/SignUp";
 import Users from "./pages/Users";
-import { ProductBrand } from "./dashboard/Components/ProductBrand/ProductBrand";
 
+import { useDispatch } from "react-redux";
 import { FeliTechLogo_transparent } from "./assets/images";
+import OrderDetail from "./dashboard/Components/Orders/Ordersv2/single-order/order";
 import Checkout from "./pages/Checkout";
 import { Wishlist } from "./pages/Wishlist";
-import OrderDetail from "./dashboard/Components/Orders/Ordersv2/single-order/order";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import { getprofileAddress } from "./APIs/UserAPIs";
+import OathCallBack from "./components/OathCallBack";
 
 const App = () => {
   const { isCheckingAuth, user } = useUser();
@@ -189,7 +186,7 @@ const App = () => {
 
   if (isCheckingAuth) {
     return (
-      <div className="fixed top-0 left-0 w-full h-screen bg-white z-50 flex justify-center items-center flex-wrap ">
+      <div className="fixed left-0 top-0 z-50 flex h-screen w-full flex-wrap items-center justify-center bg-white">
         <img
           className="w-[200px] animate-ping"
           src={FeliTechLogo_transparent}
@@ -206,6 +203,7 @@ const App = () => {
       <Route path="otp" element={<OTP />} />
       <Route path="cart" element={<Cart />} />
       <Route path="wishlist" element={<Wishlist />} />
+      <Route path="auth/callback" element={<OathCallBack />} />
       <Route path="checkout" element={<Checkout />} />
       <Route path="products/:id" element={<Product />} />
       <Route path="shop" element={<Shop />} />
@@ -232,8 +230,8 @@ const App = () => {
                 user?.role === "admin"
                   ? "dashboard"
                   : user?.role === "seller"
-                  ? "dashproduct"
-                  : "profile"
+                    ? "dashproduct"
+                    : "profile"
               }
             />
           }
