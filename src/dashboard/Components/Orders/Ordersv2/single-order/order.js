@@ -133,7 +133,32 @@ const OrderDetail = () => {
     { title: "Quantity", dataIndex: "quantity", key: "quantity" },
     { title: "Size", dataIndex: ["variation", "size"], key: "size" },
     { title: "Price", dataIndex: "price", key: "price" },
+  
   ];
+
+
+  if (user.role === "admin") {
+    columns.push({
+      title: "Seller Payment",
+      dataIndex: "sellerPaymentStatus",
+      key: "sellerPaymentStatus",
+      render: (text, record) => {
+        return (
+          <div>
+            <Tag
+              color={statusColors[record.sellerPaymentStatus]}
+              style={{ color: "black", fontWeight: "bold" }}
+              className="capitalize"
+            >
+              {record.sellerPaymentStatus}
+            </Tag>
+          </div>
+        );
+      },
+    });
+  }
+
+  console.log("single order", orders);
 
   return (
     <Col span={24}>
