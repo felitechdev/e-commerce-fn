@@ -191,7 +191,6 @@ const Banner = ({ ...props }) => {
             />
           </div>
           <div className="opacity-0.5 absolute left-4 z-10 block w-[30%] lg:hidden lg:w-[20%]">
-            {" "}
             <HomePageCategories />
           </div>
 
