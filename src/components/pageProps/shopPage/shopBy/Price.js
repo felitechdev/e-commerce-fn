@@ -102,7 +102,7 @@ const Price = ({ handlefilterShow }) => {
               <button
                 type="submit"
                 disabled={isOkDisabled}
-                class="focus:shadow-outline !focus:border-[#1D6F2B] rounded bg-[red] px-4 py-2 font-semibold text-white shadow focus:outline-none disabled:opacity-50"
+                class="focus:shadow-outline !focus:border-[#1D6F2B] rounded bg-[#d43f3f] px-4 py-2 font-semibold text-white shadow focus:outline-none disabled:opacity-50"
                 onClick={() => handleResetSearch()}
               >
                 X
