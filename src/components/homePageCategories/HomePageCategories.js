@@ -1,4 +1,4 @@
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { HiChevronRight } from "react-icons/hi2";
@@ -35,7 +35,7 @@ const sub_sub_category = [
   "Digital Pen Tablet",
 ];
 
-export default function HomePageCategories( props) {
+export default function HomePageCategories(props) {
   const {
     isLoading,
     data: categories,
@@ -59,7 +59,7 @@ export default function HomePageCategories( props) {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [hoveredproductclass, setHoveredproductclass] = useState(null);
   const [hoveredSubCategory, setHoveredSubCategory] = useState(null);
- 
+
   const handleMouseEnter = (element) => {
     setHoveredCategory(element);
   };
@@ -84,7 +84,6 @@ export default function HomePageCategories( props) {
     setHoveredproductclass(null);
   };
 
-
   // h-100px
 
   return (
@@ -92,17 +91,19 @@ export default function HomePageCategories( props) {
       className="relative hidden h-full w-full flex-col gap-2 rounded-t-[15px] bg-[#D9D9D970] lg:flex"
       onMouseLeave={handleMouseLeaveproductclass}
     >
-      <div className="flex items-center gap-3 rounded-t bg-[#1D6F2B] p-2 relative">
+      <div className="relative flex items-center gap-3 rounded-t bg-[#1D6F2B] p-2">
         <IoMdMenu className="h-5 w-5 text-white" />
         <h3 className="text-sm font-medium text-white">Shop by Categories</h3>
 
-
-        {
-          props.showcategory && <IoCloseSharp onClick={()=>{
-            props.handleCategoryMenu && props.handleCategoryMenu()
-          }} className="text-[red] text-xl  absolute right-2" />
-        }
-
+        {props.showcategory && (
+          <IoCloseSharp
+            onClick={() => {
+              props.handlecloseCategoryMenu && props.handlecloseCategoryMenu();
+              // props.handleCategoryMenu && props.handleCategoryMenu();
+            }}
+            className="absolute right-2 text-xl text-[red]"
+          />
+        )}
       </div>
 
       {productclassLoading && (
@@ -146,11 +147,9 @@ export default function HomePageCategories( props) {
         </div>
       )}
 
-     
-
       {hoveredproductclass && (
         // bg-gray-200
-        <div className="b-0 absolute left-full z-10 ml-0 min-h-full w-[700px]   sm:w-[1000px] rounded bg-gray-200 py-6 text-[13px] shadow-md ">
+        <div className="b-0 absolute left-full z-10 ml-0 min-h-full w-[700px] rounded bg-gray-200 py-6 text-[13px] shadow-md sm:w-[1000px]">
           {/* <ul className="min-w-52 flex gap-2 flex-col"> */}
           <ul className="grid grid-cols-4 gap-2">
             {productclassData
@@ -168,7 +167,7 @@ export default function HomePageCategories( props) {
                     <Link
                       // to={`shop/?category=${hoveredCategory}&subcategory=${subCat.id}`}
                       to={`shop/?productClass=${hoveredproductclass}&category=${Cat.id}`}
-                      className="flex capitalize whitespace-nowrap"
+                      className="flex whitespace-nowrap capitalize"
                     >
                       {Cat.name}
                     </Link>
@@ -195,8 +194,6 @@ export default function HomePageCategories( props) {
                           </Link>
                         </li>
                       ))}
-
-                  
                   </div>
                 </div>
               ))}
