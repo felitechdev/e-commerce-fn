@@ -156,7 +156,7 @@ const Banner = ({ ...props }) => {
       showHideButton.style.zIndex = "auto";
       setCategoryMenuIsOpen(false);
       document.querySelector(".shopcategory").style.position = "relative";
-      document.querySelector(".shopcategory").style.zIndex = "0";
+      document.querySelector(".shopcategory").style.zIndex = "1000";
       document.querySelector(".shopcategory").style.height = "100%";
       document.querySelector(".shopcategory").style.display = "block";
       document.querySelector(".shopcategory").style.marginTop = "0px";
