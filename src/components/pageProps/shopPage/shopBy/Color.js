@@ -10,7 +10,8 @@ const Color = () => {
 
   const handleOnClick = (colorName) => {
     searchParams.set(
-      "colorMeasurementVariations.variations.colorImg.colorName",
+      // "colorMeasurementVariations.variations.colorImg.colorName",
+      "colorMeasurementVariations[variations][colorImg][colorName]",
       colorName,
     );
     setSearchParams(searchParams);
@@ -19,7 +20,7 @@ const Color = () => {
   const handleRemoveColor = () => {
     setColorName(null);
     searchParams.delete(
-      "colorMeasurementVariations.variations.colorImg.colorName",
+      "colorMeasurementVariations[variations][colorImg][colorName]",
     );
     setSearchParams(searchParams);
   };
@@ -27,12 +28,12 @@ const Color = () => {
   useEffect(() => {
     if (
       searchParams.get(
-        "colorMeasurementVariations.variations.colorImg.colorName",
+        "colorMeasurementVariations[variations][colorImg][colorName]",
       )
     ) {
       setColorName(
         searchParams.get(
-          "colorMeasurementVariations.variations.colorImg.colorName",
+          "colorMeasurementVariations[variations][colorImg][colorName]",
         ),
       );
     }
@@ -75,16 +76,18 @@ const Color = () => {
         <NavTitle title="Shop by Color" icons={true} Colors={showColors} />
       </div>
 
-      <span
-        className={` ${
-          colorName === null
-            ? "border-b-primary font-semibold text-primary"
-            : ""
-        } my-5 flex w-full cursor-pointer items-center gap-2 border-b-[1px] border-b-[#F0F0F0] pb-2 capitalize duration-300 hover:border-gray-400 hover:text-primeColor`}
-        onClick={handleRemoveColor}
-      >
-        All Color
-      </span>
+      {colorName !== null && (
+        <span
+          className={` ${
+            colorName === null
+              ? "border-b-primary font-semibold text-primary"
+              : ""
+          } my-5 flex w-[50%] cursor-pointer items-center gap-2 rounded-md border-b-[1px] border-b-[#F0F0F0] bg-[#d43f3f] p-2 pb-2 text-center capitalize !text-white duration-300 hover:border-gray-400`}
+          onClick={handleRemoveColor}
+        >
+          clear filter
+        </span>
+      )}
       {showColors && (
         <motion.div
           initial={{ y: -20, opacity: 0 }}
