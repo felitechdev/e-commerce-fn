@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import Image from "../designLayouts/Image";
@@ -8,27 +8,8 @@ import { IoMdMenu } from "react-icons/io";
 // change i made
 const Banner = ({ ...props }) => {
   const [dotActive, setDocActive] = useState(0);
- 
 
   const navigate = useNavigate();
-
-  // const ads = [
-  //   {
-  //     title: "Ad 1",
-  //     image:
-  //       "https://ae04.alicdn.com/kf/S0fb7b4c77ed149ad9beccbbfba436bf0B.jpg_480x480.jpg_.webp",
-  //   },
-  //   {
-  //     title: "Ad 2",
-  //     image:
-  //       "https://ae04.alicdn.com/kf/S8ef35537fd044a738375ff9c8cef6a63N.jpg_480x480.jpg_.webp",
-  //   },
-  //   {
-  //     title: "Ad 3",
-  //     image:
-  //       "https://ae04.alicdn.com/kf/Se810acbc45bb4153a2d05e7f60b52c22C.jpg_480x480.jpg_.webp",
-  //   },
-  // ];
 
   const settings = {
     dots: true,
@@ -122,123 +103,105 @@ const Banner = ({ ...props }) => {
     ],
   };
 
- 
-
-
-
   const [showCategory, setShowCategory] = useState(false); // Control visibility of shopcategory
   const [categoryMenuIsOpen, setCategoryMenuIsOpen] = useState(false); // Control menu toggle
 
   // Handle category menu toggle
   const handleCategoryMenu = async () => {
     setCategoryMenuIsOpen(!categoryMenuIsOpen);
-    if (categoryMenuIsOpen) {
-      document.querySelector(".shopcategory").style.position = "relative";
-      document.querySelector(".shopcategory").style.zIndex = "0";
-      document.querySelector(".shopcategory").style.height = "100%";
-      document.querySelector(".shopcategory").style.display="block";
-    
-    }
-    else{
-      document.querySelector(".shopcategory").style.display="none";
-
-    }
 
     const showHideButton = await document.querySelector(".show-hide");
-    if (window.scrollY > 300 && showHideButton.style.display == "none" ) {
+    if (window.scrollY > 300 && showCategory) {
       document.querySelector(".shopcategory").style.position = "fixed";
       document.querySelector(".shopcategory").style.zIndex = "1000";
       document.querySelector(".shopcategory").style.height = "300px";
       document.querySelector(".shopcategory").style.marginTop = "-30px";
-   
+    } else {
+      document.querySelector(".shopcategory").style.position = "relative";
+      document.querySelector(".shopcategory").style.zIndex = "0";
+      document.querySelector(".shopcategory").style.height = "100%";
+      document.querySelector(".shopcategory").style.display = "block";
     }
-
-
   };
 
-  useEffect(()=>{
+  const handlecloseCategoryMenu = () => {
+    setCategoryMenuIsOpen(false);
+    setShowCategory(false);
+    // document.querySelector(".shopcategory").style.position = "relative";
+    // document.querySelector(".shopcategory").style.zIndex = "0";
+    // document.querySelector(".shopcategory").style.height = "100%";
+    document.querySelector(".shopcategory").style.display = "none";
+  };
+
+  useEffect(() => {
     const showHideButton = document.querySelector(".show-hide");
     if (window.scrollY < 300) {
       showHideButton.style.display = "none";
       showHideButton.style.zIndex = "auto";
     }
-  } , [window.scrollY])
-
-
-  // Handle scroll behavior to fix the category menu after 300px
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300 && !categoryMenuIsOpen) {
-        document.querySelector(".shopcategory").style.position = "fixed";
-        document.querySelector(".shopcategory").style.zIndex = "1000";
-        document.querySelector(".shopcategory").style.height = "300px";
-        document.querySelector(".shopcategory").style.marginTop = "-30px";
-        setShowCategory(true);
-
-      } else {
-        document.querySelector(".shopcategory").style.display="block";
-        document.querySelector(".shopcategory").style.position = "relative";
-        document.querySelector(".shopcategory").style.zIndex = "auto";
-        document.querySelector(".shopcategory").style.height = "100%";
-        setShowCategory(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [categoryMenuIsOpen]);
+  }, [window.scrollY]);
 
   // Control the visibility of the `show-hide` toggle button
   useEffect(() => {
     const showHideButton = document.querySelector(".show-hide");
-    if (categoryMenuIsOpen && window.scrollY > 300 ) {
+    if (!categoryMenuIsOpen && window.scrollY > 300) {
       showHideButton.style.display = "block";
       showHideButton.style.position = "fixed";
-      showHideButton.style.marginTop ="-30px";
-  
+      showHideButton.style.marginTop = "-30px";
+      setShowCategory(true);
       showHideButton.style.zIndex = "1000";
     } else {
+      setShowCategory(false);
       showHideButton.style.display = "none";
       showHideButton.style.zIndex = "auto";
       setCategoryMenuIsOpen(false);
+      document.querySelector(".shopcategory").style.position = "relative";
+      document.querySelector(".shopcategory").style.zIndex = "10";
+      document.querySelector(".shopcategory").style.height = "100%";
+      document.querySelector(".shopcategory").style.display = "block";
+      document.querySelector(".shopcategory").style.marginTop = "0px";
     }
-  }, [categoryMenuIsOpen,window.scrollY ]);
-
-      
-
+  }, [categoryMenuIsOpen, window.scrollY]);
 
   const optimizedImageUrl = "";
 
   return (
-    <div className=" bg-white max-w-container px-2  md:px-6 m-auto flex justify-center h-64">
+    <div className="m-auto flex h-64 max-w-container justify-center bg-white px-2 md:px-6">
       <div className="w-full lg:container">
-        <div className="relative w-full flex gap-4 py-2 h-full">
-       
-            
-         <div className="hidden  lg:w-fit lg:flex show-hide cursor-pointer "  onClick={handleCategoryMenu}>
-            <span className="bg-primary  rounded-md p-1  text-white flex justify-between items-center space-x-2"> <span> <IoMdMenu className="h-5 w-5 "  /></span> <p> Shop by Categories</p> </span>
+        <div className="relative flex h-full w-full gap-4 py-2">
+          <div
+            className="show-hide hidden cursor-pointer lg:flex lg:w-fit"
+            onClick={handleCategoryMenu}
+          >
+            <span className="flex items-center justify-between space-x-2 rounded-md bg-primary p-1 text-white">
+              {" "}
+              <span>
+                {" "}
+                <IoMdMenu className="h-5 w-5" />
+              </span>{" "}
+              <p> Shop by Categories</p>{" "}
+            </span>
           </div>
-              
-            
-          <div className="hidden lg:w-[20%] lg:block bg-white  shopcategory" >
-            <HomePageCategories  showcategory={showCategory}  handleCategoryMenu={handleCategoryMenu} />
+
+          <div className={`shopcategory hidden bg-white lg:block lg:w-[20%]`}>
+            <HomePageCategories
+              showcategory={showCategory}
+              handlecloseCategoryMenu={handlecloseCategoryMenu}
+              handleCategoryMenu={handleCategoryMenu}
+            />
           </div>
-          <div className="block lg:w-[20%] lg:hidden absolute z-10 left-4 w-[30%]  opacity-0.5 ">
-            {" "}
+          <div className="opacity-0.5 absolute left-4 z-10 block w-[30%] lg:hidden lg:w-[20%]">
             <HomePageCategories />
           </div>
 
-          <div className="hidden lg:flex   w-[60%] ">
-            <Slider {...settings} className="px-4 w-full  ">
+          <div className="hidden w-[60%] lg:flex">
+            <Slider {...settings} className="w-full px-4">
               {props?.ads && props?.ads.length > 0 ? (
                 props?.ads?.map((ad, index) => {
                   return (
                     <div
                       key={index + 1}
-                      className="w-1408 h-[15rem] mx-auto  rounded-[15px]  border"
+                      className="w-1408 mx-auto h-[15rem] rounded-[15px] border"
                       onClick={() => {
                         navigate(`/products/${ad.id}`);
                       }}
@@ -249,17 +212,17 @@ const Banner = ({ ...props }) => {
                           height: 240,
                         })}
                         // className="w-[800px] h-[240px]  object-cover rounded-[15px]"
-                        className="w-full h-full object-fill rounded-[15px]  "
+                        className="h-full w-full rounded-[15px] object-fill"
                       />
                     </div>
                   );
                 })
               ) : (
-                <div className="w-1408 h-[15rem] mx-auto rounded-[15px] ">
+                <div className="w-1408 mx-auto h-[15rem] rounded-[15px]">
                   <Image
                     // imgSrc={bannerImgOne}
                     imgSrc="https://res.cloudinary.com/dccszmlim/image/upload/v1726477123/felitechnology_E-commerce_HAHA/imdfmiu38l17nkjxoxnl.png"
-                    className="w-full h-full object-cover rounded-[15px]"
+                    className="h-full w-full rounded-[15px] object-cover"
                   />
                 </div>
               )}
@@ -291,8 +254,8 @@ const Banner = ({ ...props }) => {
             </Slider>
           </div>
 
-          <div className="w-full lg:hidden   ">
-            <Slider {...settings} className="px-4 w-full rounded-[15px]">
+          <div className="w-full lg:hidden">
+            <Slider {...settings} className="w-full rounded-[15px] px-4">
               {/* <div className="w-1408 h-[15rem] mx-auto rounded-[15px]">
                 <Image
                   imgSrc={bannerImgOne}
@@ -324,7 +287,7 @@ const Banner = ({ ...props }) => {
                   return (
                     <div
                       key={index}
-                      className="w-1408 h-[15rem] mx-auto rounded-[15px] border"
+                      className="w-1408 mx-auto h-[15rem] rounded-[15px] border"
                       onClick={() => {
                         navigate(`/products/${ad.id}`);
                       }}
@@ -332,22 +295,22 @@ const Banner = ({ ...props }) => {
                       <Image
                         imgSrc={ad.image}
                         // imgSrc={getCloudinaryUrl(ad.image, {})}
-                        className="h-full w-full object-fill rounded-[15px] m-auto"
+                        className="m-auto h-full w-full rounded-[15px] object-fill"
                       />
                     </div>
                   );
                 })
               ) : (
-                <div className="w-1408 h-[15rem] mx-auto rounded-[15px] border">
+                <div className="w-1408 mx-auto h-[15rem] rounded-[15px] border">
                   <Image
                     imgSrc="https://res.cloudinary.com/dccszmlim/image/upload/v1726477123/felitechnology_E-commerce_HAHA/imdfmiu38l17nkjxoxnl.png"
-                    className="h-full w-full object-fill rounded-[15px] m-auto"
+                    className="m-auto h-full w-full rounded-[15px] object-fill"
                   />
                 </div>
               )}
             </Slider>
           </div>
-          <div className="hidden lg:w-[20%] lg:block  rounded-[15px]  border  ">
+          <div className="hidden rounded-[15px] border lg:block lg:w-[20%]">
             <ImageSlider ads={props?.ads} />
           </div>
         </div>
