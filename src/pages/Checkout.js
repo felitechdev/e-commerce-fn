@@ -32,11 +32,8 @@ import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 import { CardPayment } from "./Payment/cardpayment/card";
 import { SignInFormModal } from "../components/Authentication/Signinmodal";
 import { getprofileAddress } from "../APIs/UserAPIs";
-export const OrderForm = ({
-  isModalOpen,
-  handlecancel,
-
-}) => {
+import { RwandaDistrictSector } from "../common/district-sector";
+export const OrderForm = ({ isModalOpen, handlecancel }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -66,15 +63,12 @@ const Checkout = () => {
   const [deliveryprice, setDeliveryprice] = useState(0);
   const [isdelivery, setIsdelivery] = useState(false);
   const [isdeliveryapproved, setIsdeliveryapproved] = useState(false);
- const  [useraddress, setUseraddress] = useState(
-    {
-      phoneNumber: "",
-      District: "",
-      Sector: "",
-      Street: "",
-
-    }
- );
+  const [useraddress, setUseraddress] = useState({
+    phoneNumber: "",
+    District: "",
+    Sector: "",
+    Street: "",
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderDelivery, setOrderDelivery] = useState();
@@ -84,17 +78,15 @@ const Checkout = () => {
   const [error, setError] = useState("");
   const [isNouser, setIsNouser] = useState(false);
 
+  const [sectors, setSectors] = useState();
+
   const navigate = useNavigate();
-
-
-
 
   const handleProvinceChange = (value) => {
     setSelectedProvince(value);
     setSelectedDistrict();
     setSelectedSector();
   };
-
 
   const [cardpay, setCardpay] = useState(false);
   const handlecardpay = () => {
@@ -146,31 +138,36 @@ const Checkout = () => {
         break;
     }
   }, [orderDelivery]);
-  // , deliveryprice, prevdeliveryprice
 
   useEffect(() => {
-    if (selectedProvince !== "Kigali" && deliveryPreference === "Delivery") {
+    if (
+      (selectedDistrict == "Gasabo" ||
+        selectedDistrict == "Nyarugenge" ||
+        selectedDistrict == "Kicukiro") &&
+      deliveryPreference === "Delivery"
+    ) {
       setIsdelivery(true);
     } else {
       setIsdelivery(false);
     }
-  }, [deliveryPreference, selectedProvince]);
+  }, [deliveryPreference, selectedDistrict]);
 
   const handleDistrictChange = (value) => {
     setSelectedDistrict(value);
     setSelectedSector();
   };
 
+  const handleSectors = (value) => {
+    RwandaDistrictSector.filter((district) => {
+      if (district.name === value) {
+        setSectors(district.sectors);
+      }
+    });
+  };
+
   const handleSectorChange = (value) => {
     setSelectedSector(value);
   };
-
-  let provinceselectoption = Provinces()?.map((province) => {
-    return {
-      value: province,
-      label: province,
-    };
-  });
 
   const cart = useSelector((state) => state.cart);
   const handleAddCart = (event, productId) => {
@@ -189,7 +186,6 @@ const Checkout = () => {
     }
     // Dispatch the addToCart action to update the Redux state
     dispatch(addToCart(existingProduct));
-
     // Update localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
   };
@@ -199,7 +195,7 @@ const Checkout = () => {
 
     let existingCart = JSON.parse(localStorage.getItem("cart"));
     let existingProduct = existingCart.find(
-      (product) => product.id === productId
+      (product) => product.id === productId,
     );
 
     // Dispatch the removeToCart action to update the Redux state
@@ -209,7 +205,7 @@ const Checkout = () => {
       existingProduct.items -= 1;
     } else {
       existingCart = existingCart.filter(
-        (product) => product.id !== existingProduct.id
+        (product) => product.id !== existingProduct.id,
       );
     }
     localStorage.setItem("cart", JSON.stringify(existingCart));
@@ -228,14 +224,14 @@ const Checkout = () => {
     let existingCart = JSON.parse(localStorage.getItem("cart"));
 
     let existingProduct = existingCart.find(
-      (product) => product.id === productId
+      (product) => product.id === productId,
     );
 
     dispatch(clearitemCart(existingProduct));
 
     if (existingProduct) {
       existingCart = existingCart.filter(
-        (product) => product.id !== existingProduct.id
+        (product) => product.id !== existingProduct.id,
       );
     }
     localStorage.setItem("cart", JSON.stringify(existingCart));
@@ -259,39 +255,52 @@ const Checkout = () => {
 
     return product;
   });
+  const savedFormData = JSON.parse(
+    localStorage.getItem("shippingInfoFormData"),
+  );
 
-  const {
+  let phone = savedFormData?.phoneNumber || useraddress.phoneNumber;
+
+  let {
     control,
     reset,
     setValue,
     getValues,
     formState: { errors },
     handleSubmit,
-    
   } = useForm({
-    defaultValues: 
-    {
-
-      ...useraddress,
+    defaultValues: {
+      District: useraddress.District,
+      Sector: useraddress.Sector,
+      Street: useraddress.Street,
+      phoneNumber: phone,
       email: user?.email,
       Province: "",
       deliveryPreference: "",
-      
-
-    }
+    },
   });
+
+  window.onload = () => {
+    if (typeof useraddress.phoneNumber === "string") {
+      if (useraddress.phoneNumber.includes("+250")) {
+        phone = useraddress.phoneNumber;
+      }
+
+      getValues();
+    }
+    setValue("phoneNumber", phone);
+    getValues();
+  };
 
   const onErrors = (errors) => {
     if (errors) {
-
-     
     }
   };
 
   const onFinish = async (values) => {
     setIsLoading(true);
     const payload = {};
-    
+
     if (values.phoneNumber && typeof values.phoneNumber === "object") {
       const { countryCode, areaCode, phoneNumber } = values.phoneNumber;
       const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
@@ -303,16 +312,13 @@ const Checkout = () => {
       } else {
         payload["phoneNumber"] = fullPhoneNumber;
       }
-    }else if ( values.phoneNumber && typeof  values.phoneNumber === "string" && values.phoneNumber.length > 9 )
-
-    
-    {
-      payload["phoneNumber"] =values.phoneNumber
+    } else if (
+      values.phoneNumber &&
+      typeof values.phoneNumber === "string" &&
+      values.phoneNumber.length > 9
+    ) {
+      payload["phoneNumber"] = values.phoneNumber;
     }
-    
-
-
-
 
     if (values) {
       let requestData = {
@@ -343,7 +349,7 @@ const Checkout = () => {
               Authorization: ` Bearer ${token}`,
               "Content-Type": "application/json",
             },
-          }
+          },
         );
 
         if (res.data.status === "success") {
@@ -363,7 +369,6 @@ const Checkout = () => {
 
         // alert("Payment was successfull!");
       } catch (error) {
-       
         if (error.response?.data?.message === "Payment not completed.")
           return setError(error.response?.data?.message);
         if (error.response?.data?.message === "Invalid phone number")
@@ -375,32 +380,29 @@ const Checkout = () => {
     }
   };
 
-  // Load saved form data from localStorage on mount
+  // // Load saved form data from localStorage on mount
   useEffect(() => {
     const savedFormData = JSON.parse(
-      localStorage.getItem("shippingInfoFormData")
+      localStorage.getItem("shippingInfoFormData"),
     );
     if (savedFormData) {
       Object.keys(savedFormData).forEach((key) => {
         if (key === "phoneNumber") {
-          if ( typeof savedFormData[key] === "object") {
+          if (typeof savedFormData[key] === "object") {
             const { countryCode, areaCode, phoneNumber } = savedFormData[key];
             const fullPhoneNumber = `+${countryCode}${areaCode}${phoneNumber}`;
-            setValue("phoneNumber", fullPhoneNumber );
-          } else
-          {
+            setValue("phoneNumber", fullPhoneNumber.toString());
+          } else {
             setValue(key, savedFormData[key]);
-          }  
-        } else
-        setValue(key, savedFormData[key]);
+          }
+        } else setValue(key, savedFormData[key]);
       });
-
     }
   }, [setValue]);
 
   // Save form data to localStorage on change
   useEffect(() => {
-    const formData = getValues(); 
+    const formData = getValues();
     localStorage.setItem("shippingInfoFormData", JSON.stringify(formData));
   });
 
@@ -411,37 +413,30 @@ const Checkout = () => {
         .then((data) => {
           const fetchedAddress = data?.data?.profile?.address || {};
           const fetchedPhoneNumber = data?.data?.profile?.phoneNumber || "";
-          
           setUseraddress({
-            phoneNumber: fetchedPhoneNumber,
+            phoneNumber: fetchedPhoneNumber.toString(),
             District: fetchedAddress.district,
             Sector: fetchedAddress.sector,
             Street: fetchedAddress.street,
           });
-        
-          setValue("phoneNumber", fetchedPhoneNumber);
+          handleDistrictChange(fetchedAddress.district);
+          handleSectors(fetchedAddress.district);
+
+          setValue("phoneNumber", fetchedPhoneNumber.toString());
           setValue("District", fetchedAddress.district);
           setValue("Sector", fetchedAddress.sector);
           setValue("Street", fetchedAddress.street);
         })
-        .catch((error) => {
-        
-        });
+        .catch((error) => {});
     }
   }, [user, token, setValue]);
 
-  
-
-
   return (
-
- 
-
     <PageLayout>
       {isdelivery && (
-        <div className="fixed bottom-0 p-2 z-50 pb-5 bg-[#fbe8e8] rounded-md w-[90%] md:w-1/3 right-5 md:right-20 shadow-lg border border-red-500">
+        <div className="fixed bottom-0 right-5 z-50 w-[90%] rounded-md border border-red-500 bg-[#fbe8e8] p-2 pb-5 shadow-lg md:right-20 md:w-1/3">
           <button
-            className="font-semibold text-[red] absolute flex items-center justify-center -top-3 bg-[#fbe8e8] border-2   -right-3 p-2 rounded-full "
+            className="absolute -right-3 -top-3 flex items-center justify-center rounded-full border-2 bg-[#fbe8e8] p-2 font-semibold text-[red]"
             onClick={() => {
               setIsdelivery(false);
             }}
@@ -449,7 +444,7 @@ const Checkout = () => {
             X
           </button>
           <div className="text-center">
-            <h3 className="text-lg font-semibold mb-2">
+            <h3 className="mb-2 text-lg font-semibold">
               Need Assistance with Delivery?
             </h3>
             <p className="mb-4">
@@ -476,12 +471,12 @@ const Checkout = () => {
           </div>
         </div>
       )}
-      <div className="max-w-container mx-auto px-4  ">
+      <div className="mx-auto max-w-container px-4">
         {cart && cart.length > 0 && (
           <div className="pb-20">
-            <div className="flex flex-col-reverse md:flex-row  justify-between items-start gap-8">
+            <div className="flex flex-col-reverse items-start justify-between gap-8 md:flex-row">
               {/* bg-[#F5F7F7] */}
-              <div className=" w-[100%] md:w-[40%] bg-[#F5F7F7] rounded text-primeColor   place-content-center px-2 md:px-2 text-lg font-titleFont ">
+              <div className="font-titleFont w-[100%] place-content-center rounded bg-[#F5F7F7] px-2 text-lg text-primeColor md:w-[40%] md:px-2">
                 <h2 className="mt-2">Ordered products</h2>
 
                 <div className="mt-5">
@@ -498,15 +493,15 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <div className="gap-4 flex  w-[100%] md:w-[25%] bg-[#F5F7F7] p-3 rounded shadow overflow-hidden">
-                <div className="flex flex-col w-full gap-4">
+              <div className="flex w-[100%] gap-4 overflow-hidden rounded bg-[#F5F7F7] p-3 shadow md:w-[25%]">
+                <div className="flex w-full flex-col gap-4">
                   <h1 className="text-2xl font-semibold text-gray-700">
                     Summary
                   </h1>
-                  <div className="border rounded">
-                    <p className="flex flex-wrap items-center justify-between border-b py-1.5 text-lg px-4 font-medium">
+                  <div className="rounded border">
+                    <p className="flex flex-wrap items-center justify-between border-b px-4 py-1.5 text-lg font-medium">
                       <span>Subtotal</span>
-                      <span className="font-semibold tracking-wide font-titleFont">
+                      <span className="font-titleFont font-semibold tracking-wide">
                         {totalCost.toLocaleString()} RWF
                       </span>
                     </p>
@@ -516,9 +511,9 @@ const Checkout = () => {
                         {deliveryprice} RWF
                       </span>
                     </p> */}
-                    <p className="flex  flex-wrap items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
+                    <p className="mb-6 flex flex-wrap items-center justify-between px-4 py-1.5 text-lg font-medium">
                       Total
-                      <span className="font-semibold tracking-wide text-lg font-titleFont">
+                      <span className="font-titleFont text-lg font-semibold tracking-wide">
                         {(totalCost + deliveryprice).toLocaleString()} RWF
                       </span>
                     </p>
@@ -536,17 +531,17 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <div className="relative block md:hidden lg:block ">
+              <div className="relative block md:hidden lg:block">
                 <img src={AdvertiseImage} className="w-[100%] rounded" />
-                <div className="absolute bottom-10 left-0 right-0 mx-5 pb-2 rounded-md bg-gray-300 opacity-60  ">
+                <div className="absolute bottom-10 left-0 right-0 mx-5 rounded-md bg-gray-300 pb-2 opacity-60">
                   <img src={MotivationWord} />
-                  <div className="w-full text-center -mt-9">
+                  <div className="-mt-9 w-full text-center">
                     {" "}
                     <button
                       onClick={() => {
                         navigate("/", { replace: true });
                       }}
-                      className="h-10 rounded-full bg-[#1D6F2B] ml-1/2 text-white  px-5 "
+                      className="ml-1/2 h-10 rounded-full bg-[#1D6F2B] px-5 text-white"
                     >
                       <span className="flex items-center tracking-widest">
                         <span className="mr-2">Continue Shopping</span>
@@ -557,13 +552,11 @@ const Checkout = () => {
               </div>
             </div>
 
-            <div className="bg-[#F5F7F7] mt-4">
+            <div className="mt-4 bg-[#F5F7F7]">
               <Form
-              initialValues={useraddress}
+                initialValues={useraddress}
                 layout={"vertical"}
-                onFinish={
-                  handleSubmit(onFinish, onErrors)
-                }
+                onFinish={handleSubmit(onFinish, onErrors)}
                 style={{
                   width: "100%",
                   border: "1px solid rgb(229, 231, 235)",
@@ -573,15 +566,16 @@ const Checkout = () => {
                 }}
               >
                 <div>
-
                   <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                    {/* <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
                         name="Province"
-                        rules={{
-                          // required: "Province is required",
-                        }}
+                        rules={
+                          {
+                            // required: "Province is required",
+                          }
+                        }
                         defaultValue=""
                         render={({ field }) => (
                           <Form.Item label="Province" className=" ">
@@ -602,7 +596,7 @@ const Checkout = () => {
                           </Form.Item>
                         )}
                       />
-                    </Col>
+                    </Col> */}
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -612,18 +606,23 @@ const Checkout = () => {
                         }}
                         defaultValue=""
                         render={({ field }) => (
-                          <Form.Item label="District" className="  ">
+                          <Form.Item label="District" className=" ">
                             <Select
                               {...field}
                               placeholder="Select your district"
                               onChange={(value) => {
                                 field.onChange(value);
                                 handleDistrictChange(value);
+
+                                handleSectors && handleSectors(value);
                               }}
                             >
-                              {Districts(selectedProvince).map((district) => (
-                                <Select.Option key={district} value={district}>
-                                  {district}
+                              {RwandaDistrictSector.map((district) => (
+                                <Select.Option
+                                  key={district.name}
+                                  value={district.name}
+                                >
+                                  {district.name}
                                 </Select.Option>
                               ))}
                             </Select>
@@ -653,13 +652,11 @@ const Checkout = () => {
                                 handleSectorChange(value);
                               }}
                             >
-                              {Sectors(selectedProvince, selectedDistrict)?.map(
-                                (sector) => (
-                                  <Select.Option key={sector} value={sector}>
-                                    {sector}
-                                  </Select.Option>
-                                )
-                              )}
+                              {sectors?.map((sector) => (
+                                <Select.Option key={sector} value={sector}>
+                                  {sector}
+                                </Select.Option>
+                              ))}
                             </Select>
 
                             <p className="text-[red]">
@@ -669,8 +666,6 @@ const Checkout = () => {
                         )}
                       />
                     </Col>
-                  </Row>
-                  <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -678,7 +673,7 @@ const Checkout = () => {
                         rules={{}}
                         render={({ field }) => (
                           <>
-                            <Form.Item label="Street" className=" h-8">
+                            <Form.Item label="Street" className="h-8">
                               <Input
                                 {...field}
                                 type="text"
@@ -693,28 +688,27 @@ const Checkout = () => {
                         )}
                       />
                     </Col>
+                  </Row>
+                  <div className="mt-5"></div>
+                  <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-
-                    <Controller
-                control={control}
-                name="phoneNumber"
-                rules={
-                  {
-                      required: "Phone number is required",
-                  }
-                }
-                render={({ field }) => (
-                  <>
-                    <Form.Item label="Phone number" className=" h-5">
-                      <PhoneInput {...field} enableSearch />
-                      <p className="text-[red]">
-                        {errors?.phoneNumber?.message}
-                      </p>
-                    </Form.Item>
-                  </>
-                )}
-              />
-                     
+                      <Controller
+                        control={control}
+                        name="phoneNumber"
+                        rules={{
+                          required: "Phone number is required",
+                        }}
+                        render={({ field }) => (
+                          <>
+                            <Form.Item label="Phone number" className="h-5">
+                              <PhoneInput {...field} enableSearch />
+                              <p className="text-[red]">
+                                {errors?.phoneNumber?.message}
+                              </p>
+                            </Form.Item>
+                          </>
+                        )}
+                      />
                     </Col>{" "}
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       {" "}
@@ -726,22 +720,19 @@ const Checkout = () => {
                           <>
                             <Form.Item
                               label="Email"
-                              className="w-[100%] text-red-700 !mb-2"
+                              className="!mb-2 w-[100%] text-red-700"
                             >
                               <Input
                                 {...field}
                                 type="email"
                                 placeholder="og@gmail.com"
-                                className="text-gray-700 text-sm placeholder:text-sm "
+                                className="text-sm text-gray-700 placeholder:text-sm"
                               />
                             </Form.Item>
                           </>
                         )}
                       />
                     </Col>
-                  </Row>
-                  <div className="mt-5"></div>
-                  <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                       <Controller
                         control={control}
@@ -753,7 +744,7 @@ const Checkout = () => {
                           <>
                             <Form.Item
                               label="Delivery preferences"
-                              className=" h-5 mt-4 md:mt-auto"
+                              className="mt-4 h-5 md:mt-auto"
                             >
                               <Select
                                 {...field}
@@ -782,6 +773,10 @@ const Checkout = () => {
                       />
                     </Col>
                   </Row>
+
+                  {/* <Row gutter={[16, 16]}>
+                   
+                  </Row> */}
                   <div className="mb-12"></div>
 
                   <SignInFormModal
@@ -791,7 +786,7 @@ const Checkout = () => {
 
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8} xl={8}>
-                      <div className=" flex items-center">
+                      <div className="flex items-center">
                         <Button
                           disabled={isLoading}
                           htmlType="submit"
@@ -802,7 +797,7 @@ const Checkout = () => {
                               setIsNouser(true);
                             }
                           }}
-                          className="h-10  px-20 flex bg-black items-center rounded-md bg-gradient-custom text-white disabled:opacity-50  duration-300"
+                          className="bg-gradient-custom flex h-10 items-center rounded-md bg-black px-20 text-white duration-300 disabled:opacity-50"
                           style={{ background: "#1D6F2B", color: "#FFFFFF" }}
                         >
                           {(isLoading && "Processing...") ||

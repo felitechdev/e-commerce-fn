@@ -75,7 +75,7 @@ const DeleteUserAccountConfirmation = ({
   };
 
   return (
-    <div className=" cursor-pointer md:flex items-center md:border p-1  md:space-x-2 font-semibold text-[red] ">
+    <div className="cursor-pointer items-center p-1 font-semibold text-[red] md:flex md:space-x-2 md:border">
       {openDeleteModal && showDeleteConfirm}
     </div>
   );

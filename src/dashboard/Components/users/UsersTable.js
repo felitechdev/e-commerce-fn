@@ -34,7 +34,7 @@ export default function UsersTable({
     user?.role == "admin" && {
       label: <span className="font-semibold text-primary">Update</span>,
       key: "edit",
-      icon: <EditFilled className=" text-icon2 mr-2" />,
+      icon: <EditFilled className="mr-2 text-icon2" />,
       onClick: async () => {
         setOpenModal(true);
         setUserId(record);
@@ -43,7 +43,7 @@ export default function UsersTable({
     {
       label: <span className="font-semibold text-primary">Deactivate </span>,
       key: "view",
-      icon: <EditFilled className=" text-icon3 mr-2" />,
+      icon: <EditFilled className="mr-2 text-icon3" />,
       onClick: () => {
         // navigate(`${record.id}`);
       },
@@ -51,7 +51,7 @@ export default function UsersTable({
     {
       label: <span className="font-semibold text-primary">Activate </span>,
       key: "activate",
-      icon: <EditFilled className=" text-icon1 mr-2" />,
+      icon: <EditFilled className="mr-2 text-icon1" />,
       onClick: () => {
         // navigate(`${record.id}`);
       },
@@ -59,7 +59,7 @@ export default function UsersTable({
     {
       label: <span className="font-semibold text-primary">Delete</span>,
       key: "delete",
-      icon: <DeleteFilled className=" text-icon3 mr-2" />,
+      icon: <DeleteFilled className="mr-2 text-icon3" />,
       onClick: () => {
         setOpenDeleteModal(true);
         setUserId(record);
@@ -109,7 +109,7 @@ export default function UsersTable({
     }
   };
 
-   async function searchuser(name) {
+  async function searchuser(name) {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/users/search?query=${name}`,
@@ -119,10 +119,9 @@ export default function UsersTable({
             "content-type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
-       
+        },
       );
-  
+
       return response.data;
     } catch (error) {
       return [];
@@ -158,7 +157,6 @@ export default function UsersTable({
     if (searchQuery.length > 0) {
       setIssearch(true);
       searchuser(searchQuery).then((data) => {
-      
         if (data?.data?.users) {
           setUserList(data?.data?.users);
         }
@@ -166,14 +164,12 @@ export default function UsersTable({
     } else {
       setIssearch(false);
       setUserList(users);
-     
     }
   }, [searchQuery]);
 
-
   useEffect(() => {
     if (openDeleteModal) {
-      showDeleteConfirm(userId.id);
+      showDeleteConfirm(userId.id || userId._id);
     }
   }, [openDeleteModal]);
 
@@ -191,7 +187,7 @@ export default function UsersTable({
   }, users);
 
   return (
-    <div className="flex w-full flex-col relative">
+    <div className="relative flex w-full flex-col">
       <DashBoardSearch
         handleSearch={handleSearch}
         searchQuery={searchQuery}
@@ -200,7 +196,7 @@ export default function UsersTable({
       />
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-hidden border border-s-gray-200 rounded-md">
+          <div className="overflow-hidden rounded-md border border-s-gray-200">
             <table className="min-w-full text-left text-sm font-light">
               <thead className="border-b font-medium">
                 <tr>
@@ -249,11 +245,13 @@ export default function UsersTable({
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         {user.role}
                       </td>
-                    {user?.createdAt && <td className="whitespace-nowrap px-6 py-4 capitalize">
-                        {new Intl.DateTimeFormat("en-UK").format(
-                          new Date(user?.createdAt)
-                        )}
-                      </td>}
+                      {user?.createdAt && (
+                        <td className="whitespace-nowrap px-6 py-4 capitalize">
+                          {new Intl.DateTimeFormat("en-UK").format(
+                            new Date(user?.createdAt),
+                          )}
+                        </td>
+                      )}
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         <button onClick={() => {}}>
                           <ActionMenuButton items={getItems(user)} />
@@ -272,9 +270,9 @@ export default function UsersTable({
             </table>
           </div>
 
-          {!issearch   && <Pagination page={page} setPage={setPage} totalPages={totalPages} />}
-
-        
+          {!issearch && (
+            <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+          )}
         </div>
       </div>
     </div>
