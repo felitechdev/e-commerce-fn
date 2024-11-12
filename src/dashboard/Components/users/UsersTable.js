@@ -24,6 +24,7 @@ export default function UsersTable({
   const navigate = useNavigate();
   const [openModal, setOpenModal] = React.useState(false);
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const [openDeactivateModal, setOpenDeactivateModal] = React.useState(false);
   const [userId, setUserId] = React.useState();
 
   const user = useUser().user;
@@ -46,6 +47,8 @@ export default function UsersTable({
       icon: <EditFilled className="mr-2 text-icon3" />,
       onClick: () => {
         // navigate(`${record.id}`);
+        setOpenDeactivateModal(true);
+        setUserId(record);
       },
     },
     {
@@ -105,6 +108,49 @@ export default function UsersTable({
       setError(true);
       setErr(err.message);
     } finally {
+      setUserId();
+      setOpenDeleteModal(false);
+      setLoading(false);
+      setOnSuccess(null);
+      setError(false);
+      setErr("");
+    }
+  };
+
+  const handleDeactivate = async (id) => {
+    try {
+      setLoading(true);
+      const response = await axios({
+        url: `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/deactivate-account/${id}`,
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          Authorization: token && `Bearer ${token}`,
+        },
+      });
+
+      if (response?.data && response.status === 200) {
+        setOnSuccess("Account Deactivated successfully!");
+        setLoading(false);
+        setTimeout(() => {
+          setOpenDeleteModal(false);
+        }, 500);
+
+        const newUsers = users.filter((user) => user.id !== id);
+        setUserList(newUsers);
+      } else {
+        setError(true);
+        setErr("Error on Deactivating account.");
+      }
+    } catch (err) {
+      setError(true);
+      setErr(err.message);
+    } finally {
+      setUserId();
+      setOnSuccess(null);
+      setError(false);
+      setErr("");
+      setOpenDeactivateModal(false);
       setLoading(false);
     }
   };
@@ -153,6 +199,31 @@ export default function UsersTable({
     });
   };
 
+  const showDeactivateConfirm = (id) => {
+    confirm({
+      title: "Are you sure deactivate this Account?",
+      icon: <ExclamationCircleFilled />,
+      content: (
+        <span>
+          {loading ? (
+            <p>loading...</p>
+          ) : error ? (
+            `Error: ${err}`
+          ) : (
+            onSuccess !== null && <p>{onSuccess}</p>
+          )}
+        </span>
+      ),
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: () => handleDeactivate(id),
+      onCancel() {
+        setOpenDeactivateModal(false);
+      },
+    });
+  };
+
   useEffect(() => {
     if (searchQuery.length > 0) {
       setIssearch(true);
@@ -172,6 +243,12 @@ export default function UsersTable({
       showDeleteConfirm(userId.id || userId._id);
     }
   }, [openDeleteModal]);
+
+  useEffect(() => {
+    if (openDeactivateModal) {
+      showDeactivateConfirm(userId.id || userId._id);
+    }
+  }, [openDeactivateModal]);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value.toLowerCase());
