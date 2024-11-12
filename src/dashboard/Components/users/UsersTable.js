@@ -41,7 +41,8 @@ export default function UsersTable({
         setUserId(record);
       },
     },
-    {
+
+    record.active && {
       label: <span className="font-semibold text-primary">Deactivate </span>,
       key: "view",
       icon: <EditFilled className="mr-2 text-icon3" />,
@@ -290,6 +291,9 @@ export default function UsersTable({
                     Email
                   </th>
                   <th scope="col" className="px-6 py-4">
+                    Active
+                  </th>
+                  <th scope="col" className="px-6 py-4">
                     Role
                   </th>
                   <th scope="col" className="px-6 py-4">
@@ -318,6 +322,17 @@ export default function UsersTable({
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         {user.email}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4 capitalize">
+                        {user.active ? (
+                          <div className="h-5 w-5 rounded-full text-green-500">
+                            yes
+                          </div>
+                        ) : (
+                          <span className="h-5 w-5 rounded-full text-red-500">
+                            No
+                          </span>
+                        )}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         {user.role}
