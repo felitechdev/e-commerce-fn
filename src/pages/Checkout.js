@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { Alert } from "flowbite-react";
 // country input to check country phone number
 import PhoneInput from "antd-phone-input";
+
 import {
   addToCart,
   removeToCart,
@@ -627,7 +628,15 @@ const Checkout = () => {
                           render={({ field }) => (
                             <>
                               <Form.Item label="Phone number" className="h-5">
-                                <PhoneInput {...field} enableSearch />
+                                <PhoneInput
+                                  {...field}
+                                  value={field.value || phone}
+                                  enableSearch
+                                  countryCode={250}
+                                  country="RW"
+                                  defaultCountry="RW"
+                                  onChange={(value) => field.onChange(value)}
+                                />
                                 <p className="text-[red]">
                                   {errors?.phoneNumber?.message}
                                 </p>
