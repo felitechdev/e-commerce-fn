@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { CgFormatSlash } from "react-icons/cg";
+
 import { Controller, useForm } from "react-hook-form";
 import { Button, Form, Input, Row, Select, Space, Col, Modal } from "antd";
 import { IoCloseSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { emptyCart } from "../assets/images/index";
-import MtnIcon from "../assets/images/MTN.png";
-import CardIcon from "../assets/images/visacard.png";
+
 import AdvertiseImage from "../assets/images/checkoutimage.png";
 import MotivationWord from "../assets/images/specialsale-removedbg.png";
 
@@ -18,8 +14,9 @@ import { useUser } from "../context/UserContex";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "flowbite-react";
 // country input to check country phone number
-import PhoneInput from "antd-phone-input";
-
+// import PhoneInput from "antd-phone-input";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 import {
   addToCart,
   removeToCart,
@@ -635,6 +632,7 @@ const Checkout = () => {
                                   countryCode={250}
                                   country="RW"
                                   defaultCountry="RW"
+                                  className={`${"h-10 w-full !rounded-md border border-black bg-white p-1 text-left font-normal hover:bg-white hover:text-primary"}`}
                                   onChange={(value) => field.onChange(value)}
                                 />
                                 <p className="text-[red]">

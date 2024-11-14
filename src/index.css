@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   font-family: "Quicksand", system-ui;
 }
 
@@ -21,10 +21,10 @@ body{
 
 @layer components {
   .hoverEffect {
-    @apply duration-300 cursor-pointer;
+    @apply cursor-pointer duration-300;
   }
   .headerSedenavLi {
-    @apply hover:underline underline-offset-2 cursor-pointer text-gray-300 hover:text-white;
+    @apply cursor-pointer text-gray-300 underline-offset-2 hover:text-white hover:underline;
   }
 }
 
@@ -377,4 +377,22 @@ nav .active li {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+}
+
+.PhoneInputInput {
+  height: 100% !important;
+  border: none !important;
+  border: 0px solid grey !important;
+
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  background-color: white !important;
+  padding: 0.4em;
+  display: flex;
+  align-items: center;
+}
+
+.PhoneInputInput:focus {
+  border: none !important;
+  border: 0px solid grey !important;
 }
