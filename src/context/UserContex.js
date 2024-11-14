@@ -11,7 +11,6 @@ function UserProvider({ children }) {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   function onLogin(user) {
-   
     setUser(user);
   }
 
@@ -19,6 +18,7 @@ function UserProvider({ children }) {
     Cookies.remove("token");
     localStorage.removeItem("prevPath");
     localStorage.removeItem("selectedKey");
+    localStorage.removeItem("shippingInfoFormData");
     setUser(null);
   }
 

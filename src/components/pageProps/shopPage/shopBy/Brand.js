@@ -19,7 +19,7 @@ const Brand = ({ brands, handlefilterShow }) => {
   const handleRemoveBrand = () => {
     searchParams.delete("brand");
     setSearchParams(searchParams);
-  }
+  };
   const brandId = searchParams.get("brand");
   useEffect(() => {
     dispatch(fetchProductBrand());
@@ -31,7 +31,11 @@ const Brand = ({ brands, handlefilterShow }) => {
         onClick={() => setShowBrands(!showBrands)}
         className="cursor-pointer"
       >
-        <NavTitle title="Shop by Brand  " icons={true}  showBrands={showBrands}/>
+        <NavTitle
+          title="Shop by Brand  "
+          icons={true}
+          showBrands={showBrands}
+        />
       </div>
       {showBrands && (
         <motion.div
@@ -39,43 +43,27 @@ const Brand = ({ brands, handlefilterShow }) => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-
-          <span className={`
-          
-           ${
-                       brandId===null
-                        ? " border-b-primary text-primary font-semibold"
-                        : ""
-                    }
-          w-full  my-5 border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer`
-
-
-
-
-          } onClick={handleRemoveBrand}>All Brand</span>
-          <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
-            {
-              brands &&
+          {brandId !== null && (
+            <span
+              className={`my-2 flex w-[50%] cursor-pointer items-center gap-2 rounded-md border-b-[1px] border-b-[#F0F0F0] bg-[#d43f3f] p-2 pb-2 text-center capitalize !text-white duration-300 hover:border-gray-400`}
+              onClick={handleRemoveBrand}
+            >
+              clear filter
+            </span>
+          )}
+          <ul className="flex flex-col gap-4 text-sm text-[#767676] lg:text-base">
+            {brands &&
               brands?.map((item) => (
                 <li
                   key={item}
                   onClick={() => {
                     handleOnClickBrand(item);
                   }}
-                  className={
-                    `
-                  
-                  border-b-[1px] capitalize border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300 cursor-pointer
-                  
-                     ${
-                      item.id ===  brandId
-                        ? " border-b-primary text-primary font-semibold"
-                        : ""
-                    }
-                  
-                  
-                  `
-                  }
+                  className={`flex cursor-pointer items-center gap-2 border-b-[1px] border-b-[#F0F0F0] pb-2 capitalize duration-300 hover:border-gray-400 hover:text-primeColor ${
+                    item.id === brandId
+                      ? "border-b-primary font-semibold text-primary"
+                      : ""
+                  } `}
                 >
                   {item.name}
                 </li>

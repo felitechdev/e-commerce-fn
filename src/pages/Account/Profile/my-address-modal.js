@@ -40,7 +40,7 @@ const PersonalAddressInfoModel = (props) => {
   const { user, onLogout } = useUser();
 
   const { address, loadaddressupdate, loadaddress, erraddress } = useSelector(
-    (state) => state.myaddress
+    (state) => state.myaddress,
   );
 
   const {
@@ -79,7 +79,7 @@ const PersonalAddressInfoModel = (props) => {
     };
 
     dispatch(
-      updateprofileAddress({ data: payload, token: token, id: user?.id })
+      updateprofileAddress({ data: payload, token: token, id: user?.id }),
     )
       .unwrap()
       .then((res) => {
@@ -114,9 +114,6 @@ const PersonalAddressInfoModel = (props) => {
   useEffect(() => {}, []);
 
   useEffect(() => {
-
- 
-   
     setValue("phoneNumber", props.address?.phoneNumber);
     setValue("district", props.address?.address?.district);
     setValue("sector", props.address?.address?.sector);
@@ -138,7 +135,7 @@ const PersonalAddressInfoModel = (props) => {
         onFinish={handleSubmit(onFinish, onErrors)}
         initialValues={props.address}
       >
-        <div className="flex justify-between space-x-2 ">
+        <div className="flex justify-between space-x-2">
           <Controller
             control={control}
             name="district"
@@ -160,7 +157,7 @@ const PersonalAddressInfoModel = (props) => {
             // defaultValue={userprofile?.firstName || ""}
             render={({ field }) => (
               <>
-                <Form.Item label="Sector Name" className="w-[48%] ">
+                <Form.Item label="Sector Name" className="w-[48%]">
                   <Input {...field} placeholder="Enter sector Name" />
                   {/* <p className="text-[red]">{errors?.firstName?.message}</p> */}
                 </Form.Item>
@@ -170,7 +167,7 @@ const PersonalAddressInfoModel = (props) => {
         </div>
 
         <div>
-          <Row gutter={[16, 16]} className=" space-y-4 md:space-y-0">
+          <Row gutter={[16, 16]} className="space-y-4 md:space-y-0">
             {" "}
             <Col xs={24} sm={24} md={12} lg={8} xl={8}>
               <Controller
@@ -183,7 +180,7 @@ const PersonalAddressInfoModel = (props) => {
                 }
                 render={({ field }) => (
                   <>
-                    <Form.Item label="Phone number" className=" h-5">
+                    <Form.Item label="Phone number" className="h-5">
                       <PhoneInput {...field} enableSearch />
                       <p className="text-[red]">
                         {errors?.phoneNumber?.message}
@@ -204,7 +201,7 @@ const PersonalAddressInfoModel = (props) => {
                 }
                 render={({ field }) => (
                   <>
-                    <Form.Item label="Street" className=" h-8">
+                    <Form.Item label="Street" className="h-8">
                       <Input
                         {...field}
                         type="text"
@@ -220,7 +217,7 @@ const PersonalAddressInfoModel = (props) => {
           </Row>
         </div>
 
-        <div className="flex  justify-end space-x-2 pr-0 mt-5">
+        <div className="mt-5 flex justify-end space-x-2 pr-0">
           <Button
             onClick={props.handleCancel}
             style={{
@@ -231,8 +228,8 @@ const PersonalAddressInfoModel = (props) => {
             {" "}
             <span className="flex">
               {" "}
-              <h2 className=" flex  items-center justify-center ">
-                <IoCloseSharp className="  mr-2" />
+              <h2 className="flex items-center justify-center">
+                <IoCloseSharp className="mr-2" />
                 Cancel
               </h2>
             </span>{" "}
@@ -253,8 +250,8 @@ const PersonalAddressInfoModel = (props) => {
               "updating..."
             ) : (
               <span className="flex">
-                <h2 className=" flex  items-center justify-center ">
-                  <FaSave className="  mr-2" />
+                <h2 className="flex items-center justify-center">
+                  <FaSave className="mr-2" />
                   Submit
                 </h2>
               </span>

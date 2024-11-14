@@ -73,7 +73,7 @@ const OrderForm = ({
             Authorization: ` Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       if (res.data.status === "success") {
         setIsLoading(false);
@@ -118,21 +118,21 @@ const OrderForm = ({
     >
       {error && error === "Payment not completed." && (
         <div className="flex flex-col justify-start rounded">
-          <h4 className="text-gray-700 mb-4 text-sm">
+          <h4 className="mb-4 text-sm text-gray-700">
             Payment was not completed. Deal to complete!
           </h4>
-          <div className="flex gap-3 items-center  mb-1">
-            <img src={MtnIcon} className="h-4 block" />
+          <div className="mb-1 flex items-center gap-3">
+            <img src={MtnIcon} className="block h-4" />
             <p>
-              <span class="inline-flex tracking-widest items-center  bg-green-50 px-2  text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">
+              <span class="inline-flex items-center bg-green-50 px-2 text-xs font-semibold tracking-widest text-green-700 ring-1 ring-inset ring-green-600/20">
                 *182*7*1#
               </span>
             </p>
           </div>
-          <div className="flex gap-3 items-center">
-            <img src={AirtelIcon} className="h-4 block" />
+          <div className="flex items-center gap-3">
+            <img src={AirtelIcon} className="block h-4" />
             <p>
-              <span class="inline-flex tracking-widest items-center  bg-green-50 px-2  text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-600/20">
+              <span class="inline-flex items-center bg-green-50 px-2 text-xs font-semibold tracking-widest text-green-700 ring-1 ring-inset ring-green-600/20">
                 *182*7*1#
               </span>
             </p>
@@ -150,15 +150,15 @@ const OrderForm = ({
               <>
                 <Form.Item
                   label="Phone number"
-                  className="w-[100%] text-red-700 !mb-2"
+                  className="!mb-2 w-[100%] text-red-700"
                 >
                   <Input
                     {...field}
                     type="number"
                     placeholder="Ex 078/9/2/3XXXXXXX"
-                    className="text-gray-700 text-sm placeholder:text-sm "
+                    className="text-sm text-gray-700 placeholder:text-sm"
                   />
-                  <p className="text-red-500 text-xs">
+                  <p className="text-xs text-red-500">
                     {error && error !== "Payment not completed." && error}
                   </p>
                 </Form.Item>
@@ -168,7 +168,7 @@ const OrderForm = ({
 
           <div className="flex flex-col gap-2">
             {isLoading && (
-              <span className="text-xs font-semibold leadin-5 text-gray-700">
+              <span className="leadin-5 text-xs font-semibold text-gray-700">
                 Follow instructions on your phone to proceed.
               </span>
             )}
@@ -183,7 +183,7 @@ const OrderForm = ({
                 }}
               >
                 <span className="flex">
-                  <h2 className=" flex  items-center justify-center">Cancel</h2>
+                  <h2 className="flex items-center justify-center">Cancel</h2>
                 </span>{" "}
               </Button>
 
@@ -355,7 +355,7 @@ const Cart = () => {
 
     let existingCart = JSON.parse(localStorage.getItem("cart"));
     let existingProduct = existingCart.find(
-      (product) => product.id === productId
+      (product) => product.id === productId,
     );
 
     // Dispatch the removeToCart action to update the Redux state
@@ -365,7 +365,7 @@ const Cart = () => {
       existingProduct.items -= 1;
     } else {
       existingCart = existingCart.filter(
-        (product) => product.id !== existingProduct.id
+        (product) => product.id !== existingProduct.id,
       );
     }
     localStorage.setItem("cart", JSON.stringify(existingCart));
@@ -384,14 +384,14 @@ const Cart = () => {
     let existingCart = JSON.parse(localStorage.getItem("cart"));
 
     let existingProduct = existingCart.find(
-      (product) => product.id === productId
+      (product) => product.id === productId,
     );
 
     dispatch(clearitemCart(existingProduct));
 
     if (existingProduct) {
       existingCart = existingCart.filter(
-        (product) => product.id !== existingProduct.id
+        (product) => product.id !== existingProduct.id,
       );
     }
     localStorage.setItem("cart", JSON.stringify(existingCart));
@@ -497,33 +497,33 @@ const Cart = () => {
         deliveryPreference={deliveryPreference}
         handlecancel={handlecancel}
       />
-      <div className="max-w-container mx-auto px-4">
+      <div className="mx-auto max-w-container px-4">
         {!cart ||
           (!cart.length && (
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20"
+              className="flex flex-col items-center justify-center gap-4 pb-20 mdl:flex-row"
             >
               <div>
                 <img
-                  className="w-80 rounded-lg p-4 mx-auto"
+                  className="mx-auto w-80 rounded-lg p-4"
                   src={emptyCart}
                   alt="emptyCart"
                 />
               </div>
-              <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
+              <div className="flex max-w-[500px] flex-col items-center gap-4 rounded-md bg-white p-4 py-8 shadow-lg">
                 <h1 className="font-titleFont text-xl font-semibold uppercase">
                   Your Cart feels lonely.
                 </h1>
-                <p className="text-sm text-center px-10 -mt-2">
+                <p className="-mt-2 px-10 text-center text-sm">
                   Your Shopping cart lives to serve. Give it purpose - fill it
                   with books, electronics, videos, etc. and make it happy.
                 </p>
                 {/* <Link to="/shop"> */}
                 <Link to="/">
-                  <button className="bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300">
+                  <button className="font-titleFont cursor-pointer rounded-md bg-primeColor px-8 py-2 text-lg font-semibold text-gray-200 duration-300 hover:bg-black hover:text-white active:bg-gray-900">
                     Continue Shopping
                   </button>
                 </Link>
@@ -533,9 +533,9 @@ const Cart = () => {
 
         {cart && cart.length > 0 && (
           <div className="pb-20">
-            <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-8">
+            <div className="flex flex-col-reverse items-start justify-between gap-8 md:flex-row">
               <div className="w-[100%] md:w-[60%]">
-                <div className="w-full h-20 bg-[#F5F7F7] rounded text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
+                <div className="font-titleFont hidden h-20 w-full grid-cols-5 place-content-center rounded bg-[#F5F7F7] px-6 text-lg font-semibold text-primeColor lgl:grid">
                   <h2 className="col-span-2">Product</h2>
                   <h2>Price</h2>
                   <h2>Quantity</h2>
@@ -553,10 +553,10 @@ const Cart = () => {
                     </div>
                   ))}
                 </div>
-                <div className="w-full flex justify-between ">
+                <div className="flex w-full justify-between">
                   <button
                     onClick={handleclearCart}
-                    className="py-1 px-6 rounded-full bg-[#1D6F2B] text-white  mb-4 hover:text-white duration-300"
+                    className="mb-4 rounded-full bg-[#1D6F2B] px-6 py-1 text-white duration-300 hover:text-white"
                   >
                     Clear Cart
                   </button>
@@ -568,7 +568,7 @@ const Cart = () => {
                       onClick={() => {
                         navigate("/checkout", { replace: true });
                       }}
-                      className="rounded-full py-1 bg-[#1D6F2B] text-white mb-4 disabled:opacity-50 duration-300 w-[50%] block md:hidden"
+                      className="mb-4 block w-[50%] rounded-full bg-[#1D6F2B] py-1 text-white duration-300 disabled:opacity-50 md:hidden"
                     >
                       {loading ? "Processing..." : "Proceed to Checkout"}
                     </button>
@@ -576,13 +576,13 @@ const Cart = () => {
                 </div>
               </div>
 
-              <div className="gap-4 flex  w-[100%] md:w-[38%] bg-[#F5F7F7] p-3 rounded shadow overflow-hidden">
-                <div className="flex flex-col w-full gap-4">
-                  <h1 className=" medium_text text-gray-700">Cart totals</h1>
-                  <div className="border rounded">
-                    <p className="flex items-center justify-between border-b py-1.5  px-4 font-medium">
+              <div className="flex w-[100%] gap-4 overflow-hidden rounded bg-[#F5F7F7] p-3 shadow md:w-[38%]">
+                <div className="flex w-full flex-col gap-4">
+                  <h1 className="medium_text text-gray-700">Cart totals</h1>
+                  <div className="rounded border">
+                    <p className="flex items-center justify-between border-b px-4 py-1.5 font-medium">
                       <span>Subtotal</span>
-                      <span className="  tracking-wide  font-semibold ">
+                      <span className="font-semibold tracking-wide">
                         {totalCost.toLocaleString()} RWF
                       </span>
                     </p>
@@ -592,9 +592,9 @@ const Cart = () => {
                         {deliveryprice} RWF
                       </span>
                     </p> */}
-                    <p className="flex items-center justify-between py-1.5 text-lg px-4 font-medium mb-6">
+                    <p className="mb-6 flex items-center justify-between px-4 py-1.5 text-lg font-medium">
                       Total
-                      <span className="font-semibold tracking-wide text-lg font-titleFont">
+                      <span className="font-titleFont text-lg font-semibold tracking-wide">
                         {(totalCost + deliveryprice).toLocaleString()} RWF
                       </span>
                     </p>
@@ -608,7 +608,7 @@ const Cart = () => {
                       onClick={() => {
                         navigate("/checkout", { replace: true });
                       }}
-                      className="rounded-full py-2 bg-[#1D6F2B] text-white disabled:opacity-50 duration-300 hidden md:inline-block "
+                      className="hidden rounded-full bg-[#1D6F2B] py-2 text-white duration-300 disabled:opacity-50 md:inline-block"
                     >
                       {loading ? "Processing..." : "Proceed to Checkout"}
                     </button>
@@ -699,7 +699,7 @@ const Cart = () => {
                         }}
                         defaultValue=""
                         render={({ field }) => (
-                          <Form.Item label="District" className="  ">
+                          <Form.Item label="District" className=" ">
                             <Select
                               {...field}
                               placeholder="Select your district"
@@ -747,7 +747,7 @@ const Cart = () => {
                                   <Select.Option key={sector} value={sector}>
                                     {sector}
                                   </Select.Option>
-                                )
+                                ),
                               )}
                             </Select>
 
@@ -768,7 +768,7 @@ const Cart = () => {
                         }}
                         render={({ field }) => (
                           <>
-                            <Form.Item label="Cell" className=" h-8">
+                            <Form.Item label="Cell" className="h-8">
                               <Input
                                 {...field}
                                 type="text"
@@ -792,7 +792,7 @@ const Cart = () => {
                         }}
                         render={({ field }) => (
                           <>
-                            <Form.Item label="Village" className=" h-8">
+                            <Form.Item label="Village" className="h-8">
                               <Input
                                 {...field}
                                 type="text"
@@ -818,7 +818,7 @@ const Cart = () => {
                         }}
                         render={({ field }) => (
                           <>
-                            <Form.Item label="Street" className=" h-8">
+                            <Form.Item label="Street" className="h-8">
                               <Input
                                 {...field}
                                 type="text"
@@ -843,7 +843,7 @@ const Cart = () => {
                         }}
                         render={({ field }) => (
                           <>
-                            <Form.Item label="Phone number" className=" h-5">
+                            <Form.Item label="Phone number" className="h-5">
                               <PhoneInput {...field} enableSearch />
                               <p className="text-[red]">
                                 {errors?.phoneNumber?.message}
@@ -865,7 +865,7 @@ const Cart = () => {
                           <>
                             <Form.Item
                               label="Delivery preferences"
-                              className=" h-5 mt-4 md:mt-auto"
+                              className="mt-4 h-5 md:mt-auto"
                             >
                               <Select
                                 {...field}
@@ -900,7 +900,7 @@ const Cart = () => {
                       <button
                         disabled={loading}
                         htmlType="submit"
-                        className="h-10 rounded-full bg-[#1D6F2B] text-white disabled:opacity-50 px-5 duration-300"
+                        className="h-10 rounded-full bg-[#1D6F2B] px-5 text-white duration-300 disabled:opacity-50"
                       >
                         <span className="flex items-center tracking-widest">
                           <span className="mr-2">Pay With</span>
