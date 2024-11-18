@@ -189,7 +189,7 @@ const ProductPreview = ({ productInfo }) => {
     );
   return (
     <div
-      className="relative w-full cursor-pointer overflow-hidden rounded-xl border border-gray-300 shadow hover:shadow-lg"
+      className="relative w-full cursor-pointer overflow-hidden rounded-xl border hover:shadow-lg"
       onClick={handleProductDetails}
     >
       {isCreatedinthreedays && (
@@ -223,27 +223,30 @@ const ProductPreview = ({ productInfo }) => {
       </div>
       <div className="flex items-center justify-between px-2 pb-2">
         <div>
-          <div className="h-20">
-            <h2 className="text-md my-2 line-clamp-3 overflow-hidden text-ellipsis font-semibold capitalize tracking-wide text-primeColor">
-              {productInfo.name}
-            </h2>
-          </div>
+          <h2 className="my-2 line-clamp-2 overflow-hidden text-ellipsis text-sm font-[500] capitalize text-primeColor">
+            {
+              // productInfo.name.length > 15
+              //   ? productInfo.name.substring(0, 15) + "..."
+              //   :
+              productInfo.name
+            }{" "}
+          </h2>
           {/* <p className="text-gray-500">{productInfo?.price} RWF</p> */}
 
-          <div className="flex justify-between text-sm font-semibold">
+          <div className="flex justify-between text-sm">
             <div>
               {productInfo.discountPercentage <= 0 && (
-                <div className="text-[#1D6F2B]">
+                <div className="font-medium text-[#1D6F2B]">
                   <DisplayCurrency product={productInfo} isDiscount={true} />
                 </div>
               )}
               {productInfo.discountPercentage > 0 && (
                 <>
-                  <div className="text-[#1D6F2B]">
+                  <div className="font-medium text-[#1D6F2B]">
                     <DisplayCurrency product={productInfo} isDiscount={true} />
                   </div>
 
-                  <div className="text-[#00000080] line-through">
+                  <div className="font-medium text-[#00000080] line-through">
                     <DisplayCurrency product={productInfo} isDiscount={false} />
                   </div>
                 </>
