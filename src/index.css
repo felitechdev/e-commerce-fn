@@ -379,6 +379,14 @@ nav .active li {
   background-size: cover;
 }
 
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .PhoneInputInput {
   height: 100% !important;
   border: none !important;

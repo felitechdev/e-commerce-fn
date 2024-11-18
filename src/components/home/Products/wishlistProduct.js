@@ -1,6 +1,3 @@
-
-
-
 import DisplayCurrency from "../../Currency/DisplayCurrency/DisplayCurrency";
 import { BsCart3 } from "react-icons/bs";
 
@@ -13,8 +10,6 @@ import { FiHeart } from "react-icons/fi";
 import { addTowishlist } from "../../../redux/Reducers/wishlist";
 import { removeTowishlist } from "../../../redux/Reducers/wishlist";
 import discountedFinalPrice from "../../../util/discountedFinalPrice";
-
-
 
 import React, { useState } from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
@@ -172,13 +167,12 @@ const ProductPreview = ({ productInfo }) => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
 
-
-    const handleRemovewishlist = (event) => {
+  const handleRemovewishlist = (event) => {
     event.stopPropagation();
 
     let existingwishlist = JSON.parse(localStorage.getItem("wishlist"));
     let existingProduct = existingwishlist.find(
-      (product) => product.id === productInfo.id
+      (product) => product.id === productInfo.id,
     );
 
     // Dispatch the removeTowishlist action to update the Redux state
@@ -189,7 +183,7 @@ const ProductPreview = ({ productInfo }) => {
       existingProduct.items -= 1;
     } else {
       existingwishlist = existingwishlist.filter(
-        (product) => product.id !== existingProduct.id
+        (product) => product.id !== existingProduct.id,
       );
     }
     localStorage.setItem("wishlist", JSON.stringify(existingwishlist));
@@ -199,134 +193,116 @@ const ProductPreview = ({ productInfo }) => {
     setIsImageLoading(false);
   };
 
-
-
- 
   let headerIconStyles = "hover:text-[#1D6F2B] !rounded-full ";
 
-
-
-  const productThumbnail =
-  productInfo?.productThumbnail?.url.replace(
+  const productThumbnail = productInfo?.productThumbnail?.url.replace(
     productInfo?.productThumbnail?.url.split("/")[6],
-    "w_300,h_300"
+    "w_300,h_300",
   );
 
+  return (
+    <div
+      className="relative w-full overflow-hidden rounded-xl border hover:shadow-lg"
+      onClick={handleProductDetails}
+    >
+      {isCreatedinthreedays && (
+        <img
+          src={newimage}
+          alt=""
+          className="w-15 absolute -left-1.5 -top-1.5 z-40 h-12 rounded-tl-lg"
+        />
+      )}
+      <div className="mb-1 aspect-square w-full overflow-hidden">
+        {productInwhishlist ? (
+          <IoMdHeart
+            className="absolute right-2 top-2 cursor-pointer rounded-full bg-[#dff9e3] px-1.5 py-1.5 text-[#1D6F2B] hover:bg-[#E5E5E5]"
+            size={30}
+            onClick={(event) => handleRemovewishlist(event)}
+          />
+        ) : (
+          <IoIosHeartEmpty
+            className="absolute right-2 top-2 cursor-pointer rounded-full bg-white px-1.5 py-1.5 hover:bg-[#E5E5E5] hover:text-[#1D6F2B]"
+            size={30}
+            onClick={(event) => handleAddwishlist(event)}
+          />
+        )}
 
-return (
-  <div
-    className="w-full border rounded-xl overflow-hidden hover:shadow-lg  relative "
-    onClick={handleProductDetails}
-  >
-    {isCreatedinthreedays && (
-      <img
-        src={newimage}
-        alt=""
-        className="w-15 h-12 absolute -top-1.5 -left-1.5 z-40  rounded-tl-lg "
-      />
-    )}
-    <div className="w-full  overflow-hidden aspect-square mb-1 ">
+        {/* {isImageLoading && <ImageSkeleton />}{" "} */}
+        <img
+          src={productThumbnail && productThumbnail}
+          alt=""
+          // onLoad={handleImageLoad}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <div className="flex items-center justify-between px-2 pb-2">
+        <div>
+          <h2 className="line-clamp-2 text-ellipsis text-sm font-[500] capitalize text-primeColor">
+            {productInfo.name}{" "}
+          </h2>
+          {/* <p className="text-gray-500">{productInfo?.price} RWF</p> */}
 
-    {productInwhishlist ? (
-              <IoMdHeart
-                className="absolute right-2 top-2 cursor-pointer rounded-full bg-[#dff9e3] px-1.5 py-1.5 text-[#1D6F2B] hover:bg-[#E5E5E5]"
-                size={30}
-                onClick={(event) => handleRemovewishlist(event)}
-                
-                
-              />
-            ) : (
-              <IoIosHeartEmpty
-                className="absolute right-2 top-2 cursor-pointer rounded-full bg-white px-1.5 py-1.5 hover:bg-[#E5E5E5] hover:text-[#1D6F2B]"
-                size={30}
-                onClick={(event) => handleAddwishlist(event)}
-              />
-            )}
-     
-      {/* {isImageLoading && <ImageSkeleton />}{" "} */}
-      <img
-        src={productThumbnail && productThumbnail}
-        alt=""
-        // onLoad={handleImageLoad}
-        className="object-cover h-full w-full"
-      />
-    </div>
-    <div className="flex justify-between  items-center px-2 pb-2">
-      <div>
-      <h2 className="overflow-hidden text-ellipsis text-sm font-[500] capitalize text-primeColor">
-                  {productInfo.name.length > 15
-                    ? productInfo.name.substring(0, 15) + "..."
-                    : productInfo.name}{" "}
-                </h2>
-        {/* <p className="text-gray-500">{productInfo?.price} RWF</p> */}
-
-        <div className="text-sm   flex justify-between ">
-          <div>
-            {productInfo.discountPercentage <= 0 && (
-              <div className="text-[#1D6F2B] font-medium">
-                <DisplayCurrency product={productInfo} isDiscount={true} />
-              </div>
-            )}
-            {productInfo.discountPercentage > 0 && (
-              <>
-                <div className=" text-[#1D6F2B] font-medium  ">
+          <div className="flex justify-between text-sm">
+            <div>
+              {productInfo.discountPercentage <= 0 && (
+                <div className="font-medium text-[#1D6F2B]">
                   <DisplayCurrency product={productInfo} isDiscount={true} />
                 </div>
+              )}
+              {productInfo.discountPercentage > 0 && (
+                <>
+                  <div className="font-medium text-[#1D6F2B]">
+                    <DisplayCurrency product={productInfo} isDiscount={true} />
+                  </div>
 
-                <div className=" text-[#00000080] font-medium line-through">
-                  <DisplayCurrency product={productInfo} isDiscount={false} />
-                </div>
-              </>
-            )}
+                  <div className="font-medium text-[#00000080] line-through">
+                    <DisplayCurrency product={productInfo} isDiscount={false} />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
+
+        {!productInCart || productInCart.items === 0 ? (
+          <div
+            className="absolute bottom-2 right-1 flex items-center gap-1"
+            onClick={(event) => handleAddCart(event)}
+          >
+            <IoCartOutline
+              className={headerIconStyles}
+              onClick={(event) => handleAddCart(event)}
+              size={20}
+            />
+          </div>
+        ) : (
+          <div
+            className="gap- absolute bottom-2 right-1 flex items-center rounded-full border bg-white p-1"
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <BiMinus
+              className="font-semibold text-[red] hover:rounded-full"
+              size={18}
+              onClick={(event) => handleRemoveCart(event)}
+            />
+            <p className="mx-0 flex h-4 w-4 items-center justify-center rounded-full border-[0.5px] border-[#fff] text-sm font-semibold text-black">
+              {productInCart && productInCart.items}
+            </p>
+            <BiPlus
+              size={18}
+              className="ml-0 font-semibold text-primary hover:rounded-full"
+              onClick={(event) => {
+                handleAddCart(event);
+              }}
+            />
+          </div>
+        )}
       </div>
-
-      {!productInCart || productInCart.items === 0 ? (
-                <div
-                  className="absolute right-1 bottom-2 flex items-center gap-1"
-                  onClick={(event) => handleAddCart(event)}
-                >
-                  <IoCartOutline
-                    className={headerIconStyles}
-                    onClick={(event) => handleAddCart(event)}
-                    size={20}
-                  />
-                </div>
-              ) : (
-                <div
-                  className="gap- absolute right-1 bottom-2 flex items-center rounded-full border bg-white p-1"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  <BiMinus
-                    className="font-semibold text-[red] hover:rounded-full"
-                    size={18}
-                    onClick={(event) => handleRemoveCart(event)}
-                  />
-                  <p className="mx-0 flex h-4 w-4 items-center justify-center rounded-full border-[0.5px] border-[#fff] text-sm font-semibold text-black">
-                    {productInCart && productInCart.items}
-                  </p>
-                  <BiPlus
-                    size={18}
-                    className="ml-0 font-semibold text-primary hover:rounded-full"
-                    onClick={(event) => {
-                      handleAddCart(event);
-                    }}
-                  />
-                </div>
-              )}
-    
-    
     </div>
-  </div>
-);
-}
-
-
-
-
+  );
+};
 
 // const ProductPreview = ({ productInfo }) => {
 //   const rootId = productInfo.id;
