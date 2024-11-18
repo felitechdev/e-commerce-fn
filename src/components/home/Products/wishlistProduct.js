@@ -237,25 +237,25 @@ const ProductPreview = ({ productInfo }) => {
       </div>
       <div className="flex items-center justify-between px-2 pb-2">
         <div>
-          <h2 className="line-clamp-2 text-ellipsis text-sm font-[500] capitalize text-primeColor">
+          <h2 className="text-md line-clamp-2 text-ellipsis font-[500] capitalize text-primeColor">
             {productInfo.name}{" "}
           </h2>
           {/* <p className="text-gray-500">{productInfo?.price} RWF</p> */}
 
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between text-sm font-semibold">
             <div>
               {productInfo.discountPercentage <= 0 && (
-                <div className="font-medium text-[#1D6F2B]">
+                <div className="text-[#1D6F2B]">
                   <DisplayCurrency product={productInfo} isDiscount={true} />
                 </div>
               )}
               {productInfo.discountPercentage > 0 && (
                 <>
-                  <div className="font-medium text-[#1D6F2B]">
+                  <div className="text-[#1D6F2B]">
                     <DisplayCurrency product={productInfo} isDiscount={true} />
                   </div>
 
-                  <div className="font-medium text-[#00000080] line-through">
+                  <div className="text-[#00000080] line-through">
                     <DisplayCurrency product={productInfo} isDiscount={false} />
                   </div>
                 </>
