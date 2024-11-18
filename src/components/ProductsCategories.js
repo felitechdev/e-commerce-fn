@@ -195,7 +195,7 @@ function ProductsCategories() {
       )}
 
       <div className="mx-auto flex max-w-container flex-col gap-2 px-2 md:px-6">
-        <h1 className="py-3 text-2xl font-bold underline">OUR PRODUCTS</h1>
+        <h1 className="py-3 text-2xl font-bold">OUR PRODUCTS</h1>
         <ProductDisplay />
       </div>
     </div>

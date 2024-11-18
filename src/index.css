@@ -4,7 +4,9 @@
 @tailwind utilities;
 
 body {
-  font-family: "Quicksand", system-ui;
+  /* font-family: "Quicksand", system-ui; */
+  font-family: "Arial", "sans-serif";
+  color: "#616161";
 }
 
 ::-webkit-scrollbar {
