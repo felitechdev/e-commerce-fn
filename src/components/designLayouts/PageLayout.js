@@ -7,7 +7,7 @@ import { whatsappIcon, FeliTechLogo_transparent } from "../../assets/images";
 import Image from "./Image";
 export default function PageLayout({ children, showFooter, userInfo }) {
   return (
-    <>
+    <main className="">
       <Header userInfo={userInfo} />
       <div className="mt-6">{children}</div>
 
@@ -20,10 +20,10 @@ export default function PageLayout({ children, showFooter, userInfo }) {
       <a
         href="https://wa.me//+250798697197"
         target="_blank"
-        className="fixed text-white z-50 right-4 bottom-10 w-12 h-12 hover:animate-bounce"
+        className="fixed bottom-10 right-4 z-50 h-12 w-12 text-white hover:animate-bounce"
       >
-        <img src={whatsappIcon} className="w-full h-full" alt="WhatsApp" />
+        <img src={whatsappIcon} className="h-full w-full" alt="WhatsApp" />
       </a>
-    </>
+    </main>
   );
 }

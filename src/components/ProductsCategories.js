@@ -25,17 +25,17 @@ export async function fetchProducts(page) {
   let today = format(new Date().getDate(), "yyyy-MM-dd");
   let tomorrow = format(
     new Date().setDate(new Date().getDate() + 1),
-    "yyyy-MM-dd"
+    "yyyy-MM-dd",
   );
 
   let prevTwodayago = format(
     new Date().setDate(new Date().getDate() - 3),
-    "yyyy-MM-dd"
+    "yyyy-MM-dd",
   );
 
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`,
       // `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
     );
 
@@ -100,7 +100,7 @@ function ProductsCategories() {
       // Round the scrollLeft and maxScrollLeft values to prevent rounding issues
       const scrollLeft = Math.ceil(container.scrollLeft);
       const maxScrollLeft = Math.floor(
-        container.scrollWidth - container.clientWidth
+        container.scrollWidth - container.clientWidth,
       );
 
       // Set disabled states
@@ -126,13 +126,12 @@ function ProductsCategories() {
     if (container) {
       container.addEventListener("scroll", checkScrollPosition);
       checkScrollPosition(); // Trigger the check on mount
-  
+
       return () => {
         container.removeEventListener("scroll", checkScrollPosition);
       };
     }
   }, [products]); // Run when products change or component mounts
-  
 
   // Add an effect to recheck scroll position after images/products load
   useEffect(() => {
@@ -144,7 +143,7 @@ function ProductsCategories() {
       <Banner ads={ads} loading={isloading} />
 
       <div className="mx-auto mt-10 max-w-container space-y-4 px-2 md:px-6">
-        <h1 className="text-base font-semibold">Categories</h1>
+        <h1 className="text-2xl font-bold capitalize">CATEGORIES</h1>
         <CategoryImagesCards />
       </div>
 
@@ -156,7 +155,7 @@ function ProductsCategories() {
 
       {products && products.length > 0 && (
         <div className="mx-auto my-10 max-w-container space-y-4 px-2 md:px-6">
-          <h1 className="text-base font-semibold">New Arrivals</h1>
+          <h1 className="text-2xl font-bold capitalize">NEW ARRIVALS</h1>
           <div className="relative h-fit rounded-md">
             <button
               onClick={scrollLeft}
@@ -196,7 +195,7 @@ function ProductsCategories() {
       )}
 
       <div className="mx-auto flex max-w-container flex-col gap-2 px-2 md:px-6">
-        <h1 className=" text-base underline py-3 font-semibold">Our Products</h1>
+        <h1 className="py-3 text-2xl font-bold underline">OUR PRODUCTS</h1>
         <ProductDisplay />
       </div>
     </div>
