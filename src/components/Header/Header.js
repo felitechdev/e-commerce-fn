@@ -103,12 +103,15 @@ const Header = (props) => {
     "inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md py-2.5 px-2";
   return (
     <div className="h-100px sticky top-0 z-50 w-full border-b-[1px] border-b-gray-200 bg-white">
-      <div className="flex justify-end border-b-[1px] border-b-gray-200 bg-[white] px-6 py-1 text-black md:hidden">
+      <div className="flex justify-end border-b-[1px] border-b-gray-200 bg-[white] px-4 py-1 text-black md:hidden">
         <ul className="z-50 flex w-full items-center justify-between gap-1 p-0 md:max-w-[320px] lg:max-w-[400px]">
           <div className="">
             {" "}
             <Link to="/">
-              <Image className="aspect-auto h-[50px]" imgSrc={HorizontalLogo} />
+              <Image
+                className="h-[80px] w-[156px]"
+                imgSrc={FeliTechLogo_transparent}
+              />
             </Link>
           </div>
           <li className="">
@@ -357,7 +360,39 @@ const Header = (props) => {
               </span>
             </li>
 
-            <li className="relative">
+            {user ? (
+              ""
+            ) : (
+              <>
+                <li>
+                  <NavLink
+                    className={({ isActive }) => {
+                      return isActive
+                        ? "w-full whitespace-nowrap text-center text-[14px] font-semibold text-[#1D6F2B] md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
+                        : "w-full whitespace-nowrap text-center text-[14px] font-semibold md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
+                    }}
+                    to="/signin"
+                  >
+                    Sign in
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    className={({ isActive }) => {
+                      return isActive
+                        ? "w-full whitespace-nowrap rounded-md bg-[#1D6F2B] px-2 py-1 text-center text-[14px] font-semibold text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
+                        : "rounded-mdn w-full whitespace-nowrap bg-[#1D6F2B] px-2 py-1 text-center text-[14px] font-semibold text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
+                    }}
+                    to="/signup"
+                  >
+                    Sign Up
+                  </NavLink>
+                </li>
+              </>
+            )}
+            {user ? <></> : ""}
+            <li className="relative ml-2 lg:ml-6">
               <NavLink
                 className={({ isActive }) => {
                   return isActive
