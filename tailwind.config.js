@@ -26,6 +26,8 @@ module.exports = {
         lightText: "#6D6D6D",
         secondary: "#000000",
         light: "#FFFFFF",
+        bgprimary: "#ecfcf4",
+        bgsecondary: "#022c23",
 
         border: "#7c7c7b",
         icon1: "#f4a535",

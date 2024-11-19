@@ -4,7 +4,9 @@
 @tailwind utilities;
 
 body {
-  font-family: "Quicksand", system-ui;
+  /* font-family: "Quicksand", system-ui; */
+  font-family: "Arial", "sans-serif";
+  color: "#616161";
 }
 
 ::-webkit-scrollbar {
@@ -377,6 +379,14 @@ nav .active li {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .PhoneInputInput {
