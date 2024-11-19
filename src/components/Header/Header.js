@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { MdClose } from "react-icons/md";
-import { HiMenuAlt2 } from "react-icons/hi";
-import { FaRegUser } from "react-icons/fa6";
+import axios from "axios";
 import { motion } from "framer-motion";
-import { IoIosHeartEmpty } from "react-icons/io";
+import React, { useState } from "react";
+import { BsCart3 } from "react-icons/bs";
+import { FiHeart } from "react-icons/fi";
+import { HiMenuAlt2 } from "react-icons/hi";
+import { MdClose } from "react-icons/md";
+import { useSelector } from "react-redux";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import {
   FeliTechLogo_transparent,
+  HorizontalLogo,
   FeliTechWhiteLogo,
 } from "../../assets/images";
-import { MdLogout } from "react-icons/md";
-import axios from "axios";
 import { leftNavBarList } from "../../constants";
-import { FiHeart } from "react-icons/fi";
-import { BsCart3 } from "react-icons/bs";
-import { useSelector } from "react-redux";
-import UserAvatarDropdown from "./UserAvatarDropdown";
-import { FaSearch, FaTimes } from "react-icons/fa";
-import { Search } from "../Search/Search";
+import { useUser } from "../../context/UserContex";
 import { useCurrency } from "../Currency/CurrencyProvider/CurrencyProvider";
 import Image from "../designLayouts/Image";
-import { useUser } from "../../context/UserContex";
 import SearchBar from "./SearchBar";
-import { useSearchParams } from "react-router-dom";
+import UserAvatarDropdown from "./UserAvatarDropdown";
 
 import { useQuery } from "@tanstack/react-query";
-import { MobileCategoryNav } from "../ProductsCategories";
 import ProductClassAccordion from "../pageProps/shopPage/Accordions/ProductClass";
 
 // let cart = JSON.parse(localStorage.getItem("cart"));
@@ -100,18 +100,15 @@ const Header = (props) => {
   });
 
   let headerIconStyles =
-    "inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-full py-2.5 px-2";
+    "inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md py-2.5 px-2";
   return (
     <div className="h-100px sticky top-0 z-50 w-full border-b-[1px] border-b-gray-200 bg-white">
-      <div className="flex justify-end border-b-[1px] border-b-gray-200 bg-[white] px-4 py-1 text-black md:hidden">
+      <div className="flex justify-end border-b-[1px] border-b-gray-200 bg-[white] px-6 py-1 text-black md:hidden">
         <ul className="z-50 flex w-full items-center justify-between gap-1 p-0 md:max-w-[320px] lg:max-w-[400px]">
           <div className="">
             {" "}
             <Link to="/">
-              <Image
-                className="h-[80px] w-[156px]"
-                imgSrc={FeliTechLogo_transparent}
-              />
+              <Image className="aspect-auto h-[50px]" imgSrc={HorizontalLogo} />
             </Link>
           </div>
           <li className="">
@@ -130,7 +127,7 @@ const Header = (props) => {
             </span>
           </li>
 
-          <li className="relative mr-3 lg:mx-6">
+          <li className="relative lg:mx-6">
             <NavLink
               className={({ isActive }) => {
                 return isActive
@@ -143,14 +140,14 @@ const Header = (props) => {
               }}
             >
               <FiHeart
-                className="px-2.5 py-1.5 lg:hover:rounded-full lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
+                className="px-2.5 py-1.5 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
                 size={40}
               />
-              {
-                <p className="z-1 absolute -right-2 -top-1 -ml-4 mt-1 flex h-6 w-6 items-center justify-center rounded-full border-[0.5px] border-[#fff] bg-[#1D6F2B] text-[12px] font-semibold text-white">
+              {/* {
+                <p className="z-1 absolute -right-2 -top-1 -ml-4 mt-1 flex h-6 w-6 items-center justify-center rounded-md border-[0.5px] border-[#fff] bg-[#1D6F2B] text-[12px] text-sm text-white">
                   {wishlist.length}
                 </p>
-              }
+              } */}
             </NavLink>
           </li>
 
@@ -158,8 +155,8 @@ const Header = (props) => {
             <NavLink
               className={({ isActive }) => {
                 return isActive
-                  ? "rounded bg-white py-1 align-middle font-semibold text-[#1D6F2B] hover:text-[#1D6F2B]"
-                  : "align-middle font-semibold hover:text-[#1D6F2B]";
+                  ? "rounded bg-white py-1 align-middle text-[#1D6F2B] hover:text-[#1D6F2B]"
+                  : "align-middle hover:text-[#1D6F2B]";
               }}
               to="/cart"
               state={{
@@ -168,7 +165,7 @@ const Header = (props) => {
             >
               <BsCart3 className={headerIconStyles} size={40} />
               {
-                <p className="z-1 absolute -right-2 -top-1 -ml-4 mt-1 flex h-6 w-6 items-center justify-center rounded-md border-[0.5px] border-[#fff] bg-[#1D6F2B] text-[12px] font-semibold text-white">
+                <p className="z-1 absolute -right-2 -top-1 -ml-4 mt-1 flex h-6 w-6 items-center justify-center rounded-md border-[0.5px] border-[#fff] bg-[#1D6F2B] text-[12px] text-white">
                   {cartTotal}
                 </p>
               }
@@ -191,15 +188,14 @@ const Header = (props) => {
         </ul>
       </div>
 
-      <nav className="relative mx-auto flex h-full max-w-container items-center gap-6 px-4 md:items-center md:justify-between">
-        <div className="ml-0 flex w-[90%] space-x-5 md:!w-[250px]">
+      <nav className="relative mx-auto flex h-full max-w-container items-center gap-6 px-8 py-2 md:items-center md:justify-between">
+        <div className="">
           <div className="hidden md:inline-block">
-            {" "}
             <Link to="/">
               <div className=" ">
                 <Image
-                  className="h-[80px] w-[156px]"
-                  imgSrc={FeliTechLogo_transparent}
+                  className="aspect-auto h-[60px]"
+                  imgSrc={HorizontalLogo}
                 />
               </div>
             </Link>
@@ -252,7 +248,7 @@ const Header = (props) => {
                   <ul className="flex flex-col gap-2 text-gray-200">
                     {leftNavBarList.map((item) => (
                       <li
-                        className="hoverEffect items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:font-semibold hover:text-white hover:underline md:border-r-[2px]"
+                        className="hoverEffect hover items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:text-white hover:underline md:border-r-[2px]"
                         key={item._id}
                       >
                         <NavLink
@@ -344,9 +340,9 @@ const Header = (props) => {
         <SearchBar />
 
         <div className="hidden md:block">
-          <ul className="z-50 flex items-center gap-2 p-0 md:max-w-[320px] lg:max-w-[400px]">
+          <ul className="z-50 flex items-center gap-2 p-0 !font-normal md:max-w-[320px] lg:max-w-[400px]">
             <li>
-              <span className="mr-6 hidden font-light text-[#1D6F2B] hover:text-[#1D6F2B] md:inline-block">
+              <span className="hidden font-light text-[#1D6F2B] hover:text-[#1D6F2B] md:inline-block">
                 <select
                   value={currentCurrency}
                   onChange={(e) => handleSetCurrenctCurrency(e.target.value)}
@@ -361,39 +357,7 @@ const Header = (props) => {
               </span>
             </li>
 
-            {user ? (
-              ""
-            ) : (
-              <>
-                <li>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive
-                        ? "w-full whitespace-nowrap text-center text-[14px] font-semibold text-[#1D6F2B] md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
-                        : "w-full whitespace-nowrap text-center text-[14px] font-semibold md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
-                    }}
-                    to="/signin"
-                  >
-                    Sign in
-                  </NavLink>
-                </li>
-
-                <li>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive
-                        ? "w-full whitespace-nowrap rounded-md bg-[#1D6F2B] px-2 py-1 text-center text-[14px] font-semibold text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
-                        : "rounded-mdn w-full whitespace-nowrap bg-[#1D6F2B] px-2 py-1 text-center text-[14px] font-semibold text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
-                    }}
-                    to="/signup"
-                  >
-                    Sign Up
-                  </NavLink>
-                </li>
-              </>
-            )}
-            {user ? <></> : ""}
-            <li className="relative ml-2 lg:ml-6">
+            <li className="relative">
               <NavLink
                 className={({ isActive }) => {
                   return isActive
@@ -406,15 +370,15 @@ const Header = (props) => {
                 }}
               >
                 {/* <IoIosHeartEmpty
-                  className="px-2.5 py-1.5 lg:hover:rounded-full lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
+                  className="px-2.5 py-1.5 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
                   size={40}
                 /> */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
-                  width={40}
-                  height={40}
-                  className="px-2.5 py-1.5 lg:hover:rounded-full lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
+                  width={45}
+                  height={45}
+                  className="px-2.5 py-1.5 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
                   fill={"none"}
                 >
                   <path
@@ -425,9 +389,9 @@ const Header = (props) => {
                   />
                 </svg>
                 {
-                  <p className="z-1 absolute right-[-5px] top-1 flex h-5 w-5 items-center justify-center rounded-full border border-[#fff] bg-[#1D6F2B] text-xs font-semibold text-white">
+                  <span className="z-1 absolute right-[2px] top-0.5 flex h-4 w-4 items-center justify-center rounded-full border border-[#eb612a] bg-[#eb612a] p-1 text-xs text-white">
                     {wishlist.length}
-                  </p>
+                  </span>
                 }
               </NavLink>
             </li>
@@ -435,22 +399,55 @@ const Header = (props) => {
               <NavLink
                 className={({ isActive }) => {
                   return isActive
-                    ? "align-middle font-semibold text-[#1D6F2B] hover:text-[#1D6F2B]"
-                    : "align-middle font-semibold hover:text-[#1D6F2B]";
+                    ? "align-middle text-[#1D6F2B] hover:text-[#1D6F2B]"
+                    : "align-middle hover:text-[#1D6F2B]";
                 }}
                 to="/cart"
                 state={{
                   data: location.pathname.split("/")[1],
                 }}
               >
-                <BsCart3 className={headerIconStyles} size={40} />
+                <BsCart3 className={headerIconStyles} size={45} />
                 {
-                  <p className="z-1 absolute -right-2 -top-1 -ml-4 mt-1 flex h-6 w-6 items-center justify-center rounded-full border-[0.5px] border-[#fff] bg-[#1D6F2B] text-[12px] font-semibold text-white">
+                  <span className="z-1 absolute right-[2px] top-0.5 flex h-4 w-4 items-center justify-center rounded-full border border-[#eb612a] bg-[#eb612a] p-1 text-xs text-white">
                     {cartTotal}
-                  </p>
+                  </span>
                 }
               </NavLink>
             </li>
+
+            {user ? (
+              ""
+            ) : (
+              <>
+                <li className="ml-1 text-base">
+                  <NavLink
+                    className={({ isActive }) => {
+                      return isActive
+                        ? "w-full whitespace-nowrap text-center text-[#1D6F2B] md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
+                        : "w-full whitespace-nowrap text-center text-[#1D6F2B] md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
+                    }}
+                    to="/signin"
+                  >
+                    Sign in
+                  </NavLink>
+                </li>
+
+                <li className="text-base">
+                  <NavLink
+                    className={({ isActive }) => {
+                      return isActive
+                        ? "w-full whitespace-nowrap rounded-md bg-[#1D6F2B] px-2 py-1 text-center text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
+                        : "w-full whitespace-nowrap rounded-md bg-[#1D6F2B] px-2 py-1 text-center text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
+                    }}
+                    to="/signup"
+                  >
+                    Sign Up
+                  </NavLink>
+                </li>
+              </>
+            )}
+            {user ? <></> : ""}
 
             {user ? (
               <UserAvatarDropdown userInfo={user} logOut={onLogout} />
@@ -478,12 +475,12 @@ const Header = (props) => {
                     alt="logoLight"
                   />
                   <ul className="flex flex-col gap-2 text-gray-200">
-                    <li className="hoverEffect items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:font-semibold hover:text-white hover:underline md:border-r-[2px]">
+                    <li className="hoverEffect hover items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:text-white hover:underline md:border-r-[2px]">
                       <Link to="/" onClick={() => setSidenav(false)}>
                         {"Home"}
                       </Link>
                     </li>
-                    <li className="hoverEffect items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:font-semibold hover:text-white hover:underline md:border-r-[2px]">
+                    <li className="hoverEffect hover items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:text-white hover:underline md:border-r-[2px]">
                       <Link
                         to="/shop"
                         state={{
@@ -494,7 +491,7 @@ const Header = (props) => {
                         {"Shop"}
                       </Link>
                     </li>
-                    <li className="hoverEffect items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:font-semibold hover:text-white hover:underline md:border-r-[2px]">
+                    <li className="hoverEffect hover items-center border-r-gray-300 text-lg font-normal text-gray-200 decoration-[1px] underline-offset-[4px] last:border-r-0 hover:text-white hover:underline md:border-r-[2px]">
                       <Link
                         to="/about"
                         state={{

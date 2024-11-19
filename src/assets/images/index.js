@@ -1,3 +1,4 @@
+import HorizontalLogo from "./horizontal_logo.png";
 import FeliTechLogo_transparent from "./feli.png";
 import FeliTechWhiteLogo from "./feliwhite.png";
 import bannerImgOne from "./banner/bannerImgOne.png";
@@ -91,4 +92,5 @@ export {
   newimage,
   twofabg,
   twofaicon,
+  HorizontalLogo,
 };

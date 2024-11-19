@@ -18,7 +18,7 @@ import { RxCross2 } from "react-icons/rx";
 export async function searchproduct(name) {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/search?name=${name}&fields=name,price,seller,discountPercentage,createdAt,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products/search?name=${name}&fields=name,price,seller,discountPercentage,createdAt,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`,
     );
 
     return response.data.data.products;
@@ -83,26 +83,26 @@ const SearchBar = ({ ismobileview }) => {
   return (
     <div
       className={` ${
-        ismobileview ? " " : "hidden md:block w-[50%]  rounded-md"
+        ismobileview ? " " : "hidden w-[35%] rounded-md md:block"
       }`}
     >
-      <div className="relative w-full lg:w-[90%] h-[40px] md:h-[40px] m-auto text-sm text-primeColor  flex items-center gap-2 justify-between p-0 rounded-md">
+      <div className="relative m-auto flex h-[35px] w-full items-center justify-between gap-2 rounded-md p-0 text-sm text-primeColor md:h-[35px] lg:w-[90%]">
         <input
-          className="flex-1 h-full rounded-l-md text-sm  mr-3 !w-[90%] border-gray-400 !md:w-[85%] outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px] "
+          className="!md:w-[85%] mr-3 h-full !w-[90%] flex-1 rounded-full border-gray-400 text-sm outline-none placeholder:text-[14px] placeholder:text-[#C4C4C4]"
           type="text"
           onChange={handleSearch}
           value={searchQuery}
-          placeholder="Search your products here"
+          placeholder=" What are you looking for?"
         />
         {!searchQuery ? (
-          <div className=" absolute rounded-r-md bg-primary h-full justify-center items-center flex right-0 w-20 md:w-10 ">
-            <CiSearch size={20} className=" text-white" />
+          <div className="absolute right-0 flex h-full w-40 items-center justify-center rounded-r-full bg-primary md:w-20">
+            <CiSearch size={20} className="text-white" />
           </div>
         ) : (
-          <div className=" absolute bg-primary rounded-r-md h-full justify-center items-center flex right-0 w-20 md:w-10 ">
+          <div className="absolute right-0 flex h-full w-40 items-center justify-center rounded-r-full bg-primary md:w-20">
             <RxCross2
               size={20}
-              className=" text-white"
+              className="text-white"
               onClick={() => setSearchQuery("")}
             />
           </div>
@@ -110,7 +110,7 @@ const SearchBar = ({ ismobileview }) => {
 
         {searchQuery && (
           <div
-            className={`w-full mx-auto h-96  bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}
+            className={`scrollbar-hide absolute left-0 top-16 z-50 mx-auto h-96 w-full cursor-pointer overflow-y-scroll bg-white shadow-2xl`}
           >
             {searchQuery &&
               filteredProducts.map((item) => (
@@ -122,46 +122,46 @@ const SearchBar = ({ ismobileview }) => {
                     setSearchQuery("");
                   }}
                   key={item.id}
-                  className=" w-full px-2  bg-gray-100 mb-3 flex items-start gap-3  break-words"
+                  className="mb-3 flex w-full items-start gap-3 break-words bg-gray-100 px-2"
                 >
                   <img
-                    className="w-24  h-24 object-fill border rounded-md"
+                    className="h-24 w-24 rounded-md border object-fill"
                     src={item?.productImages?.productThumbnail?.url}
                     alt=""
                   />
                   <div className="flex flex-col gap-1 overflow-auto">
-                    <p className="font-medium text-sm md:text-md ">
+                    <p className="md:text-md text-sm font-medium">
                       {item.name.length > 80
                         ? item.name.slice(0, 80) + "..."
                         : item.name}
                     </p>
                     <p
-                      className="text-xs overflow-auto break-words "
+                      className="overflow-auto break-words text-xs"
                       dangerouslySetInnerHTML={{
                         __html: item?.description?.slice(0, 80),
                       }}
                     ></p>
-                    <p className="text-sm flex">
+                    <p className="flex text-sm">
                       Price:{" "}
                       {/* <span className="text-primeColor font-semibold">
                             {item.currency} {item.price}
                           </span> */}
                       <div>
                         {item.discountPercentage <= 0 && (
-                          <div className="text-[#1D6F2B] font-semibold">
+                          <div className="font-semibold text-[#1D6F2B]">
                             <DisplayCurrency product={item} isDiscount={true} />
                           </div>
                         )}
                         {item.discountPercentage > 0 && (
                           <>
-                            <div className=" text-[#1D6F2B] font-semibold  ">
+                            <div className="font-semibold text-[#1D6F2B]">
                               <DisplayCurrency
                                 product={item}
                                 isDiscount={true}
                               />
                             </div>
 
-                            <div className=" text-[#00000080] font-semibold line-through">
+                            <div className="font-semibold text-[#00000080] line-through">
                               <DisplayCurrency
                                 product={item}
                                 isDiscount={false}
