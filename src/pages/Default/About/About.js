@@ -11,10 +11,10 @@ const About = () => {
   // }, [location]);
   return (
     <PageLayout showFooter={false}>
-      <div className="max-w-container mx-auto text-center px-4">
+      <div className="mx-auto max-w-container px-4 text-center">
         <Breadcrumbs title="About Us" prevLocation={prevLocation} />
-        <div className="max-w-[600px] text-center  m-auto text-base text-lightText mb-2">
-          <span className="text-primeColor font-semibold text-lg">
+        <div className="m-auto mb-2 max-w-[600px] text-center text-base text-lightText">
+          <span className="text-lg font-semibold text-primeColor">
             Welcome to Feli Express – Your Premier Online Shopping Destination
             in Rwanda!
           </span>{" "}
@@ -24,7 +24,7 @@ const About = () => {
           to offer a diverse range of high-quality products, all available at
           your fingertips.
           <br />
-          <span className="text-primeColor font-semibold text-lg">
+          <span className="text-lg font-semibold text-primeColor">
             Our Vision{" "}
           </span>
           <br />
@@ -34,18 +34,18 @@ const About = () => {
           for the latest trends, unique finds, or everyday essentials, Feli
           Express is your go-to destination for all your shopping needs.
           <br />{" "}
-          <span className="text-primeColor font-semibold text-lg">
+          <span className="text-lg font-semibold text-primeColor">
             Why Choose Us?
           </span>
           <br />{" "}
-          <span className="text-primeColor font-semibold text-lg">
+          <span className="text-lg font-semibold text-primeColor">
             Quality You Can Trust:{" "}
           </span>
           <br />
           We partner with reputable brands and suppliers to ensure that every
           product on our platform meets the highest standards of quality.
           <br />{" "}
-          <span className="text-primeColor font-semibold text-lg">
+          <span className="text-lg font-semibold text-primeColor">
             Unmatched Convenience:
           </span>{" "}
           Shopping with us is effortless. Our user-friendly website and mobile
@@ -53,7 +53,7 @@ const About = () => {
           shop, and track your orders from the comfort of your home. Enjoy a
           hassle-free process with easy navigation and secure payment options.{" "}
           <Link to="/shop">
-            <button className="w-52 h-10 bg-primary text-white hover:opacity-20 duration-300">
+            <button className="h-10 w-52 bg-primary text-white duration-300 hover:opacity-20">
               Continue Shopping
             </button>
           </Link>
