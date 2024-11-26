@@ -40,6 +40,19 @@ const Price = ({ handlefilterShow }) => {
     setSearchParams(searchParams);
   };
 
+  useEffect(() => {
+    if (
+      searchParams.get("price[gte]") == null &&
+      searchParams.get("price[lte]") == null
+    ) {
+      setIsOkClicked(false);
+      setPriceRange({
+        min: 0,
+        max: 0,
+      });
+    }
+  }, [searchParams]);
+
   const handleResetSearch = (e) => {
     setIsOkClicked(false);
     searchParams.delete(`price[gte]`, priceRange.min);
