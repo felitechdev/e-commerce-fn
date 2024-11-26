@@ -189,7 +189,7 @@ const ProductPreview = ({ productInfo }) => {
     );
   return (
     <div
-      className="relative w-full cursor-pointer overflow-hidden rounded-xl border hover:shadow-lg"
+      className="relative w-full cursor-pointer overflow-hidden rounded-xl border border-gray-300 shadow hover:shadow-lg"
       onClick={handleProductDetails}
     >
       {isCreatedinthreedays && (
@@ -223,14 +223,11 @@ const ProductPreview = ({ productInfo }) => {
       </div>
       <div className="flex items-center justify-between px-2 pb-2">
         <div>
-          <h2 className="text-md my-2 line-clamp-2 overflow-hidden text-ellipsis font-[500] capitalize text-primeColor">
-            {
-              // productInfo.name.length > 15
-              //   ? productInfo.name.substring(0, 15) + "..."
-              //   :
-              productInfo.name
-            }{" "}
-          </h2>
+          <div className="h-20">
+            <h2 className="text-md my-2 line-clamp-3 overflow-hidden text-ellipsis font-semibold capitalize tracking-wide text-primeColor">
+              {productInfo.name}
+            </h2>
+          </div>
           {/* <p className="text-gray-500">{productInfo?.price} RWF</p> */}
 
           <div className="flex justify-between text-sm font-semibold">
@@ -351,135 +348,6 @@ const ProductPreview = ({ productInfo }) => {
         </div>
       )} */}
       </div>
-    </div>
-  );
-
-  return (
-    <div
-      className="relative h-fit w-full cursor-pointer overflow-hidden bg-white"
-      onClick={handleProductDetails}
-    >
-      {productInfo.productImages !== undefined ? (
-        <div className="flex h-64 w-full flex-col justify-between overflow-hidden rounded border border-gray-200">
-          <div className="relative max-w-80 flex-1 overflow-hidden">
-            {isCreatedinthreedays && (
-              <img
-                src={newimage}
-                alt=""
-                className="w-15 absolute -left-1.5 -top-1.5 z-40 h-12 rounded-tl-lg"
-              />
-            )}
-            {productInwhishlist ? (
-              <IoMdHeart
-                className="absolute right-2 top-2 cursor-pointer rounded-full bg-[#dff9e3] px-1.5 py-1.5 text-[#1D6F2B] hover:bg-[#E5E5E5]"
-                size={30}
-                onClick={(event) => handleAddwishlist(event)}
-              />
-            ) : (
-              <IoIosHeartEmpty
-                className="absolute right-2 top-2 cursor-pointer rounded-full bg-white px-1.5 py-1.5 hover:bg-[#E5E5E5] hover:text-[#1D6F2B]"
-                size={30}
-                onClick={(event) => handleAddwishlist(event)}
-              />
-            )}
-
-            <div className="h-full w-full border-b">
-              {isImageLoading && <ImageSkeleton />}{" "}
-              <Image
-                className={`h-full w-full rounded-tl-md rounded-tr-md object-fill ${
-                  isImageLoading ? "hidden" : ""
-                }`}
-                imgSrc={optimizedImageUrl}
-                // imgSrc={productInfo.productImages.productThumbnail.url}
-                onLoad={handleImageLoad} // Call when the image loads
-              />
-            </div>
-            <div className="absolute left-4 top-3 text-[red]">
-              {productInfo.discountPercentage > 0 && (
-                <Badge text={`- ${productInfo.discountPercentage}%`} />
-              )}
-            </div>
-          </div>
-          <div className="flex h-fit w-full flex-col gap-1 bg-white px-3 py-4">
-            <div className="font-titleFont relative flex justify-between space-x-1">
-              <div className="w-full flex-col flex-wrap text-left">
-                <h2 className="overflow-hidden text-ellipsis text-sm font-[500] capitalize text-primeColor">
-                  {productInfo.name.length > 15
-                    ? productInfo.name.substring(0, 15) + "..."
-                    : productInfo.name}{" "}
-                </h2>
-                <div className="flex justify-between text-xs">
-                  <div>
-                    {productInfo.discountPercentage <= 0 && (
-                      <div className="font-semibold text-[#1D6F2B]">
-                        <DisplayCurrency
-                          product={productInfo}
-                          isDiscount={true}
-                        />
-                      </div>
-                    )}
-                    {productInfo.discountPercentage > 0 && (
-                      <>
-                        <div className="font-semibold text-[#1D6F2B]">
-                          <DisplayCurrency
-                            product={productInfo}
-                            isDiscount={true}
-                          />
-                        </div>
-
-                        <div className="font-semibold text-[#00000080] line-through">
-                          <DisplayCurrency
-                            product={productInfo}
-                            isDiscount={false}
-                          />
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {!productInCart || productInCart.items === 0 ? (
-                <div
-                  className="absolute right-1 top-2 flex items-center gap-1"
-                  onClick={(event) => handleAddCart(event)}
-                >
-                  <IoCartOutline
-                    className={headerIconStyles}
-                    onClick={(event) => handleAddCart(event)}
-                    size={20}
-                  />
-                </div>
-              ) : (
-                <div
-                  className="gap- absolute right-1 top-1 flex items-center rounded-full border bg-white p-1"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  <BiMinus
-                    className="font-semibold text-[red] hover:rounded-full"
-                    size={18}
-                    onClick={(event) => handleRemoveCart(event)}
-                  />
-                  <p className="mx-0 flex h-4 w-4 items-center justify-center rounded-full border-[0.5px] border-[#fff] text-sm font-semibold text-black">
-                    {productInCart && productInCart.items}
-                  </p>
-                  <BiPlus
-                    size={18}
-                    className="ml-0 font-semibold text-primary hover:rounded-full"
-                    onClick={(event) => {
-                      handleAddCart(event);
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
     </div>
   );
 };
