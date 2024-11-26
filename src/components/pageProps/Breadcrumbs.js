@@ -10,10 +10,8 @@ const Breadcrumbs = ({ prevLocation, title }) => {
   }, [location]);
 
   return (
-    <div className="w-full py-2 xl:py-10 flex flex-col gap-3">
-      <h1 className="text-3xl text-primeColor font-titleFont font-semibold">
-        {title}
-      </h1>
+    <div className="flex w-full flex-col gap-3 py-2 xl:py-10">
+      <h1 className="font-titleFont font-semibold">{title}</h1>
       {/* <p className="text-sm font-normal text-lightText capitalize flex items-center">
         <span> {prevLocation === "" ? "Home" : prevLocation}</span>
 

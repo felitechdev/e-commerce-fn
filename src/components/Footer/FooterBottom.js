@@ -1,36 +1,3 @@
-// import React from "react";
-// import { AiOutlineCopyright } from "react-icons/ai";
-// import { Link } from "react-router-dom";
-// import { FeliTechWhiteLogo } from "../../assets/images";
-// const FooterBottom = () => {
-//   return (
-//     <div className="w-full bg-[#1D6F2B] group px-2">
-//       <div className="max-w-container mx-auto border-t-[1px] py-8">
-//         <p className="text-titleFont font-normal text-center flex md:items-center justify-center text-white duration-200 text-sm">
-//           <span className="text-md mr-[1px] mt-[2px] md:mt-0 text-center hidden md:inline-flex">
-//             <AiOutlineCopyright />
-//           </span>
-//           Copyright 2024 | FELI EXPRESS | All Rights Reserved |
-//           <a
-//             href="https://felitechnology.com/"
-//             target="_blank"
-//             rel="noreferrer"
-//           >
-//             <span className="ml-1 font-medium ">
-//               Powered by Felitechnology.com
-//             </span>
-//           </a>
-//           <Link to="/about">
-//             <span className="ml-1 font-medium ">About Us</span>
-//           </Link>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default FooterBottom;
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
@@ -73,7 +40,7 @@ export const CategoryImagesCards = ({ ...props }) => {
     <>
       {/* h-[142px] */}
       <div
-        className="flex space-x-5 md:space-x-8 overflow-x-auto scrollbar-none "
+        className="flex space-x-5 overflow-x-auto scrollbar-none md:space-x-8"
         ref={containerRef}
       >
         {!productclassLoading &&
@@ -83,9 +50,9 @@ export const CategoryImagesCards = ({ ...props }) => {
               <Link to={`/shop/?productClass=${pclass.id}`} key={index + 1}>
                 <div
                   key={pclass.id}
-                  className="w-[90px] flex-col items-center justify-center h-fit space-y-2 text-center"
+                  className="h-fit w-[90px] flex-col items-center justify-center space-y-2 text-center"
                 >
-                  <p className="text-sm hover:text-[#cd5c07] hover:underline break-words ">
+                  <p className="break-words text-sm hover:text-[#cd5c07] hover:underline">
                     {pclass.name}
                   </p>
                 </div>
@@ -99,93 +66,90 @@ export const CategoryImagesCards = ({ ...props }) => {
 
 const FooterBottom = () => {
   return (
-    <div className="bg-primary w-[100%] ">
-      <section className="bg-[#1D6F2B] text-white px-4 py-8 cursor-pointer max-w-container mx-auto">
+    <div className="w-[100%] bg-primary">
+      <section className="mx-auto max-w-container cursor-pointer bg-[#1D6F2B] px-4 py-8 text-white">
         {/* WhatsApp Floating Button */}
 
-        <div className="max-w-container mx-auto grid grid-cols-1 items-center text-center  md:grid-cols-4 gap-2">
-          <div className="flex md:hidden justify-around">
-            <div className="flex flex-col  items-center md:items-start">
+        <div className="mx-auto grid max-w-container grid-cols-1 items-center gap-2 text-center md:grid-cols-4">
+          <div className="flex justify-around md:hidden">
+            <div className="flex flex-col items-center md:items-start">
               <h3 className="medium2_text mx-auto">Explore</h3>
-              <ul className="border-t  mx-auto border-white py-4">
+              <ul className="mx-auto border-t border-white py-4">
                 {/* <li>
                   <Link to="/">Search</Link>
                 </li> */}
                 <li>
                   <Link to="/about">About us</Link>
                 </li>
+                <li>
+                  <Link to="/terms-and-conditions">Terms & Conditions</Link>
+                </li>
               </ul>
             </div>
 
-            {/* <div className=" flex flex-col items-center md:items-start">
+            <div className="flex flex-col items-center md:items-start">
               <h3 className="medium2_text mx-auto">About</h3>
-              <ul className="border-t  mx-auto border-white py-4 ">
+              <ul className="mx-auto border-t border-white py-4">
                 <li>
-                  <Link to="/">Delivery</Link>
+                  <Link to="/refund-policy">Refund</Link>
                 </li>
                 <li>
-                  <Link to="/">Returns</Link>
-                </li>
-                <li>
-                  <Link to="/">Tems</Link>
-                </li>
-                <li>
-                  <Link to="/">Contact Us</Link>
+                  <Link to="/terms-and-conditions">Terms & Conditions</Link>
                 </li>
               </ul>
-            </div> */}
+            </div>
           </div>
-          <div className="hidden md:flex flex-col  items-center md:items-start">
+          <div className="hidden flex-col items-center md:flex md:items-start">
             <h3 className="medium2_text mx-auto">Explore</h3>
-            <ul className="border-t  mx-auto border-white py-4">
+            <ul className="mx-auto border-t border-white py-4">
               <li>
                 <Link to="/about">About us</Link>
               </li>
             </ul>
           </div>
 
-          {/* <div className=" hidden md:flex flex-col items-center md:items-start">
+          <div className="hidden flex-col items-center md:flex md:items-start">
             <h3 className="medium2_text mx-auto">About</h3>
-            <ul className="border-t  mx-auto border-white py-4 ">
-              <li>
+            <ul className="mx-auto border-t border-white py-4">
+              {/* <li>
                 <Link to="/">Delivery</Link>
               </li>
               <li>
                 <Link to="/">Returns</Link>
+              </li> */}
+              <li>
+                <Link to="/refund-policy">Refund</Link>
               </li>
               <li>
-                <Link to="/">Tems</Link>
-              </li>
-              <li>
-                <Link to="/about">About Us</Link>
+                <Link to="/terms-and-conditions">Terms & Conditions</Link>
               </li>
             </ul>
-          </div> */}
+          </div>
 
           <div className="flex flex-col items-center md:items-start">
             <h3 className="medium2_text mx-auto">Connect</h3>
-            <div className="flex space-x-2 border-t  mx-auto border-white py-4">
-              <div className="flex  items-center justify-start space-x-2 ">
+            <div className="mx-auto flex space-x-2 border-t border-white py-4">
+              <div className="flex items-center justify-start space-x-2">
                 {" "}
                 <a
                   href="https://web.facebook.com/FeliTechnology"
-                  className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
+                  className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white"
                 >
                   <FaFacebookF />
                 </a>
                 {/* <p>Facebook</p> */}
               </div>
-              <div className="flex  items-center justify-start space-x-2 ">
+              <div className="flex items-center justify-start space-x-2">
                 {" "}
                 <a
                   href="https://www.linkedin.com/company/feli-technology"
-                  className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
+                  className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white"
                 >
                   <FaLinkedinIn />
                 </a>{" "}
                 {/* <p>Linkedin</p> */}
               </div>
-              <div className="flex  items-center justify-start space-x-2 ">
+              <div className="flex items-center justify-start space-x-2">
                 {/* <a
                   href="#"
                   className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
@@ -199,32 +163,32 @@ const FooterBottom = () => {
 
           <div className="flex flex-col items-center md:items-start">
             <h3 className="medium2_text mx-auto">Payment methods</h3>
-            <div className="flex space-x-2 justify-center items-center border-t  mx-auto border-white py-4">
-              <img src={mtn} alt="MTN" className="w-14 h-8 object-fill" />
-              <img src={aitel} alt="Airtel" className="w-14 h-8 object-fill" />
-              <img src={visa} alt="Visa" className="w-14 h-10 object-fill" />
+            <div className="mx-auto flex items-center justify-center space-x-2 border-t border-white py-4">
+              <img src={mtn} alt="MTN" className="h-8 w-14 object-fill" />
+              <img src={aitel} alt="Airtel" className="h-8 w-14 object-fill" />
+              <img src={visa} alt="Visa" className="h-10 w-14 object-fill" />
               <img
                 src={mastercard}
                 alt="MasterCard"
-                className="w-14 h-10 object-fill"
+                className="h-10 w-14 object-fill"
               />
             </div>
           </div>
         </div>
 
         {/* Our Categories */}
-        <div className=" max-w-container mx-auto flex flex-col   justify-start  mt-8 border-t border-white py-4 space-y-4 md:space-y-0">
+        <div className="mx-auto mt-8 flex max-w-container flex-col justify-start space-y-4 border-t border-white py-4 md:space-y-0">
           <h3 className="medium2_text">Our Categories</h3>
           <CategoryImagesCards />
         </div>
 
         {/* Footer Bottom */}
-        <div className="flex flex-col  md:gap-40 md:flex-row justify-between items-center mt-8 border-t border-white py-4 space-y-4 md:space-y-0">
-          <div className="flex justify-center items-center">
+        <div className="mt-8 flex flex-col items-center justify-between space-y-4 border-t border-white py-4 md:flex-row md:gap-40 md:space-y-0">
+          <div className="flex items-center justify-center">
             <img
               src={FeliTechWhiteLogo}
               alt="Felitechnology Logo"
-              className="  mb-4 w-[120px] h-[50px]"
+              className="mb-4 h-[50px] w-[120px]"
             />
           </div>
 
@@ -252,8 +216,8 @@ const FooterBottom = () => {
         </div>
       </section>
       <div className="w-[100%] bg-[#498952]">
-        <div className=" flex flex-col md:flex-row  justify-between text-white px-4 py-8 cursor-pointer max-w-container mx-auto bg-[#498952]">
-          <div className="flex  justify-center items-center space-x-2">
+        <div className="mx-auto flex max-w-container cursor-pointer flex-col justify-between bg-[#498952] px-4 py-8 text-white md:flex-row">
+          <div className="flex items-center justify-center space-x-2">
             <h3 className="">Powered by </h3>
             <h3 className="medium2_text">
               <a
@@ -265,16 +229,16 @@ const FooterBottom = () => {
               </a>
             </h3>
           </div>
-          <div className="flex  justify-center items-center space-x-2">
+          <div className="flex items-center justify-center space-x-2">
             <h3 className="">Browse by Category</h3>
-            <div className="flex md:space-x-4 space-x-2">
+            <div className="flex space-x-2 md:space-x-4">
               <div className="flex items-center space-x-2">
-                <img src={playstore} className="w-7 h-7" alt="Google Play" />
-                <p className="text-black md:medium_text">Google Play</p>
+                <img src={playstore} className="h-7 w-7" alt="Google Play" />
+                <p className="md:medium_text text-black">Google Play</p>
               </div>
               <div className="flex items-center space-x-2">
-                <img src={applestore} className="w-7 h-7" alt="App Store" />
-                <p className="text-black md:medium_text">App Store</p>
+                <img src={applestore} className="h-7 w-7" alt="App Store" />
+                <p className="md:medium_text text-black">App Store</p>
               </div>
             </div>
           </div>

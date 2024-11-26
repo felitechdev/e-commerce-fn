@@ -17,15 +17,20 @@ import ProductSubCategoryAccordion from "./Accordions/ProductSubCategory";
 import ProductBrandAccordion from "./Accordions/productBrand";
 
 const ShopSideNav = ({ brands, handlefilterShow }) => {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.toString();
-  const categoryId = searchParams.get("category");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const categoryId = searchParams.get("productClass");
   const [category, setCategory] = useState(false);
-  const [brandOfProductClass, setBrandOfProductClass]= useState([])
+  const [brandOfProductClass, setBrandOfProductClass] = useState([]);
+
+  const handleClearFilter = () => {
+    searchParams.delete("productClass");
+    setSearchParams();
+  };
 
   return (
     <div
-      className="w-full px-6 py-4 flex flex-col gap-6 relative  z-30   bg-white   "
+      className="relative z-30 flex w-full flex-col gap-6 bg-white px-6 py-4"
       onMouseMove={(e) => {
         e.stopPropagation();
       }}
@@ -43,7 +48,7 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
       <Price handlefilterShow={() => handlefilterShow()} />
 
       <div
-        className={`mt-4 !m-0  overflow-auto`}
+        className={`!m-0 mt-4 overflow-auto`}
         onMouseMove={(e) => {
           e.stopPropagation();
         }}
@@ -56,22 +61,33 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
       >
         <h1
           onClick={() => setCategory(!category)}
-          className="flex justify-between  p-1 rounded-md text-base font-semibold cursor-pointer items-center font-titleFont mb-2"
+          className="font-titleFont mb-2 flex cursor-pointer items-center justify-between rounded-md p-1 text-base font-semibold"
         >
           Shop by Categories & Brands
           <span className="text-xl">{category ? "-" : "+"}</span>
         </h1>
+        {categoryId !== null && (
+          <span
+            className={`my-2 flex w-[50%] cursor-pointer items-center gap-2 rounded-md border-b-[1px] border-b-[#F0F0F0] bg-[#d43f3f] p-2 pb-2 text-center capitalize !text-white duration-300 hover:border-gray-400`}
+            onClick={handleClearFilter}
+          >
+            clear filter
+          </span>
+        )}
         {category && (
           <motion.ul
             initial={{ y: 15, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className="text-sm flex flex-col gap-1"
+            className="flex flex-col gap-1 text-sm"
           >
-            <div className="flex-col w-full space-y-2  overflow-auto mdl:overflow-hidden ">
+            <div className="w-full flex-col space-y-2 overflow-auto mdl:overflow-hidden">
               {" "}
-              <div className=" z-0 ">
-                <ProductClassAccordion ismobile={false} setBrandOfProductClass={setBrandOfProductClass} />
+              <div className="z-0">
+                <ProductClassAccordion
+                  ismobile={false}
+                  setBrandOfProductClass={setBrandOfProductClass}
+                />
               </div>
               {/* <div className="z-0">
                 <ProductCategoryAccordion ismobile={false} />
@@ -88,9 +104,12 @@ const ShopSideNav = ({ brands, handlefilterShow }) => {
           </motion.ul>
         )}
       </div>
-    {brandOfProductClass.length>0 &&
-     <Brand brands={brandOfProductClass} handlefilterShow={() => handlefilterShow()} />
-     }  
+      {brandOfProductClass.length > 0 && (
+        <Brand
+          brands={brandOfProductClass}
+          handlefilterShow={() => handlefilterShow()}
+        />
+      )}
       {/* <Category icons={true} /> */}
       <Color />
     </div>

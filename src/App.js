@@ -40,6 +40,8 @@ import OrderDetail from "./dashboard/Components/Orders/Ordersv2/single-order/ord
 import Checkout from "./pages/Checkout";
 import { Wishlist } from "./pages/Wishlist";
 import OathCallBack from "./components/OathCallBack";
+import TermsAndConditions from "./pages/terms&conditions";
+import RefundPolicy from "./pages/privacy";
 
 const App = () => {
   const { isCheckingAuth, user } = useUser();
@@ -81,6 +83,8 @@ const App = () => {
       <Route path="reset-password/:resetToken" element={<ResetPassword />} />
       <Route path="/activate-account/:token" element={<ActivateAccount />} />
       <Route path="/payment-verification" element={<VerifyPaymentPage />} />
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      <Route path="/refund-policy" element={<RefundPolicy />} />
       <Route
         path="user"
         element={
