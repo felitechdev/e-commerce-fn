@@ -360,37 +360,6 @@ const Header = (props) => {
               </span>
             </li>
 
-            {user ? (
-              ""
-            ) : (
-              <>
-                <li>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive
-                        ? "w-full whitespace-nowrap text-center text-[14px] font-semibold text-[#1D6F2B] md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
-                        : "w-full whitespace-nowrap text-center text-[14px] font-semibold md:inline-block lg:px-2 lg:py-1 lg:hover:rounded-md lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
-                    }}
-                    to="/signin"
-                  >
-                    Sign in
-                  </NavLink>
-                </li>
-
-                <li>
-                  <NavLink
-                    className={({ isActive }) => {
-                      return isActive
-                        ? "w-full whitespace-nowrap rounded-md bg-[#1D6F2B] px-2 py-1 text-center text-[14px] font-semibold text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]"
-                        : "rounded-mdn w-full whitespace-nowrap bg-[#1D6F2B] px-2 py-1 text-center text-[14px] font-semibold text-white md:inline-block lg:px-2 lg:py-1 lg:hover:bg-[#E5E5E5] lg:hover:text-[#1D6F2B]";
-                    }}
-                    to="/signup"
-                  >
-                    Sign Up
-                  </NavLink>
-                </li>
-              </>
-            )}
             {user ? <></> : ""}
             <li className="relative ml-2 lg:ml-6">
               <NavLink
