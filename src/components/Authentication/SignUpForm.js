@@ -392,10 +392,16 @@ const SignUpForm = (props) => {
                   className="mt-1 h-4 w-4 cursor-pointer bg-[#fff] mdl:mt-0"
                   type="checkbox"
                 />
-                <p className="text-sm text-primeColor">
+                <p className="cursor-pointer text-sm text-primeColor">
                   I agree to the Feli Technology{" "}
-                  <a className="text-[#1E61CC]">Terms of Service </a>
-                  and <a className="text-[#1E61CC]">Privacy Policy</a>.
+                  <a className="text-[#1E61CC]">
+                    <Link to="/terms-and-conditions">Terms of Service</Link>
+                  </a>
+                  and
+                  <a className="text-[#1E61CC]">
+                    <Link to="/refund-policy">Privacy Policy</Link>
+                  </a>
+                  .
                 </p>
               </div>
               <button

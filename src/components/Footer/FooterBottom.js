@@ -79,10 +79,10 @@ const FooterBottom = () => {
                   <Link to="/">Search</Link>
                 </li> */}
                 <li>
-                  <Link to="/about">About us</Link>
+                  <Link to="/about">About Us</Link>
                 </li>
                 <li>
-                  <Link to="/terms-and-conditions">Terms & Conditions</Link>
+                  <Link to="/contact">Contact Us</Link>
                 </li>
               </ul>
             </div>
@@ -103,7 +103,10 @@ const FooterBottom = () => {
             <h3 className="medium2_text mx-auto">Explore</h3>
             <ul className="mx-auto border-t border-white py-4">
               <li>
-                <Link to="/about">About us</Link>
+                <Link to="/about">About Us</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact Us</Link>
               </li>
             </ul>
           </div>
