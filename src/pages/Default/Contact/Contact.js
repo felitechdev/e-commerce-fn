@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
 import PageLayout from "../../../components/designLayouts/PageLayout";
+import { MdOutlineEmail } from "react-icons/md";
+import { SlLocationPin } from "react-icons/sl";
+import { FaPhoneVolume } from "react-icons/fa6";
+import {
+  FaFacebookF,
+  FaLinkedinIn,
+  FaTwitter,
+  FaInstagram,
+} from "react-icons/fa";
+
+import { TbWorld } from "react-icons/tb";
 
 const Contact = () => {
   const location = useLocation();
   const [prevLocation, setPrevLocation] = useState("");
   useEffect(() => {
-    setPrevLocation(location.state.data);
+    // setPrevLocation(location.state.data);
   }, [location]);
 
   const [clientName, setclientName] = useState("");
@@ -59,88 +70,206 @@ const Contact = () => {
     }
     if (clientName && email && EmailValidation(email) && messages) {
       setSuccessMsg(
-        `Thank you dear ${clientName}, Your messages has been received successfully. Futher details will sent to you by your email at ${email}.`
+        `Thank you dear ${clientName}, Your messages has been received successfully. Futher details will sent to you by your email at ${email}.`,
       );
     }
   };
 
   return (
-    <PageLayout showFooter={true}>
-      <div className="max-w-container mx-auto px-4">
-        <Breadcrumbs title="Contact" prevLocation={prevLocation} />
-        {successMsg ? (
-          <p className="pb-20 w-96 font-medium text-green-500">{successMsg}</p>
-        ) : (
-          <form className="pb-20">
-            <h1 className="font-titleFont font-semibold text-3xl">
-              Fill up a Form
-            </h1>
-            <div className="w-[500px] h-auto py-6 flex flex-col gap-6">
-              <div>
-                <p className="text-base font-titleFont font-semibold px-2">
-                  Name
-                </p>
-                <input
-                  onChange={handleName}
-                  value={clientName}
-                  className="w-full py-1 border-b-2 px-2 text-base font-medium placeholder:font-normal placeholder:text-sm outline-none focus-within:border-primeColor"
-                  type="text"
-                  placeholder="Enter your name here"
-                />
-                {errClientName && (
-                  <p className="text-red-500 text-sm font-titleFont font-semibold mt-1 px-2 flex items-center gap-1">
-                    <span className="text-sm italic font-semibold">!</span>
-                    {errClientName}
-                  </p>
-                )}
+    <PageLayout showFooter={false}>
+      <div className="mx-auto max-w-container px-4">
+        {/* Header Section */}
+        <div className="m-2 bg-primary py-5 !text-center text-white">
+          <h1 className="font-titleFont !text-2xl font-semibold md:!text-3xl">
+            Connect With us anytime, anywhere!
+          </h1>
+          <h1 className="!text-md font-light md:mx-20">
+            Have questions, need support, or want to share feedback? Contact us
+            through the form below, email, phone, or your favorite social media
+            platforms.
+          </h1>
+          <h1 className="!text-xl font-bold">We’re here to help!</h1>
+        </div>
+
+        {/* Content Section */}
+        <div className="m-auto grid grid-cols-1 gap-8 md:mt-10 md:grid-cols-2 md:px-5">
+          {/* Contact Info Section */}
+          <div className="space-y-10">
+            <h2 className="text-2xl font-semibold">Stay in touch</h2>
+            <div className="space-y-4 text-left">
+              {/* Chat */}
+              <div className="flex items-center gap-4">
+                <span className="text-2xl">
+                  {" "}
+                  <MdOutlineEmail />
+                </span>
+                <div>
+                  <p className="font-semibold">CHART TO US</p>
+                  <p>Our team is always here to help</p>
+                  <p className="text-[#ea612a]">info@felitechnology.com</p>
+                </div>
               </div>
-              <div>
-                <p className="text-base font-titleFont font-semibold px-2">
-                  Email
-                </p>
-                <input
-                  onChange={handleEmail}
-                  value={email}
-                  className="w-full py-1 border-b-2 px-2 text-base font-medium placeholder:font-normal placeholder:text-sm outline-none focus-within:border-primeColor"
-                  type="email"
-                  placeholder="Enter your name here"
-                />
-                {errEmail && (
-                  <p className="text-red-500 text-sm font-titleFont font-semibold mt-1 px-2 flex items-center gap-1">
-                    <span className="text-sm italic font-semibold">!</span>
-                    {errEmail}
-                  </p>
-                )}
+              {/* Office */}
+              <div className="flex items-center gap-4">
+                <span className="text-2xl">
+                  <SlLocationPin />
+                </span>
+                <div>
+                  <p className="font-semibold">OFFICE</p>
+                  <p>Visit us at our office</p>
+                  <p>Kigali, Kicukiro near Simba Super Market</p>
+                  <p>At NZOZ' HOUSE</p>
+                </div>
               </div>
-              <div>
-                <p className="text-base font-titleFont font-semibold px-2">
-                  Messages
-                </p>
-                <textarea
-                  onChange={handleMessages}
-                  value={messages}
-                  cols="30"
-                  rows="3"
-                  className="w-full py-1 border-b-2 px-2 text-base font-medium placeholder:font-normal placeholder:text-sm outline-none focus-within:border-primeColor resize-none"
-                  type="text"
-                  placeholder="Enter your name here"
-                ></textarea>
-                {errMessages && (
-                  <p className="text-red-500 text-sm font-titleFont font-semibold mt-1 px-2 flex items-center gap-1">
-                    <span className="text-sm italic font-semibold">!</span>
-                    {errMessages}
-                  </p>
-                )}
+              {/* Phone */}
+              <div className="flex items-center gap-4">
+                <span className="text-2xl">
+                  <FaPhoneVolume />
+                </span>
+                <div>
+                  <p className="font-semibold">PHONE</p>
+                  <p>MON-FRI from 8:00 am to 5:00 pm</p>
+                  <p className="text-[#ea612a]">+250 798 697 197</p>
+                </div>
               </div>
-              <button
-                onClick={handlePost}
-                className="w-44 bg-[#1D6F2B] text-gray-200 h-10 font-titleFont text-base tracking-wide font-semibold hover:bg-[#1D6F2B] hover:text-white duration-200"
-              >
-                Post
-              </button>
+
+              {/* Social Media */}
+
+              <div className="flex items-center gap-4 text-[#ea612a]">
+                <span className="text-2xl hover:text-primary">
+                  <FaInstagram />
+                </span>
+                <span className="text-2xl hover:text-primary">
+                  <FaLinkedinIn />
+                </span>
+
+                <span className="text-2xl hover:text-primary">
+                  <FaFacebookF />
+                </span>
+                <span className="text-2xl hover:text-primary">
+                  <TbWorld />
+                </span>
+              </div>
             </div>
-          </form>
-        )}
+          </div>
+
+          {/* Form Section */}
+          <div className="rounded-lg bg-bgprimary p-6 shadow-md">
+            <h2 className="mb-6 text-2xl font-semibold">Send us a Message</h2>
+            <form className="space-y-6">
+              {/* Name */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label
+                    className="mb-1 block text-sm font-medium"
+                    htmlFor="firstName"
+                  >
+                    First name
+                  </label>
+                  <input
+                    id="firstName"
+                    type="text"
+                    placeholder="First name"
+                    className="w-full rounded border px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label
+                    className="mb-1 block text-sm font-medium"
+                    htmlFor="lastName"
+                  >
+                    Last name
+                  </label>
+                  <input
+                    id="lastName"
+                    type="text"
+                    placeholder="Last name"
+                    className="w-full rounded border px-3 py-2"
+                  />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="you@gmail.com"
+                  className="w-full rounded border px-3 py-2"
+                />
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium"
+                  htmlFor="phone"
+                >
+                  Phone number
+                </label>
+                <input
+                  id="phone"
+                  type="text"
+                  placeholder="+250 7xxxxxxx"
+                  className="w-full rounded border px-3 py-2"
+                />
+              </div>
+
+              {/* Message */}
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium"
+                  htmlFor="message"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  rows="4"
+                  placeholder="Leave us a message……"
+                  className="w-full resize-none rounded border px-3 py-2"
+                ></textarea>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                onClick={
+                  (e) => handlePost(e)
+                  // console.log("Submit Button Clicked")
+                }
+                className="w-full rounded bg-primary py-2 text-white hover:bg-green-800"
+              >
+                Submit
+              </button>
+
+              <p className="mt-4 text-sm text-gray-500">
+                By contacting us, you agree to our{" "}
+                <Link
+                  to="/terms-and-conditions"
+                  className="font-semibold text-primary"
+                >
+                  {" "}
+                  Terms of service{" "}
+                </Link>
+                &{" "}
+                <Link
+                  to="/refund-policy"
+                  className="font-semibold text-primary"
+                >
+                  Privacy Policy
+                </Link>
+                .
+              </p>
+            </form>
+          </div>
+        </div>
       </div>
     </PageLayout>
   );

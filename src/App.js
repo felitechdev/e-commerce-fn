@@ -85,6 +85,7 @@ const App = () => {
       <Route path="/payment-verification" element={<VerifyPaymentPage />} />
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/refund-policy" element={<RefundPolicy />} />
+      {/* <Route path="/contact-us" element={<Contact />} /> */}
       <Route
         path="user"
         element={
