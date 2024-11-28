@@ -4,13 +4,10 @@ import Breadcrumbs from "../../../components/pageProps/Breadcrumbs";
 import PageLayout from "../../../components/designLayouts/PageLayout";
 import { MdOutlineEmail } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
-import { FaPhoneVolume } from "react-icons/fa6";
-import {
-  FaFacebookF,
-  FaLinkedinIn,
-  FaTwitter,
-  FaInstagram,
-} from "react-icons/fa";
+import { FaInstagramSquare } from "react-icons/fa";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FiPhoneCall } from "react-icons/fi";
+import { FaLinkedin } from "react-icons/fa6";
 
 import { TbWorld } from "react-icons/tb";
 
@@ -77,28 +74,30 @@ const Contact = () => {
 
   return (
     <PageLayout showFooter={false}>
-      <div className="mx-auto max-w-container px-4">
+      <div className="mx-auto max-w-container px-6">
         {/* Header Section */}
-        <div className="m-2 bg-primary py-5 !text-center text-white">
-          <h1 className="font-titleFont !text-2xl font-semibold md:!text-3xl">
+        <div className="flex flex-col gap-8 rounded bg-primary !px-28 !py-16 !text-center tracking-wider text-white">
+          <h1 className="font-titleFont !text-2xl font-extralight uppercase tracking-widest md:!text-3xl">
             Connect With us anytime, anywhere!
+            <hr className="m-auto mt-6 w-[20%]" />
           </h1>
-          <h1 className="!text-md font-light md:mx-20">
+
+          <p className="!text-md flex flex-col gap-2 font-light md:mx-20">
             Have questions, need support, or want to share feedback? Contact us
             through the form below, email, phone, or your favorite social media
             platforms.
-          </h1>
-          <h1 className="!text-xl font-bold">We’re here to help!</h1>
+            <span className="text-xl font-semibold">We’re here to help!</span>
+          </p>
         </div>
 
         {/* Content Section */}
-        <div className="m-auto grid grid-cols-1 gap-8 md:mt-10 md:grid-cols-2 md:px-5">
+        <div className="grid grid-cols-1 gap-8 md:mt-10 md:grid-cols-2">
           {/* Contact Info Section */}
-          <div className="space-y-10">
-            <h2 className="text-2xl font-semibold">Stay in touch</h2>
-            <div className="space-y-4 text-left">
+          <div className="">
+            <h2 className="mb-8 mt-6 text-3xl font-semibold">Stay in touch</h2>
+            <div className="flex flex-col gap-14 text-left">
               {/* Chat */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-start gap-4">
                 <span className="text-2xl">
                   {" "}
                   <MdOutlineEmail />
@@ -110,7 +109,7 @@ const Contact = () => {
                 </div>
               </div>
               {/* Office */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-start gap-4">
                 <span className="text-2xl">
                   <SlLocationPin />
                 </span>
@@ -122,9 +121,9 @@ const Contact = () => {
                 </div>
               </div>
               {/* Phone */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-start gap-4">
                 <span className="text-2xl">
-                  <FaPhoneVolume />
+                  <FiPhoneCall />
                 </span>
                 <div>
                   <p className="font-semibold">PHONE</p>
@@ -135,18 +134,18 @@ const Contact = () => {
 
               {/* Social Media */}
 
-              <div className="flex items-center gap-4 text-[#ea612a]">
-                <span className="text-2xl hover:text-primary">
-                  <FaInstagram />
+              <div className="mt-5 flex items-center gap-4 text-primary">
+                <span className="text-2xl hover:text-[#ea612a]">
+                  <FaInstagramSquare />
                 </span>
-                <span className="text-2xl hover:text-primary">
-                  <FaLinkedinIn />
+                <span className="text-2xl hover:text-[#ea612a]">
+                  <FaLinkedin />
                 </span>
 
-                <span className="text-2xl hover:text-primary">
-                  <FaFacebookF />
+                <span className="text-2xl hover:text-[#ea612a]">
+                  <FaFacebookSquare />
                 </span>
-                <span className="text-2xl hover:text-primary">
+                <span className="text-2xl hover:text-[#ea612a]">
                   <TbWorld />
                 </span>
               </div>
@@ -154,8 +153,8 @@ const Contact = () => {
           </div>
 
           {/* Form Section */}
-          <div className="rounded-lg bg-bgprimary p-6 shadow-md">
-            <h2 className="mb-6 text-2xl font-semibold">Send us a Message</h2>
+          <div className="rounded-lg border bg-gray-50 p-6">
+            <h2 className="mb-6 text-3xl font-semibold">Send us a Message</h2>
             <form className="space-y-6">
               {/* Name */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
