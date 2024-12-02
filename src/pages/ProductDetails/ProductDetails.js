@@ -97,7 +97,7 @@ export default function ProductDetails({ product, dispatch }) {
         <div className="-mt-5 h-full w-full pb-10 xl:-mt-8">
           <div className="flex flex-col gap-1">
             <div ref={topDivRef} className="h-1 cursor-pointer"></div>
-            <div className="flex flex-col items-start justify-between gap-12 p-2 sml:flex-row sml:flex-wrap">
+            <div className="flex flex-col items-start justify-between gap-12 bg-gray-100 p-2 sml:flex-row sml:flex-wrap">
               <ProductImages
                 productImages={product.productDetails.productImages}
                 activeImage={product.activeImage}
@@ -155,9 +155,7 @@ export default function ProductDetails({ product, dispatch }) {
               onClick={scrollToTop}
               className="mx-auto mt-10 max-w-container space-y-4"
             >
-              <h1 className="m-auto my-6 text-center text-2xl font-bold">
-                Related Products
-              </h1>
+              <h1 className="medium2_text my-6">Related Products</h1>
               <ProductSection
                 // key={`${productClass.id}`}
                 productClassId={product?.productDetails?.productClass}
