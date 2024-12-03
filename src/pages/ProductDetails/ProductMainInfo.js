@@ -64,7 +64,7 @@ const ProductMainInfo = ({
             <p className="h-max-[65px] block w-full text-xl font-semibold capitalize">
               {product?.name}
             </p>
-            <hr className="my-3 h-0.5 w-full border-0 bg-gray-200"></hr>
+            <hr className="m-auto my-3 h-0.5 w-[50%] border-0 bg-gray-200"></hr>
           </div>{" "}
           {product?.description.length > 0 && (
             <p
