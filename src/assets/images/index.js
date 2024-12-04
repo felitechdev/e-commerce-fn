@@ -44,6 +44,8 @@ import mastercard from "./mastercard.png";
 import newimage from "./new.png";
 import twofabg from "./2fa.png";
 import twofaicon from "./2fa1.png";
+import aboutourstory from "./ourstory.png";
+import aboutmission from "./aboutmission.png";
 
 export {
   FeliTechLogo_transparent,
@@ -93,4 +95,8 @@ export {
   twofabg,
   twofaicon,
   HorizontalLogo,
+
+  // About us
+  aboutourstory,
+  aboutmission,
 };
