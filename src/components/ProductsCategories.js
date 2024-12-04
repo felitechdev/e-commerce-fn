@@ -142,7 +142,7 @@ function ProductsCategories() {
     <div className="mx-auto w-full">
       <Banner ads={ads} loading={isloading} />
 
-      <div className="mx-auto mt-10 max-w-container space-y-4 px-2 md:px-6">
+      <div className="mx-auto mt-10 max-w-container space-y-4 px-2 py-3 md:px-6">
         <h1 className="text-2xl font-bold capitalize">CATEGORIES</h1>
         <CategoryImagesCards />
       </div>

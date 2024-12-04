@@ -37,20 +37,16 @@ const Home = () => {
     }
   };
   return (
-    <div className="w-full mx-auto bg-black">
-      {/* <Banner onCategorySelect={handleCategorySelect} /> */}
+    <div className="mx-auto w-full bg-black">
       {selectedCategory.category.categoryId ||
       selectedCategory.subcategory.subcategoryId ? (
-        <div className="max-w-container mx-auto px-4">
+        <div className="mx-auto max-w-container px-4">
           <CategoryFilteredProducts selectedCategory={selectedCategory} />
         </div>
       ) : (
         <>
           <NewArrivals />
-          <div className="max-w-container mx-auto px-4">
-            {/* <AllProducts />
-            <YearProduct /> */}
-          </div>
+          <div className="mx-auto max-w-container px-4"></div>
         </>
       )}
     </div>

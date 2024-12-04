@@ -7,6 +7,7 @@ import bannerImgThree from "./banner/bannerImgThree.png";
 import saleImgOne from "./sale/saleImgOne.webp";
 import saleImgTwo from "./sale/saleImgTwo.webp";
 import saleImgThree from "./sale/saleImgThree.webp";
+import WhiteLogo from "./logo/log_white.webp";
 // ============== Products Start here ====================
 // New Arrivals
 import newArrOne from "./products/newArrival/newArrOne.webp";
@@ -93,4 +94,5 @@ export {
   twofabg,
   twofaicon,
   HorizontalLogo,
+  WhiteLogo,
 };
