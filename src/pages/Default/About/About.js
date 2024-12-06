@@ -23,10 +23,10 @@ const About = () => {
         <div className="">
           {" "}
           <p className="!text-md mx-auto flex max-w-container flex-col gap-2 font-light tracking-wider">
-            Welcome to FeliExpress, founded in 2023 with a vision to transform
-            online shopping. At FeliExpress, we take pride in listing a wide
-            variety of products to cater to your every need. Our mission is
-            simple: to bring you quality and convenience at prices lower than
+            Who We Are Welcome to FeliExpress, founded in 2023 with a vision to
+            transform online shopping. At FeliExpress, we take pride in listing
+            a wide variety of products to cater to your every need. Our mission
+            is simple: to bring you quality and convenience at prices lower than
             those on the market.
           </p>
         </div>
@@ -56,10 +56,14 @@ const About = () => {
                 Our story
               </p>
               <p className="!text-md my-3 flex flex-col items-start justify-start gap-2 align-baseline font-light tracking-wider">
-                At FeliExpress, our mission is to make shopping more affordable
-                for everyone. We are committed to offering convenient prices
-                without compromising on quality, ensuring that you get the best
-                value for your money.
+                FeliExpress was born out of a vision to empower talented and
+                motivated young individuals seeking opportunities in technology.
+                An investor, passionate about making a difference, brought
+                together a dynamic team of driven youths to create something
+                impactful. Among several ideas, the concept of an ecommerce
+                platform stood out as the perfect way to combine innovation and
+                accessibility. And so, FeliExpress was launched, paving the way
+                for a new era of affordable and convenient online shopping.
               </p>
             </div>
 
