@@ -1,6 +1,6 @@
 import HorizontalLogo from "./horizontal_logo.png";
-import FeliTechLogo_transparent from "./feli.png";
-import FeliTechWhiteLogo from "./feliwhite.png";
+import FeliTechLogo_transparent from "./darklogo.png";
+import FeliTechWhiteLogo from "./whitelogo.png";
 import bannerImgOne from "./banner/bannerImgOne.png";
 import bannerImgTwo from "./banner/bannerImgTwo.png";
 import bannerImgThree from "./banner/bannerImgThree.png";
@@ -45,6 +45,9 @@ import mastercard from "./mastercard.png";
 import newimage from "./new.png";
 import twofabg from "./2fa.png";
 import twofaicon from "./2fa1.png";
+import aboutourstory from "./ourstory.png";
+import aboutmission from "./aboutmission.png";
+import whiteLogo from "./whitelogo.png";
 
 export {
   FeliTechLogo_transparent,
@@ -95,4 +98,8 @@ export {
   twofaicon,
   HorizontalLogo,
   WhiteLogo,
+
+  // About us
+  aboutourstory,
+  aboutmission,
 };

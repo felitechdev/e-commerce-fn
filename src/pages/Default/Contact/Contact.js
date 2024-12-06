@@ -73,7 +73,7 @@ const Contact = () => {
   };
 
   return (
-    <PageLayout showFooter={false}>
+    <PageLayout showFooter={true}>
       <div className="mx-auto max-w-container px-6">
         {/* Header Section */}
         <div className="flex flex-col gap-8 rounded bg-primary !px-28 !py-16 !text-center tracking-wider text-white">
@@ -134,7 +134,7 @@ const Contact = () => {
 
               {/* Social Media */}
 
-              <div className="mt-5 flex items-center gap-4 text-primary">
+              <div className="mt-5 flex cursor-pointer items-center gap-4 text-primary">
                 <span className="text-2xl hover:text-[#ea612a]">
                   <FaInstagramSquare />
                 </span>
