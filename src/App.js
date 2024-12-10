@@ -42,6 +42,7 @@ import { Wishlist } from "./pages/Wishlist";
 import OathCallBack from "./components/OathCallBack";
 import TermsAndConditions from "./pages/terms&conditions";
 import RefundPolicy from "./pages/privacy";
+import PolicyPage from "./pages/Default/Policy/plicy";
 
 const App = () => {
   const { isCheckingAuth, user } = useUser();
@@ -85,6 +86,7 @@ const App = () => {
       <Route path="/payment-verification" element={<VerifyPaymentPage />} />
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/refund-policy" element={<RefundPolicy />} />
+      <Route path="/policy" element={<PolicyPage />} />
       {/* <Route path="/contact-us" element={<Contact />} /> */}
       <Route
         path="user"

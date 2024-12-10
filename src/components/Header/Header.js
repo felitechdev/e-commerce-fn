@@ -56,6 +56,8 @@ const Header = (props) => {
   const query = searchParams.toString();
   const categoryId = searchParams.get("category");
 
+  const currentPathName = location.pathname;
+
   const {
     fromCurrency,
     toCurrency,
@@ -102,6 +104,7 @@ const Header = (props) => {
 
   let headerIconStyles =
     "inline-block lg:hover:text-[#1D6F2B] lg:hover:bg-[#E5E5E5] lg:hover:rounded-md py-2.5 px-2";
+
   return (
     <>
       <div className="h-100px sticky top-0 z-50 w-full bg-[#022c22] text-white">
@@ -531,12 +534,20 @@ const Header = (props) => {
           <nav className="mx-auto flex max-w-container items-center gap-4 px-6 py-2 text-white">
             <Link
               className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2"
+              style={{
+                textDecoration:
+                  currentPathName === "/about" ? "underline" : "none",
+              }}
               to="/about"
             >
               About
             </Link>
             <Link
               className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2"
+              style={{
+                textDecoration:
+                  currentPathName === "/policy" ? "underline" : "none",
+              }}
               to="/policy"
             >
               Privacy policy
@@ -544,6 +555,10 @@ const Header = (props) => {
             <Link
               className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2"
               to="/contact"
+              style={{
+                textDecoration:
+                  currentPathName === "/contact" ? "underline" : "none",
+              }}
             >
               Contact
             </Link>

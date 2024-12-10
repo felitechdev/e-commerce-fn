@@ -94,7 +94,9 @@ const Contact = () => {
         <div className="grid grid-cols-1 gap-8 md:mt-10 md:grid-cols-2">
           {/* Contact Info Section */}
           <div className="">
-            <h2 className="mb-8 mt-6 text-3xl font-semibold">Stay in touch</h2>
+            <h2 className="mb-8 mt-6 text-2xl font-semibold md:text-3xl">
+              Stay in touch
+            </h2>
             <div className="flex flex-col gap-14 text-left">
               {/* Chat */}
               <div className="flex items-start gap-4">
