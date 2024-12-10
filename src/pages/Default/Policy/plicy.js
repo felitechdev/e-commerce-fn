@@ -6,7 +6,7 @@ const PolicyPage = () => {
   return (
     <PageLayout showFooter={true}>
       <div className="mx-auto max-w-container px-6 py-12">
-        <h1 className="mb-8 text-2xl font-bold md:text-3xl">
+        <h1 className="mb-8 text-3xl font-bold md:text-4xl">
           Welcome to Our Privacy Commitment
         </h1>
 
@@ -20,7 +20,7 @@ const PolicyPage = () => {
         </p>
         <div className="space-y-6">
           <section>
-            <h2 className="mb-4 text-xl font-semibold md:text-2xl">
+            <h2 className="mg:text-3xl mb-4 text-2xl font-semibold">
               Information we collect
             </h2>
             <p className="my-4">
@@ -74,7 +74,7 @@ const PolicyPage = () => {
           </section>
 
           <section>
-            <h2 className="mb-4 text-xl font-semibold md:text-2xl">
+            <h2 className="mg:text-3xl mb-4 text-2xl font-semibold">
               How we use the information we collect
             </h2>
             <p className="my-4">
@@ -109,7 +109,7 @@ const PolicyPage = () => {
           </section>
 
           <section>
-            <h2 className="mb-4 text-xl font-semibold md:text-2xl">
+            <h2 className="mg:text-3xl mb-4 text-2xl font-semibold">
               Data security
             </h2>
             <p className="my-4">
@@ -166,7 +166,7 @@ const PolicyPage = () => {
           </section>
 
           <section>
-            <h2 className="mb-4 text-xl font-semibold md:text-2xl">
+            <h2 className="mg:text-3xl mb-4 text-2xl font-semibold">
               User Rights
             </h2>
 
@@ -217,13 +217,16 @@ const PolicyPage = () => {
           </section>
 
           <section>
-            <h2 className="mb-4 text-xl font-semibold md:text-2xl">
+            <h2 className="mg:text-3xl mb-4 text-2xl font-semibold">
               Contact Information
             </h2>
             <p>
               If you have any questions or concerns about this Privacy Policy or
-              our data practices, please visit our Contact Us page for more
-              information.
+              our data practices, please visit our
+              <Link className="px-1 text-primary underline" to="/contact">
+                Contact
+              </Link>
+              Us page for more information.
             </p>
           </section>
         </div>

@@ -76,10 +76,10 @@ const Contact = () => {
     <PageLayout showFooter={true}>
       <div className="mx-auto max-w-container px-6">
         {/* Header Section */}
-        <div className="flex flex-col gap-8 rounded bg-primary !px-28 !py-16 !text-center tracking-wider text-white">
+        <div className="flex flex-col gap-8 rounded !px-28 !py-16 !text-center tracking-wider">
           <h1 className="font-titleFont !text-2xl font-extralight uppercase tracking-widest md:!text-3xl">
             Connect With us anytime, anywhere!
-            <hr className="m-auto mt-6 w-[20%]" />
+            <hr className="m-auto mt-6 h-1 w-[20%] bg-primary" />
           </h1>
 
           <p className="!text-md flex flex-col gap-2 font-light md:mx-20">
