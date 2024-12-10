@@ -7,6 +7,7 @@ body {
   /* font-family: "Quicksand", system-ui; */
   font-family: "Arial", "sans-serif";
   color: "#616161";
+  background-color: "#ffffff";
 }
 
 ::-webkit-scrollbar {

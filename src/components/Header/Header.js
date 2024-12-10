@@ -529,13 +529,22 @@ const Header = (props) => {
         </nav>
         <div className="bg-primary">
           <nav className="mx-auto flex max-w-container items-center gap-4 px-6 py-2 text-white">
-            <Link className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2">
+            <Link
+              className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2"
+              to="/about"
+            >
               About
             </Link>
-            <Link className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2">
+            <Link
+              className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2"
+              to="/policy"
+            >
               Privacy policy
             </Link>
-            <Link className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2">
+            <Link
+              className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2"
+              to="/contact"
+            >
               Contact
             </Link>
             <Link className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2">
