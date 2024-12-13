@@ -407,3 +407,8 @@ nav .active li {
   border: none !important;
   border: 0px solid grey !important;
 }
+
+/* footer */
+.bottomfotter {
+  background-image: url("./assets/images/footerimigongo.webp");
+}

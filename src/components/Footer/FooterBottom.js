@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { FeliTechWhiteLogo } from "../../assets/images";
 import { whatsappIcon, FeliTechLogo_transparent } from "../../assets/images";
 import { applestore } from "../../assets/images";
 import { playstore } from "../../assets/images";
 import { mtn, aitel, mastercard, visa } from "../../assets/images";
+import { FaXTwitter } from "react-icons/fa6";
 
 import { useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
@@ -66,15 +67,15 @@ export const CategoryImagesCards = ({ ...props }) => {
 
 const FooterBottom = () => {
   return (
-    <div className="w-[100%] bg-primary">
-      <section className="mx-auto max-w-container cursor-pointer bg-[#1D6F2B] px-4 py-8 text-white">
+    <div className="w-[100%] bg-[#022c22]">
+      <section className="mx-auto max-w-container cursor-pointer px-4 py-8 text-white">
         {/* WhatsApp Floating Button */}
 
-        <div className="mx-auto grid max-w-container grid-cols-1 items-center gap-2 text-center md:grid-cols-4">
+        <div className="mx-auto grid max-w-container grid-cols-1 gap-2 text-center md:grid-cols-3">
           <div className="flex justify-around md:hidden">
             <div className="flex flex-col items-center md:items-start">
               <h3 className="medium2_text mx-auto">Explore</h3>
-              <ul className="mx-auto border-t border-white py-4">
+              <ul className="mx-auto py-4">
                 {/* <li>
                   <Link to="/">Search</Link>
                 </li> */}
@@ -84,10 +85,16 @@ const FooterBottom = () => {
                 <li>
                   <Link to="/contact">Contact Us</Link>
                 </li>
+                <li>
+                  <Link to="/refund-policy">Refund</Link>
+                </li>
+                <li>
+                  <Link to="/terms-and-conditions">Terms & Conditions</Link>
+                </li>
               </ul>
             </div>
 
-            <div className="flex flex-col items-center md:items-start">
+            <div className="hidden flex-col items-center md:items-start">
               <h3 className="medium2_text mx-auto">About</h3>
               <ul className="mx-auto border-t border-white py-4">
                 <li>
@@ -99,19 +106,25 @@ const FooterBottom = () => {
               </ul>
             </div>
           </div>
-          <div className="hidden flex-col items-center md:flex md:items-start">
-            <h3 className="medium2_text mx-auto">Explore</h3>
-            <ul className="mx-auto border-t border-white py-4">
-              <li>
+          <div className="hidden max-w-fit flex-col items-start md:flex md:items-start">
+            <h3 className="medium2_text">Explore</h3>
+            <ul className="mx-auto space-y-3 py-4 text-left">
+              <li className="hover:underline">
                 <Link to="/about">About Us</Link>
               </li>
-              <li>
+              <li className="hover:underline">
                 <Link to="/contact">Contact Us</Link>
+              </li>
+              <li className="hover:underline">
+                <Link to="/refund-policy">Refund</Link>
+              </li>
+              <li className="hover:underline">
+                <Link to="/terms-and-conditions">Terms & Conditions</Link>
               </li>
             </ul>
           </div>
 
-          <div className="hidden flex-col items-center md:flex md:items-start">
+          <div className="hidden items-center md:items-start">
             <h3 className="medium2_text mx-auto">About</h3>
             <ul className="mx-auto border-t border-white py-4">
               {/* <li>
@@ -129,44 +142,71 @@ const FooterBottom = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col items-center md:items-start">
-            <h3 className="medium2_text mx-auto">Connect</h3>
-            <div className="mx-auto flex space-x-2 border-t border-white py-4">
+          <div className="mx-auto flex w-fit flex-col items-center md:items-start">
+            <h3 className="medium2_text">Connect</h3>
+            <div className="mx-auto flex-col space-y-4 py-4">
               <div className="flex items-center justify-start space-x-2">
                 {" "}
                 <a
                   href="https://web.facebook.com/FeliTechnology"
-                  className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white"
+                  target="_blank"
+                  className="flex items-center space-x-2"
                 >
-                  <FaFacebookF />
+                  {" "}
+                  <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+                    {" "}
+                    <FaFacebookF />
+                  </p>
+                  <p>Facebook</p>
                 </a>
-                {/* <p>Facebook</p> */}
               </div>
               <div className="flex items-center justify-start space-x-2">
                 {" "}
                 <a
                   href="https://www.linkedin.com/company/feli-technology"
-                  className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white"
+                  target="_blank"
+                  className="flex items-center space-x-2"
                 >
-                  <FaLinkedinIn />
+                  <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+                    {" "}
+                    <FaLinkedinIn />
+                  </p>
+                  <p>Linkedin</p>
                 </a>{" "}
-                {/* <p>Linkedin</p> */}
               </div>
+
               <div className="flex items-center justify-start space-x-2">
-                {/* <a
-                  href="#"
-                  className="text-white bg-[#3CB043] rounded-full shadow-white shadow-md p-2 border border-white"
+                <a
+                  href="https://www.instagram.com/feli_technology/"
+                  target="_blank"
+                  className="flex items-center space-x-2"
                 >
-                  <FaTwitter />
+                  <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+                    <FaInstagram />
+                  </p>
+                  <p>Instagram</p>
                 </a>
-                 */}
+              </div>
+
+              <div className="flex items-center justify-start space-x-2">
+                <a
+                  href="#"
+                  target="_blank"
+                  className="flex items-center space-x-2"
+                >
+                  {" "}
+                  <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+                    <FaXTwitter />
+                  </p>
+                  <p>X</p>
+                </a>
               </div>
             </div>
           </div>
-
-          <div className="flex flex-col items-center md:items-start">
+          {/* <div className="hidden max-w-fit flex-col items-center md:flex md:items-start"></div> */}
+          <div className="mx-auto max-w-fit items-center md:mr-0 md:flex md:flex-col md:items-start">
             <h3 className="medium2_text mx-auto">Payment methods</h3>
-            <div className="mx-auto flex items-center justify-center space-x-2 border-t border-white py-4">
+            <div className="flex items-center justify-center py-4 md:flex-col md:space-x-0 md:space-y-3">
               <img src={mtn} alt="MTN" className="h-8 w-14 object-fill" />
               <img src={aitel} alt="Airtel" className="h-8 w-14 object-fill" />
               <img src={visa} alt="Visa" className="h-10 w-14 object-fill" />
@@ -180,13 +220,13 @@ const FooterBottom = () => {
         </div>
 
         {/* Our Categories */}
-        <div className="mx-auto mt-8 flex max-w-container flex-col justify-start space-y-4 border-t border-white py-4 md:space-y-0">
+        <div className="mx-auto mt-8 hidden max-w-container flex-col justify-start space-y-4 border-t border-white py-4 md:space-y-0">
           <h3 className="medium2_text">Our Categories</h3>
           <CategoryImagesCards />
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-8 flex flex-col items-center justify-between space-y-4 border-t border-white py-4 md:flex-row md:gap-40 md:space-y-0">
+        <div className="mt-8 hidden flex-col items-center justify-between space-y-4 border-t border-white py-4 md:flex-row md:gap-40 md:space-y-0">
           <div className="flex items-center justify-center">
             <img
               src={FeliTechWhiteLogo}
@@ -218,8 +258,8 @@ const FooterBottom = () => {
           </div> */}
         </div>
       </section>
-      <div className="w-[100%] bg-[#498952]">
-        <div className="mx-auto flex max-w-container cursor-pointer flex-col justify-between bg-[#498952] px-4 py-8 text-white md:flex-row">
+      <div className="bottomfotter w-[100%] bg-[#498952]">
+        <div className="mx-auto flex max-w-container cursor-pointer flex-col justify-between px-4 py-8 text-white md:flex-row">
           <div className="flex items-center justify-center space-x-2">
             <h3 className="">Powered by </h3>
             <h3 className="medium2_text">
