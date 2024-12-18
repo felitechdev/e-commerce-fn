@@ -272,8 +272,10 @@ const FooterBottom = () => {
               </a>
             </h3>
           </div>
+
+          <p className="m-auto">@ 2022 Feli Technology, All rights reserved.</p>
+
           <div className="flex items-center justify-center space-x-2">
-            <h3 className="">Browse by Category</h3>
             <div className="flex space-x-2 md:space-x-4">
               <div className="flex items-center space-x-2">
                 <img src={playstore} className="h-7 w-7" alt="Google Play" />
