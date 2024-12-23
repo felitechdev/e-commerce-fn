@@ -331,6 +331,7 @@ const UpdateProductModel = (props) => {
         : DBProductInfo?.seller_commission && DBProductInfo?.seller_commission,
       quantityParameter: data.quantityParameter,
       absorbCustomerCharge: absordCustomerCharge,
+      seller : data.seller,
 
       hasColors:
         colorVariations.length > 0 &&
