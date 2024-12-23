@@ -320,7 +320,7 @@ const UpdateProductModel = (props) => {
       name: data.name,
       // seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
-      subcategory: data.subcategory,
+      subCategory: data.subcategory,
       description: data.description,
       price: Number(data.price),
       brandName: data.brandName,
