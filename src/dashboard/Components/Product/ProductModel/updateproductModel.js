@@ -316,14 +316,17 @@ const UpdateProductModel = (props) => {
       }
     }
 
+    console.log("data", data);
+
     let payload = {
       name: data.name,
       // seller: userRole === "seller" ? user.id : data.seller,
       category: data.category,
-      subcategory: data.subcategory,
+      subCategory: data.subcategory,
       description: data.description,
       price: Number(data.price),
       brandName: data.brandName,
+      brand: data.brand,
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       seller_commission: absordCustomerCharge
@@ -331,6 +334,7 @@ const UpdateProductModel = (props) => {
         : DBProductInfo?.seller_commission && DBProductInfo?.seller_commission,
       quantityParameter: data.quantityParameter,
       absorbCustomerCharge: absordCustomerCharge,
+      seller : data.seller,
 
       hasColors:
         colorVariations.length > 0 &&
