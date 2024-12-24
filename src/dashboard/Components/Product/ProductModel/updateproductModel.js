@@ -316,6 +316,8 @@ const UpdateProductModel = (props) => {
       }
     }
 
+    console.log("data", data);
+
     let payload = {
       name: data.name,
       // seller: userRole === "seller" ? user.id : data.seller,
@@ -324,6 +326,7 @@ const UpdateProductModel = (props) => {
       description: data.description,
       price: Number(data.price),
       brandName: data.brandName,
+      brand: data.brand,
       stockQuantity: stockQty,
       discountPercentage: data.discountPercentage,
       seller_commission: absordCustomerCharge
