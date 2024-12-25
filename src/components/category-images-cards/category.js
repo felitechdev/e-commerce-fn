@@ -32,7 +32,7 @@ export const CategoryImagesCards = ({ ...props }) => {
     <>
       {/* h-[142px] */}
       <div
-        className="flex space-x-2 overflow-x-auto scrollbar-none"
+        className="flex w-full space-x-2 overflow-x-auto scrollbar-none"
         ref={containerRef}
       >
         {!productclassLoading &&

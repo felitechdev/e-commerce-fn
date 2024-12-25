@@ -1,25 +1,40 @@
-import React, { useMemo, useRef, useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { BiSolidCategory } from "react-icons/bi";
 import Banner from "./Banner/Banner";
-import AllProducts from "./home/AllProducts/AllProducts";
-import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
+
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { LiaLongArrowAltRightSolid } from "react-icons/lia";
+import { HiOutlineLightBulb } from "react-icons/hi";
+import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
 
 // import MobileCategoryNav from "./MobileCategoryNav";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Paginator from "./Paginator";
+import { format } from "date-fns";
+import { useSearchParams } from "react-router-dom";
+import { useFetchfeaturedproduct } from "../APIs/react-query/featured-product";
+import MenuIconWhite from "../assets/images/menu-white.png";
+import PopularProducts from "./PopularProducts";
+import { CategoryImagesCards } from "./category-images-cards/category";
+import ProductPreview from "./home/Products/Product";
+import ProductDisplay from "./our-products/ourproduct-display";
 import ProductClassAccordion from "./pageProps/shopPage/Accordions/ProductClass";
-import ProductCategoryAccordion from "./pageProps/shopPage/Accordions/productCategory";
 import ProductSubCategoryAccordion from "./pageProps/shopPage/Accordions/ProductSubCategory";
 import ProductBrandAccordion from "./pageProps/shopPage/Accordions/productBrand";
-import { useSearchParams } from "react-router-dom";
-import MenuIconWhite from "../assets/images/menu-white.png";
-import { useFetchfeaturedproduct } from "../APIs/react-query/featured-product";
-import { CategoryImagesCards } from "./category-images-cards/category";
-import ProductDisplay from "./our-products/ourproduct-display";
-import ProductPreview from "./home/Products/Product";
-import { newimage } from "../assets/images";
-import { format } from "date-fns";
+import ProductCategoryAccordion from "./pageProps/shopPage/Accordions/productCategory";
+
+// export const async fetchPopularProducts(){
+//   try {
+//     const response = await axios.get(
+//       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`,
+//       // `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
+//     );
+
+//     return response.data.data.products;
+//   } catch (error) {
+//     return [];
+//   }
+// }
 
 export async function fetchProducts(page) {
   let today = format(new Date().getDate(), "yyyy-MM-dd");
@@ -36,7 +51,6 @@ export async function fetchProducts(page) {
   try {
     const response = await axios.get(
       `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url&createdAt[gte]=${prevTwodayago}&createdAt[lte]=${tomorrow}`,
-      // `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/products?fields=name,createdAt,price,seller,discountPercentage,colorMeasurementVariations,hasColors,hasMeasurements,productImages.productThumbnail.url`
     );
 
     return response.data.data.products;
@@ -57,10 +71,6 @@ function ProductsCategories() {
       },
     });
 
-  const [searchParams] = useSearchParams();
-  const query = searchParams.toString();
-  const categoryId = searchParams.get("category");
-
   const products = useMemo(() => {
     return data?.pages.reduce((acc, page) => {
       return [...acc, ...page];
@@ -77,8 +87,6 @@ function ProductsCategories() {
       image: product.featured.image,
     };
   });
-
-  // console.log("featuredproducts", ads, featuredproducts);
 
   const [isLeftDisabled, setIsLeftDisabled] = useState(true); // Left button disabled state
   const [isRightDisabled, setIsRightDisabled] = useState(false); // Right button disabled state
@@ -109,18 +117,6 @@ function ProductsCategories() {
     }
   };
 
-  // useEffect(() => {
-  //   const container = containerRef.current;
-
-  //   // if (container && !isLoading) {
-  //   container.addEventListener("scroll", checkScrollPosition);
-  //   checkScrollPosition();
-  //   return () => {
-  //     container.removeEventListener("scroll", checkScrollPosition);
-  //   };
-  //   // }
-  // }, []); // Trigger when products data changes
-
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
@@ -140,12 +136,22 @@ function ProductsCategories() {
 
   return (
     <div className="mx-auto w-full">
-      <Banner ads={ads} loading={isloading} />
-
-      <div className="mx-auto mt-10 max-w-container space-y-4 px-2 py-3 md:px-6">
-        <h1 className="text-2xl font-bold capitalize">CATEGORIES</h1>
-        <CategoryImagesCards />
+      <div className="mb-12">
+        <Banner ads={ads} loading={isloading} />
       </div>
+
+      <div className="mx-auto max-w-container space-y-4 px-2 py-3 md:px-6">
+        <div className="mb-2 flex flex-col items-center justify-center">
+          <h2 className="flex items-center gap-1 text-center text-2xl font-bold uppercase text-primary">
+            <BiSolidCategory className="h-8 w-8 font-extralight text-primary" />
+            Shop By Category
+          </h2>
+          <hr class="my-5 h-px w-[10%] border-0 bg-primary" />
+          <CategoryImagesCards />
+        </div>
+      </div>
+
+      <PopularProducts />
 
       {isLoading && (
         <div className="m-auto flex h-[100%] w-full items-center justify-center">
@@ -155,7 +161,7 @@ function ProductsCategories() {
 
       {products && products.length > 0 && (
         <div className="mx-auto my-10 max-w-container space-y-4 px-2 md:px-6">
-          <h1 className="text-2xl font-bold capitalize">NEW ARRIVALS</h1>
+          <h1 className="text-2xl font-bold capitalize">New Arrivals</h1>
           <div className="relative h-fit rounded-md">
             <button
               onClick={scrollLeft}
@@ -194,8 +200,14 @@ function ProductsCategories() {
         </div>
       )}
 
-      <div className="mx-auto my-5 mt-10 flex max-w-container flex-col gap-2 px-2 md:px-6">
-        <h1 className="py-3 text-2xl font-bold">OUR PRODUCTS</h1>
+      <div className="mx-auto mt-10 flex max-w-container flex-col gap-2 px-2 md:px-6">
+        <div className="mb-2 flex flex-col items-center justify-center">
+          <h2 className="flex items-center gap-1 text-center text-2xl font-bold uppercase text-primary">
+            <HiOutlineLightBulb className="h-8 w-8 font-extralight text-primary" />
+            Discover More
+          </h2>
+          <hr class="my-5 h-px w-[10%] border-0 bg-primary" />
+        </div>
         <ProductDisplay />
       </div>
     </div>
