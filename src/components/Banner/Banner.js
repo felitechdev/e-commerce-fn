@@ -310,13 +310,52 @@ const Banner = ({ ...props }) => {
               )}
             </Slider>
           </div>
-          <div className="hidden rounded-[15px] border lg:block lg:w-[20%]">
-            <ImageSlider ads={props?.ads} />
+          <div className="hidden rounded-[15px] border h-[15rem] text-center justify-center lg:block lg:w-[20%] ">
+            {/* <ImageSlider ads={props?.ads} /> */}
+
+            Space for Ads
+          
           </div>
+
+         
+
+
         </div>
       </div>
     </div>
   );
 };
 
+
+
+
+
 export default Banner;
+export const AdBanner = () => {
+  useEffect(() => {
+    const loadAds = () => {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.error("Adsbygoogle script failed to load:", e);
+      }
+    };
+
+    loadAds();
+  }, []);
+
+  return (
+    <div className="image-slider 
+    !max-h-[300px]">
+      {/* Google AdSense Ad */}
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client="ca-pub-4634354492890842"
+        data-ad-slot="4465416700"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+  );
+};

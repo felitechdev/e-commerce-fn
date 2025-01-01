@@ -26,6 +26,7 @@ import Cookies from "js-cookie";
 import ItemCard from "./Default/Cart/ItemCard";
 import PageLayout from "../components/designLayouts/PageLayout";
 import { Loader } from "../dashboard/Components/Loader/LoadingSpin";
+import { AdBanner } from "../components/Banner/Banner";
 
 const OrderForm = ({
   token,
@@ -926,6 +927,7 @@ const Cart = () => {
           </div>
         )}
       </div>
+      <AdBanner />
     </PageLayout>
   );
 };
