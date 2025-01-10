@@ -264,7 +264,7 @@ export default function UsersTable({
     setUserList(users);
   }, users);
 
-  console.log("userList", users);
+ 
 
   return (
     <div className="relative flex w-full flex-col">

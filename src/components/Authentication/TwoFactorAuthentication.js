@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Link, useNavigate } from "react-router-dom";
+
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg";
 import { useUser } from "../../context/UserContex";
 import { twofaicon } from "../../assets/images";
@@ -9,12 +10,14 @@ import { SignInFormModal } from "./Signinmodal";
 
 // OTP Component
 const TwoFactor = () => {
-  const { onLogin } = useUser();
+  const { onLogin,  user } = useUser();
   const navigate = useNavigate();
   const [isNouser, setIsNouser] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const location = useLocation();
+  const userId = location.state?.userId;
 
   // Function to handle OTP digit change
   const handleOtpChange = (element, index) => {
@@ -45,14 +48,18 @@ const TwoFactor = () => {
     }
   };
 
-  // Function to handle OTP verification
+
+
+  // Function to handle OTP verification  
   const handleOtpVerification = async () => {
     setLoading(true);
     const otpCode = otp.join(""); // Combine all digits
     try {
       const result = await axios.post(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/verify-otp`,
-        { otp: otpCode }
+        { otp: otpCode,
+          userId : userId
+         }
       );
       setLoading(false);
       Cookies.set("token", result.data.token);

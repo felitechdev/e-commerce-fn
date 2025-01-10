@@ -1,14 +1,6 @@
 import { Row, Space, Table, Image, Typography, Input } from "antd";
 
-import {
-  DownloadOutlined,
-  RotateLeftOutlined,
-  RotateRightOutlined,
-  SwapOutlined,
-  ZoomInOutlined,
-  ZoomOutOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
@@ -16,7 +8,7 @@ import { Loader } from "../Loader/LoadingSpin";
 import { useUser } from "../../../context/UserContex";
 
 import Cookies from "js-cookie";
-// import { GetMyOrders } from "../../Apis/orders";
+
 import { GetMyOrders } from "../../../APIs/Oreders";
 const { Title, Paragraph, Text } = Typography;
 
