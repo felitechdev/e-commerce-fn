@@ -146,7 +146,8 @@ const SignInForm = (props) => {
       ) {
         setSignInError("");
         setTwoFactorEnabled(true);
-        navigate("/otp", { replace: true });
+        // navigate("/otp", { replace: true });
+        navigate("/otp", { replace: true, state: { userId: result.data.data.userId } });
       }
 
       if (result.status === 200) {

@@ -57,7 +57,6 @@ export const Enable2FaModal = ({
 
     // const response = await checkAuthentication(token).then((res) => res?.data?.user);
 
-    console.log("token", token, "res", res);
 
     // Cookies.set("token", token);
     await onLogin({

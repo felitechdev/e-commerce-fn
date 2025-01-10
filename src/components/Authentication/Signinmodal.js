@@ -80,13 +80,16 @@ export const SignInFormModal = ({ isNouser, setIsNouser }) => {
         data: userData,
       });
 
+      // console.log("result", result);
+
       if (
         result.status === 200 &&
         result?.data?.message == "OTP sent to your email"
       ) {
         setSignInError("");
         setTwoFactorEnabled(true);
-        navigate("/otp", { replace: true });
+        // navigate("/otp", { replace: true });
+        navigate("/otp", { replace: true, state: { userId: result.data.data.userId } });
       }
 
       if (result.status === 200) {

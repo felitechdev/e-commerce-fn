@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Link, useNavigate } from "react-router-dom";
+
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ReactComponent as Spinner } from "../../assets/images/Spinner.svg";
 import { useUser } from "../../context/UserContex";
 import { twofaicon } from "../../assets/images";
@@ -9,12 +10,19 @@ import { SignInFormModal } from "./Signinmodal";
 
 // OTP Component
 const TwoFactor = () => {
-  const { onLogin } = useUser();
+  const { onLogin,  user } = useUser();
   const navigate = useNavigate();
   const [isNouser, setIsNouser] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const [resendloading, setResendLoading] = useState(false);
   const [error, setError] = useState("");
+  const location = useLocation();
+  const [userId, setUserId] = useState(location.state?.userId);
+  // const userId = location.state?.userId;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
 
   // Function to handle OTP digit change
   const handleOtpChange = (element, index) => {
@@ -45,19 +53,23 @@ const TwoFactor = () => {
     }
   };
 
-  // Function to handle OTP verification
+
+
+  // Function to handle OTP verification  
   const handleOtpVerification = async () => {
     setLoading(true);
     const otpCode = otp.join(""); // Combine all digits
     try {
       const result = await axios.post(
         `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/verify-otp`,
-        { otp: otpCode }
+        { otp: otpCode,
+          userId : userId
+         }
       );
       setLoading(false);
       Cookies.set("token", result.data.token);
 
-      console.log("user", result.data.data.user);
+     
 
       onLogin({
         ...result.data.data.user,
@@ -75,11 +87,49 @@ const TwoFactor = () => {
     }
   };
 
+
+const handleResendOtp = async () => {
+  setResendLoading(true);
+  try {
+    const result = await axios.post(
+      `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/auth/resend-2fa-otp`,
+      { userId: userId }
+    );
+
+
+
+
+    setResendLoading(false);
+    setIsModalOpen(true); 
+    setModalMessage(result.data?.message || "OTP resent successfully!");
+ 
+
+    setError("");
+  } catch (err) {
+    setResendLoading(false);
+    setModalMessage("Failed to resend OTP. Please try again.");
+    setError("Failed to resend OTP. Please try again.");
+  }
+}
+
+useEffect(() => {
+  if (!userId) {
+   setUserId(userId)
+  }
+ 
+}
+, [userId]);
+
   return (
     <div className="otp-container flex flex-col items-center">
+    
       <h1 className="text-lg font-semibold mb-2">Enter code</h1>
       <p className="text-sm text-gray-600 mb-4">We sent a code to your email</p>
-
+      <Modal
+        isOpen={isModalOpen}
+        message={modalMessage}
+        onClose={() => setIsModalOpen(false)}
+      />
       {/* OTP Inputs */}
       <div className="otp-inputs flex gap-1 md:gap-2 mb-4 justify-center items-center">
         <img src={twofaicon} className=" w-14 h-14  md:w-20 md:h-20" />
@@ -124,10 +174,34 @@ const TwoFactor = () => {
       {/* Resend Link */}
       <p className="text-sm mt-4">
         Didn't get a code?{" "}
-        <Link className="text-green-500" to="/signin">
-          Click to resend
+        {/* to="/signin" */}
+        <Link className="text-green-500 cursor-pointer"
+
+
+          onClick={handleResendOtp}
+        
+        >
+          {resendloading ? "Resending..." : "Click to resend"}
         </Link>
       </p>
+    </div>
+  );
+};
+
+const Modal = ({ isOpen, message, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white rounded-lg p-6 w-3/4 md:w-1/3">
+        <p className="text-center text-gray-700 mb-4">{message}</p>
+        <button
+          onClick={onClose}
+          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+        >
+          Close
+        </button>
+      </div>
     </div>
   );
 };

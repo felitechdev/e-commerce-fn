@@ -264,6 +264,8 @@ export default function UsersTable({
     setUserList(users);
   }, users);
 
+ 
+
   return (
     <div className="relative flex w-full flex-col">
       <DashBoardSearch
@@ -292,6 +294,10 @@ export default function UsersTable({
                   </th>
                   <th scope="col" className="px-6 py-4">
                     Active
+                  </th>
+
+<th scope="col" className="px-6 py-4">
+                    2FA Enabled
                   </th>
                   <th scope="col" className="px-6 py-4">
                     Role
@@ -334,6 +340,22 @@ export default function UsersTable({
                           </span>
                         )}
                       </td>
+
+                      <td className="whitespace-nowrap px-6 py-4 capitalize">
+                        {user.twoFactorAuthEnabled ? (
+                          <span className="h-5 w-5 rounded-full bg-[green-500] text-green-500">
+                          
+                          </span>
+                        ) : (
+                          <span className="h-5 w-5 rounded-full text-red-500">
+                            No
+                          </span>
+                        )}
+                      </td>
+
+                      
+
+
                       <td className="whitespace-nowrap px-6 py-4 capitalize">
                         {user.role}
                       </td>
