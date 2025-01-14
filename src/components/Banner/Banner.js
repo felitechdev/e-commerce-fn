@@ -163,6 +163,25 @@ const Banner = ({ ...props }) => {
     }
   }, [categoryMenuIsOpen, window.scrollY]);
 
+  // 667px  hide   show-hide
+
+  useEffect(() => {
+    const showHideButton = document.querySelector(".show-hide");
+    if (window.innerWidth < 667) {
+      showHideButton.style.display = "none";
+    } else {
+     
+    }
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 667) {
+        showHideButton.style.display = "none";
+      } else {
+      
+      }
+    });
+  }, []);
+
   const optimizedImageUrl = "";
 
   return (
@@ -170,7 +189,7 @@ const Banner = ({ ...props }) => {
       <div className="w-full lg:container">
         <div className="relative flex h-full w-full gap-4 py-2">
           <div
-            className="show-hide hidden cursor-pointer lg:flex lg:w-fit"
+            className="show-hide hidden cursor-pointer  lg:flex lg:w-fit"
             onClick={handleCategoryMenu}
           >
             <span className="flex items-center justify-between space-x-2 rounded-md bg-primary p-1 text-white">
@@ -179,7 +198,7 @@ const Banner = ({ ...props }) => {
                 {" "}
                 <IoMdMenu className="h-5 w-5" />
               </span>{" "}
-              <p> Shop by Categories</p>{" "}
+              <p> Shop by Categories</p>{" "} 
             </span>
           </div>
 
