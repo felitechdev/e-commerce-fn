@@ -195,8 +195,8 @@ const Header = (props) => {
           </ul>
         </div>
 
-        <nav className="relative mx-auto flex h-full max-w-container items-center gap-6 px-6 py-2 md:items-center md:justify-between">
-          <div className="">
+        <nav className="relative mx-auto flex h-full max-w-container items-center gap-6 px-0 md:px-6 py-2 md:items-center md:justify-between">
+          <div className="" >
             <div className="hidden md:inline-block">
               <Link to="/">
                 <div className=" ">

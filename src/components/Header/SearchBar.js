@@ -83,23 +83,23 @@ const SearchBar = ({ ismobileview }) => {
   return (
     <div
       className={` ${
-        ismobileview ? " " : "hidden w-[35%] rounded-md md:block"
+        ismobileview ? " w-[300px] " : "hidden w-[35%]   rounded-md md:block"
       }`}
     >
-      <div className="relative m-auto flex h-[35px] w-full items-center justify-between gap-2 rounded-md p-0 text-sm text-primeColor md:h-[35px] lg:w-[90%]">
+      <div className="relative m-auto flex h-[35px] w-full items-center justify-between gap-2 rounded-md p-0 text-sm text-primeColor md:h-[35px] lg:w-[100%]">
         <input
-          className="!md:w-[85%] mr-3 h-full !w-[90%] flex-1 rounded-full border-gray-400 text-sm outline-none placeholder:text-[14px] placeholder:text-[#C4C4C4]"
+          className="p-3 !md:w-[95%] mr-3 h-full !w-[100%] flex-1 rounded-full border-gray-400 text-sm outline-none placeholder:text-[14px] placeholder:text-[#C4C4C4]"
           type="text"
           onChange={handleSearch}
           value={searchQuery}
           placeholder=" What are you looking for?"
         />
         {!searchQuery ? (
-          <div className="absolute right-0 flex h-full w-40 items-center justify-center rounded-r-full bg-primary md:w-20">
+          <div className="absolute right-0 flex h-full w-20 items-center justify-center rounded-r-full bg-primary md:w-20">
             <CiSearch size={20} className="text-white" />
           </div>
         ) : (
-          <div className="absolute right-0 flex h-full w-40 items-center justify-center rounded-r-full bg-primary md:w-20">
+          <div className="absolute right-0 flex h-full w-20 items-center justify-center rounded-r-full bg-primary md:w-20">
             <RxCross2
               size={20}
               className="text-white"
