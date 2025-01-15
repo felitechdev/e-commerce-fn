@@ -72,13 +72,11 @@ const FooterBottom = () => {
         {/* WhatsApp Floating Button */}
 
         <div className="mx-auto grid max-w-container grid-cols-1 gap-2 text-center md:grid-cols-3">
-          <div className="flex justify-around md:hidden">
+          {/* <div className="flex justify-around md:hidden">
             <div className="flex flex-col items-center md:items-start">
               <h3 className="medium2_text mx-auto">Explore</h3>
               <ul className="mx-auto py-4">
-                {/* <li>
-                  <Link to="/">Search</Link>
-                </li> */}
+               
                 <li>
                   <Link to="/about">About Us</Link>
                 </li>
@@ -94,21 +92,13 @@ const FooterBottom = () => {
               </ul>
             </div>
 
-            <div className="hidden flex-col items-center md:items-start">
-              <h3 className="medium2_text mx-auto">About</h3>
-              <ul className="mx-auto border-t border-white py-4">
-                <li>
-                  <Link to="/refund-policy">Refund</Link>
-                </li>
-                <li>
-                  <Link to="/terms-and-conditions">Terms & Conditions</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="hidden max-w-fit flex-col items-start md:flex md:items-start">
+            
+          </div> */}
+          <div className="mx-auto md:mx-0 md:!max-w-fit flex-col items-start md:flex md:items-start">
             <h3 className="medium2_text">Explore</h3>
-            <ul className="mx-auto space-y-3 py-4 text-left">
+
+            
+            <ul className="grid md:grid-cols-1 grid-cols-2 gap-4  py-4 text-left">
               <li className="hover:underline">
                 <Link to="/about">About Us</Link>
               </li>
@@ -124,27 +114,64 @@ const FooterBottom = () => {
             </ul>
           </div>
 
-          <div className="hidden items-center md:items-start">
-            <h3 className="medium2_text mx-auto">About</h3>
-            <ul className="mx-auto border-t border-white py-4">
-              {/* <li>
-                <Link to="/">Delivery</Link>
-              </li>
-              <li>
-                <Link to="/">Returns</Link>
-              </li> */}
-              <li>
-                <Link to="/refund-policy">Refund</Link>
-              </li>
-              <li>
-                <Link to="/terms-and-conditions">Terms & Conditions</Link>
-              </li>
-            </ul>
-          </div>
+    
 
-          <div className="mx-auto flex w-fit flex-col items-center md:items-start">
+          <div className="mx-auto flex w-fit flex-col  items-center md:items-start">
             <h3 className="medium2_text">Connect</h3>
-            <div className="mx-auto flex-col space-y-4 py-4">
+
+            <div className="mx-auto  py-4">
+  <div className="grid md:grid-cols-1 grid-cols-2 gap-4">
+    <div className="flex items-center justify-start space-x-2">
+      <a
+        href="https://web.facebook.com/FeliTechnology"
+        target="_blank"
+        className="flex items-center space-x-2"
+      >
+        <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+          <FaFacebookF />
+        </p>
+        <p>Facebook</p>
+      </a>
+    </div>
+    <div className="flex items-center justify-start space-x-2">
+      <a
+        href="https://www.linkedin.com/company/feli-technology"
+        target="_blank"
+        className="flex items-center space-x-2"
+      >
+        <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+          <FaLinkedinIn />
+        </p>
+        <p>Linkedin</p>
+      </a>
+    </div>
+    <div className="flex items-center justify-start space-x-2">
+      <a
+        href="https://www.instagram.com/feli_technology/"
+        target="_blank"
+        className="flex items-center space-x-2"
+      >
+        <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+          <FaInstagram />
+        </p>
+        <p>Instagram</p>
+      </a>
+    </div>
+    <div className="flex items-center justify-start space-x-2">
+      <a
+        href="#"
+        target="_blank"
+        className="flex items-center space-x-2"
+      >
+        <p className="rounded-full border border-white bg-[#3CB043] p-2 text-white shadow-md shadow-white">
+          <FaXTwitter />
+        </p>
+        <p>X</p>
+      </a>
+    </div>
+  </div>
+</div>
+            <div className="mx-auto hidden flex-col space-y-4 py-4">
               <div className="flex items-center justify-start space-x-2">
                 {" "}
                 <a
