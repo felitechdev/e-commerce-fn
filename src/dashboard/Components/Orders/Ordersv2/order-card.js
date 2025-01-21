@@ -248,52 +248,54 @@ const OrderCard = ({ order }) => {
             {order.items.length} items
           </Tag>
         </div>
-        <div className="order-body  my-5">
-          <d className=" block md:flex space-y-3 md:space-y-0 md:space-x-2 ">
-            <div className="flex space-x-2">
-              {" "}
-              <span className="flex ">
-                <BiBuildingHouse size={20} />
-                <p className="">{order?.shippingAddress?.district}</p>
-              </span>
-              <span className="flex">
-                <IoLocationSharp size={20} />
-                <p className="">
-                  {order?.shippingAddress?.sector} -{" "}
-                  {order?.shippingAddress?.street}
-                </p>
-              </span>
-            </div>
+      {
+        user.role !=="seller"&&  <div className="order-body  my-5">
+        <d className=" block md:flex space-y-3 md:space-y-0 md:space-x-2 ">
+          <div className="flex space-x-2">
+            {" "}
+            <span className="flex ">
+              <BiBuildingHouse size={20} />
+              <p className="">{order?.shippingAddress?.district}</p>
+            </span>
+            <span className="flex">
+              <IoLocationSharp size={20} />
+              <p className="">
+                {order?.shippingAddress?.sector} -{" "}
+                {order?.shippingAddress?.street}
+              </p>
+            </span>
+          </div>
 
-            <div className="flex space-x-2">
-              {user?.role == "admin" && (
-                <span className="flex">
-                  <FaPhone size={20} />
-                  <p className="">{order?.shippingAddress?.phoneNumber}</p>
-                </span>
-              )}
-
-              <span className="flex">
-                <TbTruckDelivery size={20} />
-
-                <Tag
-                  style={{ color: "black", fontWeight: "bold" }}
-                  className="capitalize !font-semibold !text-[red] !border-primary "
-                >
-                  <p className="">{order.deliveryPreference}</p>
-                </Tag>
-              </span>
-            </div>
+          <div className="flex space-x-2">
             {user?.role == "admin" && (
               <span className="flex">
-                <IoPersonSharp size={20} />
-                <p className="">
-                  {order?.momo_payload && order?.momo_payload?.fullname}
-                </p>
+                <FaPhone size={20} />
+                <p className="">{order?.shippingAddress?.phoneNumber}</p>
               </span>
             )}
-          </d>
-        </div>
+
+            <span className="flex">
+              <TbTruckDelivery size={20} />
+
+              <Tag
+                style={{ color: "black", fontWeight: "bold" }}
+                className="capitalize !font-semibold !text-[red] !border-primary "
+              >
+                <p className="">{order.deliveryPreference}</p>
+              </Tag>
+            </span>
+          </div>
+          {user?.role == "admin" && (
+            <span className="flex">
+              <IoPersonSharp size={20} />
+              <p className="">
+                {order?.momo_payload && order?.momo_payload?.fullname}
+              </p>
+            </span>
+          )}
+        </d>
+      </div>
+      }
         <Tag
           style={{ color: "black", fontWeight: "" }}
           className="capitalize !font-semibold !text-primary !p-3"
