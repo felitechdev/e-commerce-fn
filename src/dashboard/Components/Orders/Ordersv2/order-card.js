@@ -254,13 +254,13 @@ const OrderCard = ({ order }) => {
               {" "}
               <span className="flex ">
                 <BiBuildingHouse size={20} />
-                <p className="">{order.shippingAddress.district}</p>
+                <p className="">{order?.shippingAddress?.district}</p>
               </span>
               <span className="flex">
                 <IoLocationSharp size={20} />
                 <p className="">
-                  {order.shippingAddress.sector} -{" "}
-                  {order.shippingAddress.street}
+                  {order?.shippingAddress?.sector} -{" "}
+                  {order?.shippingAddress?.street}
                 </p>
               </span>
             </div>
@@ -269,7 +269,7 @@ const OrderCard = ({ order }) => {
               {user?.role == "admin" && (
                 <span className="flex">
                   <FaPhone size={20} />
-                  <p className="">{order.shippingAddress.phoneNumber}</p>
+                  <p className="">{order?.shippingAddress?.phoneNumber}</p>
                 </span>
               )}
 

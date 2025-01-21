@@ -23,7 +23,7 @@ const About = () => {
         <div className="">
           {" "}
           <p className="!text-md mx-auto flex max-w-container flex-col gap-2 font-light tracking-wider">
-            Who We Are Welcome to FeliExpress, founded in 2023 with a vision to
+            Welcome to FeliExpress, founded in 2023 with a vision to
             transform online shopping. At FeliExpress, we take pride in listing
             a wide variety of products to cater to your every need. Our mission
             is simple: to bring you quality and convenience at prices lower than

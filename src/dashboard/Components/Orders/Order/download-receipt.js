@@ -112,7 +112,7 @@ const DeliveryNotePDF = ({ myorder }) => {
       body: [
         [
           `Name: ${myorder?.momo_payload?.fullname}\nEmail: ${myorder.email}\nPhone: ${myorder?.momo_payload?.phone_number}`,
-          `Address: ${myorder.shippingAddress?.street}, ${myorder.shippingAddress?.sector}, ${myorder.shippingAddress?.district}\nPhone: ${myorder.shippingAddress?.phoneNumber}`,
+          `Address: ${myorder?.shippingAddress?.street}, ${myorder?.shippingAddress?.sector}, ${myorder?.shippingAddress?.district}\nPhone: ${myorder?.shippingAddress?.phoneNumber}`,
         ],
       ],
       headStyles: headerStyles,

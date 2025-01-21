@@ -11,11 +11,8 @@ import { UpdateOrderStatus } from "./Order/updateorderstatus";
 import { statusColors } from "../../../common/statuscolor";
 import { GetMyOrders } from "../../../APIs/Oreders";
 import { useUser } from "../../../context/UserContex";
-
 import { Loader } from "../Loader/LoadingSpin";
-
 import Cookies from "js-cookie";
-import { fetchorders } from "../../Apis/orders";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -165,7 +162,9 @@ export const OrderTable = (...props) => {
             setOrder(data?.data?.orders);
           }
         })
-        .catch((error) => {});
+        .catch((error) => {
+          console.log(" error on load orders", error);
+        });
     }
   }, [loadorders, dispatch, token]);
 
@@ -178,7 +177,9 @@ export const OrderTable = (...props) => {
             setOrder(data?.data?.orders);
           }
         })
-        .catch((error) => {});
+        .catch((error) => {
+          console.log(" error on load orders", error);
+        });
     }
   }, [dispatch, token]);
 
