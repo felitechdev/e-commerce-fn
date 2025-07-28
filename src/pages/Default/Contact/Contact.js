@@ -178,8 +178,10 @@ const [error, setError] = useState(null);
                 <div>
                   <p className="font-semibold">OFFICE</p>
                   <p>Visit us at our office</p>
-                  <p>Kigali, Kicukiro near Simba Super Market</p>
-                  <p>At NZOZ' HOUSE</p>
+                  {/* <p>Kigali, Kicukiro near Simba Super Market</p> */}
+                  <p>KG 182 st, Kigali</p>
+                  <p>Kimironko</p>
+                  {/* <p>At NZOZ' HOUSE</p> */}
                 </div>
               </div>
               {/* Phone */}
