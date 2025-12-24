@@ -572,9 +572,7 @@ const Header = (props) => {
   Get the App
 </Link>
 
-            // <Link className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2">
-            //   Get the App
-            // </Link>
+
           </nav>
         </div>
       </div>
