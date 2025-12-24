@@ -562,9 +562,19 @@ const Header = (props) => {
             >
               Contact
             </Link>
-            <Link className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2">
-              Get the App
-            </Link>
+
+                <Link
+  to="https://play.google.com/store/apps/details?id=com.feliexpress.new_feli_express&pcampaignid=web_share"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2"
+>
+  Get the App
+</Link>
+
+            // <Link className="text-xs font-thin tracking-[0.07rem] hover:underline hover:underline-offset-2">
+            //   Get the App
+            // </Link>
           </nav>
         </div>
       </div>
