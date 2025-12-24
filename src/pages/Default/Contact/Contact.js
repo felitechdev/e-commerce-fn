@@ -167,7 +167,7 @@ const [error, setError] = useState(null);
                 <div>
                   <p className="font-semibold">CHART TO US</p>
                   <p>Our team is always here to help</p>
-                  <p className="text-[#ea612a]">info@felitechnology.com</p>
+                  <p className="text-[#ea612a]">felitechnology.inv@gmail.com</p>
                 </div>
               </div>
               {/* Office */}
